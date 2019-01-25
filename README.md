@@ -46,7 +46,8 @@ Chain builder:
 
 ## Extra Value Holder (backing field for extension property)
 https://kotlinlang.org/docs/reference/extensions.html#extension-properties
-When creating a extension property in Kotlin, the value can't be stored on the object since the value is resolved statically.
+
+When creating an extension property in Kotlin, the value can't be stored on the object since the value is resolved statically.
 The ExtraValueHolder class allows you to store a value anyway, in a memory efficient manner (It won't create memory leaks)
 
 Example:
