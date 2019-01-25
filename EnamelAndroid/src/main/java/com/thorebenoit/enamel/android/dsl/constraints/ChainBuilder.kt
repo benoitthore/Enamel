@@ -3,6 +3,9 @@ package com.thorebenoit.enamel.android.dsl.constraints
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintSet
 import com.thorebenoit.enamel.android.dsl.withID
+import com.thorebenoit.enamel.android.examples.Example
+import com.thorebenoit.enamel.android.examples._Example_ConstraintLayout_ChainBuilder
+import com.thorebenoit.enamel.kotlin.i
 
 /*
          buildChain{
@@ -32,6 +35,8 @@ inline fun ConstraintSetBuilder.buildChain(
         build(inside)
     }
 
+
+@Example<_Example_ConstraintLayout_ChainBuilder>
 class ChainBuilder(viewList: List<View> = emptyList()) {
     private val views = viewList.toMutableList()
     private val viewWeightMap = mutableMapOf<View, Float>()
@@ -40,12 +45,15 @@ class ChainBuilder(viewList: List<View> = emptyList()) {
 
     private var startMargin: Int? = null
     private var startGoneMargin: Int? = null
-    var vertical = true
-    var horizontal
-        get() = !vertical
-        set(value) {
-            vertical = !value
-        }
+    private var vertical = true
+
+    fun vertical() {
+        vertical = true
+    }
+
+    fun horizontal() {
+        vertical = false
+    }
 
     var defaultMargin = 0
     var defaultGoneMargin = 0
@@ -67,11 +75,11 @@ class ChainBuilder(viewList: List<View> = emptyList()) {
     fun space(margin: Number, goneMargin: Number = margin) {
         val lastView = views.lastOrNull()
         if (lastView == null) {
-            startMargin = margin.toInt()
-            startGoneMargin = goneMargin.toInt()
+            startMargin = margin.i
+            startGoneMargin = goneMargin.i
         } else {
-            viewMarginMap[lastView] = margin.toInt()
-            viewGoneMarginMap[lastView] = goneMargin.toInt()
+            viewMarginMap[lastView] = margin.i
+            viewGoneMarginMap[lastView] = goneMargin.i
         }
     }
 

@@ -8,7 +8,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.children
 import com.thorebenoit.enamel.kotlin.f
 import com.thorebenoit.enamel.android.dsl.withID
-import com.thorebenoit.enamel.android.wrapContent
+import com.thorebenoit.enamel.android.examples.Example
+import com.thorebenoit.enamel.android.examples._Example_ConstraintLayout_Basic
 
 typealias Side = Int
 typealias ViewId = Int
@@ -46,6 +47,7 @@ fun ConstraintLayout.buildConstraintSet(init: ConstraintSetBuilder.() -> Unit): 
     return builder.constraintSet
 }
 
+@Example<_Example_ConstraintLayout_Basic>
 @Suppress("MemberVisibilityCanPrivate", "unused", "NOTHING_TO_INLINE", "PropertyName")
 class ConstraintSetBuilder(val constraintSet: ConstraintSet) {
 
