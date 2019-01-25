@@ -2,8 +2,47 @@
 A set of tools and extensions for Android and Kotlin
 
 # Content
-## View DSL
-Work in progress
+## View DSL (Work in progress)
+
+Chain builder:
+```Kotlin
+        val myLayout = enamelContext {
+            constraintLayout {
+                val textView = textView("Text")
+                val button = button("Text")
+                val frame = frameLayout()
+
+                constraints {
+
+                    buildChain {
+
+                        space(8.dp)
+
+                        +textView
+                        space(8.dp)
+
+                        +button
+                        space(8.dp)
+
+                        +frame
+                        space(8.dp)
+
+                        vertical = true
+                        packed()
+                    }
+//                        ...
+                    listOf(textView, button, frame)
+                        .buildChain {
+                            defaultMargin = 8.dp
+
+                            vertical = true
+                            packed()
+                        }
+                }
+            }
+        }
+
+```
 
 ## Extra Value Holder (backing field for extension property)
 https://kotlinlang.org/docs/reference/extensions.html#extension-properties
