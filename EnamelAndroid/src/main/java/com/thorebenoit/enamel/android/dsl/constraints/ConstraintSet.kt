@@ -544,44 +544,58 @@ class ConstraintSetBuilder(val constraintSet: ConstraintSet = ConstraintSet()) {
 
     inline infix fun Side.to(side: Side) =
         SideSide(this, side)
+
     inline infix fun SideSide.of(view: View) =
         SideSideView(this, view)
+
     inline infix fun SideSide.of(viewId: ViewId) =
         SideSideViewId(this, viewId)
+
     inline infix fun SideSideView.with(margin: Int) =
         SideSideViewMargin(sides, view, margin)
+
     inline infix fun SideSideViewId.with(margin: Int) =
         SideSideViewIdMargin(sides, viewId, margin)
+
     inline infix fun Side.of(view: View) =
         SideView(this, view)
+
     inline infix fun Side.of(viewId: ViewId) =
         SideViewId(this, viewId)
+
     inline infix fun SideView.to(side: Side) =
         SideViewSide(this, side)
+
     inline infix fun SideViewId.to(side: Side) =
         SideViewIdSide(this, side)
+
     inline infix fun SideViewSide.of(view: View) =
         SideViewSideView(
             sideView,
             SideView(side, view)
         )
+
     inline infix fun SideViewSide.of(viewId: ViewId) =
         SideViewSideViewId(
             sideView,
             SideViewId(side, viewId)
         )
+
     inline infix fun SideViewIdSide.of(view: View) =
         SideViewIdSideView(
             sideViewId,
             SideView(side, view)
         )
+
     inline infix fun SideViewIdSide.of(viewId: ViewId) =
         SideViewIdSideViewId(
             sideViewId,
             SideViewId(side, viewId)
         )
+
     inline infix fun SideView.with(margin: Int) =
         SideViewMargin(this, margin)
+
     inline infix fun SideViewId.with(margin: Int) =
         SideViewIdMargin(this, margin)
 //</editor-fold>
@@ -663,6 +677,14 @@ class ConstraintSetBuilder(val constraintSet: ConstraintSet = ConstraintSet()) {
         return this
     }
 
+
+    fun <T : View> List<T>.buildChain(inside: View, block: ChainBuilder.() -> Unit): List<T> =
+        buildChain(inside.id, block)
+
+    fun <T : View> List<T>.buildChain(inside: ViewId = parentId, block: ChainBuilder.() -> Unit): List<T> {
+        buildChain(inside, this, block)
+        return this
+    }
 
 }
 
