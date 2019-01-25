@@ -20,7 +20,6 @@ object _Example_ConstraintLayout_Basic {
             val view1 = textView("ABCDEF")
             val view2 = textView("012345") {
                 backgroundColor = Color.RED
-                gravity = Gravity.CENTER
             }
 
             constraints {
@@ -41,7 +40,10 @@ object _Example_ConstraintLayout_ChainBuilder {
     fun build_chain_basic(ctx: Context) = ctx.enamelContext {
         ctx.constraintLayout {
             val view1 = textView("ABCDEF")
-            val view2 = textView("012345")
+            val view2 = textView("012345") {
+                backgroundColor = Color.RED
+                textSize = 20f
+            }
             val view3 = textView("!@£$%^")
 
             val spacing = 8.dp
@@ -66,7 +68,10 @@ object _Example_ConstraintLayout_ChainBuilder {
     fun build_chain_from_list(ctx: Context) = ctx.enamelContext {
         ctx.constraintLayout {
             val view1 = textView("ABCDEF")
-            val view2 = textView("012345")
+            val view2 = textView("012345") {
+                backgroundColor = Color.RED
+                textSize = 20f
+            }
             val view3 = textView("!@£$%^")
 
             constraints {
