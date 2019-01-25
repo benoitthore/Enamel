@@ -25,8 +25,9 @@ override fun onDraw(canvas: Canvas) {
 ```
 
 
+
 More documentation coming later...
 
-Credits
+# Credits
 https://github.com/AckeeCZ/anko-constraint-layout
 https://github.com/screensailor
