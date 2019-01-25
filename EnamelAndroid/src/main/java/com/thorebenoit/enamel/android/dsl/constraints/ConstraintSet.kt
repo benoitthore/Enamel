@@ -36,7 +36,7 @@ fun ConstraintLayout.constraints(init: ConstraintSetBuilder.() -> Unit) = prepar
         applyTo(this@constraints)
     }
 
-fun constraintSetBuilder(init: ConstraintSetBuilder.() -> Unit): ConstraintSet =
+fun buildConstraintSet(init: ConstraintSetBuilder.() -> Unit): ConstraintSet =
     ConstraintSetBuilder().apply { init() }.constraintSet
 
 @Suppress("MemberVisibilityCanPrivate", "unused", "NOTHING_TO_INLINE", "PropertyName")
@@ -47,10 +47,10 @@ class ConstraintSetBuilder(val constraintSet: ConstraintSet = ConstraintSet()) {
 
     val parentId: ViewId = ConstraintLayout.LayoutParams.PARENT_ID
 
-    @Deprecated("defaultWidth/Height(MATCH_CONSTRAINT_WRAP) is deprecated. Use width/height(WRAP_CONTENT) and layout_constrainedWidth/Height = true instead.")
-    val MATCH_CONSTRAINT_WRAP: DefaultSize = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT_WRAP
-    val MATCH_CONSTRAINT_SPREAD: DefaultSize = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT_SPREAD
-    val MATCH_CONSTRAINT_PERCENT: DefaultSize = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT_PERCENT
+    @Deprecated("defaultWidth/Height(matchConstraintWrap) is deprecated. Use width/height(WRAP_CONTENT) and layout_constrainedWidth/Height = true instead.")
+    val matchConstraintWrap: DefaultSize = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT_WRAP
+    val matchConstraintSpread: DefaultSize = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT_SPREAD
+    val matchConstraintPercent: DefaultSize = ConstraintLayout.LayoutParams.MATCH_CONSTRAINT_PERCENT
 
     val LEFT: Side = ConstraintLayout.LayoutParams.LEFT
     val RIGHT: Side = ConstraintLayout.LayoutParams.RIGHT
@@ -452,28 +452,28 @@ class ConstraintSetBuilder(val constraintSet: ConstraintSet = ConstraintSet()) {
 
     //<editor-fold desc="<< connect() overloads >>">
     fun <T : View> T.connect(vararg connections: SideSideViewId): T {
-        connections.forEach {
-            with(constraintSet) {
-                val sides = it.sides
-                val endId = it.viewId
+        connections.forEach { connection ->
 
-                if (it is SideSideViewIdMargin) {
-                    val margin = it.margin
+                val sides = connection.sides
+                val endId = connection.viewId
+
+                if (connection is SideSideViewIdMargin) {
+                    val margin = connection.margin
                     when (sides) {
                         HORIZONTAL -> connectHorizontal(id, endId, margin)
                         VERTICAL -> connectVertical(id, endId, margin)
                         ALL -> connectAll(id, endId, margin)
-                        else -> connect(id, sides.start, endId, sides.end, margin)
+                        else -> constraintSet.connect(id, sides.start, endId, sides.end, margin)
                     }
                 } else {
                     when (sides) {
                         HORIZONTAL -> connectHorizontal(id, endId)
                         VERTICAL -> connectVertical(id, endId)
                         ALL -> connectAll(id, endId)
-                        else -> connect(id, sides.start, endId, sides.end)
+                        else -> constraintSet.connect(id, sides.start, endId, sides.end)
                     }
                 }
-            }
+
         }
         return this
     }
@@ -673,7 +673,7 @@ class ConstraintSetBuilder(val constraintSet: ConstraintSet = ConstraintSet()) {
     }
 
     fun <T : View> T.matchConstraints(): T {
-        width(MATCH_CONSTRAINT_SPREAD).height(MATCH_CONSTRAINT_SPREAD)
+        width(matchConstraintSpread).height(matchConstraintSpread)
         return this
     }
 
