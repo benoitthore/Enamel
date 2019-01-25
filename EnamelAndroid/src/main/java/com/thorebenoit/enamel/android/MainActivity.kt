@@ -35,34 +35,38 @@ class TestView : FrameLayout {
             constraintLayout {
                 val textView = textView("Text")
                 val button = button("Text")
-                val frame = frameLayout()
 
                 constraints {
 
-                    buildChain {
+//                    button.width(wrapContent).height(wrapContent)
+//                    textView.width(wrapContent).height(wrapContent)
 
-                        space(8.dp)
-
-                        +textView
-                        space(8.dp)
-
-                        +button
-                        space(8.dp)
-
-                        +frame
-                        space(8.dp)
-
-                        vertical = true
-                        packed()
-                    }
+//                    buildChain {
+//
+//                        space(8.dp)
+//
+//                        +textView
+//                        space(8.dp)
+//
+//                        +button
+//                        space(8.dp)
+//
+//                        +frame
+//                        space(8.dp)
+//
+//                        vertical = true
+//                        packed()
+//                    }
 //                        ...
-                    listOf(textView, button, frame)
+                    listOf(textView, button)
                         .buildChain {
                             defaultMargin = 8.dp
 
                             vertical = true
                             packed()
                         }
+                        .forEach { it.alignParentStart(16.dp) }
+
                 }
 
             }
@@ -77,7 +81,6 @@ class TestView : FrameLayout {
 //               gravity = Gravity.CENTER
 //           }
     }
-}
 }
 
 

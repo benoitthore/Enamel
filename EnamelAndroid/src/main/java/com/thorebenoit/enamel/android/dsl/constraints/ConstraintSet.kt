@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.children
 import com.thorebenoit.enamel.kotlin.f
 import com.thorebenoit.enamel.android.dsl.withID
+import com.thorebenoit.enamel.android.wrapContent
 
 typealias Side = Int
 typealias ViewId = Int
@@ -28,19 +29,25 @@ fun ConstraintLayout.prepareConstraints(init: ConstraintSetBuilder.() -> Unit): 
         addView(it)
     }
 
-    return constraintSetBuilder(init = init)
+    return buildConstraintSet(init = init)
 }
 
-fun ConstraintLayout.constraints(init: ConstraintSetBuilder.() -> Unit) = prepareConstraints(init)
-    .apply {
-        applyTo(this@constraints)
-    }
+fun ConstraintLayout.constraints(init: ConstraintSetBuilder.() -> Unit): ConstraintSet {
+    val constraintSet = prepareConstraints(init)
+    constraintSet.applyTo(this)
+    return constraintSet
+}
 
-fun buildConstraintSet(init: ConstraintSetBuilder.() -> Unit): ConstraintSet =
-    ConstraintSetBuilder().apply { init() }.constraintSet
+fun ConstraintLayout.buildConstraintSet(init: ConstraintSetBuilder.() -> Unit): ConstraintSet {
+    val constraintSet = ConstraintSet()
+    constraintSet.clone(this)
+    val builder = ConstraintSetBuilder(constraintSet)
+    builder.init()
+    return builder.constraintSet
+}
 
 @Suppress("MemberVisibilityCanPrivate", "unused", "NOTHING_TO_INLINE", "PropertyName")
-class ConstraintSetBuilder(val constraintSet: ConstraintSet = ConstraintSet()) {
+class ConstraintSetBuilder(val constraintSet: ConstraintSet) {
 
 
     private val TAG: String = javaClass.simpleName
@@ -454,25 +461,25 @@ class ConstraintSetBuilder(val constraintSet: ConstraintSet = ConstraintSet()) {
     fun <T : View> T.connect(vararg connections: SideSideViewId): T {
         connections.forEach { connection ->
 
-                val sides = connection.sides
-                val endId = connection.viewId
+            val sides = connection.sides
+            val endId = connection.viewId
 
-                if (connection is SideSideViewIdMargin) {
-                    val margin = connection.margin
-                    when (sides) {
-                        HORIZONTAL -> connectHorizontal(id, endId, margin)
-                        VERTICAL -> connectVertical(id, endId, margin)
-                        ALL -> connectAll(id, endId, margin)
-                        else -> constraintSet.connect(id, sides.start, endId, sides.end, margin)
-                    }
-                } else {
-                    when (sides) {
-                        HORIZONTAL -> connectHorizontal(id, endId)
-                        VERTICAL -> connectVertical(id, endId)
-                        ALL -> connectAll(id, endId)
-                        else -> constraintSet.connect(id, sides.start, endId, sides.end)
-                    }
+            if (connection is SideSideViewIdMargin) {
+                val margin = connection.margin
+                when (sides) {
+                    HORIZONTAL -> connectHorizontal(id, endId, margin)
+                    VERTICAL -> connectVertical(id, endId, margin)
+                    ALL -> connectAll(id, endId, margin)
+                    else -> constraintSet.connect(id, sides.start, endId, sides.end, margin)
                 }
+            } else {
+                when (sides) {
+                    HORIZONTAL -> connectHorizontal(id, endId)
+                    VERTICAL -> connectVertical(id, endId)
+                    ALL -> connectAll(id, endId)
+                    else -> constraintSet.connect(id, sides.start, endId, sides.end)
+                }
+            }
 
         }
         return this
@@ -518,6 +525,11 @@ class ConstraintSetBuilder(val constraintSet: ConstraintSet = ConstraintSet()) {
     private inline fun connectAll(viewId: ViewId, targetId: ViewId, margin: Int) {
         connectVertical(viewId, targetId, margin)
         connectHorizontal(viewId, targetId, margin)
+    }
+
+
+    private fun connect(startID: Int, startSide: Int, endID: Int, endSide: Int, margin: Int) {
+        constraintSet.connect(startID, startSide, endID, endSide, margin)
     }
 //</editor-fold>
 
