@@ -1,8 +1,8 @@
 # Enamel (Work In Progress)
 A set of tools and extensions for Android and Kotlin
 
-#Content
-##View DSL
+# Content
+## View DSL
 Work in progress
 
 ## Extra Value Holder (backing field for extension property)
