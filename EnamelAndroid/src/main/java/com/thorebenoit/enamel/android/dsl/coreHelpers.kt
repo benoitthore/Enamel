@@ -13,10 +13,10 @@ inline fun <reified T : View> ViewGroup.customView(init: T.() -> Unit = {}): T =
     }
 
 inline fun <reified T : View> Context.createView(init: T.() -> Unit = {}): T {
-    return T::class.java.contextContructor.newInstance(this).apply(init)
+    return T::class.java.contextConstructor.newInstance(this).apply(init)
 }
 
-inline val <T : View> Class<T>.contextContructor: Constructor<T>
+inline val <T : View> Class<T>.contextConstructor: Constructor<T>
     get() = constructors.filter {
         val params = it.parameterTypes
         return@filter params.size == 1 && params[0] == Context::class.java
