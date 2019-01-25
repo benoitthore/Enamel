@@ -49,6 +49,7 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
             point.offsetAngle(angle, radius)
 
             currAngle += degreesPerStep
+            i++
         }
 
         return list

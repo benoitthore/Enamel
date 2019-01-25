@@ -7,7 +7,9 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.set
 open class ImmutableERect(
     open val origin: EPointImmutable = EPointImmutable(),
     open val size: ESizeImmutable = ESizeImmutable()
-)
+) {
+    fun toMutable() = ERect(origin.toMutable(), size.toMutable())
+}
 
 class ERect(override var origin: EPoint = EPoint(), override var size: ESize = ESize()) :
     ImmutableERect(origin, size)
@@ -33,3 +35,5 @@ fun ImmutableERect.outterCircle(buffer: ECircle = ECircle()): ECircle {
     buffer.radius = size.max
     return buffer
 }
+
+fun ESizeImmutable.toRect() = ImmutableERect(size = this)

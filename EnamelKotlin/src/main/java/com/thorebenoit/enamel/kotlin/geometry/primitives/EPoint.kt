@@ -12,6 +12,8 @@ open class EPointImmutable(open val x: Float = 0f, open val y: Float = 0f) {
 
     constructor(x: Number, y: Number) : this(x.f, y.f)
 
+    fun toMutable() = EPoint(x,y)
+
     override fun toString(): String {
         return "EPointImmutable($x ; $y)"
     }

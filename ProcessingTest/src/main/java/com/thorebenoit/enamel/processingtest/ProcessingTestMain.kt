@@ -2,6 +2,7 @@ package com.thorebenoit.enamel.processingtest
 
 import com.thorebenoit.enamel.kotlin.geometry.figures.ECircle
 import com.thorebenoit.enamel.kotlin.geometry.figures.innerCircle
+import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.figures.toCircles
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.degrees
@@ -26,20 +27,21 @@ class MainApplet : KotlinPApplet() {
 
 
     override fun settings() {
-        size(200,200)
+        esize = 800 size 800
     }
     override fun draw() {
+        background(255)
+
         fill(255f, 0f, 0f)
 
-//        ellipse(100f,100f,100f,100f)
         eframe.innerCircle(circle)
-            .insetBy(10)
+            .insetBy(100)
             .draw()
-//            .pointsInList(points, startAt)
-//            .toCircles(circle.radius * 0.8f, circles)
-//            .forEach {
-//                it.draw()
-//            }
+            .pointsInList(points, startAt)
+            .toCircles(circle.radius * 0.25f, circles)
+            .forEach {
+                it.draw()
+            }
 
 
 
