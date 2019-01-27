@@ -3,11 +3,16 @@ package com.thorebenoit.enamel.kotlin.geometry.figures
 import com.thorebenoit.enamel.kotlin.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 
-open class ECircleImmutable(open val center: EPointImmutable = EPointImmutable(), open val radius: Float = 0f)
+open class ECircleImmutable(open val center: EPointImmutable = EPointImmutable(), open val radius: Float = 0f) {
+    fun toMutable() = ECircle(center = center.toMutable(), radius = radius)
+    fun toImmutable() = ECircleImmutable(center = center.toImmutable(), radius = radius)
+}
+
 class ECircle(override val center: EPoint = EPoint(), override var radius: Float = 0f) :
     ECircleImmutable(center, radius) {
     constructor(center: EPoint, radius: Number) : this(center, radius.f)
 
+    fun copy() = ECircle(center.copy(), radius)
 
     var x: Float
         get() = center.x
@@ -100,18 +105,3 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
 
 
 }
-
-fun EPoint.toCircles(radius: Number, buffer: ECircle = ECircle()): ECircle {
-    buffer.center.set(this)
-    buffer.radius = radius.f
-    return buffer
-}
-
-
-fun List<EPoint>.toCircles(radius: Number, buffer: List<ECircle> = MutableList(size) { ECircle() }): List<ECircle> {
-    forEachIndexed { i, p ->
-        p.toCircles(radius, buffer[i])
-    }
-    return buffer
-}
-
