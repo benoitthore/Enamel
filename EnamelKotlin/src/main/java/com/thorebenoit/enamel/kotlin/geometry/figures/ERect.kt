@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
+import com.thorebenoit.enamel.kotlin.core.d
 import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
@@ -157,12 +158,6 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     fun center(buffer: EPoint): EPoint = pointAtAnchor(0.5f, 0.5f, buffer)
 
     // Shapes
-    /*
-    fun XRect.innerCircle(): XCircle = center.toCircle(size.min / 2)
-
-fun XRect.outerCircle(): XCircle = center.toCircle(size.diagonal / 2)
-
-     */
     fun innerCircle(buffer: ECircle): ECircle {
         center(buffer.center) // set circles center to rect center
         buffer.radius = size.min / 2
@@ -175,8 +170,101 @@ fun XRect.outerCircle(): XCircle = center.toCircle(size.diagonal / 2)
         buffer.radius = size.diagonal / 2
         return buffer
     }
+
+    fun set(top: Float, bottom: Float, left: Float, right: Float): ERect {
+        this.top = top
+        this.bottom = bottom
+        this.left = left
+        this.right = right
+        return this
+    }
 }
 
 
+// TODO Test
+fun ERectCenter(
+    x: Number = 0f, y: Number = 0f,
+    width: Number, height: Number, buffer: ERect
+): ERect {
 
+    val width = width.f
+    val height = height.f
+    val x = x.f - width / 2
+    val y = y.f - height / 2
+
+
+    return buffer.set(x, y, width, height)
+}
+
+// TODO Test
+fun ERectCorners(
+    corner1X: Number = 0,
+    corner1Y: Number = 0,
+    corner2X: Number = 0,
+    corner2Y: Number = 0,
+    buffer: ERect
+): ERect {
+    return ERectSides(
+        top = Math.min(corner1Y.d, corner2Y.d),
+        bottom = Math.max(corner1Y.d, corner2Y.d),
+        left = Math.min(corner1X.d, corner2X.d),
+        right = Math.max(corner1X.d, corner2X.d),
+        buffer = buffer
+    )
+}
+
+// TODO Test
+fun ERectSides(left: Number, top: Number, right: Number, bottom: Number, buffer: ERect): ERect {
+    buffer.top = top.f
+    buffer.left = left.f
+    buffer.right = right.f
+    buffer.bottom = bottom.f
+    return buffer
+}
+
+// TODO Test
+fun ERectAnchorPos(anchor: EPointImmutable, position: EPointImmutable, size: ESize, buffer: ERect) = buffer.set(
+    x = position.x - size.width * anchor.x,
+    y = position.y - size.height * anchor.y,
+    size = size
+)
+
+
+/*
+fun ERectAlignedInside(aligned: XAlignment, rect: ERect, size: XSizeType, spacing: Number = 0): ERect {
+    val spacing = spacing.f
+
+    val anchor = aligned.namedPoint
+    val spacingSign = aligned.spacingSign
+
+    val position = rect.pointAtAnchor(aligned.namedPoint) + spacingSign * spacing
+    return ERectAnchorPos(anchor = anchor, position = position, size = size)
+}
+
+fun ERectAlignedOutside(aligned: XAlignment, rect: ERect, size: XSizeType, spacing: Number = 0): ERect {
+    val spacing = spacing.f
+
+    val anchor = aligned.flipped.namedPoint
+    val spacingSign = aligned.flipped.spacingSign
+
+    val position = rect.pointAtAnchor(aligned.namedPoint) + spacingSign * spacing
+    return ERectAnchorPos(anchor = anchor, position = position, size = size)
+}
+ */
+
+// TODO Not required but how would this work ?
+/*
+fun ERectSquareOrigin(width: Number, origin: EPointImmutable = EPointImmutable.zero) = ERect(origin, width, width)
+fun ERectSquareCenter(width: Number, center: EPointImmutable = EPointImmutable.zero) = ERectCenter(center, width, width)
+ */
+
+
+/*
+fun ERectSquareOrigin(width: Number, origin: EPointImmutable = XPoint.zero) = ERect(origin, width, width)
+fun ERectSquareCenter(width: Number, center: EPointImmutable = XPoint.zero) = ERectCenter(center, width, width)
+
+
+
+
+*/
 

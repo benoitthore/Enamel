@@ -5,6 +5,10 @@ import com.thorebenoit.enamel.kotlin.core.d
 import com.thorebenoit.enamel.kotlin.core.f
 
 open class ESizeImmutable(open val width: Float = 0f, open val height: Float = 0f) {
+    companion object {
+        val zero: ESizeImmutable = ESizeImmutable()
+
+    }
     fun toMutable() = ESize(width, height)
     fun toImmutable() = ESizeImmutable(width, height)
 
