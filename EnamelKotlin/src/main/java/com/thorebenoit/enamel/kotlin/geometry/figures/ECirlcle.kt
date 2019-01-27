@@ -1,6 +1,8 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
 import com.thorebenoit.enamel.kotlin.*
+import com.thorebenoit.enamel.kotlin.core.f
+import com.thorebenoit.enamel.kotlin.core.i
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 
 open class ECircleImmutable(open val center: EPointImmutable = EPointImmutable(), open val radius: Float = 0f) {

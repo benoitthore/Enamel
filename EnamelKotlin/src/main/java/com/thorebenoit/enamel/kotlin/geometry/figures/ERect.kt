@@ -1,6 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
-import com.thorebenoit.enamel.kotlin.f
+import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
 
@@ -118,7 +118,7 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     override var bottom: Float
         get() = super.bottom
         set(value) {
-            size.height +=  value - bottom
+            size.height += value - bottom
         }
 
 
@@ -154,26 +154,25 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
         return buffer.set(x, y)
     }
 
-    fun center(buffer: EPoint): EPoint {
-        buffer.set(
-            origin.x + (size.width / 2),
-            origin.y + (size.height / 2)
-        )
-        return buffer
-    }
-
+    fun center(buffer: EPoint): EPoint = pointAtAnchor(0.5f, 0.5f, buffer)
 
     // Shapes
+    /*
+    fun XRect.innerCircle(): XCircle = center.toCircle(size.min / 2)
+
+fun XRect.outerCircle(): XCircle = center.toCircle(size.diagonal / 2)
+
+     */
     fun innerCircle(buffer: ECircle): ECircle {
-        center(buffer.center)
-        buffer.radius = size.min / 2f
+        center(buffer.center) // set circles center to rect center
+        buffer.radius = size.min / 2
         return buffer
     }
 
 
     fun outterCircle(buffer: ECircle): ECircle {
-        center(buffer.center)
-        buffer.radius = size.max
+        center(buffer.center) // set circles center to rect center
+        buffer.radius = size.diagonal / 2
         return buffer
     }
 }

@@ -1,6 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry
 
-import com.thorebenoit.enamel.kotlin.f
+import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.geometry.figures.ECircle
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeImmutable

@@ -1,6 +1,8 @@
 package com.thorebenoit.enamel.kotlin.geometry.primitives
 
 import com.thorebenoit.enamel.kotlin.*
+import com.thorebenoit.enamel.kotlin.core.d
+import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeImmutable
 
 open class EPointImmutable(open val x: Float = 0f, open val y: Float = 0f) {

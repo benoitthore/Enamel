@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.processingtest
 
+import com.thorebenoit.enamel.kotlin.core.i
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
-import com.thorebenoit.enamel.kotlin.i
 import com.thorebenoit.enamel.kotlin.print
 import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
 import processing.core.PApplet
@@ -22,14 +22,14 @@ abstract class KotlinPApplet : PApplet() {
 
 
     val eframe get() = ERect(size = esize)
-    var esize : ESize
+    var esize: ESize
         get() = width size height
         set(value) {
             size(value.width.i, value.height.i)
         }
 
     fun ECircle.draw(): ECircle {
-        ellipse(x, y, radius, radius)
+        ellipse(x, y, radius * 2, radius * 2)
         return this
     }
 

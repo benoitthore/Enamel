@@ -1,7 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.primitives
 
-import com.thorebenoit.enamel.kotlin.d
-import com.thorebenoit.enamel.kotlin.f
+import com.thorebenoit.enamel.kotlin.core.*
 
 val π = Math.PI.f
 
