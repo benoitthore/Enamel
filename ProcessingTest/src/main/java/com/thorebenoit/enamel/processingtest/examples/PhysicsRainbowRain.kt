@@ -106,31 +106,6 @@ class PhysicsRainbowRain : KotlinPApplet() {
         }
 
 
-////        with(RotatingCircle){
-////            play()
-////        }
-//
-//
-//        stroke(colorHSL(0f))
-//        strokeWeight(2f)
-//
-//        noFill()
-//
-//        val rect = eframe
-//        val buffer = ERect()
-//
-//        rect.inset(eframe.size.min * 0.1f)
-//            .draw()
-//            .rectAlignedOutside(
-//                aligned = EAlignment.bottomCenter,
-//                size = rect.size.copy().scale(0.5f)
-////                    .apply {
-////                        this.width = min
-////                        this.height = min
-////                    }
-//                , buffer = buffer
-//            ).draw()
-
 
     }
 

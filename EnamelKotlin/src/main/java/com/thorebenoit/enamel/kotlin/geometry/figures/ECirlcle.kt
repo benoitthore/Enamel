@@ -1,6 +1,5 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
-import com.thorebenoit.enamel.kotlin.*
 import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.core.i
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
@@ -67,8 +66,8 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
     )
 
 
-    fun insetBy(margin: Number) = set(center, radius - margin.f)
-    fun expandBy(margin: Number) = insetBy(-margin.f)
+    fun inset(margin: Number) = set(center, radius - margin.f)
+    fun expand(margin: Number) = inset(-margin.f)
 
     private fun pointAtAnchor(x: Number, y: Number): EPoint {
         val origin = center.x - radius point center.y - radius

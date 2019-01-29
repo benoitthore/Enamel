@@ -6,7 +6,6 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ECircle
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.degrees
-import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import com.thorebenoit.enamel.kotlin.geometry.toCircles
 import com.thorebenoit.enamel.processingtest.KotlinPApplet
 
@@ -34,7 +33,7 @@ class RotatingCircle : KotlinPApplet() {
         fill(0f)
 
         val circleList = eframe.innerCircle(circle)
-            .insetBy(100)
+            .inset(100)
             .draw()
             .pointsInList(points, startAt)
             .toCircles(circle.radius * 0.25f, circles)
