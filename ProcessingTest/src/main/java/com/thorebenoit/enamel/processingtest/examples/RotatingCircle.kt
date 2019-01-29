@@ -7,6 +7,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.degrees
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
+import com.thorebenoit.enamel.kotlin.geometry.toCircles
 import com.thorebenoit.enamel.processingtest.KotlinPApplet
 
 class RotatingCircle : KotlinPApplet() {
@@ -23,7 +24,7 @@ class RotatingCircle : KotlinPApplet() {
 
     private val circle = ECircle()
     private val points = MutableList(10) { EPoint() }
-    private val circles = points.toCircle(0f)
+    private val circles = points.toCircles(0f)
     private var startAt = 0.degrees()
     private var increment = 1.degrees()
 
@@ -36,7 +37,7 @@ class RotatingCircle : KotlinPApplet() {
             .insetBy(100)
             .draw()
             .pointsInList(points, startAt)
-            .toCircle(circle.radius * 0.25f, circles)
+            .toCircles(circle.radius * 0.25f, circles)
 
         circleList.forEachIndexed { i, it ->
             val color = colorHSL(i.f / circleList.size)

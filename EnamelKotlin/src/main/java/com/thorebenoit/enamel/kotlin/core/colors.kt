@@ -5,7 +5,7 @@ val Number.color: Int get() = (0xFF_00_00_00.i or i)
 
 fun randomColor() = colorHSL(Math.random().toFloat())
 
-fun colorHSL(h: Float) = HSLToColor(floatArrayOf(h * 360, 1f, .5f)) or 0xFF000000.toInt()
+fun colorHSL(h: Number) = HSLToColor(floatArrayOf(h.f * 360, 1f, .5f)) or 0xFF000000.toInt()
 
 private fun HSLToColor(hsl: FloatArray): Int {
     val h = hsl[0]

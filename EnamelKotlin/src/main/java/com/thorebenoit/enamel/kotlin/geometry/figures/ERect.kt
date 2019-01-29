@@ -4,6 +4,7 @@ import com.thorebenoit.enamel.kotlin.core.d
 import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
+import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 
 /*
 This class should be the example to follow in order to implement mutability
@@ -179,47 +180,47 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
         return this
     }
 
-//    fun rectAlignedInside(
-//        aligned: EAlignment,
-//        size: ESizeImmutable,
-//        spacing: Number = 0,
-//        buffer: ERect
-//    ): ERect {
-//        val spacing = spacing.f
-//
-//        val anchor = aligned.namedPoint
-//        val spacingSign = aligned.spacingSign
-//
-//        val position = pointAtAnchor(anchor, buffer.origin)
-//            .offset(spacingSign.x * spacing, spacingSign.y * spacing)
-//
-//        buffer.size.set(size)
-//
-//        return ERectAnchorPos(anchor = anchor, position = position, size = buffer.size, buffer = buffer)
-//    }
-//
-//    fun rectAlignedOutside(
-//        aligned: EAlignment,
-//        size: ESizeImmutable,
-//        spacing: Number = 0,
-//        buffer: ERect
-//    ): ERect {
-//        val spacing = spacing.f
-//
-//        val anchor = aligned.flipped.namedPoint
-//        val spacingSign = aligned.flipped.spacingSign
-//
-//        val position = pointAtAnchor(anchor, buffer.origin)
-//            .offset(spacingSign.x * spacing, spacingSign.y * spacing)
-//
-//        buffer.size.set(size)
-//
-//        return ERectAnchorPos(anchor = anchor, position = position, size = buffer.size, buffer = buffer)
-//    }
+    fun rectAlignedInside(
+        aligned: EAlignment,
+        size: ESizeImmutable,
+        spacing: Number = 0,
+        buffer: ERect
+    ): ERect {
+        val spacing = spacing.f
+
+        val anchor = aligned.namedPoint
+        val spacingSign = aligned.spacingSign
+
+        val position = pointAtAnchor(aligned.namedPoint, buffer.origin)
+            .offset(spacingSign.x * spacing, spacingSign.y * spacing)
+
+        buffer.size.set(size)
+
+        return ERectAnchorPos(anchor = anchor, position = position, size = buffer.size, buffer = buffer)
+    }
+
+
+    fun rectAlignedOutside(
+        aligned: EAlignment,
+        size: ESizeImmutable,
+        spacing: Number = 0,
+        buffer: ERect
+    ): ERect {
+        val spacing = spacing.f
+
+        val anchor = aligned.flipped.namedPoint
+        val spacingSign = aligned.flipped.spacingSign
+
+        val position = pointAtAnchor(aligned.namedPoint, buffer.origin)
+            .offset(spacingSign.x * spacing, spacingSign.y * spacing)
+
+        buffer.size.set(size)
+
+        return ERectAnchorPos(anchor = anchor, position = position, size = buffer.size, buffer = buffer)
+    }
 }
 
 
-// TODO Test
 fun ERectCenter(
     x: Number = 0f, y: Number = 0f,
     width: Number, height: Number, buffer: ERect
@@ -231,10 +232,9 @@ fun ERectCenter(
     val y = y.f - height / 2
 
 
-    return buffer.set(x, y, width, height)
+    return buffer.set(x = x, y = y, width = width, height = height)
 }
 
-// TODO Test
 fun ERectCorners(
     corner1X: Number = 0,
     corner1Y: Number = 0,
@@ -251,7 +251,6 @@ fun ERectCorners(
     )
 }
 
-// TODO Test
 fun ERectSides(left: Number, top: Number, right: Number, bottom: Number, buffer: ERect): ERect {
     buffer.top = top.f
     buffer.left = left.f
@@ -260,35 +259,12 @@ fun ERectSides(left: Number, top: Number, right: Number, bottom: Number, buffer:
     return buffer
 }
 
-// TODO Test
 fun ERectAnchorPos(anchor: EPointImmutable, position: EPointImmutable, size: ESize, buffer: ERect) = buffer.set(
     x = position.x - size.width * anchor.x,
     y = position.y - size.height * anchor.y,
     size = size
 )
 
-
-/*
-fun ERectAlignedInside(aligned: XAlignment, rect: ERect, size: XSizeType, spacing: Number = 0): ERect {
-    val spacing = spacing.f
-
-    val anchor = aligned.namedPoint
-    val spacingSign = aligned.spacingSign
-
-    val position = rect.pointAtAnchor(aligned.namedPoint) + spacingSign * spacing
-    return ERectAnchorPos(anchor = anchor, position = position, size = size)
-}
-
-fun ERectAlignedOutside(aligned: XAlignment, rect: ERect, size: XSizeType, spacing: Number = 0): ERect {
-    val spacing = spacing.f
-
-    val anchor = aligned.flipped.namedPoint
-    val spacingSign = aligned.flipped.spacingSign
-
-    val position = rect.pointAtAnchor(aligned.namedPoint) + spacingSign * spacing
-    return ERectAnchorPos(anchor = anchor, position = position, size = size)
-}
- */
 
 // TODO Not required but how would this work ?
 /*

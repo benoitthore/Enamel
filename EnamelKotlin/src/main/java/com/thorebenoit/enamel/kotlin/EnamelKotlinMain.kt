@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin
 
+import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
 import com.thorebenoit.enamel.kotlin.threading.coroutine
 

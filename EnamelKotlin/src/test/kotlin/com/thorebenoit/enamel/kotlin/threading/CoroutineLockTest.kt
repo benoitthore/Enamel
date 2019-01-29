@@ -1,10 +1,6 @@
 package com.thorebenoit.enamel.kotlin.threading
 
-import com.nhaarman.mockito_kotlin.whenever
-import com.thorebenoit.enamel.kotlin.print
-import org.junit.Assert.*
 import org.junit.Test
-import org.mockito.InOrder
 
 class CoroutineLockTest {
 

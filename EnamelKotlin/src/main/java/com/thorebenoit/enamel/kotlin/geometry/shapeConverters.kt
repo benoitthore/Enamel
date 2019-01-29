@@ -14,7 +14,7 @@ fun EPoint.toCircle(radius: Number, buffer: ECircle): ECircle {
 }
 
 
-fun List<EPoint>.toCircle(radius: Number, buffer: List<ECircle> = MutableList(size) { ECircle() }): List<ECircle> {
+fun List<EPoint>.toCircles(radius: Number, buffer: List<ECircle> = MutableList(size) { ECircle() }): List<ECircle> {
     forEachIndexed { i, p ->
         p.toCircle(radius, buffer[i])
     }

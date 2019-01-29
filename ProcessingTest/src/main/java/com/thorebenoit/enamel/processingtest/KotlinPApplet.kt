@@ -2,31 +2,28 @@ package com.thorebenoit.enamel.processingtest
 
 import com.thorebenoit.enamel.kotlin.core.i
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
-import com.thorebenoit.enamel.kotlin.print
-import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
+import com.thorebenoit.enamel.kotlin.threading.coroutine
+import com.thorebenoit.enamel.kotlin.core.tryCatch
+import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import processing.core.PApplet
-import processing.core.PConstants
-import processing.event.KeyEvent
 
 
 abstract class KotlinPApplet : PApplet() {
-
-//    private val keyLock = CoroutineLock()
-//    private var unlockKey : Char? = 'U'
-//    override fun keyPressed(event: KeyEvent) {
-//        if(event.key == unlockKey){
-//            keyLock.unlock()
-//            unlockKey = null
-//        }
-//    }
-
 
     val eframe get() = ERect(size = esize)
     var esize: ESize
         get() = width size height
         set(value) {
-            size(value.width.i, value.height.i)
+            tryCatch({
+                size(value.width.i, value.height.i)
+            }) {
+                coroutine {
+                    kotlinx.coroutines.delay(10)
+                    esize = value
+                }
+            }
         }
+    val ecenter get() = eframe.center(EPoint())
 
     fun ECircle.draw(): ECircle {
         ellipse(x, y, radius * 2, radius * 2)

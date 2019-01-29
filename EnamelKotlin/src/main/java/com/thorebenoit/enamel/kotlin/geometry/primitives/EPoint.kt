@@ -22,18 +22,7 @@ open class EPointImmutable(open val x: Float = 0f, open val y: Float = 0f) {
         return "EPointImmutable($x ; $y)"
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as EPointImmutable
-
-        if (x != other.x) return false
-        if (y != other.y) return false
-
-        return true
-    }
-
+    override fun equals(other: Any?): Boolean = (other as? EPointImmutable)?.let { it.x == x && it.y == y } ?: false
     // TODO
 //    operator fun component1() = x
 //    operator fun component2() = y

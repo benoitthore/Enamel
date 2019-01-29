@@ -1,7 +1,6 @@
-import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
+package com.thorebenoit.enamel.kotlin.geometry.alignement
+
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
-import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 
 interface EOrientation
 interface EVerticalOrientation : EOrientation
@@ -37,6 +36,24 @@ sealed class EAlignment(open val o: EOrientation?) {
         val leftCenter: EAlignment = Left(center)
         val leftBottom: EAlignment = Left(bottom)
         val middle: EAlignment = Center()
+
+
+        val vertices = listOf(topLeft, topRight, bottomRight, bottomLeft)
+        val all = listOf(
+            topLeft,
+            topCenter,
+            topRight,
+            rightTop,
+            rightCenter,
+            rightBottom,
+            bottomLeft,
+            bottomCenter,
+            bottomRight,
+            leftTop,
+            leftCenter,
+            leftBottom,
+            middle
+        )
     }
 
 
@@ -48,11 +65,10 @@ sealed class EAlignment(open val o: EOrientation?) {
             is Right -> Left(o)
             is Center -> this
         }
-
     val spacingSign: EPointImmutable
         get() = when (this) {
-            is Top -> EPointImmutable(0, -1)
-            is Bottom -> EPointImmutable(0, 1)
+            is Top -> EPointImmutable(0, 1)
+            is Bottom -> EPointImmutable(0, -1)
             is Left -> EPointImmutable(1, 0)
             is Right -> EPointImmutable(-1, 0)
             is Center -> EPointImmutable(0, 0)

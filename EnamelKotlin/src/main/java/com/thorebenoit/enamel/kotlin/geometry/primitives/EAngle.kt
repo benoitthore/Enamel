@@ -41,7 +41,7 @@ open class EAngleImmutable(protected open val value: Float, protected open val t
         get() = Math.tan(radians.d).f
 
 
-    fun unaryMinus(): EAngle =
+    operator fun unaryMinus(): EAngle =
         EAngle(-value, type)
 
     operator fun plus(other: EAngle): EAngle =

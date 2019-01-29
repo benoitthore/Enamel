@@ -1,6 +1,5 @@
 package com.thorebenoit.enamel.kotlin.threading
 
-import com.thorebenoit.enamel.kotlin.print
 import org.junit.Assert
 import java.lang.Exception
 

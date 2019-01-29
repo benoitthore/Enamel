@@ -18,5 +18,18 @@ class NamedPoint {
         val bottomRight = EPointImmutable(x = 1, y = 1)
 
         val vertices = listOf(topLeft, topRight, bottomRight, bottomLeft)
+        val all = listOf(
+            topLeft,
+            topCenter,
+            topRight,
+
+            middleLeft,
+            center,
+            middleRight,
+
+            bottomLeft,
+            bottomCenter,
+            bottomRight
+        )
     }
 }
