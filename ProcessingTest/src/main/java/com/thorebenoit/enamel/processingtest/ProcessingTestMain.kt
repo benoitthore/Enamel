@@ -1,14 +1,18 @@
 package com.thorebenoit.enamel.processingtest
 
-import com.thorebenoit.enamel.kotlin.core.colorHSL
-import com.thorebenoit.enamel.kotlin.core.f
-import com.thorebenoit.enamel.kotlin.core.lerp
+import com.thorebenoit.enamel.kotlin.core.*
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
 import com.thorebenoit.enamel.kotlin.geometry.primitives.degrees
+import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
+import com.thorebenoit.enamel.kotlin.print
+import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
+import com.thorebenoit.enamel.kotlin.threading.coroutine
 import processing.core.PApplet
+import java.util.concurrent.TimeUnit
+import kotlin.concurrent.timer
 
 
 object ProcessingTestMain {
@@ -29,64 +33,41 @@ private operator fun EPointImmutable.div(n: Number) = EPoint(x / n.f, y / n.f)
 class MainApplet : KotlinPApplet() {
 
 
+    override fun setup() {
+        super.setup()
+        frame.isResizable = true
+    }
+
     override fun settings() {
         esize = 800 size 800
     }
 
+
     override fun draw() {
-        background(255)
-
-        with(RotatingCircle){
-            play()
-        }
-
-        stroke(colorHSL(0f))
-        strokeWeight(2f)
-
-        noFill()
-
-        val rect = eframe
-
-        rect.inset(100)
-            .apply { outterCircle(ECircle()).draw() }
-            .apply { innerCircle(ECircle()).draw() }
-//            .pointAtAnchor(.5, .5, EPoint())
-//            .toCircle(rect.size.min / 2, ECircle())
+        background(0)
+//        stroke(colorHSL(0f))
+//        strokeWeight(2f)
+//
+//        noFill()
+//
+//        val rect = eframe
+//        val buffer = ERect()
+//
+//        rect.inset(eframe.size.min * 0.1f)
 //            .draw()
+//            .rectAlignedOutside(
+//                aligned = EAlignment.bottomCenter,
+//                size = rect.size.copy().scale(0.5f)
+////                    .apply {
+////                        this.width = min
+////                        this.height = min
+////                    }
+//                , buffer = buffer
+//            ).draw()
 
-
-        rect.draw()
 
     }
 
 
 }
 
-object RotatingCircle {
-
-    private val circle = ECircle()
-    private val points = MutableList(10) { EPoint() }
-    private val circles = points.toCircle(0f)
-    private var startAt = 0.degrees()
-    private var increment = 1.degrees()
-
-    fun KotlinPApplet.play() {
-        fill(0f)
-
-        val circleList = eframe.innerCircle(circle)
-            .insetBy(100)
-            .draw()
-            .pointsInList(points, startAt)
-            .toCircle(circle.radius * 0.25f, circles)
-
-        circleList.forEachIndexed { i, it ->
-            val color = colorHSL(i.f / circleList.size)
-            fill(color)
-            it.draw()
-        }
-
-
-
-        startAt += increment
-    }
-}

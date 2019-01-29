@@ -147,7 +147,7 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     fun pointAtAnchor(x: Number, y: Number, buffer: EPoint): EPoint =
         buffer.set(x = origin.x + size.width * x.f, y = origin.y + size.height * y.f)
 
-    fun pointAtAnchor(anchor: EPoint, buffer: EPoint) = pointAtAnchor(anchor.x, anchor.y, buffer)
+    fun pointAtAnchor(anchor: EPointImmutable, buffer: EPoint) = pointAtAnchor(anchor.x, anchor.y, buffer)
 
     fun anchorAtPoint(x: Number, y: Number, buffer: EPoint): EPoint {
         val x = if (width == 0f) .5f else x.f / width
@@ -178,6 +178,44 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
         this.right = right
         return this
     }
+
+//    fun rectAlignedInside(
+//        aligned: EAlignment,
+//        size: ESizeImmutable,
+//        spacing: Number = 0,
+//        buffer: ERect
+//    ): ERect {
+//        val spacing = spacing.f
+//
+//        val anchor = aligned.namedPoint
+//        val spacingSign = aligned.spacingSign
+//
+//        val position = pointAtAnchor(anchor, buffer.origin)
+//            .offset(spacingSign.x * spacing, spacingSign.y * spacing)
+//
+//        buffer.size.set(size)
+//
+//        return ERectAnchorPos(anchor = anchor, position = position, size = buffer.size, buffer = buffer)
+//    }
+//
+//    fun rectAlignedOutside(
+//        aligned: EAlignment,
+//        size: ESizeImmutable,
+//        spacing: Number = 0,
+//        buffer: ERect
+//    ): ERect {
+//        val spacing = spacing.f
+//
+//        val anchor = aligned.flipped.namedPoint
+//        val spacingSign = aligned.flipped.spacingSign
+//
+//        val position = pointAtAnchor(anchor, buffer.origin)
+//            .offset(spacingSign.x * spacing, spacingSign.y * spacing)
+//
+//        buffer.size.set(size)
+//
+//        return ERectAnchorPos(anchor = anchor, position = position, size = buffer.size, buffer = buffer)
+//    }
 }
 
 

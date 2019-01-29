@@ -1,7 +1,7 @@
-package com.thorebenoit.enamel.kotlin.geometry.alignement
-
+import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
+import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
-
+import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 
 interface EOrientation
 interface EVerticalOrientation : EOrientation
@@ -9,24 +9,17 @@ interface EHorizontalOrientation : EOrientation
 
 sealed class EAlignment(open val o: EOrientation?) {
 
+    object left : EHorizontalOrientation
 
-    abstract val flipped: EAlignment
+    object right : EHorizontalOrientation
 
-    abstract val spacingSign: EPointImmutable
+    object top : EVerticalOrientation
 
+    object bottom : EVerticalOrientation
+
+    object center : EHorizontalOrientation, EVerticalOrientation
 
     companion object {
-
-        object left : EHorizontalOrientation
-
-        object right : EHorizontalOrientation
-
-        object top : EVerticalOrientation
-
-        object bottom : EVerticalOrientation
-
-        object center : EHorizontalOrientation,
-            EVerticalOrientation
 
         val topLeft: EAlignment = Top(left)
         val topCenter: EAlignment = Top(center)
@@ -47,56 +40,68 @@ sealed class EAlignment(open val o: EOrientation?) {
     }
 
 
+    val flipped: EAlignment
+        get() = when (this) {
+            is Top -> Bottom(o)
+            is Bottom -> Top(o)
+            is Left -> Right(o)
+            is Right -> Left(o)
+            is Center -> this
+        }
+
+    val spacingSign: EPointImmutable
+        get() = when (this) {
+            is Top -> EPointImmutable(0, -1)
+            is Bottom -> EPointImmutable(0, 1)
+            is Left -> EPointImmutable(1, 0)
+            is Right -> EPointImmutable(-1, 0)
+            is Center -> EPointImmutable(0, 0)
+        }
+
     val namedPoint: EPointImmutable
         get() = when (this) {
-            topLeft -> NamedPoint.topLeft
-            topCenter -> NamedPoint.topCenter
-            topRight -> NamedPoint.topRight
+            EAlignment.topLeft -> NamedPoint.topLeft
+            EAlignment.topCenter -> NamedPoint.topCenter
+            EAlignment.topRight -> NamedPoint.topRight
 
-            bottomLeft -> NamedPoint.bottomLeft
-            bottomCenter -> NamedPoint.bottomCenter
-            bottomRight -> NamedPoint.bottomRight
+            EAlignment.bottomLeft -> NamedPoint.bottomLeft
+            EAlignment.bottomCenter -> NamedPoint.bottomCenter
+            EAlignment.bottomRight -> NamedPoint.bottomRight
 
-            middle -> NamedPoint.center
+            EAlignment.middle -> NamedPoint.center
 
-            leftTop -> NamedPoint.topLeft
-            leftCenter -> NamedPoint.middleLeft
-            leftBottom -> NamedPoint.bottomLeft
+            EAlignment.leftTop -> NamedPoint.topLeft
+            EAlignment.leftCenter -> NamedPoint.middleLeft
+            EAlignment.leftBottom -> NamedPoint.bottomLeft
 
-            rightTop -> NamedPoint.topRight
-            rightCenter -> NamedPoint.middleRight
-            rightBottom -> NamedPoint.bottomRight
+            EAlignment.rightTop -> NamedPoint.topRight
+            EAlignment.rightCenter -> NamedPoint.middleRight
+            EAlignment.rightBottom -> NamedPoint.bottomRight
 
             else -> {
-                throw TODO("Refactor with enum so this line is unreachable")
+                throw Exception("Impossible if using the API properly")
             }
         }
+
+    // -----------------------------------------------------------------
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null) {
+            return false
+        }
+        return other::class.java == this::class.java && (other as EAlignment).o == o
+    }
+
+    override fun hashCode(): Int {
+        return o?.hashCode() ?: 0
+    }
 }
 
-private class Top(override val o: EHorizontalOrientation) : EAlignment(o) {
-    override val flipped: EAlignment = Bottom(o)
-    override val spacingSign: EPointImmutable = EPointImmutable(0, -1)
-}
-
-private class Bottom(override val o: EHorizontalOrientation) : EAlignment(o) {
-    override val spacingSign: EPointImmutable = EPointImmutable(0, -1)
-    override val flipped: EAlignment = Top(o)
-}
-
-private class Center : EAlignment(null) {
-    override val flipped: EAlignment = this
-    override val spacingSign: EPointImmutable = EPointImmutable(0, 0)
-}
-
-private class Left(override val o: EVerticalOrientation) : EAlignment(o) {
-    override val spacingSign: EPointImmutable = EPointImmutable(1, 0)
-    override val flipped: EAlignment = Right(o)
-}
-
-private class Right(override val o: EVerticalOrientation) : EAlignment(o) {
-    override val spacingSign: EPointImmutable = EPointImmutable(-1, 0)
-    override val flipped: EAlignment = Left(o)
-}
+private class Top(override val o: EHorizontalOrientation) : EAlignment(o)
+private class Bottom(override val o: EHorizontalOrientation) : EAlignment(o)
+private class Center : EAlignment(null)
+private class Left(override val o: EVerticalOrientation) : EAlignment(o)
+private class Right(override val o: EVerticalOrientation) : EAlignment(o)
 
 
 

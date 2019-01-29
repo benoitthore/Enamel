@@ -29,8 +29,6 @@ open class EnamelContext(val context: Context) {
 
 }
 
-val Number.color: Int get() = (0xFF_00_00_00.i or i)
-
 val CharSequence.bold
     get() = withTypeface(Typeface.BOLD)
 
