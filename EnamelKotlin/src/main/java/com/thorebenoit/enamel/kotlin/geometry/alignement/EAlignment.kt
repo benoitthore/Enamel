@@ -1,5 +1,7 @@
 package com.thorebenoit.enamel.kotlin.geometry.alignement
 
+import com.thorebenoit.enamel.kotlin.geometry.allocate
+import com.thorebenoit.enamel.kotlin.geometry.allocateNeedsRefactor
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
 
 interface EOrientation
@@ -66,12 +68,14 @@ sealed class EAlignment(open val o: EOrientation?) {
             is Center -> this
         }
     val spacingSign: EPointImmutable
-        get() = when (this) {
-            is Top -> EPointImmutable(0, 1)
-            is Bottom -> EPointImmutable(0, -1)
-            is Left -> EPointImmutable(1, 0)
-            is Right -> EPointImmutable(-1, 0)
-            is Center -> EPointImmutable(0, 0)
+        get() = allocateNeedsRefactor { // TODO Remove allocation here
+            when (this) {
+                is Top -> EPointImmutable(0, 1)
+                is Bottom -> EPointImmutable(0, -1)
+                is Left -> EPointImmutable(1, 0)
+                is Right -> EPointImmutable(-1, 0)
+                is Center -> EPointImmutable(0, 0)
+            }
         }
 
     val namedPoint: EPointImmutable
