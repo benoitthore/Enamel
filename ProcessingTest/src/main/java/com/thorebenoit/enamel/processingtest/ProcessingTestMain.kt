@@ -1,21 +1,18 @@
 package com.thorebenoit.enamel.processingtest
 
 import com.thorebenoit.enamel.kotlin.core.*
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
-import com.thorebenoit.enamel.kotlin.geometry.primitives.point
-import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import com.thorebenoit.enamel.processingtest.examples.AppletListApplet
-import com.thorebenoit.enamel.processingtest.examples.PhysicsRainbowRain
 import processing.core.PApplet
 
 
 object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
-        PApplet.main(PhysicsRainbowRain::class.java)
+        PApplet.main(AppletListApplet::class.java)
     }
 
 }
@@ -35,49 +32,37 @@ class MainApplet : KotlinPApplet() {
         frame.isResizable = true
     }
 
+
     override fun settings() {
         super.settings()
-        esize = 800 size 800
+//        esize = 800 size 800
+        esize = allocate { 400 size 400 }
+
     }
 
+    //    val sizesList = List(4) { ESize(random(10, 50), random(10, 50)) }
+
     override fun draw() {
+
+        background(255)
 
         stroke(colorHSL(0f))
         strokeWeight(2f)
 
         noFill()
 
-        val buffer = ERect()
-        val rect = eframe.inset(eframe.size.min * 0.25f)
-        rect.draw()
 
-        // TESTING Anchor Position
-//        ERectAnchorPos(
-//            anchor = EAlignment.middle.namedPoint,
-//            position = ecenter,
-//            size = 100 size 100,
-//            buffer = buffer
-//        )
-//        buffer.draw()
-//        fill(colorHSL(.25))
-//        stroke(colorHSL(.25))
-//        ecenter.toCircle(4, ECircle()).draw()
-
-        EAlignment.all.forEach { alignment ->
-
-            rect
-                .rectAlignedOutside(
-                    aligned = alignment,
-                    spacing = 20,
-                    size = 40 size 40
-//                    rect.size.copy().scale(0.5f)
-//                        .apply {
-//                            this.width = min
-//                            this.height = min
-//                        }
-                    , buffer = buffer
-                ).draw()
-        }
+        //        EAlignment.all.forEach { alignment ->
+//
+//            frameRect.rectAlignedInside(
+//                aligned = alignment,
+//                spacing = 20,
+//                size = 40 size 40,
+//                buffer = buffer
+//            )
+//
+//            buffer.draw()
+//        }
 
 
     }

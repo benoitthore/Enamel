@@ -3,6 +3,7 @@ package com.thorebenoit.enamel.kotlin.geometry.primitives
 import com.thorebenoit.enamel.kotlin.*
 import com.thorebenoit.enamel.kotlin.core.d
 import com.thorebenoit.enamel.kotlin.core.f
+import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeImmutable
 
 open class EPointImmutable(open val x: Float = 0f, open val y: Float = 0f) {
@@ -10,6 +11,10 @@ open class EPointImmutable(open val x: Float = 0f, open val y: Float = 0f) {
         val zero = EPointImmutable(0f, 0f)
         val half = EPointImmutable(0.5f, 0.5f)
         val unit = EPointImmutable(1f, 1f)
+    }
+
+    init {
+        allocateDebugMessage()
     }
 
     constructor(x: Number, y: Number) : this(x.f, y.f)
@@ -50,6 +55,15 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointImm
 
     fun copy() = EPoint(x, y)
 
+    fun angleTo(point: EPoint): EAngle =
+        Math.atan2(
+            ((point.y - y).d), ((point.x - x).d)
+        ).radians()
+
+    fun magnitude() = Math.hypot(x.d, y.d)
+    fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)
+    fun distanceTo(x2: Number, y2: Number) = Math.hypot((x2.d - x), (y2.d - y)).f
+
 
 // TODO Make this public only after refactoring is done
 //operator fun EPoint.plus(other: EPoint) = EPoint(x + other.x, y + other.y)
@@ -81,14 +95,7 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointImm
     fun scale(x: Number, y: Number) = set(this.x * x.f, this.y * y.f)
     fun scale(n: Number) = scale(n, n)
     fun scale(other: EPoint) = scale(x, y)
-    fun angleTo(point: EPoint): EAngle =
-        Math.atan2(
-            ((point.y - y).d), ((point.x - x).d)
-        ).radians()
 
-    fun magnitude(): Number = Math.hypot(x.d, y.d)
-    fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)
-    fun distanceTo(x2: Number, y2: Number) = Math.hypot((x2.d - x), (y2.d - y)).f
     fun rotateBy(angle: EAngle, magnitude: Number): EPoint {
         val magnitude = magnitude.f
         return set(x + angle.cos * magnitude, y + angle.sin * magnitude)

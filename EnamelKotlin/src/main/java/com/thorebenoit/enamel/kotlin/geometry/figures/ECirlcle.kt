@@ -2,9 +2,19 @@ package com.thorebenoit.enamel.kotlin.geometry.figures
 
 import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.core.i
+import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 
 open class ECircleImmutable(open val center: EPointImmutable = EPointImmutable(), open val radius: Float = 0f) {
+
+    init {
+        allocateDebugMessage()
+    }
+
+    open val x: Float get() = center.x
+
+    open val y: Float get() = center.y
+
     fun toMutable() = ECircle(center = center.toMutable(), radius = radius)
     fun toImmutable() = ECircleImmutable(center = center.toImmutable(), radius = radius)
 }
@@ -15,13 +25,13 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
 
     fun copy() = ECircle(center.copy(), radius)
 
-    var x: Float
-        get() = center.x
+    override var x: Float
+        get() = super.x
         set(value) {
             center.x = value
         }
-    var y: Float
-        get() = center.y
+    override var y: Float
+        get() = super.y
         set(value) {
             center.y = value
         }
@@ -68,6 +78,11 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
 
     fun inset(margin: Number) = set(center, radius - margin.f)
     fun expand(margin: Number) = inset(-margin.f)
+
+    fun offset(x: Number, y: Number) = set(this.x + x.f, this.y + y.f, radius)
+    fun offset(n: Number) = offset(n, n)
+    fun offset(other: EPoint) = offset(other.x, other.y)
+
 
     private fun pointAtAnchor(x: Number, y: Number): EPoint {
         val origin = center.x - radius point center.y - radius

@@ -1,6 +1,9 @@
 package com.thorebenoit.enamel.processingtest;
 
+import com.thorebenoit.enamel.kotlin.geometry.figures.BufferProvider;
 import processing.core.PApplet;
+
+import java.util.List;
 
 public class JavaTest extends PApplet {
 

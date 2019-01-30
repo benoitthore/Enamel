@@ -5,6 +5,7 @@ import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
 import com.thorebenoit.enamel.kotlin.geometry.alignement.*
+import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
 
 /*
 This class should be the example to follow in order to implement mutability
@@ -23,6 +24,10 @@ open class ERectImmutable(
     open val origin: EPointImmutable = EPointImmutable(),
     open val size: ESizeImmutable = ESizeImmutable()
 ) {
+    init {
+        allocateDebugMessage()
+    }
+
     fun toMutable(buffer: ERect) = buffer.set(origin.toMutable(), size.toMutable())
     fun toImmutable() = ERectImmutable(origin.toImmutable(), size.toImmutable())
 
@@ -61,7 +66,8 @@ open class ERectImmutable(
         top = other.top,
         left = other.left,
         right = other.right,
-        bottom = other.bottom)
+        bottom = other.bottom
+    )
 
     fun contains(
         left: Number, top: Number, right: Number, bottom: Number
@@ -85,10 +91,13 @@ open class ERectImmutable(
         top = other.top,
         left = other.left,
         right = other.right,
-        bottom = other.bottom)
+        bottom = other.bottom
+    )
 
-    fun intersects(left: Number, top: Number, right: Number,
-                   bottom: Number): Boolean {
+    fun intersects(
+        left: Number, top: Number, right: Number,
+        bottom: Number
+    ): Boolean {
         val left = left.f
         val top = top.f
         val right = right.f
@@ -99,6 +108,75 @@ open class ERectImmutable(
         val thisright = this.right
         return (thisleft < right && left < thisright
                 && thistop < bottom && top < thisbottom)
+    }
+
+
+    // Points
+    fun pointAtAnchor(x: Number, y: Number, buffer: EPoint): EPoint =
+        buffer.set(x = origin.x + size.width * x.f, y = origin.y + size.height * y.f)
+
+    fun pointAtAnchor(anchor: EPointImmutable, buffer: EPoint) = pointAtAnchor(anchor.x, anchor.y, buffer)
+
+    fun anchorAtPoint(x: Number, y: Number, buffer: EPoint): EPoint {
+        val x = if (width == 0f) .5f else x.f / width
+        val y = if (height == 0f) .5f else y.f / height
+        return buffer.set(x, y)
+    }
+
+    fun center(buffer: EPoint): EPoint = pointAtAnchor(0.5f, 0.5f, buffer)
+
+    // Shapes
+    fun innerCircle(buffer: ECircle): ECircle {
+        center(buffer.center) // set circles center to rect center
+        buffer.radius = size.min / 2
+        return buffer
+    }
+
+
+    fun outterCircle(buffer: ECircle): ECircle {
+        center(buffer.center) // set circles center to rect center
+        buffer.radius = size.diagonal / 2
+        return buffer
+    }
+
+    // Alignement
+    fun rectAlignedInside(
+        aligned: EAlignment,
+        size: ESizeImmutable,
+        spacing: Number = 0,
+        buffer: ERect
+    ): ERect {
+        val spacing = spacing.f
+
+        val anchor = aligned.namedPoint
+        val spacingSign = aligned.spacingSign
+
+        val position = pointAtAnchor(aligned.namedPoint, buffer.origin)
+            .offset(spacingSign.x * spacing, spacingSign.y * spacing)
+
+        buffer.size.set(size)
+
+        return ERectAnchorPos(anchor = anchor, position = position, size = buffer.size, buffer = buffer)
+    }
+
+
+    fun rectAlignedOutside(
+        aligned: EAlignment,
+        size: ESizeImmutable,
+        spacing: Number = 0,
+        buffer: ERect
+    ): ERect {
+        val spacing = spacing.f
+
+        val anchor = aligned.flipped.namedPoint
+        val spacingSign = aligned.flipped.spacingSign
+
+        val position = pointAtAnchor(aligned.namedPoint, buffer.origin)
+            .offset(spacingSign.x * spacing, spacingSign.y * spacing)
+
+        buffer.size.set(size)
+
+        return ERectAnchorPos(anchor = anchor, position = position, size = buffer.size, buffer = buffer)
     }
 
 }
@@ -182,7 +260,10 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
 
 
     // Changing
-    fun offset(x: Number = 0, y: Number = 0): ERect = set(origin = origin.offset(x, y))
+    fun offset(x: Number = 0, y: Number = 0): ERect {
+        origin.offset(x, y)
+        return this
+    }
 
     fun inset(margin: Number) = inset(margin, margin)
     fun inset(p: EPointImmutable) = inset(p.x, p.y)
@@ -201,35 +282,7 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     fun expand(x: Number = 0f, y: Number = 0f) = inset(-x.f, -y.f)
 
 
-    // Points
-    fun pointAtAnchor(x: Number, y: Number, buffer: EPoint): EPoint =
-        buffer.set(x = origin.x + size.width * x.f, y = origin.y + size.height * y.f)
-
-    fun pointAtAnchor(anchor: EPointImmutable, buffer: EPoint) = pointAtAnchor(anchor.x, anchor.y, buffer)
-
-    fun anchorAtPoint(x: Number, y: Number, buffer: EPoint): EPoint {
-        val x = if (width == 0f) .5f else x.f / width
-        val y = if (height == 0f) .5f else y.f / height
-        return buffer.set(x, y)
-    }
-
-    fun center(buffer: EPoint): EPoint = pointAtAnchor(0.5f, 0.5f, buffer)
-
-    // Shapes
-    fun innerCircle(buffer: ECircle): ECircle {
-        center(buffer.center) // set circles center to rect center
-        buffer.radius = size.min / 2
-        return buffer
-    }
-
-
-    fun outterCircle(buffer: ECircle): ECircle {
-        center(buffer.center) // set circles center to rect center
-        buffer.radius = size.diagonal / 2
-        return buffer
-    }
-
-    fun set(top: Float, bottom: Float, left: Float, right: Float): ERect {
+    fun setSides(top: Float, bottom: Float, left: Float, right: Float): ERect {
         this.top = top
         this.bottom = bottom
         this.left = left
@@ -237,44 +290,11 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
         return this
     }
 
-    fun rectAlignedInside(
-        aligned: EAlignment,
-        size: ESizeImmutable,
-        spacing: Number = 0,
-        buffer: ERect
-    ): ERect {
-        val spacing = spacing.f
-
-        val anchor = aligned.namedPoint
-        val spacingSign = aligned.spacingSign
-
-        val position = pointAtAnchor(aligned.namedPoint, buffer.origin)
-            .offset(spacingSign.x * spacing, spacingSign.y * spacing)
-
-        buffer.size.set(size)
-
-        return ERectAnchorPos(anchor = anchor, position = position, size = buffer.size, buffer = buffer)
+    override fun toString(): String {
+        return "ERect(origin=$origin, size=$size)"
     }
 
 
-    fun rectAlignedOutside(
-        aligned: EAlignment,
-        size: ESizeImmutable,
-        spacing: Number = 0,
-        buffer: ERect
-    ): ERect {
-        val spacing = spacing.f
-
-        val anchor = aligned.flipped.namedPoint
-        val spacingSign = aligned.flipped.spacingSign
-
-        val position = pointAtAnchor(aligned.namedPoint, buffer.origin)
-            .offset(spacingSign.x * spacing, spacingSign.y * spacing)
-
-        buffer.size.set(size)
-
-        return ERectAnchorPos(anchor = anchor, position = position, size = buffer.size, buffer = buffer)
-    }
 }
 
 

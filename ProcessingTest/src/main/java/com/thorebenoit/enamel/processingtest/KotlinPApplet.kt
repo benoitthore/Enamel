@@ -5,6 +5,7 @@ import com.thorebenoit.enamel.kotlin.core.i
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.threading.coroutine
 import com.thorebenoit.enamel.kotlin.core.tryCatch
+import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import processing.core.PApplet
@@ -16,12 +17,17 @@ private typealias KeyEventListener = (KeyEvent) -> Unit
 
 
 abstract class KotlinPApplet : PApplet() {
+    override fun settings() {
+        size(800, 800)
+    }
 
-    val mousePosition get() = mouseX point mouseY
 
-    val eframe get() = ERect(size = esize)
+    val mousePosition get() = allocate { mouseX point mouseY }
+
+    val center get() = allocate { ERect(size = esize).center(EPoint()) }
+    val eframe get() = allocate { ERect(size = esize) }
     var esize: ESize
-        get() = width size height
+        get() = allocate { width size height }
         set(value) {
             tryCatch({
                 size(value.width.i, value.height.i)
@@ -32,24 +38,19 @@ abstract class KotlinPApplet : PApplet() {
                 }
             }
         }
-    val ecenter get() = eframe.center(EPoint())
+    val ecenter get() = allocate { eframe.center(EPoint()) }
 
-    fun ECircle.draw(): ECircle {
+    fun <T : ECircleImmutable> T.draw(): T {
         ellipse(x, y, radius * 2, radius * 2)
         return this
     }
 
-    fun ERect.draw(): ERect {
+    fun <T : ERectImmutable> T.draw(): T {
         rect(x, y, width, height)
         return this
     }
 
-    override fun settings() {
-        size(400, 400)
-    }
-
-
-
+    suspend fun _delay(n: Number) = kotlinx.coroutines.delay(n.toLong())
 
 
     private val mouseClickListeners = mutableListOf<MouseEventListener>()

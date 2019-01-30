@@ -5,10 +5,14 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.core.print
+import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
 import com.thorebenoit.enamel.kotlin.threading.coroutine
 import com.thorebenoit.enamel.processingtest.KotlinPApplet
 
 class PhysicsRainbowRain : KotlinPApplet() {
+    init {
+        AllocationTracker.debugAllocations = false
+    }
 
 
     override fun setup() {

@@ -7,7 +7,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeImmutable
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 
 
-fun EPoint.toCircle(radius: Number, buffer: ECircle): ECircle {
+fun EPoint.toCircle(radius: Number, buffer: ECircle = ECircle()): ECircle {
     buffer.center.set(this)
     buffer.radius = radius.f
     return buffer
