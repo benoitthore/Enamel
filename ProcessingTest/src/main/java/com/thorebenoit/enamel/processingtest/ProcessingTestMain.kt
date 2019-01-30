@@ -7,13 +7,15 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
+import com.thorebenoit.enamel.processingtest.examples.AppletListApplet
+import com.thorebenoit.enamel.processingtest.examples.PhysicsRainbowRain
 import processing.core.PApplet
 
 
 object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
-        PApplet.main(MainApplet::class.java)
+        PApplet.main(PhysicsRainbowRain::class.java)
     }
 
 }

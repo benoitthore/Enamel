@@ -19,12 +19,12 @@ Create the API without default arguments for buffer in order to make sure no all
 
 
  */
-open class ImmutableERect(
+open class ERectImmutable(
     open val origin: EPointImmutable = EPointImmutable(),
     open val size: ESizeImmutable = ESizeImmutable()
 ) {
     fun toMutable(buffer: ERect) = buffer.set(origin.toMutable(), size.toMutable())
-    fun toImmutable() = ImmutableERect(origin.toImmutable(), size.toImmutable())
+    fun toImmutable() = ERectImmutable(origin.toImmutable(), size.toImmutable())
 
     val height get() = size.height
     val width get() = size.width
@@ -43,11 +43,68 @@ open class ImmutableERect(
     open val y: Float
         get() = origin.y
 
-    open fun topLeft(): EPointImmutable = origin
+
+    fun contains(p: EPointImmutable) = contains(p.x, p.y)
+
+    fun contains(x: Number, y: Number): Boolean {
+        val x = x.f
+        val y = y.f
+        val left = left
+        val top = top
+        val bottom = bottom
+        val right = right
+        return left < right && top < bottom && x >= left && x < right && y >= top && y < bottom
+    }
+
+    //contains Rect
+    fun contains(other: ERectImmutable) = contains(
+        top = other.top,
+        left = other.left,
+        right = other.right,
+        bottom = other.bottom)
+
+    fun contains(
+        left: Number, top: Number, right: Number, bottom: Number
+    ): Boolean {
+        val left = left.f
+        val top = top.f
+        val right = right.f
+        val bottom = bottom.f
+        val thisleft = this.left
+        val thistop = this.top
+        val thisbottom = this.bottom
+        val thisright = this.right
+
+        return (thisleft < thisright && thistop < thisbottom
+                && thisleft <= left && thistop <= top
+                && thisright >= right && thisbottom >= bottom)
+    }
+
+    //intersects
+    fun intersects(other: ERectImmutable) = intersects(
+        top = other.top,
+        left = other.left,
+        right = other.right,
+        bottom = other.bottom)
+
+    fun intersects(left: Number, top: Number, right: Number,
+                   bottom: Number): Boolean {
+        val left = left.f
+        val top = top.f
+        val right = right.f
+        val bottom = bottom.f
+        val thisleft = this.left
+        val thistop = this.top
+        val thisbottom = this.bottom
+        val thisright = this.right
+        return (thisleft < right && left < thisright
+                && thistop < bottom && top < thisbottom)
+    }
+
 }
 
 class ERect(override var origin: EPoint = EPoint(), override var size: ESize = ESize()) :
-    ImmutableERect(origin, size) {
+    ERectImmutable(origin, size) {
 
     fun copy() = ERect(origin.copy(), size.copy())
 
@@ -84,7 +141,7 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
         return this
     }
 
-    override fun topLeft(): EPoint = origin
+    fun topLeft(): EPoint = origin
 
 
     override var x: Float

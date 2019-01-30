@@ -28,6 +28,8 @@ class PhysicsRainbowRain : KotlinPApplet() {
     override fun settings() {
         esize = 800 size 800
 
+        fullScreen()
+
         coroutine {
             kotlinx.coroutines.delay(200)
             reGenerateDrops()
@@ -69,7 +71,7 @@ class PhysicsRainbowRain : KotlinPApplet() {
     }
 
     private fun reGenerateDrops() {
-        val dropsPerCol = 1
+        val dropsPerCol = 10
         drops = (0..width * dropsPerCol).map { x ->
             Drop(x / dropsPerCol point 0f).reset()
         }
@@ -88,7 +90,6 @@ class PhysicsRainbowRain : KotlinPApplet() {
     override fun draw() {
         background(0)
         noFill()
-
 
         drops.forEach { drop ->
 
