@@ -23,11 +23,3 @@ object GeomertyBufferProvider {
         }
     }
 }
-
-
-//class PointSetter() : (EPoint) -> Unit {
-//    override fun invoke(p: EPoint) {
-//
-//    }
-//
-//}
