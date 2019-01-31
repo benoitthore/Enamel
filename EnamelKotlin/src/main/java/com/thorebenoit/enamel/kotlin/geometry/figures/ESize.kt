@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
+import com.thorebenoit.enamel.kotlin.core.Resetable
 import com.thorebenoit.enamel.kotlin.core.d
 import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
@@ -34,7 +35,8 @@ open class ESizeImmutable(open val width: Float = 0f, open val height: Float = 0
 
 }
 
-class ESize(override var width: Float = 0f, override var height: Float = 0f) : ESizeImmutable(width, height) {
+class ESize(override var width: Float = 0f, override var height: Float = 0f) : ESizeImmutable(width, height),
+    Resetable {
     constructor(width: Number, height: Number) : this(width.f, height.f)
 
     fun copy(buffer: ESize = ESize()) = buffer.set(this)
@@ -46,6 +48,10 @@ class ESize(override var width: Float = 0f, override var height: Float = 0f) : E
     }
 
     fun set(size: ESizeImmutable, buffer: ESize = this) = set(size.width, size.height, buffer)
+
+    override fun reset() {
+        set(0, 0)
+    }
 
     fun inset(x: Number, y: Number, buffer: ESize = this) = set(width - x.f, height - y.f, buffer)
     fun inset(n: Number, buffer: ESize = this) = inset(n, n, buffer)

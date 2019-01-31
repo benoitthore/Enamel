@@ -2,12 +2,14 @@ package com.thorebenoit.enamel.processingtest
 
 import com.thorebenoit.enamel.kotlin.core.*
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
+import com.thorebenoit.enamel.kotlin.geometry.toRect
 import com.thorebenoit.enamel.processingtest.examples.AppletListApplet
 import processing.core.PApplet
 
@@ -15,7 +17,7 @@ import processing.core.PApplet
 object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
-        PApplet.main(AppletListApplet::class.java)
+        PApplet.main(MainApplet::class.java)
     }
 
 }
@@ -50,6 +52,11 @@ class MainApplet : KotlinPApplet() {
     val _size = allocate { 40 size 40 }
     val bufferCircle = allocate { ECircle() }
 
+    val sizes = allocate { List(5) { ESize(40, 40) } }
+    val rectGroup = allocate {
+        ERectGroup(sizes.map { it.toRect() }, ESize(), EPoint()) // TODO Extra this
+    }
+
     override fun draw() {
 
         background(255)
@@ -59,6 +66,18 @@ class MainApplet : KotlinPApplet() {
 
         noFill()
 
+
+        sizes.rectGroup(
+            alignement = EAlignment.rightCenter,
+            anchor = NamedPoint.topLeft,
+            position = center,
+            buffer = rectGroup
+        ).rects.forEach {
+            it.draw()
+        }
+
+
+        return
         val frameRect = eframe.inset(100)
         frameRect.draw()
 

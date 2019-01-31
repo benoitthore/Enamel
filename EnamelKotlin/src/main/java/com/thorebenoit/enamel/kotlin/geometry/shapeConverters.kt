@@ -21,6 +21,6 @@ fun List<EPoint>.toCircles(radius: Number, buffer: List<ECircle> = MutableList(s
     return buffer
 }
 
-fun ESizeImmutable.toRect(buffer: ERect) = buffer.set(0, 0, width, height)
+fun ESizeImmutable.toRect(buffer: ERect = ERect()) = buffer.set(0, 0, width, height)
 
 

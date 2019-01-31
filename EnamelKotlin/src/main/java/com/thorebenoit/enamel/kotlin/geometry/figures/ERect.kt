@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
+import com.thorebenoit.enamel.kotlin.core.Resetable
 import com.thorebenoit.enamel.kotlin.core.d
 import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
@@ -182,7 +183,11 @@ open class ERectImmutable(
 }
 
 class ERect(override var origin: EPoint = EPoint(), override var size: ESize = ESize()) :
-    ERectImmutable(origin, size) {
+    ERectImmutable(origin, size), Resetable {
+
+    override fun reset() {
+        origin.reset(); size.reset()
+    }
 
     fun copy(buffer: ERect = ERect()) = ERect(origin.copy(buffer.origin), size.copy(buffer.size))
 
@@ -269,7 +274,8 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
 
     // Changing
     fun offset(x: Number = 0, y: Number = 0, buffer: ERect = this): ERect {
-        buffer.origin.offset(x, y)
+
+        buffer.origin.offset(x, y,buffer.origin)
         return buffer
     }
 

@@ -1,6 +1,7 @@
 package com.thorebenoit.enamel.kotlin.geometry.primitives
 
 import com.thorebenoit.enamel.kotlin.*
+import com.thorebenoit.enamel.kotlin.core.Resetable
 import com.thorebenoit.enamel.kotlin.core.d
 import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
@@ -23,6 +24,18 @@ open class EPointImmutable(open val x: Float = 0f, open val y: Float = 0f) {
     fun toImmutable() = EPointImmutable(x, y)
 
 
+
+    fun angleTo(point: EPoint): EAngle =
+        Math.atan2(
+            ((point.y - y).d), ((point.x - x).d)
+        ).radians()
+
+    fun magnitude() = Math.hypot(x.d, y.d)
+    fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)
+    fun distanceTo(x2: Number, y2: Number) = Math.hypot((x2.d - x), (y2.d - y)).f
+
+
+
     override fun toString(): String {
         return "EPointImmutable($x ; $y)"
     }
@@ -39,7 +52,8 @@ open class EPointImmutable(open val x: Float = 0f, open val y: Float = 0f) {
     }
 }
 
-class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointImmutable(x, y) {
+class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointImmutable(x, y), Resetable {
+
     companion object {
         val zero get() = EPoint(0f, 0f)
         val half get() = EPoint(0.5f, 0.5f)
@@ -52,17 +66,18 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointImm
         return "EPoint($x ; $y)"
     }
 
+    // TODO Dupplicate all of the modification functions like so :
+    /*
+    selfOffset
+    selfScale
+    self ...
+     */
 
+
+    override fun reset() {
+        set(0, 0)
+    }
     fun copy(buffer: EPoint = EPoint()) = buffer.set(x, y)
-
-    fun angleTo(point: EPoint): EAngle =
-        Math.atan2(
-            ((point.y - y).d), ((point.x - x).d)
-        ).radians()
-
-    fun magnitude() = Math.hypot(x.d, y.d)
-    fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)
-    fun distanceTo(x2: Number, y2: Number) = Math.hypot((x2.d - x), (y2.d - y)).f
 
 
     fun set(x: Number, y: Number) = apply { this.x = x.f; this.y = y.f }

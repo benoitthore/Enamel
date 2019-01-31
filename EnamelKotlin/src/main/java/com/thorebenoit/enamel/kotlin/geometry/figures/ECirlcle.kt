@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
+import com.thorebenoit.enamel.kotlin.core.Resetable
 import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.core.i
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
@@ -20,7 +21,7 @@ open class ECircleImmutable(open val center: EPointImmutable = EPointImmutable()
 }
 
 class ECircle(override val center: EPoint = EPoint(), override var radius: Float = 0f) :
-    ECircleImmutable(center, radius) {
+    ECircleImmutable(center, radius), Resetable {
     constructor(center: EPoint, radius: Number) : this(center, radius.f)
 
     fun copy(buffer: ECircle = ECircle()) = ECircle(center.copy(buffer.center), radius)
@@ -35,6 +36,10 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
         set(value) {
             center.y = value
         }
+
+    override fun reset() {
+        set(0, 0, 0)
+    }
 
     fun set(center: EPointImmutable, radius: Number) = set(center.x, center.y, radius)
 
