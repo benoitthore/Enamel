@@ -8,8 +8,6 @@ class GenericBufferProvider<T>(bufferSize: Int = 100, val default: () -> T) {
     operator fun invoke() = get()
     operator fun invoke(n: Int): List<T> = (0 until n).map { get() }
 
-
-
     fun save(){
 //        TODO
     }

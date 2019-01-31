@@ -6,6 +6,8 @@ import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
+import com.thorebenoit.enamel.kotlin.geometry.primitives.point
+import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import com.thorebenoit.enamel.processingtest.examples.AppletListApplet
 import processing.core.PApplet
 
@@ -13,7 +15,7 @@ import processing.core.PApplet
 object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
-        PApplet.main(MainApplet::class.java)
+        PApplet.main(AppletListApplet::class.java)
     }
 
 }
@@ -46,6 +48,7 @@ class MainApplet : KotlinPApplet() {
 
     val buffer = allocate { ERect() }
     val _size = allocate { 40 size 40 }
+    val bufferCircle = allocate { ECircle() }
 
     override fun draw() {
 
@@ -56,11 +59,12 @@ class MainApplet : KotlinPApplet() {
 
         noFill()
 
-        val frameRect = allocate { eframe.inset(10) }
+        val frameRect = eframe.inset(100)
+        frameRect.draw()
 
         EAlignment.all.forEach { alignment ->
 
-            frameRect.rectAlignedInside(
+            frameRect.rectAlignedOutside(
                 aligned = alignment,
                 spacing = 20,
                 size = _size,
@@ -70,6 +74,7 @@ class MainApplet : KotlinPApplet() {
             buffer.draw()
         }
 
+//        center.offset(10).toCircle(10, bufferCircle).draw()
 
     }
 

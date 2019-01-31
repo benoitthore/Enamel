@@ -66,7 +66,7 @@ class PhysicsRainbowRain : KotlinPApplet() {
 
                 currentLoopTime = System.currentTimeMillis() - loopStartedAt
                 deltaTime = currentLoopTime / targetLoopTime
-                deltaTime.print
+//                deltaTime.print
 
 
 

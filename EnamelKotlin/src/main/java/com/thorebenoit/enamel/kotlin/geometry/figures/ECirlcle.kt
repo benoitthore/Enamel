@@ -23,7 +23,7 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
     ECircleImmutable(center, radius) {
     constructor(center: EPoint, radius: Number) : this(center, radius.f)
 
-    fun copy() = ECircle(center.copy(), radius)
+    fun copy(buffer: ECircle = ECircle()) = ECircle(center.copy(buffer.center), radius)
 
     override var x: Float
         get() = super.x
@@ -84,15 +84,18 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
     fun offset(other: EPoint) = offset(other.x, other.y)
 
 
-    private fun pointAtAnchor(x: Number, y: Number): EPoint {
-        val origin = center.x - radius point center.y - radius
+    private fun pointAtAnchor(x: Number, y: Number, buffer: EPoint = EPoint()): EPoint {
+        val origin = buffer.set(center.x - radius, center.y - radius)
         val size = radius * 2
         return EPoint(x = origin.x + size * x.f, y = origin.y + size * y.f)
     }
 
-    private fun pointAtAnchor(anchor: EPoint) = pointAtAnchor(anchor.x, anchor.y)
-    fun scaledAnchor(to: Number, x: Number, y: Number) = scaledRelative(to, relativeTo = pointAtAnchor(x, y))
-    fun scaledAnchor(to: Number, anchor: EPointImmutable = EPointImmutable.half) = scaledAnchor(to, anchor.x, anchor.y)
+    private fun pointAtAnchor(anchor: EPoint, buffer: EPoint = EPoint()) = pointAtAnchor(anchor.x, anchor.y, buffer)
+    fun scaledAnchor(to: Number, x: Number, y: Number, buffer: EPoint = EPoint()) =
+        scaledRelative(to, relativeTo = pointAtAnchor(x, y, buffer))
+
+    fun scaledAnchor(to: Number, anchor: EPointImmutable = EPointImmutable.half, buffer: EPoint = EPoint()) =
+        scaledAnchor(to, anchor.x, anchor.y, buffer)
 
     fun scaledRelative(to: Number, relativeTo: EPointImmutable = EPointImmutable.half): ECircle {
         val to = to.f

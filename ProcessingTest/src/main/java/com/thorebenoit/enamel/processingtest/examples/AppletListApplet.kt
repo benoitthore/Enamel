@@ -8,9 +8,9 @@ import processing.core.PApplet
 import processing.event.MouseEvent
 
 class AppletListApplet : KotlinPApplet() {
-    init {
-        AllocationTracker.debugAllocations = false
-    }
+//    init {
+//        AllocationTracker.debugAllocations = false
+//    }
 
     val appletList = listOf(
         RadarApplet::class.java,
