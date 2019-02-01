@@ -20,9 +20,11 @@ class BasicCock : KotlinPApplet() {
     override fun settings() {
         super.settings()
         esize = 800 size 800
+
     }
 
-    var step = 0f
+    var step = (-90f) * 60
+    var speed = 1.5f
     override fun draw() {
         background(0)
 
@@ -37,8 +39,8 @@ class BasicCock : KotlinPApplet() {
         kotlin.run {
             stroke(255f, 0f, 0f)
             val angle = step.degrees()
-            val start = circle.center.copy()
-            val end = start.copy().offsetAngle(angle, circle.radius * 0.75)
+            val start = circle.center
+            val end = start.rotateBy(angle, circle.radius * 0.75)
             line(start.x, start.y, end.x, end.y)
         }
 
@@ -46,13 +48,13 @@ class BasicCock : KotlinPApplet() {
         kotlin.run {
             stroke(0f, 0f, 255f)
             val angle = (step / 12).degrees()
-            val start = circle.center.copy()
-            val end = start.copy().offsetAngle(angle, circle.radius * 0.5)
+            val start = circle.center
+            val end = start.offsetAngle(angle, circle.radius * 0.5)
             line(start.x, start.y, end.x, end.y)
         }
 
 
-        step += (360f) / 60f
+        step += ((360f) / 60f) * speed
 
     }
 

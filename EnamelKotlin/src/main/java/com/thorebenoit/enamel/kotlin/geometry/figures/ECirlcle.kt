@@ -49,6 +49,7 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
         return this
     }
 
+    // TODO Something isn't working in this function
     fun pointsInList(list: MutableList<EPoint>, startAt: EAngleImmutable? = null): List<EPoint> {
         if (list.isEmpty()) { // Don't divide by zero
             return list
@@ -57,17 +58,18 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
         val degreesPerStep = 360f / list.size
         val extra = startAt?.degrees?.i ?: 0
         val fromAngle = 0f + extra
-        val toAngle = 360f + extra
+//        val toAngle = 360f + extra
 
 
         var currAngle = fromAngle
         var i = 0
         while (i < list.size) {
             val angle = currAngle.degrees()
-            val point = list[i]
 
+            val point = list[i]
             point.set(center)
-            point.offsetAngle(angle, radius)
+            point.offsetAngle(angle, radius, point)
+            list[i] = point
 
             currAngle += degreesPerStep
             i++

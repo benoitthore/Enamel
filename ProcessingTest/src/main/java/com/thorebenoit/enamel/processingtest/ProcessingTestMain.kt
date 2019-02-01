@@ -11,13 +11,16 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 import com.thorebenoit.enamel.processingtest.examples.AppletListApplet
+import com.thorebenoit.enamel.processingtest.examples.BasicCock
+import com.thorebenoit.enamel.processingtest.examples.FractalSnowApplet
+import com.thorebenoit.enamel.processingtest.examples.TestApplet
 import processing.core.PApplet
 
 
 object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
-        PApplet.main(MainApplet::class.java)
+        PApplet.main(TestApplet::class.java)
     }
 
 }

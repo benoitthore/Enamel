@@ -116,7 +116,7 @@ open class ERectImmutable(
     fun pointAtAnchor(x: Number, y: Number, buffer: EPoint = EPoint()): EPoint =
         buffer.set(x = origin.x + size.width * x.f, y = origin.y + size.height * y.f)
 
-    fun pointAtAnchor(anchor: EPointImmutable, buffer: EPoint) = pointAtAnchor(anchor.x, anchor.y, buffer)
+    fun pointAtAnchor(anchor: EPointImmutable, buffer: EPoint = EPoint()) = pointAtAnchor(anchor.x, anchor.y, buffer)
 
     fun anchorAtPoint(x: Number, y: Number, buffer: EPoint = EPoint()): EPoint {
         val x = if (width == 0f) .5f else x.f / width
@@ -127,7 +127,7 @@ open class ERectImmutable(
     fun center(buffer: EPoint = EPoint()): EPoint = pointAtAnchor(0.5f, 0.5f, buffer)
 
     // Shapes
-    fun innerCircle(buffer: ECircle): ECircle {
+    fun innerCircle(buffer: ECircle = ECircle()): ECircle {
         center(buffer.center) // set circles center to rect center
         buffer.radius = size.min / 2
         return buffer

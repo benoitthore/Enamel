@@ -24,7 +24,6 @@ open class EPointImmutable(open val x: Float = 0f, open val y: Float = 0f) {
     fun toImmutable() = EPointImmutable(x, y)
 
 
-
     fun angleTo(point: EPoint): EAngle =
         Math.atan2(
             ((point.y - y).d), ((point.x - x).d)
@@ -33,7 +32,6 @@ open class EPointImmutable(open val x: Float = 0f, open val y: Float = 0f) {
     fun magnitude() = Math.hypot(x.d, y.d)
     fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)
     fun distanceTo(x2: Number, y2: Number) = Math.hypot((x2.d - x), (y2.d - y)).f
-
 
 
     override fun toString(): String {
@@ -71,12 +69,15 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointImm
     selfOffset
     selfScale
     self ...
+
+    Self functions should be in point, other should be in immutable
      */
 
 
     override fun reset() {
         set(0, 0)
     }
+
     fun copy(buffer: EPoint = EPoint()) = buffer.set(x, y)
 
 
@@ -90,15 +91,20 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointImm
     fun offset(n: Number, buffer: EPoint = EPoint()) = offset(n, n, buffer)
     fun offset(other: EPoint, buffer: EPoint = EPoint()) = offset(other.x, other.y, buffer)
 
-    fun offsetTowards(distance: Number, towards: EPoint, buffer: EPoint = EPoint()): EPoint {
+    fun offsetTowards(towards: EPoint, distance: Number, buffer: EPoint = EPoint()): EPoint {
         val fromX = x
         val fromY = y
         buffer.set(angle = angleTo(towards), magnitude = distance)
         return buffer.set(buffer.x + fromX, buffer.y + fromY)
     }
 
-    fun offsetFrom(distance: Number, from: EPoint, buffer: EPoint = EPoint()) =
-        from.offsetTowards(distance, this, buffer)
+    fun offsetFrom(from: EPoint, distance: Number, buffer: EPoint = EPoint()) =
+        from.offsetTowards(this, distance, buffer)
+
+
+    fun scale(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x * x.f, this.y * y.f)
+    fun scale(n: Number, buffer: EPoint = EPoint()) = scale(n, n, buffer)
+    fun scale(other: EPoint, buffer: EPoint = EPoint()) = scale(other.x, other.y, buffer)
 
     fun offsetAngle(angle: EAngle, distance: Number, buffer: EPoint = EPoint()): EPoint {
         val fromX = x
@@ -106,11 +112,7 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointImm
         buffer.set(angle, distance)
         return buffer.set(buffer.x + fromX, buffer.y + fromY)
     }
-
-    fun scale(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x * x.f, this.y * y.f)
-    fun scale(n: Number, buffer: EPoint = EPoint()) = scale(n, n, buffer)
-    fun scale(other: EPoint, buffer: EPoint = EPoint()) = scale(other.x, other.y, buffer)
-
+// TODO Rotate by == offsetAngle -> Pick one
     fun rotateBy(angle: EAngle, magnitude: Number, buffer: EPoint = EPoint()): EPoint {
         val magnitude = magnitude.f
         return buffer.set(x + angle.cos * magnitude, y + angle.sin * magnitude)
