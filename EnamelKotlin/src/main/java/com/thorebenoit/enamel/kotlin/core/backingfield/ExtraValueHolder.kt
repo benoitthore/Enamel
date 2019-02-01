@@ -2,6 +2,7 @@ package com.thorebenoit.enamel.kotlin.core.backingfield
 
 
 import java.lang.ref.ReferenceQueue
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -10,7 +11,7 @@ class ExtraValueHolder<K : Any, V>(onGcCallback: (Int, Int) -> Unit = { before, 
     ReadWriteProperty<K, V> {
     private val referenceQueue = ReferenceQueue<K>()
 
-    val referenceMap = referenceMap<K, V>(referenceQueue, onGcCallback)
+    val referenceMap : ConcurrentHashMap<IdentityWeakReference<K>,V> = referenceMap(referenceQueue, onGcCallback)
 
     override fun getValue(thisRef: K, property: KProperty<*>): V =
         referenceMap[thisRef.toIdentity()]
