@@ -7,6 +7,7 @@ import com.thorebenoit.enamel.kotlin.threading.coroutine
 import com.thorebenoit.enamel.kotlin.core.tryCatch
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
+import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import processing.core.PApplet
 import processing.event.KeyEvent
@@ -39,6 +40,12 @@ abstract class KotlinPApplet : PApplet() {
             }
         }
     val ecenter get() = allocate { eframe.center(EPoint()) }
+
+    fun <T : EPointImmutable> T.draw(): T {
+        point(x, y)
+        return this
+    }
+
 
     fun <T : ECircleImmutable> T.draw(): T {
         ellipse(x, y, radius * 2, radius * 2)
