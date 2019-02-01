@@ -104,7 +104,7 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointImm
         val fromX = x
         val fromY = y
         buffer.set(angle, distance)
-        return set(buffer.x + fromX, buffer.y + fromY)
+        return buffer.set(buffer.x + fromX, buffer.y + fromY)
     }
 
     fun scale(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x * x.f, this.y * y.f)
