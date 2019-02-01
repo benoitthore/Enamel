@@ -1,4 +1,4 @@
-package com.thorebenoit.enamel.kotlin.core
+package com.thorebenoit.enamel.kotlin.core.map
 
 fun <K, V> MutableMap<K, V>.removeWhen(block: (K, V) -> Boolean) {
     val remove = mutableListOf<K>()
