@@ -20,7 +20,10 @@ inline fun <K, V> Map<out K, V>._forEach(action: (K, V) -> Unit) {
 }
 
 
-fun <K, V> ConcurrentWeakIdentityHashMap<K, V>.clearOnGC(referenceQueue: ReferenceQueue<K>): ConcurrentWeakIdentityHashMap<K, V> {
+fun <K : Any, V> ConcurrentWeakIdentityHashMap<K, V>.clearOnGC(
+    referenceQueue: ReferenceQueue<K>,
+    onGcCallback: (Int, Int) -> Unit = { before, after -> }
+): ConcurrentWeakIdentityHashMap<K, V> {
 
     GlobalScope.launch {
         while (true) {
@@ -31,15 +34,22 @@ fun <K, V> ConcurrentWeakIdentityHashMap<K, V>.clearOnGC(referenceQueue: Referen
             // Empty the reference queue so the next bit of code runs only once per GC
             while (referenceQueue.poll() != null);
 
+            val before = size
             // Remove all the references that are null
             removeWhen { k, v ->
                 v == null
             }
+            val after = size
+
+            onGcCallback(before, after)
         }
     }
 
     return this
 }
 
-fun <K, V> referenceMap(referenceQueue: ReferenceQueue<K>) =
-    ConcurrentWeakIdentityHashMap<K, V>(referenceQueue).clearOnGC(referenceQueue)
+fun <K : Any, V> referenceMap(
+    referenceQueue: ReferenceQueue<K>,
+    onGcCallback: (Int, Int) -> Unit = { before, after -> }
+) =
+    ConcurrentWeakIdentityHashMap<K, V>(referenceQueue).clearOnGC(referenceQueue, onGcCallback)

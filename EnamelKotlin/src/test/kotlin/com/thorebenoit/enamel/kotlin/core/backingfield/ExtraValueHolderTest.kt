@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.core.backingfield
 
+import com.thorebenoit.enamel.kotlin.core.print
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -41,10 +42,37 @@ class ExtraValueHolderTest {
         object1.extraValue = value1
         object1.extraValue = value2
 
-        assertEquals(value2,object1.extraValue)
+        assertEquals(value2, object1.extraValue)
 
-        assertEquals(1,holder.referenceMap.size)
+        assertEquals(1, holder.referenceMap.size)
 
 
     }
+
+
+    val onGcCallback = { before: Int, after: Int ->
+        println("GC : $before -> $after")
+    }
+    val byteArrayValueHolder = ExtraValueHolder<Any, ByteArray>(onGcCallback) { byteArrayOf(0) }
+    var Any.someByteArray: ByteArray by byteArrayValueHolder
+
+    @Test
+    fun garabage_collection_test() {
+
+        val bigNumber = 1_000_000
+        // Allocates a lot and see if it crashes
+
+
+        (0..1000).forEach {
+            //            byteArrayValueHolder.referenceMap.size.print
+            Math.random().toString().someByteArray = ByteArray(bigNumber)
+        }
+
+        "Finished".print
+
+        byteArrayValueHolder.referenceMap.size.print
+
+    }
+
+
 }

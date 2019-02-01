@@ -6,10 +6,11 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 
-class ExtraValueHolder<K, V>(val default: K.() -> V) : ReadWriteProperty<K, V> {
+class ExtraValueHolder<K : Any, V>(onGcCallback: (Int, Int) -> Unit = { before, after -> },val default: K.() -> V) :
+    ReadWriteProperty<K, V> {
     private val referenceQueue = ReferenceQueue<K>()
 
-    val referenceMap = referenceMap<K, V>(referenceQueue)
+    val referenceMap = referenceMap<K, V>(referenceQueue, onGcCallback)
 
     override fun getValue(thisRef: K, property: KProperty<*>): V =
         referenceMap[thisRef]
