@@ -5,18 +5,17 @@ import java.lang.ref.WeakReference
 import java.util.concurrent.ConcurrentHashMap
 
 
-
 class IdentityWeakReference<T> : WeakReference<T> {
 
     private val hash: Int
 
 
-    constructor(p0: T) : super(p0) {
-        hash = System.identityHashCode(p0)
+    constructor(value: T) : super(value) {
+        hash = System.identityHashCode(value)
     }
 
-    constructor(p0: T, p1: ReferenceQueue<in T>?) : super(p0, p1) {
-        hash = System.identityHashCode(p0)
+    constructor(value: T, referenceQueue: ReferenceQueue<in T>?) : super(value, referenceQueue) {
+        hash = System.identityHashCode(value)
     }
 
 

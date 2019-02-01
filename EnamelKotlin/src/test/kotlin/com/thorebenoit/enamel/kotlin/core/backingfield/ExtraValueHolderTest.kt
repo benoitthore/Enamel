@@ -64,7 +64,6 @@ class ExtraValueHolderTest {
 
 
         (0..1000).forEach {
-            //            byteArrayValueHolder.referenceMap.size.print
             Math.random().toString().someByteArray = ByteArray(bigNumber)
         }
 
