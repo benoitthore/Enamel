@@ -1,4 +1,4 @@
-# Backing fields for Kotlin extention variables (Work In Progress)
+# Backing fields for Kotlin extension variables (Work In Progress)
 
 The ExtraValueHolder delegates allows backing fields on classes without having to extend them by storing keys and values in a map with WeakReferences so it doesn't create memory leaks.
 
