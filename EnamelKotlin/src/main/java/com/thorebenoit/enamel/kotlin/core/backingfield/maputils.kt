@@ -3,6 +3,7 @@ package com.thorebenoit.enamel.kotlin.core.backingfield
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.lang.ref.ReferenceQueue
+import java.util.concurrent.ConcurrentHashMap
 
 
 fun <K, V> MutableMap<K, V>.removeWhen(block: (K, V) -> Boolean) {
@@ -20,10 +21,10 @@ inline fun <K, V> Map<out K, V>._forEach(action: (K, V) -> Unit) {
 }
 
 
-fun <K : Any, V> ConcurrentWeakIdentityHashMap<K, V>.clearOnGC(
+fun <K : Any, V> ConcurrentHashMap<IdentityWeakReference<K>, V>.clearOnGC(
     referenceQueue: ReferenceQueue<K>,
     onGcCallback: (Int, Int) -> Unit = { before, after -> }
-): ConcurrentWeakIdentityHashMap<K, V> {
+): ConcurrentHashMap<IdentityWeakReference<K>, V> {
 
     GlobalScope.launch {
         while (true) {
@@ -52,4 +53,4 @@ fun <K : Any, V> referenceMap(
     referenceQueue: ReferenceQueue<K>,
     onGcCallback: (Int, Int) -> Unit = { before, after -> }
 ) =
-    ConcurrentWeakIdentityHashMap<K, V>(referenceQueue).clearOnGC(referenceQueue, onGcCallback)
+    ConcurrentHashMap<IdentityWeakReference<K>, V>(mutableMapOf()).clearOnGC(referenceQueue, onGcCallback)
