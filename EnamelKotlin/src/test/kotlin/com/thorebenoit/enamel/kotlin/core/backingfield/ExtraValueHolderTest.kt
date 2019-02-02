@@ -14,11 +14,12 @@ class ExtraValueHolderTest {
         ExtraValueHolder<Any, String> { "defaultValue" }
     private var Any.extraValue: String by holder
 
+    data class SomeClass(val i : Int = 0)
     @Test
     fun test_value_assign() {
-        val object1 = "object1"
-        val object2 = "object2"
-        val object3 = "object3"
+        val object1 = SomeClass()
+        val object2 = SomeClass()
+        val object3 = SomeClass()
 
         val object1Value = "object1Value"
         val object2Value = "object2Value"
@@ -36,7 +37,7 @@ class ExtraValueHolderTest {
 
     @Test
     fun test_re_assign_keeps_map_size_consistent() {
-        val object1 = "object1"
+        val object1 = SomeClass()
 
         val value1 = "11111"
         val value2 = "22222"
@@ -53,7 +54,7 @@ class ExtraValueHolderTest {
 
 
     val onGcCallback = { before: Int, after: Int ->
-        println("GC : $before -> $after")
+//        println("GC : $before -> $after")
     }
     val byteArrayValueHolder = ExtraValueHolder<Any, ByteArray>(onGcCallback) { byteArrayOf(0) }
     var Any.someByteArray: ByteArray by byteArrayValueHolder
@@ -61,7 +62,7 @@ class ExtraValueHolderTest {
     @Test
     fun garbage_collection_test() {
 
-        val bigNumber = 10_000_000
+        val bigNumber = 1_000_000
         // Allocates a lot and see if it crashes
 
 
