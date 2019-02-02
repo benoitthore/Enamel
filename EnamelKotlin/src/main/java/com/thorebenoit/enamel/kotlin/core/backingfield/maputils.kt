@@ -38,7 +38,7 @@ fun <K : Any, V> ConcurrentHashMap<IdentityWeakReference<K>, V>.clearOnGC(
             val before = size
             // Remove all the references that are null
             removeWhen { k, v ->
-                v == null
+                k.get() == null
             }
             val after = size
 
