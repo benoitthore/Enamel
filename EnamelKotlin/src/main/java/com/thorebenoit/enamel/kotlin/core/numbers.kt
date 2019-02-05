@@ -9,6 +9,9 @@ inline val Number.d get() = toDouble()
 inline val Number.L get() = toLong()
 inline val Number.b get() = toByte()
 
+inline val Number.percent get() = f / 100f
+
+
 
 private val RANDOM = Random()
 
