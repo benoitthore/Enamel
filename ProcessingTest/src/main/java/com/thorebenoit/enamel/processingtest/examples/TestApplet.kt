@@ -22,7 +22,7 @@ class TestApplet : KotlinPApplet() {
         circle = eframe.innerCircle().inset(100)
 
         onMouseClicked {
-                        (i++).print
+            (i++).print
             loop()
         }
     }

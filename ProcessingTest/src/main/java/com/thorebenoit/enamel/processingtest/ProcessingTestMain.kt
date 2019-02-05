@@ -1,19 +1,14 @@
 package com.thorebenoit.enamel.processingtest
 
-import com.thorebenoit.enamel.kotlin.core.*
+import com.thorebenoit.enamel.kotlin.core.colorHSL
+import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
-import com.thorebenoit.enamel.kotlin.geometry.primitives.point
-import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import com.thorebenoit.enamel.kotlin.geometry.toRect
-import com.thorebenoit.enamel.processingtest.examples.AppletListApplet
-import com.thorebenoit.enamel.processingtest.examples.BasicCock
-import com.thorebenoit.enamel.processingtest.examples.FractalSnowApplet
-import com.thorebenoit.enamel.processingtest.examples.TestApplet
 import processing.core.PApplet
 
 
