@@ -20,7 +20,7 @@ import processing.core.PApplet
 object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
-        PApplet.main(TestApplet::class.java)
+        PApplet.main(MainApplet::class.java)
     }
 
 }

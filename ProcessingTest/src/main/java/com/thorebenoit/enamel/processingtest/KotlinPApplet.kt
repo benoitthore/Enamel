@@ -9,6 +9,7 @@ import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
+import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import processing.core.PApplet
 import processing.event.KeyEvent
 import processing.event.MouseEvent
@@ -30,19 +31,13 @@ abstract class KotlinPApplet : PApplet() {
     var esize: ESize
         get() = allocate { width size height }
         set(value) {
-            tryCatch({
-                size(value.width.i, value.height.i)
-            }) {
-                coroutine {
-                    kotlinx.coroutines.delay(10)
-                    esize = value
-                }
-            }
+            size(value.width.i, value.height.i)
         }
     val ecenter get() = allocate { eframe.center(EPoint()) }
 
     fun <T : EPointImmutable> T.draw(): T {
-        point(x, y)
+//        point(x, y)
+        toCircle(6).draw()
         return this
     }
 
