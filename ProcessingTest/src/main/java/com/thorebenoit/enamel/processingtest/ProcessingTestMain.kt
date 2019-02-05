@@ -57,7 +57,7 @@ class MainApplet : KotlinPApplet() {
 
     val sizes = allocate { List(5) { ESize(40, 40) } }
     val rectGroup = allocate {
-        ERectGroup(sizes.map { it.toRect() }, ESize(), EPoint()) // TODO Extra this
+        ERectGroup(sizes.map { it.toRect() }, ESize(), EPoint())
     }
 
     override fun draw() {

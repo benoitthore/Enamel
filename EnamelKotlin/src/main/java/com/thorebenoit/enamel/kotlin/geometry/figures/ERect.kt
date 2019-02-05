@@ -350,19 +350,3 @@ fun ERectAnchorPos(anchor: EPointImmutable, position: EPointImmutable, size: ESi
     )
 
 
-// TODO Not required but how would this work ?
-/*
-fun ERectSquareOrigin(width: Number, origin: EPointImmutable = EPointImmutable.zero) = ERect(origin, width, width)
-fun ERectSquareCenter(width: Number, center: EPointImmutable = EPointImmutable.zero) = ERectCenter(center, width, width)
- */
-
-
-/*
-fun ERectSquareOrigin(width: Number, origin: EPointImmutable = XPoint.zero) = ERect(origin, width, width)
-fun ERectSquareCenter(width: Number, center: EPointImmutable = XPoint.zero) = ERectCenter(center, width, width)
-
-
-
-
-*/
-

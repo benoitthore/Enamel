@@ -21,7 +21,7 @@ data class Segment(val start: EPoint, val end: EPoint) {
         val e = end.copy()
 
         val b = start.offsetTowards(end, length)
-        val c = b.rotateBy((-60).degrees(), length) // TODO Fix
+        val c = b.offsetAngle((-60).degrees(), length) // TODO Fix
         val d = start.offsetTowards(end, length * 2)
 //
 

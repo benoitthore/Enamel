@@ -40,7 +40,7 @@ class BasicCock : KotlinPApplet() {
             stroke(255f, 0f, 0f)
             val angle = step.degrees()
             val start = circle.center
-            val end = start.rotateBy(angle, circle.radius * 0.75)
+            val end = start.offsetAngle(angle, circle.radius * 0.75)
             line(start.x, start.y, end.x, end.y)
         }
 

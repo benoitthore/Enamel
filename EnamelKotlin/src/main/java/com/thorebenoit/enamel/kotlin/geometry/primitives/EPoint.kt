@@ -39,9 +39,9 @@ open class EPointImmutable(open val x: Float = 0f, open val y: Float = 0f) {
     }
 
     override fun equals(other: Any?): Boolean = (other as? EPointImmutable)?.let { it.x == x && it.y == y } ?: false
-    // TODO
-//    operator fun component1() = x
-//    operator fun component2() = y
+
+    operator fun component1() = x
+    operator fun component2() = y
 
     override fun hashCode(): Int {
         var result = x.hashCode()
@@ -82,6 +82,7 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointImm
 
 
     fun set(x: Number, y: Number) = apply { this.x = x.f; this.y = y.f }
+
     fun set(other: EPointImmutable) = set(other.x, other.y)
 
     fun set(angle: EAngle, magnitude: Number) =
@@ -111,11 +112,6 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointImm
         val fromY = y
         buffer.set(angle, distance)
         return buffer.set(buffer.x + fromX, buffer.y + fromY)
-    }
-// TODO Rotate by == offsetAngle -> Pick one
-    fun rotateBy(angle: EAngle, magnitude: Number, buffer: EPoint = EPoint()): EPoint {
-        val magnitude = magnitude.f
-        return buffer.set(x + angle.cos * magnitude, y + angle.sin * magnitude)
     }
 
     fun rotateAround(angle: EAngle, center: EPoint, buffer: EPoint = EPoint()): EPoint {

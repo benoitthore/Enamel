@@ -19,7 +19,7 @@ typealias GuideStyle = Int
 
 fun ConstraintLayout.prepareConstraints(init: ConstraintSetBuilder.() -> Unit): ConstraintSet {
 
-    /* TODO Find a better way
+    /* IMPROVE Find a better way:
         This is a hack to get the ConstraintLayout to pick-up its children IDs,
         If View.id is set after it's been added to a ConstraintLayout, the ConstraintLayout won't registered the children ID
      */
