@@ -7,7 +7,7 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
+import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 import processing.core.PApplet
 
@@ -25,7 +25,7 @@ These function are used to help drawing only, they shouldn't be put in the libra
  */
 private operator fun ESizeImmutable.div(n: Number) = ESize(width / n.f, height / n.f)
 
-private operator fun EPointImmutable.div(n: Number) = EPoint(x / n.f, y / n.f)
+private operator fun EPointType.div(n: Number) = EPoint(x / n.f, y / n.f)
 
 ///
 class MainApplet : KotlinPApplet() {

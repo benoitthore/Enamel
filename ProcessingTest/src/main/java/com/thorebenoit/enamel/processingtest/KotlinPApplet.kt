@@ -3,11 +3,9 @@ package com.thorebenoit.enamel.processingtest
 import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.core.i
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
-import com.thorebenoit.enamel.kotlin.threading.coroutine
-import com.thorebenoit.enamel.kotlin.core.tryCatch
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
+import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import processing.core.PApplet
@@ -35,7 +33,7 @@ abstract class KotlinPApplet : PApplet() {
         }
     val ecenter get() = allocate { eframe.center(EPoint()) }
 
-    fun <T : EPointImmutable> T.draw(): T {
+    fun <T : EPointType> T.draw(): T {
 //        point(x, y)
         toCircle(6).draw()
         return this

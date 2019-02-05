@@ -4,9 +4,10 @@ import com.thorebenoit.enamel.kotlin.core.Resetable
 import com.thorebenoit.enamel.kotlin.core.d
 import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
+import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
+import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 
 /*
 This class should be the example to follow in order to implement mutability
@@ -22,7 +23,7 @@ Create the API without default arguments for buffer in order to make sure no all
 
  */
 open class ERectImmutable(
-    open val origin: EPointImmutable = EPointImmutable(),
+    open val origin: EPointType = EPointType(),
     open val size: ESizeImmutable = ESizeImmutable()
 ) {
     init {
@@ -50,7 +51,7 @@ open class ERectImmutable(
         get() = origin.y
 
 
-    fun contains(p: EPointImmutable) = contains(p.x, p.y)
+    fun contains(p: EPointType) = contains(p.x, p.y)
 
     fun contains(x: Number, y: Number): Boolean {
         val x = x.f
@@ -116,7 +117,7 @@ open class ERectImmutable(
     fun pointAtAnchor(x: Number, y: Number, buffer: EPoint = EPoint()): EPoint =
         buffer.set(x = origin.x + size.width * x.f, y = origin.y + size.height * y.f)
 
-    fun pointAtAnchor(anchor: EPointImmutable, buffer: EPoint = EPoint()) = pointAtAnchor(anchor.x, anchor.y, buffer)
+    fun pointAtAnchor(anchor: EPointType, buffer: EPoint = EPoint()) = pointAtAnchor(anchor.x, anchor.y, buffer)
 
     fun anchorAtPoint(x: Number, y: Number, buffer: EPoint = EPoint()): EPoint {
         val x = if (width == 0f) .5f else x.f / width
@@ -192,13 +193,13 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     fun copy(buffer: ERect = ERect()) = ERect(origin.copy(buffer.origin), size.copy(buffer.size))
 
     fun set(
-        origin: EPointImmutable = this.origin,
+        origin: EPointType = this.origin,
         size: ESizeImmutable = this.size
     ) =
         set(origin.x, origin.y, size.width, size.height)
 
     fun set(
-        origin: EPointImmutable = this.origin,
+        origin: EPointType = this.origin,
         width: Number = this.width,
         height: Number = this.height
     ) =
@@ -280,7 +281,7 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     }
 
     fun inset(margin: Number, buffer: ERect = this) = inset(margin, margin, buffer)
-    fun inset(p: EPointImmutable, buffer: ERect = this) = inset(p.x, p.y, buffer)
+    fun inset(p: EPointType, buffer: ERect = this) = inset(p.x, p.y, buffer)
     fun inset(x: Number = 0, y: Number = 0, buffer: ERect = this): ERect {
         val x = x.f
         val y = y.f
@@ -292,7 +293,7 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     }
 
     fun expand(margin: Number, buffer: ERect = this) = expand(margin, margin, buffer)
-    fun expand(p: EPointImmutable, buffer: ERect = this) = expand(p.x, p.y, buffer)
+    fun expand(p: EPointType, buffer: ERect = this) = expand(p.x, p.y, buffer)
     fun expand(x: Number = 0f, y: Number = 0f, buffer: ERect = this) = inset(-x.f, -y.f, buffer)
 
 
@@ -342,7 +343,7 @@ fun ERectSides(left: Number, top: Number, right: Number, bottom: Number, buffer:
     return buffer
 }
 
-fun ERectAnchorPos(anchor: EPointImmutable, position: EPointImmutable, size: ESize, buffer: ERect = ERect()) =
+fun ERectAnchorPos(anchor: EPointType, position: EPointType, size: ESize, buffer: ERect = ERect()) =
     buffer.set(
         x = position.x - size.width * anchor.x,
         y = position.y - size.height * anchor.y,

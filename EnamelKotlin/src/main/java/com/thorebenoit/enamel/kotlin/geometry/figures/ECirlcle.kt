@@ -6,7 +6,7 @@ import com.thorebenoit.enamel.kotlin.core.i
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 
-open class ECircleImmutable(open val center: EPointImmutable = EPointImmutable(), open val radius: Float = 0f) {
+open class ECircleImmutable(open val center: EPointType = EPointType(), open val radius: Float = 0f) {
 
     init {
         allocateDebugMessage()
@@ -41,7 +41,7 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
         set(0, 0, 0)
     }
 
-    fun set(center: EPointImmutable, radius: Number) = set(center.x, center.y, radius)
+    fun set(center: EPointType, radius: Number) = set(center.x, center.y, radius)
 
     fun set(x: Number, y: Number, radius: Number): ECircle {
         this.center.set(x, y)
@@ -98,10 +98,10 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
     fun scaledAnchor(to: Number, x: Number, y: Number, buffer: EPoint = EPoint()) =
         scaledRelative(to, relativeTo = pointAtAnchor(x, y, buffer))
 
-    fun scaledAnchor(to: Number, anchor: EPointImmutable = EPointImmutable.half, buffer: EPoint = EPoint()) =
+    fun scaledAnchor(to: Number, anchor: EPointType = EPointType.half, buffer: EPoint = EPoint()) =
         scaledAnchor(to, anchor.x, anchor.y, buffer)
 
-    fun scaledRelative(to: Number, relativeTo: EPointImmutable = EPointImmutable.half): ECircle {
+    fun scaledRelative(to: Number, relativeTo: EPointType = EPointType.half): ECircle {
         val to = to.f
         val newCenterX = center.x + (relativeTo.x - center.x) * (1 - to)
         val newCenterY = center.x + (relativeTo.x - center.x) * (1 - to)

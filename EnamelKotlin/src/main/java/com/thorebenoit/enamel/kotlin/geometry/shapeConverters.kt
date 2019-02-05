@@ -5,10 +5,10 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ECircle
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeImmutable
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointImmutable
+import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 
 
-fun EPointImmutable.toCircle(radius: Number, buffer: ECircle = ECircle()): ECircle {
+fun EPointType.toCircle(radius: Number, buffer: ECircle = ECircle()): ECircle {
     buffer.center.set(this)
     buffer.radius = radius.f
     return buffer
