@@ -2,22 +2,31 @@ package com.thorebenoit.enamel.kotlin.geometry.figures
 
 import com.thorebenoit.enamel.kotlin.geometry.GeometryBufferProvider
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 
-class ERectGroup(val rects: List<ERect>, sizeBuffer: ESize, originBuffer: EPoint) {
-    fun frame(buffer: ERect) = buffer.set(origin = origin, size = size)
+class ERectGroup(private val _rects: List<ERect>, private val overrideFrame: ERectType? = null) {
+    fun frame(buffer: ERect = ERect()) = buffer.set(origin = origin, size = _size)
 
-    val size: ESize
-    // TODO Setting the origin doesn't offset the other rectangles
-    val origin: EPoint
+    val size: ESizeImmutable get() = _size
+    val origin: EPointType get() = _origin
+    val rects: List<ERectType> get() = _rects
+
+    private val _origin: EPoint
+    private val _size: ESize
 
 
     init {
-        val frameTmp = rects.union(GeometryBufferProvider.rect())
-        size = frameTmp.size.copy(sizeBuffer)
-        origin = frameTmp.origin.copy(originBuffer)
+        val frameTmp = overrideFrame ?: _rects.union(GeometryBufferProvider.rect())
+        _size = allocate { frameTmp.size.copy() }
+        _origin = allocate { frameTmp.origin.copy() }
+    }
+
+    fun offsetOrigin(x: Number, y: Number) {
+        _origin.selfOffset(x, y)
+        _rects.forEach { it.selfOffset(x, y) }
     }
 
     fun aligned(anchor: EPointType, position: EPointType) {
@@ -27,37 +36,33 @@ class ERectGroup(val rects: List<ERect>, sizeBuffer: ESize, originBuffer: EPoint
         val offsetX = position.x - pointAtAnchor.x
         val offsetY = position.y - pointAtAnchor.y
 
-        origin.selfOffset(offsetX, offsetY)
-        // TODO remove this
-        rects.forEach { it.offset(offsetX, offsetY) }
+        offsetOrigin(offsetX, offsetY)
     }
 }
 
+// Allocates because this is essentially a constructor
 fun List<ESize>.rectGroup(
-    alignement: EAlignment,
+    alignment: EAlignment,
     anchor: EPointType = EPointType.zero,
     position: EPointType = EPointType.zero,
     padding: EOffset = EOffset.zero,
-    spacing: Number = 0,
-    buffer: ERectGroup
+    spacing: Number = 0
 ): ERectGroup {
-    if (buffer.rects.size < size) {
-        throw Exception("Buffer size too small: ${buffer.rects} but needs at least $size")
-    }
 
 
-    var prev = GeometryBufferProvider.rect()
+    var prev = allocate { ERect() }
     val rects = mapIndexed { i, size ->
-        prev = prev.rectAlignedOutside(
-            aligned = alignement,
-            size = size,
-            spacing = if (prev.size == ESizeImmutable.zero) 0 else spacing,
-            buffer = buffer.rects[i]
-        )
+        prev = allocate {
+            prev.rectAlignedOutside(
+                aligned = alignment,
+                size = size,
+                spacing = if (prev.size == ESizeImmutable.zero) 0 else spacing
+            )
+        }
         prev
     }
 
-    val rectGroup = ERectGroup(rects, buffer.size, buffer.origin)
+    val rectGroup = allocate { ERectGroup(rects, rects.union().selfPadding(padding)) }
     rectGroup.aligned(anchor, position)
 
     return rectGroup

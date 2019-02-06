@@ -1,6 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
-fun List<ERectType>.union(buffer: ERect): ERect {
+fun List<ERectType>.union(buffer: ERect = ERect()): ERect {
     if (isEmpty()) {
         return ERect()
     }

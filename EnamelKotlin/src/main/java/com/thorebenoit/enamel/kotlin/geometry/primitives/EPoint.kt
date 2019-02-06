@@ -20,6 +20,7 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
 
     fun toMutable(buffer: EPoint = EPoint()) = buffer.set(x, y)
     fun toImmutable() = EPointType(x, y)
+    fun copy(buffer: EPoint = EPoint()) = buffer.set(x, y)
 
 
     fun angleTo(point: EPointType): EAngle =
@@ -101,8 +102,6 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointTyp
         val half get() = EPoint(0.5f, 0.5f)
         val unit get() = EPoint(1f, 1f)
     }
-
-    fun copy(buffer: EPoint = EPoint()) = buffer.set(x, y)
 
     fun set(x: Number, y: Number) = apply { this.x = x.f; this.y = y.f }
 

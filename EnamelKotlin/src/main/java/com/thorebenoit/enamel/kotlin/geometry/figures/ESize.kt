@@ -19,6 +19,8 @@ open class ESizeImmutable(open val width: Float = 0f, open val height: Float = 0
     fun toMutable() = ESize(width, height)
     fun toImmutable() = ESizeImmutable(width, height)
 
+    fun copy(buffer: ESize = ESize()) = buffer.set(this)
+
     val min get() = Math.min(width, height)
     val max get() = Math.max(width, height)
     val diagonal get() = Math.hypot(width.d, height.d).f
@@ -27,7 +29,7 @@ open class ESizeImmutable(open val width: Float = 0f, open val height: Float = 0
 
 
     override fun equals(other: Any?): Boolean =
-        (other as? ESize)?.let { it.width == width && it.height == height } ?: false
+        (other as? ESizeImmutable)?.let { it.width == width && it.height == height } ?: false
 
     override fun toString(): String {
         return "ESize(width=$width, height=$height)"
@@ -38,8 +40,6 @@ open class ESizeImmutable(open val width: Float = 0f, open val height: Float = 0
 class ESize(override var width: Float = 0f, override var height: Float = 0f) : ESizeImmutable(width, height),
     Resetable {
     constructor(width: Number, height: Number) : this(width.f, height.f)
-
-    fun copy(buffer: ESize = ESize()) = buffer.set(this)
 
     fun set(width: Number, height: Number, buffer: ESize = this): ESize {
         this.width = width.f
