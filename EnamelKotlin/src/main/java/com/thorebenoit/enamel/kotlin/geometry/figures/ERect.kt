@@ -181,6 +181,30 @@ open class ERectImmutable(
         return ERectAnchorPos(anchor = anchor, position = position, size = buffer.size, buffer = buffer)
     }
 
+
+    // Changing
+    fun offset(x: Number = 0, y: Number = 0, buffer: ERect = ERect()): ERect {
+        buffer.origin.selfOffset(x, y)
+        return buffer
+    }
+
+    fun inset(margin: Number, buffer: ERect = ERect()) = inset(margin, margin, buffer)
+    fun inset(p: EPointType, buffer: ERect = ERect()) = inset(p.x, p.y, buffer)
+    fun inset(x: Number = 0, y: Number = 0, buffer: ERect = ERect()): ERect {
+        val x = x.f
+        val y = y.f
+        buffer.left += x
+        buffer.top += y
+        buffer.bottom -= y
+        buffer.right -= x
+        return buffer
+    }
+
+    fun expand(margin: Number, buffer: ERect = ERect()) = expand(margin, margin, buffer)
+    fun expand(p: EPointType, buffer: ERect = ERect()) = expand(p.x, p.y, buffer)
+    fun expand(x: Number = 0f, y: Number = 0f, buffer: ERect = ERect()) = inset(-x.f, -y.f, buffer)
+
+
 }
 
 class ERect(override var origin: EPoint = EPoint(), override var size: ESize = ESize()) :
@@ -273,28 +297,16 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
         }
 
 
-    // Changing
-    fun offset(x: Number = 0, y: Number = 0, buffer: ERect = this): ERect {
+    //////
+    fun selfOffset(x: Number = 0, y: Number = 0): ERect = offset(x, y, this)
 
-        buffer.origin.offset(x, y,buffer.origin)
-        return buffer
-    }
+    fun selfInset(margin: Number) = inset(margin, margin, this)
+    fun selfInset(p: EPointType) = inset(p.x, p.y, this)
+    fun selfInset(x: Number = 0, y: Number = 0) = inset(x, y, this)
 
-    fun inset(margin: Number, buffer: ERect = this) = inset(margin, margin, buffer)
-    fun inset(p: EPointType, buffer: ERect = this) = inset(p.x, p.y, buffer)
-    fun inset(x: Number = 0, y: Number = 0, buffer: ERect = this): ERect {
-        val x = x.f
-        val y = y.f
-        buffer.left += x
-        buffer.top += y
-        buffer.bottom -= y
-        buffer.right -= x
-        return buffer
-    }
-
-    fun expand(margin: Number, buffer: ERect = this) = expand(margin, margin, buffer)
-    fun expand(p: EPointType, buffer: ERect = this) = expand(p.x, p.y, buffer)
-    fun expand(x: Number = 0f, y: Number = 0f, buffer: ERect = this) = inset(-x.f, -y.f, buffer)
+    fun selfExpand(margin: Number) = expand(margin, margin, this)
+    fun selfExpand(p: EPointType) = expand(p.x, p.y, this)
+    fun selfExpand(x: Number = 0f, y: Number = 0f) = inset(-x.f, -y.f, this)
 
 
     override fun toString(): String {

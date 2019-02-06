@@ -20,7 +20,7 @@ class ERectGroup(val rects: List<ERect>, sizeBuffer: ESize, originBuffer: EPoint
         /*
         That way, ImmutablePoint only has a set of getters, TempPoint has everything but only Point is used in Rects, Circle, Etc
          */
-        // TODO Dupplicate all of the modification functions like so :
+        // TODO Duplicate all of the modification functions like so :
         /*
         selfOffset
         selfScale
@@ -42,9 +42,9 @@ class ERectGroup(val rects: List<ERect>, sizeBuffer: ESize, originBuffer: EPoint
         val offsetX = position.x - pointAtAnchor.x
         val offsetY = position.y - pointAtAnchor.y
 
-        origin.offset(offsetX, offsetY, buffer = origin)
+        origin.selfOffset(offsetX, offsetY)
         // TODO remove this
-        rects.forEach { it.offset(offsetX,offsetY) }
+        rects.forEach { it.offset(offsetX, offsetY) }
     }
 }
 
