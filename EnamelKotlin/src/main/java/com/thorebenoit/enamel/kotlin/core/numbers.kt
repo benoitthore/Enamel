@@ -10,7 +10,7 @@ inline val Number.L get() = toLong()
 inline val Number.b get() = toByte()
 
 inline val Number.percent get() = f / 100f
-
+const val œ = 0.001f // ALT + Q on Mac
 
 
 private val RANDOM = Random()

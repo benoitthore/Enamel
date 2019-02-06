@@ -1,13 +1,13 @@
 package com.thorebenoit.enamel.kotlin.animations
 
-import com.thorebenoit.enamel.kotlin.animations.keyframe.ε
 import com.thorebenoit.enamel.kotlin.core.d
 import com.thorebenoit.enamel.kotlin.core.f
+import com.thorebenoit.enamel.kotlin.core.œ
 
 typealias Interpolator = (Float) -> Float
 
 // equals 0 then equals 1 at the end
-val endInterpolator: Interpolator = { if (it > 1f - ε) 1f else 0f }
+val endInterpolator: Interpolator = { if (it > 1f - œ) 1f else 0f }
 val linearInterpolator: Interpolator = { it }
 val sinInterpolator: Interpolator = { ((Math.sin((it - 0.5) * Math.PI) * 0.5 + 0.5)).f }
 val bounceInterpolator: Interpolator = {
