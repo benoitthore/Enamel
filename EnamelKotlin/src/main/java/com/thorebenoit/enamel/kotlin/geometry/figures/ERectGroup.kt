@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
+import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.geometry.GeometryBufferProvider
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.allocate
@@ -7,7 +8,7 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 
-class ERectGroup(private val _rects: List<ERect>, private val overrideFrame: ERectType? = null) {
+class ERectGroup(private val _rects: List<ERect>, overrideFrame: ERectType? = null) {
     fun frame(buffer: ERect = ERect()) = buffer.set(origin = origin, size = _size)
 
     val size: ESizeImmutable get() = _size
@@ -27,6 +28,12 @@ class ERectGroup(private val _rects: List<ERect>, private val overrideFrame: ERe
     fun offsetOrigin(x: Number, y: Number) {
         _origin.selfOffset(x, y)
         _rects.forEach { it.selfOffset(x, y) }
+    }
+
+    fun scaled(factor: Number, anchor: EPointType) {
+        // TODO
+//        val factor = factor.f
+//        val frameTmp = frame(GeometryBufferProvider.rect())
     }
 
     fun aligned(anchor: EPointType, position: EPointType) {

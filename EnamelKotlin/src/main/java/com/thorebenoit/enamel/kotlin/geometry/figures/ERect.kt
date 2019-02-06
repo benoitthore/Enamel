@@ -3,6 +3,7 @@ package com.thorebenoit.enamel.kotlin.geometry.figures
 import com.thorebenoit.enamel.kotlin.core.Resetable
 import com.thorebenoit.enamel.kotlin.core.d
 import com.thorebenoit.enamel.kotlin.core.f
+import com.thorebenoit.enamel.kotlin.geometry.GeometryBufferProvider
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.alignement.*
@@ -213,6 +214,20 @@ open class ERectType(
         return buffer
     }
 
+    fun scaleAnchor(factor: Number, anchor: EPointType, buffer: ERect = ERect()) =
+        scaleRelative(factor, pointAtAnchor(anchor, GeometryBufferProvider.point()), buffer)
+
+    fun scaleRelative(factor: Number, point: EPointType, buffer: ERect = ERect()): ERect {
+        val factor = factor.f
+        val newX = origin.x + (point.x - origin.x) * (1f - factor)
+        val newY = origin.y + (point.y - origin.y) * (1f - factor)
+
+        buffer.origin.set(newX, newY)
+        buffer.size.width *= factor
+        buffer.size.height *= factor
+        return buffer
+    }
+
 
 }
 
@@ -318,6 +333,11 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     fun selfExpand(x: Number = 0f, y: Number = 0f) = inset(-x.f, -y.f, this)
 
     fun selfPadding(padding: EOffset) = padding(padding, this)
+
+
+    fun selfScaleAnchor(factor: Number, anchor: EPointType) = scaleAnchor(factor, anchor, this)
+
+    fun selfScaleRelative(factor: Number, point: EPointType) = scaleRelative(factor, point, this)
 
     override fun toString(): String {
         return "ERect(origin=$origin, size=$size)"

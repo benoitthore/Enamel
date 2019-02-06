@@ -34,8 +34,7 @@ abstract class KotlinPApplet : PApplet() {
     val ecenter get() = allocate { eframe.center(EPoint()) }
 
     fun <T : EPointType> T.draw(): T {
-//        point(x, y)
-        toCircle(6).draw()
+        allocate { toCircle(5).draw() }
         return this
     }
 

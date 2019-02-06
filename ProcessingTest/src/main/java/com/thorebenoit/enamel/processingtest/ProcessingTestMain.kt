@@ -2,6 +2,7 @@ package com.thorebenoit.enamel.processingtest
 
 import com.thorebenoit.enamel.kotlin.core.colorHSL
 import com.thorebenoit.enamel.kotlin.core.f
+import com.thorebenoit.enamel.kotlin.core.random
 import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
@@ -10,6 +11,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
+import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import processing.core.PApplet
 
 
@@ -51,7 +53,7 @@ class MainApplet : KotlinPApplet() {
     val _size = allocate { 40 size 40 }
     val bufferCircle = allocate { ECircle() }
 
-    val sizes = allocate { List(5) { ESize(40, 40) } }
+    val sizes = allocate { List(5) { ESize(random(20,40), random(20,40)) } }
 
     override fun draw() {
 
@@ -65,25 +67,27 @@ class MainApplet : KotlinPApplet() {
         noFill()
 
 
+//        val position = center
+        val position = mousePosition
 
-        val padding = EOffset(top = 20f)
-        val position = allocate { center.draw() }
-//        val position = mousePosition
+
         sizes.rectGroup(
             alignment = EAlignment.leftCenter,
             anchor = NamedPoint.center,
             spacing = 30,
-            padding = padding,
             position = position
         ).apply {
 
-            rects.union().selfPadding(padding).draw()
             rects.forEach {
                 it.draw()
             }
 
-            fill(0f,0f,255f )
-            origin.draw()
+
+            stroke(0f)
+            strokeWeight(1.5f)
+            frame().draw()
+            position.draw()
+
         }
 
 
