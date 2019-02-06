@@ -7,7 +7,6 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
-import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 
 /*
 This class should be the example to follow in order to implement mutability
@@ -22,7 +21,7 @@ Create the API without default arguments for buffer in order to make sure no all
 
 
  */
-open class ERectImmutable(
+open class ERectType(
     open val origin: EPointType = EPointType(),
     open val size: ESizeImmutable = ESizeImmutable()
 ) {
@@ -31,7 +30,7 @@ open class ERectImmutable(
     }
 
     fun toMutable(buffer: ERect) = buffer.set(origin.toMutable(buffer.origin), size.toMutable())
-    fun toImmutable() = ERectImmutable(origin.toImmutable(), size.toImmutable())
+    fun toImmutable() = ERectType(origin.toImmutable(), size.toImmutable())
 
     val height get() = size.height
     val width get() = size.width
@@ -64,7 +63,7 @@ open class ERectImmutable(
     }
 
     //contains Rect
-    fun contains(other: ERectImmutable) = contains(
+    fun contains(other: ERectType) = contains(
         top = other.top,
         left = other.left,
         right = other.right,
@@ -89,7 +88,7 @@ open class ERectImmutable(
     }
 
     //intersects
-    fun intersects(other: ERectImmutable) = intersects(
+    fun intersects(other: ERectType) = intersects(
         top = other.top,
         left = other.left,
         right = other.right,
@@ -208,7 +207,7 @@ open class ERectImmutable(
 }
 
 class ERect(override var origin: EPoint = EPoint(), override var size: ESize = ESize()) :
-    ERectImmutable(origin, size), Resetable {
+    ERectType(origin, size), Resetable {
 
     override fun reset() {
         origin.reset(); size.reset()

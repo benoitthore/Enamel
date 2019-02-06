@@ -45,7 +45,7 @@ abstract class KotlinPApplet : PApplet() {
         return this
     }
 
-    fun <T : ERectImmutable> T.draw(): T {
+    fun <T : ERectType> T.draw(): T {
         rect(x, y, width, height)
         return this
     }
