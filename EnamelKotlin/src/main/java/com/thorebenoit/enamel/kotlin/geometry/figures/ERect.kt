@@ -145,7 +145,7 @@ open class ERectType(
         aligned: EAlignment,
         size: ESizeImmutable,
         spacing: Number = 0,
-        buffer: ERect = ERect()
+        buffer: ERect = ERect(this)
     ): ERect {
         val spacing = spacing.f
 
@@ -165,7 +165,7 @@ open class ERectType(
         aligned: EAlignment,
         size: ESizeImmutable,
         spacing: Number = 0,
-        buffer: ERect = ERect()
+        buffer: ERect = ERect(this)
     ): ERect {
         val spacing = spacing.f
 
@@ -182,14 +182,14 @@ open class ERectType(
 
 
     // Changing
-    fun offset(x: Number = 0, y: Number = 0, buffer: ERect = ERect()): ERect {
+    fun offset(x: Number = 0, y: Number = 0, buffer: ERect = ERect(this)): ERect {
         buffer.origin.selfOffset(x, y)
         return buffer
     }
 
-    fun inset(margin: Number, buffer: ERect = ERect()) = inset(margin, margin, buffer)
-    fun inset(p: EPointType, buffer: ERect = ERect()) = inset(p.x, p.y, buffer)
-    fun inset(x: Number = 0, y: Number = 0, buffer: ERect = ERect()): ERect {
+    fun inset(margin: Number, buffer: ERect = ERect(this)) = inset(margin, margin, buffer)
+    fun inset(p: EPointType, buffer: ERect = ERect(this)) = inset(p.x, p.y, buffer)
+    fun inset(x: Number = 0, y: Number = 0, buffer: ERect = ERect(this)): ERect {
         val x = x.f
         val y = y.f
         buffer.left += x
@@ -199,15 +199,17 @@ open class ERectType(
         return buffer
     }
 
-    fun expand(margin: Number, buffer: ERect = ERect()) = expand(margin, margin, buffer)
-    fun expand(p: EPointType, buffer: ERect = ERect()) = expand(p.x, p.y, buffer)
-    fun expand(x: Number = 0f, y: Number = 0f, buffer: ERect = ERect()) = inset(-x.f, -y.f, buffer)
+    fun expand(margin: Number, buffer: ERect = ERect(this)) = expand(margin, margin, buffer)
+    fun expand(p: EPointType, buffer: ERect = ERect(this)) = expand(p.x, p.y, buffer)
+    fun expand(x: Number = 0f, y: Number = 0f, buffer: ERect = ERect(this)) = inset(-x.f, -y.f, buffer)
 
 
 }
 
 class ERect(override var origin: EPoint = EPoint(), override var size: ESize = ESize()) :
     ERectType(origin, size), Resetable {
+
+    constructor(other: ERectType) : this(other.origin.toMutable(), other.size.toMutable())
 
     override fun reset() {
         origin.reset(); size.reset()

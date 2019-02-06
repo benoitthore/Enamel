@@ -20,7 +20,7 @@ fun random(min: Number, max: Number): Float = lerp(RANDOM.nextFloat(), min, max)
 fun lerp(fraction: Number, from: Number, to: Number): Float =
     from.f + fraction.f * (to.f - from.f)
 
-inline fun Number.nearlyEquals(n2: Number, threshold: Number = 1) =
+inline fun Number.nearlyEquals(n2: Number, threshold: Number = œ) =
     Math.abs(this.d - n2.d) < threshold.d
 
 fun Number.constrain(min: Number, max: Number): Float {
