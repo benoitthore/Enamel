@@ -35,8 +35,8 @@ open class ERectType(
     fun toImmutable() = ERectType(origin.toImmutable(), size.toImmutable())
     fun copy(buffer: ERect = ERect()) = ERect(origin.copy(buffer.origin), size.copy(buffer.size))
 
-    val height get() = size.height
-    val width get() = size.width
+    open val height get() = size.height
+    open val width get() = size.width
 
     open val top: Float
         get() = origin.y
@@ -129,19 +129,6 @@ open class ERectType(
 
     fun center(buffer: EPoint = EPoint()): EPoint = pointAtAnchor(0.5f, 0.5f, buffer)
 
-    // Shapes
-    fun innerCircle(buffer: ECircle = ECircle()): ECircle {
-        center(buffer.center) // set circles center to rect center
-        buffer.radius = size.min / 2
-        return buffer
-    }
-
-
-    fun outterCircle(buffer: ECircle = ECircle()): ECircle {
-        center(buffer.center) // set circles center to rect center
-        buffer.radius = size.diagonal / 2
-        return buffer
-    }
 
     // Alignement
     fun rectAlignedInside(
@@ -284,6 +271,18 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     fun topLeft(): EPoint = origin
 
 
+    override var width: Float
+        get() = super.width
+        set(value) {
+            size.width = value
+        }
+
+    override var height: Float
+        get() = super.height
+        set(value) {
+            size.height = value
+        }
+
     override var x: Float
         get() = super.x
         set(value) {
@@ -318,6 +317,14 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
         get() = super.bottom
         set(value) {
             size.height += value - bottom
+        }
+
+    var center: EPointType
+        @Deprecated("User center() instead", level = DeprecationLevel.WARNING)
+        get() = center()
+        set(value) {
+            origin.x = value.x - width / 2
+            origin.y = value.y - height / 2
         }
 
 

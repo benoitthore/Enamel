@@ -3,15 +3,11 @@ package com.thorebenoit.enamel.processingtest
 import com.thorebenoit.enamel.kotlin.core.colorHSL
 import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.core.random
-import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
+import com.thorebenoit.enamel.kotlin.geometry.*
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
-import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
-import com.thorebenoit.enamel.kotlin.geometry.primitives.point
+import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 import processing.core.PApplet
 
 
@@ -42,22 +38,13 @@ class MainApplet : KotlinPApplet() {
 
     override fun settings() {
         super.settings()
-//        esize = 800 size 800
-        esize = allocate { 400 size 400 }
-
+        AllocationTracker.debugAllocations = false
+        esize = 800 size 800
     }
 
-    //    val sizesList = List(4) { ESize(random(10, 50), random(10, 50)) }
 
-    val buffer = allocate { ERect() }
-    val _size = allocate { 40 size 40 }
-    val bufferCircle = allocate { ECircle() }
-
-    val sizes = allocate { List(5) { ESize(random(20,40), random(20,40)) } }
-
+    var angle = 0.degrees()
     override fun draw() {
-
-        AllocationTracker.debugAllocations = false
 
         background(255)
 
@@ -66,48 +53,19 @@ class MainApplet : KotlinPApplet() {
 
         noFill()
 
+        angle.offset(1.degrees())
 
-//        val position = center
-        val position = mousePosition
+        val circle = eframe.innerCircle().inset(width * 0.1)
 
-
-        sizes.rectGroup(
-            alignment = EAlignment.leftCenter,
-            anchor = NamedPoint.center,
-            spacing = 30,
-            position = position
-        ).apply {
-
-            rects.forEach {
-                it.draw()
+        circle
+            .toListOfPoint(10, angle)
+            .map { it.toCircle(width * 0.05) }
+            .forEach {
+                it
+//                    .draw()
+                    .innerRect()
+                    .draw()
             }
-
-
-            stroke(0f)
-            strokeWeight(1.5f)
-            frame().draw()
-            position.draw()
-
-        }
-
-
-        return
-        val frameRect = eframe.inset(100)
-        frameRect.draw()
-
-        EAlignment.all.forEach { alignment ->
-
-            frameRect.rectAlignedOutside(
-                aligned = alignment,
-                spacing = 20,
-                size = _size,
-                buffer = buffer
-            )
-
-            buffer.draw()
-        }
-
-//        center.offset(10).toCircle(10, bufferCircle).draw()
 
     }
 
