@@ -3,6 +3,7 @@ package com.thorebenoit.enamel.processingtest
 import com.thorebenoit.enamel.kotlin.core.colorHSL
 import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.core.random
+import com.thorebenoit.enamel.kotlin.core.time.EDeltaTimer
 import com.thorebenoit.enamel.kotlin.geometry.*
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
@@ -44,6 +45,7 @@ class MainApplet : KotlinPApplet() {
 
 
     var angle = 0.degrees()
+    val deltaTimer = EDeltaTimer()
     override fun draw() {
 
         background(255)
@@ -53,20 +55,25 @@ class MainApplet : KotlinPApplet() {
 
         noFill()
 
-        angle.offset(1.degrees())
 
-        val circle = eframe.innerCircle().inset(width * 0.1)
+        deltaTimer.frame { delta->
 
-        circle
-            .toListOfPoint(10, angle)
-            .map { it.toCircle(width * 0.05) }
-            .forEach {
-                it
+            angle.offset((delta).degrees())
+
+            val circle = eframe.innerCircle().inset(width * 0.1)
+
+            circle
+                .toListOfPoint(10, angle)
+                .map { it.toCircle(width * 0.05) }
+                .forEach {
+                    it
 //                    .draw()
-                    .innerRect()
-                    .draw()
-            }
+                        .innerRect()
+                        .draw()
+                }
 
+        }
+//        Thread.sleep(100)
     }
 
 
