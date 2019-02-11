@@ -48,7 +48,7 @@ class RadarApplet : KotlinPApplet() {
 
 
         if (Math.random() < .05) {
-            val atRadius = com.thorebenoit.enamel.kotlin.core.random(0.25, 0.80) * circle.radius
+            val atRadius = com.thorebenoit.enamel.kotlin.core.math.random(0.25, 0.80) * circle.radius
             val beep = Beep(circle.center.copy().offsetAngle(angle, atRadius))
             beepArray += beep
         }

@@ -1,4 +1,4 @@
-package com.thorebenoit.enamel.kotlin.core
+package com.thorebenoit.enamel.kotlin.core.math
 
 import com.thorebenoit.enamel.kotlin.animations.Interpolator
 import com.thorebenoit.enamel.kotlin.animations.linearInterpolator
@@ -76,4 +76,5 @@ class Scale(domainRange: Iterable<Pair<Number, Number>>) {
 
 fun Scale.sin(it: Number) = this.scale(it.f, sinInterpolator)
 
-operator fun Scale.times(n: Number) = Scale(domain, range.map { it * n.f })
+operator fun Scale.times(n: Number) =
+    Scale(domain, range.map { it * n.f })

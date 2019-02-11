@@ -1,5 +1,9 @@
 package com.thorebenoit.enamel.kotlin.core
 
+import com.thorebenoit.enamel.kotlin.core.math.constrain
+import com.thorebenoit.enamel.kotlin.core.math.f
+import com.thorebenoit.enamel.kotlin.core.math.i
+
 
 val Number.color: Int get() = (0xFF_00_00_00.i or i)
 

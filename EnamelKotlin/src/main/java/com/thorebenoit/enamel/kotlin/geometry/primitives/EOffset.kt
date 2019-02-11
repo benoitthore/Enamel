@@ -1,6 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.primitives
 
-import com.thorebenoit.enamel.kotlin.core.f
+import com.thorebenoit.enamel.kotlin.core.math.f
 
 class EOffset(
     val top: Float,

@@ -6,7 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import androidx.core.view.children
-import com.thorebenoit.enamel.kotlin.core.f
+import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.android.dsl.withID
 import com.thorebenoit.enamel.android.examples.Example
 import com.thorebenoit.enamel.android.examples._Example_ConstraintLayout_Basic

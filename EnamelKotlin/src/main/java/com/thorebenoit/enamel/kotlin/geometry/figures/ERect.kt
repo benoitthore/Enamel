@@ -1,8 +1,8 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
 import com.thorebenoit.enamel.kotlin.core.Resetable
-import com.thorebenoit.enamel.kotlin.core.d
-import com.thorebenoit.enamel.kotlin.core.f
+import com.thorebenoit.enamel.kotlin.core.math.d
+import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.geometry.GeometryBufferProvider
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType

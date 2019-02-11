@@ -1,8 +1,8 @@
 package com.thorebenoit.enamel.kotlin.geometry.primitives
 
 import com.thorebenoit.enamel.kotlin.core.Resetable
-import com.thorebenoit.enamel.kotlin.core.d
-import com.thorebenoit.enamel.kotlin.core.f
+import com.thorebenoit.enamel.kotlin.core.math.d
+import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
 
 open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
@@ -64,7 +64,7 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
         return buffer.set(buffer.x + fromX, buffer.y + fromY)
     }
 
-    fun offsetFrom(from: EPoint, distance: Number, buffer: EPoint = EPoint()) =
+    fun offsetFrom(from: EPointType, distance: Number, buffer: EPoint = EPoint()) =
         from.offsetTowards(this, distance, buffer)
 
 
@@ -72,14 +72,14 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
     fun scale(n: Number, buffer: EPoint = EPoint()) = scale(n, n, buffer)
     fun scale(other: EPoint, buffer: EPoint = EPoint()) = scale(other.x, other.y, buffer)
 
-    fun offsetAngle(angle: EAngle, distance: Number, buffer: EPoint = EPoint()): EPoint {
+    fun offsetAngle(angle: EAngleImmutable, distance: Number, buffer: EPoint = EPoint()): EPoint {
         val fromX = x
         val fromY = y
         buffer.set(angle, distance)
         return buffer.set(buffer.x + fromX, buffer.y + fromY)
     }
 
-    fun rotateAround(angle: EAngle, center: EPoint, buffer: EPoint = EPoint()): EPoint {
+    fun rotateAround(angle: EAngleImmutable, center: EPointType, buffer: EPoint = EPoint()): EPoint {
         val angleTo = center.angleTo(this)
         val distance = center.distanceTo(this)
         val totalAngle = angle + angleTo
@@ -107,7 +107,7 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointTyp
 
     fun set(other: EPointType) = set(other.x, other.y)
 
-    fun set(angle: EAngle, magnitude: Number) =
+    fun set(angle: EAngleImmutable, magnitude: Number) =
         set(angle.cos * magnitude.f, angle.sin * magnitude.f)
 
     override fun reset() {

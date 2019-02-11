@@ -1,6 +1,5 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
-import com.thorebenoit.enamel.kotlin.core.f
 import com.thorebenoit.enamel.kotlin.geometry.GeometryBufferProvider
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.allocate

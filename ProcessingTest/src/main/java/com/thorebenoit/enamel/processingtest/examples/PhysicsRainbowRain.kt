@@ -4,7 +4,6 @@ import com.thorebenoit.enamel.kotlin.core.randomColor
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
-import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
 import com.thorebenoit.enamel.kotlin.threading.coroutine
 import com.thorebenoit.enamel.processingtest.KotlinPApplet
@@ -83,11 +82,11 @@ class PhysicsRainbowRain : KotlinPApplet() {
 
 
     private fun Drop.reset(): Drop {
-        position.y = com.thorebenoit.enamel.kotlin.core.random(-height * 2, -height / 4f)
+        position.y = com.thorebenoit.enamel.kotlin.core.math.random(-height * 2, -height / 4f)
         speed = random(1f, 2f)
         dropHeight = random(10f, 20f)
         color = randomColor()
-        thickness = com.thorebenoit.enamel.kotlin.core.random(0.5, 2.5f)
+        thickness = com.thorebenoit.enamel.kotlin.core.math.random(0.5, 2.5f)
         return this
     }
 

@@ -1,8 +1,8 @@
 package com.thorebenoit.enamel.kotlin.animations
 
-import com.thorebenoit.enamel.kotlin.core.d
-import com.thorebenoit.enamel.kotlin.core.f
-import com.thorebenoit.enamel.kotlin.core.œ
+import com.thorebenoit.enamel.kotlin.core.math.d
+import com.thorebenoit.enamel.kotlin.core.math.f
+import com.thorebenoit.enamel.kotlin.core.math.œ
 
 typealias Interpolator = (Float) -> Float
 

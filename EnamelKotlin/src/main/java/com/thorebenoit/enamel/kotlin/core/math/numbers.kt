@@ -1,4 +1,4 @@
-package com.thorebenoit.enamel.kotlin.core
+package com.thorebenoit.enamel.kotlin.core.math
 
 import java.util.*
 
@@ -15,7 +15,8 @@ const val œ = 0.001f // ALT + Q on Mac
 
 private val RANDOM = Random()
 
-fun random(min: Number, max: Number): Float = lerp(RANDOM.nextFloat(), min, max)
+fun random(min: Number, max: Number): Float =
+    lerp(RANDOM.nextFloat(), min, max)
 
 fun lerp(fraction: Number, from: Number, to: Number): Float =
     from.f + fraction.f * (to.f - from.f)

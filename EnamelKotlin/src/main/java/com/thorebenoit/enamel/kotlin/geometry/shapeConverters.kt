@@ -1,10 +1,9 @@
 package com.thorebenoit.enamel.kotlin.geometry
 
-import com.thorebenoit.enamel.kotlin.core.f
+import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
-import kotlin.math.pow
 
 
 fun EPointType.toCircle(radius: Number, buffer: ECircle = ECircle()): ECircle {

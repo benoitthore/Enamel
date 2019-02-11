@@ -7,8 +7,8 @@ import android.text.style.StyleSpan
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import com.thorebenoit.enamel.kotlin.core.f
-import com.thorebenoit.enamel.kotlin.core.i
+import com.thorebenoit.enamel.kotlin.core.math.f
+import com.thorebenoit.enamel.kotlin.core.math.i
 
 fun Context.enamelContext(init: EnamelContext.() -> View): View = EnamelContext(
     this

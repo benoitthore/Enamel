@@ -1,7 +1,6 @@
 package com.thorebenoit.enamel.kotlin.core.time
 
-import com.thorebenoit.enamel.kotlin.core.f
-import com.thorebenoit.enamel.kotlin.core.i
+import com.thorebenoit.enamel.kotlin.core.math.f
 
 class EDeltaTimer(val targetFrameTime: Int = 16) {
     private val timer : ETimer = ETimer()

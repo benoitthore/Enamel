@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.processingtest
 
-import com.thorebenoit.enamel.kotlin.core.f
-import com.thorebenoit.enamel.kotlin.core.i
+import com.thorebenoit.enamel.kotlin.core.math.f
+import com.thorebenoit.enamel.kotlin.core.math.i
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
@@ -9,6 +9,7 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import processing.core.PApplet
+import processing.core.PConstants
 import processing.event.KeyEvent
 import processing.event.MouseEvent
 
@@ -46,6 +47,21 @@ abstract class KotlinPApplet : PApplet() {
 
     fun <T : ERectType> T.draw(): T {
         rect(x, y, width, height)
+        return this
+    }
+
+    fun <E : EPointType> List<E>.draw(closed: Boolean): List<E> {
+        beginShape()
+
+        forEach {
+            vertex(it.x, it.y)
+        }
+        if (closed) {
+            endShape(PConstants.CLOSE)
+        } else {
+            endShape()
+        }
+
         return this
     }
 

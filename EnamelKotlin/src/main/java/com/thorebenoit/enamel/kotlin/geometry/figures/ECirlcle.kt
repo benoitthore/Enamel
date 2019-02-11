@@ -1,8 +1,8 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
 import com.thorebenoit.enamel.kotlin.core.Resetable
-import com.thorebenoit.enamel.kotlin.core.f
-import com.thorebenoit.enamel.kotlin.core.i
+import com.thorebenoit.enamel.kotlin.core.math.f
+import com.thorebenoit.enamel.kotlin.core.math.i
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 
@@ -49,7 +49,11 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
         return this
     }
 
-    fun pointsInList(list: MutableList<EPoint>, startAt: EAngleImmutable? = null): List<EPoint> {
+    fun pointsInList(
+        list: MutableList<EPoint>,
+        startAt: EAngleImmutable? = null,
+        distanceList: List<Number>? = null
+    ): List<EPoint> {
         if (list.isEmpty()) { // Don't divide by zero
             return list
         }
@@ -65,7 +69,13 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
 
             val point = list[i]
             point.set(center)
-            point.offsetAngle(angle, radius, point)
+            val distance =
+                if (distanceList != null && distanceList.isNotEmpty()) {
+                    distanceList[i % distanceList.size]
+                } else {
+                    radius
+                }
+            point.offsetAngle(angle, distance, point)
             list[i] = point
 
             currAngle += degreesPerStep
@@ -75,8 +85,8 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
         return list
     }
 
-    fun toListOfPoint(numberOfPoint: Int, startAt: EAngle? = null) = pointsInList(
-        MutableList(numberOfPoint) { EPoint() }, startAt
+    fun toListOfPoint(numberOfPoint: Int, startAt: EAngle? = null, distanceList: List<Number>? = null) = pointsInList(
+        MutableList(numberOfPoint) { EPoint() }, startAt, distanceList
     )
 
 
