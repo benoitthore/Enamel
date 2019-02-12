@@ -71,7 +71,7 @@ class StatApplet : KotlinPAppletModule() {
                 ),
                 StatData(
                     name = "Temperature",
-                    color = 0x0000FF.color,
+                    color = 0x2FC5DE.color,
                     get = { getCpuTemp() },
                     formatData = { "%.2f °C".format(it) }
                 )
