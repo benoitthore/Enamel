@@ -42,7 +42,12 @@ interface PhysicsObject {
     }
 }
 
-interface Steerer : PhysicsObject {
+// TODO Refactor so it can use composition and steer towards/away from targets faster/slower
+/*
+    Steerable is a class that takes a Physics object
+    SteeringBegaviour  is a class takes a Steerable
+ */
+interface Steerable : PhysicsObject {
     val maxSpeed: Float
     val maxForce: Float
 
@@ -68,7 +73,7 @@ data class Dot(
     val color: Int = randomColor(),
     val radius: Int = 5
 ) :
-    Steerer // TODO Refactor so it can use composition and steer towards/away from targets faster/slower
+    Steerable
 {
 
     override val maxSpeed: Float = 2f
