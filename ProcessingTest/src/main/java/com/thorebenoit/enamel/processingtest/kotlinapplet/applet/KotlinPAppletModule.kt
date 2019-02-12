@@ -93,8 +93,8 @@ abstract class KotlinPAppletModule : KotlinPApplet() {
         }
     }
 
-    override fun <T : EPointType> T.draw(): T {
-        allocate { toCircle(5).draw() }
+    override fun <T : EPointType> T.draw(radius: Number): T {
+        allocate { toCircle(radius).draw() }
         return this
     }
 

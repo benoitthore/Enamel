@@ -24,12 +24,13 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
     fun copy(buffer: EPoint = EPoint()) = buffer.set(x, y)
 
 
+    open val magnitude get() = Math.hypot(x.d, y.d)
+
     fun angleTo(point: EPointType): EAngle =
         Math.atan2(
             ((point.y - y).d), ((point.x - x).d)
         ).radians()
 
-    fun magnitude() = Math.hypot(x.d, y.d)
     fun distanceTo(o: EPointType) = this.distanceTo(o.x, o.y)
     fun distanceTo(x2: Number, y2: Number) = Math.hypot((x2.d - x), (y2.d - y)).f
 
@@ -56,12 +57,20 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
 
     operator fun unaryMinus() = EPointType(-x, -y)
     operator fun div(n: Number) = EPointType(x / n.f, y / n.f)
+    operator fun times(other: EPoint) = mult(other)
+    operator fun plus(other: EPoint) = offset(other)
+    operator fun minus(other: EPoint) = sub(other)
 
     fun inverse(buffer: EPoint = EPoint()) = buffer.set(-x, -y)
 
     fun offset(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x + x.f, this.y + y.f)
     fun offset(n: Number, buffer: EPoint = EPoint()) = offset(n, n, buffer)
     fun offset(other: EPointType, buffer: EPoint = EPoint()) = offset(other.x, other.y, buffer)
+
+    fun sub(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x - x.f, this.y - y.f)
+    fun sub(n: Number, buffer: EPoint = EPoint()) = sub(n, n, buffer)
+    fun sub(other: EPointType, buffer: EPoint = EPoint()) = sub(other.x, other.y, buffer)
+
 
     fun offsetTowards(towards: EPointType, distance: Number, buffer: EPoint = EPoint()): EPoint {
         val fromX = x
@@ -74,9 +83,9 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
         from.offsetTowards(this, distance, buffer)
 
 
-    fun scale(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x * x.f, this.y * y.f)
-    fun scale(n: Number, buffer: EPoint = EPoint()) = scale(n, n, buffer)
-    fun scale(other: EPointType, buffer: EPoint = EPoint()) = scale(other.x, other.y, buffer)
+    fun mult(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x * x.f, this.y * y.f)
+    fun mult(n: Number, buffer: EPoint = EPoint()) = mult(n, n, buffer)
+    fun mult(other: EPointType, buffer: EPoint = EPoint()) = mult(other.x, other.y, buffer)
 
     fun offsetAngle(angle: EAngleImmutable, distance: Number, buffer: EPoint = EPoint()): EPoint {
         val fromX = x
@@ -93,6 +102,30 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
         val y = center.y + totalAngle.sin * distance
         return buffer.set(x, y)
     }
+
+    fun normalize(buffer: EPoint = EPoint()): EPoint {
+        val magnitude = magnitude.f
+        buffer.set(this)
+        if (magnitude != 0f) {
+            buffer.div(magnitude)
+        }
+        return buffer
+    }
+
+    fun limitMagnitude(max: Number, buffer: EPoint = EPoint()): EPoint {
+        val max = max.f
+        buffer.set(this)
+
+        if (buffer.magnitude > max) {
+            buffer.selfNormalize().selfMult(max)
+        }
+
+        return buffer
+    }
+
+    fun setMagnitude(magnitude: Number, buffer: EPoint = EPoint()) =
+        buffer.set(this).selfNormalize().selfMult(magnitude)
+
 
 }
 
@@ -115,6 +148,13 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointTyp
     fun set(angle: EAngleImmutable, magnitude: Number) =
         set(angle.cos * magnitude.f, angle.sin * magnitude.f)
 
+    override var magnitude: Double
+        get() = super.magnitude
+        set(value) {
+            selfSetMagnitude(value)
+        }
+
+
     override fun reset() {
         set(0, 0)
     }
@@ -125,19 +165,29 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointTyp
     fun selfOffset(n: Number) = offset(n, this)
     fun selfOffset(other: EPointType) = offset(other, this)
 
+    fun selfSub(x: Number, y: Number) = sub(x, y, this)
+    fun selfSub(n: Number) = sub(n, this)
+    fun selfSub(other: EPointType) = sub(other, this)
+
+
     fun selfOffsetTowards(towards: EPointType, distance: Number) = offsetTowards(towards, distance, this)
     fun selfOffsetFrom(from: EPointType, distance: Number) = offsetFrom(from, distance, this)
 
 
-    fun selfScale(x: Number, y: Number) = scale(x, y, this)
-    fun selfScale(n: Number) = scale(n, this)
-    fun selfScale(other: EPointType) = scale(other, this)
+    fun selfMult(x: Number, y: Number) = mult(x, y, this)
+    fun selfMult(n: Number) = mult(n, this)
+    fun selfMult(other: EPointType) = mult(other, this)
 
     fun selfOffsetAngle(angle: EAngle, distance: Number) = offsetAngle(angle, distance)
 
     fun selfRotateAround(angle: EAngle, center: EPoint) = rotateAround(angle, center, this)
 
     fun selfInverse() = inverse(this)
+
+    fun selfNormalize() = normalize(this)
+    fun selfLimitMagnitude(max: Number) = limitMagnitude(max, this)
+    fun selfSetMagnitude(magnitude: Number) = setMagnitude(magnitude, this)
+
 }
 
 

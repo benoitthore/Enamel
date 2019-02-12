@@ -10,7 +10,10 @@ enum class AngleType {
 }
 
 
-open class EAngleImmutable(protected open val value: Float, protected open val type: AngleType) {
+open class EAngleImmutable(
+    protected open val value: Float = 0f,
+    protected open val type: AngleType = AngleType.DEGREE
+) {
     // The use of by lazy would create 3 new objects so it's better to calculate on initialisation
     val radians
         get() =
@@ -71,11 +74,25 @@ open class EAngleImmutable(protected open val value: Float, protected open val t
 //    operator fun Number.times(angle: EAngle): EAngle = angle * this
 }
 
-open class EAngle constructor(override var value: Float, override var type: AngleType) : EAngleImmutable(value, type) {
+open class EAngle constructor(override var value: Float = 0f, override var type: AngleType = AngleType.DEGREE) :
+    EAngleImmutable(value, type) {
     companion object {
-        val zero = 0.degrees()
-        val unit = 1.rotation()
+        val zero get() = 0.degrees()
+        val unit get() = 1.rotation()
     }
+
+    fun set(other: EAngle) = set(
+        other.value,
+        other.type
+    )
+
+    fun set(value: Number, type: AngleType): EAngle {
+        this.value = value.f
+        this.type = type
+        return this
+    }
+
+    fun reset() = set(0, AngleType.DEGREE)
 
     fun offset(other: EAngleImmutable) {
         val increment = when (type) {

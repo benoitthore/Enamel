@@ -2,6 +2,7 @@ package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.i
+import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.allocate
@@ -14,6 +15,8 @@ import processing.core.PConstants
 import processing.core.PGraphics
 import processing.event.KeyEvent
 import processing.event.MouseEvent
+import java.util.concurrent.BlockingQueue
+import java.util.concurrent.LinkedBlockingQueue
 
 private typealias MouseEventListener = (MouseEvent) -> Unit
 private typealias KeyEventListener = (KeyEvent) -> Unit
@@ -21,6 +24,17 @@ private typealias KeyEventListener = (KeyEvent) -> Unit
 
 abstract class KotlinPApplet : PApplet() {
 
+    init {
+        appletQueue += this
+    }
+
+    companion object {
+        val appletQueue: BlockingQueue<KotlinPApplet> = LinkedBlockingQueue()
+        inline fun <reified T : KotlinPApplet> createApplet(): T {
+            PApplet.main(T::class.java)
+            return appletQueue.poll() as T
+        }
+    }
 
     override fun settings() {
         size(800, 800)
@@ -55,8 +69,10 @@ abstract class KotlinPApplet : PApplet() {
 
     val center get() = allocate { ERect(size = esize).center(EPoint()) }
 
-    val mousePosition get() = allocate { mouseX point mouseY }
-    val mousePositionOnScreen get() = allocate { (mouseX point mouseY).offset(windowLocation) }
+    private val mousePositionBuffer = allocate { EPoint() }
+
+    val mousePosition get() = mousePositionBuffer.set(mouseX, mouseY)
+    val mousePositionOnScreen get() = mousePosition.selfOffset(windowLocation)
 
 
     private val mouseClickListeners = mutableListOf<MouseEventListener>()
@@ -159,8 +175,8 @@ abstract class KotlinPApplet : PApplet() {
 
     // Draw helper
 
-    open fun <T : EPointType> T.draw(): T {
-        allocate { toCircle(5).draw() }
+    open fun <T : EPointType> T.draw(radius : Number = 5): T {
+        allocate { toCircle(radius).draw() }
         return this
     }
 
