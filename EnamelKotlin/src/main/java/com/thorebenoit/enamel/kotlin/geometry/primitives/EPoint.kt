@@ -76,7 +76,7 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
 
     fun scale(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x * x.f, this.y * y.f)
     fun scale(n: Number, buffer: EPoint = EPoint()) = scale(n, n, buffer)
-    fun scale(other: EPoint, buffer: EPoint = EPoint()) = scale(other.x, other.y, buffer)
+    fun scale(other: EPointType, buffer: EPoint = EPoint()) = scale(other.x, other.y, buffer)
 
     fun offsetAngle(angle: EAngleImmutable, distance: Number, buffer: EPoint = EPoint()): EPoint {
         val fromX = x
@@ -123,15 +123,15 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointTyp
 
     fun selfOffset(x: Number, y: Number) = offset(x, y, this)
     fun selfOffset(n: Number) = offset(n, this)
-    fun selfOffset(other: EPoint) = offset(other, this)
+    fun selfOffset(other: EPointType) = offset(other, this)
 
     fun selfOffsetTowards(towards: EPointType, distance: Number) = offsetTowards(towards, distance, this)
-    fun selfOffsetFrom(from: EPoint, distance: Number) = offsetFrom(from, distance, this)
+    fun selfOffsetFrom(from: EPointType, distance: Number) = offsetFrom(from, distance, this)
 
 
     fun selfScale(x: Number, y: Number) = scale(x, y, this)
     fun selfScale(n: Number) = scale(n, this)
-    fun selfScale(other: EPoint) = scale(other, this)
+    fun selfScale(other: EPointType) = scale(other, this)
 
     fun selfOffsetAngle(angle: EAngle, distance: Number) = offsetAngle(angle, distance)
 

@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 
+import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.figures.ECircleImmutable
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
@@ -8,6 +9,8 @@ import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import com.thorebenoit.enamel.processingtest.kotlinapplet.modules.jframe
 import processing.core.PConstants
 import processing.core.PGraphics
+import java.lang.Exception
+import java.lang.NullPointerException
 
 private typealias KotlinPAppletEventListener = KotlinPAppletModule.() -> Unit
 private typealias OnDrawListener = PGraphics.() -> Unit
@@ -71,11 +74,23 @@ abstract class KotlinPAppletModule : KotlinPApplet() {
 
 
     override fun draw() {
-        graphics.beginDraw()
-        onPreDrawListeners.forEach { it.invoke(graphics) }
-        onDrawListeners.forEach { it.invoke(graphics) }
-        graphics.endDraw()
-        onPostDrawListeners.forEach { it.invoke(graphics) }
+        try {
+            graphics.beginDraw()
+            onPreDrawListeners.forEach { it.invoke(graphics) }
+            onDrawListeners.forEach { it.invoke(graphics) }
+            graphics.endDraw()
+            onPostDrawListeners.forEach { it.invoke(graphics) }
+        } catch (e: NullPointerException) { // graphics can throw Exceptions
+            val stackTrace = e.stackTrace.joinToString()
+            if (
+                stackTrace.contains("processing.awt.PGraphicsJava2D") ||
+                stackTrace.contains("processing.awt.PGraphicsJava2D") ||
+                stackTrace.isEmpty()
+            ) {
+                return
+            }
+            throw e
+        }
     }
 
     override fun <T : EPointType> T.draw(): T {
@@ -104,12 +119,15 @@ abstract class KotlinPAppletModule : KotlinPApplet() {
             if (closed) {
                 endShape(PConstants.CLOSE)
             } else {
-                endShape()
+                endShape(PConstants.OPEN)
             }
         }
 
         return this
     }
+
+    fun PGraphics.stroke(r: Number, g: Number, b: Number, a: Number = 255f) = stroke(r.f, g.f, b.f, a.f)
+    fun PGraphics.fill(r: Number, g: Number, b: Number, a: Number = 255f) = fill(r.f, g.f, b.f, a.f)
 
 }
 

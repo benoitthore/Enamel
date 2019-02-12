@@ -175,7 +175,7 @@ abstract class KotlinPApplet : PApplet() {
         return this
     }
 
-    open fun <E : EPointType> List<E>.draw(closed: Boolean): List<E> {
+    open fun <E : EPointType> List<E>.draw(closed: Boolean = true): List<E> {
         beginShape()
 
         forEach {

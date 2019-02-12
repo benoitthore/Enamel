@@ -31,3 +31,4 @@ fun tryCatch(tryBlock: () -> Unit, catchBlock: () -> Unit = {}) {
         catchBlock()
     }
 }
+fun tryAndForget(tryBlock: () -> Unit) = tryCatch(tryBlock)
