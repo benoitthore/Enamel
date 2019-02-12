@@ -1,5 +1,11 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 
+import com.thorebenoit.enamel.kotlin.geometry.allocate
+import com.thorebenoit.enamel.kotlin.geometry.figures.ECircleImmutable
+import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
+import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
+import com.thorebenoit.enamel.kotlin.geometry.toCircle
+import com.thorebenoit.enamel.processingtest.kotlinapplet.modules.jframe
 import processing.core.PConstants
 import processing.core.PGraphics
 
@@ -17,6 +23,7 @@ abstract class KotlinPAppletModule : KotlinPApplet() {
 
     override fun setup() {
         super.setup()
+        jframe // init jframe
         onSetupListeners.forEach { it() }
     }
 
@@ -69,6 +76,39 @@ abstract class KotlinPAppletModule : KotlinPApplet() {
         onDrawListeners.forEach { it.invoke(graphics) }
         graphics.endDraw()
         onPostDrawListeners.forEach { it.invoke(graphics) }
+    }
+
+    override fun <T : EPointType> T.draw(): T {
+        allocate { toCircle(5).draw() }
+        return this
+    }
+
+
+    override fun <T : ECircleImmutable> T.draw(): T {
+        graphics.ellipse(x, y, radius * 2, radius * 2)
+        return this
+    }
+
+    override fun <T : ERectType> T.draw(): T {
+        graphics.rect(x, y, width, height)
+        return this
+    }
+
+    override fun <E : EPointType> List<E>.draw(closed: Boolean): List<E> {
+        with(graphics) {
+            beginShape()
+
+            forEach {
+                vertex(it.x, it.y)
+            }
+            if (closed) {
+                endShape(PConstants.CLOSE)
+            } else {
+                endShape()
+            }
+        }
+
+        return this
     }
 
 }

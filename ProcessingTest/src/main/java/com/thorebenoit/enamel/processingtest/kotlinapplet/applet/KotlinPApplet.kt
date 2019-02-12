@@ -159,38 +159,37 @@ abstract class KotlinPApplet : PApplet() {
 
     // Draw helper
 
-    fun <T : EPointType> T.draw(): T {
+    open fun <T : EPointType> T.draw(): T {
         allocate { toCircle(5).draw() }
         return this
     }
 
 
-    fun <T : ECircleImmutable> T.draw(): T {
-        graphics.ellipse(x, y, radius * 2, radius * 2)
+    open fun <T : ECircleImmutable> T.draw(): T {
+        ellipse(x, y, radius * 2, radius * 2)
         return this
     }
 
-    fun <T : ERectType> T.draw(): T {
-        graphics.rect(x, y, width, height)
+    open fun <T : ERectType> T.draw(): T {
+        rect(x, y, width, height)
         return this
     }
 
-    fun <E : EPointType> List<E>.draw(closed: Boolean): List<E> {
-        with(graphics) {
-            beginShape()
+    open fun <E : EPointType> List<E>.draw(closed: Boolean): List<E> {
+        beginShape()
 
-            forEach {
-                vertex(it.x, it.y)
-            }
-            if (closed) {
-                endShape(PConstants.CLOSE)
-            } else {
-                endShape()
-            }
+        forEach {
+            vertex(it.x, it.y)
+        }
+        if (closed) {
+            endShape(PConstants.CLOSE)
+        } else {
+            endShape()
         }
 
         return this
     }
+
 
     fun stroke(r: Number, g: Number, b: Number) = stroke(r.f, g.f, b.f)
     fun fill(r: Number, g: Number, b: Number) = fill(r.f, g.f, b.f)
