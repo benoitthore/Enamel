@@ -1,38 +1,59 @@
 package com.thorebenoit.enamel.processingtest
 
-import com.thorebenoit.enamel.kotlin.animations.lerp
-import com.thorebenoit.enamel.kotlin.core.colorHSL
-import com.thorebenoit.enamel.kotlin.core.math.OpenSimplexNoise
-import com.thorebenoit.enamel.kotlin.core.math.Scale
-import com.thorebenoit.enamel.kotlin.core.math.f
-import com.thorebenoit.enamel.kotlin.core.time.EDeltaTimer
-import com.thorebenoit.enamel.kotlin.core.time.ETimerAnimator
-import com.thorebenoit.enamel.kotlin.geometry.*
-import com.thorebenoit.enamel.kotlin.geometry.figures.*
-import com.thorebenoit.enamel.kotlin.geometry.primitives.*
-import com.thorebenoit.enamel.processingtest.examples.NoiseAndLerpTest
+import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
+import com.thorebenoit.enamel.kotlin.geometry.figures.size
+import com.thorebenoit.enamel.kotlin.geometry.innerCircle
+import com.thorebenoit.enamel.kotlin.geometry.primitives.point
+import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
+import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPAppletModule
+import com.thorebenoit.enamel.processingtest.kotlinapplet.modules.*
 import processing.core.PApplet
 
 
 object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
-        PApplet.main(NoiseAndLerpTest::class.java)
+
+        // TODO Remove and check if allocating debug
+        AllocationTracker.debugAllocations = false
+
+
+        PApplet.main(MainApplet::class.java)
+//        PApplet.main(TestApplet2::class.java)
     }
 
 }
 
-/*
-These function are used to help drawing only, they shouldn't be put in the library yet
- */
-private operator fun ESizeImmutable.div(n: Number) = ESize(width / n.f, height / n.f)
-
-private operator fun EPointType.div(n: Number) = EPoint(x / n.f, y / n.f)
 
 ///
-class MainApplet : KotlinPApplet() {
+class MainApplet : KotlinPAppletModule() {
+
+    init {
+
+        onSettings {
+            esize = 100 size 100
+        }
+
+        alwaysOnTop()
+        transparentWindow()
+        draggableWindow()
+
+        onDraw {
+            eframe.innerCircle().draw()
+        }
+    }
 
 
+}
+
+// TODO Move to String extensions, or near execute in terminal function
+private fun String.removeDoubleSpaces(): String {
+    val doubleSpace = "  "
+    var s = this
+    while (s.contains(doubleSpace) || s.contains("\t")) {
+        s = replace("\t", " ").replace(doubleSpace, "")
+    }
+    return s
 }
 
 

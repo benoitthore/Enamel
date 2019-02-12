@@ -9,15 +9,15 @@ interface EHorizontalOrientation : EOrientation
 
 sealed class EAlignment(open val o: EOrientation?) {
 
-    object left : EHorizontalOrientation
+    private object left : EHorizontalOrientation
 
-    object right : EHorizontalOrientation
+    private object right : EHorizontalOrientation
 
-    object top : EVerticalOrientation
+    private object top : EVerticalOrientation
 
-    object bottom : EVerticalOrientation
+    private object bottom : EVerticalOrientation
 
-    object center : EHorizontalOrientation, EVerticalOrientation
+    private object center : EHorizontalOrientation, EVerticalOrientation
 
     companion object {
 

@@ -9,7 +9,7 @@ import com.thorebenoit.enamel.kotlin.geometry.innerCircle
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.degrees
 import com.thorebenoit.enamel.kotlin.geometry.toCircles
-import com.thorebenoit.enamel.processingtest.KotlinPApplet
+import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 
 class RotatingCircle : KotlinPApplet() {
     init {

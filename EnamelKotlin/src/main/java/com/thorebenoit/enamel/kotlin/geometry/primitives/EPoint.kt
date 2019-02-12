@@ -7,6 +7,7 @@ import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
 
 open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
     companion object {
+        val inv = EPointType(-1f, -1f)
         val zero = EPointType(0f, 0f)
         val half = EPointType(0.5f, 0.5f)
         val unit = EPointType(1f, 1f)
@@ -53,9 +54,14 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
     //////
     //////
 
+    operator fun unaryMinus() = EPointType(-x, -y)
+    operator fun div(n: Number) = EPointType(x / n.f, y / n.f)
+
+    fun inverse(buffer: EPoint = EPoint()) = buffer.set(-x, -y)
+
     fun offset(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x + x.f, this.y + y.f)
     fun offset(n: Number, buffer: EPoint = EPoint()) = offset(n, n, buffer)
-    fun offset(other: EPoint, buffer: EPoint = EPoint()) = offset(other.x, other.y, buffer)
+    fun offset(other: EPointType, buffer: EPoint = EPoint()) = offset(other.x, other.y, buffer)
 
     fun offsetTowards(towards: EPointType, distance: Number, buffer: EPoint = EPoint()): EPoint {
         val fromX = x
@@ -87,7 +93,6 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
         val y = center.y + totalAngle.sin * distance
         return buffer.set(x, y)
     }
-
 
 }
 
@@ -131,6 +136,8 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointTyp
     fun selfOffsetAngle(angle: EAngle, distance: Number) = offsetAngle(angle, distance)
 
     fun selfRotateAround(angle: EAngle, center: EPoint) = rotateAround(angle, center, this)
+
+    fun selfInverse() = inverse(this)
 }
 
 

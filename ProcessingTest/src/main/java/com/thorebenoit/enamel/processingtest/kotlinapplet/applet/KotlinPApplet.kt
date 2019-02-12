@@ -1,0 +1,199 @@
+package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
+
+import com.thorebenoit.enamel.kotlin.core.math.f
+import com.thorebenoit.enamel.kotlin.core.math.i
+import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.kotlin.geometry.figures.*
+import com.thorebenoit.enamel.kotlin.geometry.allocate
+import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
+import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
+import com.thorebenoit.enamel.kotlin.geometry.primitives.point
+import com.thorebenoit.enamel.kotlin.geometry.toCircle
+import processing.core.PApplet
+import processing.core.PConstants
+import processing.core.PGraphics
+import processing.event.KeyEvent
+import processing.event.MouseEvent
+
+private typealias MouseEventListener = (MouseEvent) -> Unit
+private typealias KeyEventListener = (KeyEvent) -> Unit
+
+
+abstract class KotlinPApplet : PApplet() {
+
+
+    override fun settings() {
+        size(800, 800)
+    }
+
+    val displayFrame get() = allocate { ERect(size = displayWidth size displayHeight) }
+    val eframe get() = allocate { ERect(size = esize) }
+    var esize: ESize
+        get() = allocate { width size height }
+        set(value) {
+            size(value.width.i, value.height.i)
+        }
+    var windowLocation: EPointType = EPointType.inv
+        get() {
+            if (field == EPointType.inv) { // Because lateinit isn't possible
+                field = allocate { displayFrame.rectAlignedInside(aligned = EAlignment.middle, size = esize).center() }
+            }
+            return field
+        }
+        set(value) {
+            field = value
+            surface.setLocation(value.x.i, value.y.i)
+        }
+
+
+    val PGraphics.eframe get() = allocate { ERect(size = esize) }
+    var PGraphics.esize: ESize
+        get() = allocate { width size height }
+        set(value) {
+            size(value.width.i, value.height.i)
+        }
+
+    val center get() = allocate { ERect(size = esize).center(EPoint()) }
+
+    val mousePosition get() = allocate { mouseX point mouseY }
+    val mousePositionOnScreen get() = allocate { (mouseX point mouseY).offset(windowLocation) }
+
+
+    private val mouseClickListeners = mutableListOf<MouseEventListener>()
+    private val mouseReleaseListeners = mutableListOf<MouseEventListener>()
+    private val mouseDraggedListeners = mutableListOf<MouseEventListener>()
+    private val mouseMovedListeners = mutableListOf<MouseEventListener>()
+    private val mousePressedListeners = mutableListOf<MouseEventListener>()
+    private val mouseExitedListeners = mutableListOf<MouseEventListener>()
+
+    private val keyPressedListeners = mutableListOf<KeyEventListener>()
+
+    fun onMouseClicked(block: MouseEventListener) {
+        mouseClickListeners += block
+    }
+
+    fun onMouseReleased(block: MouseEventListener) {
+        mouseReleaseListeners += block
+    }
+
+    fun onMouseMoved(block: MouseEventListener) {
+        mouseMovedListeners += block
+    }
+
+    fun onMouseDragged(block: MouseEventListener) {
+        mouseDraggedListeners += block
+    }
+
+    fun onMousePressed(block: MouseEventListener) {
+        mousePressedListeners += block
+    }
+
+    fun onMouseExited(block: MouseEventListener) {
+        mouseExitedListeners += block
+    }
+
+    fun onKeyPressed(block: KeyEventListener) {
+        keyPressedListeners += block
+    }
+
+    override fun mouseClicked(event: MouseEvent) {
+        mouseClickListeners.forEach { it(event) }
+    }
+
+    override fun mouseReleased(event: MouseEvent) {
+        mouseReleaseListeners.forEach { it(event) }
+    }
+
+    override fun mouseMoved(event: MouseEvent) {
+        mouseMovedListeners.forEach { it(event) }
+    }
+
+    override fun mouseDragged(event: MouseEvent) {
+        mouseDraggedListeners.forEach { it(event) }
+    }
+
+    override fun mousePressed(event: MouseEvent) {
+        mousePressedListeners.forEach { it(event) }
+    }
+
+    override fun mouseExited(event: MouseEvent) {
+        mouseExitedListeners.forEach { it(event) }
+    }
+
+    override fun keyPressed(event: KeyEvent) {
+        keyPressedListeners.forEach { it(event) }
+    }
+
+
+    // Size change
+    override fun size(width: Int, height: Int) {
+        super.size(width, height)
+        internalOnSizeChanged()
+    }
+
+    override fun size(width: Int, height: Int, renderer: String?) {
+        super.size(width, height, renderer)
+        internalOnSizeChanged()
+    }
+
+    override fun size(width: Int, height: Int, renderer: String?, path: String?) {
+        super.size(width, height, renderer, path)
+        internalOnSizeChanged()
+    }
+
+    override fun setSize(width: Int, height: Int) {
+        super.setSize(width, height)
+        internalOnSizeChanged()
+    }
+
+    private val onSizeChangedListeners = mutableListOf<() -> Unit>()
+
+    fun onSizeChanged(block: () -> Unit) {
+        onSizeChangedListeners += block
+    }
+
+    private fun internalOnSizeChanged() {
+        onSizeChangedListeners.forEach { it() }
+    }
+
+
+    // Draw helper
+
+    fun <T : EPointType> T.draw(): T {
+        allocate { toCircle(5).draw() }
+        return this
+    }
+
+
+    fun <T : ECircleImmutable> T.draw(): T {
+        graphics.ellipse(x, y, radius * 2, radius * 2)
+        return this
+    }
+
+    fun <T : ERectType> T.draw(): T {
+        graphics.rect(x, y, width, height)
+        return this
+    }
+
+    fun <E : EPointType> List<E>.draw(closed: Boolean): List<E> {
+        with(graphics) {
+            beginShape()
+
+            forEach {
+                vertex(it.x, it.y)
+            }
+            if (closed) {
+                endShape(PConstants.CLOSE)
+            } else {
+                endShape()
+            }
+        }
+
+        return this
+    }
+
+    fun stroke(r: Number, g: Number, b: Number) = stroke(r.f, g.f, b.f)
+    fun fill(r: Number, g: Number, b: Number) = fill(r.f, g.f, b.f)
+
+}
+
