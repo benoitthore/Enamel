@@ -11,3 +11,8 @@ fun Regex.capture(target: String): List<String> {
     }
     return list
 }
+
+
+private val _2decFormat = "%.2f"
+val Float._2dec get() = _2decFormat.format(this)
+

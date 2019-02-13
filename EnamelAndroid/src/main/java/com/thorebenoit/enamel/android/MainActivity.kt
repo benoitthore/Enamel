@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         speaker = TextToSpeech(this, TextToSpeech.OnInitListener {
-            
+
         })
 
         val v = enamelContext {

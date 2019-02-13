@@ -1,28 +1,23 @@
 package com.thorebenoit.enamel.processingtest
 
-import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.core.randomColor
 import com.thorebenoit.enamel.kotlin.core.time.EDeltaTimer
 import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeImmutable
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
+import com.thorebenoit.enamel.kotlin.physics.physicsLoop
+import com.thorebenoit.enamel.kotlin.physics.steering.Steerable
 import com.thorebenoit.enamel.kotlin.threading.coroutine
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
-import java.io.File
+import java.util.*
 
 
 object ProcessingTestMain {
+
+
     @JvmStatic
     fun main(args: Array<String>) {
 
-
-        val wordList   = File("/usr/share/dict/words").readLines()
-
-
-        wordList.random().print
-
-
-        return
         // TODO Remove and check if allocating debug
         AllocationTracker.debugAllocations = false
 
@@ -32,50 +27,6 @@ object ProcessingTestMain {
 
 }
 
-interface PhysicsObject {
-    val velocity: EPoint
-    val acceleration: EPoint
-    val position: EPoint
-
-
-    fun applyForce(force: EPointType) {
-        acceleration.selfOffset(force)
-    }
-
-    fun update(deltaTime: Float) {
-        val deltaTime = 1
-        velocity.selfOffset(acceleration.x * deltaTime, acceleration.y * deltaTime)
-        position.selfOffset(velocity.x * deltaTime, velocity.y * deltaTime)
-
-        // Clear acceleration after frame
-        acceleration.set(0, 0)
-    }
-}
-
-// TODO Refactor so it can use composition and steer towards/away from targets faster/slower
-/*
-    Steerable is a class that takes a Physics object
-    SteeringBegaviour  is a class takes a Steerable
- */
-interface Steerable : PhysicsObject {
-    val maxSpeed: Float
-    val maxForce: Float
-
-    fun getSteerTowards(target: EPointType): EPoint {
-        val desired = target - position
-        desired.selfNormalize()
-
-        desired.mult(maxSpeed)
-        val steer = desired - velocity
-        steer.selfLimitMagnitude(maxForce)
-
-        return steer
-    }
-
-
-    fun getSteerAwayFrom(target: EPointType) = getSteerTowards(target).selfInverse()
-}
-
 
 data class Dot(
     override val position: EPoint,
@@ -83,10 +34,10 @@ data class Dot(
     val color: Int = randomColor(),
     val radius: Int = 5
 ) :
-    Steerable
-{
+    Steerable {
+    override val maxVelocity: Float = 0.8f
 
-    override val maxSpeed: Float = 2f
+    override val maxSpeed: Float = 1f
     override val maxForce: Float = 0.01f
     override val velocity: EPoint = EPoint()
     override val acceleration: EPoint = EPoint()
@@ -104,13 +55,13 @@ interface DotDrawer {
 
 class MainAppletPresenter(val view: DotDrawer) {
 
-    private val _dotList = mutableListOf<Dot>()
+    private val _dotList = Collections.synchronizedCollection(mutableListOf<Dot>())
 
     init {
         view.onMouseClicked = {
 
             _dotList += Dot(view.mousePosition.toMutable())
-            view.dotList = _dotList
+            view.dotList = _dotList.toList()
 
         }
 
@@ -118,39 +69,28 @@ class MainAppletPresenter(val view: DotDrawer) {
     }
 
     private fun startLoop() {
+        physicsLoop { deltaTime ->
 
-        coroutine {
-            while (true) {
-                val timer = EDeltaTimer()
-                timer.frame { deltaTime ->
-                    // <frame>
+            _dotList.forEach { first ->
+                first.applyForce(first.getSteerTowards(view.mousePosition))
 
-
-                    _dotList.forEach { first ->
-                        first.applyForce(first.getSteerTowards(view.mousePosition))
-
-                        _dotList.forEach { second ->
-                            if (first != second) {
-                                if (first.position.distanceTo(second.position) < (second.radius + first.radius) * 5) {
-                                    first.applyForce(first.getSteerAwayFrom(second.position))
-                                }
-                            }
+                _dotList.forEach { second ->
+                    if (first != second) {
+                        if (first.position.distanceTo(second.position) < (second.radius + first.radius) * 5) {
+                            first.applyForce(first.getSteerAwayFrom(second.position))
                         }
-
                     }
-
-                    // </frame>
-
-                    _dotList.forEach { it.update(deltaTime) }
-
-                    Thread.sleep((timer.targetFrameTime * deltaTime).toLong())
-
-                    view.dotList = _dotList
-                    view.update()
                 }
 
-
             }
+
+            // </frame>
+
+            _dotList.forEach { it.update(deltaTime) }
+
+
+            view.dotList = _dotList.toList()
+            view.update()
         }
     }
 
