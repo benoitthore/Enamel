@@ -1,7 +1,10 @@
 package com.thorebenoit.enamel.processingtest
 
+import com.thorebenoit.enamel.kotlin.core._2dec
+import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.core.randomColor
 import com.thorebenoit.enamel.kotlin.core.time.EDeltaTimer
+import com.thorebenoit.enamel.kotlin.genetics.Genome
 import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeImmutable
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
@@ -18,6 +21,13 @@ object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
 
+        val genome = Genome((0 .. 10).map { 1 }) { dna ->
+            dna.joinToString { it._2dec }
+        }
+
+        genome.mutate(1f, 1f).create().print
+
+        return
         // TODO Remove and check if allocating debug
         AllocationTracker.debugAllocations = false
 
@@ -37,7 +47,7 @@ data class Dot(
     Steerable {
     override val maxVelocity: Float = 0.8f
 
-    override val maxSpeed: Float = 1f
+    override val maxSpeed: Float = 2f
     override val maxForce: Float = 0.01f
     override val velocity: EPoint = EPoint()
     override val acceleration: EPoint = EPoint()
@@ -55,12 +65,16 @@ interface DotDrawer {
 
 class MainAppletPresenter(val view: DotDrawer) {
 
+
+    // synchronized not working
     private val _dotList = Collections.synchronizedCollection(mutableListOf<Dot>())
 
     init {
         view.onMouseClicked = {
 
-            _dotList += Dot(view.mousePosition.toMutable())
+            synchronized(_dotList) {
+                _dotList += Dot(view.mousePosition.toMutable())
+            }
             view.dotList = _dotList.toList()
 
         }
@@ -71,22 +85,24 @@ class MainAppletPresenter(val view: DotDrawer) {
     private fun startLoop() {
         physicsLoop { deltaTime ->
 
-            _dotList.forEach { first ->
-                first.applyForce(first.getSteerTowards(view.mousePosition))
+            synchronized(_dotList) {
+                _dotList.forEach { first ->
+                    first.applyForce(first.getSteerTowards(view.mousePosition))
 
-                _dotList.forEach { second ->
-                    if (first != second) {
-                        if (first.position.distanceTo(second.position) < (second.radius + first.radius) * 5) {
-                            first.applyForce(first.getSteerAwayFrom(second.position))
-                        }
-                    }
+//                    _dotList.forEach { second ->
+//                        if (first != second) {
+//                            if (first.position.distanceTo(second.position) < (second.radius + first.radius) * 5) {
+//                                first.applyForce(first.getSteerAwayFrom(second.position))
+//                            }
+//                        }
+//                    }
+
                 }
 
+                // </frame>
+
+                _dotList.forEach { it.update(deltaTime) }
             }
-
-            // </frame>
-
-            _dotList.forEach { it.update(deltaTime) }
 
 
             view.dotList = _dotList.toList()

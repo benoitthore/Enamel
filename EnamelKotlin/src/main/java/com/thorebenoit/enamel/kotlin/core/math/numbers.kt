@@ -15,6 +15,8 @@ const val œ = 0.001f // ALT + Q on Mac
 
 private val RANDOM = Random()
 
+fun random(): Float = random(min = 0f, max = 1f)
+fun random(max: Number): Float = random(min = 0f,max = max)
 fun random(min: Number, max: Number): Float =
     lerp(RANDOM.nextFloat(), min, max)
 

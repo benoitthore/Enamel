@@ -15,7 +15,6 @@ interface PhysicsObject {
     }
 
     fun update(deltaTime: Float) {
-        val deltaTime = 1
         velocity.selfOffset(acceleration.x * deltaTime, acceleration.y * deltaTime).selfLimitMagnitude(maxVelocity)
         position.selfOffset(velocity.x * deltaTime, velocity.y * deltaTime)
 
