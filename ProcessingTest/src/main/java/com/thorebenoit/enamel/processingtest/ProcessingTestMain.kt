@@ -12,6 +12,7 @@ import com.thorebenoit.enamel.kotlin.physics.physicsLoop
 import com.thorebenoit.enamel.kotlin.physics.steering.Steerable
 import com.thorebenoit.enamel.kotlin.threading.coroutine
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
+import processing.core.PVector
 import java.util.*
 
 
@@ -119,7 +120,6 @@ class MainApplet : KotlinPApplet(), DotDrawer {
     private var lastMouseDown: EPoint? = null
 
     init {
-
 
         onMousePressed {
             if (lastMouseDown == null) {

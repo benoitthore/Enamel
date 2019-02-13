@@ -26,6 +26,8 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
 
     open val magnitude get() = Math.hypot(x.d, y.d)
 
+    fun heading(buffer: EAngle = EAngle()) = buffer.set(Math.atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
+
     fun angleTo(point: EPointType): EAngle =
         Math.atan2(
             ((point.y - y).d), ((point.x - x).d)
