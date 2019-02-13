@@ -21,13 +21,6 @@ object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        val genome = Genome((0 .. 10).map { 1 }) { dna ->
-            dna.joinToString { it._2dec }
-        }
-
-        genome.mutate(1f, 1f).create().print
-
-        return
         // TODO Remove and check if allocating debug
         AllocationTracker.debugAllocations = false
 

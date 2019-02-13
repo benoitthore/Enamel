@@ -1,8 +1,23 @@
 package com.thorebenoit.enamel.kotlin.genetics
 
+import com.thorebenoit.enamel.kotlin.core._2dec
 import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.print
 import java.lang.Exception
+
+
+private fun main() {
+    val builder = { dna: FloatArray ->
+        dna.joinToString { it._2dec }
+    }
+
+    val genome = Genome((0..10).map { 1 }, builder)
+
+    val other = Genome((0..10).map { 0 }, builder)
+
+    genome.reproduce(other).create().print
+    genome.mutate(0.1f, 1f).create().print
+}
 
 class Genome<T>(private val dna: FloatArray, private val create: (FloatArray) -> T) {
 
@@ -12,7 +27,7 @@ class Genome<T>(private val dna: FloatArray, private val create: (FloatArray) ->
 
     fun getDnaCopy() = dna.copyOf()
 
-    fun create() = create(dna)
+    fun create() = create(dna.copyOf())
 
 
     fun reproduce(other: Genome<T>): Genome<T> {
