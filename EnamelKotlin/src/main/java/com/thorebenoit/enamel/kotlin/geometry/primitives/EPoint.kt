@@ -6,10 +6,14 @@ import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.math.randomSign
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
+import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import jdk.nashorn.internal.objects.Global
 import java.lang.Exception
 
-open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
+open class EPointType(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
+    override val v1: Number get() = x
+    override val v2: Number get() = y
+
     companion object {
         val inv = EPointType(-1f, -1f)
         val zero = EPointType(0f, 0f)
@@ -67,11 +71,11 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
 
     fun offset(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x + x.f, this.y + y.f)
     fun offset(n: Number, buffer: EPoint = EPoint()) = offset(n, n, buffer)
-    fun offset(other: EPointType, buffer: EPoint = EPoint()) = offset(other.x, other.y, buffer)
+    fun offset(other: Tuple2, buffer: EPoint = EPoint()) = offset(other.v1, other.v2, buffer)
 
     fun sub(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x - x.f, this.y - y.f)
     fun sub(n: Number, buffer: EPoint = EPoint()) = sub(n, n, buffer)
-    fun sub(other: EPointType, buffer: EPoint = EPoint()) = sub(other.x, other.y, buffer)
+    fun sub(other: Tuple2, buffer: EPoint = EPoint()) = sub(other.v1, other.v2, buffer)
 
 
     fun offsetTowards(towards: EPointType, distance: Number, buffer: EPoint = EPoint()): EPoint {
@@ -87,11 +91,11 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
 
     fun mult(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x * x.f, this.y * y.f)
     fun mult(n: Number, buffer: EPoint = EPoint()) = mult(n, n, buffer)
-    fun mult(other: EPointType, buffer: EPoint = EPoint()) = mult(other.x, other.y, buffer)
+    fun mult(other: Tuple2, buffer: EPoint = EPoint()) = mult(other.v1, other.v2, buffer)
 
-    fun div(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x / x.f, this.y / y.f)
-    fun div(n: Number, buffer: EPoint = EPoint()) = div(n, n, buffer)
-    fun div(other: EPointType, buffer: EPoint = EPoint()) = mult(other.x, other.y, buffer)
+    fun divide(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x / x.f, this.y / y.f)
+    fun divide(n: Number, buffer: EPoint = EPoint()) = divide(n, n, buffer)
+    fun divide(other: Tuple2, buffer: EPoint = EPoint()) = divide(other.v1, other.v2, buffer)
 
 
     fun offsetAngle(angle: EAngleType, distance: Number, buffer: EPoint = EPoint()): EPoint {
@@ -151,7 +155,7 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointTyp
 
     fun set(x: Number, y: Number) = apply { this.x = x.f; this.y = y.f }
 
-    fun set(other: EPointType) = set(other.x, other.y)
+    fun set(other: Tuple2) = set(other.v1, other.v2)
 
     fun set(angle: EAngleType, magnitude: Number) =
         set(angle.cos * magnitude.f, angle.sin * magnitude.f)
@@ -171,11 +175,11 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointTyp
 
     fun selfOffset(x: Number, y: Number) = offset(x, y, this)
     fun selfOffset(n: Number) = offset(n, this)
-    fun selfOffset(other: EPointType) = offset(other, this)
+    fun selfOffset(other: Tuple2) = offset(other, this)
 
     fun selfSub(x: Number, y: Number) = sub(x, y, this)
     fun selfSub(n: Number) = sub(n, this)
-    fun selfSub(other: EPointType) = sub(other, this)
+    fun selfSub(other: Tuple2) = sub(other, this)
 
 
     fun selfOffsetTowards(towards: EPointType, distance: Number) = offsetTowards(towards, distance, this)
@@ -184,11 +188,11 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointTyp
 
     fun selfMult(x: Number, y: Number) = mult(x, y, this)
     fun selfMult(n: Number) = mult(n, this)
-    fun selfMult(other: EPointType) = mult(other, this)
+    fun selfMult(other: Tuple2) = mult(other, this)
 
-    fun selfDiv(x: Number, y: Number) = div(x, y, this)
-    fun selfDiv(n: Number) = div(n, this)
-    fun selfDiv(other: EPointType) = div(other, this)
+    fun selfDiv(x: Number, y: Number) = divide(x, y, this)
+    fun selfDiv(n: Number) = divide(n, this)
+    fun selfDiv(other: Tuple2) = divide(other, this)
 
 
     fun selfOffsetAngle(angle: EAngleType, distance: Number) = offsetAngle(angle, distance)
@@ -214,24 +218,30 @@ fun RandomPoint(magnitude: Number = 1f, buffer: EPoint = EPoint()) =
 /////////////////////////
 /////////////////////////
 /////////////////////////
+
+interface Tuple2 {
+    val v1: Number
+    val v2: Number
+}
+
+
 inline operator fun EPointType.unaryMinus() = EPointType(-x, -y)
 
-inline operator fun EPointType.div(n: Number) = EPointType(x / n.f, y / n.f)
+inline operator fun EPointType.div(other: Tuple2) = divide(other)
+inline operator fun EPointType.div(n: Number) = divide(n)
 
-inline operator fun EPointType.times(other: EPoint) = mult(other)
+inline operator fun EPointType.times(other: Tuple2) = mult(other)
 inline operator fun EPointType.times(n: Number) = mult(n)
 
-inline operator fun EPointType.plus(other: EPoint) = offset(other)
+inline operator fun EPointType.plus(other: Tuple2) = offset(other)
 inline operator fun EPointType.plus(n: Number) = offset(n)
 
-inline operator fun EPointType.minus(other: EPoint) = sub(other)
+inline operator fun EPointType.minus(other: Tuple2) = sub(other)
 inline operator fun EPointType.minus(n: Number) = sub(n)
 
 
 inline operator fun Number.times(p: EPointType) = p.mult(this)
 inline operator fun Number.plus(p: EPointType) = p.offset(this)
-
-
 /////////////////////////
 /////////////////////////
 /////////////////////////

@@ -1,6 +1,7 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
 import com.thorebenoit.enamel.kotlin.core.math.f
+import com.thorebenoit.enamel.kotlin.core.math.functions.ELinearFunction
 import com.thorebenoit.enamel.kotlin.core.math.i
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 
@@ -8,13 +9,13 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 TODO Make mutable/immutable version
 TODO Make allocation free
  */
-class XLine(val start: EPointType = EPointType.zero, val end: EPointType = EPointType.zero) {
+open class ELineType(open val start: EPointType = EPointType.zero, open val end: EPointType = EPointType.zero) {
 
     private fun Float.opposite() = 1f - this
 
     companion object {
-        val unit = XLine(start = EPoint.zero, end = EPoint.unit)
-        val zero = XLine(start = EPoint.zero, end = EPoint.zero)
+        val unit = ELineType(start = EPoint.zero, end = EPoint.unit)
+        val zero = ELineType(start = EPoint.zero, end = EPoint.zero)
 
         val START = 0f
         val END = 1f
@@ -59,17 +60,17 @@ class XLine(val start: EPointType = EPointType.zero, val end: EPointType = EPoin
         return fromPoint.offsetTowards(towards, totalDistance)
     }
 
-    fun isParallel(other: XLine) = linearFunction.a == other.linearFunction.a
+    fun isParallel(other: ELine) = linearFunction.a == other.linearFunction.a
 
     fun center() = pointAt(0.5f)
 
-    fun rotate(offsetAngle: EAngle, around: EPointType = center()): XLine {
+    fun rotate(offsetAngle: EAngle, around: EPointType = center()): ELine {
         val newStart = start.rotateAround(offsetAngle, around)
         val newEnd = end.rotateAround(offsetAngle, around)
         return newStart line newEnd
     }
 
-    fun expanded(distance: Number, from: Float): XLine {
+    fun expanded(distance: Number, from: Float): ELineType {
         val start = pointAt(from.opposite())
         return start line extrapolateFrom(distance, from)
     }
@@ -102,7 +103,7 @@ class XLine(val start: EPointType = EPointType.zero, val end: EPointType = EPoin
         towards: Float,
         leftLength: Number,
         rightLength: Number
-    ): XLine {
+    ): ELineType {
         val start = perpendicularPointLeft(
             distanceFromLine = leftLength,
             distanceTowardsEndPoint = distance,
@@ -129,7 +130,7 @@ class XLine(val start: EPointType = EPointType.zero, val end: EPointType = EPoin
             rightLength = length.f / 2f
         )
 
-    fun perpendicular(at: Float, leftLength: Number, rightLength: Number): XLine {
+    fun perpendicular(at: Float, leftLength: Number, rightLength: Number): ELineType {
         val offset = length * at
         return perpendicular(
             distance = offset,
@@ -145,17 +146,44 @@ class XLine(val start: EPointType = EPointType.zero, val end: EPointType = EPoin
         rightLength = length.f / 2f
     )
 
-    fun offset(xOff: Number, yOff: Number) = start.offset(xOff, yOff) line end.offset(xOff, yOff)
-    fun offset(p: EPointType) = offset(p.x, p.y)
+    override fun toString(): String {
+        return "($start, $end)"
+    }
 
 
 }
 
-infix fun EPointType.line(end: EPointType) = XLine(start = this, end = end)
+class ELine(override val start: EPoint = EPoint.zero, override val end: EPoint = EPoint.zero) : ELineType(start, end) {
+
+    fun set(start: EPointType, end: EPointType) = set(start.x, start.y, end.x, end.y)
+
+    fun set(x1: Number, y1: Number, x2: Number, y2: Number) = apply {
+        start.x = x1.f
+        start.y = y1.f
+
+        end.x = x2.f
+        end.y = y2.f
+    }
+
+    fun selfOffset(xOff: Number, yOff: Number) = start.offset(xOff, yOff) line end.offset(xOff, yOff)
+    fun selfOffset(p: EPointType) = selfOffset(p.x, p.y)
+    fun selfScale(width: Number, height: Number): ELine {
+        start.x *= width.f
+        end.x *= width.f
+
+        start.y *= height.f
+        end.y *= height.f
+        return this
+
+    }
+}
+
+infix fun EPointType.line(end: EPointType) = ELineType(start = this, end = end)
+infix fun EPoint.line(end: EPoint) = ELine(start = this, end = end)
 
 /// CONVERT
-fun List<EPointType>.toListOfLines(): List<XLine> {
-    val ret = mutableListOf<XLine>()
+fun List<EPointType>.toListOfLines(): List<ELineType> {
+    val ret = mutableListOf<ELineType>()
     forEachIndexed { i, curr ->
         if (i > 1) {
             val prev = get(i - 1)

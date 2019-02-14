@@ -1,6 +1,7 @@
-package com.thorebenoit.enamel.kotlin.geometry.figures
+package com.thorebenoit.enamel.kotlin.core.math.functions
 
 import com.thorebenoit.enamel.kotlin.core.math.f
+import com.thorebenoit.enamel.kotlin.geometry.figures.ELine
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
@@ -38,5 +39,12 @@ data class ELinearFunction(val slope: Float, val yIntercept: Float) {
         val x = from.x
         val y = this[x]
         return x point y
+    }
+
+    fun toLine(length: Number, buffer: ELine = ELine()): ELine {
+        val x1 = 0f
+        val x2 = length
+        // TODO Make length work properly using pyth theorem
+        return buffer.set(x1, this[x1], x2, this[x2])
     }
 }

@@ -1,6 +1,8 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 
+import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
+import processing.core.PApplet
 
 fun KotlinPApplet._onMouseClicked(listener: () -> Unit) {
     val clickDistance = 200
@@ -20,4 +22,16 @@ fun KotlinPApplet._onMouseClicked(listener: () -> Unit) {
         }
     }
 
+}
+
+fun PApplet.withInvert(block: PApplet.() -> Unit) {
+    pushMatrix()
+    invertY()
+    block()
+    popMatrix()
+}
+
+fun PApplet.invertY() {
+    translate(0f, height.f)
+    scale(1f, -1f)
 }

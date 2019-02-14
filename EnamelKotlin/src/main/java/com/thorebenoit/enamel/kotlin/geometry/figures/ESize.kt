@@ -5,8 +5,12 @@ import com.thorebenoit.enamel.kotlin.core.math.d
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
 import com.thorebenoit.enamel.kotlin.geometry.allocate
+import com.thorebenoit.enamel.kotlin.geometry.primitives.Tuple2
 
-open class ESizeType(open val width: Float = 0f, open val height: Float = 0f) {
+open class ESizeType(open val width: Float = 0f, open val height: Float = 0f) : Tuple2 {
+    override val v1: Number get() = width
+    override val v2: Number get() = height
+
     companion object {
         val zero: ESizeType = allocate { ESizeType() }
 

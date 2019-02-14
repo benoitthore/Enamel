@@ -1,6 +1,7 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 
 import com.thorebenoit.enamel.kotlin.core.math.f
+import com.thorebenoit.enamel.kotlin.core.math.functions.ELinearFunction
 import com.thorebenoit.enamel.kotlin.core.math.i
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
@@ -198,6 +199,18 @@ abstract class KotlinPApplet : PApplet() {
         return this
     }
 
+    open fun <T : ELineType> T.draw(): T {
+        line(x1, y1, x2, y2)
+        return this
+    }
+
+    open fun <T : ELinearFunction> T.draw(): T {
+        val x1 = 0f
+        val x2 = width.f
+        line(x1, this[x1], x2, this[x2])
+        return this
+    }
+
     open fun <E : EPointType> List<E>.draw(closed: Boolean = true): List<E> {
         beginShape()
 
@@ -207,7 +220,7 @@ abstract class KotlinPApplet : PApplet() {
         if (closed) {
             endShape(PConstants.CLOSE)
         } else {
-            endShape()
+            endShape(PConstants.OPEN)
         }
 
         return this
