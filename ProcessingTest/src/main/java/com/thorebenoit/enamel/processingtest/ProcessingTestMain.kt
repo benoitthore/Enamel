@@ -1,13 +1,19 @@
 package com.thorebenoit.enamel.processingtest
 
+import com.thorebenoit.enamel.kotlin.core._2dec
 import com.thorebenoit.enamel.kotlin.core.get
+import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.print
+import com.thorebenoit.enamel.kotlin.core.time.ETimer
 import com.thorebenoit.enamel.kotlin.genetics.DnaBuilder
 import com.thorebenoit.enamel.kotlin.genetics.Genome
 import com.thorebenoit.enamel.kotlin.genetics.randomWithWeight
 import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
+import jdk.nashorn.internal.objects.Global.Infinity
+import java.util.*
+import kotlin.math.pow
 
 
 object ProcessingTestMain {
@@ -20,7 +26,7 @@ object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        val possibleChar = ('a'..'z').toList() // + ('A'..'Z').toList() + '('
+        val possibleChar = ('a'..'z').toList() + ' ' + ('A'..'Z').toList()
         val builder = DnaBuilder { dna ->
             dna.map {
                 possibleChar[it]
@@ -28,44 +34,42 @@ object ProcessingTestMain {
         }
 
 
-        val population = Population(_target.length, 10, builder = builder, randomGene = { _, _ -> random() })
 
 
-        // <//>
-        val targetDna = _target.map { it.toInt() - 'a'.toInt() }.map { it / 26f }
-        val bestPossible = Genome(targetDna, builder).mutate(0.25)
-//        bestPossible.individual.print
-//        population.evaluateFitness(bestPossible).print
-//        return
-        // </ //>
+        (0..10).forEach {
 
-        population.individuals.add(bestPossible)
+            val t = ETimer()
+            val population = Population(_target.length, 1000, builder = builder, randomGene = { _, _ -> random() })
+
+            var i = 0
+            var found = false
+            while (!found) {
+                val map = population.evolve()
+
+//                println()
+//                print("$i ")
+//                population.best?.let { (genome, fitness) ->
+//                    "${(fitness / population.maxFitness)._2dec}-> ${genome.individual}".print
+//                }
 
 
-        fun Population.print() {
-            val best = population.createFitnessIndividualMap().maxBy { (g, f) -> f }!!
+                if (_target == population.best?.first?.individual) {
+                    "Found after $i tries           ${population.best}".print
+                    found = true
+                }
 
-            best.let { (genome, fitness) ->
-
-                "$fitness -> ${genome.individual}".print
+                i++
             }
-        }
 
-        var i = 0
-        while (i < 10_000) {
-            population.evolve()
-            i++
-//            print(i)
-            population.print()
+            t.print
         }
-//        population.print()
 
 
     }
 
 }
 
-private val _target = "benoit"
+private val _target = "Darwin is winning"
 
 class Population(
     dnaSize: Int,
@@ -88,25 +92,65 @@ class Population(
                 fitness++
             }
         }
-        return fitness // / _target.length
+        return fitness.pow(2) // / _target.length
     }
 
-    fun evolve() {
+    val maxFitness = _target.length.f.pow(4)
+    var best: Pair<Genome<String>, Float>? = null
+
+    fun evolve(): MutableMap<Genome<String>, Float> {
+
+        var i = 0
 
         val map = createFitnessIndividualMap()
 
+        val avgFitness = map.map { it.value }.average().toFloat()
+
         individuals.clear()
         (0 until populationSize).forEach {
-            val mommy = map.randomWithWeight()
-            val daddy = map.randomWithWeight()
-            val child = mommy.reproduce(daddy).mutate(0.01)
+            var m = map.randomWithWeight()
+            var d = map.randomWithWeight()
+            // TODO Fix this
+            while (m.value < avgFitness || d.value < avgFitness) {
+                m = map.randomWithWeight()
+                d = map.randomWithWeight()
+                i++
+            }
+
+            val child = m.key.reproduce(d.key).mutate(0.01)
             individuals.add(child)
+
+
+            // DEBUG
+            val (mommy, mommyFitness) = m
+            val (daddy, daddyFitness) = d
+
+            val childFitness = evaluateFitness(child)
+
+            if (mommyFitness < avgFitness && daddyFitness < avgFitness) {
+                println("regression")
+            }
+
+
         }
+
+//        println("$i extra steps")
+        return map
     }
 
 
     fun createFitnessIndividualMap(): MutableMap<Genome<String>, Float> =
-        individuals.map { it to evaluateFitness(it) }.toMap().toMutableMap()
+        individuals.map {
+
+            val score = evaluateFitness(it)
+
+            (it to score).also {
+                if (score > best?.second ?: -Infinity.f) {
+                    best = it
+                }
+            }
+
+        }.toMap().toMutableMap()
 
 }
 

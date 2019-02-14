@@ -54,16 +54,24 @@ class Genome<T>(
     val genomeSize = dna.size
 
 
-    fun reproduce(other: Genome<T>): Genome<T> {
+    // TODO Remove splitHalf
+    fun reproduce(other: Genome<T>, splitHalf: Boolean = false): Genome<T> {
         if (genomeSize != other.genomeSize) {
             throw Exception("Genomes must have the same DNA size")
         }
         val newDna = dna.toMutableList()
         val otherDna = other.dna
 
+        val midPoint = newDna.size * random()
         for (i in 0 until newDna.size) {
-            if (random() < 0.5f) {
-                newDna[i] = otherDna[i]
+            if (splitHalf) {
+                if (i > midPoint) {
+                    newDna[i] = otherDna[i]
+                }
+            } else {
+                if (random() < 0.5f) {
+                    newDna[i] = otherDna[i]
+                }
             }
         }
 
@@ -86,4 +94,10 @@ class Genome<T>(
 
         return Genome(newDna, builder)
     }
+
+    override fun toString(): String {
+        return "Genome(individual=$individual)"
+    }
+
+
 }
