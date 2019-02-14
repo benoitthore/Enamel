@@ -1,24 +1,13 @@
 package com.thorebenoit.enamel.processingtest
 
-import com.thorebenoit.enamel.kotlin.core.limitSizeLast
-import com.thorebenoit.enamel.kotlin.core.math.f
-import com.thorebenoit.enamel.kotlin.core.math.functions.linearRegression
+import com.thorebenoit.enamel.kotlin.core.get
+import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.genetics.randomWithWeigth
+import com.thorebenoit.enamel.kotlin.genetics.DnaBuilder
+import com.thorebenoit.enamel.kotlin.genetics.Genome
+import com.thorebenoit.enamel.kotlin.genetics.randomWithWeight
 import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
-import com.thorebenoit.enamel.kotlin.geometry.figures.*
-import com.thorebenoit.enamel.kotlin.geometry.innerCircle
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
-import com.thorebenoit.enamel.kotlin.geometry.primitives.div
-import com.thorebenoit.enamel.kotlin.geometry.primitives.times
-import com.thorebenoit.enamel.processingtest.examples.genetics.GeneticPresenter
-import com.thorebenoit.enamel.processingtest.examples.steering.DotDrawingApplet
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
-import com.thorebenoit.enamel.processingtest.kotlinapplet.applet._onMouseClicked
-import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.invertY
-import com.thorebenoit.enamel.processingtest.kotlinapplet.toEPoint
-import kotlin.math.pow
 
 
 object ProcessingTestMain {
@@ -31,45 +20,99 @@ object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
 
+        val possibleChar = ('a'..'z').toList() // + ('A'..'Z').toList() + '('
+        val builder = DnaBuilder { dna ->
+            dna.map {
+                possibleChar[it]
+            }.joinToString(separator = "")
+        }
 
-        val applet = KotlinPApplet.createApplet<MainApplet>()
-//        val applet = KotlinPApplet.createApplet<DotDrawingApplet>()
-//        GeneticPresenter(applet)
+
+        val population = Population(_target.length, 10, builder = builder, randomGene = { _, _ -> random() })
+
+
+        // <//>
+        val targetDna = _target.map { it.toInt() - 'a'.toInt() }.map { it / 26f }
+        val bestPossible = Genome(targetDna, builder).mutate(0.25)
+//        bestPossible.individual.print
+//        population.evaluateFitness(bestPossible).print
+//        return
+        // </ //>
+
+        population.individuals.add(bestPossible)
+
+
+        fun Population.print() {
+            val best = population.createFitnessIndividualMap().maxBy { (g, f) -> f }!!
+
+            best.let { (genome, fitness) ->
+
+                "$fitness -> ${genome.individual}".print
+            }
+        }
+
+        var i = 0
+        while (i < 10_000) {
+            population.evolve()
+            i++
+//            print(i)
+            population.print()
+        }
+//        population.print()
 
 
     }
 
 }
 
-class MainApplet : KotlinPApplet() {
+private val _target = "benoit"
 
+class Population(
+    dnaSize: Int,
+    val populationSize: Int,
+    builder: DnaBuilder<String>,
+    randomGene: (Int, Float) -> Float
+) {
 
-    val points: MutableList<EPoint> = mutableListOf()
+    val individuals: MutableList<Genome<String>> =
+        MutableList(populationSize) { Genome(dnaSize, builder, randomGene) }
 
-    init {
-        _onMouseClicked {
-            points += mousePosition.copy()
+    /**
+     * @return the fitness, higher is better
+     */
+    fun evaluateFitness(genome: Genome<String>): Float {
 
-            loop()
+        var fitness = 0f
+        genome.individual.forEachIndexed { i, c ->
+            if (c == _target[i]) {
+                fitness++
+            }
+        }
+        return fitness // / _target.length
+    }
+
+    fun evolve() {
+
+        val map = createFitnessIndividualMap()
+
+        individuals.clear()
+        (0 until populationSize).forEach {
+            val mommy = map.randomWithWeight()
+            val daddy = map.randomWithWeight()
+            val child = mommy.reproduce(daddy).mutate(0.01)
+            individuals.add(child)
         }
     }
 
 
-    override fun draw() {
+    fun createFitnessIndividualMap(): MutableMap<Genome<String>, Float> =
+        individuals.map { it to evaluateFitness(it) }.toMap().toMutableMap()
 
-        background(0)
+}
 
-        fill(255)
-        stroke(255)
-        points.linearRegression().toLine(width).draw().print
+class MainApplet : KotlinPApplet() {
 
-        noStroke()
-        fill(255)
-        points.forEach { (it).draw() }
-        points.limitSizeLast(3)
 
-        noLoop()
-    }
 }
 
 

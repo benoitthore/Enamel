@@ -1,63 +1,89 @@
 package com.thorebenoit.enamel.kotlin.genetics
 
 import com.thorebenoit.enamel.kotlin.core._2dec
+import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.print
 import java.lang.Exception
 
 
 private fun main() {
-    fun Genome.create() {
-        getDnaCopy().joinToString { it._2dec }
+    val builder = DnaBuilder { dna ->
+        dna.joinToString { (it * 100).toInt().toString() }
     }
+    val genome = Genome((1..9).map { it / 10f }, builder)
 
-    val genome = Genome((0..10).map { 1 })
+    val other = Genome((1..9).reversed().map { it / 10f }, builder)
 
-    val other = Genome((0..10).map { 0 })
+    print("Mommy:        ")
+    genome.individual.print
+    print("Daddy:        ")
+    other.individual.print
 
-    genome.reproduce(other).create().print
-    genome.mutate(0.1f, 1f).create().print
+    print("Child:        ")
+    genome.reproduce(other).individual.print
+    print("Mutate child: ")
+    genome.mutate(0.25f).individual.print
+
 }
 
-class Genome(private val dna: FloatArray) {
+class DnaBuilder<T>(val builder: (dna: List<Float>) -> T) {
+    fun create(dna: List<Float>): T = builder(dna)
+}
 
-    constructor(dna: List<Number>) : this(dna.map { it.toFloat() }.toFloatArray())
+class Genome<T>(
+    val dna: List<Float>,
+    private val builder: DnaBuilder<T>,
+    private val randomGene: (Int, Float) -> Float = { geneIndex, geneValue -> random() }
+) {
+    constructor(
+        dnaSize: Int,
+        builder: DnaBuilder<T>,
+        randomGene: (Int, Float) -> Float
+    ) : this(
+        dna = (0 until dnaSize).map { randomGene(it, -1f) }.toList<Float>(),
+        builder = builder,
+        randomGene = randomGene
+    )
+
+
+    val individual: T by lazy { builder.create(dna) }
+
+    constructor(dna: List<Number>, builder: DnaBuilder<T>) : this(dna.map { it.toFloat() }.toList<Float>(), builder)
 
     val genomeSize = dna.size
 
-    fun getDnaCopy() = dna.copyOf()
 
-
-    fun reproduce(other: Genome): Genome {
+    fun reproduce(other: Genome<T>): Genome<T> {
         if (genomeSize != other.genomeSize) {
             throw Exception("Genomes must have the same DNA size")
         }
-        val copy = getDnaCopy()
-        val otherDna = other.getDnaCopy()
+        val newDna = dna.toMutableList()
+        val otherDna = other.dna
 
-        for (i in 0 until copy.size) {
+        for (i in 0 until newDna.size) {
             if (random() < 0.5f) {
-                copy[i] = otherDna[i]
+                newDna[i] = otherDna[i]
             }
         }
 
-        return Genome(copy)
+        return Genome(newDna, builder)
     }
 
-    fun mutate(mutationChance: Float, mutationAmplitude: Float = 1f): Genome {
-        if (mutationChance < 0 || mutationChance > 1) {
-            throw Exception("mutationChance must be between 0 and 1")
+    fun mutate(mutationRate: Number): Genome<T> {
+        val mutationRate = mutationRate.f
+        if (mutationRate < 0 || mutationRate > 1) {
+            throw Exception("mutationRate must be between 0 and 1")
         }
 
-        val copy = getDnaCopy()
+        val newDna = dna.toMutableList()
 
-        for (i in 0 until copy.size) {
-            if (random() < mutationChance) {
-                val mutateBy = copy[i] * random(-mutationAmplitude, mutationAmplitude)
-                copy[i] += mutateBy
+        for (i in 0 until newDna.size) {
+            if (random() < mutationRate) {
+                newDna[i] = randomGene(i, newDna[i])
             }
         }
 
-        return Genome(copy)
+        return Genome(newDna, builder)
     }
 }

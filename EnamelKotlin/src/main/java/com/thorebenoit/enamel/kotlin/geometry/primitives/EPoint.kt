@@ -10,6 +10,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import jdk.nashorn.internal.objects.Global
 import java.lang.Exception
 
+//TODO Mark warning if not used on non-self functions in points/rect/circle/etc
 open class EPointType(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
     override val v1: Number get() = x
     override val v2: Number get() = y

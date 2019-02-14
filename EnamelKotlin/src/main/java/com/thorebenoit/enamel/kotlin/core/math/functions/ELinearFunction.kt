@@ -6,14 +6,14 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 
-data class ELinearFunction(val slope: Float, val yIntercept: Float) {
+data class ELinearFunction(val slope: Float = 1f, val yIntercept: Float = 0f) {
 
     inline val a
         get() = slope
     inline val b
         get() = yIntercept
 
-    constructor(slope: Number, yIntercept: Number) : this(slope.f, yIntercept.f)
+    constructor(slope: Number = 1f, yIntercept: Number = 0f) : this(slope.f, yIntercept.f)
 
     operator fun get(x: Number) = get(x.f)
     operator fun get(x: Float) = a * x + b
