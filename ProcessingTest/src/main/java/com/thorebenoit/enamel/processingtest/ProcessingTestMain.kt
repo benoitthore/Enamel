@@ -1,14 +1,9 @@
 package com.thorebenoit.enamel.processingtest
 
 import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
-import com.thorebenoit.enamel.kotlin.geometry.GeometryBufferProvider
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.innerCircle
-import com.thorebenoit.enamel.kotlin.geometry.primitives.*
-import com.thorebenoit.enamel.processingtest.examples.steering.DotDrawer
-import com.thorebenoit.enamel.processingtest.examples.steering.SteeringApplet
-import com.thorebenoit.enamel.processingtest.examples.steering.SteeringTestPresenter
-import com.thorebenoit.enamel.processingtest.examples.steering.SteeringVehicle
+import com.thorebenoit.enamel.processingtest.examples.steering.DotDrawingApplet
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 
 
@@ -22,7 +17,7 @@ object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
 //        val applet = KotlinPApplet.createApplet<MainApplet>()
-        SteeringApplet.start()
+        DotDrawingApplet.start()
     }
 
 }

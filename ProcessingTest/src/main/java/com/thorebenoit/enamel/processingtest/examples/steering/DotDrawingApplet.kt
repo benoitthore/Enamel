@@ -6,17 +6,16 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.EPolygon
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EAngle
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet._onMouseClicked
 
 
-class SteeringApplet : KotlinPApplet(), DotDrawer {
+class DotDrawingApplet : KotlinPApplet(), DotDrawer {
 
     companion object {
         fun start() {
-            val applet = KotlinPApplet.createApplet<SteeringApplet>()
+            val applet = KotlinPApplet.createApplet<DotDrawingApplet>()
             SteeringTestPresenter(applet)
         }
     }
