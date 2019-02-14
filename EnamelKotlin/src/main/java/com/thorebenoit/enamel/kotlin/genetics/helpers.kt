@@ -8,7 +8,7 @@ import kotlin.math.roundToInt
 fun randomFloatArray(n: Int) = (0 until n).map { random() }.toFloatArray()
 
 
-// randomWithWeight
+// randomWithWeight test
 private fun main() {
     val map = mapOf(
         "50" to .50f,
@@ -44,6 +44,7 @@ private fun main() {
 ////    return toList().random()
 //}
 
+// This functions is working, it's been replaced with the one commented above and still same issue
 fun <T : Any, N : Number> Map<T, N>.randomWithWeight(): Map.Entry<T, N> {
     val totalWeight = values.asSequence().map { it.f }.sum()
     var value = random(0, totalWeight)

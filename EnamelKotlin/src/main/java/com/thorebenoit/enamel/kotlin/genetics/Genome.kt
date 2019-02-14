@@ -41,7 +41,7 @@ class Genome<T>(
         builder: DnaBuilder<T>,
         randomGene: (Int, Float) -> Float
     ) : this(
-        dna = (0 until dnaSize).map { randomGene(it, -1f) }.toList<Float>(),
+        dna = List(dnaSize) { randomGene(it, -1f) },
         builder = builder,
         randomGene = randomGene
     )
