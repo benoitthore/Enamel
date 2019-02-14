@@ -9,6 +9,8 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
+import com.thorebenoit.enamel.kotlin.geometry.primitives.point
+import java.lang.Exception
 
 /*
 This class should be the example to follow in order to implement mutability
@@ -25,7 +27,7 @@ Create the API without default arguments for buffer in order to make sure no all
  */
 open class ERectType(
     open val origin: EPointType = EPointType(),
-    open val size: ESizeImmutable = ESizeImmutable()
+    open val size: ESizeType = ESizeType()
 ) {
     init {
         allocateDebugMessage()
@@ -53,42 +55,67 @@ open class ERectType(
         get() = origin.y
 
 
+    // contains Point
+    fun contains(x: Number, y: Number) = contains(x, y, 0, 0)
+
     fun contains(p: EPointType) = contains(p.x, p.y)
 
-    fun contains(x: Number, y: Number): Boolean {
+
+    // contains Circle: When dealing with circles, use x and y as center
+    fun contains(p: EPointType, radius: Number): Boolean = contains(p.x, p.y, radius)
+
+    fun contains(c: ECircleType): Boolean = contains(c.center, c.radius)
+
+    fun contains(x: Number, y: Number, radius: Number): Boolean =
+        radius.f.let { radius ->
+            contains(
+                x.f - radius,
+                y.f - radius,
+                radius * 2,
+                radius * 2
+            )
+        }
+
+    // contains Rect
+    fun contains(other: ERectType) = contains(other.origin, other.size)
+
+    fun contains(origin: EPointType, size: ESizeType) = contains(origin.x, origin.y, size.width, size.height)
+
+    fun contains(x: Number, y: Number, width: Number, height: Number): Boolean {
         val x = x.f
         val y = y.f
-        val left = left
-        val top = top
-        val bottom = bottom
-        val right = right
-        return left < right && top < bottom && x >= left && x < right && y >= top && y < bottom
+        val width = width.f
+        val height = height.f
+        return x >= left && x + width < right && y >= top && y + height < bottom
     }
 
-    //contains Rect
-    fun contains(other: ERectType) = contains(
-        top = other.top,
-        left = other.left,
-        right = other.right,
-        bottom = other.bottom
-    )
+    fun containsFull(p: EPointType, radius: Number): Boolean = containsFull(p.x, p.y, radius)
 
-    fun contains(
-        left: Number, top: Number, right: Number, bottom: Number
-    ): Boolean {
-        val left = left.f
-        val top = top.f
-        val right = right.f
-        val bottom = bottom.f
-        val thisleft = this.left
-        val thistop = this.top
-        val thisbottom = this.bottom
-        val thisright = this.right
+    fun containsFull(c: ECircleType): Boolean = containsFull(c.center, c.radius)
 
-        return (thisleft < thisright && thistop < thisbottom
-                && thisleft <= left && thistop <= top
-                && thisright >= right && thisbottom >= bottom)
+    // TODO The functions considers the circle to be a square which doesn't work on the edges
+    fun containsFull(x: Number, y: Number, radius: Number): Boolean =
+        radius.f.let { radius ->
+            containsFull(
+                x.f - radius,
+                y.f - radius,
+                radius * 2,
+                radius * 2
+            )
+        }
+
+    fun containsFull(other: ERectType) = contains(other.origin, other.size)
+
+    fun containsFull(origin: EPointType, size: ESizeType) = containsFull(origin.x, origin.y, size.width, size.height)
+
+    fun containsFull(x: Number, y: Number, width: Number, height: Number): Boolean {
+        val x = x.f
+        val y = y.f
+        val width = width.f
+        val height = height.f
+        return x + width >= left && x < right && y + height >= top && y < bottom
     }
+
 
     //intersects
     fun intersects(other: ERectType) = intersects(
@@ -133,7 +160,7 @@ open class ERectType(
     // Alignement
     fun rectAlignedInside(
         aligned: EAlignment,
-        size: ESizeImmutable,
+        size: ESizeType,
         spacing: Number = 0,
         buffer: ERect = ERect(this)
     ): ERect {
@@ -153,7 +180,7 @@ open class ERectType(
 
     fun rectAlignedOutside(
         aligned: EAlignment,
-        size: ESizeImmutable,
+        size: ESizeType,
         spacing: Number = 0,
         buffer: ERect = ERect(this)
     ): ERect {
@@ -205,6 +232,8 @@ open class ERectType(
         scaleRelative(factor, pointAtAnchor(anchor, GeometryBufferProvider.point()), buffer)
 
     fun scaleRelative(factor: Number, point: EPointType, buffer: ERect = ERect()): ERect {
+        buffer.set(this)
+
         val factor = factor.f
         val newX = origin.x + (point.x - origin.x) * (1f - factor)
         val newY = origin.y + (point.y - origin.y) * (1f - factor)
@@ -215,21 +244,36 @@ open class ERectType(
         return buffer
     }
 
+    fun toPointList(buffer: List<EPoint> = listOf(EPoint(), EPoint(), EPoint(), EPoint())): List<EPoint> {
+        if (buffer.size != 4) {
+            throw Exception("Needs 4 points in buffer")
+        }
+        buffer[0].set(top, left)
+        buffer[1].set(top, right)
+        buffer[2].set(bottom, right)
+        buffer[3].set(bottom, left)
+        return buffer
+    }
+
 
 }
 
 class ERect(override var origin: EPoint = EPoint(), override var size: ESize = ESize()) :
     ERectType(origin, size), Resetable {
 
+    // TODO Copy in ERectType
     constructor(other: ERectType) : this(other.origin.copy(), other.size.copy())
+
+    constructor(x: Number = 0f, y: Number = 0f, width: Number, height: Number) : this(x point y, width size height)
 
     override fun reset() {
         origin.reset(); size.reset()
     }
 
+    fun set(other: ERectType) = set(other.origin, other.size)
     fun set(
         origin: EPointType = this.origin,
-        size: ESizeImmutable = this.size
+        size: ESizeType = this.size
     ) =
         set(origin.x, origin.y, size.width, size.height)
 
@@ -243,7 +287,7 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     fun set(
         x: Number = this.x,
         y: Number = this.y,
-        size: ESizeImmutable = this.size
+        size: ESizeType = this.size
     ) =
         set(x, y, size.width, size.height)
 
@@ -353,6 +397,10 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
 
 }
 
+fun ERectCenter(
+    position: EPointType,
+    width: Number, height: Number, buffer: ERect = ERect()
+) = ERectCenter(position.x, position.y, width, height, buffer)
 
 fun ERectCenter(
     x: Number = 0f, y: Number = 0f,
@@ -398,5 +446,7 @@ fun ERectAnchorPos(anchor: EPointType, position: EPointType, size: ESize, buffer
         y = position.y - size.height * anchor.y,
         size = size
     )
+
+
 
 

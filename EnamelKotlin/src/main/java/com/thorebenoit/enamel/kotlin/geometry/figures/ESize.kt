@@ -6,9 +6,9 @@ import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 
-open class ESizeImmutable(open val width: Float = 0f, open val height: Float = 0f) {
+open class ESizeType(open val width: Float = 0f, open val height: Float = 0f) {
     companion object {
-        val zero: ESizeImmutable = allocate { ESizeImmutable() }
+        val zero: ESizeType = allocate { ESizeType() }
 
     }
 
@@ -17,7 +17,7 @@ open class ESizeImmutable(open val width: Float = 0f, open val height: Float = 0
     }
 
     fun toMutable() = ESize(width, height)
-    fun toImmutable() = ESizeImmutable(width, height)
+    fun toImmutable() = ESizeType(width, height)
 
     fun copy(buffer: ESize = ESize()) = buffer.set(this)
 
@@ -29,17 +29,24 @@ open class ESizeImmutable(open val width: Float = 0f, open val height: Float = 0
 
 
     override fun equals(other: Any?): Boolean =
-        (other as? ESizeImmutable)?.let { it.width == width && it.height == height } ?: false
+        (other as? ESizeType)?.let { it.width == width && it.height == height } ?: false
 
     override fun toString(): String {
         return "ESize(width=$width, height=$height)"
     }
 
+    override fun hashCode(): Int {
+        var result = width.hashCode()
+        result = 31 * result + height.hashCode()
+        return result
+    }
+
 }
 
-class ESize(override var width: Float = 0f, override var height: Float = 0f) : ESizeImmutable(width, height),
+class ESize(override var width: Float = 0f, override var height: Float = 0f) : ESizeType(width, height),
     Resetable {
     constructor(width: Number, height: Number) : this(width.f, height.f)
+    constructor(other: ESizeType) : this(other.width, other.height)
 
     fun set(width: Number, height: Number, buffer: ESize = this): ESize {
         this.width = width.f
@@ -47,7 +54,7 @@ class ESize(override var width: Float = 0f, override var height: Float = 0f) : E
         return buffer
     }
 
-    fun set(size: ESizeImmutable, buffer: ESize = this) = set(size.width, size.height, buffer)
+    fun set(size: ESizeType, buffer: ESize = this) = set(size.width, size.height, buffer)
 
     override fun reset() {
         set(0, 0)
@@ -67,3 +74,4 @@ class ESize(override var width: Float = 0f, override var height: Float = 0f) : E
 
 infix fun Number.size(height: Number) = ESize(this, height)
 
+inline operator fun ESizeType.times(n: Number) = ESize(this).apply { width *= n.f; height *= n.f }

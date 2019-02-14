@@ -3,7 +3,11 @@ package com.thorebenoit.enamel.kotlin.geometry.primitives
 import com.thorebenoit.enamel.kotlin.core.Resetable
 import com.thorebenoit.enamel.kotlin.core.math.d
 import com.thorebenoit.enamel.kotlin.core.math.f
+import com.thorebenoit.enamel.kotlin.core.math.random
+import com.thorebenoit.enamel.kotlin.core.math.randomSign
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
+import jdk.nashorn.internal.objects.Global
+import java.lang.Exception
 
 open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
     companion object {
@@ -18,6 +22,7 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
     }
 
     constructor(x: Number, y: Number) : this(x.f, y.f)
+    constructor(angle: EAngleType, magnitude: Number) : this(angle.cos * magnitude.f, angle.sin * magnitude.f)
 
     fun toMutable(buffer: EPoint = EPoint()) = buffer.set(x, y)
     fun toImmutable() = EPointType(x, y)
@@ -38,7 +43,7 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
 
 
     override fun toString(): String {
-        return "EPointType($x ; $y)"
+        return "($x ; $y)"
     }
 
     override fun equals(other: Any?): Boolean = (other as? EPointType)?.let { it.x == x && it.y == y } ?: false
@@ -57,11 +62,6 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
     //////
     //////
 
-    operator fun unaryMinus() = EPointType(-x, -y)
-    operator fun div(n: Number) = EPointType(x / n.f, y / n.f)
-    operator fun times(other: EPoint) = mult(other)
-    operator fun plus(other: EPoint) = offset(other)
-    operator fun minus(other: EPoint) = sub(other)
 
     fun inverse(buffer: EPoint = EPoint()) = buffer.set(-x, -y)
 
@@ -89,14 +89,19 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
     fun mult(n: Number, buffer: EPoint = EPoint()) = mult(n, n, buffer)
     fun mult(other: EPointType, buffer: EPoint = EPoint()) = mult(other.x, other.y, buffer)
 
-    fun offsetAngle(angle: EAngleImmutable, distance: Number, buffer: EPoint = EPoint()): EPoint {
+    fun div(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x / x.f, this.y / y.f)
+    fun div(n: Number, buffer: EPoint = EPoint()) = div(n, n, buffer)
+    fun div(other: EPointType, buffer: EPoint = EPoint()) = mult(other.x, other.y, buffer)
+
+
+    fun offsetAngle(angle: EAngleType, distance: Number, buffer: EPoint = EPoint()): EPoint {
         val fromX = x
         val fromY = y
         buffer.set(angle, distance)
         return buffer.set(buffer.x + fromX, buffer.y + fromY)
     }
 
-    fun rotateAround(angle: EAngleImmutable, center: EPointType, buffer: EPoint = EPoint()): EPoint {
+    fun rotateAround(angle: EAngleType, center: EPointType, buffer: EPoint = EPoint()): EPoint {
         val angleTo = center.angleTo(this)
         val distance = center.distanceTo(this)
         val totalAngle = angle + angleTo
@@ -109,7 +114,7 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) {
         val magnitude = magnitude.f
         buffer.set(this)
         if (magnitude != 0f) {
-            buffer.div(magnitude)
+            buffer.selfDiv(magnitude)
         }
         return buffer
     }
@@ -136,6 +141,7 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointTyp
 
 
     constructor(x: Number, y: Number) : this(x.f, y.f)
+    constructor(angle: EAngle, magnitude: Number) : this(angle.cos * magnitude.f, angle.sin * magnitude.f)
 
     companion object {
         val zero get() = EPoint(0f, 0f)
@@ -147,7 +153,7 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointTyp
 
     fun set(other: EPointType) = set(other.x, other.y)
 
-    fun set(angle: EAngleImmutable, magnitude: Number) =
+    fun set(angle: EAngleType, magnitude: Number) =
         set(angle.cos * magnitude.f, angle.sin * magnitude.f)
 
     override var magnitude: Double
@@ -180,9 +186,14 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointTyp
     fun selfMult(n: Number) = mult(n, this)
     fun selfMult(other: EPointType) = mult(other, this)
 
-    fun selfOffsetAngle(angle: EAngle, distance: Number) = offsetAngle(angle, distance)
+    fun selfDiv(x: Number, y: Number) = div(x, y, this)
+    fun selfDiv(n: Number) = div(n, this)
+    fun selfDiv(other: EPointType) = div(other, this)
 
-    fun selfRotateAround(angle: EAngle, center: EPoint) = rotateAround(angle, center, this)
+
+    fun selfOffsetAngle(angle: EAngleType, distance: Number) = offsetAngle(angle, distance)
+
+    fun selfRotateAround(angle: EAngleType, center: EPoint) = rotateAround(angle, center, this)
 
     fun selfInverse() = inverse(this)
 
@@ -191,6 +202,34 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointTyp
     fun selfSetMagnitude(magnitude: Number) = setMagnitude(magnitude, this)
 
 }
+
+
+fun RandomPoint(magnitude: Number = 1f, buffer: EPoint = EPoint()) =
+    buffer.set(
+        x = randomSign() * random() * magnitude.f,
+        y = randomSign() * random() * magnitude.f
+    )
+        .selfLimitMagnitude(magnitude)
+
+/////////////////////////
+/////////////////////////
+/////////////////////////
+inline operator fun EPointType.unaryMinus() = EPointType(-x, -y)
+
+inline operator fun EPointType.div(n: Number) = EPointType(x / n.f, y / n.f)
+
+inline operator fun EPointType.times(other: EPoint) = mult(other)
+inline operator fun EPointType.times(n: Number) = mult(n)
+
+inline operator fun EPointType.plus(other: EPoint) = offset(other)
+inline operator fun EPointType.plus(n: Number) = offset(n)
+
+inline operator fun EPointType.minus(other: EPoint) = sub(other)
+inline operator fun EPointType.minus(n: Number) = sub(n)
+
+
+inline operator fun Number.times(p: EPointType) = p.mult(this)
+inline operator fun Number.plus(p: EPointType) = p.offset(this)
 
 
 /////////////////////////

@@ -2,13 +2,11 @@ package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.i
-import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
-import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import processing.core.PApplet
 import processing.core.PConstants
@@ -81,6 +79,7 @@ abstract class KotlinPApplet : PApplet() {
     private val mouseMovedListeners = mutableListOf<MouseEventListener>()
     private val mousePressedListeners = mutableListOf<MouseEventListener>()
     private val mouseExitedListeners = mutableListOf<MouseEventListener>()
+    private val mouseWheelListeners = mutableListOf<MouseEventListener>()
 
     private val keyPressedListeners = mutableListOf<KeyEventListener>()
 
@@ -106,6 +105,10 @@ abstract class KotlinPApplet : PApplet() {
 
     fun onMouseExited(block: MouseEventListener) {
         mouseExitedListeners += block
+    }
+
+    fun onMouseWheel(block: MouseEventListener) {
+        mouseWheelListeners += block
     }
 
     fun onKeyPressed(block: KeyEventListener) {
@@ -134,6 +137,10 @@ abstract class KotlinPApplet : PApplet() {
 
     override fun mouseExited(event: MouseEvent) {
         mouseExitedListeners.forEach { it(event) }
+    }
+
+    override fun mouseWheel(event: MouseEvent) {
+        mouseWheelListeners.forEach { it(event) }
     }
 
     override fun keyPressed(event: KeyEvent) {
@@ -175,13 +182,13 @@ abstract class KotlinPApplet : PApplet() {
 
     // Draw helper
 
-    open fun <T : EPointType> T.draw(radius : Number = 5): T {
+    open fun <T : EPointType> T.draw(radius: Number = 5): T {
         allocate { toCircle(radius).draw() }
         return this
     }
 
 
-    open fun <T : ECircleImmutable> T.draw(): T {
+    open fun <T : ECircleType> T.draw(): T {
         ellipse(x, y, radius * 2, radius * 2)
         return this
     }

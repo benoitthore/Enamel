@@ -3,6 +3,7 @@ package com.thorebenoit.enamel.kotlin.geometry
 import com.thorebenoit.enamel.kotlin.core.GenericBufferProvider
 import com.thorebenoit.enamel.kotlin.geometry.figures.ECircle
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
+import com.thorebenoit.enamel.kotlin.geometry.primitives.EAngle
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 
 /*
@@ -22,6 +23,11 @@ object GeometryBufferProvider {
     val rect by lazy {
         allocate {
             GenericBufferProvider { ERect() }
+        }
+    }
+    val angle by lazy {
+        allocate {
+            GenericBufferProvider { EAngle() }
         }
     }
 }

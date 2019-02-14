@@ -1,9 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
-import com.thorebenoit.enamel.kotlin.animations.lerp
 import com.thorebenoit.enamel.kotlin.core.math.Scale
-import com.thorebenoit.enamel.kotlin.core.math.f
-import com.thorebenoit.enamel.kotlin.core.math.lerp
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 
@@ -17,9 +14,9 @@ class EPolygon(override val points: List<EPoint>) : EPolygonType(points) {
 
 fun <P : EPoint> List<P>.fit(rect: ERectType): List<P> = fit(rect.size).apply { forEach { it.selfOffset(rect.origin) } }
 
-fun <P : EPoint> List<P>.fit(size: ESizeImmutable): List<P> {
+fun <P : EPoint> List<P>.fit(size: ESizeType): List<P> {
 
-    if(isEmpty()){
+    if (isEmpty()) {
         return this
     }
 
@@ -46,3 +43,6 @@ fun <P : EPoint> List<P>.fit(size: ESizeImmutable): List<P> {
     }
     return this
 }
+
+fun List<EPointType>.toPolygon() = EPolygonType(this)
+fun List<EPoint>.toPolygon() = EPolygon(this)

@@ -15,8 +15,11 @@ const val œ = 0.001f // ALT + Q on Mac
 
 private val RANDOM = Random()
 
+fun randomBool() = random() > 0.5
+fun randomSign() = if (randomBool()) 1 else -1
+
 fun random(): Float = random(min = 0f, max = 1f)
-fun random(max: Number): Float = random(min = 0f,max = max)
+fun random(max: Number): Float = random(min = 0f, max = max)
 fun random(min: Number, max: Number): Float =
     lerp(RANDOM.nextFloat(), min, max)
 

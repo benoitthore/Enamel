@@ -40,7 +40,7 @@ class RotatingCircle : KotlinPApplet() {
         val circleList = eframe.innerCircle(circle)
             .inset(100)
             .draw()
-            .pointsInList(points, startAt)
+            .toListOfPoint(points, startAt)
             .toCircles(circle.radius * 0.25f, circles)
 
         circleList.forEachIndexed { i, it ->

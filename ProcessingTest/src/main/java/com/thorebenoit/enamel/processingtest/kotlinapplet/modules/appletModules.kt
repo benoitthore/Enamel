@@ -4,6 +4,7 @@ import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
+import com.thorebenoit.enamel.kotlin.geometry.primitives.unaryMinus
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPAppletModule
 import com.thorebenoit.enamel.processingtest.kotlinapplet.createKeyListener
 import com.thorebenoit.enamel.processingtest.kotlinapplet.createMouseListener

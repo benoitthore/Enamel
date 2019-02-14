@@ -10,7 +10,7 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 class ERectGroup(private val _rects: List<ERect>, overrideFrame: ERectType? = null) {
     fun frame(buffer: ERect = ERect()) = buffer.set(origin = origin, size = _size)
 
-    val size: ESizeImmutable get() = _size
+    val size: ESizeType get() = _size
     val origin: EPointType get() = _origin
     val rects: List<ERectType> get() = _rects
 
@@ -62,7 +62,7 @@ fun List<ESize>.rectGroup(
             prev.rectAlignedOutside(
                 aligned = alignment,
                 size = size,
-                spacing = if (prev.size == ESizeImmutable.zero) 0 else spacing
+                spacing = if (prev.size == ESizeType.zero) 0 else spacing
             )
         }
         prev

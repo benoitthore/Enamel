@@ -6,7 +6,7 @@ import com.thorebenoit.enamel.kotlin.core.math.i
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 
-open class ECircleImmutable(open val center: EPointType = EPointType(), open val radius: Float = 0f) {
+open class ECircleType(open val center: EPointType = EPointType(), open val radius: Float = 0f) {
 
     init {
         allocateDebugMessage()
@@ -17,12 +17,12 @@ open class ECircleImmutable(open val center: EPointType = EPointType(), open val
     open val y: Float get() = center.y
 
     fun toMutable() = ECircle(center = center.toMutable(), radius = radius)
-    fun toImmutable() = ECircleImmutable(center = center.toImmutable(), radius = radius)
+    fun toImmutable() = ECircleType(center = center.toImmutable(), radius = radius)
 }
 
 class ECircle(override val center: EPoint = EPoint(), override var radius: Float = 0f) :
-    ECircleImmutable(center, radius), Resetable {
-    constructor(center: EPoint, radius: Number) : this(center, radius.f)
+    ECircleType(center, radius), Resetable {
+    constructor(center: EPoint = EPoint(), radius: Number) : this(center, radius.f)
 
     fun copy(buffer: ECircle = ECircle()) = ECircle(center.copy(buffer.center), radius)
 
@@ -49,9 +49,9 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
         return this
     }
 
-    fun pointsInList(
+    fun toListOfPoint(
         list: MutableList<EPoint>,
-        startAt: EAngleImmutable? = null,
+        startAt: EAngleType? = null,
         distanceList: List<Number>? = null
     ): List<EPoint> {
         if (list.isEmpty()) { // Don't divide by zero
@@ -85,7 +85,7 @@ class ECircle(override val center: EPoint = EPoint(), override var radius: Float
         return list
     }
 
-    fun toListOfPoint(numberOfPoint: Int, startAt: EAngle? = null, distanceList: List<Number>? = null) = pointsInList(
+    fun toListOfPoint(numberOfPoint: Int, startAt: EAngle? = null, distanceList: List<Number>? = null) = toListOfPoint(
         MutableList(numberOfPoint) { EPoint() }, startAt, distanceList
     )
 

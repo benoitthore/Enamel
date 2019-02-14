@@ -2,14 +2,13 @@ package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.geometry.allocate
-import com.thorebenoit.enamel.kotlin.geometry.figures.ECircleImmutable
+import com.thorebenoit.enamel.kotlin.geometry.figures.ECircleType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import com.thorebenoit.enamel.processingtest.kotlinapplet.modules.jframe
 import processing.core.PConstants
 import processing.core.PGraphics
-import java.lang.Exception
 import java.lang.NullPointerException
 
 private typealias KotlinPAppletEventListener = KotlinPAppletModule.() -> Unit
@@ -99,7 +98,7 @@ abstract class KotlinPAppletModule : KotlinPApplet() {
     }
 
 
-    override fun <T : ECircleImmutable> T.draw(): T {
+    override fun <T : ECircleType> T.draw(): T {
         graphics.ellipse(x, y, radius * 2, radius * 2)
         return this
     }

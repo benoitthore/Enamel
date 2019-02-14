@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.primitives
 
+import com.thorebenoit.enamel.kotlin.core.Resetable
 import com.thorebenoit.enamel.kotlin.core.math.d
 import com.thorebenoit.enamel.kotlin.core.math.f
 
@@ -10,7 +11,7 @@ enum class AngleType {
 }
 
 
-open class EAngleImmutable(
+open class EAngleType(
     protected open val value: Float = 0f,
     protected open val type: AngleType = AngleType.DEGREE
 ) {
@@ -45,8 +46,10 @@ open class EAngleImmutable(
         get() = Math.tan(radians.d).f
 
 
-    operator fun unaryMinus(): EAngle =
-        EAngle(-value, type)
+    operator fun unaryMinus(): EAngle {
+        val opposite = value.degrees()
+        return opposite.set((value % 360) - 180, type)
+    }
 
     operator fun plus(other: EAngle): EAngle =
         EAngle(
@@ -75,7 +78,7 @@ open class EAngleImmutable(
 }
 
 open class EAngle constructor(override var value: Float = 0f, override var type: AngleType = AngleType.DEGREE) :
-    EAngleImmutable(value, type) {
+    EAngleType(value, type), Resetable {
     companion object {
         val zero get() = 0.degrees()
         val unit get() = 1.rotation()
@@ -92,9 +95,11 @@ open class EAngle constructor(override var value: Float = 0f, override var type:
         return this
     }
 
-    fun reset() = set(0, AngleType.DEGREE)
+    override fun reset() {
+        set(0, AngleType.DEGREE)
+    }
 
-    fun offset(other: EAngleImmutable) {
+    fun offset(other: EAngleType) {
         val increment = when (type) {
 
             AngleType.DEGREE -> other.degrees
@@ -106,7 +111,7 @@ open class EAngle constructor(override var value: Float = 0f, override var type:
     }
 
     override fun toString(): String {
-        return "${degrees.toInt()}°"
+        return "${degrees.toInt() % 360}°"
     }
 }
 
