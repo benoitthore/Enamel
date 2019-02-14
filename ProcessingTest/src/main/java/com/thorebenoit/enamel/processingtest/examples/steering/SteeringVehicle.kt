@@ -14,18 +14,18 @@ import com.thorebenoit.enamel.kotlin.physics.steering.SteeringController
 data class SteeringVehicle(
     val position: EPoint = 0 point 0,
     val color: Int = randomColor(),
-    val radius: Int = 20,
+    val radius: Int = 5,
     val torque: Float = 0.1f,
     val maxVelocity: Float = 100f / 60
 ) {
 
     val shape: List<EPolygon> = kotlin.run {
-        val rect1 = ERectCenter(width = 0.3, height = 1).scaleAnchor(radius, NamedPoint.center)
-        val circle = ECircle(center = rect1.width + radius * 0.3 point 0, radius = radius * 0.3)
+//        val rect1 = ERectCenter(width = 0.3, height = 1).scaleAnchor(radius, NamedPoint.center)
+//        val circle = ECircle(center = rect1.width + radius * 0.3 point 0, radius = radius * 0.3)
 
         listOf(
-            rect1.toPointList().toPolygon(),
-            circle.toListOfPoint(4).toPolygon()
+//            rect1.toPointList().toPolygon(),
+            ECircle(radius = radius).toListOfPoint(20).toPolygon()
         )
     }
 

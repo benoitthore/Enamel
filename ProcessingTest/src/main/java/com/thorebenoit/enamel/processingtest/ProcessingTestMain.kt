@@ -10,6 +10,7 @@ import com.thorebenoit.enamel.kotlin.genetics.DnaBuilder
 import com.thorebenoit.enamel.kotlin.genetics.Genome
 import com.thorebenoit.enamel.kotlin.genetics.randomWithWeight
 import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
+import com.thorebenoit.enamel.processingtest.examples.steering.DotDrawingApplet
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 import jdk.nashorn.internal.objects.Global.Infinity
 import java.util.*
@@ -26,6 +27,9 @@ object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
 
+        DotDrawingApplet.start()
+
+        return
         val possibleChar = ('a'..'z').toList() + ' ' + ('A'..'Z').toList()
         val builder = DnaBuilder { dna ->
             dna.map {

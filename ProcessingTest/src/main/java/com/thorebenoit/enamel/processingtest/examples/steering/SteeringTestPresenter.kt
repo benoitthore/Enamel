@@ -3,10 +3,7 @@ package com.thorebenoit.enamel.processingtest.examples.steering
 import com.thorebenoit.enamel.kotlin.core.math.randomSign
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
-import com.thorebenoit.enamel.kotlin.geometry.primitives.RandomPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.plus
-import com.thorebenoit.enamel.kotlin.geometry.primitives.point
+import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 import com.thorebenoit.enamel.kotlin.physics.physicsLoop
 
@@ -31,7 +28,8 @@ class SteeringTestPresenter(val view: DotDrawer) {
 
     // synchronized not working
     private val _dotList =
-        mutableListOf<SteeringVehicle>()//Collections.synchronizedCollection(mutableListOf<SteeringVehicle>())
+        mutableListOf<SteeringVehicle>()
+    //Collections.synchronizedCollection(mutableListOf<SteeringVehicle>())
 
     var mouseRadius = 100f
         set(value) {
@@ -45,11 +43,14 @@ class SteeringTestPresenter(val view: DotDrawer) {
         view.onMouseClicked = {
 
             synchronized(_dotList) {
-                //                _dotList.removeAll { it.isOnMouse() }
-                _dotList += SteeringVehicle(view.mousePosition.toMutable()).apply {
-                    body.velocity.set(randomSign() * maxVelocity, randomSign() * maxVelocity)
+                                _dotList.removeAll { it.isOnMouse() }
+
+                for(i in 0 .. 10){
+                    _dotList += SteeringVehicle(view.mousePosition.toMutable()).apply {
+                        body.velocity.set(RandomPoint() * maxVelocity)
+                    }
                 }
-                view.dotList = _dotList.toList()
+                view.dotList = _dotList
             }
 
         }
