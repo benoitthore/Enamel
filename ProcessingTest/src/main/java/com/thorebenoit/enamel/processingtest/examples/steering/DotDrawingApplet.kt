@@ -20,12 +20,12 @@ class DotDrawingApplet : KotlinPApplet(), DotDrawer {
         }
     }
 
-    override lateinit var onMouseClicked: () -> Unit
+    override var onMouseClicked: () -> Unit = {}
 
     override var dotList: List<SteeringVehicle> = emptyList()
     override val size: ESizeType get() = esize
 
-    override lateinit var onScroll: (Int) -> Unit
+    override var onScroll: (Int) -> Unit = {}
     override var mouseRadius: Float = 0f
     override var constraintFrame: ERectType = ERectType()
 

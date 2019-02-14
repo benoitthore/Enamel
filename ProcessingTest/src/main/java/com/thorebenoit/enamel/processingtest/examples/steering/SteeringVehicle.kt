@@ -25,8 +25,7 @@ data class SteeringVehicle(
 
         listOf(
             rect1.toPointList().toPolygon(),
-            circle.toListOfPoint(4).toPolygon(),
-            ECircle(radius = radius).toListOfPoint(10).toPolygon()
+            circle.toListOfPoint(4).toPolygon()
         )
     }
 
