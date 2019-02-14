@@ -16,9 +16,10 @@ interface DotDrawer {
     val size: ESizeType
     val mousePosition: EPointType
     var onMouseClicked: () -> Unit
+    var onSized: () -> Unit
     var onScroll: (Int) -> Unit
     var constraintFrame: ERectType
-    var mouseRadius : Float
+    var mouseRadius: Float
 
 }
 

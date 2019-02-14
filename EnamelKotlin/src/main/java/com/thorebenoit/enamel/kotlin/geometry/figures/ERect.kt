@@ -29,6 +29,10 @@ open class ERectType(
     open val origin: EPointType = EPointType(),
     open val size: ESizeType = ESizeType()
 ) {
+    companion object {
+        val zero = ERectType()
+    }
+
     init {
         allocateDebugMessage()
     }
@@ -256,6 +260,15 @@ open class ERectType(
     }
 
 
+    override fun equals(other: Any?): Boolean {
+        return (other as? ERectType)?.let { other.origin == origin && other.size == size} ?: false
+    }
+
+
+    override fun toString(): String {
+        return "ERect(origin=$origin, size=$size)"
+    }
+
 }
 
 class ERect(override var origin: EPoint = EPoint(), override var size: ESize = ESize()) :
@@ -389,11 +402,6 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     fun selfScaleAnchor(factor: Number, anchor: EPointType) = scaleAnchor(factor, anchor, this)
 
     fun selfScaleRelative(factor: Number, point: EPointType) = scaleRelative(factor, point, this)
-
-    override fun toString(): String {
-        return "ERect(origin=$origin, size=$size)"
-    }
-
 
 }
 

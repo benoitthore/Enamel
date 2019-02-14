@@ -17,7 +17,7 @@ class PhysicsBody(val maxVelocity: Float, val position: EPoint = EPoint()) {
         velocity.selfOffset(force).selfLimitMagnitude(maxVelocity)
     }
 
-    fun update(deltaTime: Float) {
+    fun update(deltaTime: Float = 1f) {
         velocity.selfOffset(acceleration.x * deltaTime, acceleration.y * deltaTime).selfLimitMagnitude(maxVelocity)
         position.selfOffset(velocity.x * deltaTime, velocity.y * deltaTime)
 

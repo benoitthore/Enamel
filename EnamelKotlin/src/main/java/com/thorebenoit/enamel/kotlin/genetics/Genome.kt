@@ -7,30 +7,28 @@ import java.lang.Exception
 
 
 private fun main() {
-    val builder = { dna: FloatArray ->
-        dna.joinToString { it._2dec }
+    fun Genome.create() {
+        getDnaCopy().joinToString { it._2dec }
     }
 
-    val genome = Genome((0..10).map { 1 }, builder)
+    val genome = Genome((0..10).map { 1 })
 
-    val other = Genome((0..10).map { 0 }, builder)
+    val other = Genome((0..10).map { 0 })
 
     genome.reproduce(other).create().print
     genome.mutate(0.1f, 1f).create().print
 }
 
-class Genome<T>(private val dna: FloatArray, private val create: (FloatArray) -> T) {
+class Genome(private val dna: FloatArray) {
 
-    constructor(dna: List<Number>, create: (FloatArray) -> T) : this(dna.map { it.toFloat() }.toFloatArray(), create)
+    constructor(dna: List<Number>) : this(dna.map { it.toFloat() }.toFloatArray())
 
     val genomeSize = dna.size
 
     fun getDnaCopy() = dna.copyOf()
 
-    fun create() = create(dna.copyOf())
 
-
-    fun reproduce(other: Genome<T>): Genome<T> {
+    fun reproduce(other: Genome): Genome {
         if (genomeSize != other.genomeSize) {
             throw Exception("Genomes must have the same DNA size")
         }
@@ -43,10 +41,10 @@ class Genome<T>(private val dna: FloatArray, private val create: (FloatArray) ->
             }
         }
 
-        return Genome(copy, create)
+        return Genome(copy)
     }
 
-    fun mutate(mutationChance: Float, mutationRate: Float): Genome<T> {
+    fun mutate(mutationChance: Float, mutationAmplitude: Float = 1f): Genome {
         if (mutationChance < 0 || mutationChance > 1) {
             throw Exception("mutationChance must be between 0 and 1")
         }
@@ -55,11 +53,11 @@ class Genome<T>(private val dna: FloatArray, private val create: (FloatArray) ->
 
         for (i in 0 until copy.size) {
             if (random() < mutationChance) {
-                val mutateBy = copy[i] * random(-mutationRate, mutationRate)
+                val mutateBy = copy[i] * random(-mutationAmplitude, mutationAmplitude)
                 copy[i] += mutateBy
             }
         }
 
-        return Genome(copy, create)
+        return Genome(copy)
     }
 }

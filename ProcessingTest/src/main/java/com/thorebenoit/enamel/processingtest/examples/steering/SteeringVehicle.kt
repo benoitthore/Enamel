@@ -12,10 +12,10 @@ import com.thorebenoit.enamel.kotlin.physics.core.PhysicsBody
 import com.thorebenoit.enamel.kotlin.physics.steering.SteeringController
 
 data class SteeringVehicle(
-    val position: EPoint,
+    val position: EPoint = 0 point 0,
     val color: Int = randomColor(),
     val radius: Int = 20,
-    val torque: Float = 1f,
+    val torque: Float = 0.1f,
     val maxVelocity: Float = 100f / 60
 ) {
 

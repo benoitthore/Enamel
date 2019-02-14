@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.processingtest.examples.steering
 
+import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.GeometryBufferProvider
 import com.thorebenoit.enamel.kotlin.geometry.figures.ECircle
 import com.thorebenoit.enamel.kotlin.geometry.figures.EPolygon
@@ -9,9 +10,22 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.EAngle
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet._onMouseClicked
+import java.lang.Exception
 
 
 class DotDrawingApplet : KotlinPApplet(), DotDrawer {
+
+    private var onSizedCalled = false
+    override var onSized: () -> Unit = {}
+        set(value) {
+            field = value
+            if (esize.hasArea) {
+                onSized()
+            } else {
+                onSizedCalled = false
+                loop()
+            }
+        }
 
     companion object {
         fun start() {
@@ -46,6 +60,13 @@ class DotDrawingApplet : KotlinPApplet(), DotDrawer {
 
 
     override fun draw() {
+        if (constraintFrame == ERectType.zero) {
+            constraintFrame = eframe
+        }
+        if (!onSizedCalled) {
+            onSizedCalled = true
+            onSized()
+        }
         background(255)
 
         pushStyle()
