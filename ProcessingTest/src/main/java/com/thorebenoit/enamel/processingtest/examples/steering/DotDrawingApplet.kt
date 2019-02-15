@@ -37,6 +37,10 @@ class DotDrawingApplet : KotlinPApplet(), DotDrawer {
     override var onMouseClicked: () -> Unit = {}
 
     override var dotList: List<SteeringVehicle> = emptyList()
+    set(value) {
+        field = value
+        update()
+    }
     override val size: ESizeType get() = esize
 
     override var onScroll: (Int) -> Unit = {}

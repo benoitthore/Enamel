@@ -10,7 +10,13 @@ import com.thorebenoit.enamel.kotlin.genetics.DnaBuilder
 import com.thorebenoit.enamel.kotlin.genetics.Genome
 import com.thorebenoit.enamel.kotlin.genetics.randomWithWeight
 import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
+import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
+import com.thorebenoit.enamel.kotlin.geometry.primitives.EAngleType
+import com.thorebenoit.enamel.kotlin.geometry.primitives.rotation
+import com.thorebenoit.enamel.kotlin.geometry.toRect
+import com.thorebenoit.enamel.processingtest.examples.steering.DotDrawer
 import com.thorebenoit.enamel.processingtest.examples.steering.DotDrawingApplet
+import com.thorebenoit.enamel.processingtest.examples.steering.SteeringVehicle
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 import jdk.nashorn.internal.objects.Global.Infinity
 import java.util.*
@@ -21,88 +27,124 @@ object ProcessingTestMain {
     init {
         // TODO Remove and check if allocating debug
         AllocationTracker.debugAllocations = false
-
     }
+
+    data class DnaV(val steeringVehicle: SteeringVehicle, val steeringData: List<EAngleType>)
 
     @JvmStatic
     fun main(args: Array<String>) {
 
-        DotDrawingApplet.start()
+        val applet: DotDrawer = KotlinPApplet.createApplet<DotDrawingApplet>()
 
-        return
-        val possibleChar = ('a'..'z').toList() + ' ' + ('A'..'Z').toList()
-        val builder = DnaBuilder { dna ->
-            dna.map {
-                possibleChar[it]
-            }.joinToString(separator = "")
-        }
+        val evaluateFitness: (Genome<DnaV>) -> Float = { genome ->
+            val vehicle = genome.individual.steeringVehicle
 
+            vehicle.position.set(applet.size.toRect().pointAtAnchor(NamedPoint.center))
 
+            genome.individual.steeringData.forEach {
 
-
-        (0..10).forEach {
-
-            val t = ETimer()
-            val population = Population(_target.length, 1000, builder = builder, randomGene = { _, _ -> random() })
-
-            var i = 0
-            var found = false
-            while (!found) {
-                val map = population.evolve()
-
-//                println()
-//                print("$i ")
-//                population.best?.let { (genome, fitness) ->
-//                    "${(fitness / population.maxFitness)._2dec}-> ${genome.individual}".print
-//                }
-
-
-                if (_target == population.best?.first?.individual) {
-                    "Found after $i tries           ${population.best}".print
-                    found = true
-                }
-
-                i++
+                vehicle.controller.steerAngle(it)
+                vehicle.body.update()
+                applet.dotList = listOf(vehicle)
+//                Thread.sleep(1)
             }
 
-            t.print
+            (1f / genome.individual.steeringVehicle.position.y).pow(2)
         }
+        val steerPop = Population<DnaV>(
+            dnaSize = 200,
+            populationSize = 20,
+            builder = DnaBuilder { floats -> DnaV(SteeringVehicle(), floats.map { it.rotation() }) },
+            evaluateFitness = evaluateFitness
+        )
+
+
+        steerPop.doEvolution()
+
+
+//        val possibleChar = ('a'..'z').toList() + ' ' + ('A'..'Z').toList()
+//        val builder = DnaBuilder { dna ->
+//            dna.map {
+//                possibleChar[it]
+//            }.joinToString(separator = "")
+//        }
+//
+//
+//
+//
+//        (0..10).forEach {
+//
+//            val t = ETimer()
+//            val population = Population(_target.length, 1000, builder = builder, randomGene = { _, _ -> random() })
+//
+//            var i = 0
+//            var found = false
+//            while (!found) {
+//                val map = population.evolve()
+//
+////                println()
+////                print("$i ")
+////                population.best?.let { (genome, fitness) ->
+////                    "${(fitness / population.maxFitness)._2dec}-> ${genome.individual}".print
+////                }
+//
+//
+//                if (_target == population.best?.first?.individual) {
+//                    "Found after $i tries           ${population.best}".print
+//                    found = true
+//                }
+//
+//                i++
+//            }
+//
+//            t.print
+//        }
 
 
     }
 
 }
 
-private val _target = "Darwin is winning"
+private fun <T> Population<T>.doEvolution() {
+    while (true) {
+        evolve()
+        evaluateFitness(best!!.first)
+        "generation".print
+    }
+}
 
-class Population(
+//private val _target = "Darwin is winning"
+
+class Population<T>(
     dnaSize: Int,
-    val populationSize: Int,
-    builder: DnaBuilder<String>,
-    randomGene: (Int, Float) -> Float
+    populationSize: Int,
+    val evaluateFitness: (Genome<T>) -> Float,
+    builder: DnaBuilder<T>,
+    randomGene: (Int, Float) -> Float = { _, _ -> random() }
 ) {
 
-    val individuals: MutableList<Genome<String>> =
+    val individuals: MutableList<Genome<T>> =
         MutableList(populationSize) { Genome(dnaSize, builder, randomGene) }
 
     /**
      * @return the fitness, higher is better
      */
-    fun evaluateFitness(genome: Genome<String>): Float {
+//    fun evaluateFitness(genome: Genome<String>): Float {
+//
+//        var fitness = 0f
+//        genome.individual.forEachIndexed { i, c ->
+//            if (c == _target[i]) {
+//                fitness++
+//            }
+//        }
+//        return fitness.pow(2) // / _target.length
+//    }
+//
+//    val maxFitness = _target.length.f.pow(4)
 
-        var fitness = 0f
-        genome.individual.forEachIndexed { i, c ->
-            if (c == _target[i]) {
-                fitness++
-            }
-        }
-        return fitness.pow(2) // / _target.length
-    }
+    var best: Pair<Genome<T>, Float>? = null
 
-    val maxFitness = _target.length.f.pow(4)
-    var best: Pair<Genome<String>, Float>? = null
-
-    fun evolve(): MutableMap<Genome<String>, Float> {
+    fun evolve(): MutableMap<Genome<T>, Float> {
 
         var i = 0
 
@@ -110,8 +152,9 @@ class Population(
 
         val avgFitness = map.map { it.value }.average().toFloat()
 
+        val size = individuals.size
         individuals.clear()
-        (0 until populationSize).forEach {
+        (0 until size).forEach {
             var m = map.randomWithWeight()
             var d = map.randomWithWeight()
             // TODO Fix this
@@ -143,7 +186,7 @@ class Population(
     }
 
 
-    fun createFitnessIndividualMap(): MutableMap<Genome<String>, Float> =
+    fun createFitnessIndividualMap(): MutableMap<Genome<T>, Float> =
         individuals.map {
 
             val score = evaluateFitness(it)
