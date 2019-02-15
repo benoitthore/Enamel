@@ -16,5 +16,10 @@ open class ETimer {
         return "$elapsed ms"
     }
 
+    fun time(block: () -> Unit): Long {
+        start()
+        block()
+        return elapsed
+    }
 
 }

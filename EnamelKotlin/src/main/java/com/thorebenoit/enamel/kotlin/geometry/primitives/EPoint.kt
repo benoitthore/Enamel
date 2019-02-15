@@ -6,6 +6,7 @@ import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.math.randomSign
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
+import com.thorebenoit.enamel.kotlin.geometry.figures.ECircleType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import jdk.nashorn.internal.objects.Global
 import java.lang.Exception
@@ -46,6 +47,13 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
     fun distanceTo(o: EPointType) = this.distanceTo(o.x, o.y)
     fun distanceTo(x2: Number, y2: Number) = Math.hypot((x2.d - x), (y2.d - y)).f
 
+    fun distanceTo(circle: ECircleType): Float {
+        val distance = distanceTo(circle.center) - circle.radius
+        if (distance < 0f) {
+            return 0f
+        }
+        return distance
+    }
 
     override fun toString(): String {
         return "($x ; $y)"

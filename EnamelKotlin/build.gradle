@@ -20,6 +20,7 @@ dependencies {
     implementation squareup.retrofitMock
     implementation coroutines.retrofit
 
+    implementation rxJava.rxJava
 
     //Jackson
     implementation jackson.kotlin

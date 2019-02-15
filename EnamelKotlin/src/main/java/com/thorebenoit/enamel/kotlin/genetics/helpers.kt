@@ -3,6 +3,7 @@ package com.thorebenoit.enamel.kotlin.genetics
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.print
+import java.lang.Exception
 import kotlin.math.roundToInt
 
 fun randomFloatArray(n: Int) = (0 until n).map { random() }.toFloatArray()
@@ -38,14 +39,16 @@ private fun main() {
 //            pool.add(entry)
 //        }
 //    }
-//    return pool.random()
 //
-//    TODO()
+//    return pool.random()
 ////    return toList().random()
 //}
 
 // This functions is working, it's been replaced with the one commented above and still same issue
 fun <T : Any, N : Number> Map<T, N>.randomWithWeight(): Map.Entry<T, N> {
+    if(isEmpty()){
+        throw NoSuchElementException("Collection is empty.")
+    }
     val totalWeight = values.asSequence().map { it.f }.sum()
     var value = random(0, totalWeight)
     forEach {
@@ -55,6 +58,8 @@ fun <T : Any, N : Number> Map<T, N>.randomWithWeight(): Map.Entry<T, N> {
         }
     }
 
-    TODO()
-//    return toList().random()
+    "WEIRD".print
+    return this.random()
 }
+
+fun <K, V> Map<K, V>.random(): Map.Entry<K, V> = entries.random()

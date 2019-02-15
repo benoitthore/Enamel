@@ -1,25 +1,31 @@
 package com.thorebenoit.enamel.processingtest
 
-import com.thorebenoit.enamel.kotlin.core._2dec
-import com.thorebenoit.enamel.kotlin.core.get
-import com.thorebenoit.enamel.kotlin.core.math.f
-import com.thorebenoit.enamel.kotlin.core.math.random
+import com.thorebenoit.enamel.kotlin.core.math.Scale
+import com.thorebenoit.enamel.kotlin.core.math.œ
 import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.core.time.ETimer
 import com.thorebenoit.enamel.kotlin.genetics.DnaBuilder
 import com.thorebenoit.enamel.kotlin.genetics.Genome
-import com.thorebenoit.enamel.kotlin.genetics.randomWithWeight
+import com.thorebenoit.enamel.kotlin.genetics.Population
 import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
 import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
+import com.thorebenoit.enamel.kotlin.geometry.figures.ERectCenter
+import com.thorebenoit.enamel.kotlin.geometry.figures.ERectCorners
+import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EAngleType
+import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
+import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.geometry.primitives.rotation
+import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import com.thorebenoit.enamel.kotlin.geometry.toRect
-import com.thorebenoit.enamel.processingtest.examples.steering.DotDrawer
-import com.thorebenoit.enamel.processingtest.examples.steering.DotDrawingApplet
+import com.thorebenoit.enamel.kotlin.threading.coroutine
+import com.thorebenoit.enamel.kotlin.threading.forEachParallel
 import com.thorebenoit.enamel.processingtest.examples.steering.SteeringVehicle
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
-import jdk.nashorn.internal.objects.Global.Infinity
-import java.util.*
+import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.pushPop
+import com.thorebenoit.enamel.processingtest.kotlinapplet.toEPoint
+import io.reactivex.Flowable
+import java.awt.event.KeyEvent
 import kotlin.math.pow
 
 
@@ -29,180 +35,221 @@ object ProcessingTestMain {
         AllocationTracker.debugAllocations = false
     }
 
-    data class DnaV(val steeringVehicle: SteeringVehicle, val steeringData: List<EAngleType>)
-
     @JvmStatic
     fun main(args: Array<String>) {
 
-        val applet: DotDrawer = KotlinPApplet.createApplet<DotDrawingApplet>()
+        val applet = KotlinPApplet.createApplet<MainApplet>()
 
-        val evaluateFitness: (Genome<DnaV>) -> Float = { genome ->
-            val vehicle = genome.individual.steeringVehicle
-
-            vehicle.position.set(applet.size.toRect().pointAtAnchor(NamedPoint.center))
-
-            genome.individual.steeringData.forEach {
-
-                vehicle.controller.steerAngle(it)
-                vehicle.body.update()
-                applet.dotList = listOf(vehicle)
-//                Thread.sleep(1)
-            }
-
-            (1f / genome.individual.steeringVehicle.position.y).pow(2)
-        }
-        val steerPop = Population<DnaV>(
-            dnaSize = 200,
-            populationSize = 20,
-            builder = DnaBuilder { floats -> DnaV(SteeringVehicle(), floats.map { it.rotation() }) },
-            evaluateFitness = evaluateFitness
-        )
-
-
-        steerPop.doEvolution()
-
-
-//        val possibleChar = ('a'..'z').toList() + ' ' + ('A'..'Z').toList()
-//        val builder = DnaBuilder { dna ->
-//            dna.map {
-//                possibleChar[it]
-//            }.joinToString(separator = "")
+//        val timer = ETimer()
+//        (0..100).toList().forEachParallel {
+//            val tid = Thread.currentThread().id
+//            println("$it on $tid")
+//            Thread.sleep(10)
 //        }
-//
-//
-//
-//
-//        (0..10).forEach {
-//
-//            val t = ETimer()
-//            val population = Population(_target.length, 1000, builder = builder, randomGene = { _, _ -> random() })
-//
-//            var i = 0
-//            var found = false
-//            while (!found) {
-//                val map = population.evolve()
-//
-////                println()
-////                print("$i ")
-////                population.best?.let { (genome, fitness) ->
-////                    "${(fitness / population.maxFitness)._2dec}-> ${genome.individual}".print
-////                }
-//
-//
-//                if (_target == population.best?.first?.individual) {
-//                    "Found after $i tries           ${population.best}".print
-//                    found = true
-//                }
-//
-//                i++
-//            }
-//
-//            t.print
-//        }
-
-
+//        timer.print
     }
 
 }
 
-private fun <T> Population<T>.doEvolution() {
+private fun <T> Population<T>.doEvolution(onBestFound: (Int, Float, Genome<T>) -> Unit = { _, _, _ -> }) {
+    var generationCount = 0
     while (true) {
         evolve()
-        evaluateFitness(best!!.first)
-        "generation".print
-    }
-}
-
-//private val _target = "Darwin is winning"
-
-class Population<T>(
-    dnaSize: Int,
-    populationSize: Int,
-    val evaluateFitness: (Genome<T>) -> Float,
-    builder: DnaBuilder<T>,
-    randomGene: (Int, Float) -> Float = { _, _ -> random() }
-) {
-
-    val individuals: MutableList<Genome<T>> =
-        MutableList(populationSize) { Genome(dnaSize, builder, randomGene) }
-
-    /**
-     * @return the fitness, higher is better
-     */
-//    fun evaluateFitness(genome: Genome<String>): Float {
-//
-//        var fitness = 0f
-//        genome.individual.forEachIndexed { i, c ->
-//            if (c == _target[i]) {
-//                fitness++
-//            }
-//        }
-//        return fitness.pow(2) // / _target.length
-//    }
-//
-//    val maxFitness = _target.length.f.pow(4)
-
-    var best: Pair<Genome<T>, Float>? = null
-
-    fun evolve(): MutableMap<Genome<T>, Float> {
-
-        var i = 0
-
-        val map = createFitnessIndividualMap()
-
-        val avgFitness = map.map { it.value }.average().toFloat()
-
-        val size = individuals.size
-        individuals.clear()
-        (0 until size).forEach {
-            var m = map.randomWithWeight()
-            var d = map.randomWithWeight()
-            // TODO Fix this
-            while (m.value < avgFitness || d.value < avgFitness) {
-                m = map.randomWithWeight()
-                d = map.randomWithWeight()
-                i++
-            }
-
-            val child = m.key.reproduce(d.key).mutate(0.01)
-            individuals.add(child)
-
-
-            // DEBUG
-            val (mommy, mommyFitness) = m
-            val (daddy, daddyFitness) = d
-
-            val childFitness = evaluateFitness(child)
-
-            if (mommyFitness < avgFitness && daddyFitness < avgFitness) {
-                println("regression")
-            }
-
-
+        best.let { (genome, fitness) ->
+            onBestFound(generationCount, fitness, genome)
         }
-
-//        println("$i extra steps")
-        return map
+        generationCount++
     }
-
-
-    fun createFitnessIndividualMap(): MutableMap<Genome<T>, Float> =
-        individuals.map {
-
-            val score = evaluateFitness(it)
-
-            (it to score).also {
-                if (score > best?.second ?: -Infinity.f) {
-                    best = it
-                }
-            }
-
-        }.toMap().toMutableMap()
-
 }
+
 
 class MainApplet : KotlinPApplet() {
 
+    data class DnaV(val steeringVehicle: SteeringVehicle, val steeringData: List<EAngleType>)
+
+    val obstacles: MutableList<ERectType> = mutableListOf()
+
+    val target = (200 point 200).toCircle(100)
+
+
+    private fun SteeringVehicle.resetPosition() {
+        position.set(esize.toRect().pointAtAnchor(NamedPoint.bottomCenter))
+    }
+
+    private fun SteeringVehicle.distance() = position.distanceTo(target)
+
+    val evaluateFitness: (Genome<DnaV>) -> Float = { genome ->
+        val vehicle = genome.individual.steeringVehicle
+
+        vehicle.resetPosition()
+
+
+        var nbOfSteps = 0
+        var reached = false
+        var collided = false
+        genome.individual.steeringData.forEachIndexed { i, it ->
+
+            if (reached || collided) {
+                return@forEachIndexed
+            }
+            vehicle.controller.steerAngle(it)
+            vehicle.body.update()
+            obstacles.forEach { if (it.contains(vehicle.position)) collided = true }
+            if (vehicle.distance() < œ) {
+                reached = true
+                nbOfSteps = i
+            }
+
+        }
+        var distance = vehicle.distance()
+
+        if (collided) {
+            distance *= 2
+        }
+
+        val fitnessWhenReached = 1f
+        val maxFitnessWhenReached = 100f
+        if (reached) {
+            Scale.map(nbOfSteps, 0, genome.dna.size, maxFitnessWhenReached, fitnessWhenReached)
+        } else {
+            (1f / (distance + 1)).pow(3)
+        }
+
+    }
+    val steerPop = Population<DnaV>(
+        dnaSize = 750,
+        populationSize = 1000,
+        mutationRate = 0.075f,
+        builder = DnaBuilder { floats -> DnaV(SteeringVehicle(), floats.map { it.rotation() }) },
+        evaluateFitness = evaluateFitness
+    )
+
+
+    var currentVehicles: List<DnaV> = listOf()
+    var nextGeneration = true
+    var skipGen = 0
+
+    init {
+
+        var startDrag: EPointType? = null
+        onMousePressed {
+            startDrag = it.toEPoint()
+        }
+        onMouseReleased {
+            val rect = ERectCorners(startDrag!!, it.toEPoint())
+            obstacles.add(rect)
+            startDrag = null
+        }
+
+
+        onKeyPressed {
+            if (keyCode == KeyEvent.VK_SPACE) {
+                skipGen += 50
+                "skipping $skipGen".print
+            }
+            if (key == 'c') {
+                skipGen = 0
+            }
+
+        }
+
+    }
+
+    override fun draw() {
+        background(255)
+        if (nextGeneration) {
+            background(255f, 0f, 0f)
+            steerPop.evolve()
+            println("${steerPop.generationCount} ")
+
+            var _skipGen = Math.min(10, skipGen)
+            var skipping = _skipGen > 0
+            while (_skipGen > 0) {
+                steerPop.evolve()
+                skipGen--
+                _skipGen--
+                println("${steerPop.generationCount} ")
+            }
+            if (skipping) {
+                return
+            }
+
+            nextGeneration = false
+            accelerateDraw()
+            println()
+
+
+        }
+
+        currentVehicles.forEach { it.steeringVehicle.draw() }
+
+
+        obstacles.forEach { it.draw() }
+
+        pushPop {
+            fill(0f, 255f, 0f)
+            target.draw()
+        }
+
+    }
+
+
+    fun accelerateDraw() {
+
+        coroutine {
+
+            //////////////
+
+
+            currentVehicles = steerPop.individuals.map { it.individual }
+
+            currentVehicles.doPhysics {
+                Thread.sleep(500)
+            }
+
+            currentVehicles = listOf(steerPop.best.first.individual)
+
+            currentVehicles.doPhysics {
+                Thread.sleep(500)
+                nextGeneration = true
+            }
+        }
+    }
+
+    suspend fun List<DnaV>.doPhysics(onComplete: () -> Unit) {
+        forEach { it.steeringVehicle.resetPosition() }
+
+        for (i in 0 until steerPop.dnaSize) {
+
+            forEach { (vehicle, steeringData) ->
+                var collided = false
+                obstacles.forEach { if (it.contains(vehicle.position)) collided = true }
+                if (collided) {
+                    return@forEach
+                }
+                if (vehicle.distance() > œ) {
+                    val steering = steeringData[i]
+                    vehicle.controller.steerAngle(steering)
+                    vehicle.body.update()
+                } else {
+                    onComplete()
+                    return
+                }
+            }
+            delay(1)
+        }
+
+        onComplete()
+
+    }
+
+    fun SteeringVehicle.draw() {
+        pushPop {
+            noStroke()
+            fill(color)
+            position.toCircle(radius).draw()
+        }
+    }
 
 }
 

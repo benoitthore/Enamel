@@ -19,3 +19,9 @@ fun <E> MutableList<E>.limitLast(n: Int) {
         removeAt(0)
     }
 }
+
+fun <E> MutableList<E>.addIfNotContains(e: E) {
+    if(!contains(e)){
+        add(e)
+    }
+}

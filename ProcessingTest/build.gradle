@@ -11,6 +11,7 @@ dependencies {
     implementation project(':EnamelKotlin')
 
     implementation coroutines.retrofit // TODO For some reason this is needed to access basic coroutines functions
+    implementation rxJava.rxJava
 
     // Processing
     compile group: 'org.processing', name: 'core', version: '3.3.7'

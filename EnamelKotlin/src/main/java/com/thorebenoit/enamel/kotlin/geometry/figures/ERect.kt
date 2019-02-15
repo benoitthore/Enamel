@@ -261,7 +261,7 @@ open class ERectType(
 
 
     override fun equals(other: Any?): Boolean {
-        return (other as? ERectType)?.let { other.origin == origin && other.size == size} ?: false
+        return (other as? ERectType)?.let { other.origin == origin && other.size == size } ?: false
     }
 
 
@@ -424,12 +424,19 @@ fun ERectCenter(
     return buffer.set(x = x, y = y, width = width, height = height)
 }
 
+
+fun ERectCorners(
+    corner1: EPointType,
+    corner2: EPointType,
+    buffer: ERect = ERect()
+) = ERectCorners(corner1.x, corner1.y, corner2.x, corner2.y, buffer)
+
 fun ERectCorners(
     corner1X: Number = 0,
     corner1Y: Number = 0,
     corner2X: Number = 0,
     corner2Y: Number = 0,
-    buffer: ERect
+    buffer: ERect = ERect()
 ): ERect {
     return ERectSides(
         top = Math.min(corner1Y.d, corner2Y.d),
