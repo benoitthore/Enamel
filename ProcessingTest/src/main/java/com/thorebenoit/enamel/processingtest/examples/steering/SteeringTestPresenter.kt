@@ -91,7 +91,7 @@ class SteeringTestPresenter(val view: DotDrawer) {
                         }
 
                         _dotList.forEach {
-                            if (it != dot && it.position.distanceTo(dot.position) < radius) {
+                            if (it != dot && it.position.distanceTo(dot.position) < radius * 5) {
                                 controller.steerAway(it.position)
                             }
                         }
