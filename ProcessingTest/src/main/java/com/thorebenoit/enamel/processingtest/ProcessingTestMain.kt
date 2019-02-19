@@ -3,28 +3,33 @@ package com.thorebenoit.enamel.processingtest
 import com.thorebenoit.enamel.kotlin.core.math.Scale
 import com.thorebenoit.enamel.kotlin.core.math.œ
 import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.core.time.ETimer
 import com.thorebenoit.enamel.kotlin.genetics.DnaBuilder
 import com.thorebenoit.enamel.kotlin.genetics.Genome
 import com.thorebenoit.enamel.kotlin.genetics.Population
 import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
 import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERectCenter
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERectCorners
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
+import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EAngleType
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.geometry.primitives.rotation
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import com.thorebenoit.enamel.kotlin.geometry.toRect
+import com.thorebenoit.enamel.kotlin.physics.box2d.toVec2
 import com.thorebenoit.enamel.kotlin.threading.coroutine
-import com.thorebenoit.enamel.kotlin.threading.forEachParallel
 import com.thorebenoit.enamel.processingtest.examples.steering.SteeringVehicle
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
+import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
+import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.invertY
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.pushPop
 import com.thorebenoit.enamel.processingtest.kotlinapplet.toEPoint
-import io.reactivex.Flowable
+import org.jbox2d.collision.shapes.CircleShape
+import org.jbox2d.collision.shapes.PolygonShape
+import org.jbox2d.common.Vec2
+import org.jbox2d.dynamics.Body
+import org.jbox2d.dynamics.BodyDef
+import org.jbox2d.dynamics.BodyType
+import org.jbox2d.dynamics.World
 import java.awt.event.KeyEvent
 import kotlin.math.pow
 
@@ -35,18 +40,21 @@ object ProcessingTestMain {
         AllocationTracker.debugAllocations = false
     }
 
+
+
     @JvmStatic
     fun main(args: Array<String>) {
 
-        val applet = KotlinPApplet.createApplet<MainApplet>()
+        val world = World((0 point -9.91).toVec2())
+        world.isWarmStarting = true
+        world.isContinuousPhysics = true
 
-//        val timer = ETimer()
-//        (0..100).toList().forEachParallel {
-//            val tid = Thread.currentThread().id
-//            println("$it on $tid")
-//            Thread.sleep(10)
-//        }
-//        timer.print
+        PlaygroundApplet.start(800 size 800) {
+            invertY()
+
+
+        }
+
     }
 
 }
