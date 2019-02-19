@@ -19,19 +19,16 @@ import com.thorebenoit.enamel.kotlin.physics.box2d.toVec2
 import com.thorebenoit.enamel.kotlin.threading.coroutine
 import com.thorebenoit.enamel.processingtest.examples.steering.SteeringVehicle
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
-import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
-import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.invertY
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.pushPop
 import com.thorebenoit.enamel.processingtest.kotlinapplet.toEPoint
-import org.jbox2d.collision.shapes.CircleShape
-import org.jbox2d.collision.shapes.PolygonShape
-import org.jbox2d.common.Vec2
-import org.jbox2d.dynamics.Body
 import org.jbox2d.dynamics.BodyDef
-import org.jbox2d.dynamics.BodyType
 import org.jbox2d.dynamics.World
 import java.awt.event.KeyEvent
 import kotlin.math.pow
+import org.jbox2d.callbacks.DebugDraw
+import com.thorebenoit.enamel.processingtest.box2d.Box2dP5DebugDraw
+
+
 
 
 object ProcessingTestMain {
@@ -49,11 +46,27 @@ object ProcessingTestMain {
         world.isWarmStarting = true
         world.isContinuousPhysics = true
 
-        PlaygroundApplet.start(800 size 800) {
-            invertY()
+
+        val debugDraw = Box2dP5DebugDraw()
+
+//        val debugDraw = Box2dP5DebugDraw();
+//        debugDraw.g = g
+//
+//        debugDraw.setFlags(
+//            DebugDraw.e_shapeBit + DebugDraw.e_jointBit
+//            //DebugDraw.e_aabbBit
+//            //DebugDraw.e_pairBit +
+//            //DebugDraw.e_centerOfMassBit +
+//            //DebugDraw.e_dynamicTreeBit +
+//            //DebugDraw.e_wireframeDrawingBit
+//
+//        )
+//        box2d.world.setDebugDraw(debugDraw)
 
 
-        }
+//        PlaygroundApplet.start(800 size 800) {
+//            invertY()
+//        }
 
     }
 
