@@ -21,6 +21,9 @@ ext {
     archVersion = '2.0.0'
     playServicesVersion = '15.0.0'
     junitVersion = '4.12'
+    jbox2dVersion = '2.2.1.1'
+    processingVersion = '3.3.7'
+    komaVersion = '0.12'
 
     arch = [
             runtime   : "androidx.lifecycle:lifecycle-runtime:2.0.0:$archVersion",
@@ -126,5 +129,17 @@ ext {
 
     ktlint = [
             ktlint: "com.github.shyiko:ktlint:0.20.0"
+    ]
+
+    jbox2d = [
+            jbox2d: "org.jbox2d:jbox2d-library:$jbox2dVersion"
+    ]
+
+    processing = [
+            core: "org.processing:core:$processingVersion"
+    ]
+
+    koma = [
+            koma: "com.kyonifer:koma-core-ejml:$komaVersion"
     ]
 }

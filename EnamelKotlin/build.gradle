@@ -27,9 +27,10 @@ dependencies {
 
 
     // JBox2D
-    implementation group: 'org.jbox2d', name: 'jbox2d-library', version: '2.2.1.1'
-    implementation group: 'org.jbox2d', name: 'jbox2d', version: '2.2.1.1', ext: 'pom'
+    implementation jbox2d.jbox2d
 
+    // Koma
+    implementation koma.koma
 
     // JUnit
     testImplementation junit.junit
