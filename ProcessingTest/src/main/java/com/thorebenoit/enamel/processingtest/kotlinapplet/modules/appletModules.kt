@@ -49,7 +49,8 @@ fun <T : KotlinPAppletModule> T.makeWindow(transparent: Boolean = false): T = ap
         val panel = object : JPanel() {
             override fun paintComponent(graphics: Graphics) {
                 if (graphics is Graphics2D) {
-                    graphics.drawImage(this@onSetup._graphics!!.image, 0, 0, null)
+                    // TODO Check if still works
+                    graphics.drawImage(this@onSetup.graphics!!.image, 0, 0, null)
                 }
             }
         }

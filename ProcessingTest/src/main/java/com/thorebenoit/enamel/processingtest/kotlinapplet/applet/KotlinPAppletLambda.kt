@@ -14,7 +14,7 @@ import processing.core.PGraphics
 import java.lang.NullPointerException
 
 internal typealias KotlinPAppletEventListener = KotlinPAppletLambda.() -> Unit
-internal typealias OnDrawListener = PGraphics.() -> Unit
+internal typealias OnDrawListener = KotlinPAppletLambda.() -> Unit
 
 abstract class KotlinPAppletLambda : KotlinPApplet() {
 
@@ -42,15 +42,6 @@ abstract class KotlinPAppletLambda : KotlinPApplet() {
     }
 
 
-    // Draw override
-    var _graphics: PGraphics = PGraphics()
-        get() {
-            if (field.esize != esize) {
-                field = createGraphics(width, height)
-                    .apply { init(width, height, PConstants.ARGB) }
-            }
-            return field
-        }
 
     private val onPreDrawListeners = mutableListOf<OnDrawListener>()
     private val onDrawListeners = mutableListOf<OnDrawListener>()
@@ -72,49 +63,10 @@ abstract class KotlinPAppletLambda : KotlinPApplet() {
 
 
     override fun draw() {
-        _graphics.beginDraw()
-        onPreDrawListeners.forEach { it.invoke(_graphics) }
-        onDrawListeners.forEach { it.invoke(_graphics) }
-        _graphics.endDraw()
-        
-        image(_graphics, 0f, 0f)
-        
-        onPostDrawListeners.forEach { it.invoke(_graphics) }
+        onPreDrawListeners.forEach { it.invoke(this) }
+        onDrawListeners.forEach { it.invoke(this) }
+        onPostDrawListeners.forEach { it.invoke(this) }
     }
-
-    override fun <T : EPointType> T.draw(radius: Number): T {
-        allocate { toCircle(radius).draw() }
-        return this
-    }
-
-
-    override fun <T : ECircleType> T.draw(): T {
-        _graphics.ellipse(x, y, radius * 2, radius * 2)
-        return this
-    }
-
-    override fun <T : ERectType> T.draw(): T {
-        _graphics.rect(x, y, width, height)
-        return this
-    }
-
-    override fun <E : EPointType> List<E>.draw(closed: Boolean): List<E> {
-        with(_graphics) {
-            beginShape()
-
-            forEach {
-                vertex(it.x, it.y)
-            }
-            if (closed) {
-                endShape(PConstants.CLOSE)
-            } else {
-                endShape(PConstants.OPEN)
-            }
-        }
-
-        return this
-    }
-
 
 }
 

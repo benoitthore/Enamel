@@ -2,11 +2,12 @@ package com.thorebenoit.enamel.processingtest.box2d
 
 import org.jbox2d.callbacks.DebugDraw
 import org.jbox2d.common.*
+import processing.core.PApplet
 import processing.core.PConstants
 import processing.core.PGraphics
 
 class Box2dP5DebugDraw(
-    var g: PGraphics,
+    var g: PApplet,
     val transform: IViewportTransform = OBBViewportTransform()
 ) : DebugDraw(transform) {
 

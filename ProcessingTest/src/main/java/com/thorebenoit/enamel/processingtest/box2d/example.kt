@@ -18,15 +18,11 @@ fun box2dTest(){
         world.isWarmStarting = true
         world.isContinuousPhysics = true
 
-        val debugDraw = Box2dP5DebugDraw(_graphics)
+        val debugDraw = Box2dP5DebugDraw(this)
 
         debugDraw.flags = DebugDraw.e_shapeBit + DebugDraw.e_jointBit
 
         world.setDebugDraw(debugDraw)
-
-        onSizeChanged {
-            debugDraw.g = _graphics
-        }
 
         onSetup {
             world.addBox(ERect(size = ESize(width, 10)).print, isStatic = true)
