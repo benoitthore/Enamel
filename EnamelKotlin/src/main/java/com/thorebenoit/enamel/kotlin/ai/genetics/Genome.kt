@@ -1,6 +1,5 @@
-package com.thorebenoit.enamel.kotlin.genetics
+package com.thorebenoit.enamel.kotlin.ai.genetics
 
-import com.thorebenoit.enamel.kotlin.core._2dec
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.print

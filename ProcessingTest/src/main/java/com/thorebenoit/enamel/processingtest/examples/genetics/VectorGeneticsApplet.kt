@@ -3,9 +3,9 @@ package com.thorebenoit.enamel.processingtest.examples.genetics
 import com.thorebenoit.enamel.kotlin.core.math.Scale
 import com.thorebenoit.enamel.kotlin.core.math.œ
 import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.genetics.DnaBuilder
-import com.thorebenoit.enamel.kotlin.genetics.Genome
-import com.thorebenoit.enamel.kotlin.genetics.Population
+import com.thorebenoit.enamel.kotlin.ai.genetics.DnaBuilder
+import com.thorebenoit.enamel.kotlin.ai.genetics.Genome
+import com.thorebenoit.enamel.kotlin.ai.genetics.Population
 import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectCorners
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType

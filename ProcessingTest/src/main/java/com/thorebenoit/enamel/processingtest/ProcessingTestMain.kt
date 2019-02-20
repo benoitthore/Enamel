@@ -1,10 +1,14 @@
 package com.thorebenoit.enamel.processingtest
 
+import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.NeuralNetwork
+import com.thorebenoit.enamel.kotlin.core.math.*
 import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
+import com.thorebenoit.enamel.kotlin.geometry.primitives.point
+import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
+import koma.*
 import koma.extensions.map
-import koma.eye
-import koma.zeros
+import koma.matrix.Matrix
 
 
 object ProcessingTestMain {
@@ -16,20 +20,16 @@ object ProcessingTestMain {
 
     @JvmStatic
     fun main(args: Array<String>) {
-//        val m1 = zeros(3, 2).map { 2.0 }
-//
-//        val m2 = eye(2, 3)
-//
-//        m1.print
-//        m2.print
-//        (m2 * m1).print
+        val nn = NeuralNetwork(
+            3,
+            2,
+            1
+        )
+
+        nn.feedForward(listOf(1,2,3)).print
+
     }
 
 
 }
-
-
-
-
-
 

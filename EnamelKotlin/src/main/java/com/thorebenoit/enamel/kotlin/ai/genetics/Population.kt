@@ -1,13 +1,10 @@
-package com.thorebenoit.enamel.kotlin.genetics
+package com.thorebenoit.enamel.kotlin.ai.genetics
 
-import com.thorebenoit.enamel.kotlin.core.addIfNotContains
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.core.time.ETimer
 import com.thorebenoit.enamel.kotlin.threading.forEachParallel
-import io.reactivex.Flowable
-import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 import jdk.nashorn.internal.objects.Global
 import java.util.concurrent.Executors

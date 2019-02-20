@@ -1,9 +1,8 @@
-package com.thorebenoit.enamel.kotlin.genetics
+package com.thorebenoit.enamel.kotlin.ai.genetics
 
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.print
-import java.lang.Exception
 import kotlin.math.roundToInt
 
 fun randomFloatArray(n: Int) = (0 until n).map { random() }.toFloatArray()

@@ -12,11 +12,15 @@ class PlaygroundApplet : KotlinPAppletLambda() {
             init: PlaygroundApplet .() -> Unit
         ) {
             KotlinPApplet.createApplet<PlaygroundApplet>().apply {
-                this.esize = size
-                init()
+
+//                onSettings {
+//                    this.esize = size
+//                }
 
                 settings()
                 setup()
+
+                init()
             }
 
 
