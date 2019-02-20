@@ -1,8 +1,12 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 
+import com.thorebenoit.enamel.kotlin.core.fromJson
+import com.thorebenoit.enamel.kotlin.core.fromJsonSafe
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.functions.ELinearFunction
 import com.thorebenoit.enamel.kotlin.core.math.i
+import com.thorebenoit.enamel.kotlin.core.print
+import com.thorebenoit.enamel.kotlin.core.toJson
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.allocate
@@ -28,15 +32,18 @@ abstract class KotlinPApplet : PApplet() {
     }
 
     companion object {
+        var defaultSize: ESizeType = 200 size 200
         val appletQueue: BlockingQueue<KotlinPApplet> = LinkedBlockingQueue()
-        inline fun <reified T : KotlinPApplet> createApplet(): T {
-            PApplet.main(T::class.java)
+        inline fun <reified T : KotlinPApplet> createApplet(size: ESizeType = defaultSize): T {
+            PApplet.main(T::class.java, size.toJson())
             return appletQueue.poll() as T
         }
     }
 
     override fun settings() {
-        size(800, 800)
+        args.first().fromJsonSafe<ESize>()?.let {
+            esize = it
+        }
     }
 
     val displayFrame get() = allocate { ERect(size = displayWidth size displayHeight) }

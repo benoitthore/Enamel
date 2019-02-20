@@ -17,6 +17,9 @@ dependencies {
     implementation jbox2d.jbox2d
     implementation koma.koma
 
+
+    compile 'com.squareup:gifencoder:0.9.1'
+
 }
 
 

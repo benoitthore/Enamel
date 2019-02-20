@@ -21,7 +21,6 @@ abstract class KotlinPAppletLambda : KotlinPApplet() {
 
     override fun settings() {
         super.settings()
-        size(800, 800)
         onSettingsListeners.forEach { it() }
     }
 
