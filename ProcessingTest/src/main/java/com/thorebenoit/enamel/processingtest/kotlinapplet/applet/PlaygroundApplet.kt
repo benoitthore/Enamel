@@ -4,23 +4,23 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
 
 
-class PlaygroundApplet : KotlinPApplet() {
-
-    var onDraw: (PlaygroundApplet.() -> Unit)? = null
+class PlaygroundApplet : KotlinPAppletLambda() {
 
     companion object {
-        fun start(size: ESize = 400 size 400, onDraw: PlaygroundApplet.() -> Unit) {
+        fun start(
+            size: ESize = 400 size 400,
+            init: PlaygroundApplet .() -> Unit
+        ) {
             KotlinPApplet.createApplet<PlaygroundApplet>().apply {
-                this.onDraw = onDraw
                 this.esize = size
+                init()
+
+                settings()
+                setup()
             }
 
 
         }
     }
 
-
-    override fun draw() {
-        onDraw?.invoke(this)
-    }
 }

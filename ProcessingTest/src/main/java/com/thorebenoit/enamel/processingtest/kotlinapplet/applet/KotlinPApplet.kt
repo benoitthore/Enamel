@@ -59,13 +59,6 @@ abstract class KotlinPApplet : PApplet() {
         }
 
 
-    val PGraphics.eframe get() = allocate { ERect(size = esize) }
-    var PGraphics.esize: ESize
-        get() = allocate { width size height }
-        set(value) {
-            size(value.width.i, value.height.i)
-        }
-
     val center get() = allocate { ERect(size = esize).center(EPoint()) }
 
     private val mousePositionBuffer = allocate { EPoint() }

@@ -5,6 +5,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import org.jbox2d.collision.shapes.CircleShape
 import org.jbox2d.collision.shapes.PolygonShape
+import org.jbox2d.common.IViewportTransform
 import org.jbox2d.common.Vec2
 import org.jbox2d.dynamics.Body
 import org.jbox2d.dynamics.BodyDef
@@ -12,6 +13,7 @@ import org.jbox2d.dynamics.BodyType
 import org.jbox2d.dynamics.World
 
 fun EPointType.toVec2() = Vec2(x, y)
+
 
 fun World.addBox(rect: ERectType, isStatic: Boolean = false): Body {
     val def = BodyDef()

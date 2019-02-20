@@ -3,6 +3,7 @@ package com.thorebenoit.enamel.processingtest
 import com.thorebenoit.enamel.kotlin.core.math.Scale
 import com.thorebenoit.enamel.kotlin.core.math.œ
 import com.thorebenoit.enamel.kotlin.core.print
+import com.thorebenoit.enamel.kotlin.core.randomColor
 import com.thorebenoit.enamel.kotlin.genetics.DnaBuilder
 import com.thorebenoit.enamel.kotlin.genetics.Genome
 import com.thorebenoit.enamel.kotlin.genetics.Population
@@ -15,6 +16,7 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.geometry.primitives.rotation
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import com.thorebenoit.enamel.kotlin.geometry.toRect
+import com.thorebenoit.enamel.kotlin.physics.box2d.addBox
 import com.thorebenoit.enamel.kotlin.physics.box2d.toVec2
 import com.thorebenoit.enamel.kotlin.threading.coroutine
 import com.thorebenoit.enamel.processingtest.examples.steering.SteeringVehicle
@@ -27,8 +29,8 @@ import java.awt.event.KeyEvent
 import kotlin.math.pow
 import org.jbox2d.callbacks.DebugDraw
 import com.thorebenoit.enamel.processingtest.box2d.Box2dP5DebugDraw
-
-
+import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
+import processing.core.PGraphics
 
 
 object ProcessingTestMain {
@@ -38,35 +40,9 @@ object ProcessingTestMain {
     }
 
 
-
     @JvmStatic
     fun main(args: Array<String>) {
-
-        val world = World((0 point -9.91).toVec2())
-        world.isWarmStarting = true
-        world.isContinuousPhysics = true
-
-
-        val debugDraw = Box2dP5DebugDraw()
-
-//        val debugDraw = Box2dP5DebugDraw();
-//        debugDraw.g = g
-//
-//        debugDraw.setFlags(
-//            DebugDraw.e_shapeBit + DebugDraw.e_jointBit
-//            //DebugDraw.e_aabbBit
-//            //DebugDraw.e_pairBit +
-//            //DebugDraw.e_centerOfMassBit +
-//            //DebugDraw.e_dynamicTreeBit +
-//            //DebugDraw.e_wireframeDrawingBit
-//
-//        )
-//        box2d.world.setDebugDraw(debugDraw)
-
-
-//        PlaygroundApplet.start(800 size 800) {
-//            invertY()
-//        }
+        
 
     }
 
