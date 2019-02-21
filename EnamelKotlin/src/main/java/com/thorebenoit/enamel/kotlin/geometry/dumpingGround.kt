@@ -29,7 +29,7 @@ inline fun <T> allocate(block: () -> T) = if (debugAllocations) {
 }
 
 object AllocationTracker {
-    var debugAllocations = true
+    var debugAllocations = false
     var shouldPrint = true
     val allocationCountMap = mutableMapOf<Class<*>, Int>()
 }

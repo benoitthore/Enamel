@@ -21,11 +21,6 @@ import java.io.FileOutputStream
 
 
 object ProcessingTestMain {
-    init {
-        // TODO Remove and check if allocating debug
-        AllocationTracker.debugAllocations = false
-    }
-
 
     @JvmStatic
     fun main(args: Array<String>) {

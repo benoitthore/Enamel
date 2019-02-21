@@ -1,4 +1,4 @@
-package com.thorebenoit.enamel.kotlin.core
+package com.thorebenoit.enamel.kotlin.core.data
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper

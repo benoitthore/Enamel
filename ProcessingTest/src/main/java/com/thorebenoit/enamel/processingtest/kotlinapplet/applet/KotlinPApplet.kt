@@ -1,12 +1,10 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 
-import com.thorebenoit.enamel.kotlin.core.fromJson
-import com.thorebenoit.enamel.kotlin.core.fromJsonSafe
+import com.thorebenoit.enamel.kotlin.core.data.fromJsonSafe
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.functions.ELinearFunction
 import com.thorebenoit.enamel.kotlin.core.math.i
-import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.core.toJson
+import com.thorebenoit.enamel.kotlin.core.data.toJson
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.allocate
@@ -15,7 +13,6 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
 import processing.core.PApplet
 import processing.core.PConstants
-import processing.core.PGraphics
 import processing.event.KeyEvent
 import processing.event.MouseEvent
 import java.util.concurrent.BlockingQueue
@@ -51,7 +48,11 @@ abstract class KotlinPApplet : PApplet() {
     var esize: ESize
         get() = allocate { width size height }
         set(value) {
-            size(value.width.i, value.height.i)
+            surface?.apply {
+                setSize(value.width.i, value.height.i)
+            } ?: kotlin.run {
+                setSize(width.i, height.i)
+            }
         }
     var windowLocation: EPointType = EPointType.inv
         get() {

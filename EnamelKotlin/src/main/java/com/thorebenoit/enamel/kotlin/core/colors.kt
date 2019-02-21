@@ -4,6 +4,10 @@ import com.thorebenoit.enamel.kotlin.core.math.constrain
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.i
 
+fun colorFromGray(gray: Int): Int {
+    val gray = gray.constrain(0, 255).i
+    return -0x1000000 or (gray shl 16) or (gray shl 8) or gray
+}
 
 val Number.color: Int get() = (0xFF_00_00_00.i or i)
 
@@ -73,7 +77,6 @@ private fun rgb(
 ): Int {
     return -0x1000000 or (red shl 16) or (green shl 8) or blue
 }
-
 
 
 fun ARGB_evaluate(fraction: Float, startValue: Int, endValue: Int): Int {

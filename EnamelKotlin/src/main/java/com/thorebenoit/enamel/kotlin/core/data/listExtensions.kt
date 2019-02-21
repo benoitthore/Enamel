@@ -1,7 +1,6 @@
-package com.thorebenoit.enamel.kotlin.core
+package com.thorebenoit.enamel.kotlin.core.data
 
 import com.thorebenoit.enamel.kotlin.core.math.Scale
-import com.thorebenoit.enamel.kotlin.core.math.i
 
 // TODO Fix
 //operator fun <E> List<E>.get(percentage: Float) = this[((size - 1) * percentage).toInt()]
@@ -24,4 +23,21 @@ fun <E> MutableList<E>.addIfNotContains(e: E) {
     if(!contains(e)){
         add(e)
     }
+}
+
+fun <E> List<E>.split(splitSize: Int): List<List<E>> {
+    val ret = mutableListOf<List<E>>()
+    for (i in 0 until size step splitSize) {
+        if (i + splitSize <= size) {
+            ret += subList(i, i + splitSize)
+        } else {
+            ret += subList(i, size)
+        }
+    }
+    return ret
+}
+
+inline fun <T> Iterable<T>.findIndex(predicate: (T) -> Boolean): Int? {
+    forEachIndexed { index, t -> if (predicate(t)) return index }
+    return null
 }
