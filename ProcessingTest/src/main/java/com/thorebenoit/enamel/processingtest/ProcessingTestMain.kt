@@ -13,6 +13,7 @@ import processing.core.PImage
 import java.awt.image.BufferedImage
 import com.squareup.gifencoder.GifEncoder
 import com.squareup.gifencoder.ImageOptions
+import com.thorebenoit.enamel.kotlin.ai.genetics.random
 import com.thorebenoit.enamel.kotlin.geometry.innerCircle
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 import com.thorebenoit.enamel.processingtest.kotlinapplet.PAppletGifRecorder
@@ -28,11 +29,8 @@ object ProcessingTestMain {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        val nn = NeuralNetwork(2, 2, 1)
 
-        val input = listOf(1,0)
-        val target = listOf(1)
-        nn.train(input,target)
+
     }
 
 
