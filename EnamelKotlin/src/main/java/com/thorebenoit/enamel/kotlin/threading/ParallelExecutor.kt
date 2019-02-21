@@ -18,6 +18,12 @@ fun ExecutorService.run(runnables: List<() -> Unit>) {
 }
 
 val _executorMap = mutableMapOf<Int, ExecutorService>()
+
+fun initParallelExecutors(){
+    val threads = Runtime.getRuntime().availableProcessors()
+    _executorMap.getOrPut(threads) { getExecutor(threads) }
+}
+
 fun <T> List<T>.forEachParallel(threads: Int = Runtime.getRuntime().availableProcessors(), block: (T) -> Unit) {
     val executor = _executorMap.getOrPut(threads) { getExecutor(threads) }
     if (this is LinkedList) {
