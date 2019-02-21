@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentHashMap
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-
 class ExtraValueHolder<K : Any, V>(onGcCallback: (Int, Int) -> Unit = { before, after -> }, val default: K.() -> V) :
     ReadWriteProperty<K, V> {
     private val referenceQueue = ReferenceQueue<K>()

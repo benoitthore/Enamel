@@ -15,4 +15,5 @@ fun Regex.capture(target: String): List<String> {
 
 private val _2decFormat = "%.2f"
 val Float._2dec get() = _2decFormat.format(this)
+val Double._2dec get() = _2decFormat.format(this)
 

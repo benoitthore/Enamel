@@ -1,6 +1,7 @@
 package com.thorebenoit.enamel.kotlin.core.data
 
 import com.thorebenoit.enamel.kotlin.core.math.Scale
+import java.util.*
 
 // TODO Fix
 //operator fun <E> List<E>.get(percentage: Float) = this[((size - 1) * percentage).toInt()]

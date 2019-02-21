@@ -51,7 +51,7 @@ abstract class KotlinPApplet : PApplet() {
             surface?.apply {
                 setSize(value.width.i, value.height.i)
             } ?: kotlin.run {
-                setSize(width.i, height.i)
+                size(width.i, height.i)
             }
         }
     var windowLocation: EPointType = EPointType.inv

@@ -3,13 +3,23 @@ package com.thorebenoit.enamel.kotlin.core.data
 import com.thorebenoit.enamel.kotlin.core.math.i
 
 
+fun <T> List<T>.toGrid(rows: Int, cols: Int) = Grid<T>(rows, cols) { i -> this@toGrid.get(i) }
+
 data class Cell<T>(val x: Int, val y: Int, val content: T)
 
-class Grid<T>(val width: Int, val height: Int, private val default: Grid<T>.(Int) -> T) {
+class Grid<T>(val rows: Int, val cols: Int, private val default: Grid<T>.(Int) -> T) {
 
-    constructor(width: Number, height: Number, default: Grid<T>.(Int) -> T) : this(width.toInt(), height.toInt(), default)
+    companion object {
+        fun <T> fromList(list: List<T>, rows: Int, cols: Int) = list.toGrid(rows, cols)
+    }
 
-    val size = width * height
+    constructor(cols: Number, rows: Number, default: Grid<T>.(Int) -> T) : this(
+        cols.toInt(),
+        rows.toInt(),
+        default
+    )
+
+    val size = cols * rows
 
     private val listeners = mutableListOf<(Cell<T>) -> Unit>()
 
@@ -94,7 +104,7 @@ class Grid<T>(val width: Int, val height: Int, private val default: Grid<T>.(Int
     }
 
     fun copy(): Grid<T> {
-        return Grid(width, height) { this.cellValues[it] }
+        return Grid(cols, rows) { this.cellValues[it] }
     }
 
     override fun toString(): String {
@@ -102,11 +112,11 @@ class Grid<T>(val width: Int, val height: Int, private val default: Grid<T>.(Int
 
         val largetString = cellValues.map { it.toString().length }.max() ?: 0
 
-        for (y in 0 until height) {
+        for (y in 0 until rows) {
             sb.append("[ ")
-            for (x in 0 until width) {
+            for (x in 0 until cols) {
                 sb.append("'")
-                val contentString = cellValues[x + y * width].toString()
+                val contentString = cellValues[x + y * cols].toString()
                 sb.append(contentString)
                 sb.append("' ")
                 for (i in 0..(largetString - contentString.length)) {
@@ -120,15 +130,15 @@ class Grid<T>(val width: Int, val height: Int, private val default: Grid<T>.(Int
         return sb.toString()
     }
 
-    private fun Int.xFromIndex() = this % width
-    private fun Int.yFromIndex() = (this - xFromIndex()) / width
-    private fun indexFromXY(x: Int, y: Int) = if (x.isXInBound() && y.isXInBound()) x + y * width else null
+    private fun Int.xFromIndex() = this % cols
+    private fun Int.yFromIndex() = (this - xFromIndex()) / cols
+    private fun indexFromXY(x: Int, y: Int) = if (x.isXInBound() && y.isXInBound()) x + y * cols else null
 
     inline fun forEach(function: (Cell<T>) -> Unit) {
         getAllElementsAsCells().forEach(function)
     }
 
-    fun Int.isXInBound(): Boolean = this in 0 until width
-    fun Int.isYInBound(): Boolean = this in 0 until height
+    fun Int.isXInBound(): Boolean = this in 0 until cols
+    fun Int.isYInBound(): Boolean = this in 0 until rows
 
 }

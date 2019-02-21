@@ -46,14 +46,27 @@ class NeuralNetwork(
         return output
     }
 
+    fun error(input: List<Number>, target: List<Number>): Double {
+        if (nbOutputNodes != target.size) {
+            throw Exception("expected ${this.nbOutputNodes} element as target")
+        }
+        val output = feedForward(input)
+
+        var error = 0.0
+        output.forEachIndexed { index, value ->
+            error += Math.abs(value - target[index].toDouble())
+        }
+        return error / output.size
+    }
+
     fun train(input: List<Number>, target: List<Number>) = train(input.toMatrixVertical(), target.toMatrixVertical())
 
     fun train(input: Matrix<Double>, target: Matrix<Double>) {
         if (input.size != this.nbInputNodes) {
-            throw Exception("expected ${this.nbInputNodes} element as an inputNodes")
+            throw Exception("expected ${this.nbInputNodes} element as an input")
         }
         if (target.size != this.nbOutputNodes) {
-            throw Exception("expected ${this.nbOutputNodes} element as an nbOutputNodes")
+            throw Exception("expected ${this.nbOutputNodes} element as an target")
         }
 
 

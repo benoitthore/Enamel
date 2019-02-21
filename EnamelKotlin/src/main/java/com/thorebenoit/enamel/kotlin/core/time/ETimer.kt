@@ -2,8 +2,12 @@ package com.thorebenoit.enamel.kotlin.core.time
 
 
 open class ETimer {
-    protected var startAt: Long = System.currentTimeMillis()
 
+    companion object {
+        fun time(block: () -> Unit) = ETimer().time(block)
+    }
+
+    protected var startAt: Long = System.currentTimeMillis()
 
     val elapsed get() = System.currentTimeMillis() - startAt
 
