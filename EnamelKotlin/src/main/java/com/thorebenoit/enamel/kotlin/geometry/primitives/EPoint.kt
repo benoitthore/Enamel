@@ -8,7 +8,6 @@ import com.thorebenoit.enamel.kotlin.core.math.randomSign
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
 import com.thorebenoit.enamel.kotlin.geometry.figures.ECircleType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
-import jdk.nashorn.internal.objects.Global
 import java.lang.Exception
 
 //TODO Mark warning if not used on non-self functions in points/rect/circle/etc

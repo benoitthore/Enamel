@@ -6,7 +6,6 @@ import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.core.time.ETimer
 import com.thorebenoit.enamel.kotlin.threading.forEachParallel
 import io.reactivex.schedulers.Schedulers
-import jdk.nashorn.internal.objects.Global
 import java.util.concurrent.Executors
 
 class Population<T>(
@@ -21,7 +20,7 @@ class Population<T>(
     val individuals: MutableList<Genome<T>> =
         MutableList(populationSize) { Genome(dnaSize, builder, randomGene) }
 
-    var best: Pair<Genome<T>, Float> = individuals.random() to -Global.Infinity.f
+    var best: Pair<Genome<T>, Float> = individuals.random() to -Float.MAX_VALUE
         private set
     var generationCount = 0
         private set
@@ -31,7 +30,6 @@ class Population<T>(
 
     private val parallelScheduler = Schedulers.from(Executors.newFixedThreadPool(cpus))
     fun evolve(): MutableMap<Genome<T>, Float> {
-        val t = ETimer()
 
         var i = 0
 
@@ -73,8 +71,6 @@ class Population<T>(
         }
 
         generationCount++
-
-        t.print
 
         return map
     }

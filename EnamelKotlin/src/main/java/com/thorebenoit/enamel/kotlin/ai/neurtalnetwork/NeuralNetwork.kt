@@ -95,7 +95,6 @@ class NeuralNetwork(
         val weigth_IH_delta = (hiddenGradient * input.T())
         this.weight_IH = weight_IH + weigth_IH_delta
         this.bias_H = bias_H + hiddenGradient
-
     }
 
 }

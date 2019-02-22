@@ -181,7 +181,7 @@ private fun main() {
 val String.doodleList by ExtraValueHolder<String, List<List<Float>>> {
     DoodleImageExtractor.generate(
         "doodle/$this.npy",
-        10_000
+        1_000
     )
 }
 
