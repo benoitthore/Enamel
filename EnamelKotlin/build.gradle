@@ -32,6 +32,11 @@ dependencies {
     // Koma
     implementation koma.koma
 
+    // Deep learning 4 J
+    implementation deeplearning4j.core
+    implementation deeplearning4j.nd4j
+
+
     // JUnit
     testImplementation junit.junit
     testImplementation mockito.core

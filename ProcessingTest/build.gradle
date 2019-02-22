@@ -18,7 +18,11 @@ dependencies {
     implementation koma.koma
 
 
-    compile 'com.squareup:gifencoder:0.9.1'
+    implementation 'com.squareup:gifencoder:0.9.1'
+
+    implementation deeplearning4j.core
+    implementation deeplearning4j.nd4j
+
 
 }
 

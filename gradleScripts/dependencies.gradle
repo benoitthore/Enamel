@@ -24,6 +24,7 @@ ext {
     jbox2dVersion = '2.2.1.1'
     processingVersion = '3.3.7'
     komaVersion = '0.12'
+    deeplearning4jVersion = '0.9.1'
 
     arch = [
             runtime   : "androidx.lifecycle:lifecycle-runtime:2.0.0:$archVersion",
@@ -141,5 +142,10 @@ ext {
 
     koma = [
             koma: "com.kyonifer:koma-core-ejml:$komaVersion"
+    ]
+
+    deeplearning4j = [
+            core: "org.deeplearning4j:deeplearning4j-core:$deeplearning4jVersion",
+            nd4j: "org.nd4j:nd4j-native-platform:$deeplearning4jVersion"
     ]
 }

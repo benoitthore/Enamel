@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.processingtest.doodleclassifier
 
+import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.LabeledData
 import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.NeuralNetwork
 import com.thorebenoit.enamel.kotlin.core._2dec
 import com.thorebenoit.enamel.kotlin.core.backingfield.ExtraValueHolder
@@ -127,9 +128,6 @@ object DoodleImageExtractor {
     }
 }
 
-data class LabeledData<T>(val data: T, val label: Int, val labelList: List<Any>) {
-    fun createVector() = (0 until labelList.size).mapIndexed { index, i -> if (label == index) 1 else 0 }
-}
 
 // https://console.cloud.google.com/storage/browser/quickdraw_dataset/full/numpy_bitmap
 private fun main() {

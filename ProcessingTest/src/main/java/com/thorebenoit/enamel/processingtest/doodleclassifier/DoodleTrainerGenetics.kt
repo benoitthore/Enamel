@@ -3,6 +3,7 @@ package com.thorebenoit.enamel.processingtest.doodleclassifier
 import com.thorebenoit.enamel.kotlin.ai.genetics.DnaBuilder
 import com.thorebenoit.enamel.kotlin.ai.genetics.Genome
 import com.thorebenoit.enamel.kotlin.ai.genetics.Population
+import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.LabeledData
 import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.NeuralNetwork
 import com.thorebenoit.enamel.kotlin.core._2dec
 import com.thorebenoit.enamel.kotlin.core.math.lerp
@@ -11,7 +12,7 @@ import com.thorebenoit.enamel.kotlin.core.time.ETimer
 import java.lang.Exception
 
 fun DoodleTrainerGeneticsConfiguration.test(
-    map: List<LabeledData<List<Float>>>,
+    map: List<LabeledData>,
     objects: List<Any>,
     print: Boolean = false
 ): Float {
