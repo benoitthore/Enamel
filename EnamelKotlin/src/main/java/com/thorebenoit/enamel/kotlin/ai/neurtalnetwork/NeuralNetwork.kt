@@ -109,7 +109,7 @@ private fun main() {
         listOf(0, 1) to 1,
         listOf(1, 1) to 0,
         listOf(0, 0) to 0
-    ).toMap()
+    )
 
 
     (0..50_000).forEach {
@@ -121,5 +121,12 @@ private fun main() {
     nn.feedForward(listOf(0, 1)).print
     nn.feedForward(listOf(1, 1)).print
     nn.feedForward(listOf(0, 0)).print
+
+    val avgError = training.map { (input, target) ->
+        nn.error(input, listOf(target))
+    }.sum() / 4
+
+    println()
+    avgError.print
 
 }

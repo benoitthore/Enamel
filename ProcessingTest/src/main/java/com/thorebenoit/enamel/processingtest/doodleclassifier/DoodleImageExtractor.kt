@@ -16,6 +16,7 @@ import com.thorebenoit.enamel.kotlin.core.time.ETimer
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.threading.forEachParallel
+import com.thorebenoit.enamel.kotlin.threading.initParallelExecutors
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
 import processing.core.PConstants
 import processing.core.PImage
@@ -43,8 +44,6 @@ object DoodleImageExtractor {
                     LabeledData(it, label, objects)
                 }
             }.shuffled()
-
-
 
 
         val nn = NeuralNetwork(training.first().data.size, 256, objects.size)
@@ -184,4 +183,43 @@ val String.doodleList by ExtraValueHolder<String, List<List<Float>>> {
         "doodle/$this.npy",
         10_000
     )
+}
+
+
+private fun testSlowReading() {
+
+    fun <E> List<E>.split(splitSize: Int): List<List<E>> {
+        val ret = mutableListOf<List<E>>()
+        for (i in 0 until size step splitSize) {
+            if (i + splitSize <= size) {
+                ret += subList(i, i + splitSize)
+            } else {
+                ret += subList(i, size)
+            }
+        }
+        return ret
+    }
+
+    println("Reading file")
+    val fileData = File("/Users/benoit/tmp/testdata.bin").readBytes().toList().let { bytes ->
+        bytes.split(DoodleImageExtractor.imgSize)
+    }
+
+    fileData.size.print
+
+    println("file read")
+
+    var t: Long
+
+    t = System.currentTimeMillis()
+    fileData.map { it.map { it.toInt() } }
+    println("It took ${System.currentTimeMillis() - t}")
+
+
+    t = System.currentTimeMillis()
+    fileData.map { it.map { it.toInt() } }
+    println("It took ${System.currentTimeMillis() - t}")
+
+
+    println("done")
 }
