@@ -20,7 +20,7 @@ fun <E> MutableList<E>.limitLast(n: Int) {
     }
 }
 
-fun <E> MutableList<E>.addIfNotContains(e: E) {
+fun <E> MutableList<E>.addIfDoesntContains(e: E) {
     if(!contains(e)){
         add(e)
     }

@@ -8,7 +8,7 @@ import java.nio.charset.Charset
 fun executeHeapDump(destinationFolder: String = "/tmp/", fileName: String = "heapdump.hprof"): String {
     val pid = ManagementFactory.getRuntimeMXBean().name.split("@")[0]
 
-    val destinationFile = File(destinationFolder,fileName).absolutePath
+    val destinationFile = File(destinationFolder, fileName).absolutePath
     val command = "jmap -dump:format=b,file=$destinationFile $pid"
 
     return command.split(" ").executeInTerminal()
@@ -23,6 +23,11 @@ fun List<String>.executeInTerminal() =
         .inputStream.readBytes().toString(Charset.defaultCharset())
 
 val <T> T.print get() = apply { println(this) }
+fun <T> T.print(print: Boolean = true) = apply {
+    if (print) {
+        println(this)
+    }
+}
 
 fun tryCatch(tryBlock: () -> Unit, catchBlock: () -> Unit = {}) {
     try {
@@ -31,4 +36,5 @@ fun tryCatch(tryBlock: () -> Unit, catchBlock: () -> Unit = {}) {
         catchBlock()
     }
 }
+
 fun tryAndForget(tryBlock: () -> Unit) = tryCatch(tryBlock)

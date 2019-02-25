@@ -5,6 +5,11 @@ open class ETimer {
 
     companion object {
         fun time(block: () -> Unit) = ETimer().time(block)
+        fun printTime(block: () -> Unit) {
+            println(
+                "${ETimer().time(block)} ms"
+            )
+        }
     }
 
     protected var startAt: Long = System.currentTimeMillis()
