@@ -9,24 +9,24 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 import com.thorebenoit.enamel.kotlin.physics.core.PhysicsBody
+import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
 import com.thorebenoit.enamel.kotlin.threading.coroutine
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 import org.deeplearning4j.nn.api.NeuralNetwork
 import processing.core.PApplet
 
 private fun ToyNeuralNetwork.doNetworkDecision(world: FlappyBirdWorld) {
-    val firstPipe = world.pipes.first()
+    val firstPipe = world.pipes.first { it.x > world.player.body.position.x }
 
 
     val networkInput = listOf(
         world.player.body.position.y,
+        world.player.body.velocity.y,
         firstPipe.x,
         firstPipe.botRect.top,
         firstPipe.topRect.bottom
     )
-    val networkDecision = feedForward(
-        networkInput
-    )
+    val networkDecision = feedForward(networkInput)
 
     if (networkDecision[0] > networkDecision[1]) {
         world.player.jump()
@@ -35,23 +35,30 @@ private fun ToyNeuralNetwork.doNetworkDecision(world: FlappyBirdWorld) {
 
 }
 
-val population = ToyNeuralNetwork(4, 4, 2)
-    .getGeneticsBasedNeuralNetwork(100, scale = 10) {
+val BEST_FINTESS = 10_000f
+
+val population = ToyNeuralNetwork(5, 8, 2)
+    .getGeneticsBasedNeuralNetwork(100, scale = 1) {
         val currentNeuralNetwork = it.individual
         val currentWorld = FlappyBirdWorld()
+
+        var score = 0f
         var collided = false
-        (0 until 1000).forEach {
+        (0 until BEST_FINTESS.toInt()).forEach {
             if (collided) {
-                return@forEach
+                return@getGeneticsBasedNeuralNetwork score
             }
             currentNeuralNetwork.doNetworkDecision(currentWorld)
             currentWorld.updatePhysics { collided = true }
+            if (currentWorld.player.body.position.y > 1f) {
+                return@getGeneticsBasedNeuralNetwork 0f
+            }
+            score++
         }
 
-        val dist = currentWorld.player.body.position.x
 
         // The higher the distance, the better
-        return@getGeneticsBasedNeuralNetwork dist
+        return@getGeneticsBasedNeuralNetwork score
     }
 
 
@@ -60,14 +67,18 @@ class FlappyBirdApplet : KotlinPApplet() {
 
     val world: FlappyBirdWorld by lazy { FlappyBirdWorld(width.f, height.f) }
 
-    var nn = ToyNeuralNetwork(4, 16, 2)
+    var nn = population.evolve().let { population.best.first.individual }
+
+    val coroutineLock = CoroutineLock()
 
     init {
 
         coroutine {
+            coroutineLock.wait()
 
 
             var generation = 0
+            var lastBestDistance = 0f
             while (true) {
 
 
@@ -75,14 +86,26 @@ class FlappyBirdApplet : KotlinPApplet() {
 
                 generation++
 
-                if (generation % 500 == 0) {
+
+                if (generation % 10 == 0) {
+                    val currentBestDistance = population.best.second
                     """
                         Generation : $generation
                         Best distance : ${population.best.second}
                     """.trimIndent().print()
-                    nn = population.best.first.individual
-//                    delay(10_000)
-//                    world.reset()
+
+                    if (!lastBestDistance.nearlyEquals(currentBestDistance)) {
+
+                        lastBestDistance = currentBestDistance
+
+                        nn = population.best.first.individual
+                        world.reset()
+                    }
+
+                    if (currentBestDistance > BEST_FINTESS - 10f) {
+                        return@coroutine
+                    }
+
                 }
             }
         }
@@ -96,6 +119,7 @@ class FlappyBirdApplet : KotlinPApplet() {
     }
 
     override fun draw() {
+        coroutineLock.unlock()
         background(255)
         fill(0)
 
@@ -124,26 +148,29 @@ class FlappyBirdWorld(
     val Number.Xpx get() = this.f / _width.f
     val Number.Ypx get() = this.f / _height.f
 
-
     val player by lazy {
         Player(50.Xpx, 50.Ypx)
-            .apply { body.position.set(0.3, 0.2) }
+    }
+    val pipes by lazy { mutableListOf(Pipe()) }
+
+
+    init {
+        reset()
     }
 
-    val pipes by lazy { mutableListOf(Pipe()) }
 
     fun reset() {
         pipes.clear()
         pipes.add(Pipe())
 
-        player.body.position.set(0.3, 0.2)
+        player.body.position.set(0.1, 0.2)
         player.body.velocity.reset()
         player.body.acceleration.reset()
         frameCount = 0
     }
 
     private var frameCount = 0
-    private val cutSizeRatio = 0.3f
+    private val cutSizeRatio = 0.2f
     private val gravity = EPoint(0, (0.5).Ypx)
 
 

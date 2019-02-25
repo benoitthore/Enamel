@@ -4,14 +4,20 @@ import kotlinx.coroutines.channels.BroadcastChannel
 
 class CoroutineLock(private val onUnlock: suspend () -> Unit = {}) {
 
+    private var isLocked = false
     private val channel = BroadcastChannel<Int>(10)
 
     suspend fun wait() {
+        isLocked = true
         channel.openSubscription().receive()
     }
 
     fun unlock() {
+        if (!isLocked) {
+            return
+        }
         coroutine {
+            isLocked = false
             onUnlock()
             channel.send(0)
         }
