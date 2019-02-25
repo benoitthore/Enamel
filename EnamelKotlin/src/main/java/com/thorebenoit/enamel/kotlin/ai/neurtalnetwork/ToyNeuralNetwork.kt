@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.ai.neurtalnetwork
 
+import com.thorebenoit.enamel.kotlin.core._2dec
 import com.thorebenoit.enamel.kotlin.core.math.d
 import com.thorebenoit.enamel.kotlin.core.math.randomise
 import com.thorebenoit.enamel.kotlin.core.math.toMatrixVertical
@@ -19,17 +20,25 @@ inline fun dsigmoid(x: Number) = x.d * (1 - x.d)
 
 class ToyNeuralNetwork(
     val nbInputNodes: Int,
-    nbHiddenNodes: Int,
+    val nbHiddenNodes: Int,
     val nbOutputNodes: Int,
-
+    private var weight_IH: Matrix<Double> = zeros(nbHiddenNodes, nbInputNodes).randomise(-1, 1),
+    private var weight_HO: Matrix<Double> = zeros(nbOutputNodes, nbHiddenNodes).randomise(-1, 1),
+    private var bias_H: Matrix<Double> = zeros(nbHiddenNodes, 1).randomise(-1, 1),
+    private var bias_O: Matrix<Double> = zeros(nbOutputNodes, 1).randomise(-1, 1),
     var learningRate: Double = 0.1
 ) {
 
-    private var weight_IH = zeros(nbHiddenNodes, nbInputNodes).randomise(-1, 1)
-    private var weight_HO = zeros(nbOutputNodes, nbHiddenNodes).randomise(-1, 1)
-
-    private var bias_H = zeros(nbHiddenNodes, 1).randomise(-1, 1)
-    private var bias_O = zeros(nbOutputNodes, 1).randomise(-1, 1)
+    constructor(other: ToyNeuralNetwork) : this(
+        nbInputNodes = other.nbInputNodes,
+        nbHiddenNodes = other.nbHiddenNodes,
+        nbOutputNodes = other.nbOutputNodes,
+        weight_IH = other.weight_IH.copy(),
+        weight_HO = other.weight_HO.copy(),
+        bias_H = other.bias_H.copy(),
+        bias_O = other.bias_O.copy(),
+        learningRate = other.learningRate
+    )
 
     fun feedForward(input: List<Number>): List<Double> = feedForward(input.toMatrixVertical()).toList()
 
@@ -125,6 +134,9 @@ private fun main() {
     }.sum() / 4
 
     println()
-    avgError.print
+    if (avgError > 0.05) {
+        throw Exception("Not working")
+    }
+    "Error: ${(avgError * 100)._2dec}%".print
 
 }
