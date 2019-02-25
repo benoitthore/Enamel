@@ -117,7 +117,8 @@ open class ERectType(
         val y = y.f
         val width = width.f
         val height = height.f
-        return x + width >= left && x < right && y + height >= top && y < bottom
+        return x + width >= left && x + width < right
+                && y + height >= top && y + height < bottom
     }
 
 
@@ -317,7 +318,12 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
         return this
     }
 
-    fun setSides(top: Float, bottom: Float, left: Float, right: Float): ERect {
+    fun setSides(
+        top: Float = this.top,
+        bottom: Float = this.bottom,
+        left: Float = this.left,
+        right: Float = this.right
+    ): ERect {
         this.top = top
         this.bottom = bottom
         this.left = left

@@ -18,6 +18,7 @@ class IdentityWeakReference<T> : WeakReference<T> {
         hash = value.generateHash()
     }
 
+    fun <T> refEquals(other: T?): Boolean = other == get()
 
     override fun equals(other: Any?): Boolean {
         return (other as? WeakReference<T>)?.let { it.get() === get() } ?: false
