@@ -1,6 +1,5 @@
 package com.thorebenoit.enamel.kotlin.ai.neurtalnetwork
 
-import com.thorebenoit.enamel.kotlin.ai.genetics.random
 import com.thorebenoit.enamel.kotlin.core.math.d
 import com.thorebenoit.enamel.kotlin.core.math.randomise
 import com.thorebenoit.enamel.kotlin.core.math.toMatrixVertical
@@ -18,7 +17,7 @@ inline fun sigmoidf(x: Number) = 1 / (1 + Math.exp(-x.toDouble())).toFloat()
 //inline fun dsigmoid(x: Number) = sigmoid(x) * (1 - sigmoid(x))
 inline fun dsigmoid(x: Number) = x.d * (1 - x.d)
 
-class NeuralNetwork(
+class ToyNeuralNetwork(
     val nbInputNodes: Int,
     nbHiddenNodes: Int,
     val nbOutputNodes: Int,
@@ -101,7 +100,7 @@ class NeuralNetwork(
 
 
 private fun main() {
-    val nn = NeuralNetwork(2, 4, 1)
+    val nn = ToyNeuralNetwork(2, 4, 1)
 
     val training = listOf(
         listOf(1, 0) to 1,

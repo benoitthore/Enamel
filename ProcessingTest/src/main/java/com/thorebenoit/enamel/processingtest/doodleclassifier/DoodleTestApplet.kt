@@ -15,6 +15,7 @@ import processing.core.PConstants
 import processing.core.PGraphics
 import processing.core.PImage
 
+
 class DoodleTestApplet : KotlinPApplet() {
 
 
@@ -23,18 +24,28 @@ class DoodleTestApplet : KotlinPApplet() {
 
     init {
 
+//        val labels = listOf(
+//            "airplane",
+//            "apple",
+//            "banana",
+//            "car",
+//            "cat",
+//            "dog",
+//            "eiffel_tower",
+//            "fish",
+//            "spider",
+//            "spoon"
+//        )
+
         val labels = listOf(
-            "airplane",
             "apple",
             "banana",
             "car",
             "cat",
-            "dog",
-            "eiffel_tower",
-            "fish",
-            "spider",
             "spoon"
         )
+
+
         val t = ETimer()
         val nn = DoodleImageExtractor.getNetwork(labels)
 

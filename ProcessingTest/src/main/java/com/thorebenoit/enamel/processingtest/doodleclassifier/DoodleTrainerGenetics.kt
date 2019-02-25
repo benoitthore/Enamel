@@ -3,16 +3,15 @@ package com.thorebenoit.enamel.processingtest.doodleclassifier
 import com.thorebenoit.enamel.kotlin.ai.genetics.DnaBuilder
 import com.thorebenoit.enamel.kotlin.ai.genetics.Genome
 import com.thorebenoit.enamel.kotlin.ai.genetics.Population
-import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.LabeledData
-import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.NeuralNetwork
+import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.LabeledDataOLD
+import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.ToyNeuralNetwork
 import com.thorebenoit.enamel.kotlin.core._2dec
 import com.thorebenoit.enamel.kotlin.core.math.lerp
 import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.core.time.ETimer
-import java.lang.Exception
 
 fun DoodleTrainerGeneticsConfiguration.test(
-    map: List<LabeledData>,
+    map: List<LabeledDataOLD>,
     objects: List<Any>,
     print: Boolean = false
 ): Float {
@@ -25,7 +24,7 @@ fun DoodleTrainerGeneticsConfiguration.test(
     val testing = map.subList((map.size * trainingRatio).toInt(), map.size)
 
 
-    val nn = NeuralNetwork(map.first().data.size, hiddenNodes, objects.size)
+    val nn = ToyNeuralNetwork(map.first().data.size, hiddenNodes, objects.size)
 
     if (print)
         println("training")
@@ -73,7 +72,7 @@ fun main() {
             .mapIndexed { index, s -> s.doodleList to index }
             .flatMap { (dataList, label) ->
                 dataList.map {
-                    LabeledData(it, label, objects)
+                    LabeledDataOLD(it, label, objects)
                 }
             }.shuffled()
 

@@ -1,35 +1,28 @@
 package com.thorebenoit.enamel.processingtest.doodleclassifier
 
-import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.LabeledData
-import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.NeuralNetwork
+import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.LabeledDataOLD
+import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.ToyNeuralNetwork
 import com.thorebenoit.enamel.kotlin.core._2dec
 import com.thorebenoit.enamel.kotlin.core.backingfield.ExtraValueHolder
 import com.thorebenoit.enamel.kotlin.core.colorFromGray
-import com.thorebenoit.enamel.kotlin.core.data.Grid
 import com.thorebenoit.enamel.kotlin.core.math.f
-import com.thorebenoit.enamel.kotlin.core.math.i
 import com.thorebenoit.enamel.kotlin.core.data.split
 import com.thorebenoit.enamel.kotlin.core.data.toGrid
-import com.thorebenoit.enamel.kotlin.core.math.b
 import com.thorebenoit.enamel.kotlin.core.math.d
 import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.core.time.ETimer
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
-import com.thorebenoit.enamel.kotlin.threading.forEachParallel
-import com.thorebenoit.enamel.kotlin.threading.initParallelExecutors
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
 import processing.core.PConstants
 import processing.core.PImage
 import java.io.File
-import java.lang.Exception
-import kotlin.experimental.and
 import kotlin.math.roundToInt
 
 
 object DoodleImageExtractor {
 
-    fun getNetwork(objects: List<String>): NeuralNetwork {
+    fun getNetwork(objects: List<String>, epoch: Int = 15): ToyNeuralNetwork {
 
         objects.forEach {
             ETimer.time {
@@ -42,18 +35,26 @@ object DoodleImageExtractor {
             .mapIndexed { index, s -> s.doodleList to index }
             .flatMap { (dataList, label) ->
                 dataList.map {
-                    LabeledData(it, label, objects)
+                    LabeledDataOLD(it, label, objects)
                 }
             }.shuffled()
 
 
-        val nn = NeuralNetwork(training.first().data.size, 256, objects.size)
+        val nn = ToyNeuralNetwork(training.first().data.size, 256, objects.size)
 
         println("training")
         val time = ETimer.time {
-            training.forEach {
-                nn.train(it.data, it.createVector())
+            (0 until epoch).forEach { currEpoch ->
+                ETimer.printTime {
+
+                    training.forEach {
+                        nn.train(it.data, it.createVector())
+                    }
+
+                    println("${currEpoch + 1}/$epoch")
+                }
             }
+
         }
         println("training done in $time ms")
 
@@ -146,7 +147,7 @@ private fun main() {
         .mapIndexed { index, s -> s.doodleList to index }
         .flatMap { (dataList, label) ->
             dataList.map {
-                LabeledData(it, label, objects)
+                LabeledDataOLD(it, label, objects)
             }
         }.shuffled()
 
@@ -155,7 +156,7 @@ private fun main() {
     val testing = map.subList((map.size * trainingRatio).toInt(), map.size)
 
 
-    val nn = NeuralNetwork(map.first().data.size, 256, objects.size)
+    val nn = ToyNeuralNetwork(map.first().data.size, 256, objects.size)
 
     println("training")
     training.forEach {
@@ -179,45 +180,6 @@ private fun main() {
 val String.doodleList by ExtraValueHolder<String, List<List<Float>>> {
     DoodleImageExtractor.generate(
         "doodle/$this.npy",
-        1_000
+        5_000
     )
-}
-
-
-private fun testSlowReading() {
-
-    fun <E> List<E>.split(splitSize: Int): List<List<E>> {
-        val ret = mutableListOf<List<E>>()
-        for (i in 0 until size step splitSize) {
-            if (i + splitSize <= size) {
-                ret += subList(i, i + splitSize)
-            } else {
-                ret += subList(i, size)
-            }
-        }
-        return ret
-    }
-
-    println("Reading file")
-    val fileData = File("/Users/benoit/tmp/testdata.bin").readBytes().toList().let { bytes ->
-        bytes.split(DoodleImageExtractor.imgSize)
-    }
-
-    fileData.size.print
-
-    println("file read")
-
-    var t: Long
-
-    t = System.currentTimeMillis()
-    fileData.map { it.map { it.toInt() } }
-    println("It took ${System.currentTimeMillis() - t}")
-
-
-    t = System.currentTimeMillis()
-    fileData.map { it.map { it.toInt() } }
-    println("It took ${System.currentTimeMillis() - t}")
-
-
-    println("done")
 }
