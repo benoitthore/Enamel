@@ -1,13 +1,11 @@
 package com.thorebenoit.enamel.kotlin.ai.neurtalnetwork
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.thorebenoit.enamel.kotlin.ai.genetics.DnaBuilder
 import com.thorebenoit.enamel.kotlin.ai.genetics.Genome
 import com.thorebenoit.enamel.kotlin.ai.genetics.Population
 import com.thorebenoit.enamel.kotlin.core._2dec
-import com.thorebenoit.enamel.kotlin.core.math.d
-import com.thorebenoit.enamel.kotlin.core.math.random
-import com.thorebenoit.enamel.kotlin.core.math.randomise
-import com.thorebenoit.enamel.kotlin.core.math.toMatrixVertical
+import com.thorebenoit.enamel.kotlin.core.math.*
 import com.thorebenoit.enamel.kotlin.core.print
 import koma.extensions.emul
 import koma.extensions.forEach
@@ -140,6 +138,8 @@ class ToyNeuralNetwork(
         this.bias_H = bias_H + hiddenGradient
     }
 
+    fun copy(): ToyNeuralNetwork = ToyNeuralNetwork(this)
+
 }
 
 
@@ -201,7 +201,7 @@ private fun main() {
 //            builder = DnaBuilder {
 //                ToyNeuralNetwork(baseNN.nbInputNodes, baseNN.nbHiddenNodes, baseNN.nbOutputNodes, it.map { it * 10 })
 //            },
-//            randomGene = { _, _ -> random(-1, 1) }
+//            updateGene = { _, _ -> random(-1, 1) }
 //        )
 
         val population = baseNN.getGeneticsBasedNeuralNetwork(100, 10) {
@@ -243,7 +243,8 @@ fun ToyNeuralNetwork.getGeneticsBasedNeuralNetwork(
                 baseNeuralNetwork.nbOutputNodes,
                 it.map { it * scale })
         },
-        randomGene = { _, _ -> random(-1, 1) }
+        initGene = { _, _ -> random(-1, 1) },
+        updateGene = { _, curr -> (curr + random(-0.1, 0.1)).constrain(-1, 1) }
     )
 
 }

@@ -1,22 +1,31 @@
 package com.thorebenoit.enamel.processingtest.examples
 
-import com.thorebenoit.enamel.kotlin.ai.genetics.Genome
 import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.ToyNeuralNetwork
 import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.getGeneticsBasedNeuralNetwork
-import com.thorebenoit.enamel.kotlin.core.math.*
+import com.thorebenoit.enamel.kotlin.core.data.fromJson
+import com.thorebenoit.enamel.kotlin.core.data.toJson
+import com.thorebenoit.enamel.kotlin.core.math.f
+import com.thorebenoit.enamel.kotlin.core.math.nearlyEquals
+import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.geometry.figures.*
-import com.thorebenoit.enamel.kotlin.geometry.*
-import com.thorebenoit.enamel.kotlin.geometry.primitives.*
+import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
+import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
+import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
+import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
+import com.thorebenoit.enamel.kotlin.geometry.primitives.times
 import com.thorebenoit.enamel.kotlin.physics.core.PhysicsBody
 import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
 import com.thorebenoit.enamel.kotlin.threading.coroutine
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
-import org.deeplearning4j.nn.api.NeuralNetwork
-import processing.core.PApplet
+import java.io.File
+import java.nio.charset.Charset
 
 private fun ToyNeuralNetwork.doNetworkDecision(world: FlappyBirdWorld) {
-    val firstPipe = world.pipes.first { it.x > world.player.body.position.x }
+    val pipesAfterPlayer = world.pipes.filter { it.x + it.w > world.player.body.position.x }
+
+    val firstPipe = pipesAfterPlayer.firstOrNull() ?: return
+    val secondPipe = pipesAfterPlayer.getOrNull(1)
 
 
     val networkInput = listOf(
@@ -24,7 +33,10 @@ private fun ToyNeuralNetwork.doNetworkDecision(world: FlappyBirdWorld) {
         world.player.body.velocity.y,
         firstPipe.x,
         firstPipe.botRect.top,
-        firstPipe.topRect.bottom
+        firstPipe.topRect.bottom,
+        secondPipe?.x ?: -1f,
+        secondPipe?.botRect?.top ?: -1f,
+        secondPipe?.topRect?.bottom ?: -1f
     )
     val networkDecision = feedForward(networkInput)
 
@@ -37,8 +49,8 @@ private fun ToyNeuralNetwork.doNetworkDecision(world: FlappyBirdWorld) {
 
 val BEST_FINTESS = 10_000f
 
-val population = ToyNeuralNetwork(5, 8, 2)
-    .getGeneticsBasedNeuralNetwork(100, scale = 1) {
+val population = ToyNeuralNetwork(8, 8, 2)
+    .getGeneticsBasedNeuralNetwork(100, mutationRate = 0.05f) {
         val currentNeuralNetwork = it.individual
         val currentWorld = FlappyBirdWorld()
 
@@ -58,7 +70,7 @@ val population = ToyNeuralNetwork(5, 8, 2)
 
 
         // The higher the distance, the better
-        return@getGeneticsBasedNeuralNetwork score
+        return@getGeneticsBasedNeuralNetwork score//.pow(2)
     }
 
 
@@ -76,6 +88,14 @@ class FlappyBirdApplet : KotlinPApplet() {
         coroutine {
             coroutineLock.wait()
 
+            val storedBest = File("best.json")
+            if(storedBest.length() > 0){
+                val json = storedBest.readBytes().toString(Charset.defaultCharset())
+                kotlin.io.println("Using $json")
+                nn.setWeightsAndBiases(json.fromJson())
+                return@coroutine
+            }
+
 
             var generation = 0
             var lastBestDistance = 0f
@@ -87,8 +107,8 @@ class FlappyBirdApplet : KotlinPApplet() {
                 generation++
 
 
-                if (generation % 10 == 0) {
-                    val currentBestDistance = population.best.second
+                val currentBestDistance = population.best.second
+                if (generation % 100 == 0) {
                     """
                         Generation : $generation
                         Best distance : ${population.best.second}
@@ -98,11 +118,16 @@ class FlappyBirdApplet : KotlinPApplet() {
 
                         lastBestDistance = currentBestDistance
 
-                        nn = population.best.first.individual
+                        nn = population.best.first.individual.copy()
                         world.reset()
                     }
 
                     if (currentBestDistance > BEST_FINTESS - 10f) {
+                        val json = population.best.first.individual.serialise().toJson()
+                        storedBest.apply {
+                            delete()
+                            writeText(json)
+                        }
                         return@coroutine
                     }
 
@@ -111,6 +136,7 @@ class FlappyBirdApplet : KotlinPApplet() {
         }
 
         onKeyPressed { world.player.jump() }
+
     }
 
     override fun setup() {
@@ -120,8 +146,9 @@ class FlappyBirdApplet : KotlinPApplet() {
 
     override fun draw() {
         coroutineLock.unlock()
-        background(255)
-        fill(0)
+        background(0)
+        noStroke()
+        fill(255)
 
         nn.doNetworkDecision(world)
 
@@ -149,14 +176,12 @@ class FlappyBirdWorld(
     val Number.Ypx get() = this.f / _height.f
 
     val player by lazy {
-        Player(50.Xpx, 50.Ypx)
+        Player(30.Xpx, 30.Ypx)
+            .apply {
+                body.position.set(0.1, 0.2)
+            }
     }
-    val pipes by lazy { mutableListOf(Pipe()) }
-
-
-    init {
-        reset()
-    }
+    val pipes = mutableListOf<Pipe>()
 
 
     fun reset() {
@@ -170,11 +195,12 @@ class FlappyBirdWorld(
     }
 
     private var frameCount = 0
-    private val cutSizeRatio = 0.2f
+    private val cutSize = 0.25f
     private val gravity = EPoint(0, (0.5).Ypx)
 
 
     fun updatePhysics(onCollide: () -> Unit) {
+        frameCount++
 
         if (frameCount % 100 == 0) {
             pipes.add(Pipe())
@@ -193,7 +219,6 @@ class FlappyBirdWorld(
                 onCollide()
             }
         }
-        frameCount++
     }
 
 
@@ -237,16 +262,20 @@ class FlappyBirdWorld(
     }
 
 
-    inner class Pipe(var x: Float = 1f, val cut: Float = random(cutSizeRatio, 1f - cutSizeRatio)) {
+    inner class Pipe(var x: Float = 1f, val cut: Float = random(cutSize, 1f - cutSize)) {
         val w = 40.Xpx
-        val cutSize get() = cutSizeRatio
 
         val topRect = ERect()
         val botRect = ERect()
         fun update() {
             x -= 5.Xpx
             topRect.set(x, 0, w, cut - cutSize)
-            botRect.set(x, topRect.bottom + cutSize, w, 1f)
+            topRect.rectAlignedOutside(
+                aligned = EAlignment.bottomCenter,
+                size = ESizeType(w, 1f),
+                spacing = cutSize,
+                buffer = botRect
+            )
             botRect.bottom = 1f
 
         }

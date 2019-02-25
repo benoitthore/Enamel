@@ -2,8 +2,6 @@ package com.thorebenoit.enamel.kotlin.ai.genetics
 
 import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.threading.forEachParallel
-import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.Executors
 
 class Population<T>(
     val dnaSize: Int,
@@ -11,11 +9,12 @@ class Population<T>(
     val evaluateFitness: (Genome<T>) -> Float, // do the required test and return the fitness, higher is better
     val mutationRate: Float = 0.01f,
     builder: DnaBuilder<T>,
-    val randomGene: (Int, Float) -> Float = { _, _ -> random() }
+    val initGene: (Int, Float) -> Float = { _, _ -> random() },
+    val updateGene: (Int, Float) -> Float = { _, _ -> random() }
 ) {
 
     val individuals: MutableList<Genome<T>> =
-        MutableList(populationSize) { Genome(dnaSize, builder, randomGene) }
+        MutableList(populationSize) { Genome(dnaSize, builder, initGene) }
 
     var best: Pair<Genome<T>, Float> = individuals.random() to -Float.MAX_VALUE
         private set
@@ -23,9 +22,6 @@ class Population<T>(
         private set
 
 
-    private val cpus = Runtime.getRuntime().availableProcessors()
-
-    private val parallelScheduler = Schedulers.from(Executors.newFixedThreadPool(cpus))
     fun evolve(): MutableMap<Genome<T>, Float> {
 
         var i = 0
@@ -52,7 +48,7 @@ class Population<T>(
 
             val (mommy, mommyFitness) = m
             val (daddy, daddyFitness) = d
-            val child = mommy.reproduce(daddy).mutate(mutationRate,randomGene)
+            val child = mommy.reproduce(daddy).mutate(mutationRate, updateGene)
             individuals.add(child)
 
 
@@ -71,23 +67,6 @@ class Population<T>(
 
         return map
     }
-
-//    fun createFitnessIndividualMap(): MutableMap<Genome<T>, Float> {
-//
-//
-//        individuals.map {
-//
-//            val score = evaluateFitness(it)
-//
-//            (it to score).also {
-//                if (score > best.second) {
-//                    best = it
-//                }
-//            }
-//
-//        }.toMap().toMutableMap()
-//    }
-
 
     fun createFitnessIndividualMap(): MutableMap<Genome<T>, Float> {
 
