@@ -6,7 +6,9 @@ import com.thorebenoit.enamel.kotlin.core.math.randomise
 import com.thorebenoit.enamel.kotlin.core.math.toMatrixVertical
 import com.thorebenoit.enamel.kotlin.core.print
 import koma.extensions.emul
+import koma.extensions.forEach
 import koma.extensions.map
+import koma.extensions.set
 import koma.matrix.Matrix
 import koma.zeros
 import java.lang.Exception
@@ -39,6 +41,34 @@ class ToyNeuralNetwork(
         bias_O = other.bias_O.copy(),
         learningRate = other.learningRate
     )
+
+    constructor(data: List<Number>) : this(
+        nbInputNodes = data[0].toInt(),
+        nbHiddenNodes = data[1].toInt(),
+        nbOutputNodes = data[2].toInt()
+    ) {
+        var cursor = 3
+        (0 until weight_IH.size).forEachIndexed { index, _ -> weight_IH.set(index, data[cursor++].toDouble()) }
+        (0 until weight_HO.size).forEachIndexed { index, _ -> weight_HO.set(index, data[cursor++].toDouble()) }
+        (0 until bias_H.size).forEachIndexed { index, _ -> bias_H.set(index, data[cursor++].toDouble()) }
+        (0 until bias_O.size).forEachIndexed { index, _ -> bias_O.set(index, data[cursor++].toDouble()) }
+        learningRate = data[cursor].toDouble()
+    }
+
+    fun serialise(): List<Number> {
+        val data = mutableListOf<Number>()
+
+        data += nbInputNodes
+        data += nbHiddenNodes
+        data += nbOutputNodes
+        weight_IH.forEach { data += it }
+        weight_HO.forEach { data += it }
+        bias_H.forEach { data += it }
+        bias_O.forEach { data += it }
+        data += learningRate
+
+        return data
+    }
 
     fun feedForward(input: List<Number>): List<Double> = feedForward(input.toMatrixVertical()).toList()
 
@@ -109,7 +139,7 @@ class ToyNeuralNetwork(
 
 
 private fun main() {
-    val nn = ToyNeuralNetwork(2, 4, 1)
+    var nn = ToyNeuralNetwork(2, 4, 1)
 
     val training = listOf(
         listOf(1, 0) to 1,
@@ -123,6 +153,8 @@ private fun main() {
         val (input, target) = training.random()
         nn.train(input, listOf(target))
     }
+
+    nn = ToyNeuralNetwork(nn.serialise())
 
     nn.feedForward(listOf(1, 0)).print
     nn.feedForward(listOf(0, 1)).print
