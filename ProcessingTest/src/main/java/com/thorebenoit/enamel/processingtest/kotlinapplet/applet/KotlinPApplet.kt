@@ -31,6 +31,10 @@ abstract class KotlinPApplet : PApplet() {
     companion object {
         var defaultSize: ESizeType = 200 size 200
         val appletQueue: BlockingQueue<KotlinPApplet> = LinkedBlockingQueue()
+
+        inline fun <reified T : KotlinPApplet> createApplet(width: Number, height: Number) =
+            createApplet<T>(width size height)
+
         inline fun <reified T : KotlinPApplet> createApplet(size: ESizeType = defaultSize): T {
             PApplet.main(T::class.java, size.toJson())
             return appletQueue.poll() as T
@@ -51,7 +55,7 @@ abstract class KotlinPApplet : PApplet() {
             surface?.apply {
                 setSize(value.width.i, value.height.i)
             } ?: kotlin.run {
-                size(width.i, height.i)
+                size(value.width.i, value.height.i)
             }
         }
     var windowLocation: EPointType = EPointType.inv
