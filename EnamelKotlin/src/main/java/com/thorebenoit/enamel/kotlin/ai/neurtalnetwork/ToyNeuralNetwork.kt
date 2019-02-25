@@ -1,7 +1,11 @@
 package com.thorebenoit.enamel.kotlin.ai.neurtalnetwork
 
+import com.thorebenoit.enamel.kotlin.ai.genetics.DnaBuilder
+import com.thorebenoit.enamel.kotlin.ai.genetics.Genome
+import com.thorebenoit.enamel.kotlin.ai.genetics.Population
 import com.thorebenoit.enamel.kotlin.core._2dec
 import com.thorebenoit.enamel.kotlin.core.math.d
+import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.math.randomise
 import com.thorebenoit.enamel.kotlin.core.math.toMatrixVertical
 import com.thorebenoit.enamel.kotlin.core.print
@@ -42,32 +46,33 @@ class ToyNeuralNetwork(
         learningRate = other.learningRate
     )
 
-    constructor(data: List<Number>) : this(
-        nbInputNodes = data[0].toInt(),
-        nbHiddenNodes = data[1].toInt(),
-        nbOutputNodes = data[2].toInt()
-    ) {
-        var cursor = 3
-        (0 until weight_IH.size).forEachIndexed { index, _ -> weight_IH.set(index, data[cursor++].toDouble()) }
-        (0 until weight_HO.size).forEachIndexed { index, _ -> weight_HO.set(index, data[cursor++].toDouble()) }
-        (0 until bias_H.size).forEachIndexed { index, _ -> bias_H.set(index, data[cursor++].toDouble()) }
-        (0 until bias_O.size).forEachIndexed { index, _ -> bias_O.set(index, data[cursor++].toDouble()) }
-        learningRate = data[cursor].toDouble()
+    constructor(
+        nbInputNodes: Int,
+        nbHiddenNodes: Int,
+        nbOutputNodes: Int,
+        data: List<Number>,
+        learningRate: Double = 0.1
+    ) : this(nbInputNodes, nbHiddenNodes, nbOutputNodes, learningRate = learningRate) {
+        setWeightsAndBiases(data)
     }
 
     fun serialise(): List<Number> {
         val data = mutableListOf<Number>()
 
-        data += nbInputNodes
-        data += nbHiddenNodes
-        data += nbOutputNodes
         weight_IH.forEach { data += it }
         weight_HO.forEach { data += it }
         bias_H.forEach { data += it }
         bias_O.forEach { data += it }
-        data += learningRate
 
         return data
+    }
+
+    fun setWeightsAndBiases(data: List<Number>) {
+        var cursor = 0
+        (0 until weight_IH.size).forEachIndexed { index, _ -> weight_IH.set(index, data[cursor++].toDouble()) }
+        (0 until weight_HO.size).forEachIndexed { index, _ -> weight_HO.set(index, data[cursor++].toDouble()) }
+        (0 until bias_H.size).forEachIndexed { index, _ -> bias_H.set(index, data[cursor++].toDouble()) }
+        (0 until bias_O.size).forEachIndexed { index, _ -> bias_O.set(index, data[cursor++].toDouble()) }
     }
 
     fun feedForward(input: List<Number>): List<Double> = feedForward(input.toMatrixVertical()).toList()
@@ -138,32 +143,32 @@ class ToyNeuralNetwork(
 }
 
 
-private fun main() {
-    var nn = ToyNeuralNetwork(2, 4, 1)
+private fun main2() {
+    var nn = ToyNeuralNetwork(2, 16, 1)
 
     val training = listOf(
-        listOf(1, 0) to 1,
-        listOf(0, 1) to 1,
-        listOf(1, 1) to 0,
-        listOf(0, 0) to 0
+        listOf(1, 0) to listOf(1),
+        listOf(0, 1) to listOf(1),
+        listOf(1, 1) to listOf(0),
+        listOf(0, 0) to listOf(0)
     )
 
 
     (0..50_000).forEach {
         val (input, target) = training.random()
-        nn.train(input, listOf(target))
+        nn.train(input, target)
+        "Error: ${(nn.evaluate(training) * 100)._2dec}%".print
+
+        Thread.sleep(1)
     }
 
-    nn = ToyNeuralNetwork(nn.serialise())
+    nn = ToyNeuralNetwork(nn.nbInputNodes, nn.nbHiddenNodes, nn.nbOutputNodes, nn.serialise())
 
-    nn.feedForward(listOf(1, 0)).print
-    nn.feedForward(listOf(0, 1)).print
-    nn.feedForward(listOf(1, 1)).print
-    nn.feedForward(listOf(0, 0)).print
+    val avgError = nn.evaluate(training)
 
-    val avgError = training.map { (input, target) ->
-        nn.error(input, listOf(target))
-    }.sum() / 4
+//    val avgError = training.map { (input, target) ->
+//        nn.error(input, listOf(target))
+//    }.sum() / 4
 
     println()
     if (avgError > 0.05) {
@@ -171,4 +176,80 @@ private fun main() {
     }
     "Error: ${(avgError * 100)._2dec}%".print
 
+}
+
+
+private fun main() {
+    for (____a in 0 until 5) {
+        val baseNN = ToyNeuralNetwork(2, 16, 1)
+
+        val training = listOf(
+            listOf(1, 0) to listOf(1),
+            listOf(0, 1) to listOf(1),
+            listOf(1, 1) to listOf(0),
+            listOf(0, 0) to listOf(0)
+        )
+
+//        val population = Population<ToyNeuralNetwork>(
+//            baseNN.serialise().size,
+//            100,
+//            mutationRate = 0.01f,
+//            evaluateFitness = {
+//                val avgError = it.individual.evaluate(training).toFloat()
+//                return@Population 1f / (avgError + 1)
+//            },
+//            builder = DnaBuilder {
+//                ToyNeuralNetwork(baseNN.nbInputNodes, baseNN.nbHiddenNodes, baseNN.nbOutputNodes, it.map { it * 10 })
+//            },
+//            randomGene = { _, _ -> random(-1, 1) }
+//        )
+
+        val population = baseNN.getGeneticsBasedNeuralNetwork(100, 10) {
+            val avgError = it.individual.evaluate(training).toFloat()
+            1f / (avgError + 1)
+        }
+
+        (0 until 1000).forEach {
+            population.evolve()
+//        population.best.first.individual.evaluate(training).print
+        }
+
+
+        population.best.first.individual.evaluate(training).print
+//       val errorRate = population.best.first.individual.evaluate(training) * 100
+//       println("${errorRate._2dec} %")
+
+
+    }
+    System.exit(0)
+
+}
+
+fun ToyNeuralNetwork.getGeneticsBasedNeuralNetwork(
+    populationSize: Int,
+    scale: Int = 1,
+    mutationRate: Float = 0.01f,
+    evaluateFitness: (Genome<ToyNeuralNetwork>) -> Float
+): Population<ToyNeuralNetwork> {
+    val baseNeuralNetwork = this
+    return Population(
+        baseNeuralNetwork.serialise().size,
+        populationSize = populationSize,
+        mutationRate = mutationRate,
+        evaluateFitness = evaluateFitness,
+        builder = DnaBuilder {
+            ToyNeuralNetwork(baseNeuralNetwork.nbInputNodes,
+                baseNeuralNetwork.nbHiddenNodes,
+                baseNeuralNetwork.nbOutputNodes,
+                it.map { it * scale })
+        },
+        randomGene = { _, _ -> random(-1, 1) }
+    )
+
+}
+
+fun ToyNeuralNetwork.evaluate(data: List<Pair<List<Number>, List<Number>>>): Double {
+    val totalError = data.sumByDouble { (input, target) -> error(input, target) }
+    val avgError = totalError / data.size
+    return avgError
 }

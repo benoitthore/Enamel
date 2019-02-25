@@ -1,9 +1,6 @@
 package com.thorebenoit.enamel.kotlin.ai.genetics
 
-import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.random
-import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.core.time.ETimer
 import com.thorebenoit.enamel.kotlin.threading.forEachParallel
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.Executors
@@ -14,7 +11,7 @@ class Population<T>(
     val evaluateFitness: (Genome<T>) -> Float, // do the required test and return the fitness, higher is better
     val mutationRate: Float = 0.01f,
     builder: DnaBuilder<T>,
-    randomGene: (Int, Float) -> Float = { _, _ -> random() }
+    val randomGene: (Int, Float) -> Float = { _, _ -> random() }
 ) {
 
     val individuals: MutableList<Genome<T>> =
@@ -55,7 +52,7 @@ class Population<T>(
 
             val (mommy, mommyFitness) = m
             val (daddy, daddyFitness) = d
-            val child = mommy.reproduce(daddy).mutate(mutationRate)
+            val child = mommy.reproduce(daddy).mutate(mutationRate,randomGene)
             individuals.add(child)
 
 

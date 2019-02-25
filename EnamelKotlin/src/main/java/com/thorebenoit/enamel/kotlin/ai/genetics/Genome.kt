@@ -32,8 +32,7 @@ class DnaBuilder<T>(val builder: (dna: List<Float>) -> T) {
 
 class Genome<T>(
     val dna: List<Float>,
-    private val builder: DnaBuilder<T>,
-    private val randomGene: (Int, Float) -> Float = { geneIndex, geneValue -> random() }
+    private val builder: DnaBuilder<T>
 ) {
     constructor(
         dnaSize: Int,
@@ -41,14 +40,13 @@ class Genome<T>(
         randomGene: (Int, Float) -> Float
     ) : this(
         dna = List(dnaSize) { randomGene(it, -1f) },
-        builder = builder,
-        randomGene = randomGene
+        builder = builder
     )
 
 
     val individual: T by lazy { builder.create(dna) }
 
-    constructor(dna: List<Number>, builder: DnaBuilder<T>) : this(dna.map { it.toFloat() }.toList<Float>(), builder)
+//    constructor(dna: List<Number>, builder: DnaBuilder<T>) : this(dna.map { it.toFloat() }.toList<Float>(), builder)
 
     val genomeSize = dna.size
 
@@ -77,7 +75,7 @@ class Genome<T>(
         return Genome(newDna, builder)
     }
 
-    fun mutate(mutationRate: Number): Genome<T> {
+    fun mutate(mutationRate: Number,newGene: (Int, Float) -> Float = { geneIndex, geneValue -> random() }): Genome<T> {
         val mutationRate = mutationRate.f
         if (mutationRate < 0 || mutationRate > 1) {
             throw Exception("mutationRate must be between 0 and 1")
@@ -87,7 +85,7 @@ class Genome<T>(
 
         for (i in 0 until newDna.size) {
             if (random() < mutationRate) {
-                newDna[i] = randomGene(i, newDna[i])
+                newDna[i] = newGene(i, newDna[i])
             }
         }
 

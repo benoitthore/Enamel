@@ -4,12 +4,9 @@ import com.thorebenoit.enamel.kotlin.core.Resetable
 import com.thorebenoit.enamel.kotlin.core.math.d
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.geometry.GeometryBufferProvider
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
-import com.thorebenoit.enamel.kotlin.geometry.primitives.point
+import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 import java.lang.Exception
 
 /*
@@ -230,6 +227,18 @@ open class ERectType(
         buffer.top += padding.top
         buffer.bottom -= padding.bottom
         buffer.right -= padding.right
+        return buffer
+    }
+
+    // TODO Make self version
+    fun scale(t: Tuple2, buffer: ERect = ERect()): ERect = scale(t.v1, t.v2, buffer)
+
+    fun scale(x: Number, y: Number, buffer: ERect = ERect()): ERect {
+        buffer.x = this.x * x.f
+        buffer.y = this.y * y.f
+        buffer.width = this.width * x.f
+        buffer.height = this.height * y.f
+
         return buffer
     }
 
