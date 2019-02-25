@@ -177,10 +177,6 @@ class ENeuralNetwork(val inputNodes: Int, val hiddenLayers: List<Int>, val outpu
         // TODO Fix Warning: 1 class was never predicted by the model and was excluded from average precision
         val testData = trainingData.toDataSetIterator(labels) // when getting this, is label order kept ?
 
-        /**
-         * Find a Miloslike solution for the labels and the way data is passed through
-         */
-
 
         val eval = Evaluation(testData.labels)
         while (testData.hasNext()) {
