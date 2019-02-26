@@ -8,9 +8,9 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.thorebenoit.enamel.android.dsl.EnamelContext
 
-//////////////////
-// From Context //
-//////////////////
+////////////////////
+// From ViewGroup //
+////////////////////
 inline fun ViewGroup.constraintLayout(init: ConstraintLayout.() -> Unit = {}) =
     ConstraintLayout(context).apply { addView(this); init() }
 
