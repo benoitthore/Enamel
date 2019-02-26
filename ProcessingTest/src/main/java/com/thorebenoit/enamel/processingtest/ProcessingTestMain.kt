@@ -7,6 +7,7 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
+import java.awt.Color
 
 
 object ProcessingTestMain {
@@ -27,11 +28,15 @@ object ProcessingTestMain {
                     200 size 200,
                     300 size 300
                 ).rectGroup(
-                    EAlignment.rightTop, spacing = 10, padding = EOffset(top = 10, left = 10)
-                    , anchor = NamedPoint.middleRight, position = mousePosition
+                    EAlignment.rightCenter, spacing = 10, padding = EOffset(top = 10, left = 10)
+                    , anchor = NamedPoint.center, position = mousePosition
                 )
-                    .rects.forEach {
-                    it.draw()
+                    .rects.apply {
+                    noFill()
+
+                    forEach {
+                        it.draw()
+                    }
                 }
 
 

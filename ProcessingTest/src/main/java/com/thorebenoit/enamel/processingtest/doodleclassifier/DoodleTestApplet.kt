@@ -1,7 +1,6 @@
 package com.thorebenoit.enamel.processingtest.doodleclassifier
 
 import com.thorebenoit.enamel.kotlin.core.data.findIndex
-import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.i
 import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.core.time.ETimer
@@ -10,10 +9,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
-import processing.core.PApplet
 import processing.core.PConstants
-import processing.core.PGraphics
-import processing.core.PImage
 
 
 class DoodleTestApplet : KotlinPApplet() {
@@ -110,7 +106,7 @@ fun main() {
 fun KotlinPApplet.getImageFromPoints(totalPoints: List<List<EPointType>>, imageSize: ESizeType): List<Float> {
     val ratio = imageSize / esize
 
-    val totalPoints = totalPoints.map { it.map { it.mult(ratio) } }
+    val totalPoints = totalPoints.map { it.map { it.times(ratio) } }
 
     val g = createGraphics(imageSize.width.i, imageSize.height.i, PConstants.JAVA2D)
 

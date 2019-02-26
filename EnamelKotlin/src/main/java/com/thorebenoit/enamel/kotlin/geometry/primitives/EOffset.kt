@@ -7,7 +7,14 @@ class EOffset(
     val right: Float,
     val bottom: Float,
     val left: Float
-) {
+) : Tuple2 {
+
+    override val v1: Number get() = horizontal
+    override val v2: Number get() = vertical
+
+    inline val horizontal get() = left + right
+    inline val vertical get() = top + bottom
+
     companion object {
         val zero = EOffset()
     }

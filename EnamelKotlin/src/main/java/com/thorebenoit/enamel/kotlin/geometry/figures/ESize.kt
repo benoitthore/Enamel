@@ -31,6 +31,22 @@ open class ESizeType(open val width: Float = 0f, open val height: Float = 0f) : 
     val area get() = width * height
     val hasArea get() = area > 0
 
+    fun inset(x: Number, y: Number, buffer: ESize = ESize()) = buffer.set(width - x.f, height - y.f)
+    fun inset(other: Tuple2, buffer: ESize = ESize()) = inset(other.v1, other.v2, buffer)
+    fun inset(n: Number, buffer: ESize = ESize()) = inset(n, n, buffer)
+
+    fun expand(x: Number, y: Number, buffer: ESize = ESize()) = inset(-x.f, -y.f, buffer)
+    fun expand(other: Tuple2, buffer: ESize = ESize()) = expand(other.v1, other.v2, buffer)
+    fun expand(n: Number, buffer: ESize = ESize()) = expand(n, n, buffer)
+
+    fun scale(x: Number, y: Number, buffer: ESize = ESize()) = buffer.set(width * x.f, height * y.f)
+    fun scale(other: Tuple2, buffer: ESize = ESize()) = scale(other.v1, other.v2, buffer)
+    fun scale(n: Number, buffer: ESize = ESize()) = scale(n, n, buffer)
+
+    fun div(x: Number, y: Number, buffer: ESize = ESize()) = buffer.set(width / x.f, height / y.f)
+    fun div(other: Tuple2, buffer: ESize = ESize()) = div(other.v1, other.v2, buffer)
+    fun div(n: Number, buffer: ESize = ESize()) = scale(n, n, buffer)
+
 
     override fun equals(other: Any?): Boolean =
         (other as? ESizeType)?.let { it.width == width && it.height == height } ?: false
@@ -50,32 +66,37 @@ open class ESizeType(open val width: Float = 0f, open val height: Float = 0f) : 
 class ESize(override var width: Float = 0f, override var height: Float = 0f) : ESizeType(width, height),
     Resetable {
     constructor(width: Number, height: Number) : this(width.f, height.f)
-    constructor(other: ESizeType) : this(other.width, other.height)
+    constructor(other: Tuple2) : this(other.v1, other.v2)
 
-    fun set(width: Number, height: Number, buffer: ESize = this): ESize {
+    fun set(width: Number, height: Number): ESize {
         this.width = width.f
         this.height = height.f
-        return buffer
+        return this
     }
 
-    fun set(size: ESizeType, buffer: ESize = this) = set(size.width, size.height, buffer)
+    fun set(size: ESizeType) = set(size.width, size.height)
 
     override fun reset() {
         set(0, 0)
     }
 
-    fun inset(x: Number, y: Number, buffer: ESize = this) = set(width - x.f, height - y.f, buffer)
-    fun inset(n: Number, buffer: ESize = this) = inset(n, n, buffer)
+    fun selfInset(x: Number, y: Number) = inset(x, y, this)
+    fun selfInset(other: Tuple2) = inset(other, this)
+    fun selfInset(n: Number) = inset(n, this)
 
-    fun expand(x: Number, y: Number, buffer: ESize = this) = inset(-x.f, -y.f, buffer)
-    fun expand(n: Number, buffer: ESize = this) = expand(n, n, buffer)
+    fun selfExpand(x: Number, y: Number) = inset(x, y, this)
+    fun selfExpand(other: Tuple2) = expand(other, this)
+    fun selfExpand(n: Number) = expand(n, this)
 
-    fun scale(x: Number, y: Number, buffer: ESize = this) = set(width * x.f, height * y.f, buffer)
-    fun scale(n: Number, buffer: ESize = this) = scale(n, n, buffer)
+    fun selfScale(x: Number, y: Number) = scale(x, y)
+    fun selfScale(other: Tuple2) = scale(other, this)
+    fun selfScale(n: Number) = scale(n, this)
+
+    fun selfDiv(x: Number, y: Number) = scale(x, y, this)
+    fun selfDiv(other: Tuple2) = scale(other, this)
+    fun selfDiv(n: Number) = scale(n, this)
 
 
 }
 
 infix fun Number.size(height: Number) = ESize(this, height)
-
-inline operator fun ESizeType.times(n: Number) = ESize(this).apply { width *= n.f; height *= n.f }
