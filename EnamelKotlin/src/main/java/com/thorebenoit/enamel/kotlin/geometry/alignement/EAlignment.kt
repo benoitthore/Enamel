@@ -102,6 +102,10 @@ sealed class EAlignment(open val o: EOrientation?) {
             }
         }
 
+    val EAlignment.isVertical get() = this is Top || this is Bottom
+    val EAlignment.isHorizontal get() = this is Left || this is Right
+
+
     // -----------------------------------------------------------------
 
     override fun equals(other: Any?): Boolean {
@@ -116,11 +120,11 @@ sealed class EAlignment(open val o: EOrientation?) {
     }
 }
 
-private class Top(override val o: EHorizontalOrientation) : EAlignment(o)
-private class Bottom(override val o: EHorizontalOrientation) : EAlignment(o)
-private class Center : EAlignment(null)
-private class Left(override val o: EVerticalOrientation) : EAlignment(o)
-private class Right(override val o: EVerticalOrientation) : EAlignment(o)
+class Top(override val o: EHorizontalOrientation) : EAlignment(o)
+class Bottom(override val o: EHorizontalOrientation) : EAlignment(o)
+class Center : EAlignment(null)
+class Left(override val o: EVerticalOrientation) : EAlignment(o)
+class Right(override val o: EVerticalOrientation) : EAlignment(o)
 
 
 

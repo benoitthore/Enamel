@@ -207,7 +207,7 @@ open class ERectType(
     }
 
     fun inset(margin: Number, buffer: ERect = ERect(this)) = inset(margin, margin, buffer)
-    fun inset(p: EPointType, buffer: ERect = ERect(this)) = inset(p.x, p.y, buffer)
+    fun inset(p: Tuple2, buffer: ERect = ERect(this)) = inset(p.v1, p.v2, buffer)
     fun inset(x: Number = 0, y: Number = 0, buffer: ERect = ERect(this)): ERect {
         val x = x.f
         val y = y.f
@@ -219,7 +219,7 @@ open class ERectType(
     }
 
     fun expand(margin: Number, buffer: ERect = ERect(this)) = expand(margin, margin, buffer)
-    fun expand(p: EPointType, buffer: ERect = ERect(this)) = expand(p.x, p.y, buffer)
+    fun expand(p: Tuple2, buffer: ERect = ERect(this)) = expand(p.v1, p.v2, buffer)
     fun expand(x: Number = 0f, y: Number = 0f, buffer: ERect = ERect(this)) = inset(-x.f, -y.f, buffer)
 
     fun expand(padding: EOffset, buffer: ERect = ERect(this)): ERect {
@@ -428,64 +428,3 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     fun selfScaleRelative(factor: Number, point: EPointType) = scaleRelative(factor, point, this)
 
 }
-
-fun ERectCenter(
-    position: EPointType,
-    width: Number, height: Number, buffer: ERect = ERect()
-) = ERectCenter(position.x, position.y, width, height, buffer)
-
-fun ERectCenter(
-    x: Number = 0f, y: Number = 0f,
-    width: Number, height: Number, buffer: ERect = ERect()
-): ERect {
-
-    val width = width.f
-    val height = height.f
-    val x = x.f - width / 2
-    val y = y.f - height / 2
-
-
-    return buffer.set(x = x, y = y, width = width, height = height)
-}
-
-
-fun ERectCorners(
-    corner1: EPointType,
-    corner2: EPointType,
-    buffer: ERect = ERect()
-) = ERectCorners(corner1.x, corner1.y, corner2.x, corner2.y, buffer)
-
-fun ERectCorners(
-    corner1X: Number = 0,
-    corner1Y: Number = 0,
-    corner2X: Number = 0,
-    corner2Y: Number = 0,
-    buffer: ERect = ERect()
-): ERect {
-    return ERectSides(
-        top = Math.min(corner1Y.d, corner2Y.d),
-        bottom = Math.max(corner1Y.d, corner2Y.d),
-        left = Math.min(corner1X.d, corner2X.d),
-        right = Math.max(corner1X.d, corner2X.d),
-        buffer = buffer
-    )
-}
-
-fun ERectSides(left: Number, top: Number, right: Number, bottom: Number, buffer: ERect = ERect()): ERect {
-    buffer.top = top.f
-    buffer.left = left.f
-    buffer.right = right.f
-    buffer.bottom = bottom.f
-    return buffer
-}
-
-fun ERectAnchorPos(anchor: EPointType, position: EPointType, size: ESize, buffer: ERect = ERect()) =
-    buffer.set(
-        x = position.x - size.width * anchor.x,
-        y = position.y - size.height * anchor.y,
-        size = size
-    )
-
-
-
-

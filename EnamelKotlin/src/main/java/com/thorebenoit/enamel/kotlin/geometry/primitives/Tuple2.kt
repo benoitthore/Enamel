@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.primitives
 
+import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 
@@ -49,3 +50,4 @@ inline operator fun ESizeType.minus(n: Number) = inset(n)
 
 inline operator fun Number.times(p: ESizeType) = p.times(this)
 inline operator fun Number.plus(p: ESizeType) = p.expand(this)
+

@@ -2,7 +2,7 @@ package com.thorebenoit.enamel.kotlin.geometry.primitives
 
 import com.thorebenoit.enamel.kotlin.core.math.f
 
-class EOffset(
+data class EOffset(
     val top: Float,
     val right: Float,
     val bottom: Float,

@@ -8,11 +8,15 @@ import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.primitives.Tuple2
 
 open class ESizeType(open val width: Float = 0f, open val height: Float = 0f) : Tuple2 {
+
+    constructor(width: Number, height: Number) : this(width.f, height.f)
+
     override val v1: Number get() = width
     override val v2: Number get() = height
 
     companion object {
         val zero: ESizeType = allocate { ESizeType() }
+        val greatestSize: ESizeType = allocate { ESizeType(Float.MAX_VALUE, Float.MAX_VALUE) }
 
     }
 

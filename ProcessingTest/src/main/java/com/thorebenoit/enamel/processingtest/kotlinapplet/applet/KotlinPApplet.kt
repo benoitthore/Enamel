@@ -8,6 +8,8 @@ import com.thorebenoit.enamel.kotlin.core.data.toJson
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.allocate
+import com.thorebenoit.enamel.kotlin.geometry.layout.primitives.ELayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.primitives.EPlaceHolderLayout
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
@@ -216,6 +218,20 @@ abstract class KotlinPApplet : PApplet() {
         return this
     }
 
+    open fun <T : EPlaceHolderLayout> T.draw(): T {
+        fill(color)
+        this.frame!!.draw()
+        return this
+    }
+
+    open fun <T : ELayout> T.draw(): T {
+        childLayouts.forEach {
+            (it as? EPlaceHolderLayout)?.draw()
+            it.draw()
+        }
+        return this
+    }
+
     open fun <E : EPointType> List<E>.draw(closed: Boolean = true): List<E> {
         beginShape()
 
@@ -230,7 +246,6 @@ abstract class KotlinPApplet : PApplet() {
 
         return this
     }
-
 
     fun stroke(r: Number, g: Number, b: Number) = stroke(r.f, g.f, b.f)
     fun fill(r: Number, g: Number, b: Number) = fill(r.f, g.f, b.f)
