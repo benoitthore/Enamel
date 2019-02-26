@@ -222,6 +222,14 @@ open class ERectType(
     fun expand(p: EPointType, buffer: ERect = ERect(this)) = expand(p.x, p.y, buffer)
     fun expand(x: Number = 0f, y: Number = 0f, buffer: ERect = ERect(this)) = inset(-x.f, -y.f, buffer)
 
+    fun expand(padding: EOffset, buffer: ERect = ERect(this)): ERect {
+        buffer.left -= padding.left
+        buffer.top -= padding.top
+        buffer.bottom += padding.bottom
+        buffer.right += padding.right
+        return buffer
+    }
+
     fun padding(padding: EOffset, buffer: ERect = ERect(this)): ERect {
         buffer.left += padding.left
         buffer.top += padding.top
@@ -412,6 +420,7 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     fun selfExpand(x: Number = 0f, y: Number = 0f) = inset(-x.f, -y.f, this)
 
     fun selfPadding(padding: EOffset) = padding(padding, this)
+    fun selfExpand(padding: EOffset) = expand(padding, this)
 
 
     fun selfScaleAnchor(factor: Number, anchor: EPointType) = scaleAnchor(factor, anchor, this)

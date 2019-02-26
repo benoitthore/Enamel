@@ -1,6 +1,5 @@
 package com.thorebenoit.enamel.kotlin.ai.neurtalnetwork
 
-import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.ML4J_test.toINDArray
 import com.thorebenoit.enamel.kotlin.core.print
 import org.nd4j.linalg.api.ndarray.INDArray
 import org.nd4j.linalg.dataset.DataSet

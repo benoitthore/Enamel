@@ -13,6 +13,10 @@ class EOffset(
     }
 
     constructor(
+        all: Number
+    ) : this(all, all, all, all)
+
+    constructor(
         top: Number = 0f,
         right: Number = 0f,
         bottom: Number = 0f,

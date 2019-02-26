@@ -18,6 +18,8 @@ import com.thorebenoit.enamel.kotlin.physics.core.PhysicsBody
 import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
 import com.thorebenoit.enamel.kotlin.threading.coroutine
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import java.io.File
 import java.nio.charset.Charset
 
@@ -47,7 +49,7 @@ private fun ToyNeuralNetwork.doNetworkDecision(world: FlappyBirdWorld) {
 
 }
 
-val BEST_FINTESS = 10_000f
+val BEST_FINTESS = 1_000_000f
 
 val population = ToyNeuralNetwork(8, 8, 2)
     .getGeneticsBasedNeuralNetwork(100, mutationRate = 0.05f) {
@@ -83,23 +85,26 @@ class FlappyBirdApplet : KotlinPApplet() {
 
     val coroutineLock = CoroutineLock()
 
+    val storedBest = File("best.json")
+    var running = true
+
     init {
 
         coroutine {
             coroutineLock.wait()
 
-            val storedBest = File("best.json")
-            if(storedBest.length() > 0){
+
+            if (storedBest.length() > 0) {
                 val json = storedBest.readBytes().toString(Charset.defaultCharset())
                 kotlin.io.println("Using $json")
                 nn.setWeightsAndBiases(json.fromJson())
-                return@coroutine
+//                return@coroutine
             }
 
 
             var generation = 0
             var lastBestDistance = 0f
-            while (true) {
+            while (running) {
 
 
                 population.evolve()
@@ -122,17 +127,27 @@ class FlappyBirdApplet : KotlinPApplet() {
                         world.reset()
                     }
 
-                    if (currentBestDistance > BEST_FINTESS - 10f) {
-                        val json = population.best.first.individual.serialise().toJson()
-                        storedBest.apply {
-                            delete()
-                            writeText(json)
-                        }
-                        return@coroutine
-                    }
+//                    if (currentBestDistance > BEST_FINTESS - 10f) {
+//                        val json = population.best.first.individual.serialise().toJson()
+//                        storedBest.apply {
+//                            delete()
+//                            writeText(json)
+//                        }
+//                        return@coroutine
+//                    }
 
                 }
             }
+        }
+
+        onMouseClicked {
+            "Saving".print
+            val json = population.best.first.individual.serialise().toJson()
+            storedBest.apply {
+                delete()
+                writeText(json)
+            }
+            "\tSaved".print
         }
 
         onKeyPressed { world.player.jump() }
@@ -156,6 +171,8 @@ class FlappyBirdApplet : KotlinPApplet() {
 
             updatePhysics {
                 background(255f, 0f, 0f)
+                "Died after: ${world.frameCount}".print
+                world.reset()
             }
 
 
@@ -194,7 +211,7 @@ class FlappyBirdWorld(
         frameCount = 0
     }
 
-    private var frameCount = 0
+    var frameCount = 0
     private val cutSize = 0.25f
     private val gravity = EPoint(0, (0.5).Ypx)
 

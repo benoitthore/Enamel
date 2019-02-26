@@ -1,23 +1,9 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 
-import com.thorebenoit.enamel.kotlin.core.math.f
-import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.geometry.allocate
-import com.thorebenoit.enamel.kotlin.geometry.figures.ECircleType
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
-import com.thorebenoit.enamel.kotlin.geometry.toCircle
-import com.thorebenoit.enamel.processingtest.kotlinapplet.esize
-import com.thorebenoit.enamel.processingtest.kotlinapplet.modules.jframe
-import processing.core.PConstants
-import processing.core.PGraphics
-import java.lang.NullPointerException
-
 internal typealias KotlinPAppletEventListener = KotlinPAppletLambda.() -> Unit
 internal typealias OnDrawListener = KotlinPAppletLambda.() -> Unit
 
-abstract class KotlinPAppletLambda : KotlinPApplet() {
-
+open class KotlinPAppletLambda : KotlinPApplet() {
 
     override fun settings() {
         super.settings()
@@ -40,7 +26,6 @@ abstract class KotlinPAppletLambda : KotlinPApplet() {
     fun onSettings(block: KotlinPAppletEventListener) {
         onSettingsListeners += block
     }
-
 
 
     private val onPreDrawListeners = mutableListOf<OnDrawListener>()
