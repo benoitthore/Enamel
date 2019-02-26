@@ -8,7 +8,7 @@ import com.thorebenoit.enamel.kotlin.core.data.toJson
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.allocate
-import com.thorebenoit.enamel.kotlin.geometry.layout.primitives.ELayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.primitives.EPlaceHolderLayout
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType

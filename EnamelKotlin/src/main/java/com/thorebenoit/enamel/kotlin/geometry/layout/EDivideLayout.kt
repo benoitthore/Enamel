@@ -1,7 +1,6 @@
-package com.thorebenoit.enamel.kotlin.geometry.layout.primitives
+package com.thorebenoit.enamel.kotlin.geometry.layout
 
 import com.thorebenoit.enamel.kotlin.core.math.f
-import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 

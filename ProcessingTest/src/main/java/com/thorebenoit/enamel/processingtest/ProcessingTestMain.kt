@@ -1,20 +1,13 @@
 package com.thorebenoit.enamel.processingtest
 
 import com.thorebenoit.enamel.kotlin.core.color.*
-import com.thorebenoit.enamel.kotlin.core.math.f
-import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge
-import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.primitives.EDivideLayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.primitives.EPaddingLayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.primitives.EPlaceHolderLayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.EDivideLayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.EPaddingLayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.EPlaceHolderLayout
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
-import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
-import java.awt.Color
 
 
 object ProcessingTestMain {

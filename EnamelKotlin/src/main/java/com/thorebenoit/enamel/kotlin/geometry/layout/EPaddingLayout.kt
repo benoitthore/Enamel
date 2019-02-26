@@ -1,4 +1,4 @@
-package com.thorebenoit.enamel.kotlin.geometry.layout.primitives
+package com.thorebenoit.enamel.kotlin.geometry.layout
 
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
