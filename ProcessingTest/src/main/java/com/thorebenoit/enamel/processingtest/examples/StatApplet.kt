@@ -1,10 +1,9 @@
 package com.thorebenoit.enamel.processingtest.examples
 
 import com.thorebenoit.enamel.kotlin.core.capture
-import com.thorebenoit.enamel.kotlin.core.color
+import com.thorebenoit.enamel.kotlin.core.color.color
 import com.thorebenoit.enamel.kotlin.core.executeInTerminal
 import com.thorebenoit.enamel.kotlin.core.math.i
-import com.thorebenoit.enamel.kotlin.core.tryAndForget
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.fit
 import com.thorebenoit.enamel.kotlin.geometry.figures.size

@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.processingtest
 
+import com.thorebenoit.enamel.kotlin.core.color.*
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
@@ -22,22 +23,29 @@ object ProcessingTestMain {
 
             onDraw {
                 background(255)
+                noFill()
 
                 listOf(
                     100 size 100,
                     200 size 200,
                     300 size 300
                 ).rectGroup(
-                    EAlignment.rightCenter, spacing = 10, padding = EOffset(top = 10, left = 10)
+                    EAlignment.rightCenter, spacing = 10, padding = EOffset(top = 124)
                     , anchor = NamedPoint.center, position = mousePosition
                 )
-                    .rects.apply {
-                    noFill()
+                    .apply {
 
-                    forEach {
-                        it.draw()
+
+                        strokeWeight(2f)
+                        stroke(green)
+                        frame.draw()
+
+                        strokeWeight(1f)
+                        stroke(red)
+                        forEach {
+                            it.draw()
+                        }
                     }
-                }
 
 
             }

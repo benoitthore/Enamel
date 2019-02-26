@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.processingtest.examples
 
 import com.thorebenoit.enamel.kotlin.animations.lerp
-import com.thorebenoit.enamel.kotlin.core.colorHSL
+import com.thorebenoit.enamel.kotlin.core.color.colorHSL
 import com.thorebenoit.enamel.kotlin.core.math.OpenSimplexNoise
 import com.thorebenoit.enamel.kotlin.core.math.Scale
 import com.thorebenoit.enamel.kotlin.core.math.f

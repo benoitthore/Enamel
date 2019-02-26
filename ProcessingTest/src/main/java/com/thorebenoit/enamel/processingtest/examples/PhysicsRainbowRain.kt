@@ -1,6 +1,6 @@
 package com.thorebenoit.enamel.processingtest.examples
 
-import com.thorebenoit.enamel.kotlin.core.randomColor
+import com.thorebenoit.enamel.kotlin.core.color.randomColor
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point

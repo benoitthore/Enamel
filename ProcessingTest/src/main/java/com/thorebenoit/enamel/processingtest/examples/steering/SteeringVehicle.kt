@@ -1,10 +1,8 @@
 package com.thorebenoit.enamel.processingtest.examples.steering
 
-import com.thorebenoit.enamel.kotlin.core.randomColor
-import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
+import com.thorebenoit.enamel.kotlin.core.color.randomColor
 import com.thorebenoit.enamel.kotlin.geometry.figures.ECircle
 import com.thorebenoit.enamel.kotlin.geometry.figures.EPolygon
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERectCenter
 import com.thorebenoit.enamel.kotlin.geometry.figures.toPolygon
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point

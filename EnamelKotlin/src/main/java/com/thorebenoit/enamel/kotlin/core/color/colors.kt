@@ -1,4 +1,4 @@
-package com.thorebenoit.enamel.kotlin.core
+package com.thorebenoit.enamel.kotlin.core.color
 
 import com.thorebenoit.enamel.kotlin.core.math.constrain
 import com.thorebenoit.enamel.kotlin.core.math.f

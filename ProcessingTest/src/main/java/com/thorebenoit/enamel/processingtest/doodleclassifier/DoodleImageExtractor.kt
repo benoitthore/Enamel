@@ -4,7 +4,7 @@ import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.LabeledDataOLD
 import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.ToyNeuralNetwork
 import com.thorebenoit.enamel.kotlin.core._2dec
 import com.thorebenoit.enamel.kotlin.core.backingfield.ExtraValueHolder
-import com.thorebenoit.enamel.kotlin.core.colorFromGray
+import com.thorebenoit.enamel.kotlin.core.color.colorFromGray
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.data.split
 import com.thorebenoit.enamel.kotlin.core.data.toGrid
@@ -106,7 +106,8 @@ object DoodleImageExtractor {
 
             image.loadPixels()
             for (i in 0 until imgSize) {
-                image.pixels[i] = colorFromGray((data[i] * 255).toInt() and 0xFF)
+                image.pixels[i] =
+                    colorFromGray((data[i] * 255).toInt() and 0xFF)
             }
             image.updatePixels()
 
