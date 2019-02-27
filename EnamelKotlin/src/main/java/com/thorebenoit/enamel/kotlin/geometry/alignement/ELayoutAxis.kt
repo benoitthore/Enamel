@@ -8,6 +8,9 @@ enum class ELayoutAxis {
     vertical, horizontal
 }
 
+val ELayoutAxis.isVertical get() = this == ELayoutAxis.vertical
+
+
 val ELayoutAxis.opposite
     get() = when (this) {
         ELayoutAxis.vertical -> ELayoutAxis.horizontal
