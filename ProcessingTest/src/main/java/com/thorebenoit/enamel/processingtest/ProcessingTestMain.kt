@@ -18,7 +18,7 @@ object ProcessingTestMain {
     fun main(args: Array<String>) {
 
         PlaygroundApplet.start {
-            esize = 800 size 800
+            esize = 1000 size 1000
             frame.isResizable = true
 
             windowLocation = 0 point 0
@@ -33,22 +33,16 @@ object ProcessingTestMain {
                 fill(0)
 
                 val layout =
-//                    EPaddingLayout(
-//                        EDivideLayout(
-//                            EPlaceHolderLayout(red),
-//                            EPlaceHolderLayout(green),
-//                            EDivideLayout.Division.Fraction(0.5),
-//                            ERectEdge.left,
-//                            spacing = 10
-//                        ),
-//                        EOffset(10)
-//                    )
-                    EStackLayout(
-                        listOf(
-                            100 size 100 to red,
-                            100 size 100 to green,
-                            100 size 100 to blue
-                        ).map { (size, color) -> size.toPlaceHolder(color) },
+                    EBoxLayout(
+                        EStackLayout(
+                            listOf(
+                                100 size 100 to red,
+                                200 size 100 to green,
+                                300 size 100 to blue
+                            ).map { (size, color) -> size.toPlaceHolder(color) },
+                            EAlignment.leftBottom
+                        ),
+
                         EAlignment.topRight
                     )
 

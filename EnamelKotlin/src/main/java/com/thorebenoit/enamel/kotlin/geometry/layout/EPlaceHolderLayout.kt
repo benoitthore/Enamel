@@ -10,6 +10,8 @@ import com.thorebenoit.enamel.kotlin.geometry.toRect
 
 class EPlaceHolderLayout(val color: Int, var frame: ERectType = ERectType.zero) : ELayout {
 
+    constructor(color: Int, size: ESizeType) : this(color, size.toRect())
+
     override val childLayouts: List<ELayout> = emptyList()
 
     override fun size(toFit: ESizeType): ESizeType {
@@ -24,5 +26,5 @@ class EPlaceHolderLayout(val color: Int, var frame: ERectType = ERectType.zero) 
     }
 }
 
-fun ERectType.toPlaceHolder(color : Int = randomColor()): EPlaceHolderLayout = EPlaceHolderLayout(color,this)
-fun ESizeType.toPlaceHolder(color : Int = randomColor()): EPlaceHolderLayout = EPlaceHolderLayout(color,toRect())
+fun ERectType.toPlaceHolder(color: Int = randomColor()): EPlaceHolderLayout = EPlaceHolderLayout(color, this)
+fun ESizeType.toPlaceHolder(color: Int = randomColor()): EPlaceHolderLayout = EPlaceHolderLayout(color, toRect())
