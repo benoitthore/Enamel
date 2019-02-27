@@ -15,7 +15,3 @@ interface ELayoutAlongAxis : ELayout{
 }
 
 val ELayout.unconstrainedSize get() = size(ESizeType.greatestSize)
-
-fun ELayout.toRectList(frame: ERectType): List<ERectType> {
-    TODO()
-}

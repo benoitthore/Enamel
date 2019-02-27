@@ -3,6 +3,7 @@ package com.thorebenoit.enamel.processingtest
 import com.thorebenoit.enamel.kotlin.core.color.*
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge
+import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
@@ -25,55 +26,45 @@ object ProcessingTestMain {
 
             onDraw {
 
-                noLoop()
-
                 background(255)
                 noFill()
                 stroke(0)
                 fill(0)
 
-//                val layout =
-//                    EBoxLayout(
-//                        EStackLayout(
-//                            listOf(
-//                                100 size 100 to red,
-//                                200 size 100 to green,
-//                                300 size 100 to blue
-//                            ).map { (size, color) -> size.toPlaceHolder(color) },
-//                            EAlignment.leftBottom
-//                        ),
+//                val layout = EBarLayout((100 size 100).toPlaceHolder(red), EAlignment.topLeft)
 //
-//                        EAlignment.topRight
-//                    )
-                val layout = EBarLayout((100 size 100).toPlaceHolder(red), EAlignment.topLeft)
-
-                layout.arrange(eframe)
-                layout.draw()
+//                layout.arrange(eframe)
+//                layout.draw()
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//                listOf(
-//                    100 size 100,
-//                    200 size 200,
-//                    300 size 300
-//                ).rectGroup(
-//                    EAlignment.rightCenter, spacing = 10, padding = EOffset(top = 124)
-//                    , anchor = NamedPoint.center, position = mousePosition
-//                )
-//                    .apply {
-//
-//
-//                        strokeWeight(2f)
-//                        stroke(green)
-//                        frame.draw()
-//
-//                        strokeWeight(1f)
-//                        stroke(red)
-//                        forEach {
-//                            it.draw()
-//                        }
-//                    }
+
+                listOf(
+                    100 size 100,
+                    200 size 200,
+                    300 size 300
+                ).rectGroupJustified(
+                    alignment = EAlignment.rightCenter,
+                    toFit = width ,
+                    position = mousePosition,
+                    anchor = NamedPoint.center,
+                    padding = EOffset(10)
+                )
+                    .apply {
+
+                        noFill()
+
+                        strokeWeight(2f)
+                        stroke(green)
+                        frame.draw()
+
+                        strokeWeight(1f)
+                        stroke(red)
+                        forEach {
+                            it.draw()
+                        }
+                    }
             }
         }
     }

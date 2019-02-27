@@ -10,7 +10,7 @@ import com.thorebenoit.enamel.kotlin.geometry.toRect
 
 class EBarLayout(val child: ELayout, val alignment: EAlignment) : ELayoutAlongAxis {
 
-    override val layoutAxis: ELayoutAxis get() = alignment.layoutAxis!! // TODO Fix this
+    override val layoutAxis: ELayoutAxis get() = alignment.layoutAxis ?: ELayoutAxis.horizontal// TODO Fix this
 
     override val childLayouts: List<ELayout> = listOf(child)
 

@@ -78,8 +78,39 @@ fun List<ESizeType>.rectGroup(
         prev
     }
 
-    val rectGroup = allocate { ERectGroup(rects, rects.union().selfPadding(padding)) }
+    val rectGroup = allocate { ERectGroup(rects, rects.union().selfExpand(padding)) }
     rectGroup.aligned(anchor, position)
 
     return rectGroup
 }
+
+
+fun List<ESizeType>.rectGroupJustified(
+    alignment: EAlignment,
+    toFit: Number,
+    anchor: EPointType = EPointType.zero,
+    position: EPointType = EPointType.zero,
+    padding: EOffset = EOffset.zero
+): ERectGroup {
+    val pack = rectGroup(alignment)
+    val packedSpace = if (alignment.isHorizontal) pack.size.width else pack.size.height
+    val spacing = if (pack.count > 1) (toFit.f - packedSpace) / (pack.count - 1) else 0f
+    return rectGroup(
+        alignment = alignment,
+        anchor = anchor,
+        position = position,
+        padding = padding,
+        spacing = spacing
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
