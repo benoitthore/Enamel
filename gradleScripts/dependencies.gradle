@@ -25,6 +25,9 @@ ext {
     processingVersion = '3.3.7'
     komaVersion = '0.12'
     deeplearning4jVersion = '0.9.1'
+    koin_version = '1.0.2'
+    picassoVersion = '2.71828'
+
 
     arch = [
             runtime   : "androidx.lifecycle:lifecycle-runtime:2.0.0:$archVersion",
@@ -107,9 +110,20 @@ ext {
             stetho_okhttp: "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
     ]
 
-    bumptech = [
-            glide        : "com.github.bumptech.glide:glide:$glideVersion",
-            glideCompiler: "com.github.bumptech.glide:compiler:$glideVersion"
+//    bumptech = [
+//            glide        : "com.github.bumptech.glide:glide:$glideVersion",
+//            glideCompiler: "com.github.bumptech.glide:compiler:$glideVersion"
+//    ]
+
+    picasso = [
+            picasso: "com.squareup.picasso:picasso:$picassoVersion"
+    ]
+
+    koin = [
+            core   : "org.koin:koin-core:$koin_version",
+            android: "org.koin:koin-android:$koin_version",
+            coreExt: "org.koin:koin-core-ext:$koin_version",
+            test   : "org.koin:koin-test:$koin_version",
     ]
 
     discreteScrollView = [
