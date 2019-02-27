@@ -9,7 +9,7 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.primitives.EPlaceHolderLayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.EPlaceHolderLayout
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
@@ -44,7 +44,7 @@ abstract class KotlinPApplet : PApplet() {
     }
 
     override fun settings() {
-        args.first().fromJsonSafe<ESize>()?.let {
+        args?.first()?.fromJsonSafe<ESize>()?.let {
             esize = it
         }
     }

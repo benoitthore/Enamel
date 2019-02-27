@@ -57,7 +57,7 @@ class ERectGroup(private val _rects: List<ERect>, overrideFrame: ERectType? = nu
 }
 
 // Allocates because this is essentially a constructor
-fun List<ESize>.rectGroup(
+fun List<ESizeType>.rectGroup(
     alignment: EAlignment,
     anchor: EPointType = EPointType.zero,
     position: EPointType = EPointType.zero,

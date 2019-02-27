@@ -3,6 +3,7 @@ package com.thorebenoit.enamel.kotlin.geometry.layout
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
+import com.thorebenoit.enamel.kotlin.geometry.toRect
 
 class EDivideLayout(
     val slice: ELayout,
@@ -20,7 +21,7 @@ class EDivideLayout(
         if (snugged) {
             return toFit
         }
-        val (dividedSlice, dividedRemainder) = divide(toFit.rect())
+        val (dividedSlice, dividedRemainder) = divide(toFit.toRect())
         val axis = edge.layoutAxis.opposite
 
         val snugExtent = listOf(
@@ -39,26 +40,22 @@ class EDivideLayout(
 
 
     sealed class Division {
-        abstract val value: Float
-
-        class Distance(override val value: Float) : Division() {
+        class Distance(val distance: Float) : Division() {
             constructor(value: Number) : this(value.f)
         }
 
-        class Fraction(override val value: Float) : Division() {
+        class Fraction(val fraction: Float) : Division() {
             constructor(value: Number) : this(value.f)
         }
 
-        class Slice : Division() {
-            override val value: Float = 0f
-        }
+        class Slice : Division()
     }
 }
 
 // <Helpers>
 private fun EDivideLayout.distance(toFit: ESizeType): Float = when (by) {
-    is EDivideLayout.Division.Distance -> by.value
-    is EDivideLayout.Division.Fraction -> by.value * toFit.along(edge.layoutAxis)
+    is EDivideLayout.Division.Distance -> by.distance
+    is EDivideLayout.Division.Fraction -> by.fraction * toFit.along(edge.layoutAxis)
     is EDivideLayout.Division.Slice -> slice.size(toFit).along(edge.layoutAxis)
 }
 

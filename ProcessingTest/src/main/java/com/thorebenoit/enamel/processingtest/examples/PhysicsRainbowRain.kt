@@ -5,6 +5,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
+import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
 import com.thorebenoit.enamel.kotlin.threading.coroutine
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 
@@ -28,13 +29,14 @@ class PhysicsRainbowRain : KotlinPApplet() {
     )
 
     private var drops: List<Drop> = mutableListOf()
+    private val startLock = CoroutineLock()
     override fun settings() {
         esize = 800 size 800
 
         fullScreen()
 
         coroutine {
-            kotlinx.coroutines.delay(200)
+            startLock.wait()
             reGenerateDrops()
 
             val targetLoopTime = 5f
@@ -86,11 +88,12 @@ class PhysicsRainbowRain : KotlinPApplet() {
         speed = random(1f, 2f)
         dropHeight = random(10f, 20f)
         color = randomColor()
-        thickness = com.thorebenoit.enamel.kotlin.core.math.random(0.5, 2.5f)
+        thickness = com.thorebenoit.enamel.kotlin.core.math.random(2f, 3f)
         return this
     }
 
     override fun draw() {
+        startLock.unlock()
         background(0)
         noFill()
 

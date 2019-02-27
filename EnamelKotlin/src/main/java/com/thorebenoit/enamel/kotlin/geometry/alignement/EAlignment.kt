@@ -103,8 +103,8 @@ sealed class EAlignment(open val o: EOrientation?) {
             }
         }
 
-    val EAlignment.isVertical get() = this is Top || this is Bottom
-    val EAlignment.isHorizontal get() = this is Left || this is Right
+    val isVertical get() = this is Top || this is Bottom
+    val isHorizontal get() = this is Left || this is Right
 
 
     // -----------------------------------------------------------------

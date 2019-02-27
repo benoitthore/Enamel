@@ -36,7 +36,7 @@ open class ERectType(
 
     fun toMutable(buffer: ERect) = buffer.set(origin.toMutable(buffer.origin), size.toMutable())
     fun toImmutable() = ERectType(origin.toImmutable(), size.toImmutable())
-    fun copy(buffer: ERect = ERect()) = ERect(origin.copy(buffer.origin), size.copy(buffer.size))
+    fun copy(buffer: ERect = ERect()) = ERect(origin.copy(buffer = buffer.origin), size.copy(buffer = buffer.size))
 
     open val height get() = size.height
     open val width get() = size.width

@@ -1,8 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
 
-fun ESizeType.rect() = ERectType(size = this)
-
 fun List<ESizeType>.union(buffer: ESize = ESize()): ESize {
     var width = Float.MIN_VALUE
     var height = Float.MIN_VALUE

@@ -27,7 +27,8 @@ open class ESizeType(open val width: Float = 0f, open val height: Float = 0f) : 
     fun toMutable() = ESize(width, height)
     fun toImmutable() = ESizeType(width, height)
 
-    fun copy(buffer: ESize = ESize()) = buffer.set(this)
+    fun copy(width: Number = this.width, height: Number = this.height, buffer: ESize = ESize()) =
+        buffer.set(width, height)
 
     val min get() = Math.min(width, height)
     val max get() = Math.max(width, height)
