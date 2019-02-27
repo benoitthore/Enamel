@@ -1,12 +1,17 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout
 
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.kotlin.geometry.alignement.ELayoutAxis
+import com.thorebenoit.enamel.kotlin.geometry.alignement.layoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.alignement.with
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 
-class EBarLayout(val child: ELayout, val alignment: EAlignment) : ELayout {
+class EBarLayout(val child: ELayout, val alignment: EAlignment) : ELayoutAlongAxis {
+
+    override val layoutAxis: ELayoutAxis get() = alignment.layoutAxis!! // TODO Fix this
+
     override val childLayouts: List<ELayout> = listOf(child)
 
     override fun size(toFit: ESizeType): ESizeType {

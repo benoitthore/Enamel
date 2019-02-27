@@ -3,7 +3,7 @@ package com.thorebenoit.enamel.kotlin.geometry.layout
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 
-data class EPaddingLayout(val child: ELayout, val padding: EOffset) :
+class EPaddingLayout(val child: ELayout, val padding: EOffset) :
     ELayout {
 
     override val childLayouts: List<ELayout> = listOf(child)

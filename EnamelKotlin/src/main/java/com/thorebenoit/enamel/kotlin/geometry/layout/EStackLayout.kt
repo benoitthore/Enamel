@@ -1,6 +1,7 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout
 
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.kotlin.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.alignement.layoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.alignement.with
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
@@ -8,7 +9,10 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.figures.rectGroup
 
 class EStackLayout(override val childLayouts: List<ELayout>, val alignment: EAlignment, val spacing: Number = 0) :
-    ELayout {
+    ELayoutAlongAxis {
+    override val layoutAxis: ELayoutAxis = alignment.layoutAxis ?: ELayoutAxis.horizontal
+
+
     override fun size(toFit: ESizeType): ESizeType {
         val group = childLayouts.map { it.size(toFit) }.rectGroup(alignment = alignment, spacing = spacing)
 
