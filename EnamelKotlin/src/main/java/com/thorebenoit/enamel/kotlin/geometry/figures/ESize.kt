@@ -36,6 +36,8 @@ open class ESizeType(open val width: Float = 0f, open val height: Float = 0f) : 
     val area get() = width * height
     val hasArea get() = area > 0
 
+    fun abs(buffer: ESize = ESize()) = buffer.set(Math.abs(width), Math.abs(height))
+
     fun inset(x: Number, y: Number, buffer: ESize = ESize()) = buffer.set(width - x.f, height - y.f)
     fun inset(other: Tuple2, buffer: ESize = ESize()) = inset(other.v1, other.v2, buffer)
     fun inset(n: Number, buffer: ESize = ESize()) = inset(n, n, buffer)
