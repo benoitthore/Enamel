@@ -1,25 +1,26 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout
 
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.kotlin.geometry.alignement.with
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 
-class EBoxLayout(val child: ELayout, val alignment: EAlignment, val snugged: Boolean = false) : ELayout {
+class EBarLayout(val child: ELayout, val alignment: EAlignment) : ELayout {
     override val childLayouts: List<ELayout> = listOf(child)
 
     override fun size(toFit: ESizeType): ESizeType {
-        return if (snugged) {
-            child.size(toFit)
+        return if (alignment.isHorizontal) {
+            toFit.copy(height = child.size(toFit).height)
         } else {
-            toFit
+            toFit.copy(width = child.size(toFit).width)
         }
     }
 
     override fun arrange(frame: ERectType) {
         val usingFrame = frame.rectAlignedInside(
-            aligned = alignment,
-            size = child.size(frame.size)
+            size = child.size(frame.size),
+            aligned = alignment
         )
         child.arrange(usingFrame)
     }

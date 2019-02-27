@@ -32,19 +32,20 @@ object ProcessingTestMain {
                 stroke(0)
                 fill(0)
 
-                val layout =
-                    EBoxLayout(
-                        EStackLayout(
-                            listOf(
-                                100 size 100 to red,
-                                200 size 100 to green,
-                                300 size 100 to blue
-                            ).map { (size, color) -> size.toPlaceHolder(color) },
-                            EAlignment.leftBottom
-                        ),
-
-                        EAlignment.topRight
-                    )
+//                val layout =
+//                    EBoxLayout(
+//                        EStackLayout(
+//                            listOf(
+//                                100 size 100 to red,
+//                                200 size 100 to green,
+//                                300 size 100 to blue
+//                            ).map { (size, color) -> size.toPlaceHolder(color) },
+//                            EAlignment.leftBottom
+//                        ),
+//
+//                        EAlignment.topRight
+//                    )
+                val layout = EBarLayout((100 size 100).toPlaceHolder(red), EAlignment.topLeft)
 
                 layout.arrange(eframe)
                 layout.draw()
