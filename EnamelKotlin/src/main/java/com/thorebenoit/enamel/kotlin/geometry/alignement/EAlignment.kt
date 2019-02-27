@@ -1,6 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.alignement
 
-import com.thorebenoit.enamel.kotlin.geometry.allocateNeedsRefactor
+import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 
 interface EOrientation
@@ -67,7 +67,8 @@ sealed class EAlignment(open val o: EOrientation?) {
             is Center -> this
         }
     val spacingSign: EPointType
-        get() = allocateNeedsRefactor { // TODO Remove allocation here
+        get() = allocate {
+            // TODO Remove allocation here
             when (this) {
                 is Top -> EPointType(0, 1)
                 is Bottom -> EPointType(0, -1)

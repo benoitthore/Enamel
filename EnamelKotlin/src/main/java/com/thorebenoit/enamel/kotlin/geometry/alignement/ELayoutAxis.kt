@@ -38,15 +38,6 @@ fun ESizeType.with(side: ELayoutAxis, newValue: Number) = ESizeType(
     height = if (side == ELayoutAxis.vertical) newValue else height
 )
 
-/*
-public func with(side: CGLayoutAxis, setTo newValue: CGFloat) -> CGSize {
-        return CGSize(
-            width: side == .horizontal ? newValue : width,
-            height: side == .vertical ? newValue : height
-        )
-    }
- */
-
 fun EOffset.along(axis: ELayoutAxis): Float = when (axis) {
     ELayoutAxis.vertical -> vertical
     ELayoutAxis.horizontal -> horizontal

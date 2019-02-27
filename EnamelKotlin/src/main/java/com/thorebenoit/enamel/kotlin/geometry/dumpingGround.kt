@@ -9,16 +9,6 @@ import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker.shouldPrint
 This file is used to keep track of allocations, might be removed when library is done
  */
 
-inline fun <T> allocateNeedsRefactor(block: () -> T) = if (debugAllocations) {
-    debugAllocations = false
-    val ret = block()
-    debugAllocations = true
-    ret
-} else {
-    block()
-}
-
-
 inline fun <T> allocate(block: () -> T) = if (debugAllocations) {
     debugAllocations = false
     val ret = block()
