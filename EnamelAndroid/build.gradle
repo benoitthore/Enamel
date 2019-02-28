@@ -41,7 +41,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':EnamelKotlin')
+    implementation(project(':EnamelKotlin')) {
+        exclude group: 'org.nd4j'
+        exclude group: 'org.deeplearning4j'
+    }
 
     //Kotlin
     implementation kotlinDependencies.stdlib
