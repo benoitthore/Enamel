@@ -11,7 +11,10 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.times
 
 class ESizingLayout(val child: ELayout, val space: ELayoutSpace) : ELayout {
     sealed class ELayoutSpace {
-        class Size(val size: ESizeType) : ELayoutSpace()
+        class Size(val size: ESizeType) : ELayoutSpace() {
+            constructor(width: Number, height: Number) : this(width size height)
+        }
+
         class Width(val width: Number) : ELayoutSpace()
         class Height(val height: Number) : ELayoutSpace()
         class Scale(val horizontal: Number?, val vertical: Number?) : ELayoutSpace()
@@ -24,7 +27,7 @@ class ESizingLayout(val child: ELayout, val space: ELayoutSpace) : ELayout {
 
     override fun size(toFit: ESizeType): ESizeType {
         return when (space) {
-            is ELayoutSpace.Size -> toFit
+            is ELayoutSpace.Size -> space.size
             is ELayoutSpace.Width -> child.size(toFit.copy(width = space.width))
             is ELayoutSpace.Height -> child.size(toFit.copy(width = space.height))
             is ELayoutSpace.Scale -> {

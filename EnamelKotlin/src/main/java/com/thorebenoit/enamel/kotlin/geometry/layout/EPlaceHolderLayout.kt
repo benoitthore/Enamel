@@ -28,3 +28,6 @@ class EPlaceHolderLayout(val color: Int, var frame: ERectType = ERectType.zero) 
 
 fun ERectType.toPlaceHolder(color: Int = randomColor()): EPlaceHolderLayout = EPlaceHolderLayout(color, this)
 fun ESizeType.toPlaceHolder(color: Int = randomColor()): EPlaceHolderLayout = EPlaceHolderLayout(color, toRect())
+
+fun List<ESizeType>.toPlaceHolder(color: Int = randomColor()) = map { EPlaceHolderLayout(color, it.toRect()) }
+

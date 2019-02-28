@@ -5,6 +5,8 @@ import java.lang.Exception
 import java.lang.management.ManagementFactory
 import java.nio.charset.Charset
 
+inline fun <T> Int.of(block: (Int) -> T) = List(this, block)
+
 fun executeHeapDump(destinationFolder: String = "/tmp/", fileName: String = "heapdump.hprof"): String {
     val pid = ManagementFactory.getRuntimeMXBean().name.split("@")[0]
 
