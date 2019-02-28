@@ -87,9 +87,9 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
     fun times(n: Number, buffer: EPoint = EPoint()) = times(n, n, buffer)
     fun times(other: Tuple2, buffer: EPoint = EPoint()) = times(other.v1, other.v2, buffer)
 
-    fun div(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x / x.f, this.y / y.f)
-    fun div(n: Number, buffer: EPoint = EPoint()) = div(n, n, buffer)
-    fun div(other: Tuple2, buffer: EPoint = EPoint()) = div(other.v1, other.v2, buffer)
+    fun dividedBy(x: Number, y: Number, buffer: EPoint = EPoint()) = buffer.set(this.x / x.f, this.y / y.f)
+    fun dividedBy(n: Number, buffer: EPoint = EPoint()) = dividedBy(n, n, buffer)
+    fun dividedBy(other: Tuple2, buffer: EPoint = EPoint()) = dividedBy(other.v1, other.v2, buffer)
 
 
     fun offsetTowards(towards: EPointType, distance: Number, buffer: EPoint = EPoint()): EPoint {
@@ -125,7 +125,7 @@ open class EPointType(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
         val magnitude = magnitude.f
         buffer.set(this)
         if (magnitude != 0f) {
-            buffer.selfDiv(magnitude)
+            buffer.selfDividedBy(magnitude)
         }
         return buffer
     }
@@ -192,9 +192,9 @@ class EPoint(override var x: Float = 0f, override var y: Float = 0f) : EPointTyp
     fun selfMult(n: Number) = times(n, this)
     fun selfMult(other: Tuple2) = times(other, this)
 
-    fun selfDiv(x: Number, y: Number) = div(x, y, this)
-    fun selfDiv(n: Number) = div(n, this)
-    fun selfDiv(other: Tuple2) = div(other, this)
+    fun selfDividedBy(x: Number, y: Number) = dividedBy(x, y, this)
+    fun selfDividedBy(n: Number) = dividedBy(n, this)
+    fun selfDividedBy(other: Tuple2) = dividedBy(other, this)
 
 
     fun selfOffsetTowards(towards: EPointType, distance: Number) = offsetTowards(towards, distance, this)

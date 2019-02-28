@@ -50,9 +50,9 @@ open class ESizeType(open val width: Float = 0f, open val height: Float = 0f) : 
     fun scale(other: Tuple2, buffer: ESize = ESize()) = scale(other.v1, other.v2, buffer)
     fun scale(n: Number, buffer: ESize = ESize()) = scale(n, n, buffer)
 
-    fun div(x: Number, y: Number, buffer: ESize = ESize()) = buffer.set(width / x.f, height / y.f)
-    fun div(other: Tuple2, buffer: ESize = ESize()) = div(other.v1, other.v2, buffer)
-    fun div(n: Number, buffer: ESize = ESize()) = scale(n, n, buffer)
+    fun dividedBy(x: Number, y: Number, buffer: ESize = ESize()) = buffer.set(width / x.f, height / y.f)
+    fun dividedBy(other: Tuple2, buffer: ESize = ESize()) = dividedBy(other.v1, other.v2, buffer)
+    fun dividedBy(n: Number, buffer: ESize = ESize()) = dividedBy(n, n, buffer)
 
 
     override fun equals(other: Any?): Boolean =

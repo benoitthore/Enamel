@@ -16,8 +16,8 @@ interface Tuple2 {
 
 inline operator fun EPointType.unaryMinus() = inverse()
 
-inline operator fun EPointType.div(other: Tuple2) = div(other)
-inline operator fun EPointType.div(n: Number) = div(n)
+inline operator fun EPointType.div(other: Tuple2) = dividedBy(other)
+inline operator fun EPointType.div(n: Number) = dividedBy(n)
 
 inline operator fun EPointType.times(other: Tuple2) = times(other)
 inline operator fun EPointType.times(n: Number) = times(n)
@@ -35,8 +35,8 @@ inline operator fun Number.plus(p: EPointType) = p.offset(this)
 
 inline operator fun ESizeType.unaryMinus() = ESize(-width, -height)
 
-inline operator fun ESizeType.div(other: Tuple2) = div(other)
-inline operator fun ESizeType.div(n: Number) = div(n)
+inline operator fun ESizeType.div(other: Tuple2) = dividedBy(other)
+inline operator fun ESizeType.div(n: Number) = dividedBy(n)
 
 inline operator fun ESizeType.times(other: Tuple2) = scale(other)
 inline operator fun ESizeType.times(n: Number) = scale(n)
