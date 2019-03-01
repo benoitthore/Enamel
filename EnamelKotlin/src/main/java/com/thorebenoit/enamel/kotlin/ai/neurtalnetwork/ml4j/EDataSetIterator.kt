@@ -1,11 +1,9 @@
-package com.thorebenoit.enamel.kotlin.ai.neurtalnetwork
+package com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.ml4j
 
-import com.thorebenoit.enamel.kotlin.core.print
 import org.nd4j.linalg.api.ndarray.INDArray
 import org.nd4j.linalg.dataset.DataSet
 import org.nd4j.linalg.dataset.api.DataSetPreProcessor
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator
-import org.nd4j.linalg.factory.Nd4j
 
 class EDataSetIterator(
     private val _labels: List<String>,

@@ -18,12 +18,48 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.times
 import com.thorebenoit.enamel.processingtest.examples.*
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
+import org.intellij.lang.annotations.Language
 
 
 object ProcessingTestMain {
 
     @JvmStatic
     fun main(args: Array<String>) {
+
+
+        PlaygroundApplet.start {
+            esize = 1000 size 1000
+
+            onDraw {
+
+                background(255)
+
+                noFill()
+
+                val rectangle1 = ERect(0, 0, 200, 200)
+
+
+                val rectangle2 = ERect(200, 200, 200, 200)
+
+                if(rectangle2.contains(mousePosition)){
+                    background(green)
+                }
+
+                if(rectangle1.contains(mousePosition)){
+                    background(black)
+                }
+
+
+                stroke(red)
+                rectangle1.draw()
+
+                stroke(blue)
+                rectangle2.draw()
+
+
+            }
+        }
+        return
 
         PlaygroundApplet.start {
             esize = 1000 size 1000
