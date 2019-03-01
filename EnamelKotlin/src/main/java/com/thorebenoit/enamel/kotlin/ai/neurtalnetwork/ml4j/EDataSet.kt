@@ -38,8 +38,8 @@ class EDataSet(val dataSize: Int, val labels: Set<String>) {
     fun getDataSetIterator(shuffled: Boolean = true, batch: Int = 10): DataSetIterator {
         val _data = if (shuffled) datas.shuffled() else datas
         return EDataSetIterator(
-            labels.toList(),
-            _data.toList(),
+            labels,
+            _data,
             batch
         )
     }

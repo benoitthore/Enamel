@@ -10,6 +10,7 @@ import org.deeplearning4j.nn.weights.WeightInit
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener
 import org.nd4j.linalg.activations.Activation
 import org.nd4j.linalg.api.ndarray.INDArray
+import org.nd4j.linalg.dataset.DataSet
 import org.nd4j.linalg.factory.Nd4j
 import org.nd4j.linalg.learning.config.Nesterovs
 import org.nd4j.linalg.lossfunctions.LossFunctions
@@ -25,8 +26,18 @@ network.layers.first().setInput(
 
 fun List<Number>.toINDArray(): INDArray = Nd4j.create(map { it.toFloat() }.toFloatArray())
 
-class ENeuralNetwork(val inputNodes: Int, val hiddenLayers: List<Int>, val outputNodes: Int) {
+fun ELabeledData.toDataSet(labels: Set<String>): DataSet =
+    DataSet(this.data.toINDArray(), labels.indexOfFirst { it == label }.asVector(labels.size))
 
+fun Int.asVector(ofSize: Int): INDArray {
+    val indexAsOne = this
+    return (0 until ofSize).mapIndexed { index, i -> if (indexAsOne == index) 1 else 0 }.toINDArray()
+}
+
+fun INDArray.toFloatList(): List<Float> = toFloatArray().toList()
+fun INDArray.toFloatArray(): FloatArray = data().asFloat()
+
+class ENeuralNetwork(val inputNodes: Int, val hiddenLayers: List<Int>, val outputNodes: Int) {
 
     lateinit var network: MultiLayerNetwork
 
@@ -123,6 +134,10 @@ class ENeuralNetwork(val inputNodes: Int, val hiddenLayers: List<Int>, val outpu
         }
     }
 
+    fun feedForward(data: ELabeledData): List<Float> {
+        return network.feedForward(data.data.toINDArray()).map { it.toFloatList() }.last()
+    }
+
     fun test(labels: Set<String>, trainingData: List<ELabeledData>) {
 
         val testData = trainingData.toDataSetIterator(labels) // when getting this, is label order kept ?
@@ -154,6 +169,12 @@ fun main() {
     nn.train(labels, (0..800).flatMap { truthTable })
 
     nn.test(labels, truthTable)
+
+    truthTable.forEach {
+        it.print
+        nn.feedForward(it).print
+        "-----".print
+    }
 
 }
 

@@ -6,24 +6,17 @@ import org.nd4j.linalg.dataset.api.DataSetPreProcessor
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator
 
 class EDataSetIterator(
-    private val _labels: List<String>,
+    private val _labels: Set<String>,
     val datas: List<ELabeledData>,
     val batch: Int
 ) : DataSetIterator {
 
-    fun ELabeledData.toDataSet(): DataSet =
-        DataSet(this.data.toINDArray(), labels.indexOfFirst { it == label }.asVector())
-
-    fun Int.asVector(): INDArray {
-        val indexAsOne = this
-        return (0 until labels.size).mapIndexed { index, i -> if (indexAsOne == index) 1 else 0 }.toINDArray()
-    }
 
     private var cursor = 0
 
     override fun resetSupported(): Boolean = true
 
-    override fun getLabels(): List<String> = _labels
+    override fun getLabels(): List<String> = _labels.toList()
 
     override fun cursor(): Int = cursor
 
@@ -43,7 +36,7 @@ class EDataSetIterator(
     }
 
     override fun next(): DataSet {
-        val dataSet = datas[cursor++].toDataSet()
+        val dataSet = datas[cursor++].toDataSet(_labels)
         preProcessor?.preProcess(dataSet)
         return dataSet
     }
