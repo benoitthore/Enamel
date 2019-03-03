@@ -8,12 +8,14 @@ val Number.minutes: Long get() = 60 * this.seconds
 val Number.hours: Long get() = 60 * this.minutes
 val Number.days: Long get() = 24 * this.hours
 val Number.weeks: Long get() = 7 * this.days
+val Number.years: Long get() = (365.25 * this.days).toLong()
 
 val Number.nbOfSeconds: Float get() = toFloat() / 1.seconds
 val Number.nbOfMinutes: Float get() = toFloat() / 1.minutes
 val Number.nbOfHours: Float get() = toFloat() / 1.hours
 val Number.nbOfDays: Float get() = toFloat() / 1.days
 val Number.nbOfWeeks: Float get() = toFloat() / 1.weeks
+val Number.nbOfYears: Float get() = toFloat() / 1.years
 
 inline val Long.date: Date get() = Date(this)
 inline val today: Long get() = System.currentTimeMillis()
@@ -92,6 +94,10 @@ val Long.endOfYear: Long
     }
 
 private fun main() {
+
+    println(today.nbOfYears)
+
+    return
     println("Today:\t\t${today.date}")
     println("In 3 days:\t\t${(today + 3.days).date}")
 
