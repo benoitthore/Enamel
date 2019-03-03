@@ -19,12 +19,13 @@ object FileCachedData {
     inline fun <reified T : Any> create(
         file: File, cachingTime: Long,
         useInFlight: Boolean = true,
+        noinline getSystemTime: GeySystemTime = { System.currentTimeMillis() },
         noinline refresh: () -> T?
     ): CachedData<T> = CachedData(
         cachingTime = cachingTime,
         store = FileStore.create<T>(file) as StoredData<T, Any>,
         useInFlight = useInFlight,
-        getSystemTime = { System.currentTimeMillis() },
+        getSystemTime = getSystemTime,
         refresh = refresh
     )
 }

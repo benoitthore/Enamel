@@ -106,9 +106,15 @@ class CachedDataTest {
     fun `CachedData uses caching time`() {
         val refresh = mock<() -> TestClass?>()
         whenever(refresh.invoke()).thenAnswer { TestClass() }
+        val geySystemTime = mock<GeySystemTime>()
+
+        val startAt = 0L
+
+        whenever(geySystemTime.invoke()).thenReturn(startAt)
 
 
-        val cache: CachedData<TestClass> = FileCachedData.create(file = file, cachingTime = 1000, refresh = refresh)
+        val cache: CachedData<TestClass> =
+            FileCachedData.create(file = file, getSystemTime = geySystemTime, cachingTime = 1000, refresh = refresh)
 
 
         val first = cache.get().blockingGet()
@@ -116,8 +122,7 @@ class CachedDataTest {
 
         assertEquals(first, first_bis)
 
-        // TODO Refactor using GeySystemTime
-        Thread.sleep(2000)
+        whenever(geySystemTime.invoke()).thenReturn(Long.MAX_VALUE)
 
 
         val third = cache.get().blockingGet() // refresh should get called here
@@ -126,6 +131,6 @@ class CachedDataTest {
         verify(refresh, times(2)).invoke()
     }
 
-    
+
 }
 
