@@ -31,12 +31,16 @@ fun <T> T.print(print: Boolean = true) = apply {
     }
 }
 
-fun tryCatch(tryBlock: () -> Unit, catchBlock: () -> Unit = {}) {
+fun <T> tryCatch(
+    catchBlock: (Throwable) -> Unit = {},
+    tryBlock: () -> T
+): T? {
     try {
-        tryBlock()
-    } catch (e: Exception) {
-        catchBlock()
+        return tryBlock()
+    } catch (e: Throwable) {
+        catchBlock(e)
     }
+    return null
 }
 
-fun tryAndForget(tryBlock: () -> Unit) = tryCatch(tryBlock)
+fun tryAndForget(tryBlock: () -> Unit) = tryCatch(tryBlock = tryBlock)

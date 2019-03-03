@@ -68,6 +68,8 @@ dependencies {
     //X
     implementation playServices.material
 
+    implementation paper.paperDb
+
     implementation xDependencies.core
     implementation xDependencies.cardview
     implementation xDependencies.appcompat

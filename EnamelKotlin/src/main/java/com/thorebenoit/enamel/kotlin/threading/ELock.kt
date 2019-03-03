@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.threading
 
+import com.thorebenoit.enamel.kotlin.core.randomString
 import java.util.concurrent.BlockingQueue
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.LinkedBlockingQueue
@@ -19,7 +20,13 @@ fun Any.notify() {
 
 
 class ELock {
-    private val obj = ""
+
+    companion object {
+        private var lastCreated = 0
+    }
+
+    private val obj =
+        (lastCreated++).toString() + ('a'..'z').randomString(5) // guarantees a new lock is created every time
 
     fun lock() {
         obj.wait()
