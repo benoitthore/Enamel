@@ -2,16 +2,7 @@ package com.thorebenoit.enamel.kotlin.caching.store
 
 import com.thorebenoit.enamel.kotlin.caching.Store
 
-interface StoredData<T : Any, S : Any> {
-
-    fun getStoredTime(): Long
-
-    fun get(): Pair<Long, T?>
-
-    fun store(value: T)
-}
-
-class StoredDataList<T : Any>(
+class StoreList<T : Any>(
     val createStore: (String) -> Store<T>
 ) {
     private val storeMap = mutableMapOf<String, Store<T>>()
