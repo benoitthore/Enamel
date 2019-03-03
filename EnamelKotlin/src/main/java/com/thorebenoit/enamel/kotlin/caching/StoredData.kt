@@ -15,7 +15,7 @@ object FileCachedData {
         file: File, cachingTime: Long,
         useInFlight: Boolean = true,
         noinline getSystemTime: GeySystemTime = { System.currentTimeMillis() },
-        noinline refresh: () -> T?
+        noinline refresh: suspend () -> T?
     ): CachedData<T> = CachedData(
         cachingTime = cachingTime,
         store = FileStore.create<T>(file) as StoredData<T, Any>,
@@ -30,7 +30,7 @@ open class CachedData<T : Any>(
     val store: StoredData<T, Any>,
     val useInFlight: Boolean = true,
     val getSystemTime: GeySystemTime = { System.currentTimeMillis() },
-    val refresh: () -> T?
+    val refresh: suspend () -> T?
 ) {
 
 

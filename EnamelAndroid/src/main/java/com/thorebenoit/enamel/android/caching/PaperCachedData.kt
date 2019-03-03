@@ -12,17 +12,16 @@ object AndroidGeySystemTime : GeySystemTime {
 }
 
 object PaperCachedData {
-    fun <T : Any> create(key: String, cachingTime: Long, refresh: () -> T?) =
+    fun <T : Any> create(key: String, cachingTime: Long, refresh: suspend () -> T?) =
         CachedData(
             cachingTime = cachingTime,
-            store = PaperCache(key, AndroidGeySystemTime),
-
+            store = PaperStore(key, AndroidGeySystemTime),
             getSystemTime = AndroidGeySystemTime,
             refresh = refresh
         )
 }
 
-class PaperCache<T : Any>(
+class PaperStore<T : Any>(
     val key: String,
     val androidGeySystemTime: AndroidGeySystemTime,
     val book: Book = Paper.book()
