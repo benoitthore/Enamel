@@ -12,7 +12,7 @@ object AndroidGeySystemTime : GeySystemTime {
 }
 
 object PaperCachedData {
-    fun <T : Any> create(key: String, cachingTime: Long, refresh: suspend () -> T?) =
+    fun <T : Any> create(key: String, cachingTime: Long, bookName: String? = null, refresh: suspend () -> T?) =
         Store(
             cachingTime = cachingTime,
             store = PaperStore(key, AndroidGeySystemTime),
@@ -24,7 +24,8 @@ object PaperCachedData {
 class PaperStore<T : Any>(
     val key: String,
     val androidGeySystemTime: AndroidGeySystemTime,
-    val book: Book = Paper.book()
+    val bookName: String? = null,
+    val book: Book = if (bookName != null) Paper.book(bookName) else Paper.book()
 ) : StoredData<T, Any> {
     private fun _get(): Pair<Long, T?>? = book.read<Pair<Long, T?>>(key)
 
