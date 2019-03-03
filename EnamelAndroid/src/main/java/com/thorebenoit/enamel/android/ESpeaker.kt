@@ -33,5 +33,7 @@ class ESpeaker(val context: Context) {
         }
     }
 
+    fun stop() = speaker.stop()
+
 
 }
