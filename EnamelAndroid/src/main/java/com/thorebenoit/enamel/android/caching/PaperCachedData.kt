@@ -15,7 +15,7 @@ object PaperCachedData {
     fun <T : Any> create(key: String, cachingTime: Long, bookName: String? = null, refresh: suspend () -> T?) =
         Store(
             cachingTime = cachingTime,
-            store = PaperStore(key, AndroidGeySystemTime),
+            store = PaperStore(key, AndroidGeySystemTime, bookName = bookName),
             getSystemTime = AndroidGeySystemTime,
             refresh = refresh
         )
