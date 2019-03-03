@@ -5,7 +5,7 @@ import com.thorebenoit.enamel.kotlin.caching.serializer.Serializer
 import com.thorebenoit.enamel.kotlin.caching.serializer.StringSerializer
 import java.io.*
 
-class FileStore<T : Any>(
+class FileStoredData<T : Any>(
     private val file: File,
     override val serializer: Serializer<T, String>
 ) : StoredDataStream<T, String> {
@@ -20,11 +20,11 @@ class FileStore<T : Any>(
     }
 
     companion object {
-        inline fun <reified T : Any> create(file: File): FileStore<T> {
+        inline fun <reified T : Any> create(file: File): FileStoredData<T> {
             if (T::class.java == String::class.java) {
-                return FileStore(file, StringSerializer() as Serializer<T, String>)
+                return FileStoredData(file, StringSerializer() as Serializer<T, String>)
             }
-            return FileStore(file, JSONSerializer.create())
+            return FileStoredData(file, JSONSerializer.create())
         }
     }
 

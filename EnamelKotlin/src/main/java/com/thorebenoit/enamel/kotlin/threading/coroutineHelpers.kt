@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.threading
 
+import com.thorebenoit.enamel.kotlin.core.tryCatch
 import kotlinx.coroutines.*
 
 fun <T> Deferred<T>.blockingGet(): T {

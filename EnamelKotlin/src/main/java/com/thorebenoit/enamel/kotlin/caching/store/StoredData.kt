@@ -1,6 +1,6 @@
 package com.thorebenoit.enamel.kotlin.caching.store
 
-import com.thorebenoit.enamel.kotlin.caching.CachedData
+import com.thorebenoit.enamel.kotlin.caching.Store
 
 interface StoredData<T : Any, S : Any> {
 
@@ -12,9 +12,9 @@ interface StoredData<T : Any, S : Any> {
 }
 
 class StoredDataList<T : Any>(
-    val createStore: (String) -> CachedData<T>
+    val createStore: (String) -> Store<T>
 ) {
-    private val storeMap = mutableMapOf<String, CachedData<T>>()
+    private val storeMap = mutableMapOf<String, Store<T>>()
 
     fun get(key: String) = key.store.get()
 

@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.android.caching
 
 import android.os.SystemClock
-import com.thorebenoit.enamel.kotlin.caching.CachedData
+import com.thorebenoit.enamel.kotlin.caching.Store
 import com.thorebenoit.enamel.kotlin.caching.GeySystemTime
 import com.thorebenoit.enamel.kotlin.caching.store.StoredData
 import io.paperdb.Book
@@ -13,7 +13,7 @@ object AndroidGeySystemTime : GeySystemTime {
 
 object PaperCachedData {
     fun <T : Any> create(key: String, cachingTime: Long, refresh: suspend () -> T?) =
-        CachedData(
+        Store(
             cachingTime = cachingTime,
             store = PaperStore(key, AndroidGeySystemTime),
             getSystemTime = AndroidGeySystemTime,
