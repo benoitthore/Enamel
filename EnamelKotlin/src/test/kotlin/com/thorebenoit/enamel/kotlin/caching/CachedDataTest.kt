@@ -7,6 +7,7 @@ import com.nhaarman.mockito_kotlin.whenever
 import com.thorebenoit.enamel.kotlin.caching.store.FileStore
 import com.thorebenoit.enamel.kotlin.core.randomString
 import com.thorebenoit.enamel.kotlin.threading.blockingGet
+import com.thorebenoit.enamel.kotlin.time.seconds
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -114,7 +115,7 @@ class CachedDataTest {
 
 
         val cache: CachedData<TestClass> =
-            FileCachedData.create(file = file, getSystemTime = geySystemTime, cachingTime = 1000, refresh = refresh)
+            FileCachedData.create(file = file, getSystemTime = geySystemTime, cachingTime = 1.seconds, refresh = refresh)
 
 
         val first = cache.get().blockingGet()
