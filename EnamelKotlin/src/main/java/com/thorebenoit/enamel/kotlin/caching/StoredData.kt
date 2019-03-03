@@ -2,15 +2,10 @@ package com.thorebenoit.enamel.kotlin.caching
 
 import com.thorebenoit.enamel.kotlin.caching.store.FileStore
 import com.thorebenoit.enamel.kotlin.caching.store.StoredData
-import com.thorebenoit.enamel.kotlin.core.data.fromJson
-import com.thorebenoit.enamel.kotlin.core.data.toJson
-import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.core.tryCatch
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
-import java.io.*
-import java.nio.charset.Charset
+import java.io.File
 
 typealias GeySystemTime = () -> Long
 
