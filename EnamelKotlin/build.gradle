@@ -18,7 +18,7 @@ dependencies {
     implementation squareup.loggingInterceptor
     implementation squareup.okhttpUrlConnection
     implementation squareup.retrofitMock
-    implementation coroutines.retrofit
+    implementation coroutines.core
 
     implementation rxJava.rxJava
 

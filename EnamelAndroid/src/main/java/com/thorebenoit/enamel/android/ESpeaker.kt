@@ -26,6 +26,7 @@ class ESpeaker(val context: Context) {
         if (isInit) {
             speaker.speak(str, TextToSpeech.QUEUE_FLUSH, null)
         } else {
+            speaker // init lazy
             coroutine {
                 isInitLock.wait()
                 speak(str)
