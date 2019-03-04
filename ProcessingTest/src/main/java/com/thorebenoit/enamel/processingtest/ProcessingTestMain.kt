@@ -10,12 +10,9 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import org.junit.runner.Request.runner
-import org.tensorflow.*
 import jogamp.graph.font.typecast.ot.Fixed.floatValue
 import org.junit.runner.Request.runner
-import org.tensorflow.Tensor
 import org.junit.runner.Request.runner
-import org.tensorflow.TensorFlow
 import java.nio.charset.Charset
 
 
