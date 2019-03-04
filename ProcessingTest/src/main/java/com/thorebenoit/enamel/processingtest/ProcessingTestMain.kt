@@ -5,17 +5,24 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.EPlaceHolderLayout
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
 import com.thorebenoit.enamel.kotlin.core.color.*
+import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
+import org.junit.runner.Request.runner
+import org.tensorflow.*
+import jogamp.graph.font.typecast.ot.Fixed.floatValue
+import org.junit.runner.Request.runner
+import org.tensorflow.Tensor
+import org.junit.runner.Request.runner
+import org.tensorflow.TensorFlow
+import java.nio.charset.Charset
 
 
 object ProcessingTestMain {
 
     @JvmStatic
     fun main(args: Array<String>) {
-
-
         PlaygroundApplet.start {
             esize = 1000 size 1000
             frame.isResizable = true
@@ -28,8 +35,6 @@ object ProcessingTestMain {
                 noFill()
                 stroke(0)
                 fill(0)
-
-
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

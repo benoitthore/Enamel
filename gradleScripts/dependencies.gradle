@@ -27,6 +27,7 @@ ext {
     deeplearning4jVersion = '0.9.1'
     koin_version = '1.0.2'
     picassoVersion = '2.71828'
+    tensorflowVersion = '1.12.0'
 
 
     arch = [
@@ -163,5 +164,11 @@ ext {
     deeplearning4j = [
             core: "org.deeplearning4j:deeplearning4j-core:$deeplearning4jVersion",
             nd4j: "org.nd4j:nd4j-native-platform:$deeplearning4jVersion"
+    ]
+
+    tensorflow = [
+            core : "org.tensorflow:tensorflow:$tensorflowVersion",
+            gpu : "org.tensorflow:libtensorflow:$tensorflowVersion",
+            jniGpu : "org.tensorflow:libtensorflow_jni_gpu:$tensorflowVersion",
     ]
 }
