@@ -8,6 +8,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 
+// TODO Refactor to use its own Alignment instead of EAlignment
 class EBarLayout(val child: ELayout, val alignment: EAlignment) : ELayoutAlongAxis {
 
     override val layoutAxis: ELayoutAxis get() = alignment.layoutAxis ?: ELayoutAxis.horizontal// TODO Fix this

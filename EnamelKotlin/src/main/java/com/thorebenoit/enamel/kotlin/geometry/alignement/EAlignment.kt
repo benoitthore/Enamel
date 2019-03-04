@@ -9,17 +9,17 @@ interface EHorizontalOrientation : EOrientation
 
 sealed class EAlignment(open val o: EOrientation?) {
 
-    private object left : EHorizontalOrientation
-
-    private object right : EHorizontalOrientation
-
-    private object top : EVerticalOrientation
-
-    private object bottom : EVerticalOrientation
-
-    private object center : EHorizontalOrientation, EVerticalOrientation
 
     companion object {
+        private object left : EHorizontalOrientation
+
+        private object right : EHorizontalOrientation
+
+        private object top : EVerticalOrientation
+
+        private object bottom : EVerticalOrientation
+
+        private object center : EHorizontalOrientation, EVerticalOrientation
 
         val topLeft: EAlignment = Top(left)
         val topCenter: EAlignment = Top(center)

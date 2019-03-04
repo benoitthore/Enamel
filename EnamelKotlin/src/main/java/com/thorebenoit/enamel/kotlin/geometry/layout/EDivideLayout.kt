@@ -48,7 +48,7 @@ class EDivideLayout(
             constructor(value: Number) : this(value.f)
         }
 
-        class Slice : Division()
+        object Slice : Division()
     }
 }
 
