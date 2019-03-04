@@ -29,7 +29,7 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
                 slice.draw()
                 remainder.draw()
  */
-fun ELayout.aligned(alignemt: EAlignment) = EBarLayout(this, alignemt)
+fun ELayout.aligned(side: ERectEdge) = EBarLayout(this, side)
 
 fun ELayout.aligned(
     side: ERectEdge,
@@ -47,4 +47,4 @@ fun ELayout.aligned(
 )
 
 
-fun ELayout.arranged(alignemt: EAlignment, snugged: Boolean = false) = EBoxLayout(this, alignemt, snugged)
+fun ELayout.arranged(alignement: EAlignment, snugged: Boolean = false) = EBoxLayout(this, alignement, snugged)

@@ -220,7 +220,16 @@ abstract class KotlinPApplet : PApplet() {
 
     open fun <T : EPlaceHolderLayout> T.draw(): T {
         fill(color)
-        this.frame!!.draw()
+
+        val frame = frame.toMutable()
+        if (frame.height < 1f) {
+            frame.height = 1f
+        }
+        if (frame.width < 1f) {
+            frame.width = 1f
+        }
+        frame.draw()
+
         return this
     }
 
@@ -229,6 +238,12 @@ abstract class KotlinPApplet : PApplet() {
             (it as? EPlaceHolderLayout)?.draw()
             it.draw()
         }
+        return this
+    }
+
+    fun <T : ELayout> T.arrangeAndDraw(frame: ERectType = eframe): T {
+        arrange(frame)
+        draw()
         return this
     }
 

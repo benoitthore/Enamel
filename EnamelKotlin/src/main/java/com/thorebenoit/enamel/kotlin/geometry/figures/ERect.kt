@@ -34,7 +34,7 @@ open class ERectType(
         allocateDebugMessage()
     }
 
-    fun toMutable(buffer: ERect) = buffer.set(origin.toMutable(buffer.origin), size.toMutable())
+    fun toMutable(buffer: ERect = ERect()) = buffer.set(origin.toMutable(buffer.origin), size.toMutable())
     fun toImmutable() = ERectType(origin.toImmutable(), size.toImmutable())
     fun copy(buffer: ERect = ERect()) = ERect(origin.copy(buffer = buffer.origin), size.copy(buffer = buffer.size))
 
