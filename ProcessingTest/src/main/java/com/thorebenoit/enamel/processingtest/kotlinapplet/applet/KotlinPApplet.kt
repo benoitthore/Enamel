@@ -25,6 +25,8 @@ private typealias KeyEventListener = (KeyEvent) -> Unit
 
 
 abstract class KotlinPApplet : PApplet() {
+    // TODO Move to library or delete if unused
+    inline infix fun <T, R> T.then(block: T.() -> R) = block()
 
     init {
         appletQueue += this
@@ -238,6 +240,11 @@ abstract class KotlinPApplet : PApplet() {
             (it as? EPlaceHolderLayout)?.draw()
             it.draw()
         }
+        return this
+    }
+
+    open fun <T : ELayout> List<T>.draw(): List<T> {
+        forEach { it.draw() }
         return this
     }
 

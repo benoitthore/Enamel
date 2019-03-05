@@ -1,19 +1,9 @@
 package com.thorebenoit.enamel.processingtest
 
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
-import com.thorebenoit.enamel.kotlin.geometry.layout.EPlaceHolderLayout
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
-import com.thorebenoit.enamel.kotlin.core.color.*
-import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
-import org.junit.runner.Request.runner
-import jogamp.graph.font.typecast.ot.Fixed.floatValue
-import org.junit.runner.Request.runner
-import org.junit.runner.Request.runner
-import java.nio.charset.Charset
 
 
 object ProcessingTestMain {
@@ -33,6 +23,8 @@ object ProcessingTestMain {
                 stroke(0)
                 fill(0)
 
+
+                ELayoutDemo._1 arrangedIn eframe then { draw() }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

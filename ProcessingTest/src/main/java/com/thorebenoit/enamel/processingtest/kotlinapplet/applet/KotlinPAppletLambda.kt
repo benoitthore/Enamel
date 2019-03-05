@@ -5,6 +5,7 @@ internal typealias OnDrawListener = KotlinPAppletLambda.() -> Unit
 
 open class KotlinPAppletLambda : KotlinPApplet() {
 
+
     override fun settings() {
         super.settings()
         onSettingsListeners.forEach { it() }
