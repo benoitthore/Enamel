@@ -6,6 +6,8 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 
 interface ELayout {
     val childLayouts: List<ELayout>
+
+    // TODO Refactor so these 2 functions don't allocate
     fun size(toFit: ESizeType): ESizeType
     fun arrange(frame: ERectType)
 }
