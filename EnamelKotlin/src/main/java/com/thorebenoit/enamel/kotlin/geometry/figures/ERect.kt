@@ -230,13 +230,27 @@ open class ERectType(
         return buffer
     }
 
-    fun padding(padding: EOffset, buffer: ERect = ERect(this)): ERect {
-        buffer.left += padding.left
-        buffer.top += padding.top
-        buffer.bottom -= padding.bottom
-        buffer.right -= padding.right
+    fun padding(
+        top: Number = this.top,
+        bottom: Number = this.bottom,
+        left: Number = this.left,
+        right: Number = this.right
+        , buffer: ERect = ERect(this)
+    ): ERect {
+        buffer.left += left.f
+        buffer.top += top.f
+        buffer.bottom -= bottom.f
+        buffer.right -= right.f
         return buffer
     }
+
+    fun padding(padding: EOffset, buffer: ERect = ERect(this)): ERect = padding(
+        left = padding.left,
+        top = padding.top,
+        bottom = padding.bottom,
+        right = padding.right,
+        buffer = buffer
+    )
 
     // TODO Make self version
     fun scale(t: Tuple2, buffer: ERect = ERect()): ERect = scale(t.v1, t.v2, buffer)
@@ -336,15 +350,15 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     }
 
     fun setSides(
-        top: Float = this.top,
-        bottom: Float = this.bottom,
-        left: Float = this.left,
-        right: Float = this.right
+        top: Number = this.top,
+        bottom: Number = this.bottom,
+        left: Number = this.left,
+        right: Number = this.right
     ): ERect {
-        this.top = top
-        this.bottom = bottom
-        this.left = left
-        this.right = right
+        this.top = top.f
+        this.bottom = bottom.f
+        this.left = left.f
+        this.right = right.f
         return this
     }
 
@@ -420,6 +434,19 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
     fun selfExpand(x: Number = 0f, y: Number = 0f) = inset(-x.f, -y.f, this)
 
     fun selfPadding(padding: EOffset) = padding(padding, this)
+    fun selfPadding(
+        top: Number = this.top,
+        bottom: Number = this.bottom,
+        left: Number = this.left,
+        right: Number = this.right
+    ) = padding(
+        top = top,
+        bottom = bottom,
+        left = left,
+        right = right,
+        buffer = this
+    )
+
     fun selfExpand(padding: EOffset) = expand(padding, this)
 
 

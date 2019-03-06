@@ -9,11 +9,12 @@ import com.thorebenoit.enamel.android.dsl.views.button
 import com.thorebenoit.enamel.android.dsl.views.constraintLayout
 import com.thorebenoit.enamel.android.dsl.views.editText
 import com.thorebenoit.enamel.android.dsl.views.textView
+import com.thorebenoit.enamel.android.elayout.ELayoutFrame
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setContentView(ELayoutFrame(this))
     }
 }
