@@ -9,7 +9,7 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.EPlaceHolderLayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
@@ -204,6 +204,7 @@ abstract class KotlinPApplet : PApplet() {
     }
 
     open fun <T : ERectType> T.draw(): T {
+        rectMode(PConstants.CORNER)
         rect(x, y, width, height)
         return this
     }
@@ -220,7 +221,7 @@ abstract class KotlinPApplet : PApplet() {
         return this
     }
 
-    open fun <T : EPlaceHolderLayout> T.draw(): T {
+    open fun <T : ELayoutLeaf> T.draw(): T {
         fill(color)
 
         val frame = frame.toMutable()
@@ -237,7 +238,7 @@ abstract class KotlinPApplet : PApplet() {
 
     open fun <T : ELayout> T.draw(): T {
         childLayouts.forEach {
-            (it as? EPlaceHolderLayout)?.draw()
+            (it as? ELayoutLeaf)?.draw()
             it.draw()
         }
         return this

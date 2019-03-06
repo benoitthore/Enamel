@@ -10,8 +10,8 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 
 // TODO Refactor to use bar alignment, this causes issues
 /*
-                val slice = EPlaceHolderLayout(red)
-                val remainder = EPlaceHolderLayout(blue)
+                val slice = ELayoutLeaf(red)
+                val remainder = ELayoutLeaf(blue)
 
                 val sliceLayout = slice.sizedSquare(100).aligned(EAlignment.topLeft) // TODO If uses topLeft or bottomLeft, there's differences
 
