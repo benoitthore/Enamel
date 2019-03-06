@@ -6,7 +6,15 @@ When creating an ExtraValueHolder, a coroutine is started and waits until the Ga
 
 It can be used like so:
 ```Kotlin
-  var SomeClass : String by ExtraValueHolder { "DefaultValue" }
+  var SomeClass.extraValue : String by ExtraValueHolder { "DefaultValue" }
+  
+  ...
+  
+  
+  val someInstance = SomeClass()
+  val someOtherInstance = SomeClass()
+  someInstance.extraValue = "value1"
+  someOtherInstance.extraValue = "value2"  
 ```
 
 
