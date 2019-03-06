@@ -10,7 +10,6 @@ It can be used like so:
   
   ...
   
-  
   val someInstance = SomeClass()
   val someOtherInstance = SomeClass()
   someInstance.extraValue = "value1"
