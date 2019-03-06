@@ -19,6 +19,7 @@ In order to fix this problem, a library would have to re-implement the whole lay
 # Goal
 Create a algorithmical way of building layouts following these guidelines:
 - Cross platform with an Android and Desktop implementation
+- Close to english using the power of a Kotlin DSL
 - Supports transition using animations
 - Can easily be extended (focused on composition and layering the API)
 - Hot reload (by sending a new layout and applying transition)
@@ -55,7 +56,7 @@ Snugs in one dimension and fill the other
 
 **EPaddingLayout**
 
-**EPlaceHolderLayout**
+**ELayoutLeaf**
 
 **ESizingLayout**
 
