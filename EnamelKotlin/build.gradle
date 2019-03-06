@@ -37,6 +37,10 @@ dependencies {
     implementation deeplearning4j.nd4j
 
 
+    compile "io.ktor:ktor-server-netty:1.1.3"
+    compile "io.ktor:ktor-html-builder:1.1.3"
+
+
     // JUnit
     testImplementation junit.junit
     testImplementation mockito.core
