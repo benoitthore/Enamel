@@ -23,6 +23,7 @@ dependencies {
     implementation rxJava.rxJava
 
     //Jackson
+    implementation jackson.core
     implementation jackson.kotlin
 
 

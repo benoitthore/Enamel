@@ -72,6 +72,10 @@ dependencies {
 
     implementation paper.paperDb
 
+    // Jackson
+    implementation jackson.core
+    implementation jackson.kotlin
+
     implementation xDependencies.core
     implementation xDependencies.cardview
     implementation xDependencies.appcompat
