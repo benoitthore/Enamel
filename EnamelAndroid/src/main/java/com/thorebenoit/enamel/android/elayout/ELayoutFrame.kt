@@ -1,11 +1,14 @@
 package com.thorebenoit.enamel.android.elayout
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.thorebenoit.enamel.android.dsl.views.backgroundColor
+import com.thorebenoit.enamel.android.dsl.views.textColor
+import com.thorebenoit.enamel.android.dsl.views.textView
 import com.thorebenoit.enamel.android.dsl.withID
 import com.thorebenoit.enamel.kotlin.core.backingfield.ExtraValueHolder
 import com.thorebenoit.enamel.kotlin.core.color.randomColor
@@ -21,25 +24,25 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRefObject
-import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getObjects
-
-fun ELayout.getViews() = getObjects<View>()
 
 
 class ELayoutFrame : ViewGroup {
 
-    private fun View.toLayoutRef(): ELayoutRef<View> {
+    private fun <T : View> List<T>.toLayoutRef(): List<ELayoutRef<T>> = map { it.toLayoutRef() }
+
+    private fun <T : View> T.toLayoutRef(): ELayoutRef<T> {
+        val view = this
 
         return ELayoutRef(
             ELayoutRefObject(
-                viewRef = this,
+                viewRef = view,
                 addToParent = {
                     if (parent == null) {
-                        addView(this)
+                        addView(view)
                     }
                 },
                 removeFromParent = {
-                    (parent as? ViewGroup)?.removeView(this)
+                    (parent as? ViewGroup)?.removeView(view)
                 }
             ),
             sizeToFIt = { size ->
@@ -47,7 +50,7 @@ class ELayoutFrame : ViewGroup {
             },
             arrangeIn = { frame ->
 
-                layout(
+                view.layout(
                     frame.left.toInt(),
                     frame.top.toInt(),
                     frame.right.toInt(),
@@ -63,21 +66,37 @@ class ELayoutFrame : ViewGroup {
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     init {
+        backgroundColor = black
+        Color.LTGRAY
         setWillNotDraw(false)
     }
 
-    val layout: ELayout = 3.of { i ->
-        TextView(context).apply {
-            text = "TextView #$i"
-            backgroundColor = red
-        }.toLayoutRef()
+    val tv1 = textView("Text1") {
+        backgroundColor = red
+        textSize = 20f
+        textColor = white
     }
-        .mapIndexed { i, layout ->
-            layout.sizedSquare((i + 1) * 100)
-        }
-        .stacked(EAlignment.rightTop, spacing = 10)
-        .snugged()
-        .arranged(EAlignment.middle)
+    val tv2 = textView("Text2") {
+        backgroundColor = green
+        textSize = 20f
+        textColor = black
+    }
+    val tv3 = textView("Text3") {
+        backgroundColor = blue
+        textSize = 20f
+        textColor = white
+    }
+
+    val layout: ELayout =
+
+        listOf(tv1, tv2, tv3)
+            .toLayoutRef()
+            .mapIndexed { i, layout ->
+                layout.sizedSquare((i + 1) * 100)
+            }
+            .stacked(EAlignment.rightTop, spacing = 10)
+            .snugged()
+            .arranged(EAlignment.middle)
 //        .padded(20)
 
     val eframe: ERectType get() = _eframe
@@ -87,10 +106,11 @@ class ELayoutFrame : ViewGroup {
     private var _paddedFrame: ERect = ERect()
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        val left = l.toFloat()
-        val top = t.toFloat()
-        val right = r.toFloat()
-        val bottom = b.toFloat()
+        val left = 0f
+        val top = 0f
+        val right = r.toFloat() - l
+        val bottom = b.toFloat() - t
+
 
         _eframe.setSides(
             left = left,
@@ -112,4 +132,5 @@ class ELayoutFrame : ViewGroup {
 
 
 }
+
 
