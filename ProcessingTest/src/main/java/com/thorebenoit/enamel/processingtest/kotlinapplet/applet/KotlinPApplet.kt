@@ -5,14 +5,17 @@ import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.math.functions.ELinearFunction
 import com.thorebenoit.enamel.kotlin.core.math.i
 import com.thorebenoit.enamel.kotlin.core.data.toJson
+import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
+import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
+import com.thorebenoit.enamel.processingtest.EPView
 import processing.core.PApplet
 import processing.core.PConstants
 import processing.event.KeyEvent
@@ -236,9 +239,14 @@ abstract class KotlinPApplet : PApplet() {
         return this
     }
 
+    open fun ELayoutRef<EPView>.draw(): ELayoutRef<EPView> {
+        this.ref.viewRef.draw()
+        return this
+    }
     open fun <T : ELayout> T.draw(): T {
         childLayouts.forEach {
             (it as? ELayoutLeaf)?.draw()
+            (it as? ELayoutRef<EPView>)?.draw()
             it.draw()
         }
         return this

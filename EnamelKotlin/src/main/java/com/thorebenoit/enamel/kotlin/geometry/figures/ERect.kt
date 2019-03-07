@@ -201,6 +201,8 @@ open class ERectType(
 
 
     // Changing
+    fun offset(p: Tuple2, buffer: ERect = ERect(this)): ERect = offset(p.v1, p.v2, buffer)
+
     fun offset(x: Number = 0, y: Number = 0, buffer: ERect = ERect(this)): ERect {
         buffer.origin.selfOffset(x, y)
         return buffer
@@ -424,6 +426,7 @@ class ERect(override var origin: EPoint = EPoint(), override var size: ESize = E
 
     //////
     fun selfOffset(x: Number = 0, y: Number = 0): ERect = offset(x, y, this)
+    fun selfOffset(p : Tuple2): ERect = offset(p.v1, p.v2, this)
 
     fun selfInset(margin: Number) = inset(margin, margin, this)
     fun selfInset(p: EPointType) = inset(p.x, p.y, this)

@@ -1,11 +1,15 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout.dsl
 
+import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
+import com.thorebenoit.enamel.kotlin.geometry.layout.EJustifiedLayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout
 import com.thorebenoit.enamel.kotlin.geometry.primitives.Tuple2
 
+
+fun List<ELayout>.justified(alignment: EAlignment) = EJustifiedLayout(this, alignment)
 /*
     class Size(val size: ESizeType) : ELayoutSpace()
     class Width(val width: Number) : ELayoutSpace()
