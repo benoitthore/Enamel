@@ -8,6 +8,8 @@ inline val Number.f get() = toFloat()
 inline val Number.d get() = toDouble()
 inline val Number.L get() = toLong()
 inline val Number.b get() = toByte()
+inline val Boolean.i get() = if (this) 1 else 0
+
 
 inline val Number.percent get() = f / 100f
 const val œ = 0.001f // ALT + Q on Mac
