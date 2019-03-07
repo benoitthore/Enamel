@@ -1,5 +1,13 @@
 package com.thorebenoit.enamel.kotlin.geometry.alignement
 
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.databind.DeserializationContext
+import com.fasterxml.jackson.databind.JsonDeserializer
+import com.fasterxml.jackson.databind.JsonSerializer
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 
@@ -7,10 +15,50 @@ interface EOrientation
 interface EVerticalOrientation : EOrientation
 interface EHorizontalOrientation : EOrientation
 
+
+class EAlignmentSerializer : JsonSerializer<EAlignment>() {
+    override fun serialize(value: EAlignment, gen: JsonGenerator, serializers: SerializerProvider?) {
+        gen.writeObject(value.namedPoint)
+    }
+}
+
+class EAlignmentDeserializer : JsonDeserializer<EAlignment>() {
+    override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): EAlignment {
+        val point = p.readValuesAs(EPointType::class.java)
+        return EAlignment.fromNamedPoint(point.next())
+    }
+
+}
+
+@JsonSerialize(using = EAlignmentSerializer::class)
+@JsonDeserialize(using = EAlignmentDeserializer::class)
 sealed class EAlignment(open val o: EOrientation?) {
 
 
     companion object {
+
+        fun fromNamedPoint(namedPoint: EPointType): EAlignment {
+            return when (namedPoint) {
+                NamedPoint.topLeft -> EAlignment.topLeft
+                NamedPoint.topCenter -> EAlignment.topCenter
+                NamedPoint.topRight -> EAlignment.topRight
+                NamedPoint.bottomLeft -> EAlignment.bottomLeft
+                NamedPoint.bottomCenter -> EAlignment.bottomCenter
+                NamedPoint.bottomRight -> EAlignment.bottomRight
+                NamedPoint.center -> EAlignment.middle
+                NamedPoint.topLeft -> EAlignment.leftTop
+                NamedPoint.middleLeft -> EAlignment.leftCenter
+                NamedPoint.bottomLeft -> EAlignment.leftBottom
+                NamedPoint.topRight -> EAlignment.rightTop
+                NamedPoint.middleRight -> EAlignment.rightCenter
+                NamedPoint.bottomRight -> EAlignment.rightBottom
+
+                else -> {
+                    throw Exception("Impossible if using the API properly")
+                }
+            }
+        }
+
         private object left : EHorizontalOrientation
 
         private object right : EHorizontalOrientation
