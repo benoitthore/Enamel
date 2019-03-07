@@ -1,7 +1,11 @@
 package com.thorebenoit.enamel.kotlin.core.data
 
 import com.thorebenoit.enamel.kotlin.core.math.Scale
+import java.nio.charset.Charset
 import java.util.*
+
+fun List<Byte>.toStringFromBytes() = toByteArray().toStringFromBytes()
+fun ByteArray.toStringFromBytes() = toString(Charset.defaultCharset())
 
 // TODO Fix
 //operator fun <E> List<E>.get(percentage: Float) = this[((size - 1) * percentage).toInt()]
@@ -21,7 +25,7 @@ fun <E> MutableList<E>.limitLast(n: Int) {
 }
 
 fun <E> MutableList<E>.addIfDoesntContains(e: E) {
-    if(!contains(e)){
+    if (!contains(e)) {
         add(e)
     }
 }
