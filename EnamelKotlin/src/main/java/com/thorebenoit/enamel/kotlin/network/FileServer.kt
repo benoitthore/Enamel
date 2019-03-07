@@ -1,4 +1,4 @@
-package com.thorebenoit.enamel.kotlin.server
+package com.thorebenoit.enamel.kotlin.network
 
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call
