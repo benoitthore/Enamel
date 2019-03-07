@@ -16,6 +16,7 @@ dependencies {
     implementation koma.koma
 
     //Jackson
+    implementation jackson.core
     implementation jackson.kotlin
 
 

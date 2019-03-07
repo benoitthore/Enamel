@@ -28,6 +28,7 @@ ext {
     koin_version = '1.0.2'
     picassoVersion = '2.71828'
     tensorflowVersion = '1.12.0'
+    jacksonVersion = '2.9.8'
 
 
     arch = [
@@ -72,7 +73,8 @@ ext {
     ]
 
     jackson = [
-            kotlin: "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.6"
+            core : "com.fasterxml.jackson.core:jackson-core:$jacksonVersion",
+            kotlin: "com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion"
     ]
 
     coroutines = [
