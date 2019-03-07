@@ -35,7 +35,10 @@ inline fun Context.constraintLayout(init: ConstraintLayout.() -> Unit = {}) = Co
 
 inline fun Context.frameLayout(crossinline init: FrameLayout.() -> Unit = {}) = FrameLayout(this).apply(init)
 
-inline fun Context.linearLayout(crossinline init: LinearLayout.() -> Unit = {}) = LinearLayout(this).apply(init)
+inline fun Context.linearLayout(crossinline init: LinearLayout.() -> Unit = {}) = LinearLayout(this).apply {
+    orientation = LinearLayout.HORIZONTAL
+    init()
+}
 
 inline fun Context.verticalLayout(crossinline init: LinearLayout.() -> Unit = {}) = LinearLayout(this).apply {
     orientation = LinearLayout.VERTICAL

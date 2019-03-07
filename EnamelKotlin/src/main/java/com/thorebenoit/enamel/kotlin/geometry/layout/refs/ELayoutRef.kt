@@ -40,16 +40,21 @@ open class ELayoutRef<T : Any>(
 }
 
 
-// TODO Use Extra value holder and make lazy to speed up perfs (possible only if layout is fully immutable)
-fun <T : Any> ELayout.getObjects(): List<T> = getRefs<T>().map { it.ref.viewRef }
 
-fun <T : Any> ELayout.getRefs(): List<ELayoutRef<T>> {
-    val list = mutableListOf<ELayoutRef<T>>()
 
-    (this as? ELayoutRef<T>)?.let {
-        list.add(it)
-    }
-    list.addAll(childLayouts.flatMap { getRefs<T>() })
 
-    return list
-}
+
+//
+//// TODO Use Extra value holder and make lazy to speed up perfs (possible only if layout is fully immutable)
+//fun <T : Any> ELayout.getObjects(): List<T> = getRefs<T>().map { it.ref.viewRef }
+//
+//fun <T : Any> ELayout.getRefs(): List<ELayoutRef<T>> {
+//    val list = mutableListOf<ELayoutRef<T>>()
+//
+//    (this as? ELayoutRef<T>)?.let {
+//        list.add(it)
+//    }
+//    list.addAll(childLayouts.flatMap { getRefs<T>() })
+//
+//    return list
+//}
