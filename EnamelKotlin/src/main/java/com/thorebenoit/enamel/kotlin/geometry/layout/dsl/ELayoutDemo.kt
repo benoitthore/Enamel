@@ -22,7 +22,11 @@ object ELayoutDemo {
             .stacked(EAlignment.rightTop, spacing = 10)
             .snugged()
             .arranged(EAlignment.topLeft)
-            .padded(20).asList()
+            .padded(20)
+            .apply {
+                arrange(frame)
+            }
+            .asList()
     }
     val _1: ELayoutExample = { frame ->
         val redLayout = ELayoutLeaf(red)

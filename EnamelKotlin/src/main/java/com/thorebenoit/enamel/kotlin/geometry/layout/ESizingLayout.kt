@@ -1,6 +1,8 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout
 
 import apple.laf.JRSUIConstants
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.thorebenoit.enamel.kotlin.geometry.alignement.fillSize
 import com.thorebenoit.enamel.kotlin.geometry.alignement.fitSize
 import com.thorebenoit.enamel.kotlin.geometry.alignement.with
@@ -10,6 +12,18 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.primitives.times
 
 class ESizingLayout(val child: ELayout, val space: ELayoutSpace) : ELayout {
+
+
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
+    @JsonSubTypes(
+        JsonSubTypes.Type(value = ELayoutSpace.Size::class, name = "Size"),
+        JsonSubTypes.Type(value = ELayoutSpace.Width::class, name = "Width"),
+        JsonSubTypes.Type(value = ELayoutSpace.Height::class, name = "Height"),
+        JsonSubTypes.Type(value = ELayoutSpace.Scale::class, name = "Scale"),
+        JsonSubTypes.Type(value = ELayoutSpace.AspectFitting::class, name = "AspectFitting"),
+        JsonSubTypes.Type(value = ELayoutSpace.AspectFilling::class, name = "AspectFilling"),
+        JsonSubTypes.Type(value = ELayoutSpace.Func::class, name = "Func")
+    )
     sealed class ELayoutSpace {
         class Size(val size: ESizeType) : ELayoutSpace() {
             constructor(width: Number, height: Number) : this(width size height)
