@@ -14,7 +14,7 @@ dependencies {
     //OkHttp/Retrofit
     implementation squareup.retrofit
     implementation squareup.jacksonConvertor
-    implementation squareup.gsonConvertor
+
     implementation squareup.loggingInterceptor
     implementation squareup.okhttpUrlConnection
     implementation squareup.retrofitMock
