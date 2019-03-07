@@ -1,5 +1,16 @@
 package com.thorebenoit.enamel.kotlin.core
 
+import java.lang.StringBuilder
+
+operator fun StringBuilder.plusAssign(str: String) {
+    append(str)
+}
+
+operator fun StringBuilder.plusAssign(char: Char) {
+    append(char)
+}
+
+
 // <Random Sting generation>
 fun CharRange.randomString(size: Int): String = listOf(this).randomString(size)
 
