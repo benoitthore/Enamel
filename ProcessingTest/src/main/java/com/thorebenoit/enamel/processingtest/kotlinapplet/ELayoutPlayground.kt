@@ -82,6 +82,9 @@ fun customMapper(): ObjectMapper {
     mapper.setDefaultTyping(typeResolverBuilder)
 
     return mapper
+//    return jacksonObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).apply {
+//        enableDefaultTyping()
+//    }
 }
 
 private fun Any.toJson(): String = customMapper().writeValueAsString(this)
