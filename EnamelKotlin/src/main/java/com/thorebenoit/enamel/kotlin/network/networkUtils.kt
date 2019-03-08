@@ -1,16 +1,22 @@
-package com.thorebenoit.enamel.android
+package com.thorebenoit.enamel.kotlin.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.thorebenoit.enamel.kotlin.core.data.ignoreUnknownObjectMapper
-import okhttp3.Cache
-import okhttp3.OkHttpClient
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
+import okio.ByteString
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 import java.io.File
 
+
 inline val jacksonFactory: JacksonConverterFactory get() = JacksonConverterFactory.create(ignoreUnknownObjectMapper())
 inline val coroutineCallAdapterFactory get() = CoroutineCallAdapterFactory()
+
+
+// TODO Refactor to use factory
+fun String.toRequestBody(mediaType: String = "text/json") = RequestBody.create(MediaType.parse(mediaType), this)
 
 interface CacheHandler {
     val hasNetwork: () -> Boolean
@@ -19,11 +25,19 @@ interface CacheHandler {
     val cacheTime: Int
 }
 
-inline fun <reified S> createService(baseUrl: String, cacheHandler: CacheHandler? = null, log: Boolean = false): S {
+inline fun <reified S> createService(
+    baseUrl: String,
+    cacheHandler: CacheHandler? = null,
+    log: Boolean = false,
+    converterFactory: Converter.Factory? = jacksonFactory
+): S {
     val builder = Retrofit.Builder()
         .baseUrl(baseUrl)
-        .addConverterFactory(jacksonFactory)
         .addCallAdapterFactory(coroutineCallAdapterFactory)
+
+    if (converterFactory != null) {
+        builder.addConverterFactory(converterFactory)
+    }
 
     builder.client(createOkHttpClient(cacheHandler, log))
 
