@@ -8,8 +8,8 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation project(':EnamelKotlin')
 
-    implementation coroutines.core
-    implementation rxJava.rxJava
+
+
 
     implementation processing.core
     implementation jbox2d.jbox2d
@@ -20,6 +20,22 @@ dependencies {
     implementation jackson.kotlin
 
 
+    implementation squareup.retrofit
+    implementation squareup.jacksonConvertor
+
+    implementation squareup.loggingInterceptor
+    implementation squareup.okhttpUrlConnection
+    implementation squareup.retrofit
+
+
+    implementation coroutines.core
+    implementation coroutines.retrofit
+
+    implementation rxJava.rxJava
+
+    // KTOR
+    implementation ktor.core
+    implementation ktor.html
 
     implementation 'com.squareup:gifencoder:0.9.1'
 
