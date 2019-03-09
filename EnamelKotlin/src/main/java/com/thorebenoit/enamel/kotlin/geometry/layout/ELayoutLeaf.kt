@@ -5,7 +5,7 @@ import com.thorebenoit.enamel.kotlin.core.color.randomColor
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 
-class ELayoutLeaf(val color: Int = randomColor()) : ELayout {
+data class ELayoutLeaf(val color: Int = randomColor()) : ELayout {
     @get:JsonIgnore
     var frame: ERectType = ERectType.zero
 

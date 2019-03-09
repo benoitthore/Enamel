@@ -1,6 +1,7 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout
 
 import apple.laf.JRSUIConstants
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.thorebenoit.enamel.kotlin.geometry.alignement.fillSize
@@ -11,7 +12,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.primitives.times
 
-class ESizingLayout(val child: ELayout, val space: ELayoutSpace) : ELayout {
+data class ESizingLayout(@get:JsonIgnore val child: ELayout, val space: ELayoutSpace) : ELayout {
 
 
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)

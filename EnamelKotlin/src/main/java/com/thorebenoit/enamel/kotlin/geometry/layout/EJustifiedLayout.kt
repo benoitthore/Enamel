@@ -6,7 +6,7 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.along
 import com.thorebenoit.enamel.kotlin.geometry.alignement.layoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 
-class EJustifiedLayout(override val childLayouts: List<ELayout>, val alignment: EAlignment) : ELayoutAlongAxis {
+data class EJustifiedLayout(override val childLayouts: List<ELayout>, val alignment: EAlignment) : ELayoutAlongAxis {
     override val layoutAxis: ELayoutAxis = alignment.layoutAxis ?: ELayoutAxis.horizontal
 
     override fun size(toFit: ESizeType): ESizeType = toFit

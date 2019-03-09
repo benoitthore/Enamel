@@ -38,6 +38,7 @@ sealed class EAlignment(open val o: EOrientation?) {
     companion object {
 
         fun fromNamedPoint(namedPoint: EPointType): EAlignment {
+//            TODO("9 NamedPoint for 12 EAlignement")
             return when (namedPoint) {
                 NamedPoint.topLeft -> EAlignment.topLeft
                 NamedPoint.topCenter -> EAlignment.topCenter
@@ -46,12 +47,12 @@ sealed class EAlignment(open val o: EOrientation?) {
                 NamedPoint.bottomCenter -> EAlignment.bottomCenter
                 NamedPoint.bottomRight -> EAlignment.bottomRight
                 NamedPoint.center -> EAlignment.middle
-                NamedPoint.topLeft -> EAlignment.leftTop
+                NamedPoint.topLeft -> EAlignment.topLeft
                 NamedPoint.middleLeft -> EAlignment.leftCenter
-                NamedPoint.bottomLeft -> EAlignment.leftBottom
-                NamedPoint.topRight -> EAlignment.rightTop
+                NamedPoint.bottomLeft -> EAlignment.bottomLeft
+                NamedPoint.topRight -> EAlignment.topRight
                 NamedPoint.middleRight -> EAlignment.rightCenter
-                NamedPoint.bottomRight -> EAlignment.rightBottom
+                NamedPoint.bottomRight -> EAlignment.bottomRight
 
                 else -> {
                     throw Exception("Impossible if using the API properly")
