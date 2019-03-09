@@ -1,5 +1,7 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout
 
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
@@ -38,7 +40,12 @@ data class EDivideLayout(
         remainder.arrange(dividedRemainder)
     }
 
-
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
+    @JsonSubTypes(
+        JsonSubTypes.Type(value = Division.Distance::class, name = "Distance"),
+        JsonSubTypes.Type(value = Division.Fraction::class, name = "Fraction"),
+        JsonSubTypes.Type(value = Division.Slice::class, name = "Slice")
+    )
     sealed class Division {
         class Distance(val distance: Float) : Division() {
             constructor(value: Number) : this(value.f)
