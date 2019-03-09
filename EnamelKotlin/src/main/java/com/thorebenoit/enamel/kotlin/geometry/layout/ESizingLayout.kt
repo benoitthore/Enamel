@@ -12,7 +12,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.primitives.times
 
-data class ESizingLayout(@get:JsonIgnore val child: ELayout, val space: ELayoutSpace) : ELayout {
+data class ESizingLayout(val child: ELayout, val space: ELayoutSpace) : ELayout {
 
 
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
@@ -38,6 +38,7 @@ data class ESizingLayout(@get:JsonIgnore val child: ELayout, val space: ELayoutS
         class Func(val f: (ESizeType) -> ESizeType) : ELayoutSpace()
     }
 
+    @get:JsonIgnore
     override val childLayouts: List<ELayout> = mutableListOf(child)
 
     override fun size(toFit: ESizeType): ESizeType {

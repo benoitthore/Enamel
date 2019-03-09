@@ -6,10 +6,13 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 
-data class EBarLayout(@get:JsonIgnore val child: ELayout, val side: ERectEdge) : ELayoutAlongAxis {
+data class EBarLayout(val child: ELayout, val side: ERectEdge) : ELayoutAlongAxis {
 
-    @get:JsonIgnore override val layoutAxis: ELayoutAxis get() = side.layoutAxis
+    @get:JsonIgnore
+    override val layoutAxis: ELayoutAxis
+        get() = side.layoutAxis
 
+    @get:JsonIgnore
     override val childLayouts: List<ELayout> = listOf(child)
 
     override fun size(toFit: ESizeType): ESizeType {

@@ -6,8 +6,8 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.isVertical
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 
-data class ESnuggingLayout(@get:JsonIgnore val child: ELayoutAlongAxis) : ELayout {
-    override val childLayouts: List<ELayout> = listOf(child)
+data class ESnuggingLayout(val child: ELayoutAlongAxis) : ELayout {
+    @get:JsonIgnore override val childLayouts: List<ELayout> = listOf(child)
 
     override fun size(toFit: ESizeType): ESizeType {
         val sizes = child.childLayouts.map { it.size(toFit) }
