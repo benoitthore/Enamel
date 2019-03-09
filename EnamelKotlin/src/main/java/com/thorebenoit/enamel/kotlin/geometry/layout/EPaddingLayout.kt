@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 
-data class EPaddingLayout(@get:JsonIgnore val child: ELayout, val padding: EOffset) :
-    ELayout {
+data class EPaddingLayout(val child: ELayout, val padding: EOffset) : ELayout {
 
+    @get:JsonIgnore
     override val childLayouts: List<ELayout> = listOf(child)
 
     override fun size(toFit: ESizeType): ESizeType {
