@@ -1,0 +1,3 @@
+https://github.com/linkedin/dexmaker
+https://stackoverflow.com/questions/44404704/how-to-use-javassist-in-an-android-project
+Byte Buddy Android

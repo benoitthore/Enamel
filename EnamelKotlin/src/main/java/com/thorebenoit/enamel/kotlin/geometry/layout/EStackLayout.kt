@@ -8,7 +8,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.figures.rectGroup
 
-class EStackLayout(override val childLayouts: List<ELayout>, val alignment: EAlignment, val spacing: Number = 0) :
+data class EStackLayout(override val childLayouts: List<ELayout>, val alignment: EAlignment, val spacing: Number = 0) :
     ELayoutAlongAxis {
     override val layoutAxis: ELayoutAxis = alignment.layoutAxis ?: ELayoutAxis.horizontal
 

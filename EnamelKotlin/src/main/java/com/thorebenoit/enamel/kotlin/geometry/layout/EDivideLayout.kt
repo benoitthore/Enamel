@@ -5,7 +5,7 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 
-class EDivideLayout(
+data class EDivideLayout(
     val slice: ELayout,
     val remainder: ELayout,
     val by: Division,

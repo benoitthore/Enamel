@@ -1,11 +1,12 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.alignement.isVertical
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 
-class ESnuggingLayout(val child: ELayoutAlongAxis) : ELayout {
+data class ESnuggingLayout(@get:JsonIgnore val child: ELayoutAlongAxis) : ELayout {
     override val childLayouts: List<ELayout> = listOf(child)
 
     override fun size(toFit: ESizeType): ESizeType {
