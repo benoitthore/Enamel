@@ -4,7 +4,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import com.thorebenoit.enamel.kotlin.core.data.ignoreUnknownObjectMapper
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
-import okio.ByteString
+import retrofit2.CallAdapter
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
@@ -29,12 +29,15 @@ inline fun <reified S> createService(
     baseUrl: String,
     cacheHandler: CacheHandler? = null,
     log: Boolean = false,
-    converterFactory: Converter.Factory? = jacksonFactory
+    converterFactory: Converter.Factory? = jacksonFactory,
+    callAdapterFactory: CallAdapter.Factory? = coroutineCallAdapterFactory
 ): S {
     val builder = Retrofit.Builder()
         .baseUrl(baseUrl)
-        .addCallAdapterFactory(coroutineCallAdapterFactory)
 
+    if (callAdapterFactory != null) {
+        builder.addCallAdapterFactory(callAdapterFactory)
+    }
     if (converterFactory != null) {
         builder.addConverterFactory(converterFactory)
     }
