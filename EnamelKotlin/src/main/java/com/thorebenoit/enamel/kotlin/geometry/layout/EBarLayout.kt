@@ -8,7 +8,7 @@ import com.thorebenoit.enamel.kotlin.geometry.toRect
 
 data class EBarLayout(@get:JsonIgnore val child: ELayout, val side: ERectEdge) : ELayoutAlongAxis {
 
-    override val layoutAxis: ELayoutAxis get() = side.layoutAxis
+    @get:JsonIgnore override val layoutAxis: ELayoutAxis get() = side.layoutAxis
 
     override val childLayouts: List<ELayout> = listOf(child)
 

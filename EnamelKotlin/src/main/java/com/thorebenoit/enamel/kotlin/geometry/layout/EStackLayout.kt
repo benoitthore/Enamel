@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.alignement.layoutAxis
@@ -10,6 +11,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.rectGroup
 
 data class EStackLayout(override val childLayouts: List<ELayout>, val alignment: EAlignment, val spacing: Number = 0) :
     ELayoutAlongAxis {
+    @get:JsonIgnore
     override val layoutAxis: ELayoutAxis = alignment.layoutAxis ?: ELayoutAxis.horizontal
 
 
