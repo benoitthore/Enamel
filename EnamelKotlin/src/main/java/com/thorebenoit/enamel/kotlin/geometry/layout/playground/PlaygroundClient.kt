@@ -1,6 +1,14 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout.playground
 
+import com.thorebenoit.enamel.kotlin.core.color.red
+import com.thorebenoit.enamel.kotlin.core.math.random
+import com.thorebenoit.enamel.kotlin.core.of
+import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge
+import com.thorebenoit.enamel.kotlin.geometry.layout.EDivideLayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
+import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 import com.thorebenoit.enamel.kotlin.network.toRequestBody
 import okhttp3.OkHttpClient
@@ -27,10 +35,26 @@ class PlaygroundClient(private val address: String = "localhost", val defaultPor
 }
 
 
-fun ELayout.sendToPlayground() {
+fun <T : ELayout> T.sendToPlayground(): T {
     PlaygroundClient.defaultClient.sendToPlayground(this)
+    return this
 }
 
+fun main() {
+    val layout =
+        5.of {
+            ELayoutLeaf().sized(random(10,50),random(10,100))
+        }
+            .justified(EAlignment.leftCenter)
+            .snugged()
+            .arranged(EAlignment.topLeft)
+            .padded(5)
+
+//    val origin = ELayoutLeaf(red).sized(200, 200).arranged(EAlignment.topLeft, snugged = true)
+//    val layout = ELayoutLeaf().sized(100,100).aligned(ERectEdge.bottom, of = origin,sizedBy = EDivideLayout.Division.Fraction(0.5f))
+
+    layout.sendToPlayground()
+}
 //KTS Example
 /*
 import com.thorebenoit.enamel.kotlin.core.color.*
@@ -65,6 +89,5 @@ val layout = 10.of { ELayoutLeaf() }
 //    .arranged(EAlignment.topLeft)
 
 
-// TODO This doesn't work in KTS file
 layout.sendToPlayground()
  */
