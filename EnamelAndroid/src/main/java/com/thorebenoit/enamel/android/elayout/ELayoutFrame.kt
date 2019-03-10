@@ -5,61 +5,53 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.thorebenoit.enamel.android.dsl.views.backgroundColor
 import com.thorebenoit.enamel.android.dsl.views.textColor
 import com.thorebenoit.enamel.android.dsl.views.textView
-import com.thorebenoit.enamel.android.dsl.withID
-import com.thorebenoit.enamel.kotlin.core.backingfield.ExtraValueHolder
-import com.thorebenoit.enamel.kotlin.core.color.randomColor
 import com.thorebenoit.enamel.kotlin.core.color.*
-import com.thorebenoit.enamel.kotlin.core.of
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERectSides
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutAlongAxis
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRefObject
 
+fun <T : View> List<T>.laidIn(frame:ELayoutFrame): List<ELayoutRef<T>> = map { it.laidIn(frame) }
+
+fun <T : View> T.laidIn(frame:ELayoutFrame): ELayoutRef<T> {
+    val view = this
+
+    return ELayoutRef(
+        ELayoutRefObject(
+            viewRef = view,
+            addToParent = {
+                if (parent == null) {
+                    frame.addView(view)
+                }
+            },
+            removeFromParent = {
+                (parent as? ViewGroup)?.removeView(view)
+            }
+        ),
+        sizeToFIt = { size ->
+            size
+        },
+        arrangeIn = { frame ->
+
+            view.layout(
+                frame.left.toInt(),
+                frame.top.toInt(),
+                frame.right.toInt(),
+                frame.bottom.toInt()
+            )
+        },
+        childLayouts = emptyList()
+    )
+}
+
 
 class ELayoutFrame : ViewGroup {
-
-    private fun <T : View> List<T>.toLayoutRef(): List<ELayoutRef<T>> = map { it.toLayoutRef() }
-
-    private fun <T : View> T.toLayoutRef(): ELayoutRef<T> {
-        val view = this
-
-        return ELayoutRef(
-            ELayoutRefObject(
-                viewRef = view,
-                addToParent = {
-                    if (parent == null) {
-                        addView(view)
-                    }
-                },
-                removeFromParent = {
-                    (parent as? ViewGroup)?.removeView(view)
-                }
-            ),
-            sizeToFIt = { size ->
-                size
-            },
-            arrangeIn = { frame ->
-
-                view.layout(
-                    frame.left.toInt(),
-                    frame.top.toInt(),
-                    frame.right.toInt(),
-                    frame.bottom.toInt()
-                )
-            },
-            childLayouts = emptyList()
-        )
-    }
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -90,7 +82,7 @@ class ELayoutFrame : ViewGroup {
     val layout: ELayout =
 
         listOf(tv1, tv2, tv3)
-            .toLayoutRef()
+            .laidIn(this)
             .mapIndexed { i, layout ->
                 layout.sizedSquare((i + 1) * 100)
             }
