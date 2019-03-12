@@ -11,6 +11,11 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.sendToPlayground
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPAppletLambda
+import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
+import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment.*
+import com.thorebenoit.enamel.kotlin.core.color.*
+import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
+import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 
 val _layout = 3.of { ELayoutLeaf() }
     .mapIndexed { i, layout ->
@@ -47,12 +52,25 @@ class ELayoutPlayground : KotlinPAppletLambda() {
 }
 
 
-
-
 fun main() {
+//
+//    KotlinPApplet.createApplet<ELayoutPlayground>(800 size 800)
+//
+//    _layout.sendToPlayground()
 
-    KotlinPApplet.createApplet<ELayoutPlayground>(800 size 800)
+    PlaygroundApplet.start(800, 800) {
 
-    _layout.sendToPlayground()
+        onDraw {
+            background(255)
+            noFill()
+            stroke(red)
+            val rect = eframe.inset(100).draw()
+            EAlignment.all.forEach {
+                rect.rectAlignedOutside(it, ESizeType.square(20), spacing = 10).draw()
+            }
+
+        }
+
+    }
 
 }
