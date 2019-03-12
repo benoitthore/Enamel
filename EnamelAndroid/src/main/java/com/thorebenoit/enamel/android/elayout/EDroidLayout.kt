@@ -17,9 +17,9 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRefObject
 
-fun <T : View> List<T>.laidIn(frame:ELayoutFrame): List<ELayoutRef<T>> = map { it.laidIn(frame) }
+fun <T : View> List<T>.laidIn(frame:EDroidLayout): List<ELayoutRef<T>> = map { it.laidIn(frame) }
 
-fun <T : View> T.laidIn(frame:ELayoutFrame): ELayoutRef<T> {
+fun <T : View> T.laidIn(frame:EDroidLayout): ELayoutRef<T> {
     val view = this
 
     return ELayoutRef(
@@ -51,7 +51,7 @@ fun <T : View> T.laidIn(frame:ELayoutFrame): ELayoutRef<T> {
 }
 
 
-class ELayoutFrame : ViewGroup {
+class EDroidLayout : ViewGroup {
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
