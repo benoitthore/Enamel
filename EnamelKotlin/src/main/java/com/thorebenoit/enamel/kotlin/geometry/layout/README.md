@@ -25,6 +25,9 @@ Create a algorithmical way of building layouts following these guidelines:
 - Hot reload (by sending a new layout and applying transition)
 
 
+
+
+
 # Layers
 
 ## Primitives
@@ -61,3 +64,15 @@ Snugs in one dimension and fill the other
 **ESizingLayout**
 
 **ESnuggingLayout**
+
+
+## Android plugin
+TODO EDroidLayout
+
+## Hot Reload
+In order to be able to send new layout to an Android device, the app is running a web server (on IP 10.0.2.2)
+
+The server is used to receive JSON Serialized layouts and send the to the appropriate view.
+
+The server should be extensible in order to allow **data** classes to be sent and parsed in the View to update subviews 
+ 
