@@ -1,181 +1,128 @@
 package com.thorebenoit.enamel.kotlin.geometry.alignement
 
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.JsonParser
-import com.fasterxml.jackson.databind.DeserializationContext
-import com.fasterxml.jackson.databind.JsonDeserializer
-import com.fasterxml.jackson.databind.JsonSerializer
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 
-interface EOrientation
-interface EVerticalOrientation : EOrientation
-interface EHorizontalOrientation : EOrientation
+/* UI TEST
+PlaygroundApplet.start(800, 800) {
 
-
-class EAlignmentSerializer : JsonSerializer<EAlignment>() {
-    override fun serialize(value: EAlignment, gen: JsonGenerator, serializers: SerializerProvider?) {
-        gen.writeObject(value.namedPoint)
-    }
-}
-
-class EAlignmentDeserializer : JsonDeserializer<EAlignment>() {
-    override fun deserialize(p: JsonParser, ctxt: DeserializationContext?): EAlignment {
-        val point = p.readValuesAs(EPointType::class.java)
-        return EAlignment.fromNamedPoint(point.next())
-    }
-
-}
-
-@JsonSerialize(using = EAlignmentSerializer::class)
-@JsonDeserialize(using = EAlignmentDeserializer::class)
-sealed class EAlignment(open val o: EOrientation?) {
-
-
-    companion object {
-
-        fun fromNamedPoint(namedPoint: EPointType): EAlignment {
-//            TODO("9 NamedPoint for 12 EAlignement")
-            return when (namedPoint) {
-                NamedPoint.topLeft -> EAlignment.topLeft
-                NamedPoint.topCenter -> EAlignment.topCenter
-                NamedPoint.topRight -> EAlignment.topRight
-                NamedPoint.bottomLeft -> EAlignment.bottomLeft
-                NamedPoint.bottomCenter -> EAlignment.bottomCenter
-                NamedPoint.bottomRight -> EAlignment.bottomRight
-                NamedPoint.center -> EAlignment.middle
-                NamedPoint.topLeft -> EAlignment.topLeft
-                NamedPoint.middleLeft -> EAlignment.leftCenter
-                NamedPoint.bottomLeft -> EAlignment.bottomLeft
-                NamedPoint.topRight -> EAlignment.topRight
-                NamedPoint.middleRight -> EAlignment.rightCenter
-                NamedPoint.bottomRight -> EAlignment.bottomRight
-
-                else -> {
-                    throw Exception("Impossible if using the API properly")
-                }
+        onDraw {
+            background(255)
+            noFill()
+            stroke(red)
+            val rect = eframe.inset(100).draw()
+            EAlignment.all.forEach {
+                rect.rectAlignedOutside(it, ESizeType.square(20), spacing = 10).draw()
             }
+
         }
 
-        private object left : EHorizontalOrientation
+    }
+ */
+private val spacingSignTop = EPointType(0, 1)
+private val spacingSignBottom = EPointType(0, -1)
+private val spacingSignLeft = EPointType(1, 0)
+private val spacingSignRight = EPointType(-1, 0)
+private val spacingSignCenter = EPointType(0, 0)
 
-        private object right : EHorizontalOrientation
+enum class EAlignment {
+    topLeft,
+    topCenter,
+    topRight,
+    bottomLeft,
+    bottomCenter,
+    bottomRight,
+    middle,
+    leftTop,
+    leftCenter,
+    leftBottom,
+    rightTop,
+    rightCenter,
+    rightBottom;
 
-        private object top : EVerticalOrientation
-
-        private object bottom : EVerticalOrientation
-
-        private object center : EHorizontalOrientation, EVerticalOrientation
-
-        val topLeft: EAlignment = Top(left)
-        val topCenter: EAlignment = Top(center)
-        val topRight: EAlignment = Top(right)
-
-        val rightTop: EAlignment = Right(top)
-        val rightCenter: EAlignment = Right(center)
-        val rightBottom: EAlignment = Right(bottom)
-
-        val bottomLeft: EAlignment = Bottom(left)
-        val bottomCenter: EAlignment = Bottom(center)
-        val bottomRight: EAlignment = Bottom(right)
-
-        val leftTop: EAlignment = Left(top)
-        val leftCenter: EAlignment = Left(center)
-        val leftBottom: EAlignment = Left(bottom)
-        val middle: EAlignment = Center()
-
-
-        val vertices = listOf(topLeft, topRight, bottomRight, bottomLeft)
+    companion object {
         val all = listOf(
             topLeft,
             topCenter,
             topRight,
-            rightTop,
-            rightCenter,
-            rightBottom,
             bottomLeft,
             bottomCenter,
             bottomRight,
+            middle,
             leftTop,
             leftCenter,
             leftBottom,
-            middle
+            rightTop,
+            rightCenter,
+            rightBottom
         )
     }
 
 
-    val flipped: EAlignment
-        get() = when (this) {
-            is Top -> Bottom(o)
-            is Bottom -> Top(o)
-            is Left -> Right(o)
-            is Right -> Left(o)
-            is Center -> this
-        }
-    val spacingSign: EPointType
-        get() = allocate {
-            // TODO Remove allocation here
-            when (this) {
-                is Top -> EPointType(0, 1)
-                is Bottom -> EPointType(0, -1)
-                is Left -> EPointType(1, 0)
-                is Right -> EPointType(-1, 0)
-                is Center -> EPointType(0, 0)
-            }
-        }
-
     val namedPoint: EPointType
         get() = when (this) {
-            EAlignment.topLeft -> NamedPoint.topLeft
-            EAlignment.topCenter -> NamedPoint.topCenter
-            EAlignment.topRight -> NamedPoint.topRight
+            topCenter -> NamedPoint.topCenter
+            topLeft -> NamedPoint.topLeft
+            topRight -> NamedPoint.topRight
+            bottomLeft -> NamedPoint.bottomLeft
+            bottomCenter -> NamedPoint.bottomCenter
+            bottomRight -> NamedPoint.bottomRight
+            middle -> NamedPoint.center
+            leftTop -> NamedPoint.topLeft
+            leftCenter -> NamedPoint.middleLeft
+            leftBottom -> NamedPoint.bottomLeft
+            rightTop -> NamedPoint.topRight
+            rightCenter -> NamedPoint.middleRight
+            rightBottom -> NamedPoint.bottomRight
+        }
 
-            EAlignment.bottomLeft -> NamedPoint.bottomLeft
-            EAlignment.bottomCenter -> NamedPoint.bottomCenter
-            EAlignment.bottomRight -> NamedPoint.bottomRight
-
-            EAlignment.middle -> NamedPoint.center
-
-            EAlignment.leftTop -> NamedPoint.topLeft
-            EAlignment.leftCenter -> NamedPoint.middleLeft
-            EAlignment.leftBottom -> NamedPoint.bottomLeft
-
-            EAlignment.rightTop -> NamedPoint.topRight
-            EAlignment.rightCenter -> NamedPoint.middleRight
-            EAlignment.rightBottom -> NamedPoint.bottomRight
-
+    val isHorizontal: Boolean
+        get() = when (this) {
+            topLeft -> true
+            topCenter -> true
+            topRight -> true
+            bottomLeft -> true
+            bottomCenter -> true
+            bottomRight -> true
+            middle -> true
             else -> {
-                throw Exception("Impossible if using the API properly")
+                false
             }
         }
 
-    val isVertical get() = this is Top || this is Bottom
-    val isHorizontal get() = this is Left || this is Right
+    val isVertical: Boolean
+        get() = this == middle || !isHorizontal
 
-
-    // -----------------------------------------------------------------
-
-    override fun equals(other: Any?): Boolean {
-        if (other == null) {
-            return false
+    val spacingSign: EPointType
+        get() = when (this) {
+            topLeft -> spacingSignTop
+            topCenter -> spacingSignTop
+            topRight -> spacingSignTop
+            bottomLeft -> spacingSignBottom
+            bottomCenter -> spacingSignBottom
+            bottomRight -> spacingSignBottom
+            middle -> spacingSignCenter
+            leftTop -> spacingSignLeft
+            leftCenter -> spacingSignLeft
+            leftBottom -> spacingSignLeft
+            rightTop -> spacingSignRight
+            rightCenter -> spacingSignRight
+            rightBottom -> spacingSignRight
         }
-        return other::class.java == this::class.java && (other as EAlignment).o == o
-    }
 
-    override fun hashCode(): Int {
-        return o?.hashCode() ?: 0
-    }
+    val flipped: EAlignment
+        get() = when (this) {
+            topLeft -> bottomLeft
+            topCenter -> bottomCenter
+            topRight -> bottomRight
+            bottomLeft -> topLeft
+            bottomCenter -> topCenter
+            bottomRight -> topRight
+            middle -> middle
+            leftTop -> rightTop
+            leftCenter -> rightCenter
+            leftBottom -> rightBottom
+            rightTop -> leftTop
+            rightCenter -> leftCenter
+            rightBottom -> leftBottom
+        }
 }
-
-class Top(override val o: EHorizontalOrientation) : EAlignment(o)
-class Bottom(override val o: EHorizontalOrientation) : EAlignment(o)
-class Center : EAlignment(null)
-class Left(override val o: EVerticalOrientation) : EAlignment(o)
-class Right(override val o: EVerticalOrientation) : EAlignment(o)
-
-
-
-

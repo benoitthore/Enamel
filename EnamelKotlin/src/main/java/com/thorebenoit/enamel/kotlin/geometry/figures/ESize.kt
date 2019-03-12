@@ -17,7 +17,7 @@ open class ESizeType(open val width: Float = 0f, open val height: Float = 0f) : 
     companion object {
         val zero: ESizeType = allocate { ESizeType() }
         val greatestSize: ESizeType = allocate { ESizeType(Float.MAX_VALUE, Float.MAX_VALUE) }
-
+        fun square(size: Number) = ESize(size, size)
     }
 
     init {
