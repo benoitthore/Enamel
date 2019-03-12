@@ -5,6 +5,10 @@ import com.thorebenoit.enamel.kotlin.core.time.ETimer
 import io.reactivex.Flowable
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
 import java.lang.Thread.sleep
 import java.util.*
 import java.util.concurrent.Executor
@@ -40,3 +44,58 @@ fun <T> List<T>.forEachParallel(threads: Int = Runtime.getRuntime().availablePro
 
     executor.run(list)
 }
+
+
+inline fun <T, R> List<T>.mapIndexedParallel(
+    chunkSize: Int = 100,
+    crossinline block: suspend (Int, T) -> R
+): List<R> =
+    runBlocking(Dispatchers.Default) {
+        chunked(chunkSize).mapIndexed { chunkIndex, chunk ->
+            async {
+                chunk.mapIndexed { index, obj ->
+                    val actualIndex = (chunkIndex * chunkSize + index)
+                    block(actualIndex, obj)
+                }
+            }
+        }.awaitAll().flatten()
+    }
+
+
+inline fun <T> List<T>.mapParallel(
+    chunkSize: Int = size / Runtime.getRuntime().availableProcessors(),
+    crossinline block: suspend (T) -> Unit
+) =
+    mapIndexedParallel(chunkSize) { _, o -> block(o) }
+
+
+
+/*
+
+
+inline fun <T> List<T>.forEachIndexedParallel(
+    chunkSize: Int = size / Runtime.getRuntime().availableProcessors(),
+    crossinline block: suspend (Int, T) -> Unit
+) {
+    runBlocking(Dispatchers.Default) {
+
+        chunked(chunkSize).mapIndexed { chunkIndex, chunk ->
+            async {
+                chunk.mapIndexedNotNull { index, obj ->
+                    val actualIndex = (chunkIndex * chunkSize + index)
+                    block(actualIndex, obj)
+                }
+            }
+        }.awaitAll().flatten()
+    }
+}
+
+inline fun <T> List<T>.forEachParallel(
+    chunkSize: Int = size / Runtime.getRuntime().availableProcessors(),
+    crossinline block: suspend (T) -> Unit
+) {
+    forEachIndexedParallel(chunkSize) { _, o -> block(o) }
+}
+
+
+ */
