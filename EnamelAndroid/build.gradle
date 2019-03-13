@@ -84,6 +84,10 @@ dependencies {
     implementation xDependencies.constraintLayout
     implementation xDependencies.dynamicanimations
 
+    // Room
+    implementation room.runtime
+    implementation room.coroutines
+
     //OkHttp/Retrofit
     implementation squareup.retrofit
     implementation squareup.jacksonConvertor
