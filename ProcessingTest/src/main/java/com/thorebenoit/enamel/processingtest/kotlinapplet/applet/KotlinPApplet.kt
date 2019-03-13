@@ -15,7 +15,7 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.geometry.toCircle
-import com.thorebenoit.enamel.processingtest.EPView
+import com.thorebenoit.enamel.processingtest.kotlinapplet.view.EPView
 import processing.core.PApplet
 import processing.core.PConstants
 import processing.event.KeyEvent
