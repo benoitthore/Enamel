@@ -12,6 +12,9 @@ import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet._onMouseClicked
 import java.lang.Exception
 
+fun main() {
+    DotDrawingApplet.start()
+}
 
 class DotDrawingApplet : KotlinPApplet(), DotDrawer {
 

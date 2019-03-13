@@ -1,4 +1,4 @@
-//package com.thorebenoit.enamel.processingtest.doodleclassifier
+//package com.thorebenoit.enamel.processingtest.examples.doodleclassifier
 //
 //import com.thorebenoit.enamel.kotlin.core.data.findIndex
 //import com.thorebenoit.enamel.kotlin.core.math.i
