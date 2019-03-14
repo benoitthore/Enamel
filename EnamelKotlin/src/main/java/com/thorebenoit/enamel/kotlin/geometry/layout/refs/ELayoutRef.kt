@@ -4,29 +4,10 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 
-//// This Layout is the interface between ELayout and any UI framework
-class ELayoutRefObject<V>(
-    val viewRef: V,
-    internal val addToParent: V.() -> Unit,
-    internal val removeFromParent: V.() -> Unit
-) {
-    fun addToParent() {
-        apply {
-            viewRef.addToParent()
-        }
-    }
-
-    fun removeFromParent() {
-        apply {
-            viewRef.removeFromParent()
-        }
-    }
-}
-
-open class ELayoutRef<T : Any>(
-    val ref: ELayoutRefObject<T>,
-    val sizeToFIt: (ESizeType) -> ESizeType,
-    val arrangeIn: (ERectType) -> Unit,
+open class ELayoutRef<V : Any>(
+    val ref: ELayoutRefObject<V>,
+    private val sizeToFIt: (ESizeType) -> ESizeType,
+    private val arrangeIn: (ERectType) -> Unit,
     override val childLayouts: List<ELayout>
 ) : ELayout {
     override fun size(toFit: ESizeType): ESizeType {
@@ -38,10 +19,6 @@ open class ELayoutRef<T : Any>(
         ref.addToParent()
     }
 }
-
-
-
-
 
 
 //

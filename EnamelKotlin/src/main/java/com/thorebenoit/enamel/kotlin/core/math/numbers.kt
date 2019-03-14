@@ -24,10 +24,9 @@ fun randomSign() = if (randomBool()) 1 else -1
 fun random(): Float = random(min = 0f, max = 1f)
 fun random(max: Number): Float = random(min = 0f, max = max)
 fun random(min: Number, max: Number): Float =
-    lerp(RANDOM.nextFloat(), min, max)
+    RANDOM.nextFloat().lerp(min, max)
 
-fun lerp(fraction: Number, from: Number, to: Number): Float =
-    from.f + fraction.f * (to.f - from.f)
+fun Number.lerp(from: Number, to: Number): Float = from.f + this.f * (to.f - from.f)
 
 inline infix fun Number.nearlyEquals(n2: Number) = nearlyEquals(n2, œ)
 inline fun Number.nearlyEquals(n2: Number, threshold: Number) =
