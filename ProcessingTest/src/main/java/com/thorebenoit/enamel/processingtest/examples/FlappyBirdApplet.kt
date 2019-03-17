@@ -98,7 +98,7 @@ class FlappyBirdApplet : KotlinPApplet() {
                 val json = storedBest.readBytes().toString(Charset.defaultCharset())
                 kotlin.io.println("Using $json")
                 nn.setWeightsAndBiases(json.fromJson())
-//                return@coroutine
+                return@coroutine
             }
 
 
