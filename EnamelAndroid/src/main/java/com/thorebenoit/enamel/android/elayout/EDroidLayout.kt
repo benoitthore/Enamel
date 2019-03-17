@@ -12,30 +12,37 @@ import com.thorebenoit.enamel.kotlin.core.color.*
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
+import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRefObject
 
-fun <T : View> List<T>.laidIn(frame:EDroidLayout): List<ELayoutRef<T>> = map { it.laidIn(frame) }
+fun <T : View> List<T>.laidIn(frame: EDroidLayout): List<ELayoutRef<T>> = map { it.laidIn(frame) }
 
-fun <T : View> T.laidIn(frame:EDroidLayout): ELayoutRef<T> {
+fun <T : View> T.laidIn(viewGroup: EDroidLayout): ELayoutRef<T> {
     val view = this
+    val sizeBuffer = ESize()
 
     return ELayoutRef(
         ELayoutRefObject(
             viewRef = view,
             addToParent = {
                 if (parent == null) {
-                    frame.addView(view)
+                    viewGroup.addView(view)
                 }
             },
             removeFromParent = {
                 (parent as? ViewGroup)?.removeView(view)
-            }
+            },
+            isSameView = { this.tag == it.tag }
         ),
         sizeToFIt = { size ->
-            size
+            view.measure(
+                View.MeasureSpec.makeMeasureSpec(size.width.toInt(), View.MeasureSpec.AT_MOST),
+                View.MeasureSpec.makeMeasureSpec(size.height.toInt(), View.MeasureSpec.AT_MOST)
+            )
+            sizeBuffer.set(view.measuredWidth, view.measuredHeight)
         },
         arrangeIn = { frame ->
 
@@ -45,8 +52,7 @@ fun <T : View> T.laidIn(frame:EDroidLayout): ELayoutRef<T> {
                 frame.right.toInt(),
                 frame.bottom.toInt()
             )
-        },
-        childLayouts = emptyList()
+        }
     )
 }
 

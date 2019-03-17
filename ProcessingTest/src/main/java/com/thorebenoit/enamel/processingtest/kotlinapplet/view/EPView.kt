@@ -9,11 +9,10 @@ import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPAppletLa
 
 val <T : EPView> T.layoutRef: ELayoutRef<T> by ExtraValueHolder {
     ELayoutRef(
-        ELayoutRefObject(this, { isAdded = true }, { isAdded = false }),
+        ELayoutRefObject(this, { isAdded = true }, { isAdded = false }, { this == it }),
         { size -> size },
-        { frame -> drawingRect.set(frame) },
-        emptyList()
-    )
+        { frame -> drawingRect.set(frame) }
+        )
 }
 
 
