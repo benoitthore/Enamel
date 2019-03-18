@@ -21,9 +21,10 @@ enum class ETransitionState {
 
 class ETransition<V : Any>(
     val executeOnUiThread: (suspend CoroutineScope.() -> Unit) -> Unit,
-    val defaultEnterAnimation: (ELayoutRef<V>) -> SingleElementAnimator<V>,
-    val defaultExitAnimation: (ELayoutRef<V>) -> SingleElementAnimator<V>,
-    val defaultUpdateAnimation: UpdateAnimator.Builder<V>,
+    val doAnimation: suspend (Long, (Float) -> Unit) -> Unit,
+    val getEnterAnimation: (ELayoutRef<V>) -> SingleElementAnimator<V>,
+    val getExitAnimation: (ELayoutRef<V>) -> SingleElementAnimator<V>,
+    val getUpdateAnimation: UpdateAnimator.Builder<V>,
     var bounds: ERectType? = null
 ) {
 
@@ -32,7 +33,7 @@ class ETransition<V : Any>(
     fun to(newLayout: ELayout, bounds: ERectType? = null) {
         val bounds = bounds ?: this.bounds ?: throw Exception("No bound provided, transition cannot proceed")
 
-        // If we don't have a layout yet, just lay views in without anymations
+        // If we don't have a layout yet, just lay views in without animation
         val oldLayout = this.layout ?: run {
             newLayout.arrange(bounds)
             return
@@ -86,30 +87,46 @@ class ETransition<V : Any>(
         // Measure layout without applying changes
         newLayout.arrange(bounds)
 
-        val changeBounds = mutableListOf<EChangeBoundAnimator<V>>()
+        val outAnimations = oldRefs.map { getExitAnimation(it) }
+        val inAnimations = newRefs.map { getEnterAnimation(it) }
+        val updateAnimations = mutableListOf<UpdateAnimator<V>>()
 
         newLayout.getAllChildren().forEach {
             (it as? ELayoutRef<V>)?.let { new ->
 
                 updatingRefs[new]?.let { old ->
-                    changeBounds += EChangeBoundAnimator(from = old, to = new)
+                    updateAnimations += getUpdateAnimation.build(from = old, to = new)
                 }
                 new.isInMeasureMode = false
             }
         }
 
+
+
         executeOnUiThread {
 
+            // OUT
+            doAnimation(1000L) { progress ->
+                outAnimations.forEach { animator -> animator.animateTo(progress) }
+            }
+            oldRefs.forEach {
+                it.ref.removeFromParent()
+            }
+
+            // UPDATE
+            doAnimation(1000L) { progress ->
+                updateAnimations.forEach { animator -> animator.animateTo(progress) }
+            }
+
+            // IN
+            newRefs.forEach {
+                it.ref.addToParent()
+            }
+            doAnimation(1000L) { progress ->
+                inAnimations.forEach { animator -> animator.animateTo(progress) }
+            }
         }
 
-
-//        oldRefs.forEach {
-//            it.ref.removeFromParent()
-//        }
-//
-//        newRefs.forEach {
-//            it.ref.addToParent()
-//        }
 
     }
 
