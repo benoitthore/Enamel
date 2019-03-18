@@ -9,16 +9,6 @@ import com.thorebenoit.enamel.kotlin.threading.coroutine
 import kotlinx.coroutines.CoroutineScope
 import java.lang.Exception
 
-enum class ETransitionState {
-    start,
-    prepareToEnter,
-    exit,
-    prepareToUpdate,
-    update,
-    enter,
-    end
-}
-
 class ETransition<V : Any>(
     val executeOnUiThread: (suspend CoroutineScope.() -> Unit) -> Unit,
     val doAnimation: suspend (Long, (Float) -> Unit) -> Unit,
@@ -56,18 +46,23 @@ class ETransition<V : Any>(
         oldRefs.forEach { old ->
             found = false
             newRefs.forEach { new ->
+                // Check view equality
                 if (new.ref.isSameView(old.ref.viewRef)) {
+                    // Add mapping between new and old view
                     updatingRefs[new] = old
                     found = true
                 }
             }
 
+            // If you not found in new layout, view going out
             if (!found) {
                 goingOutRefs += old
             }
         }
 
+        // Going through refs in new layout
         newRefs.forEach { new ->
+            // If the new ref isn't part of the ones being updated, it has to go in
             if (!updatingRefs.containsKey(new)) {
                 goingInRefs += new
             }
@@ -79,7 +74,7 @@ class ETransition<V : Any>(
 
         // TODO Optimize getAllChildrenCall
         newLayout.getAllChildren().forEach {
-            if (it is ELayoutRef<*>) {
+            if (it as? ELayoutRef<V> != null) {
                 it.isInMeasureMode = true
             }
         }
@@ -87,10 +82,16 @@ class ETransition<V : Any>(
         // Measure layout without applying changes
         newLayout.arrange(bounds)
 
-        val outAnimations = oldRefs.map { getExitAnimation(it) }
-        val inAnimations = newRefs.map { getEnterAnimation(it) }
+        ////////////////////////////
+        //  Setting Up Animators  //
+        ////////////////////////////
+
+
+        val outAnimations = oldRefs.map(getExitAnimation)
+        val inAnimations = newRefs.map(getEnterAnimation)
         val updateAnimations = mutableListOf<UpdateAnimator<V>>()
 
+        // TODO use newRefs instead
         newLayout.getAllChildren().forEach {
             (it as? ELayoutRef<V>)?.let { new ->
 
@@ -101,8 +102,14 @@ class ETransition<V : Any>(
             }
         }
 
+        ////////////////////////////
+        //  /Setting Up Animators //
+        ////////////////////////////
 
 
+
+        // TODO Extract to separate function to increase readability ?
+        /// Do animation
         executeOnUiThread {
 
             // OUT
