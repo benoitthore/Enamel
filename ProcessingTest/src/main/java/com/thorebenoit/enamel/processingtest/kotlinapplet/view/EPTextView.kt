@@ -9,21 +9,16 @@ import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.pushPop
 open class EPTextView(applet: KotlinPAppletLambda, var text: String) : EPView(applet) {
     override var isAdded: Boolean = false
 
-    var textColor: Int = black
-    var textSize: Float = 20f
-
 
     open class TextViewStyle(
+       open var textColor: Int = black,
+        open var textSize: Float = 20f,
         open var borderColor: Int? = null,
         open var backgroundColor: Int? = null
     )
 
     var textViewStyle: TextViewStyle =
         TextViewStyle()
-
-    init {
-        textViewStyle.borderColor = red
-    }
 
     override fun onDraw() {
 
@@ -42,9 +37,9 @@ open class EPTextView(applet: KotlinPAppletLambda, var text: String) : EPView(ap
             }
 
 
-            fill(textColor)
-            stroke(textColor)
-            textSize(textSize)
+            fill(textViewStyle.textColor)
+            stroke(textViewStyle.textColor)
+            textSize(textViewStyle.textSize)
 
             text(
                 text,

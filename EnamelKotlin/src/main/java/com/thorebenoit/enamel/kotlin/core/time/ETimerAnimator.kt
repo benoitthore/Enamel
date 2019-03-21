@@ -10,7 +10,7 @@ class ETimerAnimator : ETimer() {
     }
 
 
-    var repeatMode: RepeatMode = RepeatMode.REVERSE
+    var repeatMode: RepeatMode = RepeatMode.NONE
 
     var duration = 1_000L
         set(value) {
