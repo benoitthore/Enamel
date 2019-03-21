@@ -49,7 +49,7 @@ fun <T : Any> ELayout.getRefs(): List<ELayoutRef<T>> {
     (this as? ELayoutRef<T>)?.let {
         list.add(it)
     }
-    list.addAll(childLayouts.flatMap { getRefs<T>() })
+    list.addAll(childLayouts.flatMap { it.getRefs<T>() })
 
     return list
 }

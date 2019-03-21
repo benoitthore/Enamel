@@ -8,16 +8,23 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import com.thorebenoit.enamel.kotlin.threading.singleThreadCoroutine
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPAppletLambda
 
-private class EPButton(applet: KotlinPAppletLambda, text: String) : EPTextView(applet, text) {
+class EPButton(applet: KotlinPAppletLambda, text: String) : EPTextView(applet, text) {
 
 
     class ButtonStyle(
         var hoverColor: Int? = ltGray,
         var clickedColor: Int? = red,
+        textColor: Int = black,
+        textSize: Float = 20f,
         borderColor: Int? = null,
         backgroundColor: Int? = null
     ) :
-        TextViewStyle(borderColor, backgroundColor) {
+        TextViewStyle(
+            textColor = textColor,
+            textSize = textSize,
+            borderColor = borderColor,
+            backgroundColor = backgroundColor
+        ) {
 
         override var backgroundColor: Int? = null
             set(value) {

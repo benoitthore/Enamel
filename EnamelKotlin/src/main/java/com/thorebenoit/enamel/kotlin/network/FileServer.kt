@@ -29,6 +29,10 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
+fun main(){
+    File("/Users/benoit/Documents/").startFileServer()
+}
+
 fun File.startFileServer(port: Int = 8080) {
     val root = this.takeIf { it.exists() }
         ?: File("files").takeIf { it.exists() }

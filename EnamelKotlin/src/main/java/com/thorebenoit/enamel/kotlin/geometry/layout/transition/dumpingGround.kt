@@ -1,6 +1,7 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout.transition
 
 import com.thorebenoit.enamel.kotlin.animations.lerp
+import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
@@ -17,8 +18,16 @@ class EChangeBoundAnimator<T : Any>(
     to: ELayoutRef<T>
 ) : UpdateAnimator<T>(from, to) {
 
-    val from: ERectType = fromRef.frame
-    val to: ERectType = toRef.frame
+    companion object {
+        fun <T : Any> getBuilder() = object : UpdateAnimator.Builder<T> {
+            override fun build(from: ELayoutRef<T>, to: ELayoutRef<T>): UpdateAnimator<T> =
+                EChangeBoundAnimator(from = from, to = to)
+
+        }
+    }
+
+    val from: ERectType = fromRef.frame.copy()
+    val to: ERectType = toRef.frame.copy()
     private val frame = ERect()
 
     override fun animateTo(progress: Float) {

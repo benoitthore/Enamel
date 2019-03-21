@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout.transition
 
+import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
@@ -20,15 +21,32 @@ class ETransition<V : Any>(
 
     private var layout: ELayout? = null
 
-    fun to(newLayout: ELayout, bounds: ERectType? = null) {
-        val bounds = bounds ?: this.bounds ?: throw Exception("No bound provided, transition cannot proceed")
+    private var isInTransition = false
 
-        // If we don't have a layout yet, just lay views in without animation
-        val oldLayout = this.layout ?: run {
-            newLayout.arrange(bounds)
+    fun to(newLayout: ELayout, bounds: ERectType? = null) {
+        if (isInTransition) {
+            "Already in transition".print
             return
         }
 
+        isInTransition = true
+        val bounds = bounds ?: this.bounds ?: throw Exception("No bound provided, transition cannot proceed")
+        val newRefs = newLayout.getRefs<V>()
+
+
+        // If we don't have a layout yet, just lay views in without animation
+        val oldLayout = this.layout ?: run {
+
+            newLayout.arrange(bounds)
+            newRefs.forEach {
+                getEnterAnimation(it).animateTo(1f)
+            }
+            this.layout = newLayout
+            isInTransition = false
+            return
+        }
+
+        this.layout = newLayout
 
         ///////////////////////////////
         //  Getting Transition data  //
@@ -38,7 +56,6 @@ class ETransition<V : Any>(
         val goingInRefs = mutableListOf<ELayoutRef<V>>()
 
         val oldRefs = oldLayout.getRefs<V>()
-        val newRefs = newLayout.getRefs<V>()
 
 
         var found: Boolean
@@ -87,8 +104,8 @@ class ETransition<V : Any>(
         ////////////////////////////
 
 
-        val outAnimations = oldRefs.map(getExitAnimation)
-        val inAnimations = newRefs.map(getEnterAnimation)
+        val outAnimations = goingOutRefs.map(getExitAnimation)
+        val inAnimations = goingInRefs.map(getEnterAnimation)
         val updateAnimations = mutableListOf<UpdateAnimator<V>>()
 
         // TODO use newRefs instead
@@ -107,31 +124,39 @@ class ETransition<V : Any>(
         ////////////////////////////
 
 
-
         // TODO Extract to separate function to increase readability ?
         /// Do animation
         executeOnUiThread {
 
+            "Start: View OUT".print
             // OUT
-            doAnimation(1000L) { progress ->
+            doAnimation(333L) { progress ->
                 outAnimations.forEach { animator -> animator.animateTo(progress) }
             }
             oldRefs.forEach {
                 it.ref.removeFromParent()
             }
 
+            "Start: View UPDATE".print
             // UPDATE
-            doAnimation(1000L) { progress ->
+            doAnimation(333L) { progress ->
                 updateAnimations.forEach { animator -> animator.animateTo(progress) }
             }
 
+            "Start: View IN".print
             // IN
             newRefs.forEach {
                 it.ref.addToParent()
             }
-            doAnimation(1000L) { progress ->
+
+            inAnimations.forEach { animator -> animator.animateTo(0f) }
+            newLayout.arrange(bounds)
+            doAnimation(333L) { progress ->
                 inAnimations.forEach { animator -> animator.animateTo(progress) }
             }
+            "Animation done".print
+
+            isInTransition = false
         }
 
 
