@@ -89,11 +89,11 @@ object ProcessingTestMain {
                         override fun animateTo(progress: Float) {
                             val tv = (ref.ref.viewRef as? EPTextView) ?: return
                             if (enter) {
-                                tv.textViewStyle.borderColor = ARGB_evaluate(progress, 0, white)
-                                tv.textViewStyle.textColor = ARGB_evaluate(progress, 0, white)
+                                tv.textViewStyle.borderColor = progress.argbEvaluate(0, white)
+                                tv.textViewStyle.textColor = progress.argbEvaluate(0, white)
                             } else {
-                                tv.textViewStyle.borderColor = ARGB_evaluate(progress, white, 0)
-                                tv.textViewStyle.textColor = ARGB_evaluate(progress, white, 0)
+                                tv.textViewStyle.borderColor = progress.argbEvaluate(white, 0)
+                                tv.textViewStyle.textColor = progress.argbEvaluate(white, 0)
                             }
                         }
                     }
@@ -104,6 +104,7 @@ object ProcessingTestMain {
                 executeOnUiThread = { coroutine(it) },
                 doAnimation = { duration, animator ->
                     val timer = ETimerAnimator()
+
 
                     timer.start()
                     while (timer.progress < 1f) {

@@ -10,6 +10,12 @@ import com.thorebenoit.enamel.kotlin.threading.coroutine
 import kotlinx.coroutines.CoroutineScope
 import java.lang.Exception
 
+/**TODO
+ *  - getEnterAnimation and getExitAnimation should take old and new bounds
+ *  - Create playground version for transition
+ *  - Allow change of transition state in the middle of a transition
+ *  - Improve performance
+ */
 class ETransition<V : Any>(
     val executeOnUiThread: (suspend CoroutineScope.() -> Unit) -> Unit,
     val doAnimation: suspend (Long, (Float) -> Unit) -> Unit,
