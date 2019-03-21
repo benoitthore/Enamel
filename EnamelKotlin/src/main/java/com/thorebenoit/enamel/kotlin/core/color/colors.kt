@@ -78,6 +78,7 @@ private fun rgb(
     return -0x1000000 or (red shl 16) or (green shl 8) or blue
 }
 
+fun Number.argbEvaluate(startValue: Int, endValue: Int): Int = ARGB_evaluate(toFloat(), startValue, endValue)
 
 fun ARGB_evaluate(fraction: Float, startValue: Int, endValue: Int): Int {
     val startInt = startValue
