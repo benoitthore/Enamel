@@ -12,9 +12,10 @@ fun singleThreadCoroutine(block: suspend CoroutineScope.() -> Unit) =
 
 fun coroutine(block: suspend CoroutineScope.() -> Unit) = GlobalScope.launch(block = block)
 
-fun coroutineDelayed(delay: Long = 100, block: suspend CoroutineScope.() -> Unit) = GlobalScope.launch(block = {
-    delay(delay)
-    block()
-})
+inline fun coroutineDelayed(delay: Long = 100, crossinline block: suspend CoroutineScope.() -> Unit) =
+    GlobalScope.launch(block = {
+        delay(delay)
+        block()
+    })
 
 

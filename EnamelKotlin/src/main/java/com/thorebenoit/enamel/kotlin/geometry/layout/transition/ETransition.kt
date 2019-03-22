@@ -10,6 +10,7 @@ import com.thorebenoit.enamel.kotlin.threading.coroutine
 import kotlinx.coroutines.CoroutineScope
 import java.lang.Exception
 
+
 /**TODO
  *  - getEnterAnimation and getExitAnimation should take old and new bounds
  *  - Create playground version for transition
@@ -19,8 +20,8 @@ import java.lang.Exception
 class ETransition<V : Any>(
     val executeOnUiThread: (suspend CoroutineScope.() -> Unit) -> Unit,
     val doAnimation: suspend (Long, (Float) -> Unit) -> Unit,
-    val getEnterAnimation: (ELayoutRef<V>) -> SingleElementAnimator<V>,
-    val getExitAnimation: (ELayoutRef<V>) -> SingleElementAnimator<V>,
+    val getEnterAnimation: (ELayoutRef<V>, ERectType) -> SingleElementAnimator<V>,
+    val getExitAnimation: (ELayoutRef<V>, ERectType) -> SingleElementAnimator<V>,
     val getUpdateAnimation: UpdateAnimator.Builder<V>,
     var bounds: ERectType? = null
 ) {
@@ -45,7 +46,7 @@ class ETransition<V : Any>(
 
             newLayout.arrange(bounds)
             newRefs.forEach {
-                getEnterAnimation(it).animateTo(1f)
+                getEnterAnimation(it, it.frame).animateTo(1f)
             }
             this.layout = newLayout
             isInTransition = false
@@ -110,8 +111,8 @@ class ETransition<V : Any>(
         ////////////////////////////
 
 
-        val outAnimations = goingOutRefs.map(getExitAnimation)
-        val inAnimations = goingInRefs.map(getEnterAnimation)
+        val outAnimations = goingOutRefs.map { getExitAnimation(it, it.frame) }
+        val inAnimations = goingInRefs.map { getEnterAnimation(it, it.frame) }
         val updateAnimations = mutableListOf<UpdateAnimator<V>>()
 
         // TODO use newRefs instead
@@ -119,7 +120,7 @@ class ETransition<V : Any>(
             (it as? ELayoutRef<V>)?.let { new ->
 
                 updatingRefs[new]?.let { old ->
-                    updateAnimations += getUpdateAnimation.build(from = old, to = new)
+                    updateAnimations += getUpdateAnimation.build(from = old, to = new, ref = new)
                 }
                 new.isInMeasureMode = false
             }
@@ -136,7 +137,7 @@ class ETransition<V : Any>(
 
             "Start: View OUT".print
             // OUT
-            doAnimation(333L) { progress ->
+            doAnimation(100L) { progress ->
                 outAnimations.forEach { animator -> animator.animateTo(progress) }
             }
             oldRefs.forEach {
@@ -157,7 +158,7 @@ class ETransition<V : Any>(
 
             inAnimations.forEach { animator -> animator.animateTo(0f) }
             newLayout.arrange(bounds)
-            doAnimation(333L) { progress ->
+            doAnimation(100L) { progress ->
                 inAnimations.forEach { animator -> animator.animateTo(progress) }
             }
             "Animation done".print

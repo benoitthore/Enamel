@@ -3,15 +3,14 @@ package com.thorebenoit.enamel.processingtest
 import com.thorebenoit.enamel.kotlin.core.color.*
 import com.thorebenoit.enamel.kotlin.core.math.d
 import com.thorebenoit.enamel.kotlin.core.math.f
+import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.of
 import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.core.time.ETimerAnimator
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.arranged
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.sizedSquare
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.snugged
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.stacked
+import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRefObject
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.EChangeBoundAnimator
@@ -19,10 +18,12 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.transition.ETransition
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.SingleElementAnimator
 import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.threading.coroutine
+import com.thorebenoit.enamel.kotlin.threading.coroutineDelayed
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
 import com.thorebenoit.enamel.processingtest.kotlinapplet.view.EPTextView
 import com.thorebenoit.enamel.processingtest.kotlinapplet.view.EPView
 import kotlinx.coroutines.runBlocking
+import java.util.*
 
 
 object ProcessingTestMain {
@@ -41,9 +42,15 @@ object ProcessingTestMain {
                 isSameView = { other -> this@toRef.text == other.text } // EQUAL FUNCTION
             )
             esize = 1000 size 1000
-            val layout1 = 3
+
+
+            val IDS = listOf("a","b","c","d","e","f","g","h","i")
+            val ids1 : Queue<String> = LinkedList(IDS.shuffled())
+            val ids2  : Queue<String> = LinkedList(IDS.shuffled())
+
+            val layout1 = (IDS.size - 3)
                 .of {
-                    val tv = EPTextView(applet, "$it")
+                    val tv = EPTextView(applet, ids1.poll())
                     tv.textViewStyle.textColor = white
                     tv.textViewStyle.borderColor = white
 
@@ -53,16 +60,17 @@ object ProcessingTestMain {
                         { rect -> tv.drawingRect.set(rect) })
                 }
                 .map {
-                    it.sizedSquare(100)
+                    it.sizedSquare(random(25, 200))
                 }
                 .stacked(EAlignment.bottomCenter)
                 .snugged()
-                .arranged(EAlignment.middle)
+                .arranged(EAlignment.topLeft)
+                .padded(20)
 
 
-            val layout2 = 3
+            val layout2 = (IDS.size-1)
                 .of {
-                    val tv = EPTextView(applet, "${it + 1}")
+                    val tv = EPTextView(applet, ids2.poll())
                     tv.textViewStyle.textColor = white
                     tv.textViewStyle.borderColor = white
 
@@ -72,20 +80,21 @@ object ProcessingTestMain {
                         { rect -> tv.drawingRect.set(rect) })
                 }
                 .map {
-                    it.sizedSquare(100)
+                    it.sizedSquare(random(25, 200))
                 }
                 .stacked(EAlignment.bottomCenter)
                 .snugged()
-                .arranged(EAlignment.leftCenter)
+                .arranged(EAlignment.topRight)
+                .padded(10)
 
 
 
 
             frame.isResizable = true
 
-            fun textViewFade(enter: Boolean = true): (ELayoutRef<EPView>) -> SingleElementAnimator<EPView> =
-                {
-                    object : SingleElementAnimator<EPView>(it) {
+            fun textViewFade(enter: Boolean = true): (ELayoutRef<EPView>, ERectType) -> SingleElementAnimator<EPView> =
+                { ref, frame ->
+                    object : SingleElementAnimator<EPView>(ref, frame) {
                         override fun animateTo(progress: Float) {
                             val tv = (ref.ref.viewRef as? EPTextView) ?: return
                             if (enter) {
@@ -130,6 +139,9 @@ object ProcessingTestMain {
                 i++
             }
 
+            coroutineDelayed(100){
+                transition.to(layout1, bounds = eframe)
+            }
             onDraw {
 
                 background(0)

@@ -4,6 +4,7 @@ import com.thorebenoit.enamel.kotlin.core.color.black
 import com.thorebenoit.enamel.kotlin.core.color.red
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPAppletLambda
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.pushPop
+import processing.core.PConstants
 
 
 open class EPTextView(applet: KotlinPAppletLambda, var text: String) : EPView(applet) {
@@ -11,9 +12,10 @@ open class EPTextView(applet: KotlinPAppletLambda, var text: String) : EPView(ap
 
 
     open class TextViewStyle(
-       open var textColor: Int = black,
+        open var textColor: Int = black,
         open var textSize: Float = 20f,
         open var borderColor: Int? = null,
+        open var textAlignement: Pair<Int, Int> = PConstants.CENTER to PConstants.CENTER,
         open var backgroundColor: Int? = null
     )
 
@@ -40,6 +42,8 @@ open class EPTextView(applet: KotlinPAppletLambda, var text: String) : EPView(ap
             fill(textViewStyle.textColor)
             stroke(textViewStyle.textColor)
             textSize(textViewStyle.textSize)
+
+            textAlign(textViewStyle.textAlignement.first, textViewStyle.textAlignement.second)
 
             text(
                 text,
