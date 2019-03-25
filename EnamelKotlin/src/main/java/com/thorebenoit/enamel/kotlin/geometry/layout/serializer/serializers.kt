@@ -5,7 +5,6 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ESizingLayoutSerializer.Space.*
 import java.lang.Exception
 
-
 interface ELayoutSerializer<T : ELayout> {
     fun serializeUnsafe(layout: ELayout, dataStore: ELayoutDataStore) {
         serialize(layout as T, dataStore)

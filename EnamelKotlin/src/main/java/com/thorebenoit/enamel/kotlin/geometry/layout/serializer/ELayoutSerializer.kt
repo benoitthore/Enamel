@@ -22,6 +22,24 @@ import java.lang.Exception
 import java.nio.charset.Charset
 import java.util.*
 
+
+// TODOS
+// TODO Make ELayout childLayouts mutable internally only
+// TODO Move ELayoutSerializer implementation into ELayout (ELayout should have a default empty constructor and de/serialize methods)
+// TODO Split ELayoutDataStore into Parser/Writer
+// TODO Make Parser/Writer interfaces
+// TODO Provide implementations for storing with Number and JSON (debug & prod)
+
+// NEXT
+// TODO ELayoutRef de/serialization
+// TODO Refactor EPView so they work like Android ViewGroup
+// TODO Refactor Playground to work with new serialization
+// TODO Implement Android Playground
+
+
+
+
+
 fun createStringIDLayoutDataStore() =
     ELayoutDataStore(
         serializeClazz = { add(it.name) },
@@ -46,6 +64,7 @@ fun createIntIDLayoutDataStore() =
         serializeClazz = { add(clazzes.indexOf(it)) },
         deserializeClazz = { clazzes[readNumber().toInt()] as Class<ELayout> }
     )
+
 
 class ELayoutDataStore(
     val serializeClazz: ELayoutDataStore.(Class<out ELayout>) -> Unit,
@@ -179,10 +198,10 @@ class ELayoutDataStore(
 fun main() {
     val layout =
         2.of { ELayoutLeaf(123) }
-        .mapIndexed { i, layout ->
-            layout.sizedSquare((i + 1) * 100)
-        }
-        .stacked(EAlignment.topLeft, spacing = 321)
+            .mapIndexed { i, layout ->
+                layout.sizedSquare((i + 1) * 100)
+            }
+            .stacked(EAlignment.topLeft, spacing = 321)
 //        .snugged()
 //        .arranged(EAlignment.topLeft)
 //        .padded(20)
