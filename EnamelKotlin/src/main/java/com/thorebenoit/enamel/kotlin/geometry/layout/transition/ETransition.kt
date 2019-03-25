@@ -11,10 +11,25 @@ import kotlinx.coroutines.CoroutineScope
 import java.lang.Exception
 
 
-/**TODO
- *  - getEnterAnimation and getExitAnimation should take old and new bounds
- *  - Create playground version for transition
- *  - Allow change of transition state in the middle of a transition
+/**
+ *  DONE - getEnterAnimation and getExitAnimation should take old and new bounds
+
+// TODO
+ *  - Create playground version for transition:
+ *      -Refactor serialization using fully mutable layouts, child being leafs when constructor just been called
+ *
+ *      - Should de/serialize be in ELayout or in a separate class?
+ *          Needs to be in a separate class for binding
+ *          In any case, ELayout should have a default empty constructor
+ *
+ *      -Find a way to create the appropriate child layout when deserializing
+ *          (De)Serialize using an object, this object contains a map with IDs for the different layouts and can create them
+ *
+ *      Find a way to (de)serialize ELayoutRef across platforms
+
+
+ *  - return transition object that contains the code of that runs on executeOnUiThread
+ *  -
  *  - Improve performance
  */
 class ETransition<V : Any>(
