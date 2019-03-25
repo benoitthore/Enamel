@@ -4,7 +4,7 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.EStackLayout
 
-fun List<ELayout>.stacked(alignment: EAlignment, spacing: Number = 0) = EStackLayout(this, alignment, spacing)
+fun List<ELayout>.stacked(alignment: EAlignment, spacing: Number = 0) = EStackLayout(this.toMutableList(), alignment, spacing)
 
 fun List<ELayout>.stackedTopLeft(spacing: Number = 0) = stacked(EAlignment.topLeft, spacing)
 fun List<ELayout>.stackedTopCenter(spacing: Number = 0) = stacked(EAlignment.topCenter, spacing)

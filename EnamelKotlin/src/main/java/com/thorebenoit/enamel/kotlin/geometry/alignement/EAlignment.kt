@@ -40,6 +40,7 @@ enum class EAlignment {
     rightBottom;
 
     companion object {
+
         val all = listOf(
             topLeft,
             topCenter,

@@ -9,10 +9,14 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.figures.rectGroup
 
-data class EStackLayout(override val childLayouts: List<ELayout>, val alignment: EAlignment, val spacing: Number = 0) :
+class EStackLayout(
+    override val childLayouts: MutableList<ELayout> = mutableListOf(),
+    var alignment: EAlignment = EAlignment.topLeft,
+    var spacing: Number = 0
+) :
     ELayoutAlongAxis {
-    @get:JsonIgnore
-    override val layoutAxis: ELayoutAxis = alignment.layoutAxis ?: ELayoutAxis.horizontal
+
+    override val layoutAxis: ELayoutAxis get() = alignment.layoutAxis ?: ELayoutAxis.horizontal
 
 
     override fun size(toFit: ESizeType): ESizeType {

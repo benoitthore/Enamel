@@ -9,7 +9,7 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout
 import com.thorebenoit.enamel.kotlin.geometry.primitives.Tuple2
 
 
-fun List<ELayout>.justified(alignment: EAlignment) = EJustifiedLayout(this, alignment)
+fun List<ELayout>.justified(alignment: EAlignment) = EJustifiedLayout(this.toMutableList(), alignment)
 /*
     class Size(val size: ESizeType) : ELayoutSpace()
     class Width(val width: Number) : ELayoutSpace()

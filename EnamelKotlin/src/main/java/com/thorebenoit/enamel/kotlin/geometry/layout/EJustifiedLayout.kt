@@ -7,8 +7,11 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.along
 import com.thorebenoit.enamel.kotlin.geometry.alignement.layoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 
-data class EJustifiedLayout(override val childLayouts: List<ELayout>, val alignment: EAlignment) : ELayoutAlongAxis {
-    @get:JsonIgnore
+data class EJustifiedLayout(
+    override val childLayouts: MutableList<ELayout> = mutableListOf(),
+    var alignment: EAlignment = EAlignment.topLeft
+) : ELayoutAlongAxis {
+
     override val layoutAxis: ELayoutAxis = alignment.layoutAxis ?: ELayoutAxis.horizontal
 
     override fun size(toFit: ESizeType): ESizeType = toFit

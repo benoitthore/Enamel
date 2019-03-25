@@ -7,17 +7,30 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 
-data class EDivideLayout(
-    val slice: ELayout,
-    val remainder: ELayout,
-    val by: Division,
-    val edge: ERectEdge,
-    val spacing: Number = 0,
-    val snugged: Boolean = true
+class EDivideLayout(
+    slice: ELayout = ELayoutLeaf(),
+    remainder: ELayout = ELayoutLeaf(),
+    var by: Division = Division.Slice,
+    var edge: ERectEdge = ERectEdge.top,
+    var spacing: Number = 0,
+    var snugged: Boolean = true
 ) : ELayout {
+    var slice: ELayout = slice
+        set(value) {
+            field = value
+            childLayouts.clear()
+            childLayouts.add(slice)
+            childLayouts.add(remainder)
+        }
+    var remainder: ELayout = remainder
+        set(value) {
+            field = value
+            childLayouts.clear()
+            childLayouts.add(slice)
+            childLayouts.add(remainder)
+        }
 
-
-    override val childLayouts: List<ELayout> = listOf(slice, remainder)
+    override val childLayouts: MutableList<ELayout> = mutableListOf(slice, remainder)
 
     override fun size(toFit: ESizeType): ESizeType {
         if (snugged) {
@@ -40,12 +53,6 @@ data class EDivideLayout(
         remainder.arrange(dividedRemainder)
     }
 
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
-    @JsonSubTypes(
-        JsonSubTypes.Type(value = Division.Distance::class, name = "Distance"),
-        JsonSubTypes.Type(value = Division.Fraction::class, name = "Fraction"),
-        JsonSubTypes.Type(value = Division.Slice::class, name = "Slice")
-    )
     sealed class Division {
         class Distance(val distance: Float) : Division() {
             constructor(value: Number) : this(value.f)
@@ -60,10 +67,12 @@ data class EDivideLayout(
 }
 
 // <Helpers>
-private fun EDivideLayout.distance(toFit: ESizeType): Float = when (by) {
-    is EDivideLayout.Division.Distance -> by.distance
-    is EDivideLayout.Division.Fraction -> by.fraction * toFit.along(edge.layoutAxis)
-    is EDivideLayout.Division.Slice -> slice.size(toFit).along(edge.layoutAxis)
+private fun EDivideLayout.distance(toFit: ESizeType): Float = by.let { by ->
+    when (by) {
+        is EDivideLayout.Division.Distance -> by.distance
+        is EDivideLayout.Division.Fraction -> by.fraction * toFit.along(edge.layoutAxis)
+        is EDivideLayout.Division.Slice -> slice.size(toFit).along(edge.layoutAxis)
+    }
 }
 
 private fun EDivideLayout.divide(frame: ERectType): Pair<ERectType, ERectType> {
