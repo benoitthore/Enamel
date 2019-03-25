@@ -10,9 +10,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME
 
 
-@JsonTypeInfo(use = NAME, include = PROPERTY)
 interface ELayout {
-    val childLayouts: List<ELayout>
+    val childLayouts: MutableList<ELayout>
 
     // TODO Refactor so these 2 functions don't allocate
     fun size(toFit: ESizeType): ESizeType

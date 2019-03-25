@@ -12,7 +12,7 @@ open class ELayoutRef<V : Any>(
     private val arrangeIn: (ERectType) -> Unit
 ) : ELayout {
 
-    override val childLayouts: List<ELayout> = emptyList()
+    override val childLayouts: MutableList<ELayout> = mutableListOf()
 
     var isInMeasureMode = false
 

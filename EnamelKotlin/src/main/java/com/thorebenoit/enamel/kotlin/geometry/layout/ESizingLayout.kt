@@ -12,19 +12,9 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.primitives.times
 
-data class ESizingLayout(val child: ELayout, val space: ELayoutSpace) : ELayout {
+class ESizingLayout(child: ELayout = ELayoutLeaf(), var space: ELayoutSpace = ELayoutSpace.Width(0)) : ELayout {
 
 
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
-    @JsonSubTypes(
-        JsonSubTypes.Type(value = ELayoutSpace.Size::class, name = "Size"),
-        JsonSubTypes.Type(value = ELayoutSpace.Width::class, name = "Width"),
-        JsonSubTypes.Type(value = ELayoutSpace.Height::class, name = "Height"),
-        JsonSubTypes.Type(value = ELayoutSpace.Scale::class, name = "Scale"),
-        JsonSubTypes.Type(value = ELayoutSpace.AspectFitting::class, name = "AspectFitting"),
-        JsonSubTypes.Type(value = ELayoutSpace.AspectFilling::class, name = "AspectFilling"),
-        JsonSubTypes.Type(value = ELayoutSpace.Func::class, name = "Func")
-    )
     sealed class ELayoutSpace {
         class Size(val size: ESizeType) : ELayoutSpace() {
             constructor(width: Number, height: Number) : this(width size height)
@@ -38,10 +28,18 @@ data class ESizingLayout(val child: ELayout, val space: ELayoutSpace) : ELayout 
         class Func(val f: (ESizeType) -> ESizeType) : ELayoutSpace()
     }
 
-    @get:JsonIgnore
-    override val childLayouts: List<ELayout> = mutableListOf(child)
+
+    var child: ELayout = child
+        set(value) {
+            field = value
+            childLayouts.clear()
+            childLayouts.add(field)
+        }
+
+    override val childLayouts: MutableList<ELayout> = mutableListOf(child)
 
     override fun size(toFit: ESizeType): ESizeType {
+        val space = space
         return when (space) {
             is ELayoutSpace.Size -> space.size
             is ELayoutSpace.Width -> child.size(toFit.copy(width = space.width))

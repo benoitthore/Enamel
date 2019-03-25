@@ -25,11 +25,12 @@ class PlaygroundClient(private val address: String = "localhost", val defaultPor
         .build()
 
     fun sendToPlayground(layout: ELayout) {
-        val url = "http://$address:$defaultPort/"
-
-        val json = ELayoutSerializer.serialize(layout)
-        ELayoutSerializer.deserialize(json)
-        client.newCall(Request.Builder().url(url).post(json.toRequestBody()).build()).execute()
+        TODO("This code is now invalid")
+//        val url = "http://$address:$defaultPort/"
+//
+//        val json = ELayoutSerializer.serialize(layout)
+//        ELayoutSerializer.deserialize(json)
+//        client.newCall(Request.Builder().url(url).post(json.toRequestBody()).build()).execute()
     }
 
 }

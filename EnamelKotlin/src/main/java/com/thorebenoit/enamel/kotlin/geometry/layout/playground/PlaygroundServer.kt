@@ -18,14 +18,15 @@ class PlaygroundServer {
         embeddedServer(Netty, port = port) {
             routing {
                 post("/") {
-                    try {
-                        val str = call.receive<String>()
-                        val layout = ELayoutSerializer.deserialize(str)
-                        println("SOCKET-IN: $str")
-                        onNewLayout(layout)
-                    } catch (e: Throwable) {
-                        System.err.println(e)
-                    }
+                        TODO("This code is now invalid")
+//                    try {
+//                        val str = call.receive<String>()
+//                        val layout = ELayoutSerializer.deserialize(str)
+//                        println("SOCKET-IN: $str")
+//                        onNewLayout(layout)
+//                    } catch (e: Throwable) {
+//                        System.err.println(e)
+//                    }
                 }
             }
         }.start(wait = false)
