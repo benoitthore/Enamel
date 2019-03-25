@@ -35,6 +35,8 @@ import java.util.*
 // TODO Refactor EPView so they work like Android ViewGroup
 // TODO Refactor Playground to work with new serialization
 // TODO Implement Android Playground
+// TODO Create Web Playground (linked with Android)
+// TODO Create Web Playground (Using JS Canvas)
 
 
 
