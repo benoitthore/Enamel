@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
+
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 
 class EBoxLayout(
@@ -39,16 +41,15 @@ class EBoxLayout(
     }
 
 
-
-    override fun serialize(dataStore: ELayoutDataStore) {
-        alignment = dataStore.readAlignment()
-        snugged = dataStore.readBool()
-        child = dataStore.readLayout()
-    }
-
-    override fun deserialize(dataStore: ELayoutDataStore) {
+    override fun serialize(dataStore: ELayoutSerializer) {
         dataStore.add(alignment)
         dataStore.add(snugged)
         dataStore.add(child)
+    }
+
+    override fun deserialize(dataStore: ELayoutDeserializer) {
+        alignment = dataStore.readAlignment()
+        snugged = dataStore.readBool()
+        child = dataStore.readLayout()
     }
 }

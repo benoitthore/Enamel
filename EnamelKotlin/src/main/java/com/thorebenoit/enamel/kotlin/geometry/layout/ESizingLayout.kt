@@ -1,17 +1,13 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout
 
-import apple.laf.JRSUIConstants
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonSubTypes
-import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.thorebenoit.enamel.kotlin.core.math.i
 import com.thorebenoit.enamel.kotlin.geometry.alignement.fillSize
 import com.thorebenoit.enamel.kotlin.geometry.alignement.fitSize
-import com.thorebenoit.enamel.kotlin.geometry.alignement.with
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 import com.thorebenoit.enamel.kotlin.geometry.primitives.times
 
 class ESizingLayout(child: ELayout = ELayoutLeaf(), var space: ELayoutSpace = ELayoutSpace.Width(0)) : ELayout {
@@ -107,7 +103,7 @@ class ESizingLayout(child: ELayout = ELayoutLeaf(), var space: ELayoutSpace = EL
     }
 
 
-    override fun serialize(dataStore: ELayoutDataStore) {
+    override fun serialize(dataStore: ELayoutSerializer) {
         val space = space
         dataStore.add(space.type.ordinal)
         val _a: Unit? = when (space) {
@@ -149,7 +145,7 @@ class ESizingLayout(child: ELayout = ELayoutLeaf(), var space: ELayoutSpace = EL
         dataStore.add(childLayouts)
     }
 
-    override fun deserialize(dataStore: ELayoutDataStore) {
+    override fun deserialize(dataStore: ELayoutDeserializer) {
         val spaceType = ELayoutSpace.Type.values()[dataStore.readNumber().i]
         space = when (spaceType) {
 

@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
+
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 
 class EBarLayout(child: ELayout = ELayoutLeaf.unit, var side: ERectEdge = ERectEdge.top) : ELayoutAlongAxis {
@@ -40,12 +42,12 @@ class EBarLayout(child: ELayout = ELayoutLeaf.unit, var side: ERectEdge = ERectE
     }
 
 
-    override fun serialize(dataStore: ELayoutDataStore) {
+    override fun serialize(dataStore: ELayoutSerializer) {
         dataStore.add(side)
         dataStore.add(child)
     }
 
-    override fun deserialize(dataStore: ELayoutDataStore) {
+    override fun deserialize(dataStore: ELayoutDeserializer) {
         side = dataStore.readRectEdge()
         child = dataStore.readLayout()
     }

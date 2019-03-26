@@ -4,21 +4,23 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
+
 import java.util.*
 
 open class ELayoutRef<V : Any>(
     var ref: ELayoutRefObject<V>,
     private val sizeToFIt: (ESizeType) -> ESizeType,
     private val arrangeIn: (ERectType) -> Unit,
-    private val serialize: ELayoutRef<V>.(ELayoutDataStore) -> Unit = { TODO() },
-    private val deserialize: ELayoutRef<V>.(ELayoutDataStore) -> Unit = { TODO() }
+    private val serialize: ELayoutRef<V>.(ELayoutSerializer) -> Unit = { TODO() },
+    private val deserialize: ELayoutRef<V>.(ELayoutDeserializer) -> Unit = { TODO() }
 ) : ELayout {
-    override fun serialize(dataStore: ELayoutDataStore) {
+    override fun serialize(dataStore: ELayoutSerializer) {
         serialize(dataStore)
     }
 
-    override fun deserialize(dataStore: ELayoutDataStore) {
+    override fun deserialize(dataStore: ELayoutDeserializer) {
         deserialize(dataStore)
     }
 

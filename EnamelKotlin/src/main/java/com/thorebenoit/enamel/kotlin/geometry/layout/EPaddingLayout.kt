@@ -1,7 +1,9 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout
 
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
+
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 
 class EPaddingLayout(child: ELayout = ELayoutLeaf.unit, var padding: EOffset = EOffset.zero) : ELayout {
@@ -25,12 +27,12 @@ class EPaddingLayout(child: ELayout = ELayoutLeaf.unit, var padding: EOffset = E
         child.arrange(frame - padding)
     }
 
-    override fun serialize(dataStore: ELayoutDataStore) {
+    override fun serialize(dataStore: ELayoutSerializer) {
         dataStore.add(padding)
         dataStore.add(child)
     }
 
-    override fun deserialize(dataStore: ELayoutDataStore) {
+    override fun deserialize(dataStore: ELayoutDeserializer) {
         padding = dataStore.readOffset()
         child = dataStore.readLayout()
     }

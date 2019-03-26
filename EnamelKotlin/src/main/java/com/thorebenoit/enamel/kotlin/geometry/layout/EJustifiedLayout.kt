@@ -6,7 +6,9 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.alignement.along
 import com.thorebenoit.enamel.kotlin.geometry.alignement.layoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
+
 
 class EJustifiedLayout(
     override val childLayouts: MutableList<ELayout> = mutableListOf(),
@@ -42,12 +44,12 @@ class EJustifiedLayout(
 
 
 
-    override fun serialize(dataStore: ELayoutDataStore) {
+    override fun serialize(dataStore: ELayoutSerializer) {
         dataStore.add(alignment)
         dataStore.add(childLayouts)
     }
 
-    override fun deserialize(dataStore: ELayoutDataStore) {
+    override fun deserialize(dataStore: ELayoutDeserializer) {
         alignment = dataStore.readAlignment()
         childLayouts.clear()
         childLayouts.addAll(dataStore.readLayouts())

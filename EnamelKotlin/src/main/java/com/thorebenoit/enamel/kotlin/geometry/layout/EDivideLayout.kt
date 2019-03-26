@@ -5,8 +5,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
+
 import com.thorebenoit.enamel.kotlin.geometry.toRect
+
 
 class EDivideLayout(
     slice: ELayout = ELayoutLeaf(),
@@ -70,7 +73,7 @@ class EDivideLayout(
 
 
 
-    override fun serialize(dataStore: ELayoutDataStore) {
+    override fun serialize(dataStore: ELayoutSerializer) {
         val by = by
 
         val _a: Unit = when (by) {
@@ -94,7 +97,7 @@ class EDivideLayout(
         dataStore.add(childLayouts)
     }
 
-    override fun deserialize(dataStore: ELayoutDataStore) {
+    override fun deserialize(dataStore: ELayoutDeserializer) {
         edge = ERectEdge.values()[dataStore.readNumber().toInt()]
         spacing = dataStore.readNumber()
         snugged = dataStore.readBool()
