@@ -39,6 +39,7 @@ Sorted by priority order:
 # ONGOING
 ## Refactor EPView so they work like Android ViewGroup
 ## Implement EPView playground
+## Add ETransition to EPView playground
 
 # NEXT
 ## Implement Android Playground
