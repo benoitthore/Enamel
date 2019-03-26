@@ -9,7 +9,6 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.EDivideLayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 import com.thorebenoit.enamel.kotlin.network.toRequestBody
 import okhttp3.OkHttpClient
 import okhttp3.Request

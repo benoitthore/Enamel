@@ -5,8 +5,10 @@ import com.thorebenoit.enamel.kotlin.core.color.randomColor
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
 
-class ELayoutLeaf(val color: Int = randomColor()) : ELayoutAlongAxis {
+class ELayoutLeaf(var color: Int = randomColor()) : ELayoutAlongAxis {
+
     override var layoutAxis: ELayoutAxis = ELayoutAxis.horizontal
 
     companion object {
@@ -16,7 +18,7 @@ class ELayoutLeaf(val color: Int = randomColor()) : ELayoutAlongAxis {
     var frame: ERectType = ERectType.zero
 
 
-    override val childLayouts: MutableList<ELayout> = mutableListOf()
+    override val childLayouts: List<ELayout> = listOf()
 
     override fun size(toFit: ESizeType): ESizeType = toFit
 
@@ -24,4 +26,13 @@ class ELayoutLeaf(val color: Int = randomColor()) : ELayoutAlongAxis {
     override fun arrange(frame: ERectType) {
         this.frame = frame
     }
+
+    override fun serialize(dataStore: ELayoutDataStore) {
+        dataStore.add(color)
+    }
+
+    override fun deserialize(dataStore: ELayoutDataStore) {
+        color = dataStore.readNumber().toInt()
+    }
+
 }

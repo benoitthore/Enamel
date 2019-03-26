@@ -6,8 +6,9 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.alignement.along
 import com.thorebenoit.enamel.kotlin.geometry.alignement.layoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
 
-data class EJustifiedLayout(
+class EJustifiedLayout(
     override val childLayouts: MutableList<ELayout> = mutableListOf(),
     var alignment: EAlignment = EAlignment.topLeft
 ) : ELayoutAlongAxis {
@@ -37,5 +38,18 @@ data class EJustifiedLayout(
 
     private fun sizes(toFit: ESizeType): List<ESizeType> {
         return childLayouts.map { it.size(toFit) }
+    }
+
+
+
+    override fun serialize(dataStore: ELayoutDataStore) {
+        dataStore.add(alignment)
+        dataStore.add(childLayouts)
+    }
+
+    override fun deserialize(dataStore: ELayoutDataStore) {
+        alignment = dataStore.readAlignment()
+        childLayouts.clear()
+        childLayouts.addAll(dataStore.readLayouts())
     }
 }

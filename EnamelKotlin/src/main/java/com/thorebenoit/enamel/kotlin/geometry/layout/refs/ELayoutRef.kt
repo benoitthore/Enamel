@@ -4,15 +4,25 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
 import java.util.*
 
 open class ELayoutRef<V : Any>(
-    val ref: ELayoutRefObject<V>,
+    var ref: ELayoutRefObject<V>,
     private val sizeToFIt: (ESizeType) -> ESizeType,
-    private val arrangeIn: (ERectType) -> Unit
+    private val arrangeIn: (ERectType) -> Unit,
+    private val serialize: ELayoutRef<V>.(ELayoutDataStore) -> Unit = { TODO() },
+    private val deserialize: ELayoutRef<V>.(ELayoutDataStore) -> Unit = { TODO() }
 ) : ELayout {
+    override fun serialize(dataStore: ELayoutDataStore) {
+        serialize(dataStore)
+    }
 
-    override val childLayouts: MutableList<ELayout> = mutableListOf()
+    override fun deserialize(dataStore: ELayoutDataStore) {
+        deserialize(dataStore)
+    }
+
+    override val childLayouts: List<ELayout> = listOf()
 
     var isInMeasureMode = false
 
