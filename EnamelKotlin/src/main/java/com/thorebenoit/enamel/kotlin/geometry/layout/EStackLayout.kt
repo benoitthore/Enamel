@@ -58,5 +58,9 @@ class EStackLayout(
         childLayouts.addAll(dataStore.readLayouts())
     }
 
+    override fun toString(): String {
+        return "EStackLayout(alignment=$alignment, spacing=$spacing, childLayouts=$childLayouts)"
+    }
+
 
 }

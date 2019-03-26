@@ -3,12 +3,13 @@ package com.thorebenoit.enamel.kotlin.geometry.layout
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.thorebenoit.enamel.kotlin.core.color.randomColor
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ELayoutAxis
+import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 
-
+// TODO color isn't set when serializing
 class ELayoutLeaf(var color: Int = randomColor()) : ELayoutAlongAxis {
 
     override var layoutAxis: ELayoutAxis = ELayoutAxis.horizontal
@@ -17,7 +18,8 @@ class ELayoutLeaf(var color: Int = randomColor()) : ELayoutAlongAxis {
         val unit = ELayoutLeaf(0)
     }
 
-    var frame: ERectType = ERectType.zero
+    val _frame: ERect = ERect()
+    val frame: ERectType = _frame
 
 
     override val childLayouts: List<ELayout> = listOf()
@@ -26,7 +28,7 @@ class ELayoutLeaf(var color: Int = randomColor()) : ELayoutAlongAxis {
 
 
     override fun arrange(frame: ERectType) {
-        this.frame = frame
+        _frame.set(frame)
     }
 
     override fun serialize(dataStore: ELayoutSerializer) {
@@ -36,5 +38,10 @@ class ELayoutLeaf(var color: Int = randomColor()) : ELayoutAlongAxis {
     override fun deserialize(dataStore: ELayoutDeserializer) {
         color = dataStore.readNumber().toInt()
     }
+
+    override fun toString(): String {
+        return "ELayoutLeaf(color=$color, frame=$frame)"
+    }
+
 
 }

@@ -20,15 +20,15 @@ class ELayoutSerializerDigital(
     companion object {
 
         internal val clazzes = listOf(
-            EBoxLayout::class.java,
-            EBoxLayout::class.java,
-            EDivideLayout::class.java,
-            EJustifiedLayout::class.java,
-            ELayoutLeaf::class.java,
-            EPaddingLayout::class.java,
-            ESizingLayout::class.java,
-            ESnuggingLayout::class.java,
-            EStackLayout::class.java
+            EBoxLayout::class.java, // 0
+            EBoxLayout::class.java, // 1
+            EDivideLayout::class.java, // 2
+            EJustifiedLayout::class.java, // 3
+            ELayoutLeaf::class.java, // 4
+            EPaddingLayout::class.java, // 5
+            ESizingLayout::class.java, // 6
+            ESnuggingLayout::class.java, // 7
+            EStackLayout::class.java // 8
         )
 
         fun createIntIDSerializer() = ELayoutSerializerDigital(

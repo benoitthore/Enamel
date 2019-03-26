@@ -43,7 +43,6 @@ class EJustifiedLayout(
     }
 
 
-
     override fun serialize(dataStore: ELayoutSerializer) {
         dataStore.add(alignment)
         dataStore.add(childLayouts)
@@ -54,4 +53,10 @@ class EJustifiedLayout(
         childLayouts.clear()
         childLayouts.addAll(dataStore.readLayouts())
     }
+
+    override fun toString(): String {
+        return "EJustifiedLayout(alignment=$alignment, layoutAxis=$layoutAxis, childLayouts=$childLayouts)"
+    }
+
+
 }

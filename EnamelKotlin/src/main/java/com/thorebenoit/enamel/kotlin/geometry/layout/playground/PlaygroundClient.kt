@@ -44,31 +44,30 @@ fun <T : ELayout> T.sendToPlayground(): T {
 }
 
 fun main() {
-    // TODO This layout can't be serialized
-//    val serializer = ELayoutSerializerDigital.createIntIDSerializer()
-//    val layout =
-//        5.of {
-//            ELayoutLeaf().sized(random(10,50),random(10,100))
-//        }
-//            .stackedRightCenter()
-////            .justified(EAlignment.leftCenter)
-//            .snugged()
-//            .arranged(EAlignment.topLeft)
-//            .padded(5)
-//
-//    serializer.add(layout)
-//
-//    serializer.toDeserializer().readLayout()
-
+    val serializer = ELayoutSerializerDigital.createIntIDSerializer()
     val layout =
-        1.of { ELayoutLeaf(red) }
-            .mapIndexed { i, layout ->
-                layout.sizedSquare((i + 1) * 100)
-            }
-            .stacked(EAlignment.topLeft, spacing = 321)
+        5.of {
+            ELayoutLeaf().sized(random(10,50),random(10,100))
+        }
+            .stackedRightCenter()
+//            .justified(EAlignment.leftCenter)
             .snugged()
             .arranged(EAlignment.topLeft)
-            .padded(20)
+            .padded(5)
+
+    serializer.add(layout)
+
+//    serializer.toDeserializer().readLayout()
+
+//    val layout =
+//        1.of { ELayoutLeaf(red) }
+//            .mapIndexed { i, layout ->
+//                layout.sizedSquare((i + 1) * 100)
+//            }
+//            .stacked(EAlignment.topLeft, spacing = 321)
+//            .snugged()
+//            .arranged(EAlignment.topLeft)
+//            .padded(20)
 
 //    val origin = ELayoutLeaf(red).sized(200, 200).arranged(EAlignment.topLeft, snugged = true)
 //    val layout = ELayoutLeaf().sized(100,100).aligned(ERectEdge.bottom, of = origin,sizedBy = EDivideLayout.Division.Fraction(0.5f))

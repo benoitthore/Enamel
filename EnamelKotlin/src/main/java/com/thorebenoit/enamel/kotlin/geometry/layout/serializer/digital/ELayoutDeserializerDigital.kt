@@ -42,7 +42,7 @@ class ELayoutDeserializerDigital(
     }
 
 
-    override fun readNumber() = data.pollFirst().print
+    override fun readNumber() = data.pollFirst()
 
 
     override fun readString(): String {
@@ -72,6 +72,6 @@ class ELayoutDeserializerDigital(
     )
 
 
-    override fun readSize() = ESize(data.peekLast(), data.peekLast())
+    override fun readSize() = ESize(readNumber(),readNumber())
 
 }

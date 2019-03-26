@@ -1,7 +1,5 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout
 
-import com.fasterxml.jackson.annotation.JsonSubTypes
-import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
@@ -62,10 +60,20 @@ class EDivideLayout(
     sealed class Division {
         class Distance(val distance: Float) : Division() {
             constructor(value: Number) : this(value.f)
+
+            override fun toString(): String {
+                return "Distance(distance=$distance)"
+            }
+
         }
 
         class Fraction(val fraction: Float) : Division() {
             constructor(value: Number) : this(value.f)
+
+            override fun toString(): String {
+                return "Fraction(fraction=$fraction)"
+            }
+
         }
 
         object Slice : Division()
@@ -104,6 +112,12 @@ class EDivideLayout(
         _childLayouts.clear()
         _childLayouts.addAll(dataStore.readLayouts())
     }
+
+    override fun toString(): String {
+        return "EDivideLayout(by=$by, edge=$edge, spacing=$spacing, snugged=$snugged, slice=$slice, remainder=$remainder)"
+    }
+
+
 }
 
 // <Helpers>

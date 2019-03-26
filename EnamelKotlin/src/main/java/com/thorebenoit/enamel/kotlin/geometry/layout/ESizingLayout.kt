@@ -75,30 +75,57 @@ class ESizingLayout(child: ELayout = ELayoutLeaf(), var space: ELayoutSpace = EL
             constructor(width: Number, height: Number) : this(width size height)
 
             override val type: Type get() = Type.Size
+            override fun toString(): String {
+                return "Size(size=$size)"
+            }
+
         }
 
         class Width(val width: Number) : ELayoutSpace() {
             override val type: Type get() = Type.Width
+            override fun toString(): String {
+                return "Width(width=$width)"
+            }
+
         }
 
         class Height(val height: Number) : ELayoutSpace() {
             override val type: Type get() = Type.Height
+            override fun toString(): String {
+                return "Height(height=$height)"
+            }
+
         }
 
         class Scale(val horizontal: Number?, val vertical: Number?) : ELayoutSpace() {
             override val type: Type get() = Type.Scale
+            override fun toString(): String {
+                return "Scale(horizontal=$horizontal, vertical=$vertical)"
+            }
         }
 
         class AspectFitting(val size: ESizeType) : ELayoutSpace() {
             override val type: Type get() = Type.AspectFitting
+            override fun toString(): String {
+                return "AspectFitting(size=$size)"
+            }
+
         }
 
         class AspectFilling(val size: ESizeType) : ELayoutSpace() {
             override val type: Type get() = Type.AspectFilling
+            override fun toString(): String {
+                return "AspectFilling(size=$size)"
+            }
+
         }
 
         class Func(val f: (ESizeType) -> ESizeType) : ELayoutSpace() {
             override val type: Type get() = Type.Func
+            override fun toString(): String {
+                return "Func(f=$f)"
+            }
+
         }
     }
 
@@ -142,7 +169,7 @@ class ESizingLayout(child: ELayout = ELayoutLeaf(), var space: ELayoutSpace = EL
             }
         }
 
-        dataStore.add(childLayouts)
+        dataStore.add(child)
     }
 
     override fun deserialize(dataStore: ELayoutDeserializer) {
@@ -168,6 +195,12 @@ class ESizingLayout(child: ELayout = ELayoutLeaf(), var space: ELayoutSpace = EL
                 throw Exception("Unknown space type $spaceType")
             }
         }
+        child = dataStore.readLayout()
+
+    }
+
+    override fun toString(): String {
+        return "ESizingLayout(space=$space, child=$child)"
     }
 
 
