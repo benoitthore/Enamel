@@ -13,15 +13,15 @@ class ELayoutRef<V : Any>(
     var ref: ELayoutRefObject<V>,
     private val sizeToFIt: (ESizeType) -> ESizeType,
     private val arrangeIn: (ERectType) -> Unit,
-    private val serialize: ELayoutRef<V>.(ELayoutSerializer) -> Unit = { TODO() },
-    private val deserialize: ELayoutRef<V>.(ELayoutDeserializer) -> Unit = { TODO() }
+    private val _serialize: ELayoutRef<V>.(ELayoutSerializer) -> Unit,
+    private val _deserialize: ELayoutRef<V>.(ELayoutDeserializer) -> Unit
 ) : ELayout {
     override fun serialize(dataStore: ELayoutSerializer) {
-        serialize(dataStore)
+        _serialize(dataStore)
     }
 
     override fun deserialize(dataStore: ELayoutDeserializer) {
-        deserialize(dataStore)
+        _deserialize(dataStore)
     }
 
     override val childLayouts: List<ELayout> = listOf()

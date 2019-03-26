@@ -84,9 +84,14 @@ dependencies {
     implementation xDependencies.constraintLayout
     implementation xDependencies.dynamicanimations
 
-    // Room
-    implementation room.runtime
-    implementation room.coroutines
+    // Ktor
+    implementation ktor.core
+    implementation ktor.netty
+    implementation ktor.cio
+
+    // Room // https://stackoverflow.com/questions/50365581/why-does-android-arch-navigation-cause-program-type-already-present-android-sup
+//    implementation room.runtime
+//    implementation room.coroutines
 
     //OkHttp/Retrofit
     implementation squareup.retrofit

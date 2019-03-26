@@ -7,13 +7,13 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRefObject
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPAppletLambda
 
 
-val <T : EPView> T.layoutRef: ELayoutRef<T> by ExtraValueHolder {
-    ELayoutRef(
-        ELayoutRefObject(this, { isAdded = true }, { isAdded = false }, { this == it }),
-        { size -> size },
-        { frame -> drawingRect.set(frame) }
-        )
-}
+//val <T : EPView> T.layoutRef: ELayoutRef<T> by ExtraValueHolder {
+//    ELayoutRef(
+//        ELayoutRefObject(this, { isAdded = true }, { isAdded = false }, { this == it }),
+//        { size -> size },
+//        { frame -> drawingRect.set(frame) }
+//        )
+//}
 
 
 abstract class EPView(val applet: KotlinPAppletLambda) {
