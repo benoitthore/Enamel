@@ -8,7 +8,9 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.with
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.figures.rectGroup
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
+
 
 class EStackLayout(
     override val childLayouts: MutableList<ELayout> = mutableListOf(),
@@ -43,13 +45,13 @@ class EStackLayout(
         }
     }
 
-    override fun serialize(dataStore: ELayoutDataStore) {
+    override fun serialize(dataStore: ELayoutSerializer) {
         dataStore.add(alignment)
         dataStore.add(spacing)
         dataStore.add(childLayouts)
     }
 
-    override fun deserialize(dataStore: ELayoutDataStore) {
+    override fun deserialize(dataStore: ELayoutDeserializer) {
         alignment = dataStore.readAlignment()
         spacing = dataStore.readNumber()
         childLayouts.clear()

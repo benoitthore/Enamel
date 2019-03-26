@@ -5,7 +5,9 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.alignement.isVertical
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
+
 
 class ESnuggingLayout(child: ELayoutAlongAxis = ELayoutLeaf.unit) : ELayout {
 
@@ -45,11 +47,11 @@ class ESnuggingLayout(child: ELayoutAlongAxis = ELayoutLeaf.unit) : ELayout {
 
 
 
-    override fun serialize(dataStore: ELayoutDataStore) {
+    override fun serialize(dataStore: ELayoutSerializer) {
         dataStore.add(child)
     }
 
-    override fun deserialize(dataStore: ELayoutDataStore) {
+    override fun deserialize(dataStore: ELayoutDeserializer) {
         child = dataStore.readLayout() as ELayoutAlongAxis
     }
 }
