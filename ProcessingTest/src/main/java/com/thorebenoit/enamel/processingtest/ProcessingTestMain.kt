@@ -44,9 +44,9 @@ object ProcessingTestMain {
             esize = 1000 size 1000
 
 
-            val IDS = listOf("a","b","c","d","e","f","g","h","i")
-            val ids1 : Queue<String> = LinkedList(IDS.shuffled())
-            val ids2  : Queue<String> = LinkedList(IDS.shuffled())
+            val IDS = listOf("a", "b", "c", "d", "e", "f", "g", "h", "i")
+            val ids1: Queue<String> = LinkedList(IDS.shuffled())
+            val ids2: Queue<String> = LinkedList(IDS.shuffled())
 
             val layout1 = (IDS.size - 3)
                 .of {
@@ -56,8 +56,12 @@ object ProcessingTestMain {
 
                     ELayoutRef(
                         tv.toRef(),
-                        { size -> size },
-                        { rect -> tv.drawingRect.set(rect) })
+                        sizeToFit = { size -> size },
+                        arrangeIn = { rect -> tv.drawingRect.set(rect) },
+                        _serialize = {},
+                        _deserialize = {}
+
+                    )
                 }
                 .map {
                     it.sizedSquare(random(25, 200))
@@ -68,7 +72,7 @@ object ProcessingTestMain {
                 .padded(20)
 
 
-            val layout2 = (IDS.size-1)
+            val layout2 = (IDS.size - 1)
                 .of {
                     val tv = EPTextView(applet, ids2.poll())
                     tv.textViewStyle.textColor = white
@@ -77,7 +81,10 @@ object ProcessingTestMain {
                     ELayoutRef(
                         tv.toRef(),
                         { size -> size },
-                        { rect -> tv.drawingRect.set(rect) })
+                        { rect -> tv.drawingRect.set(rect) },
+                        _serialize = {},
+                        _deserialize = {}
+                    )
                 }
                 .map {
                     it.sizedSquare(random(25, 200))
@@ -132,14 +139,15 @@ object ProcessingTestMain {
             var i = 0
 
             onMouseClicked {
-                if (i % 2 == 0)
+                val done = if (i % 2 == 0)
                     transition.to(layout2, bounds = eframe)
                 else
                     transition.to(layout1, bounds = eframe)
-                i++
+                if (done)
+                    i++
             }
 
-            coroutineDelayed(100){
+            coroutineDelayed(100) {
                 transition.to(layout1, bounds = eframe)
             }
             onDraw {
