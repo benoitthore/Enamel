@@ -28,13 +28,14 @@ Sorted by priority order:
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 # DONE
-
 ## Make ELayout childLayouts mutable internally only
 ## Move ELayoutSerializer implementation into ELayout (ELayout should have a default empty constructor and de/serialize methods)
 ## Split ELayoutDataStore into Parser/Writer
 ## Make Parser/Writer interfaces
 ## Provide implementations for storing using List<Number> 
 ## Refactor Playground to work with new serialization
+
+
 
 # ONGOING
 ## Refactor EPView so they work like Android ViewGroup
