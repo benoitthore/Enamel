@@ -35,6 +35,8 @@ dependencies {
 
     // KTOR
     implementation ktor.core
+    implementation ktor.netty
+    implementation ktor.cio
     implementation ktor.html
 
     implementation 'com.squareup:gifencoder:0.9.1'

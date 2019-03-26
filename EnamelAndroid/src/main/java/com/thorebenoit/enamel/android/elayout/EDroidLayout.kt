@@ -5,18 +5,26 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.view.children
 import com.thorebenoit.enamel.android.dsl.views.backgroundColor
 import com.thorebenoit.enamel.android.dsl.views.textColor
 import com.thorebenoit.enamel.android.dsl.views.textView
 import com.thorebenoit.enamel.kotlin.core.color.*
+import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
+import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRefObject
+import com.thorebenoit.enamel.kotlin.threading.coroutine
+import kotlinx.coroutines.io.jvm.javaio.toByteReadChannel
+import java.net.ServerSocket
+import java.util.*
 
 fun <T : View> List<T>.laidIn(frame: EDroidLayout): List<ELayoutRef<T>> = map { it.laidIn(frame) }
 
@@ -52,6 +60,16 @@ fun <T : View> T.laidIn(viewGroup: EDroidLayout): ELayoutRef<T> {
                 frame.right.toInt(),
                 frame.bottom.toInt()
             )
+        },
+        _serialize = { serializer ->
+            serializer.add((ref.viewRef as TextView).text.toString())
+        },
+        _deserialize = { deserializer ->
+            val text = deserializer.readString()
+            text.print
+//            viewGroup.children.forEach {
+//
+//            }
         }
     )
 }
@@ -67,6 +85,8 @@ class EDroidLayout : ViewGroup {
         backgroundColor = black
         Color.LTGRAY
         setWillNotDraw(false)
+
+        startServer()
     }
 
     val tv1 = textView("Text1") {
@@ -85,7 +105,7 @@ class EDroidLayout : ViewGroup {
         textColor = white
     }
 
-    val layout: ELayout =
+    var layout: ELayout =
 
         listOf(tv1, tv2, tv3)
             .laidIn(this)
@@ -95,8 +115,11 @@ class EDroidLayout : ViewGroup {
             .stacked(EAlignment.rightTop, spacing = 10)
             .snugged()
             .arranged(EAlignment.middle)
-//        .padded(20)
-
+        //        .padded(20)
+        set(value) {
+            field = value
+            requestLayout()
+        }
     val eframe: ERectType get() = _eframe
     private var _eframe: ERect = ERect()
 
@@ -132,3 +155,18 @@ class EDroidLayout : ViewGroup {
 }
 
 
+fun EDroidLayout.startServer() {
+
+//    coroutine {
+//        Scanner(ServerSocket(12345)
+//            .apply { reuseAddress = true }
+//            .accept().getInputStream()).use {
+//            while (it.hasNextLine()) {
+//                it.nextLine().print
+//            }
+//        }
+//    }
+//    PlaygroundServer().start {
+//        layout = it
+//    }
+}

@@ -177,13 +177,16 @@ ext {
     ]
 
     ktor = [
-            core: "io.ktor:ktor-server-netty:$ktorVersion",
-            html: "io.ktor:ktor-html-builder:$ktorVersion"
+            core: "io.ktor:ktor-server-core:$ktorVersion",
+            netty: "io.ktor:ktor-server-netty:$ktorVersion",
+            html : "io.ktor:ktor-html-builder:$ktorVersion",
+            cio  : "io.ktor:ktor-server-cio:$ktorVersion"
+
     ]
 
     room = [
-            runtime: "android.arch.persistence.room:runtime:$roomVersion",
-            coroutines:  "androidx.room:room-coroutines:2.1.0-alpha04" //https://medium.com/androiddevelopers/room-coroutines-422b786dc4c5
+            runtime   : "android.arch.persistence.room:runtime:$roomVersion",
+            coroutines: "androidx.room:room-coroutines:2.1.0-alpha04" //https://medium.com/androiddevelopers/room-coroutines-422b786dc4c5
 
     ]
 }
