@@ -36,4 +36,10 @@ class EPaddingLayout(child: ELayout = ELayoutLeaf.unit, var padding: EOffset = E
         padding = dataStore.readOffset()
         child = dataStore.readLayout()
     }
+
+    override fun toString(): String {
+        return "EPaddingLayout(padding=$padding, child=$child)"
+    }
+
+
 }

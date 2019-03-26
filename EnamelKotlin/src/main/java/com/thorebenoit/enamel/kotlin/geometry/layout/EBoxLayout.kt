@@ -52,4 +52,10 @@ class EBoxLayout(
         snugged = dataStore.readBool()
         child = dataStore.readLayout()
     }
+
+    override fun toString(): String {
+        return "EBoxLayout(alignment=$alignment, snugged=$snugged, child=$child)"
+    }
+
+
 }
