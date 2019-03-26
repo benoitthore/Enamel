@@ -19,7 +19,7 @@ class ELayoutSerializerDigital(
 
     companion object {
 
-        private val clazzes = listOf(
+        internal val clazzes = listOf(
             EBoxLayout::class.java,
             EBoxLayout::class.java,
             EDivideLayout::class.java,
@@ -35,6 +35,7 @@ class ELayoutSerializerDigital(
             { add(clazzes.indexOf(it)) },
             { clazzes[readNumber().toInt()] as Class<ELayout> }
         )
+
     }
 
     val data = LinkedList<Number>()

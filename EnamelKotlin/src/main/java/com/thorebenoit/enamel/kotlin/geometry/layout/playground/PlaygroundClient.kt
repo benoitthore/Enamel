@@ -1,6 +1,7 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout.playground
 
 import com.thorebenoit.enamel.kotlin.core.color.red
+import com.thorebenoit.enamel.kotlin.core.data.toJson
 import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.of
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
@@ -9,6 +10,8 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.EDivideLayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.digital.ELayoutSerializerDigital
 import com.thorebenoit.enamel.kotlin.network.toRequestBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -24,12 +27,12 @@ class PlaygroundClient(private val address: String = "localhost", val defaultPor
         .build()
 
     fun sendToPlayground(layout: ELayout) {
-        TODO("This code is now invalid")
-//        val url = "http://$address:$defaultPort/"
-//
-//        val json = ELayoutSerializer.serialize(layout)
-//        ELayoutSerializer.deserialize(json)
-//        client.newCall(Request.Builder().url(url).post(json.toRequestBody()).build()).execute()
+        val url = "http://$address:$defaultPort/"
+
+        val serializer = ELayoutSerializerDigital.createIntIDSerializer()
+        serializer.add(layout)
+        val json = serializer.data.toJson()
+        client.newCall(Request.Builder().url(url).post(json.toRequestBody()).build()).execute()
     }
 
 }
@@ -41,20 +44,41 @@ fun <T : ELayout> T.sendToPlayground(): T {
 }
 
 fun main() {
+    // TODO This layout can't be serialized
+//    val serializer = ELayoutSerializerDigital.createIntIDSerializer()
+//    val layout =
+//        5.of {
+//            ELayoutLeaf().sized(random(10,50),random(10,100))
+//        }
+//            .stackedRightCenter()
+////            .justified(EAlignment.leftCenter)
+//            .snugged()
+//            .arranged(EAlignment.topLeft)
+//            .padded(5)
+//
+//    serializer.add(layout)
+//
+//    serializer.toDeserializer().readLayout()
+
     val layout =
-        5.of {
-            ELayoutLeaf().sized(random(10,50),random(10,100))
-        }
-            .justified(EAlignment.leftCenter)
+        1.of { ELayoutLeaf(red) }
+            .mapIndexed { i, layout ->
+                layout.sizedSquare((i + 1) * 100)
+            }
+            .stacked(EAlignment.topLeft, spacing = 321)
             .snugged()
             .arranged(EAlignment.topLeft)
-            .padded(5)
+            .padded(20)
 
 //    val origin = ELayoutLeaf(red).sized(200, 200).arranged(EAlignment.topLeft, snugged = true)
 //    val layout = ELayoutLeaf().sized(100,100).aligned(ERectEdge.bottom, of = origin,sizedBy = EDivideLayout.Division.Fraction(0.5f))
 
     layout.sendToPlayground()
 }
+
+
+
+
 //KTS Example
 /*
 import com.thorebenoit.enamel.kotlin.core.color.*

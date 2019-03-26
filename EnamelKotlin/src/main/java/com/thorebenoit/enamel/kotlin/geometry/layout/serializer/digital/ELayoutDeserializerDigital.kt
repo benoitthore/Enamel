@@ -17,9 +17,14 @@ import java.nio.charset.Charset
 import java.util.*
 
 class ELayoutDeserializerDigital(
-    data: List<Number> = LinkedList(),
+    data: List<Number>,
     override val deserializeClazz: ELayoutDeserializer.() -> Class<ELayout> // Reads class ID from the store
 ) : ELayoutDeserializer {
+
+    companion object {
+        fun createIntIDDesrializer(data: List<Number>) =
+            ELayoutDeserializerDigital(data) { ELayoutSerializerDigital.clazzes[readNumber().toInt()] as Class<ELayout> }
+    }
 
     val data = LinkedList(data)
 
