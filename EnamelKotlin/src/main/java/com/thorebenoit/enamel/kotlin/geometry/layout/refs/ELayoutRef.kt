@@ -9,7 +9,7 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerialize
 
 import java.util.*
 
-open class ELayoutRef<V : Any>(
+class ELayoutRef<V : Any>(
     var ref: ELayoutRefObject<V>,
     private val sizeToFIt: (ESizeType) -> ESizeType,
     private val arrangeIn: (ERectType) -> Unit,

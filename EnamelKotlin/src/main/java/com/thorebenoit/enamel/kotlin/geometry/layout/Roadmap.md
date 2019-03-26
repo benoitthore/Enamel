@@ -27,23 +27,26 @@ Sorted by priority order:
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-# Ongoing
+# DONE
 
-## DONE Make ELayout childLayouts mutable internally only
-## DONE Move ELayoutSerializer implementation into ELayout (ELayout should have a default empty constructor and de/serialize methods)
-## DONE Split ELayoutDataStore into Parser/Writer
-## DONE Make Parser/Writer interfaces
-## DONE Provide implementations for storing using List<Number> 
+## Make ELayout childLayouts mutable internally only
+## Move ELayoutSerializer implementation into ELayout (ELayout should have a default empty constructor and de/serialize methods)
+## Split ELayoutDataStore into Parser/Writer
+## Make Parser/Writer interfaces
+## Provide implementations for storing using List<Number> 
+## Refactor Playground to work with new serialization
+
+# ONGOING
+Playground can send and receive layouts but there's still a few issues with serialization
+A debug/verbose serializer needs to be implemented in order to fix the remaining bugs
 
 # NEXT
-## ELayoutRef de/serialization
-Interface should be provided at the ELayoutDataStore(TBC) level
-
 ## Refactor EPView so they work like Android ViewGroup
-## Refactor Playground to work with new serialization
+ELayoutRef de/serialization needs to be implemented and called (never used atm)
+
 ## Implement Android Playground
 
-
+# MAYBE
 ## Create Web Playground (linked with Android)
 ## Create Web Playground (Using JS Canvas)
 
