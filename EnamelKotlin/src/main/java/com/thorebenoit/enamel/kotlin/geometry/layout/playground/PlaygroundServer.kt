@@ -1,7 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout.playground
 
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 import io.ktor.application.call
 import io.ktor.request.receive
 import io.ktor.routing.post

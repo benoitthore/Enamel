@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 
 class EDivideLayout(
@@ -15,22 +16,24 @@ class EDivideLayout(
     var spacing: Number = 0,
     var snugged: Boolean = true
 ) : ELayout {
+
     var slice: ELayout = slice
         set(value) {
             field = value
-            childLayouts.clear()
-            childLayouts.add(slice)
-            childLayouts.add(remainder)
+            _childLayouts.clear()
+            _childLayouts.add(slice)
+            _childLayouts.add(remainder)
         }
     var remainder: ELayout = remainder
         set(value) {
             field = value
-            childLayouts.clear()
-            childLayouts.add(slice)
-            childLayouts.add(remainder)
+            _childLayouts.clear()
+            _childLayouts.add(slice)
+            _childLayouts.add(remainder)
         }
 
-    override val childLayouts: MutableList<ELayout> = mutableListOf(slice, remainder)
+    private val _childLayouts: MutableList<ELayout> = mutableListOf(slice, remainder)
+    override val childLayouts: List<ELayout> get() = _childLayouts
 
     override fun size(toFit: ESizeType): ESizeType {
         if (snugged) {
@@ -63,6 +66,40 @@ class EDivideLayout(
         }
 
         object Slice : Division()
+    }
+
+
+
+    override fun serialize(dataStore: ELayoutDataStore) {
+        val by = by
+
+        val _a: Unit = when (by) {
+            is EDivideLayout.Division.Slice -> {
+                dataStore.add(0)
+            }
+            is EDivideLayout.Division.Distance -> {
+                dataStore.add(1)
+                dataStore.add(by.distance)
+
+            }
+            is EDivideLayout.Division.Fraction -> {
+                dataStore.add(2)
+                dataStore.add(by.fraction)
+
+            }
+        }
+        dataStore.add(edge)
+        dataStore.add(spacing)
+        dataStore.add(snugged)
+        dataStore.add(childLayouts)
+    }
+
+    override fun deserialize(dataStore: ELayoutDataStore) {
+        edge = ERectEdge.values()[dataStore.readNumber().toInt()]
+        spacing = dataStore.readNumber()
+        snugged = dataStore.readBool()
+        _childLayouts.clear()
+        _childLayouts.addAll(dataStore.readLayouts())
     }
 }
 

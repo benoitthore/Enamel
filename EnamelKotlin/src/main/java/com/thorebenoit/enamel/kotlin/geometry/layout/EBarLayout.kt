@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.thorebenoit.enamel.kotlin.geometry.alignement.*
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 
 class EBarLayout(child: ELayout = ELayoutLeaf.unit, var side: ERectEdge = ERectEdge.top) : ELayoutAlongAxis {
@@ -11,15 +12,16 @@ class EBarLayout(child: ELayout = ELayoutLeaf.unit, var side: ERectEdge = ERectE
     var child: ELayout = child
         set(value) {
             field = value
-            childLayouts.clear()
-            childLayouts.add(field)
+            _childLayouts.clear()
+            _childLayouts.add(field)
         }
 
     override val layoutAxis: ELayoutAxis
         get() = side.layoutAxis
 
 
-    override val childLayouts: MutableList<ELayout> = mutableListOf(child)
+    private val _childLayouts: MutableList<ELayout> = mutableListOf(child)
+    override val childLayouts: List<ELayout> get() = _childLayouts
 
     override fun size(toFit: ESizeType): ESizeType {
         return if (side.isHorizontal) {
@@ -36,4 +38,16 @@ class EBarLayout(child: ELayout = ELayoutLeaf.unit, var side: ERectEdge = ERectE
         )
         child.arrange(usingFrame)
     }
+
+
+    override fun serialize(dataStore: ELayoutDataStore) {
+        dataStore.add(side)
+        dataStore.add(child)
+    }
+
+    override fun deserialize(dataStore: ELayoutDataStore) {
+        side = dataStore.readRectEdge()
+        child = dataStore.readLayout()
+    }
+
 }

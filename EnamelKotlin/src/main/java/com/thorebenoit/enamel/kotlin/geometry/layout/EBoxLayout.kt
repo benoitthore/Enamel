@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDataStore
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 
 class EBoxLayout(
@@ -11,13 +12,15 @@ class EBoxLayout(
     var alignment: EAlignment = EAlignment.topLeft,
     var snugged: Boolean = false
 ) : ELayout {
+
     var child: ELayout = child
         set(value) {
             field = value
-            childLayouts.clear()
-            childLayouts.add(field)
+            _childLayouts.clear()
+            _childLayouts.add(field)
         }
-    override val childLayouts: MutableList<ELayout> = mutableListOf(child)
+    private val _childLayouts: MutableList<ELayout> = mutableListOf(child)
+    override val childLayouts: List<ELayout> get() = _childLayouts
 
     override fun size(toFit: ESizeType): ESizeType {
         return if (snugged) {
@@ -33,5 +36,19 @@ class EBoxLayout(
             size = child.size(frame.size)
         )
         child.arrange(usingFrame)
+    }
+
+
+
+    override fun serialize(dataStore: ELayoutDataStore) {
+        alignment = dataStore.readAlignment()
+        snugged = dataStore.readBool()
+        child = dataStore.readLayout()
+    }
+
+    override fun deserialize(dataStore: ELayoutDataStore) {
+        dataStore.add(alignment)
+        dataStore.add(snugged)
+        dataStore.add(child)
     }
 }
