@@ -45,10 +45,10 @@ class ETransition<V : Any>(
 
     private var isInTransition = false
 
-    fun to(newLayout: ELayout, bounds: ERectType? = null) {
+    fun to(newLayout: ELayout, bounds: ERectType? = null) : Boolean {
         if (isInTransition) {
-            "Already in transition".print
-            return
+
+            return false
         }
 
         isInTransition = true
@@ -65,7 +65,7 @@ class ETransition<V : Any>(
             }
             this.layout = newLayout
             isInTransition = false
-            return
+            return true
         }
 
         this.layout = newLayout
@@ -181,6 +181,8 @@ class ETransition<V : Any>(
             isInTransition = false
         }
 
+
+        return true
 
     }
 

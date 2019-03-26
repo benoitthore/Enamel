@@ -9,7 +9,6 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 
-// TODO color isn't set when serializing
 class ELayoutLeaf(var color: Int = randomColor()) : ELayoutAlongAxis {
 
     override var layoutAxis: ELayoutAxis = ELayoutAxis.horizontal

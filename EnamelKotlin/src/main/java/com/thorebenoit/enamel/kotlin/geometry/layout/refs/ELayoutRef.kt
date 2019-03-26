@@ -11,7 +11,7 @@ import java.util.*
 
 class ELayoutRef<V : Any>(
     var ref: ELayoutRefObject<V>,
-    private val sizeToFIt: (ESizeType) -> ESizeType,
+    private val sizeToFit: (ESizeType) -> ESizeType,
     private val arrangeIn: (ERectType) -> Unit,
     private val _serialize: ELayoutRef<V>.(ELayoutSerializer) -> Unit,
     private val _deserialize: ELayoutRef<V>.(ELayoutDeserializer) -> Unit
@@ -32,7 +32,7 @@ class ELayoutRef<V : Any>(
     val frame: ERectType get() = _frame
 
     override fun size(toFit: ESizeType): ESizeType {
-        return sizeToFIt(toFit)
+        return sizeToFit(toFit)
     }
 
     override fun arrange(frame: ERectType) {
