@@ -37,13 +37,10 @@ Sorted by priority order:
 ## Refactor Playground to work with new serialization
 
 # ONGOING
-Playground can send and receive layouts but there's still a few issues with serialization
-A debug/verbose serializer needs to be implemented in order to fix the remaining bugs
+## Refactor EPView so they work like Android ViewGroup
+## Implement EPView playground
 
 # NEXT
-## Refactor EPView so they work like Android ViewGroup
-ELayoutRef de/serialization needs to be implemented and called (never used atm)
-
 ## Implement Android Playground
 
 # MAYBE
