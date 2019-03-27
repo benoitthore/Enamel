@@ -29,7 +29,7 @@ class PlaygroundClient(private val address: String = "localhost", val defaultPor
     fun sendToPlayground(layout: ELayout) {
         val url = "http://$address:$defaultPort/"
 
-        val serializer = ELayoutSerializerDigital.createIntIDSerializer()
+        val serializer = ELayoutSerializerDigital.createIntIDSerializer { it.newInstance() }
         serializer.add(layout)
         val json = serializer.data.toJson()
         client.newCall(Request.Builder().url(url).post(json.toRequestBody()).build()).execute()
@@ -44,10 +44,10 @@ fun <T : ELayout> T.sendToPlayground(): T {
 }
 
 fun main() {
-    val serializer = ELayoutSerializerDigital.createIntIDSerializer()
+    val serializer = ELayoutSerializerDigital.createIntIDSerializer { it.newInstance() }
     val layout =
         5.of {
-            ELayoutLeaf().sized(random(10,50),random(10,100))
+            ELayoutLeaf().sized(random(10, 50), random(10, 100))
         }
             .stackedRightCenter()
 //            .justified(EAlignment.leftCenter)
@@ -74,8 +74,6 @@ fun main() {
 
     layout.sendToPlayground()
 }
-
-
 
 
 //KTS Example

@@ -13,6 +13,8 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRefObject
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.digital.ELayoutSerializerDigital
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.EChangeBoundAnimator
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.ETransition
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.SingleElementAnimator
@@ -20,10 +22,7 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.point
 import com.thorebenoit.enamel.kotlin.threading.coroutine
 import com.thorebenoit.enamel.kotlin.threading.coroutineDelayed
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
-import com.thorebenoit.enamel.processingtest.kotlinapplet.view.EPTextView
-import com.thorebenoit.enamel.processingtest.kotlinapplet.view.EPView
-import com.thorebenoit.enamel.processingtest.kotlinapplet.view.EPViewGroup
-import com.thorebenoit.enamel.processingtest.kotlinapplet.view.laidIn
+import com.thorebenoit.enamel.processingtest.kotlinapplet.view.*
 import kotlinx.coroutines.runBlocking
 import java.util.*
 
@@ -36,19 +35,36 @@ object ProcessingTestMain {
 
         PlaygroundApplet.start(400, 800) {
 
-            fun createTV() = EPTextView("123").apply {
+            fun createTV() = EPTextView("123","ABC").apply {
                 textViewStyle.backgroundColor = randomColor()
             }
 
             val viewGroup = EPViewGroup()
 
             viewGroup.layout =
+//                createTV().laidIn(viewGroup)
                 3.of {
                     createTV().laidIn(viewGroup)
                         .sized(300, 150)
                 }
                     .stackedBottomLeft()
                     .arranged(EAlignment.topCenter)
+
+            val serial = ELayoutSerializerDigital.createIntIDSerializer { clazz ->
+                if (clazz == ELayoutRef::class.java) {
+                    EmptyView().laidIn(viewGroup)
+                } else {
+                    clazz.newInstance()
+                }
+            }
+            serial.add(viewGroup.layout!!)
+
+            serial.data.print
+
+            // TODO This is required to add the view into the parent's children for deserialization, find a better solution
+            viewGroup.onLayout(eframe)
+            viewGroup.layout = serial.toDeserializer().readLayout()
+
 
             onDraw {
                 viewGroup.onLayout(eframe)

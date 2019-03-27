@@ -8,6 +8,7 @@ class ELayoutRefObject<V : Any>(
     private val removeFromParent: V.() -> Unit,
     val isSameView: (V) -> Boolean
 ) {
+
     fun addToParent() {
         apply {
             viewRef.addToParent()

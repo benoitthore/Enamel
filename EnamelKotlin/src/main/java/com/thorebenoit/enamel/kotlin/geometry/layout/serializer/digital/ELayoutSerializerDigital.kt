@@ -5,6 +5,7 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.layout.*
+import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
@@ -14,7 +15,8 @@ import java.util.*
 
 class ELayoutSerializerDigital(
     override val serializeClazz: ELayoutSerializer.(Class<out ELayout>) -> Unit,
-    override val deserializeClazz: ELayoutDeserializer.() -> Class<ELayout>
+    override val deserializeClazz: ELayoutDeserializer.() -> Class<ELayout>,
+    override val newInstance: (Class<ELayout>) -> ELayout
 ) : ELayoutSerializer {
 
     companion object {
@@ -28,19 +30,27 @@ class ELayoutSerializerDigital(
             EPaddingLayout::class.java, // 5
             ESizingLayout::class.java, // 6
             ESnuggingLayout::class.java, // 7
-            EStackLayout::class.java // 8
+            EStackLayout::class.java, // 8
+            ELayoutRef::class.java // 9
         )
 
-        fun createIntIDSerializer() = ELayoutSerializerDigital(
-            { add(clazzes.indexOf(it)) },
-            { clazzes[readNumber().toInt()] as Class<ELayout> }
+        fun createIntIDSerializer(newInstance: (Class<ELayout>) -> ELayout) = ELayoutSerializerDigital(
+            serializeClazz = {
+                val index = clazzes.indexOf(it)
+                if (index < 0) {
+                    throw Exception("Cannot serialize $it")
+                }
+                add(index)
+            },
+            deserializeClazz = { clazzes[readNumber().toInt()] as Class<ELayout> },
+            newInstance = newInstance
         )
 
     }
 
     val data = LinkedList<Number>()
 
-    override fun toDeserializer(): ELayoutDeserializer = ELayoutDeserializerDigital(data, deserializeClazz)
+    override fun toDeserializer(): ELayoutDeserializer = ELayoutDeserializerDigital(data, deserializeClazz, newInstance)
 
     override fun add(layouts: List<ELayout>) {
         add(layouts.size)

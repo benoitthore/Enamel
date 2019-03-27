@@ -16,6 +16,8 @@ interface ELayoutDeserializer {
 
     val deserializeClazz: ELayoutDeserializer.() -> Class<ELayout>
 
+    val newInstance: (Class<ELayout>) -> ELayout
+
     fun readLayouts(): List<ELayout>
 
     fun readLayout(): ELayout
