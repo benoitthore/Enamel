@@ -38,7 +38,7 @@ Sorted by priority order:
 
 
 # ONGOING
-## Refactor EPView so they work like Android ViewGroup
+## Refactor EPView so they work like Android ViewGroup, using EDroidLayout as an example
 ## Implement EPView playground
 ## Add ETransition to EPView playground
 

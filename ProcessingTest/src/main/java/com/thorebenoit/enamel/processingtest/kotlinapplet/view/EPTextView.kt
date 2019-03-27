@@ -7,8 +7,7 @@ import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.pushPop
 import processing.core.PConstants
 
 
-open class EPTextView(applet: KotlinPAppletLambda, var text: String) : EPView(applet) {
-    override var isAdded: Boolean = false
+open class EPTextView(var text: String, tag: String? = null) : EPView(tag) {
 
 
     open class TextViewStyle(
@@ -22,7 +21,7 @@ open class EPTextView(applet: KotlinPAppletLambda, var text: String) : EPView(ap
     var textViewStyle: TextViewStyle =
         TextViewStyle()
 
-    override fun onDraw() {
+    override fun onDraw(applet: KotlinPAppletLambda) {
 
         applet.pushPop {
 

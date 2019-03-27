@@ -41,52 +41,52 @@ class PlaygroundApplet : KotlinPAppletLambda() {
 
 fun main() {
 
-    PlaygroundApplet.start(800, 800) {
-
-
-        onDraw {
-
-            background(255)
-
-            val serializer = ELayoutSerializerDigital.createIntIDSerializer()
-            val layout =
-                2.of {
-                    ELayoutLeaf(com.thorebenoit.enamel.kotlin.core.color.red)
-                        .sized(250, 250)
-                }
-                    .stackedRightCenter()
-                    .snugged()
-                    .arranged(EAlignment.topLeft)
-                    .padded(5)
-
-            serializer.add(layout)
-            layout.arrange(eframe)
-//            layout.draw()
-
-            serializer.toDeserializer().readLayout().let { layout2 ->
-                layout2.arrange(eframe)
-
-                layout.print
-                layout2.print
-
-                layout2.draw()
-                ""
-            }
-
-            noLoop()
-        }
-    }
-
 //    PlaygroundApplet.start(800, 800) {
-//        var layout: ELayout? = null
-//        PlaygroundServer().start {
-//            layout = it
-//            it.print
-//        }
+//
+//
 //        onDraw {
+//
 //            background(255)
-//            layout?.arrange(eframe)
-//            layout?.draw()
+//
+//            val serializer = ELayoutSerializerDigital.createIntIDSerializer()
+//            val layout =
+//                2.of {
+//                    ELayoutLeaf(com.thorebenoit.enamel.kotlin.core.color.red)
+//                        .sized(250, 250)
+//                }
+//                    .stackedRightCenter()
+//                    .snugged()
+//                    .arranged(EAlignment.topLeft)
+//                    .padded(5)
+//
+//            serializer.add(layout)
+//            layout.arrange(eframe)
+////            layout.draw()
+//
+//            serializer.toDeserializer().readLayout().let { layout2 ->
+//                layout2.arrange(eframe)
+//
+//                layout.print
+//                layout2.print
+//
+//                layout2.draw()
+//                ""
+//            }
+//
+//            noLoop()
 //        }
 //    }
+
+    PlaygroundApplet.start(800, 800) {
+        var layout: ELayout? = null
+        PlaygroundServer().start {
+            layout = it
+            it.print
+        }
+        onDraw {
+            background(255)
+            layout?.arrange(eframe)
+            layout?.draw()
+        }
+    }
 }

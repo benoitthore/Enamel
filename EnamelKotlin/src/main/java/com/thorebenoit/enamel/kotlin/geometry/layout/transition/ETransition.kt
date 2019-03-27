@@ -1,6 +1,9 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout.transition
 
+import com.thorebenoit.enamel.kotlin.core.math.d
+import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.print
+import com.thorebenoit.enamel.kotlin.core.time.ETimerAnimator
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
@@ -8,36 +11,34 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getAllChildren
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getRefs
 import com.thorebenoit.enamel.kotlin.threading.coroutine
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import java.lang.Exception
 
+val defaultDoAnim: suspend (Long, (Float) -> Unit) -> Unit = { duration, animator ->
+    val timer = ETimerAnimator(duration)
+
+    timer.start()
+    while (timer.progress < 1f) {
+        val progress = Math.min(timer.progress.d, 1.0).f
+        animator(progress)
+        delay(8)
+    }
+    animator(1f)
+
+}
 
 /**
- *  DONE - getEnterAnimation and getExitAnimation should take old and new bounds
-
 // TODO
- *  - Create playground version for transition:
- *      -Refactor serialization using fully mutable layouts, child being leafs when constructor just been called
- *
- *      - Should de/serialize be in ELayout or in a separate class?
- *          Needs to be in a separate class for binding
- *          In any case, ELayout should have a default empty constructor
- *
- *      -Find a way to create the appropriate child layout when deserializing
- *          (De)Serialize using an object, this object contains a map with IDs for the different layouts and can create them
- *
- *      Find a way to (de)serialize ELayoutRef across platforms
-
-
  *  - return transition object that contains the code of that runs on executeOnUiThread
  *  -
  *  - Improve performance
  */
 class ETransition<V : Any>(
     val executeOnUiThread: (suspend CoroutineScope.() -> Unit) -> Unit,
-    val doAnimation: suspend (Long, (Float) -> Unit) -> Unit,
+    val doAnimation: suspend (Long, (Float) -> Unit) -> Unit = defaultDoAnim,
     val getEnterAnimation: (ELayoutRef<V>, ERectType) -> SingleElementAnimator<V>,
     val getExitAnimation: (ELayoutRef<V>, ERectType) -> SingleElementAnimator<V>,
-    val getUpdateAnimation: UpdateAnimator.Builder<V>,
+    val getUpdateAnimation: UpdateAnimator.Builder<V> = EChangeBoundAnimator.getBuilder(),
     var bounds: ERectType? = null
 ) {
 
@@ -45,7 +46,7 @@ class ETransition<V : Any>(
 
     private var isInTransition = false
 
-    fun to(newLayout: ELayout, bounds: ERectType? = null) : Boolean {
+    fun to(newLayout: ELayout, bounds: ERectType? = null): Boolean {
         if (isInTransition) {
 
             return false

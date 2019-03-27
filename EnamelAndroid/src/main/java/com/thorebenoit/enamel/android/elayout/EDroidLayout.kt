@@ -45,7 +45,7 @@ fun <T : View> T.laidIn(viewGroup: EDroidLayout): ELayoutRef<T> {
             },
             isSameView = { this.tag == it.tag }
         ),
-        sizeToFIt = { size ->
+        sizeToFit = { size ->
             view.measure(
                 View.MeasureSpec.makeMeasureSpec(size.width.toInt(), View.MeasureSpec.AT_MOST),
                 View.MeasureSpec.makeMeasureSpec(size.height.toInt(), View.MeasureSpec.AT_MOST)
