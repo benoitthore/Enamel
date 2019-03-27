@@ -16,6 +16,7 @@ class ELayoutRef<V : Any>(
     private val _serialize: ELayoutRef<V>.(ELayoutSerializer) -> Unit,
     private val _deserialize: ELayoutRef<V>.(ELayoutDeserializer) -> Unit
 ) : ELayout {
+
     override fun serialize(dataStore: ELayoutSerializer) {
         _serialize(dataStore)
     }

@@ -26,7 +26,7 @@ class PlaygroundServer {
         val mapper = ignoreUnknownObjectMapper()
         embeddedServer(Netty, port = port) {
             routing {
-                get("/test"){
+                get("/test") {
                     call.respondText { "Working" }
                 }
                 post("/") {
@@ -35,7 +35,7 @@ class PlaygroundServer {
                         val data = mapper.readValue<List<Number>>(json)
 
                         println("SOCKET-IN: $data")
-                        val layout = ELayoutDeserializerDigital.createIntIDDesrializer(data)
+                        val layout = ELayoutDeserializerDigital.createIntIDDesrializer(data) { it.newInstance() }
                         onNewLayout(layout.readLayout())
                     } catch (e: Throwable) {
                         System.err.println(e)

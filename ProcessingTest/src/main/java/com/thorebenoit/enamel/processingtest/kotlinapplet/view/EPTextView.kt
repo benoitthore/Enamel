@@ -7,7 +7,7 @@ import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.pushPop
 import processing.core.PConstants
 
 
-open class EPTextView(var text: String, tag: String? = null) : EPView(tag) {
+open class EPTextView(var text: String, tag: String) : EPView(tag) {
 
 
     open class TextViewStyle(

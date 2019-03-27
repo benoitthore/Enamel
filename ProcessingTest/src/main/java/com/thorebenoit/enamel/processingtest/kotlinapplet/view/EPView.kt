@@ -8,6 +8,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRefObject
+import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getRefs
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPAppletLambda
 
 
@@ -32,6 +33,12 @@ abstract class EPView(var tag: String?) {
     abstract fun onDraw(applet: KotlinPAppletLambda)
 }
 
+class EmptyView : EPView(null) {
+    override fun onDraw(applet: KotlinPAppletLambda) {
+
+    }
+
+}
 
 class EPViewGroup(tag: String? = null) : EPView(tag) {
 
@@ -53,22 +60,27 @@ class EPViewGroup(tag: String? = null) : EPView(tag) {
 }
 
 
+fun <T : EPView> T.createLayoutRef(parent: EPViewGroup): ELayoutRefObject<T> {
+    val view = this
+    return ELayoutRefObject(
+        viewRef = view,
+        addToParent = {
+            parent.children.add(view)
+        },
+        removeFromParent = {
+            parent.children.remove(view)
+        },
+        isSameView = { this.tag != null && this.tag == it.tag }
+    )
+}
+
+
 fun <T : EPView> T.laidIn(parent: EPViewGroup): ELayoutRef<T> {
     val view = this
     val sizeBuffer = ESize()
 
     return ELayoutRef(
-        ELayoutRefObject(
-            viewRef = view,
-            addToParent = {
-
-                parent.children.add(view)
-            },
-            removeFromParent = {
-                parent.children.remove(view)
-            },
-            isSameView = { this.tag != null && this.tag == it.tag }
-        ),
+        view.createLayoutRef(parent),
         sizeToFit = { size ->
             //            view.measure(
 //                View.MeasureSpec.makeMeasureSpec(size.width.toInt(), View.MeasureSpec.AT_MOST),
@@ -81,10 +93,24 @@ fun <T : EPView> T.laidIn(parent: EPViewGroup): ELayoutRef<T> {
             view.onLayout(frame)
         },
         _serialize = { serializer ->
-            TODO("Serializer not implemented")
+            view.tag?.let {
+                serializer.add(true)
+                serializer.add(it)
+            } ?: run {
+                serializer.add(false)
+            }
         },
         _deserialize = { deserializer ->
-            TODO("Serializer not implemented")
+            val hasView = deserializer.readBool()
+            if (hasView) {
+                val tag = deserializer.readString()
+                val layout = parent.layout!!
+
+                val newView: T = parent.children.find { it.tag == tag } as T
+
+                ref.removeFromParent()
+                ref = newView.createLayoutRef(parent)
+            }
         }
     )
 }

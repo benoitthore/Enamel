@@ -10,6 +10,7 @@ import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 interface ELayoutSerializer {
     val serializeClazz: ELayoutSerializer.(Class<out ELayout>) -> Unit
     val deserializeClazz: ELayoutDeserializer.() -> Class<ELayout>
+    val newInstance: (Class<ELayout>) -> ELayout
 
     fun add(layouts: List<ELayout>)
 

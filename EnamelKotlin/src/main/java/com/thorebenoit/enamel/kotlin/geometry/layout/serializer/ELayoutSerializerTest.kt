@@ -12,10 +12,10 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.digital.ELayoutS
 
 fun main() {
 
-    val serializer = ELayoutSerializerDigital.createIntIDSerializer()
+    val serializer = ELayoutSerializerDigital.createIntIDSerializer { it.newInstance() }
     val layout =
         2.of {
-            ELayoutLeaf(red).sized(123,123)
+            ELayoutLeaf(red).sized(123, 123)
         }
 //            .stackedRightCenter()
             .justified(EAlignment.leftCenter)

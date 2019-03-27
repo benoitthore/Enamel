@@ -18,12 +18,17 @@ import java.util.*
 
 class ELayoutDeserializerDigital(
     data: List<Number>,
-    override val deserializeClazz: ELayoutDeserializer.() -> Class<ELayout> // Reads class ID from the store
+    override val deserializeClazz: ELayoutDeserializer.() -> Class<ELayout>, // Reads class ID from the store
+    override val newInstance: (Class<ELayout>) -> ELayout
 ) : ELayoutDeserializer {
 
     companion object {
-        fun createIntIDDesrializer(data: List<Number>) =
-            ELayoutDeserializerDigital(data) { ELayoutSerializerDigital.clazzes[readNumber().toInt()] as Class<ELayout> }
+        fun createIntIDDesrializer(data: List<Number>, newInstance: (Class<ELayout>) -> ELayout) =
+            ELayoutDeserializerDigital(
+                data = data,
+                newInstance = newInstance,
+                deserializeClazz = { ELayoutSerializerDigital.clazzes[readNumber().toInt()] as Class<ELayout> }
+            )
     }
 
     val data = LinkedList(data)
@@ -36,7 +41,7 @@ class ELayoutDeserializerDigital(
 
     override fun readLayout(): ELayout {
         val layoutClazz = deserializeClazz()
-        val instance = layoutClazz.newInstance()
+        val instance = newInstance(layoutClazz)
         instance.deserialize(this)
         return instance
     }
@@ -72,6 +77,6 @@ class ELayoutDeserializerDigital(
     )
 
 
-    override fun readSize() = ESize(readNumber(),readNumber())
+    override fun readSize() = ESize(readNumber(), readNumber())
 
 }
