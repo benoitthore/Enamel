@@ -239,14 +239,9 @@ abstract class KotlinPApplet : PApplet() {
         return this
     }
 
-    open fun ELayoutRef<EPView>.draw(): ELayoutRef<EPView> {
-        this.ref.viewRef.draw()
-        return this
-    }
     open fun <T : ELayout> T.draw(): T {
         childLayouts.forEach {
             (it as? ELayoutLeaf)?.draw()
-            (it as? ELayoutRef<EPView>)?.draw()
             it.draw()
         }
         return this

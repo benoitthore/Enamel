@@ -4,7 +4,7 @@ import com.thorebenoit.enamel.kotlin.core.math.Scale
 import com.thorebenoit.enamel.kotlin.core.math.f
 
 
-class ETimerAnimator : ETimer() {
+class ETimerAnimator(duration: Long = 1000L) : ETimer() {
     enum class RepeatMode {
         REVERSE, RESTART, NONE
     }
@@ -12,7 +12,7 @@ class ETimerAnimator : ETimer() {
 
     var repeatMode: RepeatMode = RepeatMode.NONE
 
-    var duration = 1_000L
+    var duration = duration
         set(value) {
             field = value
             start()
