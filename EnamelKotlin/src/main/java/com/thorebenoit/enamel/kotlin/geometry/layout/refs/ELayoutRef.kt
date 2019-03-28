@@ -41,8 +41,8 @@ class ELayoutRef<V : Any>(
     override fun arrange(frame: ERectType) {
         _frame.set(frame)
         if (!isInMeasureMode) {
-            arrangeIn(frame)
             ref.addToParent()
+            arrangeIn(frame)
         }
     }
 }

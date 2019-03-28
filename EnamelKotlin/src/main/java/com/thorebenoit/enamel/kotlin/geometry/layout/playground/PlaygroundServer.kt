@@ -43,6 +43,7 @@ class PlaygroundServer {
                         onNewLayout(layout.readLayout())
                     } catch (e: Throwable) {
                         System.err.println(e)
+                        throw e
                     }
                 }
             }

@@ -38,11 +38,40 @@ class PlaygroundClient(private val address: String = "localhost", val defaultPor
 }
 
 
-fun <T : ELayout> T.sendToPlayground(): T {
-    PlaygroundClient.defaultClient.sendToPlayground(this)
+fun <T : ELayout> T.sendToPlayground(playground: PlaygroundClient = PlaygroundClient.defaultClient): T {
+    playground.sendToPlayground(this)
     return this
 }
 
+//////////////////
+//////////////////
+//////////////////
+//////////////////
+
+private val kotlin.Number.dp get() = toFloat() * 3
 fun main() {
+
+
+    val pgAndroid = PlaygroundClient("192.168.2.149")
+    val pgProcessing = PlaygroundClient.defaultClient
+
+    PlaygroundClient.defaultClient = pgAndroid
+
+    val list = listOf("A", "B", "C")
+//val list = listOf<String>()
+
+    list
+//    .shuffled()
+//    .subList(0, random(list.size).i + 1)
+        .layoutTag
+        .map {
+            it.sized(random(50, 150).dp, random(50, 150).dp)
+        }
+        .stackedRightCenter()
+        .snugged()
+        .arranged(EAlignment.topLeft)
+//    .padded(left = 20.dp)
+        .sendToPlayground(pgProcessing)
+        .sendToPlayground(pgAndroid)
 
 }
