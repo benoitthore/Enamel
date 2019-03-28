@@ -30,19 +30,19 @@ class MainActivity : AppCompatActivity() {
                 customView<EDroidLayout>()
                 backgroundColor = black
 
-                (0 until 50).forEach {
-                    customView<EDroidLayout>().frameLayoutLP {
-                        width = random(0, screenSize.width).toInt()
-                        height = random(0, screenSize.height).toInt()
-
-                        setMargins(
-                            random(-screenSize.width / 2, screenSize.width).toInt(),
-                            random(-screenSize.height / 2, screenSize.height).toInt(),
-                            0,
-                            0
-                        )
-                    }
-                }
+//                (0 until 50).forEach {
+//                    customView<EDroidLayout>().frameLayoutLP {
+//                        width = random(0, screenSize.width).toInt()
+//                        height = random(0, screenSize.height).toInt()
+//
+//                        setMargins(
+//                            random(-screenSize.width / 2, screenSize.width).toInt(),
+//                            random(-screenSize.height / 2, screenSize.height).toInt(),
+//                            0,
+//                            0
+//                        )
+//                    }
+//                }
             }
         )
 
