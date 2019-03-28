@@ -34,16 +34,19 @@ Sorted by priority order:
 ## Make Parser/Writer interfaces
 ## Provide implementations for storing using List<Number> 
 ## Refactor Playground to work with new serialization
+## Refactor EPView so they work like Android ViewGroup, using EDroidLayout as an example
+## Implement EPView playground
+## Add ETransition to EPView playground
+## Implement Android Playground
 
 
 
 # ONGOING
-## Refactor EPView so they work like Android ViewGroup, using EDroidLayout as an example
-## Implement EPView playground
-## Add ETransition to EPView playground
+## Refactor serialisation to use JSONObject 
 
 # NEXT
-## Implement Android Playground
+## Fix IP Address bug on emulator
+## Fix android TV bug with Gravity.CENTER
 
 # MAYBE
 ## Create Web Playground (linked with Android)
