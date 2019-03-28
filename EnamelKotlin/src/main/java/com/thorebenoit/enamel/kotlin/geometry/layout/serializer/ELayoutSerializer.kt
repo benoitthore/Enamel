@@ -15,6 +15,7 @@ interface ELayoutSerializer {
     fun add(layouts: List<ELayout>)
 
     fun add(layout: ELayout)
+    fun serialize(layout: ELayout) = add(layout)
 
     fun add(n: Number)
 

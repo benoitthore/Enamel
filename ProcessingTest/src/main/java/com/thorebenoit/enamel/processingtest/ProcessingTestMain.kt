@@ -33,46 +33,7 @@ object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        PlaygroundApplet.start(400, 800) {
 
-            fun createTV() = EPTextView("123","ABC").apply {
-                textViewStyle.backgroundColor = randomColor()
-            }
-
-            val viewGroup = EPViewGroup()
-
-            viewGroup.layout =
-//                createTV().laidIn(viewGroup)
-                3.of {
-                    createTV().laidIn(viewGroup)
-                        .sized(300, 150)
-                }
-                    .stackedBottomLeft()
-                    .arranged(EAlignment.topCenter)
-
-            val serial = ELayoutSerializerDigital.createIntIDSerializer { clazz ->
-                if (clazz == ELayoutRef::class.java) {
-                    EmptyView().laidIn(viewGroup)
-                } else {
-                    clazz.newInstance()
-                }
-            }
-            serial.add(viewGroup.layout!!)
-
-            serial.data.print
-
-            // TODO This is required to add the view into the parent's children for deserialization, find a better solution
-            viewGroup.onLayout(eframe)
-            viewGroup.layout = serial.toDeserializer().readLayout()
-
-
-            onDraw {
-                viewGroup.onLayout(eframe)
-
-                background(255)
-                viewGroup.onDraw(this)
-            }
-        }
     }
 
 }

@@ -5,11 +5,13 @@ import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
+import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRefObject
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getRefs
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPAppletLambda
+import java.util.concurrent.ConcurrentHashMap
 
 
 //val <T : EPView> T.layoutRef: ELayoutRef<T> by ExtraValueHolder {
@@ -31,6 +33,7 @@ abstract class EPView(var tag: String?) {
     }
 
     abstract fun onDraw(applet: KotlinPAppletLambda)
+    open fun onMeasure(size: ESizeType) = size
 }
 
 class EmptyView : EPView(null) {
@@ -42,9 +45,10 @@ class EmptyView : EPView(null) {
 
 class EPViewGroup(tag: String? = null) : EPView(tag) {
 
+    val viewList = mutableSetOf<EPView>()
     var layout: ELayout? = null
 
-    val children = mutableSetOf<EPView>()
+    val children: MutableSet<EPView> = ConcurrentHashMap.newKeySet()
 
     override fun onLayout(frame: ERectType) {
         super.onLayout(frame)
@@ -60,7 +64,7 @@ class EPViewGroup(tag: String? = null) : EPView(tag) {
 }
 
 
-fun <T : EPView> T.createLayoutRef(parent: EPViewGroup): ELayoutRefObject<T> {
+private fun <T : EPView> T.createLayoutRef(parent: EPViewGroup): ELayoutRefObject<T> {
     val view = this
     return ELayoutRefObject(
         viewRef = view,
@@ -76,24 +80,18 @@ fun <T : EPView> T.createLayoutRef(parent: EPViewGroup): ELayoutRefObject<T> {
 
 
 fun <T : EPView> T.laidIn(parent: EPViewGroup): ELayoutRef<T> {
-    val view = this
     val sizeBuffer = ESize()
 
     return ELayoutRef(
-        view.createLayoutRef(parent),
+        this.createLayoutRef(parent),
         sizeToFit = { size ->
-            //            view.measure(
-//                View.MeasureSpec.makeMeasureSpec(size.width.toInt(), View.MeasureSpec.AT_MOST),
-//                View.MeasureSpec.makeMeasureSpec(size.height.toInt(), View.MeasureSpec.AT_MOST)
-//            )
-//            sizeBuffer.set(view.measuredWidth, view.measuredHeight)
-            size
+            ref.viewRef.onMeasure(size)
         },
         arrangeIn = { frame ->
-            view.onLayout(frame)
+            ref.viewRef.onLayout(frame)
         },
         _serialize = { serializer ->
-            view.tag?.let {
+            ref.viewRef.tag?.let {
                 serializer.add(true)
                 serializer.add(it)
             } ?: run {
@@ -101,16 +99,13 @@ fun <T : EPView> T.laidIn(parent: EPViewGroup): ELayoutRef<T> {
             }
         },
         _deserialize = { deserializer ->
-            val hasView = deserializer.readBool()
-            if (hasView) {
-                val tag = deserializer.readString()
-                val layout = parent.layout!!
+            // TODO The issue here is that readString corresponds to ELayoutTag add(String) and both aren't really linked in anyway. It's not "safe" no future proof
+            val tag = deserializer.readString()
 
-                val newView: T = parent.children.find { it.tag == tag } as T
+            val newView: T = parent.viewList.find { it.tag == tag } as T
 
-                ref.removeFromParent()
-                ref = newView.createLayoutRef(parent)
-            }
+            ref.removeFromParent()
+            ref = newView.createLayoutRef(parent)
         }
     )
 }
