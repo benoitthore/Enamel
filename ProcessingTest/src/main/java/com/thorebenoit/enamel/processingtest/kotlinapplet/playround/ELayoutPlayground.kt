@@ -1,76 +1,106 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet.playround
 
+import com.thorebenoit.enamel.kotlin.animations.lerp
+import com.thorebenoit.enamel.kotlin.core.color.randomColor
 import com.thorebenoit.enamel.kotlin.core.of
 import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.kotlin.geometry.figures.size
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
+import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
+import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
+import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.arranged
+import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.layoutTag
+import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.sized
+import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.stackedBottomLeft
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.sendToPlayground
-import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
-import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPAppletLambda
+import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
+import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutTag
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.digital.ELayoutSerializerDigital
+import com.thorebenoit.enamel.kotlin.geometry.layout.transition.ETransition
+import com.thorebenoit.enamel.kotlin.geometry.layout.transition.SingleElementAnimator
+import com.thorebenoit.enamel.kotlin.threading.coroutine
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment.*
-import com.thorebenoit.enamel.kotlin.core.color.*
-import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
-import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
-
-val _layout = 3.of { ELayoutLeaf() }
-    .mapIndexed { i, layout ->
-        layout.sizedSquare((i + 1) * 100)
-    }
-    .stacked(EAlignment.rightTop, spacing = 10)
-    .snugged()
-    .arranged(EAlignment.topLeft)
-    .padded(20)
-
-
-//val _layout = ELayoutLeaf().arranged(EAlignment.middle)
-
-class ELayoutPlayground : KotlinPAppletLambda() {
-
-    private var layout: ELayout = _layout
-
-    init {
-
-        PlaygroundServer().start {
-            this.layout.print
-            it.print
-            this.layout = it
-        }
-
-        onDraw {
-            background(255)
-            layout.arrange(eframe)
-            layout.draw()
-        }
-    }
-
-
-}
+import com.thorebenoit.enamel.processingtest.kotlinapplet.view.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 
 fun main() {
-//
-//    KotlinPApplet.createApplet<ELayoutPlayground>(800 size 800)
-//
-//    _layout.sendToPlayground()
+    startEPViewPlayground(
+        setOf(
+            EPTextView("Label A", "A").apply { textViewStyle.backgroundColor = randomColor() },
+            EPTextView("Label B", "B").apply { textViewStyle.backgroundColor = randomColor() },
+            EPTextView("Label C", "C").apply { textViewStyle.backgroundColor = randomColor() },
+            EPTextView("Label D", "D").apply { textViewStyle.backgroundColor = randomColor() }
+        )
+    )
+    /* EXAMPLE CODE:
+    val list = listOf("A", "B", "C", "D")
 
-    PlaygroundApplet.start(800, 800) {
+    list
+        .shuffled()
+    //    .subList(0, random(list.size).i + 1)
+        .layoutTag
+        .map {
+            it.sized(random(100, 200), 150)
+        }
+        .stackedBottomRight()
+        .arranged(EAlignment.topLeft)
+        .sendToPlayground()
 
-        onDraw {
-            background(255)
-            noFill()
-            stroke(red)
-            val rect = eframe.inset(100).draw()
-            EAlignment.all.forEach {
-                rect.rectAlignedOutside(it, ESizeType.square(20), spacing = 10).draw()
+     */
+}
+
+fun startEPViewPlayground(viewList: Set<EPView>) = PlaygroundApplet.start(400, 800) {
+
+    val viewGroup = EPViewGroup()
+    viewGroup.viewList.addAll(viewList)
+
+    val originFrame = ERectType()
+    val transition = ETransition<EPView>(
+        executeOnUiThread = { coroutine(it) },
+        getExitAnimation = { ref, rect ->
+            object : SingleElementAnimator<EPView>(ref, rect) {
+                val buffer = ERect()
+                override fun animateTo(progress: Float) {
+                    ref.ref.viewRef.onLayout(buffer.lerp(progress, rect, originFrame))
+                }
+
             }
+        },
+        getEnterAnimation = { ref, rect ->
+            object : SingleElementAnimator<EPView>(ref, rect) {
+                val buffer = ERect()
+                override fun animateTo(progress: Float) {
+                    ref.ref.viewRef.onLayout(buffer.lerp(progress, originFrame, rect))
+                }
 
+            }
         }
 
+    )
+
+    PlaygroundServer().start(
+        newInstance = { clazz ->
+            if (clazz == ELayoutTag::class.java) {
+                EmptyView().laidIn(viewGroup)
+            } else {
+                clazz.newInstance()
+            }
+        },
+        onNewLayout = {
+            //            viewGroup.layout = it
+//            viewGroup.onLayout(eframe)
+            transition.to(it, eframe)
+        }
+    )
+
+    frame.isResizable = true
+
+    onDraw {
+        background(255)
+
+        viewGroup.onDraw(this)
     }
 
 }

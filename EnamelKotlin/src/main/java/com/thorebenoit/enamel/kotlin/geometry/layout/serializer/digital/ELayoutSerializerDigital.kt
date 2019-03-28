@@ -6,6 +6,7 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.layout.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
+import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutTag
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
@@ -31,7 +32,8 @@ class ELayoutSerializerDigital(
             ESizingLayout::class.java, // 6
             ESnuggingLayout::class.java, // 7
             EStackLayout::class.java, // 8
-            ELayoutRef::class.java // 9
+            ELayoutRef::class.java,// 9
+            ELayoutTag::class.java // 10
         )
 
         fun createIntIDSerializer(newInstance: (Class<ELayout>) -> ELayout) = ELayoutSerializerDigital(

@@ -19,10 +19,14 @@ import io.ktor.server.netty.Netty
 
 class PlaygroundServer {
     companion object {
-        val defaultPort = 8080
+        val defaultPort = 9327
     }
 
-    fun start(port: Int = defaultPort, onNewLayout: (ELayout) -> Unit) {
+    fun start(
+        port: Int = defaultPort,
+        newInstance: (Class<ELayout>) -> ELayout = { it.newInstance() },
+        onNewLayout: (ELayout) -> Unit
+    ) {
         val mapper = ignoreUnknownObjectMapper()
         embeddedServer(Netty, port = port) {
             routing {
@@ -35,7 +39,7 @@ class PlaygroundServer {
                         val data = mapper.readValue<List<Number>>(json)
 
                         println("SOCKET-IN: $data")
-                        val layout = ELayoutDeserializerDigital.createIntIDDesrializer(data) { it.newInstance() }
+                        val layout = ELayoutDeserializerDigital.createIntIDDesrializer(data, newInstance)
                         onNewLayout(layout.readLayout())
                     } catch (e: Throwable) {
                         System.err.println(e)

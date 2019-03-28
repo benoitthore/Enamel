@@ -153,7 +153,7 @@ class ETransition<V : Any>(
 
             "Start: View OUT".print
             // OUT
-            doAnimation(100L) { progress ->
+            doAnimation(333L) { progress ->
                 outAnimations.forEach { animator -> animator.animateTo(progress) }
             }
             oldRefs.forEach {
@@ -174,7 +174,7 @@ class ETransition<V : Any>(
 
             inAnimations.forEach { animator -> animator.animateTo(0f) }
             newLayout.arrange(bounds)
-            doAnimation(100L) { progress ->
+            doAnimation(333L) { progress ->
                 inAnimations.forEach { animator -> animator.animateTo(progress) }
             }
             "Animation done".print
