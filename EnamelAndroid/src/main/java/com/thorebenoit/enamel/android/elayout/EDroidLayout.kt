@@ -157,16 +157,7 @@ class EDroidLayout : ViewGroup {
 
 fun EDroidLayout.startServer() {
 
-//    coroutine {
-//        Scanner(ServerSocket(12345)
-//            .apply { reuseAddress = true }
-//            .accept().getInputStream()).use {
-//            while (it.hasNextLine()) {
-//                it.nextLine().print
-//            }
-//        }
-//    }
-//    PlaygroundServer().start {
-//        layout = it
-//    }
+    PlaygroundServer().start {
+        layout = it
+    }
 }

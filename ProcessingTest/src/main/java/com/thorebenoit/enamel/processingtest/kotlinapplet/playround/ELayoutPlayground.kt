@@ -89,8 +89,6 @@ fun startEPViewPlayground(viewList: Set<EPView>) = PlaygroundApplet.start(400, 8
             }
         },
         onNewLayout = {
-            //            viewGroup.layout = it
-//            viewGroup.onLayout(eframe)
             transition.to(it, eframe)
         }
     )
