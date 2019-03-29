@@ -3,8 +3,10 @@ package com.thorebenoit.enamel.android.elayout
 import android.animation.ValueAnimator
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.BounceInterpolator
 import androidx.core.animation.addListener
 import com.thorebenoit.enamel.android.threading.mainThreadCoroutine
+import com.thorebenoit.enamel.kotlin.animations.EasingInterpolators
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
@@ -33,10 +35,19 @@ fun EDroidLayout.startServer() {
     )
 }
 
+private typealias Interpolator = (Float) -> Float
+
+val Interpolator.android
+    get() = object : android.view.animation.Interpolator {
+        override fun getInterpolation(input: Float): Float = invoke(input)
+    }
+
 private suspend fun doAnimationPlug(duration: Long, block: (Float) -> Unit) {
     ValueAnimator.ofFloat(0f, 1f).apply {
         this.duration = duration
         val lock = CoroutineLock()
+
+        interpolator = EasingInterpolators.cubicInOut.android
 
         addUpdateListener {
             block(it.animatedFraction)

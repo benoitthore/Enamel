@@ -25,7 +25,8 @@ private fun ELayout.sendToAndroid() = this.
 private val pgAndroid = PlaygroundClient("localhost")
 //val pgProcessing = PlaygroundClient.defaultClient
 
-private val randomAlign get() = EAlignment.all.toMutableList().apply { remove(middle) }.random()
+private val randomAlign get() = EAlignment.all.toMutableList().random()
+//private val randomAlign get() = EAlignment.all.toMutableList().apply { remove(middle) }.random()
 
 
 private val A = "A".layoutTag
@@ -41,6 +42,21 @@ val list = listOf(A, B, C, D, E, F)
 fun main() {
     PlaygroundClient.defaultClient = pgAndroid
 
+    while (true) {
+        list
+//        .shuffled()
+            .map {
+                it.sized(random(50, 150), random(50, 150))
+//            it.sizedSquare(100)
+            }
+            .stacked(randomAlign, 32)
+//            .snugged()
+            .padded(32)
+            .arranged(topLeft)
+            .sendToAndroid()
+        Thread.sleep(1500)
+    }
+
 //    listOf(A, B, C)
 //        .stackedBottomRight()
 //
@@ -52,30 +68,6 @@ fun main() {
 ///////
 ///////
 ///////
-
-    val slice = A
-    val remainder = B
-
-
-    val sliceLayout = slice
-        .sizedSquare(10)
-        .aligned(ERectEdge.top)
-
-    val divideLayout = sliceLayout.aligned(left, of = remainder, spacing = 5)
-
-    val layout = divideLayout
-        .scaled(0.5,0.25)
-        .padded(5)
-        .arranged(bottomRight)
-    layout.sendToAndroid()
-
-    return
-
-    listOf(A, B, C)
-        .map { it.sizedSquare(300) }
-        .stackedBottomCenter(16)
-        .aligned(bottom)
-        .sendToAndroid()
 
 }
 
