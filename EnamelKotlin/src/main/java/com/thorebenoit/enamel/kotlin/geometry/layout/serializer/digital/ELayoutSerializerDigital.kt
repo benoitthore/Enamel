@@ -24,7 +24,7 @@ class ELayoutSerializerDigital(
 
         internal val clazzes = listOf(
             EBoxLayout::class.java, // 0
-            EBoxLayout::class.java, // 1
+            EBarLayout::class.java, // 1
             EDivideLayout::class.java, // 2
             EJustifiedLayout::class.java, // 3
             ELayoutLeaf::class.java, // 4

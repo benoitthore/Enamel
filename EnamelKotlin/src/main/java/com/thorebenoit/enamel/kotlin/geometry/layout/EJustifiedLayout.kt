@@ -28,11 +28,11 @@ class EJustifiedLayout(
     }
 
     private fun rects(frame: ERectType): ERectGroup {
-        val toFIt = alignment.layoutAxis?.let { frame.size.along(it) } ?: frame.size.min
+        val toFit = alignment.layoutAxis?.let { frame.size.along(it) } ?: frame.size.min
 
         return sizes(frame.size).rectGroupJustified(
             alignment = alignment,
-            toFit = toFIt,
+            toFit = toFit,
             anchor = alignment.flipped.namedPoint,
             position = frame.pointAtAnchor(alignment.flipped.namedPoint)
         )
