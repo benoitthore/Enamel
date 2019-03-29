@@ -157,8 +157,10 @@ class ETransition<V : Any>(
 
             "Start: View OUT".print
             // OUT
-            doAnimation(333L) { progress ->
-                outAnimations.forEach { animator -> animator.animateTo(progress) }
+            if (outAnimations.isNotEmpty()) {
+                doAnimation(250L) { progress ->
+                    outAnimations.forEach { animator -> animator.animateTo(progress) }
+                }
             }
             oldRefs.forEach {
                 it.ref.removeFromParent()
@@ -166,7 +168,7 @@ class ETransition<V : Any>(
 
             "Start: View UPDATE".print
             // UPDATE
-            doAnimation(333L) { progress ->
+            doAnimation(1000L) { progress ->
                 updateAnimations.forEach { animator -> animator.animateTo(progress) }
             }
 
@@ -178,8 +180,12 @@ class ETransition<V : Any>(
 
             inAnimations.forEach { animator -> animator.animateTo(0f) }
             newLayout.arrange(bounds)
-            doAnimation(333L) { progress ->
-                inAnimations.forEach { animator -> animator.animateTo(progress) }
+
+            if (inAnimations.isNotEmpty()) {
+
+                doAnimation(250L) { progress ->
+                    inAnimations.forEach { animator -> animator.animateTo(progress) }
+                }
             }
             "Animation done".print
 
