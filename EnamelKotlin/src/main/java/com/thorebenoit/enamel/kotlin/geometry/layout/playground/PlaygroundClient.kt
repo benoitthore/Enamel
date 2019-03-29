@@ -16,6 +16,8 @@ import com.thorebenoit.enamel.kotlin.network.toRequestBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
+
+//adb forward tcp:9327 tcp:9327
 class PlaygroundClient(private val address: String = "localhost", val defaultPort: Int = PlaygroundServer.defaultPort) {
 
     companion object {

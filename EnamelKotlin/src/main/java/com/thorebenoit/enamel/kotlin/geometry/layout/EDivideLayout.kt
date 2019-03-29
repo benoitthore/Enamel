@@ -80,7 +80,6 @@ class EDivideLayout(
     }
 
 
-
     override fun serialize(dataStore: ELayoutSerializer) {
         val by = by
 
@@ -102,15 +101,16 @@ class EDivideLayout(
         dataStore.add(edge)
         dataStore.add(spacing)
         dataStore.add(snugged)
-        dataStore.add(childLayouts)
+        dataStore.add(slice)
+        dataStore.add(remainder)
     }
 
     override fun deserialize(dataStore: ELayoutDeserializer) {
         edge = ERectEdge.values()[dataStore.readNumber().toInt()]
         spacing = dataStore.readNumber()
         snugged = dataStore.readBool()
-        _childLayouts.clear()
-        _childLayouts.addAll(dataStore.readLayouts())
+        slice = dataStore.readLayout()
+        remainder = dataStore.readLayout()
     }
 
     override fun toString(): String {

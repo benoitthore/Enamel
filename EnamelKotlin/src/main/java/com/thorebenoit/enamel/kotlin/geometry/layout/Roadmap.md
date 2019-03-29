@@ -43,10 +43,19 @@ Sorted by priority order:
 
 # ONGOING
 ## Refactor serialisation to use JSONObject 
+## Fix EDivideLayout and EBarLayout serializations 
 
 # NEXT
 ## Fix IP Address bug on emulator
 ## Fix android TV bug with Gravity.CENTER
+## Test with more than 1 EPViewGroup on the UI
+
+# BACKLOG
+## Improve Transition performance 
+## Make transition return a transition object and use it to control the transition with a touch event as an example
+## Extract ELayout to its own branch/repo 
+## Refactor ELayout so it doesn't allocate on sizing and arranging 
+ 
 
 # MAYBE
 ## Create Web Playground (linked with Android)
