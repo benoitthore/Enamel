@@ -27,7 +27,7 @@ class ESizingLayout(child: ELayout = ELayoutLeaf(), var space: ELayoutSpace = EL
         return when (space) {
             is ELayoutSpace.Size -> space.size
             is ELayoutSpace.Width -> child.size(toFit.copy(width = space.width))
-            is ELayoutSpace.Height -> child.size(toFit.copy(width = space.height))
+            is ELayoutSpace.Height -> child.size(toFit.copy(height = space.height))
             is ELayoutSpace.Scale -> {
                 with(space) {
                     return if (horizontal != null && vertical == null) {
