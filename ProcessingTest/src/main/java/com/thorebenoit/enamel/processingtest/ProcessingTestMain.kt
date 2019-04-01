@@ -9,41 +9,49 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.digital.ELayoutSerializerDigital
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
+import com.thorebenoit.enamel.kotlin.core.color.*
 
 
 object ProcessingTestMain {
-
+    // NOT WORKING LIKE IN EXAMPLE
+//            val layout = 3.of { ELayoutLeaf().sizedSquare(100) }
+//                .stacked(bottomCenter, 10)
+//                .aligned(bottom)
+//                .padded(10)
 
     @JvmStatic
     fun main(args: Array<String>) {
 
         PlaygroundApplet.start(800, 800) {
 
-            // NOT WORKING LIKE IN EXAMPLE
-//            val layout = 3.of { ELayoutLeaf().sizedSquare(100) }
-//                .stacked(bottomCenter, 10)
-//                .aligned(bottom)
-//                .padded(10)
+            val big = ELayoutLeaf(red)
+            val small = ELayoutLeaf(blue)
 
-            val slice = ELayoutLeaf()
-            val remainder = ELayoutLeaf()
+            val smallLayout = small
+                .sizedSquare(200)
+                .padded(50)
+                .arranged(middle, snugged = true)
+                .scaled(y = 2)
+                .arranged(topRight)
 
-            val sliceLayout = slice
-                .sizedSquare(10)
-                .aligned(ERectEdge.top)
+            val layout = big
+                .tracked(smallLayout)
+                .height(100)
+                .padded(50)
+                .aligned(top)
 
-            val divideLayout = sliceLayout.aligned(left, of = remainder, spacing = 5)
+//            val layout = smallLayout
 
-            val layout = divideLayout
-                .scaled(0.75,0.25f)
-                .padded(5)
-                .arranged(middle)
+
 
 
 
             onDraw {
                 layout.arrange(eframe)
                 layout.draw()
+                small.frame.print
+                big.frame.print
+                noLoop()
             }
         }
 
