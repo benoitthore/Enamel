@@ -1,6 +1,7 @@
 package com.thorebenoit.enamel.processingtest
 
 import com.thorebenoit.enamel.kotlin.core.of
+import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment.*
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge.*
@@ -15,17 +16,6 @@ object ProcessingTestMain {
 
     @JvmStatic
     fun main(args: Array<String>) {
-
-        val slice = ELayoutLeaf()
-        val remainder = ELayoutLeaf()
-
-        val layout = slice.aligned(left, of = remainder, spacing = 5)
-        val serializer = ELayoutSerializerDigital.createIntIDSerializer { it.newInstance() }
-        serializer.serialize(layout)
-        serializer.toDeserializer().readLayout()
-
-
-        return
 
         PlaygroundApplet.start(800, 800) {
 
