@@ -106,6 +106,13 @@ class EDivideLayout(
     }
 
     override fun deserialize(dataStore: ELayoutDeserializer) {
+        val byIndex = dataStore.readNumber()
+        when (byIndex) {
+            0 -> by = Division.Slice
+            1 -> by = Division.Distance(dataStore.readNumber())
+            2 -> by = Division.Fraction(dataStore.readNumber())
+            else -> throw Exception("Cannot deserialize \"by\" with value $byIndex")
+        }
         edge = ERectEdge.values()[dataStore.readNumber().toInt()]
         spacing = dataStore.readNumber()
         snugged = dataStore.readBool()

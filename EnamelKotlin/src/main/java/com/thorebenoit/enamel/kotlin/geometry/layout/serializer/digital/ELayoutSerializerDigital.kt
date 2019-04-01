@@ -33,7 +33,8 @@ class ELayoutSerializerDigital(
             ESnuggingLayout::class.java, // 7
             EStackLayout::class.java, // 8
             ELayoutRef::class.java,// 9
-            ELayoutTag::class.java // 10
+            ELayoutTag::class.java, // 10
+            ETrackingLayout::class.java // 11
         )
 
         fun createIntIDSerializer(newInstance: (Class<ELayout>) -> ELayout) = ELayoutSerializerDigital(
