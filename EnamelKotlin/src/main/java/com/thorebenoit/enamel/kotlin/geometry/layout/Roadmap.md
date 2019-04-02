@@ -20,7 +20,7 @@ Sorted by priority order:
 
 # ONGOING
 ## Refactoring with serialisation to use JSONObject
-- Add missing implementation
+---- Add missing implementation
 - Playground Server/Client
 - Android Leaf impl
 - Make 1 object that contains both implementation of serializer and deserializer for easier maintainability   
