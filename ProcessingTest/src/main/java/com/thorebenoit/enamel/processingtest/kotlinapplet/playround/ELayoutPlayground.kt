@@ -14,6 +14,7 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.sendToPlayground
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutTag
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.ETransition
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.SingleElementAnimator
 import com.thorebenoit.enamel.kotlin.threading.coroutine
@@ -25,12 +26,11 @@ import kotlinx.coroutines.runBlocking
 
 fun main() {
     startEPViewPlayground(
-        setOf(
-            EPTextView("Label A", "A").apply { textViewStyle.backgroundColor = randomColor() },
-            EPTextView("Label B", "B").apply { textViewStyle.backgroundColor = randomColor() },
-            EPTextView("Label C", "C").apply { textViewStyle.backgroundColor = randomColor() },
-            EPTextView("Label D", "D").apply { textViewStyle.backgroundColor = randomColor() }
-        )
+        mutableSetOf<EPView>().apply {
+            ('A'..'Z').map {
+                add(EPTextView("Label $it", "$it").apply { textViewStyle.backgroundColor = randomColor() })
+            }
+        }
     )
     /* EXAMPLE CODE:
     val list = listOf("A", "B", "C", "D")
@@ -75,15 +75,18 @@ fun startEPViewPlayground(viewList: Set<EPView>) = PlaygroundApplet.start(400, 8
 
             }
         }
-
     )
 
-    PlaygroundServer().start(
+    val deserializer = ELayoutDeserializer()
+    deserializer.addDeserializer(ELayoutTag::class.java) { jsonObject ->
+        val tag = jsonObject.getString("tag")
+        viewGroup.viewList.first { it.tag == tag }.laidIn(viewGroup)
+    }
 
-        onNewLayout = {
-            transition.to(it, eframe)
-        }
-    )
+    PlaygroundServer().start(deserializer) {
+        transition.to(it, eframe)
+    }
+
 
     frame.isResizable = true
 

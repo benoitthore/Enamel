@@ -13,16 +13,17 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.Exception
 
+private fun JSONObject._getNumber(key: String) = get(key) as Number // Required to run on Android
 private fun String.toSnugging() = ESnugging.valueOf(this)
 private fun String.toRectEdge() = ERectEdge.valueOf(this)
 private fun String.toAlignment() = EAlignment.valueOf(this)
-private fun JSONObject.toSize() = ESize(width = getNumber("height"), height = getNumber("height"))
+private fun JSONObject.toSize() = ESize(width = _getNumber("height"), height = _getNumber("height"))
 private fun JSONObject.toOffset() =
     EOffset(
-        left = getNumber("left"),
-        top = getNumber("top"),
-        right = getNumber("right"),
-        bottom = getNumber("bottom")
+        left = _getNumber("left"),
+        top = _getNumber("top"),
+        right = _getNumber("right"),
+        bottom = _getNumber("bottom")
     )
 
 class ELayoutDeserializer(
@@ -49,7 +50,7 @@ class ELayoutDeserializer(
                 height = jsonObject.getString("height").toSnugging(),
                 alignment = jsonObject.getString("alignment").toAlignment(),
                 gravity = jsonObject.getString("gravity").toAlignment(),
-                spacing = jsonObject.getNumber("spacing")
+                spacing = jsonObject._getNumber("spacing")
             )
         }
 
@@ -78,7 +79,7 @@ class ELayoutDeserializer(
         addDeserializer(EStackLayout::class.java) { jsonObject ->
             EStackLayout(
                 childLayouts = jsonObject.getJSONArray("children").deserialize().toMutableList(),
-                spacing = jsonObject.getNumber("spacing"),
+                spacing = jsonObject._getNumber("spacing"),
                 alignment = jsonObject.getString("alignment").toAlignment()
             )
         }
@@ -87,8 +88,8 @@ class ELayoutDeserializer(
             val byJson = jsonObject.getJSONObject("by")
             val by: EDivideLayout.Division = when (byJson.getString("type")) {
                 "slice" -> EDivideLayout.Division.Slice
-                "fraction" -> EDivideLayout.Division.Fraction(byJson.getNumber("value"))
-                "distance" -> EDivideLayout.Division.Distance(byJson.getNumber("value"))
+                "fraction" -> EDivideLayout.Division.Fraction(byJson._getNumber("value"))
+                "distance" -> EDivideLayout.Division.Distance(byJson._getNumber("value"))
                 else -> throw Exception("Unknown divide type ${byJson.getString("type")}")
             }
             EDivideLayout(
@@ -96,7 +97,7 @@ class ELayoutDeserializer(
                 remainder = jsonObject.getJSONObject("remainder").deserialize(),
                 by = by,
                 edge = jsonObject.getString("edge").toRectEdge(),
-                spacing = jsonObject.getNumber("spacing"),
+                spacing = jsonObject._getNumber("spacing"),
                 snugged = jsonObject.getBoolean("snugged")
             )
         }
@@ -117,8 +118,8 @@ class ELayoutDeserializer(
             val type = ELayoutSpace.Type.valueOf(jsonSpace.getString("type"))
             val space: ESizingLayout.ELayoutSpace = when (type) {
                 Type.Size -> Size(jsonSpace.toSize())
-                Type.Width -> Width(jsonSpace.getNumber("width"))
-                Type.Height -> Height(jsonSpace.getNumber("height"))
+                Type.Width -> Width(jsonSpace._getNumber("width"))
+                Type.Height -> Height(jsonSpace._getNumber("height"))
                 Type.Scale -> Scale(
                     horizontal = jsonSpace.optNumber("horizontal"),
                     vertical = jsonSpace.optNumber("vertical")
@@ -142,7 +143,7 @@ class ELayoutDeserializer(
     }
 
 
-    fun <T : ELayout> addDeserializer(clazz: Class<T>, deserializer: ELayoutDeserializer.(JSONObject) -> T) {
+    fun <T : ELayout> addDeserializer(clazz: Class<T>, deserializer: ELayoutDeserializer.(JSONObject) -> ELayout) {
         deserializerMap[clazz] = deserializer as ELayoutDeserializer.(JSONObject) -> ELayout
     }
 

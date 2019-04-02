@@ -84,6 +84,9 @@ dependencies {
     implementation xDependencies.constraintLayout
     implementation xDependencies.dynamicanimations
 
+    compile group: 'org.json', name: 'json', version: '20180813'
+
+
     // Ktor
     implementation ktor.core
     implementation ktor.netty
