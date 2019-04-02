@@ -4,11 +4,11 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 
 import java.util.*
-
 
 
 class ELayoutRef<V : Any>(
@@ -47,6 +47,17 @@ fun ELayout.getAllChildren(list: LinkedList<ELayout> = LinkedList()): List<ELayo
 }
 
 fun <T : Any> ELayout.getObjects(): List<T> = getRefs<T>().map { it.ref.viewRef }
+
+fun ELayout.getLeafs(): List<ELayoutLeaf> {
+    val list = mutableListOf<ELayoutLeaf>()
+
+    if (this is ELayoutLeaf) {
+        list.add(this)
+    }
+    list.addAll(childLayouts.flatMap { it.getLeafs() })
+
+    return list
+}
 
 fun <T : Any> ELayout.getRefs(): List<ELayoutRef<T>> {
     val list = mutableListOf<ELayoutRef<T>>()

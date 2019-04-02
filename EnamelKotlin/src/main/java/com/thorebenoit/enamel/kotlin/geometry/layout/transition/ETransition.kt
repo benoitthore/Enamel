@@ -43,7 +43,8 @@ class ETransition<V : Any>(
     var bounds: ERectType? = null
 ) {
 
-    private var layout: ELayout? = null
+    var layout: ELayout? = null
+        private set
 
     private var isInTransition = false
 
