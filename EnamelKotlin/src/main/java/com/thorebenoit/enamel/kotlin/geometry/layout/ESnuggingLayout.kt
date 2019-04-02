@@ -9,7 +9,7 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeseriali
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 
 
-class ESnuggingLayout(child: ELayoutAlongAxis = ELayoutLeaf.unit) : ELayout {
+class ESnuggingLayout(child: ELayoutAlongAxis) : ELayout {
 
     var child: ELayoutAlongAxis = child
         set(value) {

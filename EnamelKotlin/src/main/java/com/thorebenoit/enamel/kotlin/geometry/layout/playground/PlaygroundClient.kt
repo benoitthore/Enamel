@@ -48,8 +48,6 @@ fun <T : ELayout> T.sendToPlayground(playground: PlaygroundClient = PlaygroundCl
 
 private val kotlin.Number.dp get() = toFloat() * 3
 fun main() {
-
-
     val pgAndroid = PlaygroundClient(address = "192.168.2.149")
     val pgProcessing = PlaygroundClient.defaultClient
 
