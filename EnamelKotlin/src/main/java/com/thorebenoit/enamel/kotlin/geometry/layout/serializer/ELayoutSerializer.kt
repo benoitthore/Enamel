@@ -146,23 +146,11 @@ class ELayoutSerializer(val serializeClass: JSONObject.(ELayout) -> Unit = { put
 
 fun main() {
 
-//    val layout1 = ELayoutLeaf(-123).aligned(top).arranged(topLeft)
-//    val layout2 = ELayoutLeaf(456)
-//
-////    val layout = listOf(layout1, layout2).stackedTopLeft(10)
-//    val layout = listOf(
-//        ELayoutLeaf(123),
-//        ELayoutLeaf(456),
-//        ELayoutLeaf(789)
-//    ).stackedTopLeft(10)
-
 
     val layout =
-//        ELayoutLeaf(333).sized(123, 123)
         2.of {
             ELayoutLeaf(333).sized(123, 123)
         }
-//            .stackedRightCenter()
             .justified(EAlignment.leftCenter)
             .snugged()
             .arranged(EAlignment.topLeft)
