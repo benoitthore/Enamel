@@ -1,10 +1,9 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 
-import com.thorebenoit.enamel.kotlin.core.math.i
 import com.thorebenoit.enamel.kotlin.core.of
+import com.thorebenoit.enamel.kotlin.core.color.*
 import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
@@ -12,7 +11,6 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
-import processing.core.PConstants
 
 
 class PlaygroundApplet : KotlinPAppletLambda() {
@@ -45,6 +43,15 @@ fun main() {
 
     PlaygroundApplet.start(800, 800) {
         var layout: ELayout? = null
+        layout = 3.of { ELayoutLeaf(color = red) }
+            .mapIndexed { i, layout ->
+                layout.sizedSquare((i + 1) * 100)
+            }
+            .stacked(EAlignment.rightCenter, spacing = 10)
+            .snugged()
+            .arranged(EAlignment.topLeft)
+            .padded(20)
+
         PlaygroundServer().start(deserializer = deserializer) {
             layout = it
             it.print

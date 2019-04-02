@@ -15,7 +15,7 @@ infix fun ELayoutExample.arrangedIn(frame: ERectType) = this(frame)
 object ELayoutDemo {
     val _2: ELayoutExample = { frame ->
 
-        3.of { ELayoutLeaf() }
+        3.of { ELayoutLeaf(red) }
             .mapIndexed { i, layout ->
                 layout.sizedSquare((i + 1) * 100)
             }

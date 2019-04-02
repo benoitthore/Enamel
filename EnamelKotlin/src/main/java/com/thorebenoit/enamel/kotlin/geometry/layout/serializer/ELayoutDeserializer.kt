@@ -1,18 +1,12 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout.serializer
 
-import com.thorebenoit.enamel.kotlin.core.math.bool
-import com.thorebenoit.enamel.kotlin.core.math.i
-import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
-import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.layout.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout.ELayoutSpace
 import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout.ELayoutSpace.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.Exception
@@ -115,7 +109,7 @@ class ELayoutDeserializer(
                 Type.AspectFilling -> AspectFilling(jsonSpace.toSize())
                 Type.Func -> throw Exception("Cannot serialize ELayoutSpace with type Func")
             }
-            ESizingLayout(space = space)
+            ESizingLayout(space = space, child = jsonObject.getJSONObject("child").deserialize())
         }
         addDeserializer(ESnuggingLayout::class.java) { jsonObject ->
             ESnuggingLayout(jsonObject.getJSONObject("child").deserialize() as ELayoutAlongAxis)

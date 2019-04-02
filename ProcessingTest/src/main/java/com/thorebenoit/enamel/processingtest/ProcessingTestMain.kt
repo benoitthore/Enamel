@@ -1,9 +1,7 @@
 package com.thorebenoit.enamel.processingtest
 
-import com.thorebenoit.enamel.kotlin.core.of
 import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment.*
-import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*

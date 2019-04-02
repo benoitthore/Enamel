@@ -23,7 +23,7 @@ class PlaygroundServer {
 
     fun start(
         port: Int = defaultPort,
-        deserializer: ELayoutDeserializer,
+        deserializer: ELayoutDeserializer = ELayoutDeserializer(),
         onNewLayout: (ELayout) -> Unit
     ) {
         embeddedServer(Netty, port = port) {

@@ -80,13 +80,7 @@ fun startEPViewPlayground(viewList: Set<EPView>) = PlaygroundApplet.start(400, 8
     )
 
     PlaygroundServer().start(
-        newInstance = { clazz ->
-            if (clazz == ELayoutTag::class.java) {
-                EmptyView().laidIn(viewGroup)
-            } else {
-                clazz.newInstance()
-            }
-        },
+
         onNewLayout = {
             transition.to(it, eframe)
         }

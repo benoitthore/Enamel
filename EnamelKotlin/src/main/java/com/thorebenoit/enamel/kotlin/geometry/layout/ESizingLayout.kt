@@ -1,16 +1,13 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout
 
-import com.thorebenoit.enamel.kotlin.core.math.i
 import com.thorebenoit.enamel.kotlin.geometry.alignement.fillSize
 import com.thorebenoit.enamel.kotlin.geometry.alignement.fitSize
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 import com.thorebenoit.enamel.kotlin.geometry.primitives.times
 
-class ESizingLayout(child: ELayout = ELayoutLeaf(), var space: ELayoutSpace = ELayoutSpace.Width(0)) : ELayout {
+class ESizingLayout(child: ELayout, var space: ELayoutSpace) : ELayout {
 
     var child: ELayout = child
         set(value) {
