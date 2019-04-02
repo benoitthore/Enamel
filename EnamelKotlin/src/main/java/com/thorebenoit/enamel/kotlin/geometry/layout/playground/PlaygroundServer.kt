@@ -14,6 +14,7 @@ import io.ktor.routing.routing
 import io.ktor.server.cio.CIO
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import org.json.JSONObject
 
 class PlaygroundServer {
     companion object {
@@ -22,30 +23,27 @@ class PlaygroundServer {
 
     fun start(
         port: Int = defaultPort,
-        newInstance: (Class<ELayout>) -> ELayout = { it.newInstance() },
+        deserializer: ELayoutDeserializer,
         onNewLayout: (ELayout) -> Unit
     ) {
-        TODO()
-//        val mapper = ignoreUnknownObjectMapper()
-//        embeddedServer(Netty, port = port) {
-//            routing {
-//                get("/test") {
-//                    call.respondText { "Working" }
-//                }
-//                post("/") {
-//                    try {
-//                        val json = call.receive<String>()
-//                        val data = mapper.readValue<List<Number>>(json)
-//
-//                        println("SOCKET-IN: $data")
-//                        val layout = ELayoutDeserializerDigital.createIntIDDesrializer(data, newInstance)
-//                        onNewLayout(layout.readLayout())
-//                    } catch (e: Throwable) {
-//                        System.err.println(e)
-//                        throw e
-//                    }
-//                }
-//            }
-//        }.start(wait = false)
+        embeddedServer(Netty, port = port) {
+            routing {
+                get("/test") {
+                    call.respondText { "Working" }
+                }
+                post("/") {
+                    try {
+                        val data = call.receive<String>()
+
+                        println("SOCKET-IN: $data")
+                        val layout = deserializer.readLayout(JSONObject(data))
+                        onNewLayout(layout)
+                    } catch (e: Throwable) {
+                        System.err.println(e)
+                        throw e
+                    }
+                }
+            }
+        }.start(wait = false)
     }
 }
