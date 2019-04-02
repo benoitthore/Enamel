@@ -6,11 +6,14 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
 import com.thorebenoit.enamel.kotlin.geometry.layout.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout.ELayoutSpace
 import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout.ELayoutSpace.*
+import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.ELinearLayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.ESnugging
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
 import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.Exception
 
+private fun String.toSnugging() = ESnugging.valueOf(this)
 private fun String.toRectEdge() = ERectEdge.valueOf(this)
 private fun String.toAlignment() = EAlignment.valueOf(this)
 private fun JSONObject.toSize() = ESize(width = getNumber("height"), height = getNumber("height"))
@@ -38,6 +41,18 @@ class ELayoutDeserializer(
 
 
     init {
+
+        addDeserializer(ELinearLayout::class.java) { jsonObject ->
+            ELinearLayout(
+                childLayouts = jsonObject.getJSONArray("children").deserialize(),
+                width = jsonObject.getString("width").toSnugging(),
+                height = jsonObject.getString("height").toSnugging(),
+                alignment = jsonObject.getString("alignment").toAlignment(),
+                gravity = jsonObject.getString("gravity").toAlignment(),
+                spacing = jsonObject.getNumber("spacing")
+            )
+        }
+
         addDeserializer(EBarLayout::class.java) { jsonObject ->
             EBarLayout(
                 child = jsonObject.getJSONObject("child").deserialize(),
@@ -54,7 +69,10 @@ class ELayoutDeserializer(
         }
 
         addDeserializer(ELayoutLeaf::class.java) { jsonObject ->
-            ELayoutLeaf(jsonObject.getInt("color"))
+            ELayoutLeaf(
+                color = jsonObject.getInt("color"),
+                child = jsonObject.optJSONObject("child")?.deserialize()
+            )
         }
 
         addDeserializer(EStackLayout::class.java) { jsonObject ->

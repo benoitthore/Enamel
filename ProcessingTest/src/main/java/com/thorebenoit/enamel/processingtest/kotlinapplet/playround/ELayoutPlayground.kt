@@ -10,7 +10,6 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.arranged
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.layoutTag
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.sized
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.stackedBottomLeft
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.sendToPlayground
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef

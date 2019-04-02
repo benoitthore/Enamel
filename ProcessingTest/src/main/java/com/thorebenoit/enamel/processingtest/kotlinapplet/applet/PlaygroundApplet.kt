@@ -8,6 +8,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
+import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.dsl.stacked
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.sendToPlayground
@@ -29,6 +30,7 @@ class PlaygroundApplet : KotlinPAppletLambda() {
             init: PlaygroundApplet .() -> Unit
         ) {
             KotlinPApplet.createApplet<PlaygroundApplet>(size).apply {
+                frame.isResizable = true
                 init()
             }
 
@@ -44,12 +46,12 @@ fun main() {
 
     PlaygroundApplet.start(800, 800) {
         var layout: ELayout? = null
+
         layout = 3.of { ELayoutLeaf(color = red) }
             .mapIndexed { i, layout ->
                 layout.sizedSquare((i + 1) * 100)
             }
             .stacked(EAlignment.rightCenter, spacing = 10)
-            .snugged()
             .arranged(EAlignment.topLeft)
             .padded(20)
 

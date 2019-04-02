@@ -12,7 +12,7 @@ import com.thorebenoit.enamel.kotlin.geometry.toRect
 class EBoxLayout(
     child: ELayout = ELayoutLeaf.unit,
     var alignment: EAlignment = EAlignment.topLeft,
-    var snugged: Boolean = false
+    var snugged: Boolean = true
 ) : ELayout {
 
     var child: ELayout = child
