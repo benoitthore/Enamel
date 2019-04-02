@@ -11,6 +11,25 @@ fun colorFromGray(gray: Int): Int {
 
 val Number.color: Int get() = (0xFF_00_00_00.i or i)
 
+
+fun argb(alpha: Float, red: Float, green: Float, blue: Float): Int {
+    return (alpha * 255.0f + 0.5f).toInt() shl 24 or
+            ((red * 255.0f + 0.5f).toInt() shl 16) or
+            ((green * 255.0f + 0.5f).toInt() shl 8) or
+            (blue * 255.0f + 0.5f).toInt()
+}
+
+val Int.alpha get() = this shr 24 and 0xFF
+val Int.red get() = this shr 16 and 0xFF
+val Int.green get() = this shr 8 and 0xFF
+val Int.blue get() = this and 0xFF
+
+fun Int.withAlpha(percentage: Number): Int {
+    val alpha = (0xFF * percentage.toDouble()).i
+
+    return (alpha shl 24) or (red shl 16) or (green shl 8) or blue
+}
+
 fun randomColor() = colorHSL(Math.random().toFloat())
 
 fun colorHSL(h: Number) = HSLToColor(floatArrayOf(h.f * 360, 1f, .5f)) or 0xFF000000.toInt()

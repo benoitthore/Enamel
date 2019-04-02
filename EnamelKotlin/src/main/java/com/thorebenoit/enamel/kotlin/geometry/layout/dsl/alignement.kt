@@ -26,4 +26,4 @@ fun ELayout.aligned(
 )
 
 
-fun ELayout.arranged(alignement: EAlignment, snugged: Boolean = false) = EBoxLayout(this, alignement, snugged)
+fun ELayout.arranged(alignement: EAlignment, snugged: Boolean = true) = EBoxLayout(this, alignement, snugged)

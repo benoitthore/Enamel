@@ -4,6 +4,8 @@ import com.thorebenoit.enamel.kotlin.core.math.Scale
 import java.nio.charset.Charset
 import java.util.*
 
+fun <T : Any> T.asList(): List<T> = listOf(this)
+
 fun List<Byte>.toStringFromBytes() = toByteArray().toStringFromBytes()
 fun ByteArray.toStringFromBytes() = toString(Charset.defaultCharset())
 

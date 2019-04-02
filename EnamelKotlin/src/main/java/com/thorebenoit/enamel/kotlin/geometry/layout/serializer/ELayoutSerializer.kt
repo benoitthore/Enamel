@@ -6,6 +6,8 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.layout.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout.ELayoutSpace.*
+import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.ELinearLayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.dsl.stacked
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
 import org.json.JSONArray
@@ -29,6 +31,18 @@ class ELayoutSerializer(val serializeClass: JSONObject.(ELayout) -> Unit = { put
         mutableMapOf()
 
     init {
+
+        addSerializer(ELinearLayout::class.java) { layout ->
+            JSONObject().apply {
+                put("gravity", layout.gravity)
+                put("alignment", layout.alignment)
+                put("spacing", layout.spacing)
+                put("width", layout.width)
+                put("height", layout.height)
+                put("children", serialize(layout.childLayouts))
+            }
+        }
+
         addSerializer(EBarLayout::class.java) { layout ->
             JSONObject().apply {
                 put("side", layout.side)
@@ -40,13 +54,17 @@ class ELayoutSerializer(val serializeClass: JSONObject.(ELayout) -> Unit = { put
             JSONObject().apply {
                 put("alignment", layout.alignment.name)
                 put("snugged", layout.snugged)
-                put("child", serialize(layout.child))
+                put("child", layout.child.serialized())
             }
         }
 
         addSerializer(ELayoutLeaf::class.java) { layout ->
             JSONObject().apply {
                 put("color", layout.color)
+                put("frame", layout.frame)
+                layout.child?.let {
+                    put("child", it.serialized())
+                }
             }
         }
         addSerializer(EStackLayout::class.java) { layout ->
@@ -140,6 +158,7 @@ class ELayoutSerializer(val serializeClass: JSONObject.(ELayout) -> Unit = { put
         serializerMap[layout::class.java]?.invoke(this, layout)?.apply { serializeClass(layout) }
             ?: throw Exception("No serializer for ${layout.javaClass}")
 
+    fun ELayout.serialized() = serialize(this)
 
 }
 
@@ -162,7 +181,6 @@ fun main() {
                 layout.sizedSquare((i + 1) * 100)
             }
             .stacked(EAlignment.topLeft, spacing = 321)
-            .snugged()
             .arranged(EAlignment.topLeft)
             .padded(20)
 
@@ -170,7 +188,8 @@ fun main() {
     val serializer = ELayoutSerializer()
 
 
-    val json = serializer.serialize(listOf(layout,layout2).stackedBottomCenter(2)).toString().print
+    val json =
+        serializer.serialize(listOf(layout, layout2).stacked(EAlignment.bottomCenter, spacing = 2)).toString().print
 
     ELayoutDeserializer().deserialize(json).print
 }

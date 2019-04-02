@@ -11,6 +11,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.*
 import com.thorebenoit.enamel.kotlin.geometry.allocate
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
+import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.leaf
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
@@ -224,7 +225,8 @@ abstract class KotlinPApplet : PApplet() {
         return this
     }
 
-    open fun <T : ELayoutLeaf> T.draw(): T {
+    protected open fun <T : ELayoutLeaf> T.draw(): T {
+
         fill(color)
 
         val frame = frame.toMutable()

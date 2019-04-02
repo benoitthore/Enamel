@@ -1,8 +1,9 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout.playground
 
 import com.thorebenoit.enamel.kotlin.core.math.random
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.dsl.stacked
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 import com.thorebenoit.enamel.kotlin.network.toRequestBody
@@ -63,9 +64,8 @@ fun main() {
         .map {
             it.sized(random(50, 150).dp, random(50, 150).dp)
         }
-        .stackedRightCenter()
-        .snugged()
-        .arranged(EAlignment.topLeft)
+        .stacked(rightCenter)
+        .arranged(topLeft)
 //    .padded(left = 20.dp)
         .sendToPlayground(pgProcessing)
         .sendToPlayground(pgAndroid)

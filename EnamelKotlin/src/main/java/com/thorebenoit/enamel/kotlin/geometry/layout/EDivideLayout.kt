@@ -37,7 +37,7 @@ class EDivideLayout(
     override val childLayouts: List<ELayout> get() = _childLayouts
 
     override fun size(toFit: ESizeType): ESizeType {
-        if (snugged) {
+        if (!snugged) {
             return toFit
         }
         val (dividedSlice, dividedRemainder) = divide(toFit.toRect())
