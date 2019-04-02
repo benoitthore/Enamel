@@ -4,11 +4,18 @@ import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
+import com.thorebenoit.enamel.kotlin.network.toRequestBody
 import okhttp3.OkHttpClient
+import okhttp3.Request
 
 
 //adb forward tcp:9327 tcp:9327
-class PlaygroundClient(private val address: String = "localhost", val defaultPort: Int = PlaygroundServer.defaultPort) {
+class PlaygroundClient(
+    private val serializer: ELayoutSerializer = ELayoutSerializer(),
+    private val address: String = "localhost",
+    private val defaultPort: Int = PlaygroundServer.defaultPort
+) {
 
     companion object {
         var defaultClient = PlaygroundClient()
@@ -20,13 +27,10 @@ class PlaygroundClient(private val address: String = "localhost", val defaultPor
 
     fun sendToPlayground(layout: ELayout) {
 
-        TODO()
-//        val url = "http://$address:$defaultPort/"
-//
-//        val serializer = ELayoutSerializerDigital.createIntIDSerializer { it.newInstance() }
-//        serializer.add(layout)
-//        val json = serializer.data.toJson()
-//        client.newCall(Request.Builder().url(url).post(json.toRequestBody()).build()).execute()
+        val url = "http://$address:$defaultPort/"
+
+        val json = serializer.serialize(layout).toString()
+        client.newCall(Request.Builder().url(url).post(json.toRequestBody()).build()).execute()
     }
 
 }
@@ -46,7 +50,7 @@ private val kotlin.Number.dp get() = toFloat() * 3
 fun main() {
 
 
-    val pgAndroid = PlaygroundClient("192.168.2.149")
+    val pgAndroid = PlaygroundClient(address = "192.168.2.149")
     val pgProcessing = PlaygroundClient.defaultClient
 
     PlaygroundClient.defaultClient = pgAndroid
