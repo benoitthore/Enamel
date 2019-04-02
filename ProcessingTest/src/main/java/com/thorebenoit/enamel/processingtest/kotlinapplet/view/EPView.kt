@@ -89,23 +89,6 @@ fun <T : EPView> T.laidIn(parent: EPViewGroup): ELayoutRef<T> {
         },
         arrangeIn = { frame ->
             ref.viewRef.onLayout(frame)
-        },
-        _serialize = { serializer ->
-            ref.viewRef.tag?.let {
-                serializer.add(true)
-                serializer.add(it)
-            } ?: run {
-                serializer.add(false)
-            }
-        },
-        _deserialize = { deserializer ->
-            // TODO The issue here is that readString corresponds to ELayoutTag add(String) and both aren't really linked in anyway. It's not "safe" no future proof
-            val tag = deserializer.readString()
-
-            val newView: T = parent.viewList.find { it.tag == tag } as T
-
-            ref.removeFromParent()
-            ref = newView.createLayoutRef(parent)
         }
     )
 }

@@ -47,14 +47,6 @@ class ESnuggingLayout(child: ELayoutAlongAxis = ELayoutLeaf.unit) : ELayout {
 
 
 
-    override fun serialize(dataStore: ELayoutSerializer) {
-        dataStore.add(child)
-    }
-
-    override fun deserialize(dataStore: ELayoutDeserializer) {
-        child = dataStore.readLayout() as ELayoutAlongAxis
-    }
-
     override fun toString(): String {
         return "ESnuggingLayout(child=$child)"
     }

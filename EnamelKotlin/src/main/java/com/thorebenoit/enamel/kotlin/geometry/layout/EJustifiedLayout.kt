@@ -6,8 +6,6 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.alignement.along
 import com.thorebenoit.enamel.kotlin.geometry.alignement.layoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.figures.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 
 
 class EJustifiedLayout(
@@ -42,17 +40,6 @@ class EJustifiedLayout(
         return childLayouts.map { it.size(toFit) }
     }
 
-
-    override fun serialize(dataStore: ELayoutSerializer) {
-        dataStore.add(alignment)
-        dataStore.add(childLayouts)
-    }
-
-    override fun deserialize(dataStore: ELayoutDeserializer) {
-        alignment = dataStore.readAlignment()
-        childLayouts.clear()
-        childLayouts.addAll(dataStore.readLayouts())
-    }
 
     override fun toString(): String {
         return "EJustifiedLayout(alignment=$alignment, layoutAxis=$layoutAxis, childLayouts=$childLayouts)"

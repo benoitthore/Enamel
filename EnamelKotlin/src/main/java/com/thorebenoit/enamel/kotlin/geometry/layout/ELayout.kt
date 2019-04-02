@@ -3,8 +3,6 @@ package com.thorebenoit.enamel.kotlin.geometry.layout
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 
 
 interface ELayout {
@@ -15,8 +13,6 @@ interface ELayout {
 
     fun arrange(frame: ERectType)
 
-    fun serialize(dataStore: ELayoutSerializer)
-    fun deserialize(dataStore: ELayoutDeserializer)
 }
 
 interface ELayoutAlongAxis : ELayout {

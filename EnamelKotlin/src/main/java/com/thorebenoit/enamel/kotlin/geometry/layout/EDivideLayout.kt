@@ -80,46 +80,6 @@ class EDivideLayout(
     }
 
 
-    override fun serialize(dataStore: ELayoutSerializer) {
-        val by = by
-
-        val _a: Unit = when (by) {
-            is EDivideLayout.Division.Slice -> {
-                dataStore.add(0)
-            }
-            is EDivideLayout.Division.Distance -> {
-                dataStore.add(1)
-                dataStore.add(by.distance)
-
-            }
-            is EDivideLayout.Division.Fraction -> {
-                dataStore.add(2)
-                dataStore.add(by.fraction)
-
-            }
-        }
-        dataStore.add(edge)
-        dataStore.add(spacing)
-        dataStore.add(snugged)
-        dataStore.add(slice)
-        dataStore.add(remainder)
-    }
-
-    override fun deserialize(dataStore: ELayoutDeserializer) {
-        val byIndex = dataStore.readNumber()
-        when (byIndex) {
-            0 -> by = Division.Slice
-            1 -> by = Division.Distance(dataStore.readNumber())
-            2 -> by = Division.Fraction(dataStore.readNumber())
-            else -> throw Exception("Cannot deserialize \"by\" with value $byIndex")
-        }
-        edge = ERectEdge.values()[dataStore.readNumber().toInt()]
-        spacing = dataStore.readNumber()
-        snugged = dataStore.readBool()
-        slice = dataStore.readLayout()
-        remainder = dataStore.readLayout()
-    }
-
     override fun toString(): String {
         return "EDivideLayout(by=$by, edge=$edge, spacing=$spacing, snugged=$snugged, slice=$slice, remainder=$remainder)"
     }

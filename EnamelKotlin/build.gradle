@@ -29,6 +29,8 @@ dependencies {
     implementation jackson.core
     implementation jackson.kotlin
 
+// https://mvnrepository.com/artifact/org.json/json
+    compile group: 'org.json', name: 'json', version: '20180813'
 
     // JBox2D
     implementation jbox2d.jbox2d

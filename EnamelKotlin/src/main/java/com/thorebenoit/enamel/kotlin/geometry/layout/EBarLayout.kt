@@ -9,7 +9,7 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerialize
 
 import com.thorebenoit.enamel.kotlin.geometry.toRect
 
-class EBarLayout(child: ELayout = ELayoutLeaf.unit, var side: ERectEdge = ERectEdge.top) : ELayoutAlongAxis {
+class EBarLayout(child: ELayout, var side: ERectEdge) : ELayoutAlongAxis {
 
     var child: ELayout = child
         set(value) {
@@ -41,15 +41,5 @@ class EBarLayout(child: ELayout = ELayoutLeaf.unit, var side: ERectEdge = ERectE
         child.arrange(usingFrame)
     }
 
-
-    override fun serialize(dataStore: ELayoutSerializer) {
-        dataStore.add(side)
-        dataStore.add(child)
-    }
-
-    override fun deserialize(dataStore: ELayoutDeserializer) {
-        side = dataStore.readRectEdge()
-        child = dataStore.readLayout()
-    }
 
 }
