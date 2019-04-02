@@ -7,17 +7,35 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.digital.ELayoutSerializerDigital
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
 import com.thorebenoit.enamel.kotlin.core.color.*
 
 
 object ProcessingTestMain {
-    // NOT WORKING LIKE IN EXAMPLE
+// NOT WORKING LIKE IN EXAMPLE
 //            val layout = 3.of { ELayoutLeaf().sizedSquare(100) }
 //                .stacked(bottomCenter, 10)
 //                .aligned(bottom)
 //                .padded(10)
+
+
+// NOT WORKING LIKE IN EXAMPLE
+//    val big = ELayoutLeaf(red)
+//    val small = ELayoutLeaf(blue)
+//
+//    val smallLayout = small
+//        .sizedSquare(200)
+//        .padded(50)
+//        .arranged(middle, snugged = true)
+//        .scaled(y = 2)
+//        .arranged(topRight)
+//
+//    val layout = big
+//        .tracked(smallLayout)
+//        .height(100)
+//        .padded(50)
+//        .aligned(top)
+
 
     @JvmStatic
     fun main(args: Array<String>) {

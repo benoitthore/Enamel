@@ -27,16 +27,6 @@ class EPaddingLayout(child: ELayout = ELayoutLeaf.unit, var padding: EOffset = E
         child.arrange(frame - padding)
     }
 
-    override fun serialize(dataStore: ELayoutSerializer) {
-        dataStore.add(padding)
-        dataStore.add(child)
-    }
-
-    override fun deserialize(dataStore: ELayoutDeserializer) {
-        padding = dataStore.readOffset()
-        child = dataStore.readLayout()
-    }
-
     override fun toString(): String {
         return "EPaddingLayout(padding=$padding, child=$child)"
     }

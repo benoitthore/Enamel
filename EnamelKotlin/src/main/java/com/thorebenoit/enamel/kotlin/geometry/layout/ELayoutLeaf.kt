@@ -30,14 +30,6 @@ class ELayoutLeaf(var color: Int = randomColor()) : ELayoutAlongAxis {
         _frame.set(frame)
     }
 
-    override fun serialize(dataStore: ELayoutSerializer) {
-        dataStore.add(color)
-    }
-
-    override fun deserialize(dataStore: ELayoutDeserializer) {
-        color = dataStore.readNumber().toInt()
-    }
-
     override fun toString(): String {
         return "ELayoutLeaf(color=$color, frame=$frame)"
     }

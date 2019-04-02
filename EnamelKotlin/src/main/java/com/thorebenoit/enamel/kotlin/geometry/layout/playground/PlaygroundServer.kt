@@ -5,8 +5,6 @@ import com.thorebenoit.enamel.kotlin.core.data.ignoreUnknownObjectMapper
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.digital.ELayoutDeserializerDigital
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.digital.ELayoutSerializerDigital
 import io.ktor.application.call
 import io.ktor.request.receive
 import io.ktor.response.respondText
@@ -27,26 +25,27 @@ class PlaygroundServer {
         newInstance: (Class<ELayout>) -> ELayout = { it.newInstance() },
         onNewLayout: (ELayout) -> Unit
     ) {
-        val mapper = ignoreUnknownObjectMapper()
-        embeddedServer(Netty, port = port) {
-            routing {
-                get("/test") {
-                    call.respondText { "Working" }
-                }
-                post("/") {
-                    try {
-                        val json = call.receive<String>()
-                        val data = mapper.readValue<List<Number>>(json)
-
-                        println("SOCKET-IN: $data")
-                        val layout = ELayoutDeserializerDigital.createIntIDDesrializer(data, newInstance)
-                        onNewLayout(layout.readLayout())
-                    } catch (e: Throwable) {
-                        System.err.println(e)
-                        throw e
-                    }
-                }
-            }
-        }.start(wait = false)
+        TODO()
+//        val mapper = ignoreUnknownObjectMapper()
+//        embeddedServer(Netty, port = port) {
+//            routing {
+//                get("/test") {
+//                    call.respondText { "Working" }
+//                }
+//                post("/") {
+//                    try {
+//                        val json = call.receive<String>()
+//                        val data = mapper.readValue<List<Number>>(json)
+//
+//                        println("SOCKET-IN: $data")
+//                        val layout = ELayoutDeserializerDigital.createIntIDDesrializer(data, newInstance)
+//                        onNewLayout(layout.readLayout())
+//                    } catch (e: Throwable) {
+//                        System.err.println(e)
+//                        throw e
+//                    }
+//                }
+//            }
+//        }.start(wait = false)
     }
 }

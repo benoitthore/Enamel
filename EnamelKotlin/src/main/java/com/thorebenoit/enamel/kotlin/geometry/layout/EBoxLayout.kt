@@ -41,18 +41,6 @@ class EBoxLayout(
     }
 
 
-    override fun serialize(dataStore: ELayoutSerializer) {
-        dataStore.add(alignment)
-        dataStore.add(snugged)
-        dataStore.add(child)
-    }
-
-    override fun deserialize(dataStore: ELayoutDeserializer) {
-        alignment = dataStore.readAlignment()
-        snugged = dataStore.readBool()
-        child = dataStore.readLayout()
-    }
-
     override fun toString(): String {
         return "EBoxLayout(alignment=$alignment, snugged=$snugged, child=$child)"
     }

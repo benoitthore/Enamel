@@ -45,19 +45,6 @@ class EStackLayout(
         }
     }
 
-    override fun serialize(dataStore: ELayoutSerializer) {
-        dataStore.add(alignment)
-        dataStore.add(spacing)
-        dataStore.add(childLayouts)
-    }
-
-    override fun deserialize(dataStore: ELayoutDeserializer) {
-        alignment = dataStore.readAlignment()
-        spacing = dataStore.readNumber()
-        childLayouts.clear()
-        childLayouts.addAll(dataStore.readLayouts())
-    }
-
     override fun toString(): String {
         return "EStackLayout(alignment=$alignment, spacing=$spacing, childLayouts=$childLayouts)"
     }

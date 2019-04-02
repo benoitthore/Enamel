@@ -14,18 +14,8 @@ import java.util.*
 class ELayoutRef<V : Any>(
     var ref: ELayoutRefObject<V>,
     private val sizeToFit: ELayoutRef<V>.(ESizeType) -> ESizeType,
-    private val arrangeIn: ELayoutRef<V>.(ERectType) -> Unit,
-    private val _serialize: ELayoutRef<V>.(ELayoutSerializer) -> Unit,
-    private val _deserialize: ELayoutRef<V>.(ELayoutDeserializer) -> Unit
+    private val arrangeIn: ELayoutRef<V>.(ERectType) -> Unit
 ) : ELayout {
-
-    override fun serialize(dataStore: ELayoutSerializer) {
-        _serialize(dataStore)
-    }
-
-    override fun deserialize(dataStore: ELayoutDeserializer) {
-        _deserialize(dataStore)
-    }
 
     override val childLayouts: List<ELayout> = listOf()
 

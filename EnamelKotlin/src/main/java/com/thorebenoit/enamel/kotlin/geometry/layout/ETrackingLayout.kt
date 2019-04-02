@@ -33,13 +33,4 @@ class ETrackingLayout(src: ELayout = ELayoutLeaf.unit, dst: ELayout = ELayoutLea
         dst.arrange(frame)
     }
 
-    override fun serialize(dataStore: ELayoutSerializer) {
-        dataStore.add(src)
-        dataStore.add(dst)
-    }
-
-    override fun deserialize(dataStore: ELayoutDeserializer) {
-        src = dataStore.readLayout()
-        dst = dataStore.readLayout()
-    }
 }
