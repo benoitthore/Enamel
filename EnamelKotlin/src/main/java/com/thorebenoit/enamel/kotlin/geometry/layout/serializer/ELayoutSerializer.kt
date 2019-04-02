@@ -20,7 +20,7 @@ fun JSONObject.addLayoutClazz(layout: ELayout) {
 
 class ELayoutSerializer {
 
-    val serializerMap: MutableMap<Class<out ELayout>, ELayoutSerializer.(ELayout) -> JSONObject> = mutableMapOf()
+    private val serializerMap: MutableMap<Class<out ELayout>, ELayoutSerializer.(ELayout) -> JSONObject> = mutableMapOf()
 
     init {
         addSerializer(EBarLayout::class.java) { layout ->

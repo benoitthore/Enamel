@@ -15,23 +15,14 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.Exception
 
-fun String.toRectEdge() = ERectEdge.valueOf(this)
-fun String.toAlignment() = EAlignment.valueOf(this)
+private fun String.toRectEdge() = ERectEdge.valueOf(this)
+private fun String.toAlignment() = EAlignment.valueOf(this)
 
-class ELayoutDeserializer() {
+class ELayoutDeserializer {
 
 
-    companion object {
-        //
-        //
-        //
-    }
-
-    fun <T : ELayout> addDeserializer(clazz: Class<T>, deserializer: ELayoutDeserializer.(JSONObject) -> T) {
-        deserializerMap[clazz] = deserializer as ELayoutDeserializer.(JSONObject) -> ELayout
-    }
-
-    val deserializerMap: MutableMap<Class<out ELayout>, ELayoutDeserializer.(JSONObject) -> ELayout> = mutableMapOf()
+    private val deserializerMap: MutableMap<Class<out ELayout>, ELayoutDeserializer.(JSONObject) -> ELayout> =
+        mutableMapOf()
 
 
     init {
@@ -59,6 +50,11 @@ class ELayoutDeserializer() {
             EStackLayout(childLayouts = children, spacing = spacing, alignment = alignment)
         }
 
+    }
+
+
+    fun <T : ELayout> addDeserializer(clazz: Class<T>, deserializer: ELayoutDeserializer.(JSONObject) -> T) {
+        deserializerMap[clazz] = deserializer as ELayoutDeserializer.(JSONObject) -> ELayout
     }
 
     fun readLayouts(jsonArray: JSONArray): MutableList<ELayout> {
