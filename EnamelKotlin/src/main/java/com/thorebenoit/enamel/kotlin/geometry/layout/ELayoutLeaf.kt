@@ -1,15 +1,12 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.thorebenoit.enamel.kotlin.core.color.randomColor
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 
-class ELayoutLeaf(var color: Int = randomColor()) : ELayoutAlongAxis {
+class ELayoutLeaf(var color: Int) : ELayoutAlongAxis {
 
     override var layoutAxis: ELayoutAxis = ELayoutAxis.horizontal
 
