@@ -15,7 +15,7 @@ Sorted by priority order:
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-# DONe
+# DONE
 ## Fix EDivideLayout and EBarLayout serializations
 
 # ONGOING
@@ -28,7 +28,7 @@ Sorted by priority order:
 
 
 # NEXT
-## ELinearLayout as an alternative solution to the confusing DSL (LinearLayout on steroids)
+## ELinearLayout as an alternative solution to the confusing DSL (LinearLayout on steroids), start with API 
 Use this as reference https://fblitho.com/docs/layout
 ## Find a solution for ELayoutRef to be instantiated with an empty constructor (is it still valid ?)
 ## Fix android layout bug with Gravity.CENTER on TextView as a way of reproducing

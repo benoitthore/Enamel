@@ -10,12 +10,12 @@ import com.thorebenoit.enamel.kotlin.geometry.toRect
 
 
 class EDivideLayout(
-    slice: ELayout = ELayoutLeaf(),
-    remainder: ELayout = ELayoutLeaf(),
-    var by: Division = Division.Slice,
-    var edge: ERectEdge = ERectEdge.top,
-    var spacing: Number = 0,
-    var snugged: Boolean = true
+    slice: ELayout,
+    remainder: ELayout,
+    var by: Division,
+    var edge: ERectEdge,
+    var spacing: Number,
+    var snugged: Boolean
 ) : ELayout {
 
     var slice: ELayout = slice

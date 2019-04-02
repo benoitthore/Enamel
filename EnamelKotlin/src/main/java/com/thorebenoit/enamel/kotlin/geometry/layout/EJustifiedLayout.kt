@@ -9,8 +9,8 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.*
 
 
 class EJustifiedLayout(
-    override val childLayouts: MutableList<ELayout> = mutableListOf(),
-    var alignment: EAlignment = EAlignment.topLeft
+    override val childLayouts: MutableList<ELayout>,
+    var alignment: EAlignment
 ) : ELayoutAlongAxis {
 
     override val layoutAxis: ELayoutAxis = alignment.layoutAxis ?: ELayoutAxis.horizontal
