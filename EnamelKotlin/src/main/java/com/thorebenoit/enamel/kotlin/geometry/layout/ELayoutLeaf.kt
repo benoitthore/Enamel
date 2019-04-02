@@ -6,7 +6,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 
-class ELayoutLeaf(var color: Int) : ELayoutAlongAxis {
+class ELayoutLeaf(var color: Int = randomColor()) : ELayoutAlongAxis {
 
     override var layoutAxis: ELayoutAxis = ELayoutAxis.horizontal
 
