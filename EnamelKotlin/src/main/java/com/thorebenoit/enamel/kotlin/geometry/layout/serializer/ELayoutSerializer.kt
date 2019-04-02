@@ -9,6 +9,7 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout.ELayoutSpace.
 import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.ELinearLayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.dsl.stacked
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
+import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutTag
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
 import org.json.JSONArray
 import org.json.JSONObject
@@ -31,6 +32,12 @@ class ELayoutSerializer(val serializeClass: JSONObject.(ELayout) -> Unit = { put
         mutableMapOf()
 
     init {
+
+        addSerializer(ELayoutTag::class.java) { layout ->
+            JSONObject().apply {
+                put("tag", layout.tag)
+            }
+        }
 
         addSerializer(ELinearLayout::class.java) { layout ->
             JSONObject().apply {

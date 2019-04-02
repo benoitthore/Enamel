@@ -22,8 +22,9 @@ class PlaygroundServer {
     }
 
     fun start(
+        deserializer: ELayoutDeserializer,
         port: Int = defaultPort,
-        deserializer: ELayoutDeserializer = ELayoutDeserializer(),
+        onError: (Throwable) -> Unit = { System.err.println(it) },
         onNewLayout: (ELayout) -> Unit
     ) {
         embeddedServer(Netty, port = port) {
@@ -39,8 +40,7 @@ class PlaygroundServer {
                         val layout = deserializer.readLayout(JSONObject(data))
                         onNewLayout(layout)
                     } catch (e: Throwable) {
-                        System.err.println(e)
-                        throw e
+                        onError(e)
                     }
                 }
             }

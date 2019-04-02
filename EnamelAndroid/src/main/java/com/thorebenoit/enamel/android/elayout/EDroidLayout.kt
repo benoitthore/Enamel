@@ -26,33 +26,11 @@ class EDroidLayout : ViewGroup {
         startServer()
     }
 
-//    val tv1 = textView("AA") {
-//        backgroundColor = red
-//        textSize = 20f
-////        gravity = Gravity.CENTER
-//        textColor = white
-//        tag = "A"
-//    }
-//    val tv2 = textView("BBBB") {
-//        backgroundColor = green
-//        textSize = 20f
-//        textColor = black
-////        gravity = Gravity.CENTER
-//        tag = "B"
-//    }
-//    val tv3 = textView("CCCCCCCC") {
-//        backgroundColor = blue
-//        textSize = 20f
-//        textColor = white
-////        gravity = Gravity.CENTER
-//        tag = "C"
-//    }
-    //    val viewList = listOf(tv1, tv2, tv3)
 
-    val viewList = (0..6)
-        .map {
-            val _tag = 'A' + it
-            val i = (it + 1) * 2
+    val viewList = ('A'..'Z')
+        .map { _tag ->
+
+            val i = (_tag - 'A' + 1) * 2
             val str = (0 until i).map { _tag }.joinToString(separator = "")
 
             textView(str) {
@@ -69,7 +47,6 @@ class EDroidLayout : ViewGroup {
 
     fun goToLayout(layout: ELayout) {
         transition.to(layout, eframe.copy())
-//        layout.arrange(eframe)
     }
 
     val eframe: ERectType get() = _eframe

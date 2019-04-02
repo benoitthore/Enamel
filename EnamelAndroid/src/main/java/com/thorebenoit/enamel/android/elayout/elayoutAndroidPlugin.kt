@@ -1,6 +1,7 @@
 package com.thorebenoit.enamel.android.elayout
 
 import android.animation.ValueAnimator
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.BounceInterpolator
@@ -12,27 +13,28 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRefObject
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutTag
+import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.ETransition
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.SingleElementAnimator
 import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
 
+private fun Throwable.log(tag: String = "ERROR") = Log.e(tag, message, this)
 
 fun EDroidLayout.startServer() {
+    val viewGroup = this
 
+    val deserializer = ELayoutDeserializer()
+    deserializer.addDeserializer(ELayoutTag::class.java) { jsonObject ->
+        val tag = jsonObject.getString("tag")
+        viewGroup.viewList.first { it.tag == tag }.laidIn(viewGroup)
+    }
     PlaygroundServer().start(
-        newInstance = { clazz ->
-            if (clazz == ELayoutTag::class.java) {
-                View(context).laidIn(this@startServer)
-            } else {
-                clazz.newInstance()
-            }
-        },
-        onNewLayout = { newLayout ->
-            mainThreadCoroutine {
-                goToLayout(newLayout)
-            }
+        deserializer = deserializer,
+        onError = { e -> e.log(); System.exit(0) }) { newLayout ->
+        mainThreadCoroutine {
+            goToLayout(newLayout)
         }
-    )
+    }
 }
 
 private typealias Interpolator = (Float) -> Float
@@ -122,24 +124,24 @@ fun <T : View> T.laidIn(viewGroup: EDroidLayout): ELayoutRef<T> {
                 frame.right.toInt(),
                 frame.bottom.toInt()
             )
-        },
-        _serialize = { serializer ->
-            // TODO Inconsistent with _deserialize
-            (view.tag as? String)?.let {
-                serializer.add(true)
-                serializer.add(it)
-            } ?: run {
-                serializer.add(false)
-            }
-        },
-        _deserialize = { deserializer ->
-            val tag = deserializer.readString()
-
-            val newView: T = viewGroup.viewList.find { it.tag == tag } as T
-
-            ref.removeFromParent()
-            ref = newView.createLayoutRef(viewGroup)
         }
+//        _serialize = { serializer ->
+//            // TODO Inconsistent with _deserialize
+//            (view.tag as? String)?.let {
+//                serializer.add(true)
+//                serializer.add(it)
+//            } ?: run {
+//                serializer.add(false)
+//            }
+//        },
+//        _deserialize = { deserializer ->
+//            val tag = deserializer.readString()
+//
+//            val newView: T = viewGroup.viewList.find { it.tag == tag } as T
+//
+//            ref.removeFromParent()
+//            ref = newView.createLayoutRef(viewGroup)
+//        }
     )
 }
 
