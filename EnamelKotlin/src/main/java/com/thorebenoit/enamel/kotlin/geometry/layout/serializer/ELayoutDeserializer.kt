@@ -18,7 +18,7 @@ import java.lang.Exception
 private fun String.toRectEdge() = ERectEdge.valueOf(this)
 private fun String.toAlignment() = EAlignment.valueOf(this)
 
-class ELayoutDeserializer {
+class ELayoutDeserializer(val deserializeClass: (JSONObject) -> Class<out ELayout> = { it.get("layoutClazz") as Class<out ELayout> }) {
 
 
     private val deserializerMap: MutableMap<Class<out ELayout>, ELayoutDeserializer.(JSONObject) -> ELayout> =
@@ -64,7 +64,7 @@ class ELayoutDeserializer {
     }
 
     fun readLayout(jsonObject: JSONObject): ELayout {
-        val clazz = jsonObject.get("layoutClazz") as Class<out ELayout>
+        val clazz = deserializeClass(jsonObject)
 
         return deserializerMap[clazz]?.invoke(this, jsonObject)
             ?: throw Exception("No deserializer for ${jsonObject.get("layoutClazz")}")

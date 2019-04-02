@@ -14,13 +14,10 @@ import org.json.JSONObject
 import java.lang.Exception
 
 
-fun JSONObject.addLayoutClazz(layout: ELayout) {
-    put("layoutClazz", layout::class.java)
-}
+class ELayoutSerializer(val serializeClass: JSONObject.(ELayout) -> Unit = { put("layoutClazz", it::class.java) }) {
 
-class ELayoutSerializer {
-
-    private val serializerMap: MutableMap<Class<out ELayout>, ELayoutSerializer.(ELayout) -> JSONObject> = mutableMapOf()
+    private val serializerMap: MutableMap<Class<out ELayout>, ELayoutSerializer.(ELayout) -> JSONObject> =
+        mutableMapOf()
 
     init {
         addSerializer(EBarLayout::class.java) { layout ->
@@ -63,7 +60,7 @@ class ELayoutSerializer {
         }
 
     fun serialize(layout: ELayout): JSONObject =
-        serializerMap[layout::class.java]?.invoke(this, layout)?.apply { addLayoutClazz(layout) }
+        serializerMap[layout::class.java]?.invoke(this, layout)?.apply { serializeClass(layout) }
             ?: throw Exception("No serializer for ${layout.javaClass}")
 
 
