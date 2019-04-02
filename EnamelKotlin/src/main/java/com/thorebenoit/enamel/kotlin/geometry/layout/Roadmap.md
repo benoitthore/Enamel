@@ -37,7 +37,7 @@ Use this as reference https://fblitho.com/docs/layout
 
 
 # BACKLOG
-## Implement onDebugDraw 
+## Implement onDebugDraw ( Is it needed with leaf() ? ) 
 ## Extract ELayout to its own branch/repo 
 ## Refactor ELayout so it doesn't allocate on sizing and arranging 
 ## Unit tests 
@@ -45,6 +45,7 @@ Use this as reference https://fblitho.com/docs/layout
  
 
 # MAYBE
+## Add clip rect
 ## Create Web Playground (linked with Android)
 ## Create Web Playground (Using JS Canvas)
 

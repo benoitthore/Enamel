@@ -1,8 +1,11 @@
 package com.thorebenoit.enamel.android.elayout
 
 import android.content.Context
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.util.AttributeSet
+import android.view.View
 import android.view.ViewGroup
 import com.thorebenoit.enamel.android.dsl.views.backgroundColor
 import com.thorebenoit.enamel.android.dsl.views.textColor
@@ -11,6 +14,9 @@ import com.thorebenoit.enamel.kotlin.core.color.*
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
+import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getLeafs
+import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getRefs
 
 class EDroidLayout : ViewGroup {
 
@@ -80,5 +86,24 @@ class EDroidLayout : ViewGroup {
     }
 
 
+    private val debugPaint = Paint().apply {
+        style = Paint.Style.FILL
+        color = red.withAlpha(0.5)
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        transition.layout?.getLeafs()?.forEach { leaf ->
+            leaf.debugDraw(canvas)
+        }
+    }
+
+
+    fun ELayoutLeaf.debugDraw(canvas: Canvas) {
+        debugPaint.color = color
+        frame.apply {
+            canvas.drawRect(left, top, right, bottom, debugPaint)
+        }
+    }
 }
+
 
