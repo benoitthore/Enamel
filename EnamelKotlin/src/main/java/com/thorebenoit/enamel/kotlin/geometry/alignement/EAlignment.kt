@@ -76,7 +76,7 @@ enum class EAlignment {
             rightBottom -> NamedPoint.bottomRight
         }
 
-    val isHorizontal: Boolean
+    val isVertical: Boolean
         get() = when (this) {
             topLeft -> true
             topCenter -> true
@@ -90,8 +90,8 @@ enum class EAlignment {
             }
         }
 
-    val isVertical: Boolean
-        get() = this == middle || !isHorizontal
+    val isHorizontal : Boolean
+        get() = this == middle || !isVertical
 
     val spacingSign: EPointType
         get() = when (this) {
