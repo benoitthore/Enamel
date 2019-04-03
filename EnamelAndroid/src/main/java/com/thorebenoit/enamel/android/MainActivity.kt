@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
                 }.linearLayoutLP(wrapContent, wrapContent)
 
                 customView<EDroidLayout>() {
+                    startServer()
                     backgroundColor = dkGray
                     post {
                         goToLayout(listOf("B".layoutTag, "A".layoutTag).stacked(EAlignment.bottomCenter))
@@ -66,16 +67,16 @@ class MainActivity : AppCompatActivity() {
                 }
 
 
-                customView<EDroidLayout>() {
-                    backgroundColor = ltGray
-                    startServer()
-                    post {
-                        goToLayout("A".layoutTag.arranged(EAlignment.topRight))
-                    }
-                }.linearLayoutLP {
-                    height = 0
-                    weight = 1f
-                }
+//                customView<EDroidLayout>() {
+//                    backgroundColor = ltGray
+//                    startServer()
+//                    post {
+//                        goToLayout("A".layoutTag.arranged(EAlignment.topRight))
+//                    }
+//                }.linearLayoutLP {
+//                    height = 0
+//                    weight = 1f
+//                }
                 backgroundColor = black
 
 
