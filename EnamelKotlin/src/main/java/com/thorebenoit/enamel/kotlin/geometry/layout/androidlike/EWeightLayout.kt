@@ -56,7 +56,7 @@ class EWeightLayout(
         val frames = childLayouts.map { it.weight }
             .rectGroupWeights(
                 alignment = alignment,
-                toFit = frame.size,
+                toFit = frame.size, // SNUGGING ISSUE HERE
                 anchor = gravity.namedPoint,
                 position = frame.pointAtAnchor(gravity.namedPoint),
                 spacing = spacing
