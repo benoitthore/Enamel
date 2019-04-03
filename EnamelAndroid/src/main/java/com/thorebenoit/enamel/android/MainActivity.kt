@@ -14,6 +14,11 @@ import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
+import com.thorebenoit.enamel.android.elayout.startServer
+import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.dsl.stacked
+import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.arranged
+import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.layoutTag
 
 
 private var screenSizeBuffer = ESize()
@@ -52,6 +57,24 @@ class MainActivity : AppCompatActivity() {
 
                 customView<EDroidLayout>() {
                     backgroundColor = dkGray
+                    post {
+                        goToLayout(listOf("B".layoutTag, "A".layoutTag).stacked(EAlignment.bottomCenter))
+                    }
+                }.linearLayoutLP {
+                    height = 0
+                    weight = 1f
+                }
+
+
+                customView<EDroidLayout>() {
+                    backgroundColor = ltGray
+                    startServer()
+                    post {
+                        goToLayout("A".layoutTag.arranged(EAlignment.topRight))
+                    }
+                }.linearLayoutLP {
+                    height = 0
+                    weight = 1f
                 }
                 backgroundColor = black
 

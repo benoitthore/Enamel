@@ -7,6 +7,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.layout.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout.ELayoutSpace.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.ELinearLayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.EWeightLayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.dsl.stacked
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutTag
@@ -47,6 +48,28 @@ class ELayoutSerializer(val serializeClass: JSONObject.(ELayout) -> Unit = { put
                 put("width", layout.width)
                 put("height", layout.height)
                 put("children", serialize(layout.childLayouts))
+            }
+        }
+
+        addSerializer(EWeightLayout::class.java) { layout ->
+            JSONObject().apply {
+
+                put("alignment", layout.alignment)
+                put("spacing", layout.spacing)
+                put("gravity", layout.gravity)
+                put("snugging", layout.snugging)
+                put(
+                    "weights", JSONArray()
+                        .apply {
+                            layout.weights.forEach {
+                                put(
+                                    JSONObject()
+                                        .put("layout", serialize(it.first))
+                                        .put("weight", it.second)
+                                )
+                            }
+                        }
+                )
             }
         }
 

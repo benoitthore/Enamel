@@ -18,12 +18,19 @@ Sorted by priority order:
 # DONE
 ## Fix EDivideLayout and EBarLayout serializations
 ## Find a solution for ELayoutRef to be instantiated with an empty constructor (is it still valid ?)
-
-# ONGOING
 ## Refactoring with serialisation to use JSONObject
 ---- Add missing implementation
 ---- Playground Server/Client
 ---- Android Leaf impl
+
+
+# ONGOING
+## Align Weight, Linear, Frame(TODO) 
+## Replace Snugging with boolean
+## Android friendly implementation:
+When removing the snugging bit in order to make it closer to Android's API, dupplicate appears like arranged/aligned.
+JustifyLayout is still using snugging
+SnuggingLayout isn't needed anymore
 
 ## Bug Fix
 ### Fix example so it works like on the original Enamel 
@@ -36,10 +43,7 @@ Sorted by priority order:
 ## ELinearLayout as an alternative solution to the confusing DSL (LinearLayout on steroids), start with API 
 Use this as reference https://fblitho.com/docs/layout
 
-## Android friendly implementation:
-When removing the snugging bit in order to make it closer to Android's API, dupplicate appears like arranged/aligned.
-JustifyLayout is still using snugging
-SnuggingLayout isn't needed anymore
+
 
 ## Fix android layout bug with Gravity.CENTER on TextView as a way of reproducing
 ## Test with more than 1 EPViewGroup on the UI

@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.geometry.figures
 
+import com.thorebenoit.enamel.kotlin.core.math.d
 import com.thorebenoit.enamel.kotlin.core.math.f
 import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.GeometryBufferProvider
@@ -105,12 +106,37 @@ fun List<ESizeType>.rectGroupJustified(
 }
 
 
+fun List<Number>.rectGroupWeights(
+    alignment: EAlignment,
+    toFit: ESizeType,
+    anchor: EPointType = EPointType.zero,
+    position: EPointType = EPointType.zero,
+    padding: EOffset = EOffset.zero,
+    spacing: Number = 0
+): ERectGroup {
 
+    if (isEmpty()) {
+        TODO("TODO")
+    }
 
+    val spacing = spacing.toFloat()
 
+    val actualWidth = if (alignment.isHorizontal) toFit.width - (spacing * (size - 1)) else toFit.width
+    val actualHeight = if (alignment.isVertical) toFit.height - (spacing * (size - 1)) else toFit.height
 
+    val totalWeight = sumByDouble { it.d }.f
 
+    val sizes: List<ESize> = if (alignment.isHorizontal) {
+        map { ESize((actualWidth) * it.toFloat() / totalWeight, toFit.height) }
+    } else {
+        map { ESize(toFit.width, (actualHeight) * it.toFloat() / totalWeight) }
+    }
 
-
-
-
+    return sizes.rectGroup(
+        alignment = alignment,
+        anchor = anchor,
+        position = position,
+        padding = padding,
+        spacing = spacing
+    )
+}

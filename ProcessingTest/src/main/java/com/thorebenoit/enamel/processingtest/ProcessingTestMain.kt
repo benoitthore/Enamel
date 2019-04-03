@@ -5,13 +5,16 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
 import com.thorebenoit.enamel.kotlin.core.color.*
+import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.of
 import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge.*
+import com.thorebenoit.enamel.kotlin.geometry.figures.rectGroupWeights
 import com.thorebenoit.enamel.kotlin.geometry.layout.EDivideLayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.ESnugging
 import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.dsl.stacked
+import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.weighted
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 
@@ -60,18 +63,25 @@ object ProcessingTestMain {
 //                .aligned(top)
 
 
+            onMouseClicked { loop() }
             onDraw {
 
-                val json = ELayoutSerializer().serialize(ELayoutDemo._3()).toString()
-                val l = ELayoutDeserializer().deserialize(json)
+                background(255)
+                fill(red)
+//                listOf<Number>(1, 2, 1).rectGroupWeights(bottomCenter, eframe.size,spacing = frameCount*2).rects.forEach { it.draw() }
 
 
-                val size = l.size(esize)
-                val frame = eframe.rectAlignedInside(middle, size = size)
-
-                l.arrangeAndDraw(frame)
-
-//                layout.arrangeAndDraw()
+                5.of { ELayoutLeaf() to random(2, 10) }.weighted(spacing = 20).padded(20).arrangeAndDraw()
+//                val json = ELayoutSerializer().serialize(ELayoutDemo._3()).toString()
+//                val l = ELayoutDeserializer().deserialize(json)
+//
+//
+//                val size = l.size(esize)
+//                val frame = eframe.rectAlignedInside(middle, size = size)
+//
+//                l.arrangeAndDraw(frame)
+//
+////                layout.arrangeAndDraw()
                 noLoop()
             }
         }

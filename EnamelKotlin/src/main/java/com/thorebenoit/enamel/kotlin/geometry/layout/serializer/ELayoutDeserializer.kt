@@ -8,6 +8,7 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout.ELayoutSpace
 import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout.ELayoutSpace.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.ELinearLayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.ESnugging
+import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.EWeightLayout
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
 import org.json.JSONArray
 import org.json.JSONObject
@@ -55,6 +56,44 @@ class ELayoutDeserializer(
                 spacing = jsonObject._getNumber("spacing")
             )
         }
+
+
+        addDeserializer(EWeightLayout::class.java) { jsonObject ->
+            EWeightLayout(
+                snugging = jsonObject.getString("snugging").toSnugging(),
+                alignment = jsonObject.getString("alignment").toAlignment(),
+                gravity = jsonObject.getString("gravity").toAlignment(),
+                spacing = jsonObject._getNumber("spacing"),
+                weights = with(jsonObject.getJSONArray("weights")) {
+
+                    (0 until length())
+                        .asSequence()
+                        .map { getJSONObject(it) }
+                        .map {
+                            it.getJSONObject("layout").deserialize() to it._getNumber("weight")
+                        }.toList()
+
+
+                }
+            )
+        }
+
+//                put("snugging", layout.snugging)
+//                put(
+//                    "weights", JSONArray()
+//                        .apply {
+//                            layout.weights.forEach {
+//                                put(
+//                                    JSONObject()
+//                                        .put("layout", serialize(it.first))
+//                                        .put("weight", it.second)
+//                                )
+//                            }
+//                        }
+//                )
+//            }
+//        }
+
 
         addDeserializer(EBarLayout::class.java) { jsonObject ->
             EBarLayout(
