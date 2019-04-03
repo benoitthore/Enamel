@@ -156,7 +156,6 @@ class ETransition<V : Any>(
             // TODO Extract to separate function to increase readability ?
             /// Do animation
 
-            "Start: View OUT".print
             // OUT
             if (outAnimations.isNotEmpty()) {
                 doAnimation(250L) { progress ->
@@ -167,13 +166,14 @@ class ETransition<V : Any>(
                 it.ref.removeFromParent()
             }
 
-            "Start: View UPDATE".print
-            // UPDATE
-            doAnimation(1000L) { progress ->
-                updateAnimations.forEach { animator -> animator.animateTo(progress) }
+
+            if (updateAnimations.isNotEmpty()) {
+                // UPDATE
+                doAnimation(1000L) { progress ->
+                    updateAnimations.forEach { animator -> animator.animateTo(progress) }
+                }
             }
 
-            "Start: View IN".print
             // IN
             newRefs.forEach {
                 it.ref.addToParent()
