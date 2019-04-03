@@ -14,6 +14,8 @@ import org.json.JSONObject
 import java.lang.Exception
 
 private fun JSONObject._getNumber(key: String) = get(key) as Number // Required to run on Android
+private fun JSONObject._optNumber(key: String) = opt(key) as? Number // Required to run on Android
+
 private fun String.toSnugging() = ESnugging.valueOf(this)
 private fun String.toRectEdge() = ERectEdge.valueOf(this)
 private fun String.toAlignment() = EAlignment.valueOf(this)
@@ -121,8 +123,8 @@ class ELayoutDeserializer(
                 Type.Width -> Width(jsonSpace._getNumber("width"))
                 Type.Height -> Height(jsonSpace._getNumber("height"))
                 Type.Scale -> Scale(
-                    horizontal = jsonSpace.optNumber("horizontal"),
-                    vertical = jsonSpace.optNumber("vertical")
+                    horizontal = jsonSpace._optNumber("horizontal"),
+                    vertical = jsonSpace._optNumber("vertical")
                 )
                 Type.AspectFitting -> AspectFitting(jsonSpace.toSize())
                 Type.AspectFilling -> AspectFilling(jsonSpace.toSize())
