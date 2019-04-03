@@ -26,7 +26,7 @@ Sorted by priority order:
 
 # ONGOING
 ## Align Weight, Linear, Frame(TODO) 
-## Replace Snugging with boolean
+## Replace Snugging with boolean /// OR replace snugged by wrap()
 ## Android friendly implementation:
 When removing the snugging bit in order to make it closer to Android's API, dupplicate appears like arranged/aligned.
 JustifyLayout is still using snugging
@@ -42,8 +42,6 @@ SnuggingLayout isn't needed anymore
 
 ## ELinearLayout as an alternative solution to the confusing DSL (LinearLayout on steroids), start with API 
 Use this as reference https://fblitho.com/docs/layout
-
-
 
 ## Fix android layout bug with Gravity.CENTER on TextView as a way of reproducing
 ## Test with more than 1 EPViewGroup on the UI
