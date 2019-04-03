@@ -26,11 +26,13 @@ Sorted by priority order:
 
 # ONGOING
 ## Align Weight, Linear, Frame(TODO) 
+## Add copy and equal functions 
 ## Replace Snugging with boolean /// OR replace snugged by wrap()
 ## Android friendly implementation:
 When removing the snugging bit in order to make it closer to Android's API, dupplicate appears like arranged/aligned.
 JustifyLayout is still using snugging
 SnuggingLayout isn't needed anymore
+
 
 ## Bug Fix
 ### Fix example so it works like on the original Enamel 
@@ -56,6 +58,7 @@ Use this as reference https://fblitho.com/docs/layout
  
 
 # MAYBE
+## Start End instead of Left,Right
 ## Add clip rect
 ## Create Web Playground (linked with Android)
 ## Create Web Playground (Using JS Canvas)

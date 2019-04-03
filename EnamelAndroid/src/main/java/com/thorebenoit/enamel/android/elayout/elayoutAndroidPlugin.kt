@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.BounceInterpolator
 import androidx.core.animation.addListener
+import androidx.core.view.children
 import com.thorebenoit.enamel.android.threading.mainThreadCoroutine
 import com.thorebenoit.enamel.kotlin.animations.EasingInterpolators
 import com.thorebenoit.enamel.kotlin.core.color.blue
@@ -59,7 +60,7 @@ fun EDroidLayout.startServer() {
     val deserializer = ELayoutDeserializer()
     deserializer.addDeserializer(ELayoutTag::class.java) { jsonObject ->
         val tag = jsonObject.getString("tag")
-        viewGroup.viewList.first { it.tag == tag }.laidIn(viewGroup)
+        viewGroup.children.first { it.tag == tag }.laidIn(viewGroup)
     }
     PlaygroundServer().start(
         deserializer = deserializer,
@@ -117,6 +118,8 @@ fun androidDefaultTransition() = ETransition<View>(
 )
 
 
+fun <T : View> List<T>.laidIn(frame: EDroidLayout): List<ELayoutRef<T>> = map { it.laidIn(frame) }
+
 private fun <T : View> T.createLayoutRef(viewGroup: EDroidLayout): ELayoutRefObject<T> {
     return ELayoutRefObject(
         viewRef = this,
@@ -135,7 +138,6 @@ private fun <T : View> T.createLayoutRef(viewGroup: EDroidLayout): ELayoutRefObj
     )
 }
 
-fun <T : View> List<T>.laidIn(frame: EDroidLayout): List<ELayoutRef<T>> = map { it.laidIn(frame) }
 
 private inline val <T : View> ELayoutRef<T>.view get() = ref.viewRef
 fun <T : View> T.laidIn(viewGroup: EDroidLayout): ELayoutRef<T> {

@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import com.thorebenoit.enamel.android.dsl.contextConstructor
 import com.thorebenoit.enamel.android.dsl.views.backgroundColor
 import com.thorebenoit.enamel.android.dsl.views.textColor
 import com.thorebenoit.enamel.android.dsl.views.textView
@@ -31,21 +32,31 @@ class EDroidLayout : ViewGroup {
         setWillNotDraw(false)
     }
 
+    inline fun <reified T : View> addToViewList(tag: String, builder: T.() -> Unit) {
+        val view = T::class.java.contextConstructor.newInstance(context)
 
-    val viewList = ('A'..'Z')
-        .map { _tag ->
+        view.builder()
 
-            val i = (_tag - 'A' + 1) * 2
-            val str = (0 until i).map { _tag }.joinToString(separator = "")
+        addView(view)
+    }
 
-            textView(str) {
-                backgroundColor = blue
-                textSize = 20f
-                textColor = white
-                tag = _tag.toString()
+
+    init {
+        ('A'..'Z')
+            .forEach { _tag ->
+
+                val i = (_tag - 'A' + 1) * 2
+                val str = (0 until i).map { _tag }.joinToString(separator = "")
+
+                // this method calls addView
+                textView(str) {
+                    backgroundColor = blue
+                    textSize = 20f
+                    textColor = white
+                    tag = _tag.toString()
+                }
             }
-        }
-
+    }
 
     private val transition = androidDefaultTransition()
 
