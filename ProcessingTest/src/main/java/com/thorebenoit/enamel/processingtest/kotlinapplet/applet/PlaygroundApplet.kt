@@ -8,7 +8,6 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 import com.thorebenoit.enamel.kotlin.geometry.figures.size
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
-import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.dsl.stacked
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.sendToPlayground

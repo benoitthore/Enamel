@@ -16,9 +16,9 @@ import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import com.thorebenoit.enamel.android.elayout.startServer
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.dsl.stacked
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.arranged
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.layoutTag
+import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.stacked
 
 
 private var screenSizeBuffer = ESize()

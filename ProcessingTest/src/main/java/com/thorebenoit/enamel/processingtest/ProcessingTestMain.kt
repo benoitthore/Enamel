@@ -12,9 +12,6 @@ import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge.*
 import com.thorebenoit.enamel.kotlin.geometry.figures.rectGroupWeights
 import com.thorebenoit.enamel.kotlin.geometry.layout.EDivideLayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.ESnugging
-import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.dsl.stacked
-import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.weighted
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 
@@ -44,6 +41,8 @@ object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
 
+        return
+
         PlaygroundApplet.start(800, 800) {
 
             //            val big = ELayoutLeaf(red)
@@ -71,7 +70,6 @@ object ProcessingTestMain {
 //                listOf<Number>(1, 2, 1).rectGroupWeights(bottomCenter, eframe.size,spacing = frameCount*2).rects.forEach { it.draw() }
 
 
-                5.of { ELayoutLeaf() to random(2, 10) }.weighted(spacing = 20).padded(20).arrangeAndDraw()
 //                val json = ELayoutSerializer().serialize(ELayoutDemo._3()).toString()
 //                val l = ELayoutDeserializer().deserialize(json)
 //

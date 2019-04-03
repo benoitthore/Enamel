@@ -49,7 +49,7 @@ fun main() {
                 it.sized(random(50, 150), random(50, 150))
 //            it.sizedSquare(100)
             }
-            ._stacked(randomAlign, 32)
+            .stacked(randomAlign, 32)
 //            .snugged()
             .padded(32)
             .arranged(topLeft)
@@ -78,7 +78,7 @@ private fun workingLayout() {
 //            it.sized(random(50, 150), random(50, 150))
 //            it.sizedSquare(100)
 //        }
-        ._stacked(bottomLeft, 32)
+        .stacked(bottomLeft, 32)
         .snugged()
         .padded(32)
         .arranged(topLeft)

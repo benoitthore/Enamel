@@ -14,11 +14,7 @@ import com.thorebenoit.enamel.kotlin.core.color.green
 import com.thorebenoit.enamel.kotlin.core.color.withAlpha
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
-import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.dsl.stacked
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.arranged
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.layoutTag
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.leaf
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.padded
+import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.sendToPlayground
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
@@ -28,6 +24,7 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeseriali
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.ETransition
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.SingleElementAnimator
 import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
+import java.lang.Exception
 
 
 // Run in terminal: adb forward tcp:9327 tcp:9327
@@ -45,7 +42,8 @@ fun main() {
         .subList(0, 5)
 //    .map { it.sized(100, 200) }
         .map { it.padded(16.dp).leaf() }
-        .stacked(EAlignment.bottomCenter, spacing = 1.dp, gravity = EAlignment.topRight)
+        .stacked(EAlignment.bottomCenter, spacing = 1.dp)
+
         .leaf(green.withAlpha(0.25))
         .padded(64.dp)
         .leaf(blue.withAlpha(0.25))
@@ -60,9 +58,14 @@ fun EDroidLayout.startServer() {
     val deserializer = ELayoutDeserializer()
     deserializer.addDeserializer(ELayoutTag::class.java) { jsonObject ->
         val tag = jsonObject.getString("tag")
-        viewGroup.children.first { it.tag == tag }.laidIn(viewGroup)
+        viewGroup.viewList.firstOrNull { it.tag == tag }?.laidIn(viewGroup)
+            ?: run {
+
+                val tag = tag
+                throw Exception("Unknown tag $tag")
+            }
     }
-    PlaygroundServer().start(
+    PlaygroundServer.start(
         deserializer = deserializer,
         onError = { e -> e.log(); System.exit(0) }) { newLayout ->
         mainThreadCoroutine {

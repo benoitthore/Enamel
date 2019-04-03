@@ -10,42 +10,11 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.layout.EDivideLayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
-import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.dsl.stacked
 
 typealias ELayoutExample = () -> ELayout
 
 
 object ELayoutDemo {
-    val _3: ELayoutExample = {
-
-        val slice: ELayout = 5.of { ELayoutLeaf(red).sizedSquare((it + 1) * 10) }
-            .stacked(
-                alignment = bottomRight,
-                gravity = topLeft,
-//                    width = ESnugging.fill,
-//                    height = 200,
-                spacing = 10
-            )
-            .padded(20)
-            .leaf()
-
-        val remainder: ELayout = 4.of { ELayoutLeaf(blue).sizedSquare((it + 1) * 50) }
-            .stacked(
-                alignment = bottomCenter,
-                gravity = topLeft,
-//                    width = ESnugging.fill,
-//                    height = 200,
-                spacing = 10
-            )
-            .padded(10)
-            .leaf()
-
-        val layout: ELayout = remainder
-            .aligned(left, of = slice, sizedBy = EDivideLayout.Division.Fraction(0.33))
-            .arranged(middle)
-
-        layout
-    }
     val _2: ELayoutExample = {
 
         3.of { ELayoutLeaf(red) }

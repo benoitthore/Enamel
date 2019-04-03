@@ -14,12 +14,14 @@ import io.ktor.routing.routing
 import io.ktor.server.cio.CIO
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import io.ktor.server.netty.NettyApplicationEngine
 import org.json.JSONObject
+import java.util.concurrent.TimeUnit
 
-class PlaygroundServer {
-    companion object {
-        val defaultPort = 9327
-    }
+object PlaygroundServer {
+    val defaultPort = 9321
+
+    private var _server: NettyApplicationEngine? = null
 
     fun start(
         deserializer: ELayoutDeserializer,
@@ -27,7 +29,8 @@ class PlaygroundServer {
         onError: (Throwable) -> Unit = { System.err.println(it) },
         onNewLayout: (ELayout) -> Unit
     ) {
-        embeddedServer(Netty, port = port) {
+        _server?.stop(0, 0, TimeUnit.MILLISECONDS)
+        _server = embeddedServer(Netty, port = port) {
             routing {
                 get("/test") {
                     call.respondText { "Working" }
