@@ -1,15 +1,14 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet.playround
 
 import com.thorebenoit.enamel.kotlin.animations.lerp
-import com.thorebenoit.enamel.kotlin.core.color.randomColor
+import com.thorebenoit.enamel.kotlin.core.color.*
+import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.core.of
 import com.thorebenoit.enamel.kotlin.core.print
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.arranged
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.layoutTag
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.sized
+import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.sendToPlayground
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
@@ -24,6 +23,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
 
+private val Number.dp get() = this.toDouble() * 3.0
 fun main() {
     startEPViewPlayground(
         mutableSetOf<EPView>().apply {
@@ -32,6 +32,20 @@ fun main() {
             }
         }
     )
+
+    listOf("A", "B", "C").map { it.layoutTag }
+        .map {
+            it.sizedSquare(random(10, 50).dp)
+        }
+        .stackedBottomRight(10.dp)              // EStackLayout (align linearly)
+//    .snugged()                              // ESnuggingLayout (wrapContent)
+
+        .leaf(red.withAlpha(0.25))
+        .padded(64.dp)                          // EPaddingLayout (margins)
+        .leaf(blue.withAlpha(0.25))
+
+        .arranged(EAlignment.topRight)                     // EBoxLayout (gravity)
+        .sendToPlayground()
     /* EXAMPLE CODE:
     val list = listOf("A", "B", "C", "D")
 
@@ -83,7 +97,7 @@ fun startEPViewPlayground(viewList: Set<EPView>) = PlaygroundApplet.start(400, 8
         viewGroup.viewList.first { it.tag == tag }.laidIn(viewGroup)
     }
 
-    PlaygroundServer().start(deserializer) {
+    PlaygroundServer.start(deserializer) {
         transition.to(it, eframe)
     }
 
@@ -91,7 +105,7 @@ fun startEPViewPlayground(viewList: Set<EPView>) = PlaygroundApplet.start(400, 8
     frame.isResizable = true
 
     onDraw {
-        background(255)
+        background(dkGray)
 
         viewGroup.onDraw(this)
     }

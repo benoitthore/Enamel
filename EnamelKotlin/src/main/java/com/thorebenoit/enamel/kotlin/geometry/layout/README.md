@@ -18,6 +18,7 @@ In order to fix this problem, a library would have to re-implement the whole lay
 
 # Goal
 Create a algorithmical way of building layouts following these guidelines:
+- What you see is what you get
 - Cross platform with an Android and Desktop implementation
 - Close to english using the power of a Kotlin DSL
 - Supports transition using animations

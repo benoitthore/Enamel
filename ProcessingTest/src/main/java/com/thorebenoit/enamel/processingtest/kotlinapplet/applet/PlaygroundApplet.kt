@@ -54,7 +54,7 @@ fun main() {
             .arranged(EAlignment.topLeft)
             .padded(20)
 
-        PlaygroundServer().start(deserializer = deserializer) {
+        PlaygroundServer.start(deserializer = deserializer) {
             layout = it
             it.print
         }
