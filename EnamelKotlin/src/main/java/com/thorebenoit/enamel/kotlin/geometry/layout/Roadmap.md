@@ -25,7 +25,7 @@ Sorted by priority order:
 
 
 # ONGOING
-## Align Weight, Linear, Frame(TODO) 
+At the moment, in order for the size to be taken into account, arranged needs to be called (to be put in documentation)
 ## Add copy and equal functions 
 ## Replace Snugging with boolean /// OR replace snugged by wrap()
 ## Android friendly implementation:

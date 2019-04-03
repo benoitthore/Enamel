@@ -32,31 +32,33 @@ class EDroidLayout : ViewGroup {
         setWillNotDraw(false)
     }
 
-    inline fun <reified T : View> addToViewList(tag: String, builder: T.() -> Unit) {
-        val view = T::class.java.contextConstructor.newInstance(context)
+
+    fun <T : View> addToViewList(clazz: Class<T>, builder: T.() -> Unit) {
+        val view = clazz.contextConstructor.newInstance(context)
 
         view.builder()
 
-        addView(view)
+        _viewList.add(view)
     }
 
+    inline fun <reified T : View> addToViewList(noinline builder: T.() -> Unit) = addToViewList(T::class.java, builder)
 
-    init {
-        ('A'..'Z')
-            .forEach { _tag ->
 
-                val i = (_tag - 'A' + 1) * 2
-                val str = (0 until i).map { _tag }.joinToString(separator = "")
+    val viewList: List<View> get() = _viewList
+    private val _viewList: MutableList<View> = ('A'..'Z')
+        .map { _tag ->
 
-                // this method calls addView
-                textView(str) {
-                    backgroundColor = blue
-                    textSize = 20f
-                    textColor = white
-                    tag = _tag.toString()
-                }
+            val i = (_tag - 'A' + 1) * 2
+            val str = (0 until i).map { _tag }.joinToString(separator = "")
+
+            textView(str) {
+                backgroundColor = blue
+                textSize = 20f
+                textColor = white
+                tag = _tag.toString()
             }
-    }
+        }.toMutableList()
+
 
     private val transition = androidDefaultTransition()
 

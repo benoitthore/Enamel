@@ -6,9 +6,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
 import com.thorebenoit.enamel.kotlin.geometry.layout.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout.ELayoutSpace
 import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout.ELayoutSpace.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.ELinearLayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.ESnugging
-import com.thorebenoit.enamel.kotlin.geometry.layout.androidlike.EWeightLayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.EWeightLayout
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
 import org.json.JSONArray
 import org.json.JSONObject
@@ -17,7 +15,6 @@ import java.lang.Exception
 private fun JSONObject._getNumber(key: String) = get(key) as Number // Required to run on Android
 private fun JSONObject._optNumber(key: String) = opt(key) as? Number // Required to run on Android
 
-private fun String.toSnugging() = ESnugging.valueOf(this)
 private fun String.toRectEdge() = ERectEdge.valueOf(this)
 private fun String.toAlignment() = EAlignment.valueOf(this)
 private fun JSONObject.toSize() = ESize(width = _getNumber("height"), height = _getNumber("height"))
@@ -46,21 +43,9 @@ class ELayoutDeserializer(
 
     init {
 
-        addDeserializer(ELinearLayout::class.java) { jsonObject ->
-            ELinearLayout(
-                childLayouts = jsonObject.getJSONArray("children").deserialize(),
-                width = jsonObject.getString("width").toSnugging(),
-                height = jsonObject.getString("height").toSnugging(),
-                alignment = jsonObject.getString("alignment").toAlignment(),
-                gravity = jsonObject.getString("gravity").toAlignment(),
-                spacing = jsonObject._getNumber("spacing")
-            )
-        }
-
 
         addDeserializer(EWeightLayout::class.java) { jsonObject ->
             EWeightLayout(
-                snugging = jsonObject.getString("snugging").toSnugging(),
                 alignment = jsonObject.getString("alignment").toAlignment(),
                 gravity = jsonObject.getString("gravity").toAlignment(),
                 spacing = jsonObject._getNumber("spacing"),
