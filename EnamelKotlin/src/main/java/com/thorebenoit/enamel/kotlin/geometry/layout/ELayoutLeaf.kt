@@ -6,7 +6,6 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
 
-// TODO Fix ESnuggingLayout doesn't snugg leaf properly
 class ELayoutLeaf(var color: Int = randomColor(), var child: ELayout? = null) : ELayoutAlongAxis {
 
     override val layoutAxis: ELayoutAxis get() = (child as? ELayoutAlongAxis)?.layoutAxis ?: ELayoutAxis.horizontal
@@ -19,7 +18,7 @@ class ELayoutLeaf(var color: Int = randomColor(), var child: ELayout? = null) : 
     val frame: ERectType = _frame
 
 
-    override val childLayouts: List<ELayout> get() = child?.let { listOf(it) } ?: emptyList()
+    override val childLayouts: List<ELayout> get() = child?.childLayouts ?: emptyList() // TODO Test if this fixes snugging issue
 
     override fun size(toFit: ESizeType): ESizeType = child?.size(toFit) ?: toFit
 
