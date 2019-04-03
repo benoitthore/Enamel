@@ -11,6 +11,7 @@ import com.thorebenoit.enamel.android.dsl.views.backgroundColor
 import com.thorebenoit.enamel.android.dsl.views.textColor
 import com.thorebenoit.enamel.android.dsl.views.textView
 import com.thorebenoit.enamel.kotlin.core.color.*
+import com.thorebenoit.enamel.kotlin.core.tryAndForget
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
@@ -28,8 +29,6 @@ class EDroidLayout : ViewGroup {
         backgroundColor = black
         Color.LTGRAY
         setWillNotDraw(false)
-
-        startServer()
     }
 
 
