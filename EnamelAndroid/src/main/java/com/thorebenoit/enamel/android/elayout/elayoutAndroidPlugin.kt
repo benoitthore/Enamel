@@ -53,13 +53,10 @@ fun main() {
 private fun Throwable.log(tag: String = "ERROR") = Log.e(tag, message, this)
 
 fun EDroidLayout.startServer(port: Int = PlaygroundServer.defaultPort) {
-    val viewGroup = this
 
     val deserializer = ELayoutDeserializer()
-    deserializer.addDeserializer(ELayoutTag::class.java) { jsonObject ->
-        val tag = jsonObject.getString("tag")
-        viewGroup.getRefFromTag(tag)
-    }
+    // Add more deserializer here
+
     PlaygroundServer.start(
         deserializer = deserializer,
         port = port,

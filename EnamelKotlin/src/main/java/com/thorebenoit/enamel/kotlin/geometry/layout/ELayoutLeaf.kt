@@ -18,7 +18,8 @@ class ELayoutLeaf(var color: Int = randomColor(), var child: ELayout? = null) : 
     val frame: ERectType = _frame
 
 
-    override val childLayouts: List<ELayout> get() = child?.childLayouts ?: emptyList() // TODO Test if this fixes snugging issue
+    override val childLayouts: List<ELayout>
+        get() = child?.let { listOf(it) } ?: emptyList() // TODO add setter on child to avoid allocation on get()
 
     override fun size(toFit: ESizeType): ESizeType = child?.size(toFit) ?: toFit
 
