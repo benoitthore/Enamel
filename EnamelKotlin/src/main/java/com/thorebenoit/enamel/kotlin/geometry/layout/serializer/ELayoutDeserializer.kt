@@ -7,6 +7,7 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout.ELayoutSpace
 import com.thorebenoit.enamel.kotlin.geometry.layout.ESizingLayout.ELayoutSpace.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.EWeightLayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutTag
 import com.thorebenoit.enamel.kotlin.geometry.primitives.EOffset
 import org.json.JSONArray
 import org.json.JSONObject
@@ -63,22 +64,10 @@ class ELayoutDeserializer(
             )
         }
 
-//                put("snugging", layout.snugging)
-//                put(
-//                    "weights", JSONArray()
-//                        .apply {
-//                            layout.weights.forEach {
-//                                put(
-//                                    JSONObject()
-//                                        .put("layout", serialize(it.first))
-//                                        .put("weight", it.second)
-//                                )
-//                            }
-//                        }
-//                )
-//            }
-//        }
-
+        addDeserializer(ELayoutTag::class.java) { jsonObject ->
+            val tag = jsonObject.getString("tag")
+            ELayoutTag(tag)
+        }
 
         addDeserializer(EBarLayout::class.java) { jsonObject ->
             EBarLayout(

@@ -7,3 +7,4 @@ val ltGray = 0xCCCCCC.color
 val dkGray = 0x444444.color
 val black = 0x000000.color
 val white = 0xFFFFFF.color
+val transparent = 0x00_000000.toInt()

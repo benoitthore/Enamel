@@ -19,6 +19,7 @@ import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
 import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
+import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutTag
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getLeafs
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getRefs
 import java.lang.Exception
@@ -69,6 +70,12 @@ class EDroidLayout : ViewGroup {
 
 
     fun goToLayout(layout: ELayout) {
+        layout.getLeafs().forEach { leaf ->
+            (leaf.child as? ELayoutTag)?.let {
+                leaf.child = getRefFromTag(it.tag)
+            }
+        }
+
         if (width == 0 || height == 0) {
             doOnNextLayout {
                 goToLayout(layout)
@@ -132,7 +139,7 @@ class EDroidLayout : ViewGroup {
     /**
      * ELayoutTag shouldn't be converted until goToLayout is called
      */
-    fun getRefFromTag(tag: String): ELayout = viewList
+    private fun getRefFromTag(tag: String): ELayout = viewList
         .firstOrNull { it.tag == tag }
         ?.laidIn(this)
         ?: run {
