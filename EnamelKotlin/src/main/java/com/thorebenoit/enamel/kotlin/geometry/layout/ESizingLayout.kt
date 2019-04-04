@@ -25,9 +25,17 @@ class ESizingLayout(child: ELayout, var space: ELayoutSpace) : ELayout {
             is ELayoutSpace.Size -> space.size
 
             // TODO
-            // Should this be "AT_MOST" or "EXACTLY", currently it's considered as AT_MOST
-            is ELayoutSpace.Width -> child.size(toFit.copy(width = space.width))
-            is ELayoutSpace.Height -> child.size(toFit.copy(height = space.height))
+            // Should this be "AT_MOST" or "EXACTLY"
+
+            // AT_MOST implementation:
+//            is ELayoutSpace.Width -> child.size(toFit.copy(width = space.width))
+//            is ELayoutSpace.Height -> child.size(toFit.copy(height = space.height))
+
+            // EXACTLY implementation:
+            is ELayoutSpace.Width -> child.size(toFit.copy(width = space.width)).copy(width = space.width)
+            is ELayoutSpace.Height -> child.size(toFit.copy(height = space.height)).copy(height = space.height)
+
+            //
 
             is ELayoutSpace.Scale -> {
                 TODO("This is probably not working")

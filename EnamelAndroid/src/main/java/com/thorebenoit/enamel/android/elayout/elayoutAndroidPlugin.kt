@@ -27,7 +27,7 @@ import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
 import java.lang.Exception
 
 
-// Run in terminal: adb forward tcp:9327 tcp:9327
+// Run in terminal: adb forward tcp:9321 tcp:9321
 // Run this in a KTS file once app is running
 private val Number.dp get() = this.toDouble() * 3.0
 
@@ -52,26 +52,24 @@ fun main() {
 
 private fun Throwable.log(tag: String = "ERROR") = Log.e(tag, message, this)
 
-fun EDroidLayout.startServer() {
+fun EDroidLayout.startServer(port: Int = PlaygroundServer.defaultPort) {
     val viewGroup = this
 
     val deserializer = ELayoutDeserializer()
     deserializer.addDeserializer(ELayoutTag::class.java) { jsonObject ->
         val tag = jsonObject.getString("tag")
-        viewGroup.viewList.firstOrNull { it.tag == tag }?.laidIn(viewGroup)
-            ?: run {
-
-                val tag = tag
-                throw Exception("Unknown tag $tag")
-            }
+        viewGroup.getRefFromTag(tag)
     }
     PlaygroundServer.start(
         deserializer = deserializer,
-        onError = { e -> e.log(); System.exit(0) }) { newLayout ->
-        mainThreadCoroutine {
-            goToLayout(newLayout)
+        port = port,
+        onError = { e -> e.log(); System.exit(0) },
+        onNewLayout = { newLayout ->
+            mainThreadCoroutine {
+                goToLayout(newLayout)
+            }
         }
-    }
+    )
 }
 
 private typealias Interpolator = (Float) -> Float

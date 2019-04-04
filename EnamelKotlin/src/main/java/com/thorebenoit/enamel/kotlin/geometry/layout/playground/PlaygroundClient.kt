@@ -10,7 +10,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 
 
-//adb forward tcp:9327 tcp:9327
+//adb forward tcp:9321 tcp:9321
 class PlaygroundClient(
     private val address: String = "localhost",
     private val serializer: ELayoutSerializer = ELayoutSerializer(),

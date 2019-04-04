@@ -15,46 +15,29 @@ Sorted by priority order:
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-# DONE
-## Fix EDivideLayout and EBarLayout serializations
-## Find a solution for ELayoutRef to be instantiated with an empty constructor (is it still valid ?)
-## Refactoring with serialisation to use JSONObject
----- Add missing implementation
----- Playground Server/Client
----- Android Leaf impl
-
-
 # ONGOING
-At the moment, in order for the size to be taken into account, arranged needs to be called (to be put in documentation)
-## Add copy and equal functions 
-## Replace Snugging with boolean /// OR replace snugged by wrap()
-## Android friendly implementation:
-When removing the snugging bit in order to make it closer to Android's API, dupplicate appears like arranged/aligned.
-JustifyLayout is still using snugging
-SnuggingLayout isn't needed anymore
-
-
-## Bug Fix
-### Fix example so it works like on the original Enamel 
-### Fix Scale in ESizingLayout 
-
+## Android implementation: How to add views in code
 
 # NEXT
-## Start documentation
-
-## ELinearLayout as an alternative solution to the confusing DSL (LinearLayout on steroids), start with API 
-Use this as reference https://fblitho.com/docs/layout
-
-## Fix android layout bug with Gravity.CENTER on TextView as a way of reproducing
 ## Test with more than 1 EPViewGroup on the UI
+## Start documentation
+## Extract ELayout to its own branch/repo
+ 
+# Buf fixes - Must before 0.1.0
+## Fix android layout bug with Gravity.CENTER on TextView as a way of reproducing
+## Fix Scale in ESizingLayout
+## Check tracing layout implementation with example 
+
+# Improvements - Good before 0.1.0
 ## Make transition return a transition object and use it to control the transition with a touch event as an example
 
-## Extract ELayout to its own branch/repo 
 
 # Post 0.1.0
 ## Refactor ELayout so it doesn't allocate on sizing and arranging 
 ## Unit tests 
 ## Improve Transition performance 
+## Add copy and equal functions 
+
  
 
 # MAYBE

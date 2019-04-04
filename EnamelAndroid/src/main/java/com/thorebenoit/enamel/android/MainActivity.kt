@@ -55,16 +55,34 @@ class MainActivity : AppCompatActivity() {
                     textColor = white
                 }.linearLayoutLP(wrapContent, wrapContent)
 
-                customView<EDroidLayout>() {
+                customView<EDroidLayout> {
                     startServer()
+
+                    goToLayout(
+                        listOf(
+                            "B".layoutTag,
+                            "A".layoutTag
+                        ).stacked(EAlignment.bottomCenter).arranged(EAlignment.topRight)
+                    )
+
                     backgroundColor = dkGray
-                    post {
-                        goToLayout(listOf("B".layoutTag, "A".layoutTag).stacked(EAlignment.bottomCenter))
-                    }
                 }.linearLayoutLP {
                     height = 0
                     weight = 1f
                 }
+
+//                customView<EDroidLayout> {
+//                    backgroundColor = red
+//                    goToLayout(
+//                        listOf(
+//                            "B".layoutTag,
+//                            "A".layoutTag
+//                        ).stacked(EAlignment.bottomCenter).arranged(EAlignment.topRight)
+//                    )
+//                }.linearLayoutLP {
+//                    height = 0
+//                    weight = 1f
+//                }
 
 
 //                customView<EDroidLayout>() {
