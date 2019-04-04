@@ -7,6 +7,8 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.view.doOnNextLayout
 import com.thorebenoit.enamel.android.dsl.contextConstructor
 import com.thorebenoit.enamel.android.dsl.views.backgroundColor
 import com.thorebenoit.enamel.android.dsl.views.textColor
@@ -19,6 +21,7 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getLeafs
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getRefs
+import java.lang.Exception
 
 class EDroidLayout : ViewGroup {
 
@@ -26,45 +29,53 @@ class EDroidLayout : ViewGroup {
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    init {
-        backgroundColor = black
-        Color.LTGRAY
-        setWillNotDraw(false)
-    }
 
-
-    fun <T : View> addToViewList(clazz: Class<T>, builder: T.() -> Unit) {
+    fun <T : View> prepareView(clazz: Class<T>, tag: String, builder: T.() -> Unit) {
         val view = clazz.contextConstructor.newInstance(context)
 
+        view.tag = tag
         view.builder()
 
         _viewList.add(view)
     }
 
-    inline fun <reified T : View> addToViewList(noinline builder: T.() -> Unit) = addToViewList(T::class.java, builder)
+    inline fun <reified T : View> prepareView(tag: String, noinline builder: T.() -> Unit = {}) =
+        prepareView(T::class.java, tag, builder)
 
 
     val viewList: List<View> get() = _viewList
-    private val _viewList: MutableList<View> = ('A'..'Z')
-        .map { _tag ->
+    private val _viewList: MutableList<View> = mutableListOf()
 
-            val i = (_tag - 'A' + 1) * 2
-            val str = (0 until i).map { _tag }.joinToString(separator = "")
+    init {
+        setWillNotDraw(false)
 
-            textView(str) {
-                backgroundColor = blue
-                textSize = 20f
-                textColor = white
-                tag = _tag.toString()
+        ('A'..'Z')
+            .forEach { _tag ->
+
+                val i = (_tag - 'A' + 1) * 2
+                val str = (0 until i).map { _tag }.joinToString(separator = "")
+
+                prepareView<TextView>(_tag.toString()) {
+                    backgroundColor = blue
+                    textSize = 20f
+                    text = str
+                    textColor = white
+                }
             }
-        }.toMutableList()
+    }
 
 
     private val transition = androidDefaultTransition()
 
 
     fun goToLayout(layout: ELayout) {
-        transition.to(layout, eframe.copy())
+        if (width == 0 || height == 0) {
+            doOnNextLayout {
+                goToLayout(layout)
+            }
+        } else {
+            transition.to(layout, eframe)
+        }
     }
 
     val eframe: ERectType get() = _eframe
@@ -116,6 +127,17 @@ class EDroidLayout : ViewGroup {
             canvas.drawRect(left, top, right, bottom, debugPaint)
         }
     }
+
+    // TODO Call this function when transition is done through code instead of network
+    /**
+     * ELayoutTag shouldn't be converted until goToLayout is called
+     */
+    fun getRefFromTag(tag: String): ELayout = viewList
+        .firstOrNull { it.tag == tag }
+        ?.laidIn(this)
+        ?: run {
+            throw Exception("Unknown tag $tag")
+        }
 }
 
 
