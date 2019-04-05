@@ -2,6 +2,7 @@ package com.thorebenoit.enamel.android
 
 import android.app.Activity
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Point
 import android.os.Bundle
@@ -14,11 +15,15 @@ import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
+import com.thorebenoit.enamel.android.dsl.withID
+import com.thorebenoit.enamel.android.dsl.withTag
+import com.thorebenoit.enamel.android.elayout.laidIn
 import com.thorebenoit.enamel.android.elayout.startServer
+import com.thorebenoit.enamel.android.threading.mainThreadCoroutine
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.arranged
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.layoutTag
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.stacked
+import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
+import kotlinx.coroutines.delay
 
 
 private var screenSizeBuffer = ESize()
@@ -30,11 +35,58 @@ val Activity.screenSize
         screenSizeBuffer.set(x, y)
     }
 
+fun Context.eLayout(block: EDroidLayout.() -> ELayout): EDroidLayout = EDroidLayout(this).apply {
+    goToLayout(block())
+}
+
+val Number.dp: Int
+    get() = (toFloat() * Resources.getSystem().displayMetrics.density).toInt()
+
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+//       view1()
+
+
+        setContentView(
+            eLayout {
+                val viewgroup = this
+                val tv1 = context.textView("Text1") {
+                    backgroundColor = randomColor()
+                }
+                    .withTag("tv1")
+                val tv2 = context.textView("Some other text")
+                {
+                    backgroundColor = randomColor()
+                }
+                    .withTag("tv2")
+
+
+                backgroundColor = dkGray
+                startServer()
+
+                val layout = listOf(tv1, tv2).laidIn(viewgroup)
+                    .stackedBottomRight(10.dp)
+                    .arranged(EAlignment.topRight)
+
+                mainThreadCoroutine {
+                    delay(2000)
+                    goToLayout(listOf(tv1, tv2).laidIn(viewgroup)
+                        .stackedBottomRight(20.dp)
+                        .snugged()
+                        .padded(20.dp)
+                        .arranged(EAlignment.topLeft))
+                }
+
+                layout
+            }
+        )
+
+    }
+
+    private fun view1() {
         val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         val wifiInfo = wifiManager.connectionInfo
         val ip = wifiInfo.ipAddress
@@ -113,7 +165,5 @@ class MainActivity : AppCompatActivity() {
 //                }
             }
         )
-
-
     }
 }

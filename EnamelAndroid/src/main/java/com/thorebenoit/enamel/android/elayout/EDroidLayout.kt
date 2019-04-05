@@ -1,6 +1,7 @@
 package com.thorebenoit.enamel.android.elayout
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -23,6 +24,10 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutTag
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getLeafs
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getRefs
 import java.lang.Exception
+import android.util.TypedValue
+import android.util.DisplayMetrics
+import androidx.core.view.children
+
 
 class EDroidLayout : ViewGroup {
 
@@ -30,14 +35,14 @@ class EDroidLayout : ViewGroup {
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-
-    fun <T : View> prepareView(clazz: Class<T>, tag: String, builder: T.() -> Unit) {
+    fun <T : View> prepareView(clazz: Class<T>, tag: String, builder: T.() -> Unit): T {
         val view = clazz.contextConstructor.newInstance(context)
 
         view.tag = tag
         view.builder()
 
         _viewList.add(view)
+        return view
     }
 
     inline fun <reified T : View> prepareView(tag: String, noinline builder: T.() -> Unit = {}) =
@@ -70,12 +75,6 @@ class EDroidLayout : ViewGroup {
 
 
     fun goToLayout(layout: ELayout) {
-        layout.getLeafs().forEach { leaf ->
-            (leaf.child as? ELayoutTag)?.let {
-                leaf.child = getRefFromTag(it.tag)
-            }
-        }
-
         if (width == 0 || height == 0) {
             doOnNextLayout {
                 goToLayout(layout)
@@ -135,16 +134,23 @@ class EDroidLayout : ViewGroup {
         }
     }
 
-    // TODO Call this function when transition is done through code instead of network
-    /**
-     * ELayoutTag shouldn't be converted until goToLayout is called
-     */
-    private fun getRefFromTag(tag: String): ELayout = viewList
-        .firstOrNull { it.tag == tag }
-        ?.laidIn(this)
-        ?: run {
-            throw Exception("Unknown tag $tag")
+    fun getRefFromTag(tag: String): ELayout {
+        var view = viewList.firstOrNull { it.tag == tag }
+
+        // TODO This isn't perfect + risk of leaks
+        if (view == null) {
+            view = children
+                .firstOrNull { it.tag == tag }
+                ?.also {
+                    _viewList += it
+                }
         }
+
+        return view?.laidIn(this) ?: throw Exception("Unknown tag $tag")
+
+    }
+
+
 }
 
 
