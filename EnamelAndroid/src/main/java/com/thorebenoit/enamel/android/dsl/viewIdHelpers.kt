@@ -9,3 +9,8 @@ fun <T : View> T.withID(): T = apply {
     }
 }
 
+
+fun <T : View> T.withTag(tag: Any): T = apply {
+    this.tag = tag
+}
+

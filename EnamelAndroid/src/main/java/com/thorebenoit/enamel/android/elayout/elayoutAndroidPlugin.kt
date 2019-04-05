@@ -14,12 +14,14 @@ import com.thorebenoit.enamel.kotlin.core.color.green
 import com.thorebenoit.enamel.kotlin.core.color.withAlpha
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
+import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.sendToPlayground
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRefObject
 import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutTag
+import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getLeafs
 import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.ETransition
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.SingleElementAnimator
@@ -63,6 +65,13 @@ fun EDroidLayout.startServer(port: Int = PlaygroundServer.defaultPort) {
         onError = { e -> e.log(); System.exit(0) },
         onNewLayout = { newLayout ->
             mainThreadCoroutine {
+
+                newLayout.getLeafs().forEach { leaf ->
+                    (leaf.child as? ELayoutTag)?.let {
+                        leaf.child = getRefFromTag(it.tag)
+                    }
+                }
+
                 goToLayout(newLayout)
             }
         }

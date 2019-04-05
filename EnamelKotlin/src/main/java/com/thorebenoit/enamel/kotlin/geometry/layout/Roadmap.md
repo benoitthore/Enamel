@@ -35,8 +35,9 @@ Sorted by priority order:
 # Post 0.1.0
 ## Refactor ELayout so it doesn't allocate on sizing and arranging 
 ## Unit tests 
+## EModelLayout to create (Android/EP) Views on the fly
 ## Improve Transition performance 
-## Add copy and equal functions 
+## Add copy(with or without params?) and equal functions 
 
  
 
