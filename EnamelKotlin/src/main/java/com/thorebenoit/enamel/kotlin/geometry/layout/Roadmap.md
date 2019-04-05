@@ -17,9 +17,11 @@ Sorted by priority order:
 
 # ONGOING
 ## Android implementation: How to add views in code
+## Test with more than 1 EPViewGroup on the UI
+- Sizing doesn't work, implement onMeasure
+- Add clipping ?
 
 # NEXT
-## Test with more than 1 EPViewGroup on the UI
 ## Start documentation
 ## Extract ELayout to its own branch/repo
  
