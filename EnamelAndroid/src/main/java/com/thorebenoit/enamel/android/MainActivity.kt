@@ -15,13 +15,16 @@ import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
+import androidx.core.view.postDelayed
+import com.thorebenoit.enamel.android.dsl.contextConstructor
 import com.thorebenoit.enamel.android.dsl.withID
 import com.thorebenoit.enamel.android.dsl.withTag
 import com.thorebenoit.enamel.android.elayout.laidIn
 import com.thorebenoit.enamel.android.elayout.startServer
 import com.thorebenoit.enamel.android.threading.mainThreadCoroutine
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
+import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import kotlinx.coroutines.delay
 
@@ -46,44 +49,56 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FIX_ME()
 
-//       view1()
+    }
+
+    private fun FIX_ME() {
+        val EL1 = eLayout {
+            val viewgroup = this
+            val tv1 = context.textView("Text1") {
+                backgroundColor = randomColor()
+            }
+                .withTag("tv1")
+            val tv2 = context.textView("Some other text")
+            {
+                backgroundColor = randomColor()
+            }
+                .withTag("tv2")
+
+
+            backgroundColor = dkGray
+
+            val layout = listOf(tv1, tv2).laidIn(viewgroup)
+                .stackedBottomRight(10.dp)
+                .arranged(topRight)
+
+
+            layout
+        }.withTag("layout1")
+
+        val EL2 = eLayout {
+            val tv = context.textView("ABCDEF") {
+                textSize = 26f
+            }
+
+            backgroundColor = red.withAlpha(0.5)
+
+            tv.laidIn(this).arranged(middle)
+        }.withTag("layout2")
 
 
         setContentView(
             eLayout {
-                val viewgroup = this
-                val tv1 = context.textView("Text1") {
-                    backgroundColor = randomColor()
-                }
-                    .withTag("tv1")
-                val tv2 = context.textView("Some other text")
-                {
-                    backgroundColor = randomColor()
-                }
-                    .withTag("tv2")
-
-
-                backgroundColor = dkGray
                 startServer()
-
-                val layout = listOf(tv1, tv2).laidIn(viewgroup)
-                    .stackedBottomRight(10.dp)
-                    .arranged(EAlignment.topRight)
-
-                mainThreadCoroutine {
-                    delay(2000)
-                    goToLayout(listOf(tv1, tv2).laidIn(viewgroup)
-                        .stackedBottomRight(20.dp)
-                        .snugged()
-                        .padded(20.dp)
-                        .arranged(EAlignment.topLeft))
+                postDelayed(1000L) {
+                    goToLayout(
+                        listOf(EL1, EL2).laidIn(this).justified(bottomRight).arranged(topRight)
+                    )
                 }
-
-                layout
+                listOf(EL1, EL2).laidIn(this).map { it.sizedSquare(1) }.justified(bottomRight).arranged(topRight)
             }
         )
-
     }
 
     private fun view1() {
@@ -114,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                         listOf(
                             "B".layoutTag,
                             "A".layoutTag
-                        ).stacked(EAlignment.bottomCenter).arranged(EAlignment.topRight)
+                        ).stacked(bottomCenter).arranged(topRight)
                     )
 
                     backgroundColor = dkGray
@@ -129,7 +144,7 @@ class MainActivity : AppCompatActivity() {
 //                        listOf(
 //                            "B".layoutTag,
 //                            "A".layoutTag
-//                        ).stacked(EAlignment.bottomCenter).arranged(EAlignment.topRight)
+//                        ).stacked(bottomCenter).arranged(topRight)
 //                    )
 //                }.linearLayoutLP {
 //                    height = 0
@@ -141,7 +156,7 @@ class MainActivity : AppCompatActivity() {
 //                    backgroundColor = ltGray
 //                    startServer()
 //                    post {
-//                        goToLayout("A".layoutTag.arranged(EAlignment.topRight))
+//                        goToLayout("A".layoutTag.arranged(topRight))
 //                    }
 //                }.linearLayoutLP {
 //                    height = 0
