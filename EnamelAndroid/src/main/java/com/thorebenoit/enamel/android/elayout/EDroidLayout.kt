@@ -27,6 +27,8 @@ import java.lang.Exception
 import android.util.TypedValue
 import android.util.DisplayMetrics
 import androidx.core.view.children
+import com.thorebenoit.enamel.kotlin.core.math.i
+import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
 
 
 class EDroidLayout : ViewGroup {
@@ -71,6 +73,19 @@ class EDroidLayout : ViewGroup {
     }
 
 
+    private val _measureSizeBuffer = ESize()
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        _measureSizeBuffer.set(
+            width = MeasureSpec.getSize(widthMeasureSpec),
+            height = MeasureSpec.getSize(heightMeasureSpec)
+        )
+        val targetSize = transition.layout?.size(_measureSizeBuffer) ?: _measureSizeBuffer
+
+        super.onMeasure(
+            MeasureSpec.makeMeasureSpec(targetSize.width.i,MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(targetSize.height.i,MeasureSpec.EXACTLY))
+    }
+
     private val transition = androidDefaultTransition()
 
 
@@ -81,6 +96,7 @@ class EDroidLayout : ViewGroup {
             }
         } else {
             transition.to(layout, eframe)
+            requestLayout()
         }
     }
 
@@ -111,7 +127,11 @@ class EDroidLayout : ViewGroup {
             buffer = _paddedFrame
         )
 
-        // TODO Handle with transition
+//        // TODO Handle with transition
+        transition.layout?.let {
+            it.arrange(eframe)
+        }
+
     }
 
 

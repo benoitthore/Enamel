@@ -16,15 +16,11 @@ Sorted by priority order:
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 # ONGOING
-## Android implementation: How to add views in code
-## Test with more than 1 EPViewGroup on the UI
-- Sizing doesn't work, implement onMeasure
-- Add clipping ?
+## Extract ELayout to its own branch/repo
+## Start documentation
 
 # NEXT
-## Start documentation
-## Extract ELayout to its own branch/repo
- 
+
 # Buf fixes - Must before 0.1.0
 ## Fix android layout bug with Gravity.CENTER on TextView as a way of reproducing
 ## Fix Scale in ESizingLayout
@@ -45,7 +41,7 @@ Sorted by priority order:
 
 # MAYBE
 ## Start End instead of Left,Right
-## Add clip rect
+## Add clip rect ?
 ## Create Web Playground (linked with Android)
 ## Create Web Playground (Using JS Canvas)
 

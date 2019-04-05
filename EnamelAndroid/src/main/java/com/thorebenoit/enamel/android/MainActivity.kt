@@ -50,28 +50,31 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FIX_ME()
-
+//        view1()
     }
 
     private fun FIX_ME() {
         val EL1 = eLayout {
             val viewgroup = this
             val tv1 = context.textView("Text1") {
-                backgroundColor = randomColor()
+                backgroundColor = green
+                padding = 16.dp
             }
                 .withTag("tv1")
             val tv2 = context.textView("Some other text")
             {
-                backgroundColor = randomColor()
+                backgroundColor = green
+                padding = 16.dp
             }
                 .withTag("tv2")
 
 
-            backgroundColor = dkGray
+            backgroundColor = blue.withAlpha(0.25)
 
             val layout = listOf(tv1, tv2).laidIn(viewgroup)
                 .stackedBottomRight(10.dp)
-                .arranged(topRight)
+                .snugged()
+                .arranged(middle)
 
 
             layout
@@ -91,12 +94,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(
             eLayout {
                 startServer()
-                postDelayed(1000L) {
-                    goToLayout(
-                        listOf(EL1, EL2).laidIn(this).justified(bottomRight).arranged(topRight)
-                    )
-                }
-                listOf(EL1, EL2).laidIn(this).map { it.sizedSquare(1) }.justified(bottomRight).arranged(topRight)
+                backgroundColor = dkGray
+                listOf(EL1, EL2).laidIn(this).justified(bottomRight).arranged(topRight)
             }
         )
     }
