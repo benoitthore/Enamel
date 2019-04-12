@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.kotlin.threading
 
+import com.thorebenoit.enamel.core.threading.CoroutineLock
 import com.thorebenoit.enamel.core.threading.coroutine
 import org.junit.Test
 
