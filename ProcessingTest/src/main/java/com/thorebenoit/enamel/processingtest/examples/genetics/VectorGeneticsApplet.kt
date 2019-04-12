@@ -1,21 +1,21 @@
 package com.thorebenoit.enamel.processingtest.examples.genetics
 
-import com.thorebenoit.enamel.kotlin.core.math.Scale
-import com.thorebenoit.enamel.kotlin.core.math.œ
-import com.thorebenoit.enamel.kotlin.core.print
+import com.thorebenoit.enamel.core.math.Scale
+import com.thorebenoit.enamel.core.math.œ
+import com.thorebenoit.enamel.core.print
 import com.thorebenoit.enamel.kotlin.ai.genetics.DnaBuilder
 import com.thorebenoit.enamel.kotlin.ai.genetics.Genome
 import com.thorebenoit.enamel.kotlin.ai.genetics.Population
-import com.thorebenoit.enamel.kotlin.geometry.alignement.NamedPoint
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERectCorners
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EAngleType
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
-import com.thorebenoit.enamel.kotlin.geometry.primitives.point
-import com.thorebenoit.enamel.kotlin.geometry.primitives.rotation
-import com.thorebenoit.enamel.kotlin.geometry.toCircle
-import com.thorebenoit.enamel.kotlin.geometry.toRect
-import com.thorebenoit.enamel.kotlin.threading.coroutine
+import com.thorebenoit.enamel.geometry.alignement.NamedPoint
+import com.thorebenoit.enamel.geometry.figures.ERectCorners
+import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.primitives.EAngleType
+import com.thorebenoit.enamel.geometry.primitives.EPoint
+import com.thorebenoit.enamel.geometry.primitives.point
+import com.thorebenoit.enamel.geometry.primitives.rotation
+import com.thorebenoit.enamel.geometry.toCircle
+import com.thorebenoit.enamel.core.threading.coroutine
+import com.thorebenoit.enamel.geometry.toRect
 import com.thorebenoit.enamel.processingtest.examples.steering.SteeringVehicle
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.pushPop
@@ -94,7 +94,7 @@ class VectorGeneticsApplet : KotlinPApplet() {
 
     init {
 
-        var startDrag: EPointType? = null
+        var startDrag: EPoint? = null
         onMousePressed {
             startDrag = it.toEPoint()
         }

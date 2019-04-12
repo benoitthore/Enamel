@@ -1,9 +1,7 @@
 package com.thorebenoit.enamel.android.elayout
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
@@ -13,22 +11,16 @@ import androidx.core.view.doOnNextLayout
 import com.thorebenoit.enamel.android.dsl.contextConstructor
 import com.thorebenoit.enamel.android.dsl.views.backgroundColor
 import com.thorebenoit.enamel.android.dsl.views.textColor
-import com.thorebenoit.enamel.android.dsl.views.textView
 import com.thorebenoit.enamel.kotlin.core.color.*
-import com.thorebenoit.enamel.kotlin.core.tryAndForget
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
+import com.thorebenoit.enamel.geometry.figures.ERect
+import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
-import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutTag
-import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getLeafs
-import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getRefs
+import com.thorebenoit.enamel.geometry.layout.refs.getLeafs
 import java.lang.Exception
-import android.util.TypedValue
-import android.util.DisplayMetrics
 import androidx.core.view.children
-import com.thorebenoit.enamel.kotlin.core.math.i
-import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
+import com.thorebenoit.enamel.core.math.i
+import com.thorebenoit.enamel.geometry.figures.ESize
 
 
 class EViewGroup : ViewGroup {

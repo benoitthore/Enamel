@@ -1,10 +1,10 @@
 package com.thorebenoit.enamel.processingtest.examples
 
-import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
-import com.thorebenoit.enamel.kotlin.geometry.figures.ECircle
-import com.thorebenoit.enamel.kotlin.geometry.figures.size
-import com.thorebenoit.enamel.kotlin.geometry.innerCircle
-import com.thorebenoit.enamel.kotlin.geometry.primitives.degrees
+import com.thorebenoit.enamel.geometry.AllocationTracker
+import com.thorebenoit.enamel.geometry.figures.ECircle
+import com.thorebenoit.enamel.geometry.figures.size
+import com.thorebenoit.enamel.geometry.innerCircle
+import com.thorebenoit.enamel.geometry.primitives.degrees
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 
 class BasicCock : KotlinPApplet() {

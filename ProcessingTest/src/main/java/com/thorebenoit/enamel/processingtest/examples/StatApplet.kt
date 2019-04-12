@@ -1,16 +1,14 @@
 package com.thorebenoit.enamel.processingtest.examples
 
-import com.thorebenoit.enamel.kotlin.core.capture
+import com.thorebenoit.enamel.core.capture
 import com.thorebenoit.enamel.kotlin.core.color.color
 import com.thorebenoit.enamel.kotlin.core.executeInTerminal
-import com.thorebenoit.enamel.kotlin.core.math.i
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.kotlin.geometry.figures.fit
-import com.thorebenoit.enamel.kotlin.geometry.figures.size
-import com.thorebenoit.enamel.kotlin.geometry.innerCircle
-import com.thorebenoit.enamel.kotlin.geometry.outterRect
-import com.thorebenoit.enamel.kotlin.geometry.primitives.point
-import com.thorebenoit.enamel.kotlin.threading.coroutine
+import com.thorebenoit.enamel.core.math.i
+import com.thorebenoit.enamel.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.geometry.figures.size
+import com.thorebenoit.enamel.core.threading.coroutine
+import com.thorebenoit.enamel.geometry.innerCircle
+import com.thorebenoit.enamel.geometry.outterRect
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPAppletModule
 import com.thorebenoit.enamel.processingtest.kotlinapplet.modules.alwaysOnTop
 import com.thorebenoit.enamel.processingtest.kotlinapplet.modules.draggableWindow
@@ -164,9 +162,9 @@ class StatApplet : KotlinPAppletModule() {
             strokeWeight(2f)
             noFill()
 
-            list.mapIndexed { x, y -> x point y }
-                .fit(lowerRect)
-                .draw(false)
+            throw Exception("Fix me")
+//            com.thorebenoit.enamel.geometry.figures.fit(lowerRect)
+//                .draw(false)
         }
         noLoop()
 

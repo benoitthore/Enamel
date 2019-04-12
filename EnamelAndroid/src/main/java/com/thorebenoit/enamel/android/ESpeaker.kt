@@ -2,10 +2,9 @@ package com.thorebenoit.enamel.android
 
 import android.content.Context
 import android.speech.tts.TextToSpeech
+import com.thorebenoit.enamel.core.threading.CoroutineLock
 import com.thorebenoit.enamel.kotlin.core.backingfield.ExtraValueHolder
-import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
-import com.thorebenoit.enamel.kotlin.threading.coroutine
-import com.thorebenoit.enamel.kotlin.threading.notify
+import com.thorebenoit.enamel.core.threading.coroutine
 
 val Context.speaker by ExtraValueHolder<Context, ESpeaker> { ESpeaker(this) }
 

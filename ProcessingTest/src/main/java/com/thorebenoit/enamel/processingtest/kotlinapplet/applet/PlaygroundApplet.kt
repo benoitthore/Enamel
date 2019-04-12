@@ -1,17 +1,18 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 
-import com.thorebenoit.enamel.kotlin.core.of
-import com.thorebenoit.enamel.kotlin.core.color.*
-import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
-import com.thorebenoit.enamel.kotlin.geometry.figures.size
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
+import com.thorebenoit.enamel.core.of
+import com.thorebenoit.enamel.core.print
+import com.thorebenoit.enamel.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.size
+import com.thorebenoit.enamel.geometry.layout.ELayout
+import com.thorebenoit.enamel.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
-import com.thorebenoit.enamel.kotlin.geometry.layout.playground.sendToPlayground
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
+import com.thorebenoit.enamel.geometry.layout.playground.PlaygroundServer
+import com.thorebenoit.enamel.geometry.layout.playground.sendToPlayground
+import com.thorebenoit.enamel.geometry.layout.serializer.ELayoutDeserializer
+import com.thorebenoit.enamel.kotlin.core.color.randomColor
+import com.thorebenoit.enamel.kotlin.core.color.*
 
 
 class PlaygroundApplet : KotlinPAppletLambda() {

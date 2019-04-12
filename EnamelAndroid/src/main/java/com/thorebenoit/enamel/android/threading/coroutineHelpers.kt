@@ -1,6 +1,6 @@
 package com.thorebenoit.enamel.android.threading
 
-import com.thorebenoit.enamel.kotlin.threading.coroutine
+import com.thorebenoit.enamel.core.threading.coroutine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

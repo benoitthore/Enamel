@@ -1,16 +1,14 @@
 package com.thorebenoit.enamel.processingtest.examples.steering
 
-import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.geometry.GeometryBufferProvider
-import com.thorebenoit.enamel.kotlin.geometry.figures.ECircle
-import com.thorebenoit.enamel.kotlin.geometry.figures.EPolygon
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
-import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EAngle
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
+import com.thorebenoit.enamel.geometry.GeometryBufferProvider
+import com.thorebenoit.enamel.geometry.figures.ECircle
+import com.thorebenoit.enamel.geometry.figures.EPolygon
+import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.primitives.EAngle
+import com.thorebenoit.enamel.geometry.primitives.EPoint
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet._onMouseClicked
-import java.lang.Exception
 
 fun main() {
     DotDrawingApplet.start()
@@ -100,7 +98,7 @@ class DotDrawingApplet : KotlinPApplet(), DotDrawer {
         noLoop()
     }
 
-    fun EPointType.drawAsDot(shape: List<EPolygon>, angle: EAngle, color: Int = 0) {
+    fun EPoint.drawAsDot(shape: List<EPolygon>, angle: EAngle, color: Int = 0) {
         pushMatrix()
         pushStyle()
 

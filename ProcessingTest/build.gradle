@@ -6,7 +6,11 @@ apply plugin: 'java-library'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation project(':EnamelKotlin')
+
+    implementation(project(':core'))
+    implementation(project(':geometry'))
+    implementation(project(':layout'))
+    implementation(project(':wip'))
 
 
 
@@ -35,7 +39,6 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.json/json
     compile group: 'org.json', name: 'json', version: '20180813'
-
 
     // KTOR
     implementation ktor.core

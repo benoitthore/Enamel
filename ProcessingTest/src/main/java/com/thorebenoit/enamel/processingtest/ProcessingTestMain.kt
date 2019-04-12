@@ -1,19 +1,7 @@
 package com.thorebenoit.enamel.processingtest
 
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
 import com.thorebenoit.enamel.kotlin.core.color.*
-import com.thorebenoit.enamel.kotlin.core.math.random
-import com.thorebenoit.enamel.kotlin.core.of
-import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge.*
-import com.thorebenoit.enamel.kotlin.geometry.figures.rectGroupWeights
-import com.thorebenoit.enamel.kotlin.geometry.layout.EDivideLayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutSerializer
 
 
 object ProcessingTestMain {

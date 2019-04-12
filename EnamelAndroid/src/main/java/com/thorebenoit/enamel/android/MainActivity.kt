@@ -10,14 +10,14 @@ import com.thorebenoit.enamel.android.dsl.customView
 import com.thorebenoit.enamel.android.dsl.views.*
 import com.thorebenoit.enamel.android.elayout.EViewGroup
 import com.thorebenoit.enamel.kotlin.core.color.*
-import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
+import com.thorebenoit.enamel.geometry.figures.ESize
 import android.net.wifi.WifiManager
 import com.thorebenoit.enamel.android.dsl.withTag
 import com.thorebenoit.enamel.android.elayout.laidIn
 import com.thorebenoit.enamel.android.elayout.startServer
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
+import com.thorebenoit.enamel.geometry.alignement.EAlignment.*
+import com.thorebenoit.enamel.geometry.layout.ELayout
+import com.thorebenoit.enamel.geometry.layout.dsl.*
 
 
 private var screenSizeBuffer = ESize()
