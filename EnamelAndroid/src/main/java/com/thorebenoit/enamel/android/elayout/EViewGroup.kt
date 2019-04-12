@@ -31,7 +31,7 @@ import com.thorebenoit.enamel.kotlin.core.math.i
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
 
 
-class EDroidLayout : ViewGroup {
+class EViewGroup : ViewGroup {
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
