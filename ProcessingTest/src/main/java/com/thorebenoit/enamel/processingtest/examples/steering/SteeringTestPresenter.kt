@@ -1,17 +1,16 @@
 package com.thorebenoit.enamel.processingtest.examples.steering
 
-import com.thorebenoit.enamel.kotlin.core.math.randomSign
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
-import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
-import com.thorebenoit.enamel.kotlin.geometry.primitives.*
-import com.thorebenoit.enamel.kotlin.geometry.toRect
+import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.primitives.*
+import com.thorebenoit.enamel.geometry.toRect
 import com.thorebenoit.enamel.kotlin.physics.physicsLoop
 
 interface DotDrawer {
     fun update()
     var dotList: List<SteeringVehicle>
     val size: ESizeType
-    val mousePosition: EPointType
+    val mousePosition: EPoint
     var onMouseClicked: () -> Unit
     var onSized: () -> Unit
     var onScroll: (Int) -> Unit
@@ -20,7 +19,7 @@ interface DotDrawer {
 
 }
 
-val DotDrawer.center: EPointType get() = with(size) { width / 2 point height / 2 }
+val DotDrawer.center: EPoint get() = with(size) { width / 2 point height / 2 }
 
 //class SteeringTestPresenter(val view: DotDrawer) {
 class SteeringTestPresenter(val view: DotDrawer) {

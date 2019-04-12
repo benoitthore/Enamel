@@ -1,12 +1,12 @@
 package com.thorebenoit.enamel.processingtest.examples
 
+import com.thorebenoit.enamel.core.threading.CoroutineLock
 import com.thorebenoit.enamel.kotlin.core.color.randomColor
-import com.thorebenoit.enamel.kotlin.geometry.figures.size
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.point
-import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
-import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
-import com.thorebenoit.enamel.kotlin.threading.coroutine
+import com.thorebenoit.enamel.geometry.figures.size
+import com.thorebenoit.enamel.geometry.primitives.EPointMutable
+import com.thorebenoit.enamel.geometry.primitives.point
+import com.thorebenoit.enamel.geometry.AllocationTracker
+import com.thorebenoit.enamel.core.threading.coroutine
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 
 class PhysicsRainbowRain : KotlinPApplet() {
@@ -21,7 +21,7 @@ class PhysicsRainbowRain : KotlinPApplet() {
     }
 
     data class Drop(
-        val position: EPoint,
+        val position: EPointMutable,
         var speed: Float = 0f,
         var dropHeight: Float = 0f,
         var color: Int = 0,
@@ -84,11 +84,11 @@ class PhysicsRainbowRain : KotlinPApplet() {
 
 
     private fun Drop.reset(): Drop {
-        position.y = com.thorebenoit.enamel.kotlin.core.math.random(-height * 2, -height / 4f)
+        position.y = com.thorebenoit.enamel.core.math.random(-height * 2, -height / 4f)
         speed = random(1f, 2f)
         dropHeight = random(10f, 20f)
         color = randomColor()
-        thickness = com.thorebenoit.enamel.kotlin.core.math.random(2f, 3f)
+        thickness = com.thorebenoit.enamel.core.math.random(2f, 3f)
         return this
     }
 

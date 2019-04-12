@@ -1,15 +1,15 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet
 
-import com.thorebenoit.enamel.kotlin.geometry.allocate
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
+import com.thorebenoit.enamel.geometry.allocate
+import com.thorebenoit.enamel.geometry.primitives.EPointMutable
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 import processing.core.PApplet
 import processing.core.PConstants
 import java.awt.event.*
 
 
-fun java.awt.Point.toEPoint() = allocate { EPoint(x, y) }
-fun processing.event.MouseEvent.toEPoint() = allocate { EPoint(x, y) }
+fun java.awt.Point.toEPoint() = allocate { EPointMutable(x, y) }
+fun processing.event.MouseEvent.toEPoint() = allocate { EPointMutable(x, y) }
 
 
 fun KotlinPApplet.createKeyListener() = object : KeyAdapter() {

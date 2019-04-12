@@ -1,13 +1,12 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 
-import com.thorebenoit.enamel.kotlin.core.math.f
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
-import com.thorebenoit.enamel.kotlin.geometry.toCircle
+import com.thorebenoit.enamel.core.math.f
+import com.thorebenoit.enamel.geometry.primitives.EPointMutable
 import processing.core.PApplet
 
 fun KotlinPApplet._onMouseClicked(listener: () -> Unit) {
     val clickDistance = 200
-    var lastMouseDown: EPoint? = null
+    var lastMouseDown: EPointMutable? = null
 
     onMousePressed {
         if (lastMouseDown == null) {

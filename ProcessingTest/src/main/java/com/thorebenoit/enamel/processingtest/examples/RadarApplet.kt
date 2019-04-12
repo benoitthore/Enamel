@@ -1,12 +1,12 @@
 package com.thorebenoit.enamel.processingtest.examples
 
-import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
-import com.thorebenoit.enamel.kotlin.geometry.figures.ECircle
-import com.thorebenoit.enamel.kotlin.geometry.figures.size
-import com.thorebenoit.enamel.kotlin.geometry.innerCircle
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.degrees
-import com.thorebenoit.enamel.kotlin.geometry.toCircle
+import com.thorebenoit.enamel.geometry.AllocationTracker
+import com.thorebenoit.enamel.geometry.figures.ECircle
+import com.thorebenoit.enamel.geometry.figures.size
+import com.thorebenoit.enamel.geometry.innerCircle
+import com.thorebenoit.enamel.geometry.primitives.EPointMutable
+import com.thorebenoit.enamel.geometry.primitives.degrees
+import com.thorebenoit.enamel.geometry.toCircle
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 
 class RadarApplet : KotlinPApplet() {
@@ -27,7 +27,7 @@ class RadarApplet : KotlinPApplet() {
 
     var step = 0
 
-    data class Beep(val position: EPoint, var progress: Float = 0f)
+    data class Beep(val position: EPointMutable, var progress: Float = 0f)
 
     val beepArray = mutableListOf<Beep>()
     override fun draw() {
@@ -48,7 +48,7 @@ class RadarApplet : KotlinPApplet() {
 
 
         if (Math.random() < .05) {
-            val atRadius = com.thorebenoit.enamel.kotlin.core.math.random(0.25, 0.80) * circle.radius
+            val atRadius = com.thorebenoit.enamel.core.math.random(0.25, 0.80) * circle.radius
             val beep = Beep(circle.center.copy().offsetAngle(angle, atRadius))
             beepArray += beep
         }

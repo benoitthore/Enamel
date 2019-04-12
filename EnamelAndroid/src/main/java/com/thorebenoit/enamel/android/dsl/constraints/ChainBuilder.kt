@@ -5,7 +5,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import com.thorebenoit.enamel.android.dsl.withID
 import com.thorebenoit.enamel.android.examples.Example
 import com.thorebenoit.enamel.android.examples._Example_ConstraintLayout_ChainBuilder
-import com.thorebenoit.enamel.kotlin.core.math.i
+import com.thorebenoit.enamel.core.math.i
 
 /*
          buildChain{

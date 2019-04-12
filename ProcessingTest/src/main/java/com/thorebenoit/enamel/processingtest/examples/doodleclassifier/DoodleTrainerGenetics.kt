@@ -6,8 +6,8 @@
 //import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.LabeledDataOLD
 //import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.ToyNeuralNetwork
 //import com.thorebenoit.enamel.kotlin.core._2dec
-//import com.thorebenoit.enamel.kotlin.core.math.lerp
-//import com.thorebenoit.enamel.kotlin.core.print
+//import com.thorebenoit.enamel.core.math.lerp
+//import com.thorebenoit.enamel.core.print
 //import com.thorebenoit.enamel.kotlin.core.time.ETimer
 //
 //fun DoodleTrainerGeneticsConfiguration.test(

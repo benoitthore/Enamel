@@ -1,13 +1,13 @@
 //package com.thorebenoit.enamel.processingtest.examples.doodleclassifier
 //
 //import com.thorebenoit.enamel.kotlin.core.data.findIndex
-//import com.thorebenoit.enamel.kotlin.core.math.i
-//import com.thorebenoit.enamel.kotlin.core.print
+//import com.thorebenoit.enamel.core.math.i
+//import com.thorebenoit.enamel.core.print
 //import com.thorebenoit.enamel.kotlin.core.time.ETimer
-//import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
-//import com.thorebenoit.enamel.kotlin.geometry.figures.size
-//import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
-//import com.thorebenoit.enamel.kotlin.geometry.primitives.point
+//import ESizeType
+//import size
+//import EPoint
+//import point
 //import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 //import processing.core.PConstants
 //
@@ -15,8 +15,8 @@
 //class DoodleTestApplet : KotlinPApplet() {
 //
 //
-//    var points = mutableListOf<EPointType>()
-//    var totalPoints = mutableListOf<List<EPointType>>()
+//    var points = mutableListOf<EPoint>()
+//    var totalPoints = mutableListOf<List<EPoint>>()
 //
 //    init {
 //
@@ -103,7 +103,7 @@
 //    KotlinPApplet.createApplet<DoodleTestApplet>()
 //}
 //
-//fun KotlinPApplet.getImageFromPoints(totalPoints: List<List<EPointType>>, imageSize: ESizeType): List<Float> {
+//fun KotlinPApplet.getImageFromPoints(totalPoints: List<List<EPoint>>, imageSize: ESizeType): List<Float> {
 //    val ratio = imageSize / esize
 //
 //    val totalPoints = totalPoints.map { it.map { it.times(ratio) } }

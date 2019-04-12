@@ -1,1 +1,1 @@
-include ':EnamelAndroid', ':EnamelKotlin', ':ProcessingTest'
+include ':EnamelAndroid', ':ProcessingTest', ':core', ':geometry', ':layout',':wip'

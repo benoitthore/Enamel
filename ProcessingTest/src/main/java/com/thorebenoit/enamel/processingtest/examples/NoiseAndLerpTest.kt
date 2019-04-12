@@ -1,18 +1,18 @@
 package com.thorebenoit.enamel.processingtest.examples
 
-import com.thorebenoit.enamel.kotlin.animations.lerp
 import com.thorebenoit.enamel.kotlin.core.color.colorHSL
+import com.thorebenoit.enamel.core.math.Scale
+import com.thorebenoit.enamel.core.math.f
+import com.thorebenoit.enamel.core.time.EDeltaTimer
+import com.thorebenoit.enamel.core.time.ETimerAnimator
+import com.thorebenoit.enamel.geometry.AllocationTracker
+import com.thorebenoit.enamel.geometry.figures.size
+import com.thorebenoit.enamel.geometry.innerCircle
+import com.thorebenoit.enamel.geometry.lerp
+import com.thorebenoit.enamel.geometry.primitives.EPointMutable
+import com.thorebenoit.enamel.geometry.primitives.EPoint
+import com.thorebenoit.enamel.geometry.primitives.degrees
 import com.thorebenoit.enamel.kotlin.core.math.OpenSimplexNoise
-import com.thorebenoit.enamel.kotlin.core.math.Scale
-import com.thorebenoit.enamel.kotlin.core.math.f
-import com.thorebenoit.enamel.kotlin.core.time.EDeltaTimer
-import com.thorebenoit.enamel.kotlin.core.time.ETimerAnimator
-import com.thorebenoit.enamel.kotlin.geometry.AllocationTracker
-import com.thorebenoit.enamel.kotlin.geometry.figures.size
-import com.thorebenoit.enamel.kotlin.geometry.innerCircle
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
-import com.thorebenoit.enamel.kotlin.geometry.primitives.degrees
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 
 /**
@@ -41,7 +41,7 @@ class NoiseAndLerpTest : KotlinPApplet() {
         }
     }
 
-    val polyList = mutableListOf<List<EPointType>>()
+    val polyList = mutableListOf<List<EPoint>>()
 
 
     var angle = 0.degrees()
@@ -51,7 +51,7 @@ class NoiseAndLerpTest : KotlinPApplet() {
     val noise = OpenSimplexNoise()
 
     val numberOfPoints = 10
-    private lateinit var lastList: List<EPoint>
+    private lateinit var lastList: List<EPointMutable>
 
     override fun draw() {
 

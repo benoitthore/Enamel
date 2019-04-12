@@ -1,25 +1,23 @@
 package com.thorebenoit.enamel.processingtest.examples
 
+import com.thorebenoit.enamel.core.fromJson
 import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.ToyNeuralNetwork
 import com.thorebenoit.enamel.kotlin.ai.neurtalnetwork.getGeneticsBasedNeuralNetwork
-import com.thorebenoit.enamel.kotlin.core.data.fromJson
-import com.thorebenoit.enamel.kotlin.core.data.toJson
-import com.thorebenoit.enamel.kotlin.core.math.f
-import com.thorebenoit.enamel.kotlin.core.math.nearlyEquals
-import com.thorebenoit.enamel.kotlin.core.math.random
-import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERectType
-import com.thorebenoit.enamel.kotlin.geometry.figures.ESizeType
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.times
+import com.thorebenoit.enamel.core.math.f
+import com.thorebenoit.enamel.core.math.nearlyEquals
+import com.thorebenoit.enamel.core.math.random
+import com.thorebenoit.enamel.core.print
+import com.thorebenoit.enamel.core.threading.CoroutineLock
+import com.thorebenoit.enamel.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.geometry.figures.ERect
+import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.primitives.EPointMutable
+import com.thorebenoit.enamel.geometry.primitives.times
 import com.thorebenoit.enamel.kotlin.physics.core.PhysicsBody
-import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
-import com.thorebenoit.enamel.kotlin.threading.coroutine
+import com.thorebenoit.enamel.core.threading.coroutine
+import com.thorebenoit.enamel.core.toJson
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancelAndJoin
 import java.io.File
 import java.nio.charset.Charset
 
@@ -213,7 +211,7 @@ class FlappyBirdWorld(
 
     var frameCount = 0
     private val cutSize = 0.25f
-    private val gravity = EPoint(0, (0.5).Ypx)
+    private val gravity = EPointMutable(0, (0.5).Ypx)
 
 
     fun updatePhysics(onCollide: () -> Unit) {

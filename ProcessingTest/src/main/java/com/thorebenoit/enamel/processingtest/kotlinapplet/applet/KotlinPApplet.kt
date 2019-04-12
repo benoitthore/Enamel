@@ -1,22 +1,17 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 
-import com.thorebenoit.enamel.kotlin.core.data.fromJsonSafe
-import com.thorebenoit.enamel.kotlin.core.math.f
-import com.thorebenoit.enamel.kotlin.core.math.functions.ELinearFunction
-import com.thorebenoit.enamel.kotlin.core.math.i
-import com.thorebenoit.enamel.kotlin.core.data.toJson
-import com.thorebenoit.enamel.kotlin.core.print
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.kotlin.geometry.figures.*
-import com.thorebenoit.enamel.kotlin.geometry.allocate
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
+import com.thorebenoit.enamel.core.fromJsonSafe
+import com.thorebenoit.enamel.core.math.*
+import com.thorebenoit.enamel.core.toJson
+import com.thorebenoit.enamel.geometry.primitives.*
+import com.thorebenoit.enamel.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.geometry.*
+import com.thorebenoit.enamel.geometry.figures.*
+import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.leaf
-import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPoint
-import com.thorebenoit.enamel.kotlin.geometry.primitives.EPointType
-import com.thorebenoit.enamel.kotlin.geometry.toCircle
-import com.thorebenoit.enamel.processingtest.kotlinapplet.view.EPView
+import com.thorebenoit.enamel.geometry.primitives.EPointMutable
+import com.thorebenoit.enamel.geometry.primitives.EPoint
+import com.thorebenoit.enamel.geometry.toCircle
 import processing.core.PApplet
 import processing.core.PConstants
 import processing.event.KeyEvent
@@ -66,9 +61,9 @@ abstract class KotlinPApplet : PApplet() {
                 size(value.width.i, value.height.i)
             }
         }
-    var windowLocation: EPointType = EPointType.inv
+    var windowLocation: EPoint = EPoint.inv
         get() {
-            if (field == EPointType.inv) { // Because lateinit isn't possible
+            if (field == EPoint.inv) { // Because lateinit isn't possible
                 field = allocate { displayFrame.rectAlignedInside(aligned = EAlignment.middle, size = esize).center() }
             }
             return field
@@ -79,9 +74,9 @@ abstract class KotlinPApplet : PApplet() {
         }
 
 
-    val center get() = allocate { ERect(size = esize).center(EPoint()) }
+    val center get() = allocate { ERect(size = esize).center(EPointMutable()) }
 
-    private val mousePositionBuffer = allocate { EPoint() }
+    private val mousePositionBuffer = allocate { EPointMutable() }
 
     val mousePosition get() = mousePositionBuffer.set(mouseX, mouseY)
     val mousePositionOnScreen get() = mousePosition.selfOffset(windowLocation)
@@ -196,7 +191,7 @@ abstract class KotlinPApplet : PApplet() {
 
     // Draw helper
 
-    open fun <T : EPointType> T.draw(radius: Number = 5): T {
+    open fun <T : EPoint> T.draw(radius: Number = 5): T {
         allocate { toCircle(radius).draw() }
         return this
     }
@@ -260,7 +255,7 @@ abstract class KotlinPApplet : PApplet() {
         return this
     }
 
-    open fun <E : EPointType> List<E>.draw(closed: Boolean = true): List<E> {
+    open fun <E : EPoint> List<E>.draw(closed: Boolean = true): List<E> {
         beginShape()
 
         forEach {

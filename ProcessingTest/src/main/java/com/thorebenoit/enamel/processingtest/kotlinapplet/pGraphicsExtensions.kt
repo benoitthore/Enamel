@@ -1,11 +1,11 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet
 
-import com.thorebenoit.enamel.kotlin.core.math.f
-import com.thorebenoit.enamel.kotlin.core.math.i
-import com.thorebenoit.enamel.kotlin.geometry.allocate
-import com.thorebenoit.enamel.kotlin.geometry.figures.ERect
-import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
-import com.thorebenoit.enamel.kotlin.geometry.figures.size
+import com.thorebenoit.enamel.core.math.f
+import com.thorebenoit.enamel.core.math.i
+import com.thorebenoit.enamel.geometry.allocate
+import com.thorebenoit.enamel.geometry.figures.ERect
+import com.thorebenoit.enamel.geometry.figures.ESize
+import com.thorebenoit.enamel.geometry.figures.size
 import processing.core.PGraphics
 
 

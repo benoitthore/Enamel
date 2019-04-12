@@ -1,18 +1,12 @@
 package com.thorebenoit.enamel.android.elayout
 
-import com.thorebenoit.enamel.kotlin.core.math.i
-import com.thorebenoit.enamel.kotlin.core.math.random
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment.*
-import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge
-import com.thorebenoit.enamel.kotlin.geometry.alignement.ERectEdge.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.EDivideLayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundClient
-import com.thorebenoit.enamel.kotlin.geometry.layout.playground.sendToPlayground
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import com.thorebenoit.enamel.core.math.random
+import com.thorebenoit.enamel.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.geometry.alignement.EAlignment.*
+import com.thorebenoit.enamel.geometry.layout.*
+import com.thorebenoit.enamel.geometry.layout.dsl.*
+import com.thorebenoit.enamel.geometry.layout.playground.PlaygroundClient
+import com.thorebenoit.enamel.geometry.layout.playground.sendToPlayground
 
 private fun ELayout.sendToAndroid() = this.
     // Apply DP

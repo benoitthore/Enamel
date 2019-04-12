@@ -6,23 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.animation.addListener
 import com.thorebenoit.enamel.android.threading.mainThreadCoroutine
-import com.thorebenoit.enamel.kotlin.animations.EasingInterpolators
+import com.thorebenoit.enamel.core.animations.EasingInterpolators
+import com.thorebenoit.enamel.core.threading.CoroutineLock
 import com.thorebenoit.enamel.kotlin.core.color.blue
 import com.thorebenoit.enamel.kotlin.core.color.green
 import com.thorebenoit.enamel.kotlin.core.color.withAlpha
-import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
-import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
-import com.thorebenoit.enamel.kotlin.geometry.layout.playground.sendToPlayground
-import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRef
-import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutRefObject
-import com.thorebenoit.enamel.kotlin.geometry.layout.refs.ELayoutTag
-import com.thorebenoit.enamel.kotlin.geometry.layout.refs.getLeafs
-import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeserializer
-import com.thorebenoit.enamel.kotlin.geometry.layout.transition.ETransition
-import com.thorebenoit.enamel.kotlin.geometry.layout.transition.SingleElementAnimator
-import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
+import com.thorebenoit.enamel.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.geometry.figures.ESize
+import com.thorebenoit.enamel.geometry.layout.dsl.*
+import com.thorebenoit.enamel.geometry.layout.playground.PlaygroundServer
+import com.thorebenoit.enamel.geometry.layout.playground.sendToPlayground
+import com.thorebenoit.enamel.geometry.layout.refs.ELayoutRef
+import com.thorebenoit.enamel.geometry.layout.refs.ELayoutRefObject
+import com.thorebenoit.enamel.geometry.layout.refs.ELayoutTag
+import com.thorebenoit.enamel.geometry.layout.refs.getLeafs
+import com.thorebenoit.enamel.geometry.layout.serializer.ELayoutDeserializer
+import com.thorebenoit.enamel.geometry.layout.transition.ETransition
+import com.thorebenoit.enamel.geometry.layout.transition.SingleElementAnimator
+import com.thorebenoit.enamel.kotlin.core.color.randomColor
 
 
 // Run in terminal: adb forward tcp:9321 tcp:9321
@@ -39,7 +40,7 @@ fun main() {
         .shuffled()
         .subList(0, 5)
 //    .map { it.sized(100, 200) }
-        .map { it.padded(16.dp).leaf() }
+        .map { it.padded(16.dp).leaf(randomColor()) }
         .stacked(EAlignment.bottomCenter, spacing = 1.dp)
 
         .leaf(green.withAlpha(0.25))
