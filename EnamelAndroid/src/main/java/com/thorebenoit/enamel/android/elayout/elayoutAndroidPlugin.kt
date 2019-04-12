@@ -4,9 +4,7 @@ import android.animation.ValueAnimator
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.BounceInterpolator
 import androidx.core.animation.addListener
-import androidx.core.view.children
 import com.thorebenoit.enamel.android.threading.mainThreadCoroutine
 import com.thorebenoit.enamel.kotlin.animations.EasingInterpolators
 import com.thorebenoit.enamel.kotlin.core.color.blue
@@ -14,7 +12,6 @@ import com.thorebenoit.enamel.kotlin.core.color.green
 import com.thorebenoit.enamel.kotlin.core.color.withAlpha
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.kotlin.geometry.layout.playground.sendToPlayground
@@ -26,7 +23,6 @@ import com.thorebenoit.enamel.kotlin.geometry.layout.serializer.ELayoutDeseriali
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.ETransition
 import com.thorebenoit.enamel.kotlin.geometry.layout.transition.SingleElementAnimator
 import com.thorebenoit.enamel.kotlin.threading.CoroutineLock
-import java.lang.Exception
 
 
 // Run in terminal: adb forward tcp:9321 tcp:9321
@@ -54,7 +50,7 @@ fun main() {
 
 private fun Throwable.log(tag: String = "ERROR") = Log.e(tag, message, this)
 
-fun EDroidLayout.startServer(port: Int = PlaygroundServer.defaultPort) {
+fun EViewGroup.startServer(port: Int = PlaygroundServer.defaultPort) {
 
     val deserializer = ELayoutDeserializer()
     // Add more deserializer here
@@ -125,9 +121,9 @@ fun androidDefaultTransition() = ETransition<View>(
 )
 
 
-fun <T : View> List<T>.laidIn(frame: EDroidLayout): List<ELayoutRef<T>> = map { it.laidIn(frame) }
+fun <T : View> List<T>.laidIn(frame: EViewGroup): List<ELayoutRef<T>> = map { it.laidIn(frame) }
 
-private fun <T : View> T.createLayoutRef(viewGroup: EDroidLayout): ELayoutRefObject<T> {
+private fun <T : View> T.createLayoutRef(viewGroup: EViewGroup): ELayoutRefObject<T> {
     return ELayoutRefObject(
         viewRef = this,
         addToParent = {
@@ -147,17 +143,21 @@ private fun <T : View> T.createLayoutRef(viewGroup: EDroidLayout): ELayoutRefObj
 
 
 private inline val <T : View> ELayoutRef<T>.view get() = ref.viewRef
-fun <T : View> T.laidIn(viewGroup: EDroidLayout): ELayoutRef<T> {
+fun <T : View> T.laidIn(viewGroup: EViewGroup): ELayoutRef<T> {
     val sizeBuffer = ESize()
 
     return ELayoutRef(
         createLayoutRef(viewGroup),
         sizeToFit = { size ->
-            view.measure(
-                View.MeasureSpec.makeMeasureSpec(size.width.toInt(), View.MeasureSpec.AT_MOST),
-                View.MeasureSpec.makeMeasureSpec(size.height.toInt(), View.MeasureSpec.AT_MOST)
-            )
-            sizeBuffer.set(view.measuredWidth, view.measuredHeight)
+            if (view.visibility == View.GONE) {
+                sizeBuffer.set(0, 0)
+            } else {
+                view.measure(
+                    View.MeasureSpec.makeMeasureSpec(size.width.toInt(), View.MeasureSpec.AT_MOST),
+                    View.MeasureSpec.makeMeasureSpec(size.height.toInt(), View.MeasureSpec.AT_MOST)
+                )
+                sizeBuffer.set(view.measuredWidth, view.measuredHeight)
+            }
         },
         arrangeIn = { frame ->
             view.layout(
@@ -166,6 +166,7 @@ fun <T : View> T.laidIn(viewGroup: EDroidLayout): ELayoutRef<T> {
                 frame.right.toInt(),
                 frame.bottom.toInt()
             )
+            view.requestLayout()
         }
     )
 }

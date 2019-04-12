@@ -3,30 +3,21 @@ package com.thorebenoit.enamel.android
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Color
 import android.graphics.Point
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.thorebenoit.enamel.android.dsl.customView
 import com.thorebenoit.enamel.android.dsl.views.*
-import com.thorebenoit.enamel.android.elayout.EDroidLayout
+import com.thorebenoit.enamel.android.elayout.EViewGroup
 import com.thorebenoit.enamel.kotlin.core.color.*
-import com.thorebenoit.enamel.kotlin.core.math.random
 import com.thorebenoit.enamel.kotlin.geometry.figures.ESize
-import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
-import androidx.core.view.postDelayed
-import com.thorebenoit.enamel.android.dsl.contextConstructor
-import com.thorebenoit.enamel.android.dsl.withID
 import com.thorebenoit.enamel.android.dsl.withTag
 import com.thorebenoit.enamel.android.elayout.laidIn
 import com.thorebenoit.enamel.android.elayout.startServer
-import com.thorebenoit.enamel.android.threading.mainThreadCoroutine
 import com.thorebenoit.enamel.kotlin.geometry.alignement.EAlignment.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.kotlin.geometry.layout.dsl.*
-import kotlinx.coroutines.delay
 
 
 private var screenSizeBuffer = ESize()
@@ -38,7 +29,7 @@ val Activity.screenSize
         screenSizeBuffer.set(x, y)
     }
 
-fun Context.eLayout(block: EDroidLayout.() -> ELayout): EDroidLayout = EDroidLayout(this).apply {
+fun Context.eLayout(block: EViewGroup.() -> ELayout): EViewGroup = EViewGroup(this).apply {
     goToLayout(block())
 }
 
@@ -121,7 +112,7 @@ class MainActivity : AppCompatActivity() {
                     textColor = white
                 }.linearLayoutLP(wrapContent, wrapContent)
 
-                customView<EDroidLayout> {
+                customView<EViewGroup> {
                     startServer()
 
                     goToLayout(
@@ -137,7 +128,7 @@ class MainActivity : AppCompatActivity() {
                     weight = 1f
                 }
 
-//                customView<EDroidLayout> {
+//                customView<EViewGroup> {
 //                    backgroundColor = red
 //                    goToLayout(
 //                        listOf(
@@ -151,7 +142,7 @@ class MainActivity : AppCompatActivity() {
 //                }
 
 
-//                customView<EDroidLayout>() {
+//                customView<EViewGroup>() {
 //                    backgroundColor = ltGray
 //                    startServer()
 //                    post {
@@ -165,7 +156,7 @@ class MainActivity : AppCompatActivity() {
 
 
 //                (0 until 50).forEach {
-//                    customView<EDroidLayout>().frameLayoutLP {
+//                    customView<EViewGroup>().frameLayoutLP {
 //                        width = random(0, screenSize.width).toInt()
 //                        height = random(0, screenSize.height).toInt()
 //

@@ -6,6 +6,7 @@ import com.thorebenoit.enamel.kotlin.core.math.i
 import com.thorebenoit.enamel.kotlin.geometry.allocateDebugMessage
 import com.thorebenoit.enamel.kotlin.geometry.primitives.*
 
+// TODO Refactor so it follows the same model as in Point, Rect and Size for mutablility
 open class ECircleType(open val center: EPointType = EPointType(), open val radius: Float = 0f) {
 
     init {

@@ -41,6 +41,7 @@ object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
 
+        println("ok")
         return
 
         PlaygroundApplet.start(800, 800) {
