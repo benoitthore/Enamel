@@ -3,7 +3,7 @@ package com.thorebenoit.enamel.kotlin.caching
 import com.nhaarman.mockito_kotlin.*
 import com.thorebenoit.enamel.kotlin.caching.store.FileStoredData
 import com.thorebenoit.enamel.core.print
-import com.thorebenoit.enamel.kotlin.core.randomString
+import com.thorebenoit.enamel.core.randomString
 import com.thorebenoit.enamel.core.threading.blockingGet
 import com.thorebenoit.enamel.kotlin.time.seconds
 import kotlinx.coroutines.delay
