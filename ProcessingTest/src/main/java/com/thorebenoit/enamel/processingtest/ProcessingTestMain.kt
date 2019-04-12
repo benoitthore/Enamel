@@ -1,9 +1,20 @@
 package com.thorebenoit.enamel.processingtest
 
+import com.thorebenoit.enamel.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.geometry.layout.dsl.arranged
+import com.thorebenoit.enamel.geometry.layout.dsl.layoutTag
+import com.thorebenoit.enamel.geometry.layout.playground.sendToPlayground
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
 import com.thorebenoit.enamel.kotlin.core.color.*
 
 
+////
+import com.thorebenoit.enamel.geometry.layout.dsl.*
+import com.thorebenoit.enamel.geometry.alignement.*
+import com.thorebenoit.enamel.geometry.alignement.EAlignment.*
+import com.thorebenoit.enamel.geometry.alignement.ERectEdge.*
+import com.thorebenoit.enamel.geometry.layout.playground.sendToPlayground
+//
 object ProcessingTestMain {
 
 
@@ -29,7 +40,14 @@ object ProcessingTestMain {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        println("ok")
+
+
+        val layout1 = "layout1".layoutTag
+        val layout2 = "layout2".layoutTag
+
+        layout1.arranged(EAlignment.topLeft)
+            .sendToPlayground()
+
         return
 
         PlaygroundApplet.start(800, 800) {
