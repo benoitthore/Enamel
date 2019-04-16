@@ -6,8 +6,8 @@ import com.thorebenoit.enamel.geometry.primitives.EPoint
 import java.lang.Exception
 import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ESizeMutable
 import com.thorebenoit.enamel.geometry.figures.ESize
-import com.thorebenoit.enamel.geometry.figures.ESizeType
 
 fun List<EPointMutable>.lerp(fraction: Number, from: List<EPoint>, to: List<EPoint>): List<EPointMutable> {
     if (size != from.size || size != size) {
@@ -27,7 +27,7 @@ fun EPointMutable.lerp(fraction: Number, from: EPoint, to: EPoint): EPointMutabl
         y = fraction.lerp(from.y, to.y)
     )
 
-fun ESize.lerp(fraction: Number, from: ESizeType, to: ESizeType): ESize =
+fun ESizeMutable.lerp(fraction: Number, from: ESize, to: ESize): ESizeMutable =
     set(
         width = fraction.lerp(from.width, to.width),
         height = fraction.lerp(from.height, to.height)

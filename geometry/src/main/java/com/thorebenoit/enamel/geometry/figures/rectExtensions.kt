@@ -47,7 +47,7 @@ fun ERectType.divided(distance: Number, from: ERectEdge): Pair<ERectType, ERectT
     }
 
     val slice = rectAlignedInside(from.alignement, sliceWidth size sliceHeight)
-    val remainderSize = ESizeType(remainderWidth, remainderHeight)
+    val remainderSize = ESize(remainderWidth, remainderHeight)
 
     return slice to slice.rectAlignedOutside(from.alignement.flipped, remainderSize)
 }
@@ -106,7 +106,7 @@ fun ERectSides(left: Number, top: Number, right: Number, bottom: Number, buffer:
     return buffer
 }
 
-fun ERectAnchorPos(anchor: EPoint, position: EPoint, size: ESize, buffer: ERect = ERect()) =
+fun ERectAnchorPos(anchor: EPoint, position: EPoint, size: ESizeMutable, buffer: ERect = ERect()) =
     buffer.set(
         x = position.x - size.width * anchor.x,
         y = position.y - size.height * anchor.y,

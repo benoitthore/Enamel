@@ -2,7 +2,7 @@ package com.thorebenoit.enamel.geometry.layout.serializer
 
 import com.thorebenoit.enamel.core.*
 import com.thorebenoit.enamel.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.layout.*
 import com.thorebenoit.enamel.geometry.layout.dsl.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.*
@@ -13,7 +13,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.lang.Exception
 
-private fun JSONObject.putSize(size: ESizeType): JSONObject =
+private fun JSONObject.putSize(size: ESize): JSONObject =
     put("width", size.width).put("height", size.height)
 
 private fun JSONObject.putOffset(name: String, offset: EOffset): JSONObject = put(

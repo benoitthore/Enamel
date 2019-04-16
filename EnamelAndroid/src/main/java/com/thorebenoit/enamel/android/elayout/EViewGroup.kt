@@ -20,7 +20,7 @@ import com.thorebenoit.enamel.geometry.layout.refs.getLeafs
 import java.lang.Exception
 import androidx.core.view.children
 import com.thorebenoit.enamel.core.math.i
-import com.thorebenoit.enamel.geometry.figures.ESize
+import com.thorebenoit.enamel.geometry.figures.ESizeMutable
 
 
 class EViewGroup : ViewGroup {
@@ -65,7 +65,7 @@ class EViewGroup : ViewGroup {
     }
 
 
-    private val _measureSizeBuffer = ESize()
+    private val _measureSizeBuffer = ESizeMutable()
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         _measureSizeBuffer.set(
             width = MeasureSpec.getSize(widthMeasureSpec),

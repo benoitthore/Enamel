@@ -10,7 +10,7 @@ import com.thorebenoit.enamel.android.dsl.customView
 import com.thorebenoit.enamel.android.dsl.views.*
 import com.thorebenoit.enamel.android.elayout.EViewGroup
 import com.thorebenoit.enamel.kotlin.core.color.*
-import com.thorebenoit.enamel.geometry.figures.ESize
+import com.thorebenoit.enamel.geometry.figures.ESizeMutable
 import android.net.wifi.WifiManager
 import com.thorebenoit.enamel.android.dsl.withTag
 import com.thorebenoit.enamel.android.elayout.laidIn
@@ -20,7 +20,7 @@ import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.geometry.layout.dsl.*
 
 
-private var screenSizeBuffer = ESize()
+private var screenSizeBuffer = ESizeMutable()
 private var screenSizePointBuffer = Point()
 
 val Activity.screenSize

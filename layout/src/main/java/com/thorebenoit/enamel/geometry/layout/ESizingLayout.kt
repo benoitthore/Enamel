@@ -3,7 +3,7 @@ package com.thorebenoit.enamel.geometry.layout
 import com.thorebenoit.enamel.geometry.alignement.fillSize
 import com.thorebenoit.enamel.geometry.alignement.fitSize
 import com.thorebenoit.enamel.geometry.figures.ERectType
-import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.figures.size
 import com.thorebenoit.enamel.geometry.primitives.times
 
@@ -19,7 +19,7 @@ class ESizingLayout(child: ELayout, var space: ELayoutSpace) : ELayout {
     private val _childLayouts: MutableList<ELayout> = mutableListOf(child)
     override val childLayouts: List<ELayout> get() = _childLayouts
 
-    override fun size(toFit: ESizeType): ESizeType {
+    override fun size(toFit: ESize): ESize {
         val space = space
         return when (space) {
             is ELayoutSpace.Size -> space.size
@@ -81,7 +81,7 @@ class ESizingLayout(child: ELayout, var space: ELayoutSpace) : ELayout {
 
         abstract val type: Type
 
-        class Size(val size: ESizeType) : ELayoutSpace() {
+        class Size(val size: ESize) : ELayoutSpace() {
             constructor(width: Number, height: Number) : this(width size height)
 
             override val type: Type get() = Type.Size
@@ -114,7 +114,7 @@ class ESizingLayout(child: ELayout, var space: ELayoutSpace) : ELayout {
             }
         }
 
-        class AspectFitting(val size: ESizeType) : ELayoutSpace() {
+        class AspectFitting(val size: ESize) : ELayoutSpace() {
             override val type: Type get() = Type.AspectFitting
             override fun toString(): String {
                 return "AspectFitting(size=$size)"
@@ -122,7 +122,7 @@ class ESizingLayout(child: ELayout, var space: ELayoutSpace) : ELayout {
 
         }
 
-        class AspectFilling(val size: ESizeType) : ELayoutSpace() {
+        class AspectFilling(val size: ESize) : ELayoutSpace() {
             override val type: Type get() = Type.AspectFilling
             override fun toString(): String {
                 return "AspectFilling(size=$size)"
@@ -130,7 +130,7 @@ class ESizingLayout(child: ELayout, var space: ELayoutSpace) : ELayout {
 
         }
 
-        class Func(val f: (ESizeType) -> ESizeType) : ELayoutSpace() {
+        class Func(val f: (ESize) -> ESize) : ELayoutSpace() {
             override val type: Type get() = Type.Func
             override fun toString(): String {
                 return "Func(f=$f)"

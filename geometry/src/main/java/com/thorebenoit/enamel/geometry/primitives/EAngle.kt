@@ -11,7 +11,7 @@ enum class AngleType {
 }
 
 
-open class EAngleType(
+open class EAngle(
     protected open val value: Float = 0f,
     protected open val type: AngleType = AngleType.DEGREE
 ) {
@@ -46,50 +46,50 @@ open class EAngleType(
         get() = Math.tan(radians.d).f
 
 
-    operator fun unaryMinus(): EAngle {
+    operator fun unaryMinus(): EAngleMutable {
         val opposite = value.degrees()
         return opposite.set((value % 360) - 180, type)
     }
 
-    operator fun plus(other: EAngle): EAngle =
-        EAngle(
+    operator fun plus(other: EAngleMutable): EAngleMutable =
+        EAngleMutable(
             radians + other.radians,
             AngleType.RADIAN
         )
 
-    operator fun minus(other: EAngle): EAngle =
-        EAngle(
+    operator fun minus(other: EAngleMutable): EAngleMutable =
+        EAngleMutable(
             radians - other.radians,
             AngleType.RADIAN
         )
 
-    operator fun times(n: Number): EAngle =
-        EAngle(
+    operator fun times(n: Number): EAngleMutable =
+        EAngleMutable(
             radians * n.f,
             AngleType.RADIAN
         )
 
-    operator fun div(n: Number): EAngle =
-        EAngle(
+    operator fun div(n: Number): EAngleMutable =
+        EAngleMutable(
             radians / n.f,
             AngleType.RADIAN
         )
-//    operator fun Number.times(angle: EAngle): EAngle = angle * this
+//    operator fun Number.times(angle: EAngleMutable): EAngleMutable = angle * this
 }
 
-open class EAngle constructor(override var value: Float = 0f, override var type: AngleType = AngleType.DEGREE) :
-    EAngleType(value, type), Resetable {
+open class EAngleMutable constructor(override var value: Float = 0f, override var type: AngleType = AngleType.DEGREE) :
+    EAngle(value, type), Resetable {
     companion object {
         val zero get() = 0.degrees()
         val unit get() = 1.rotation()
     }
 
-    fun set(other: EAngle) = set(
+    fun set(other: EAngleMutable) = set(
         other.value,
         other.type
     )
 
-    fun set(value: Number, type: AngleType): EAngle {
+    fun set(value: Number, type: AngleType): EAngleMutable {
         this.value = value.f
         this.type = type
         return this
@@ -99,7 +99,7 @@ open class EAngle constructor(override var value: Float = 0f, override var type:
         set(0, AngleType.DEGREE)
     }
 
-    fun offset(other: EAngleType) {
+    fun offset(other: EAngle) {
         val increment = when (type) {
 
             AngleType.DEGREE -> other.degrees
@@ -115,20 +115,20 @@ open class EAngle constructor(override var value: Float = 0f, override var type:
     }
 }
 
-fun Number.degrees(): EAngle =
-    EAngle(
+fun Number.degrees(): EAngleMutable =
+    EAngleMutable(
         this.f,
         AngleType.DEGREE
     )
 
-fun Number.radians(): EAngle =
-    EAngle(
+fun Number.radians(): EAngleMutable =
+    EAngleMutable(
         this.f,
         AngleType.RADIAN
     )
 
-fun Number.rotation(): EAngle =
-    EAngle(
+fun Number.rotation(): EAngleMutable =
+    EAngleMutable(
         this.f,
         AngleType.ROTATION
     )

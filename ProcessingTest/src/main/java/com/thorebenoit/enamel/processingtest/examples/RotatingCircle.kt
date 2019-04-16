@@ -3,7 +3,7 @@ package com.thorebenoit.enamel.processingtest.examples
 import com.thorebenoit.enamel.core.math.f
 import com.thorebenoit.enamel.kotlin.core.color.colorHSL
 import com.thorebenoit.enamel.geometry.AllocationTracker
-import com.thorebenoit.enamel.geometry.figures.ECircle
+import com.thorebenoit.enamel.geometry.figures.ECircleMutable
 import com.thorebenoit.enamel.geometry.figures.size
 import com.thorebenoit.enamel.geometry.innerCircle
 import com.thorebenoit.enamel.geometry.primitives.EPointMutable
@@ -26,7 +26,7 @@ class RotatingCircle : KotlinPApplet() {
 
     }
 
-    private val circle = ECircle()
+    private val circle = ECircleMutable()
     private val points = MutableList(10) { EPointMutable() }
     private val circles = points.toCircles(0f)
     private var startAt = 0.degrees()

@@ -1,11 +1,11 @@
 package com.thorebenoit.enamel.processingtest.examples.steering
 
 import com.thorebenoit.enamel.geometry.GeometryBufferProvider
-import com.thorebenoit.enamel.geometry.figures.ECircle
+import com.thorebenoit.enamel.geometry.figures.ECircleMutable
 import com.thorebenoit.enamel.geometry.figures.EPolygon
 import com.thorebenoit.enamel.geometry.figures.ERectType
-import com.thorebenoit.enamel.geometry.figures.ESizeType
-import com.thorebenoit.enamel.geometry.primitives.EAngle
+import com.thorebenoit.enamel.geometry.figures.ESize
+import com.thorebenoit.enamel.geometry.primitives.EAngleMutable
 import com.thorebenoit.enamel.geometry.primitives.EPoint
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPApplet
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet._onMouseClicked
@@ -42,7 +42,7 @@ class DotDrawingApplet : KotlinPApplet(), DotDrawer {
         field = value
         update()
     }
-    override val size: ESizeType get() = esize
+    override val size: ESize get() = esize
 
     override var onScroll: (Int) -> Unit = {}
     override var mouseRadius: Float = 0f
@@ -78,7 +78,7 @@ class DotDrawingApplet : KotlinPApplet(), DotDrawer {
         noFill()
         stroke(0)
         constraintFrame.draw()
-        ECircle(mousePosition, mouseRadius).draw()
+        ECircleMutable(mousePosition, mouseRadius).draw()
         popStyle()
 
         stroke(0)
@@ -98,7 +98,7 @@ class DotDrawingApplet : KotlinPApplet(), DotDrawer {
         noLoop()
     }
 
-    fun EPoint.drawAsDot(shape: List<EPolygon>, angle: EAngle, color: Int = 0) {
+    fun EPoint.drawAsDot(shape: List<EPolygon>, angle: EAngleMutable, color: Int = 0) {
         pushMatrix()
         pushStyle()
 

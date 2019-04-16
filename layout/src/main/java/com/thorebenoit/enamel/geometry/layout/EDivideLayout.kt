@@ -2,7 +2,7 @@ package com.thorebenoit.enamel.geometry.layout
 
 import com.thorebenoit.enamel.geometry.alignement.*
 import com.thorebenoit.enamel.geometry.figures.ERectType
-import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.figures.divided
 import com.thorebenoit.enamel.geometry.figures.union
 import com.thorebenoit.enamel.core.math.f
@@ -36,7 +36,7 @@ class EDivideLayout(
     private val _childLayouts: MutableList<ELayout> = mutableListOf(slice, remainder)
     override val childLayouts: List<ELayout> get() = _childLayouts
 
-    override fun size(toFit: ESizeType): ESizeType {
+    override fun size(toFit: ESize): ESize {
         if (!snugged) {
             return toFit
         }
@@ -88,7 +88,7 @@ class EDivideLayout(
 }
 
 // <Helpers>
-private fun EDivideLayout.distance(toFit: ESizeType): Float = by.let { by ->
+private fun EDivideLayout.distance(toFit: ESize): Float = by.let { by ->
     when (by) {
         is EDivideLayout.Division.Distance -> by.distance
         is EDivideLayout.Division.Fraction -> by.fraction * toFit.along(edge.layoutAxis)

@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.geometry.primitives
 
+import com.thorebenoit.enamel.geometry.figures.ESizeMutable
 import com.thorebenoit.enamel.geometry.figures.ESize
-import com.thorebenoit.enamel.geometry.figures.ESizeType
 
 /**
  * This file is used to facilitate development of HIGHER LEVEL APIs, it doesn't care about allocations
@@ -32,21 +32,21 @@ inline operator fun Number.times(p: EPoint) = p.times(this)
 inline operator fun Number.plus(p: EPoint) = p.offset(this)
 
 
-inline operator fun ESizeType.unaryMinus() = ESize(-width, -height)
+inline operator fun ESize.unaryMinus() = ESizeMutable(-width, -height)
 
-inline operator fun ESizeType.div(other: Tuple2) = dividedBy(other)
-inline operator fun ESizeType.div(n: Number) = dividedBy(n)
+inline operator fun ESize.div(other: Tuple2) = dividedBy(other)
+inline operator fun ESize.div(n: Number) = dividedBy(n)
 
-inline operator fun ESizeType.times(other: Tuple2) = scale(other)
-inline operator fun ESizeType.times(n: Number) = scale(n)
+inline operator fun ESize.times(other: Tuple2) = scale(other)
+inline operator fun ESize.times(n: Number) = scale(n)
 
-inline operator fun ESizeType.plus(other: Tuple2) = expand(other)
-inline operator fun ESizeType.plus(n: Number) = expand(n)
+inline operator fun ESize.plus(other: Tuple2) = expand(other)
+inline operator fun ESize.plus(n: Number) = expand(n)
 
-inline operator fun ESizeType.minus(other: Tuple2) = inset(other)
-inline operator fun ESizeType.minus(n: Number) = inset(n)
+inline operator fun ESize.minus(other: Tuple2) = inset(other)
+inline operator fun ESize.minus(n: Number) = inset(n)
 
 
-inline operator fun Number.times(p: ESizeType) = p.times(this)
-inline operator fun Number.plus(p: ESizeType) = p.expand(this)
+inline operator fun Number.times(p: ESize) = p.times(this)
+inline operator fun Number.plus(p: ESize) = p.expand(this)
 

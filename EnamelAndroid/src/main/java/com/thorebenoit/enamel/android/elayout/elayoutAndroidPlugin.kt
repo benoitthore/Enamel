@@ -12,7 +12,7 @@ import com.thorebenoit.enamel.kotlin.core.color.blue
 import com.thorebenoit.enamel.kotlin.core.color.green
 import com.thorebenoit.enamel.kotlin.core.color.withAlpha
 import com.thorebenoit.enamel.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.geometry.figures.ESize
+import com.thorebenoit.enamel.geometry.figures.ESizeMutable
 import com.thorebenoit.enamel.geometry.layout.dsl.*
 import com.thorebenoit.enamel.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.geometry.layout.playground.sendToPlayground
@@ -145,7 +145,7 @@ private fun <T : View> T.createLayoutRef(viewGroup: EViewGroup): ELayoutRefObjec
 
 private inline val <T : View> ELayoutRef<T>.view get() = ref.viewRef
 fun <T : View> T.laidIn(viewGroup: EViewGroup): ELayoutRef<T> {
-    val sizeBuffer = ESize()
+    val sizeBuffer = ESizeMutable()
 
     return ELayoutRef(
         createLayoutRef(viewGroup),

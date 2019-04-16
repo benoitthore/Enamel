@@ -3,7 +3,7 @@ package com.thorebenoit.enamel.kotlin.geometry.layout
 import com.thorebenoit.enamel.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ERectType
-import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.geometry.layout.ELayoutAlongAxis
 
@@ -22,7 +22,7 @@ class ELayoutLeaf(var color: Int = 0, var child: ELayout? = null) : ELayoutAlong
     override val childLayouts: List<ELayout>
         get() = child?.let { listOf(it) } ?: emptyList() // TODO add setter on child to avoid allocation on get()
 
-    override fun size(toFit: ESizeType): ESizeType = child?.size(toFit) ?: toFit
+    override fun size(toFit: ESize): ESize = child?.size(toFit) ?: toFit
 
 
     override fun arrange(frame: ERectType) {

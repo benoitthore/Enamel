@@ -6,7 +6,7 @@ import com.thorebenoit.enamel.geometry.alignement.along
 import com.thorebenoit.enamel.geometry.alignement.layoutAxis
 import com.thorebenoit.enamel.geometry.figures.ERectGroup
 import com.thorebenoit.enamel.geometry.figures.ERectType
-import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.figures.rectGroupJustified
 
 
@@ -17,7 +17,7 @@ class EJustifiedLayout(
 
     override val layoutAxis: ELayoutAxis = alignment.layoutAxis ?: ELayoutAxis.horizontal
 
-    override fun size(toFit: ESizeType): ESizeType = toFit
+    override fun size(toFit: ESize): ESize = toFit
 
     override fun arrange(frame: ERectType) {
         val group = rects(frame)
@@ -38,7 +38,7 @@ class EJustifiedLayout(
         )
     }
 
-    private fun sizes(toFit: ESizeType): List<ESizeType> {
+    private fun sizes(toFit: ESize): List<ESize> {
         return childLayouts.map { it.size(toFit) }
     }
 

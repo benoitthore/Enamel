@@ -1,6 +1,6 @@
 package com.thorebenoit.enamel.kotlin.physics.box2d
 
-import com.thorebenoit.enamel.geometry.figures.ECircle
+import com.thorebenoit.enamel.geometry.figures.ECircleMutable
 import com.thorebenoit.enamel.geometry.figures.ERectType
 import com.thorebenoit.enamel.geometry.primitives.EPoint
 import org.jbox2d.collision.shapes.CircleShape
@@ -32,7 +32,7 @@ fun World.addBox(rect: ERectType, isStatic: Boolean = false): Body {
     return body
 }
 
-fun World.addCircle(circle: ECircle, isStatic: Boolean = false): Body {
+fun World.addCircle(circle: ECircleMutable, isStatic: Boolean = false): Body {
     val def = BodyDef()
     def.type = if (isStatic) BodyType.STATIC else BodyType.DYNAMIC
     def.position = circle.center.toVec2()

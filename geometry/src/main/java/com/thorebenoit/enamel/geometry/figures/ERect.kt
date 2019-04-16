@@ -23,7 +23,7 @@ Create the API without default arguments for buffer in order to make sure no all
  */
 open class ERectType(
     open val origin: EPoint = EPoint(),
-    open val size: ESizeType = ESizeType()
+    open val size: ESize = ESize()
 ) {
     companion object {
         val zero = ERectType()
@@ -64,7 +64,7 @@ open class ERectType(
     // contains Circle: When dealing with circles, use x and y as center
     fun contains(p: EPoint, radius: Number): Boolean = contains(p.x, p.y, radius)
 
-    fun contains(c: ECircleType): Boolean = contains(c.center, c.radius)
+    fun contains(c: ECircle): Boolean = contains(c.center, c.radius)
 
     fun contains(x: Number, y: Number, radius: Number): Boolean =
         radius.f.let { radius ->
@@ -79,7 +79,7 @@ open class ERectType(
     // contains Rect
     fun contains(other: ERectType) = contains(other.origin, other.size)
 
-    fun contains(origin: EPoint, size: ESizeType) = contains(origin.x, origin.y, size.width, size.height)
+    fun contains(origin: EPoint, size: ESize) = contains(origin.x, origin.y, size.width, size.height)
 
     fun contains(x: Number, y: Number, width: Number, height: Number): Boolean {
         val x = x.f
@@ -91,7 +91,7 @@ open class ERectType(
 
     fun containsFull(p: EPoint, radius: Number): Boolean = containsFull(p.x, p.y, radius)
 
-    fun containsFull(c: ECircleType): Boolean = containsFull(c.center, c.radius)
+    fun containsFull(c: ECircle): Boolean = containsFull(c.center, c.radius)
 
     // TODO The functions considers the circle to be a square which doesn't work on the edges
     fun containsFull(x: Number, y: Number, radius: Number): Boolean =
@@ -106,7 +106,7 @@ open class ERectType(
 
     fun containsFull(other: ERectType) = contains(other.origin, other.size)
 
-    fun containsFull(origin: EPoint, size: ESizeType) = containsFull(origin.x, origin.y, size.width, size.height)
+    fun containsFull(origin: EPoint, size: ESize) = containsFull(origin.x, origin.y, size.width, size.height)
 
     fun containsFull(x: Number, y: Number, width: Number, height: Number): Boolean {
         val x = x.f
@@ -161,7 +161,7 @@ open class ERectType(
     // Alignement
     fun rectAlignedInside(
         aligned: EAlignment,
-        size: ESizeType,
+        size: ESize,
         spacing: Number = 0,
         buffer: ERect = ERect(this)
     ): ERect {
@@ -181,7 +181,7 @@ open class ERectType(
 
     fun rectAlignedOutside(
         aligned: EAlignment,
-        size: ESizeType,
+        size: ESize,
         spacing: Number = 0,
         buffer: ERect = ERect(this)
     ): ERect {
@@ -304,7 +304,7 @@ open class ERectType(
 
 }
 
-class ERect(override var origin: EPointMutable = EPointMutable(), override var size: ESize = ESize()) :
+class ERect(override var origin: EPointMutable = EPointMutable(), override var size: ESizeMutable = ESizeMutable()) :
     ERectType(origin, size), Resetable {
 
     // TODO Copy in ERectType
@@ -319,7 +319,7 @@ class ERect(override var origin: EPointMutable = EPointMutable(), override var s
     fun set(other: ERectType) = set(other.origin, other.size)
     fun set(
         origin: EPoint = this.origin,
-        size: ESizeType = this.size
+        size: ESize = this.size
     ) =
         set(origin.x, origin.y, size.width, size.height)
 
@@ -333,7 +333,7 @@ class ERect(override var origin: EPointMutable = EPointMutable(), override var s
     fun set(
         x: Number = this.x,
         y: Number = this.y,
-        size: ESizeType = this.size
+        size: ESize = this.size
     ) =
         set(x, y, size.width, size.height)
 

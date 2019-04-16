@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.processingtest.examples.steering
 
 import com.thorebenoit.enamel.geometry.figures.ERectType
-import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.primitives.*
 import com.thorebenoit.enamel.geometry.toRect
 import com.thorebenoit.enamel.kotlin.physics.physicsLoop
@@ -9,7 +9,7 @@ import com.thorebenoit.enamel.kotlin.physics.physicsLoop
 interface DotDrawer {
     fun update()
     var dotList: List<SteeringVehicle>
-    val size: ESizeType
+    val size: ESize
     val mousePosition: EPoint
     var onMouseClicked: () -> Unit
     var onSized: () -> Unit

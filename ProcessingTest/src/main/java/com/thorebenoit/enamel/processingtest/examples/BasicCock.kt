@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.processingtest.examples
 
 import com.thorebenoit.enamel.geometry.AllocationTracker
-import com.thorebenoit.enamel.geometry.figures.ECircle
+import com.thorebenoit.enamel.geometry.figures.ECircleMutable
 import com.thorebenoit.enamel.geometry.figures.size
 import com.thorebenoit.enamel.geometry.innerCircle
 import com.thorebenoit.enamel.geometry.primitives.degrees
@@ -31,7 +31,7 @@ class BasicCock : KotlinPApplet() {
 
         strokeWeight(2f)
 
-        val circle = eframe.innerCircle(ECircle())
+        val circle = eframe.innerCircle(ECircleMutable())
 
         noStroke()
 

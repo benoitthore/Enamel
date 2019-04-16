@@ -11,7 +11,7 @@ import com.thorebenoit.enamel.core.threading.CoroutineLock
 import com.thorebenoit.enamel.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ERectType
-import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.primitives.EPointMutable
 import com.thorebenoit.enamel.geometry.primitives.times
 import com.thorebenoit.enamel.kotlin.physics.core.PhysicsBody
@@ -287,7 +287,7 @@ class FlappyBirdWorld(
             topRect.set(x, 0, w, cut - cutSize)
             topRect.rectAlignedOutside(
                 aligned = EAlignment.bottomCenter,
-                size = ESizeType(w, 1f),
+                size = ESize(w, 1f),
                 spacing = cutSize,
                 buffer = botRect
             )

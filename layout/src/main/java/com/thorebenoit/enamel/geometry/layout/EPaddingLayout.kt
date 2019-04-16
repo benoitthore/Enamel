@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.geometry.layout
 
 import com.thorebenoit.enamel.geometry.figures.ERectType
-import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.figures.minus
 import com.thorebenoit.enamel.geometry.primitives.EOffset
 import com.thorebenoit.enamel.geometry.primitives.minus
@@ -22,7 +22,7 @@ class EPaddingLayout(child: ELayout = ELayoutLeaf.unit, var padding: EOffset = E
     private val _childLayouts: MutableList<ELayout> = mutableListOf(child)
     override val childLayouts: List<ELayout> get() = _childLayouts
 
-    override fun size(toFit: ESizeType): ESizeType {
+    override fun size(toFit: ESize): ESize {
         return child.size(toFit - padding) + padding
     }
 

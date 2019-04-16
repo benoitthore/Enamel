@@ -2,7 +2,7 @@ package com.thorebenoit.enamel.processingtest.examples
 
 import com.thorebenoit.enamel.core.print
 import com.thorebenoit.enamel.geometry.AllocationTracker
-import com.thorebenoit.enamel.geometry.figures.ECircle
+import com.thorebenoit.enamel.geometry.figures.ECircleMutable
 import com.thorebenoit.enamel.geometry.figures.size
 import com.thorebenoit.enamel.geometry.innerCircle
 import com.thorebenoit.enamel.geometry.toCircle
@@ -15,7 +15,7 @@ class TestApplet : KotlinPApplet() {
         AllocationTracker.debugAllocations = false
     }
 
-    private lateinit var circle: ECircle
+    private lateinit var circle: ECircleMutable
     override fun setup() {
         circle = eframe.innerCircle().inset(100)
 

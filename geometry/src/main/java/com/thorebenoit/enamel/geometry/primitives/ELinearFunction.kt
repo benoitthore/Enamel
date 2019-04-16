@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.geometry.primitives
 
 import com.thorebenoit.enamel.core.math.f
-import com.thorebenoit.enamel.geometry.figures.ELine
+import com.thorebenoit.enamel.geometry.figures.ELineMutable
 
 data class ELinearFunction(val slope: Float = 1f, val yIntercept: Float = 0f) {
 
@@ -38,7 +38,7 @@ data class ELinearFunction(val slope: Float = 1f, val yIntercept: Float = 0f) {
         return x point y
     }
 
-    fun toLine(length: Number, buffer: ELine = ELine()): ELine {
+    fun toLine(length: Number, buffer: ELineMutable = ELineMutable()): ELineMutable {
         val x1 = 0f
         val x2 = length
         // TODO Make length work properly using pyth theorem

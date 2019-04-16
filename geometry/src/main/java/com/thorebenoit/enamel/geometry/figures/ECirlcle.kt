@@ -6,7 +6,7 @@ import com.thorebenoit.enamel.geometry.allocateDebugMessage
 import com.thorebenoit.enamel.geometry.primitives.*
 
 // TODO Refactor so it follows the same model as in Point, Rect and Size for mutablility
-open class ECircleType(open val center: EPoint = EPoint(), open val radius: Float = 0f) {
+open class ECircle(open val center: EPoint = EPoint(), open val radius: Float = 0f) {
 
     init {
         allocateDebugMessage()
@@ -16,15 +16,15 @@ open class ECircleType(open val center: EPoint = EPoint(), open val radius: Floa
 
     open val y: Float get() = center.y
 
-    fun toMutable() = ECircle(center = center.toMutable(), radius = radius)
-    fun toImmutable() = ECircleType(center = center.toImmutable(), radius = radius)
+    fun toMutable() = ECircleMutable(center = center.toMutable(), radius = radius)
+    fun toImmutable() = ECircle(center = center.toImmutable(), radius = radius)
 }
 
-class ECircle(override val center: EPointMutable = EPointMutable(), override var radius: Float = 0f) :
-    ECircleType(center, radius), Resetable {
+class ECircleMutable(override val center: EPointMutable = EPointMutable(), override var radius: Float = 0f) :
+    ECircle(center, radius), Resetable {
     constructor(center: EPointMutable = EPointMutable(), radius: Number) : this(center, radius.f)
 
-    fun copy(buffer: ECircle = ECircle()) = ECircle(center.copy(buffer.center), radius)
+    fun copy(buffer: ECircleMutable = ECircleMutable()) = ECircleMutable(center.copy(buffer.center), radius)
 
     override var x: Float
         get() = super.x
@@ -43,7 +43,7 @@ class ECircle(override val center: EPointMutable = EPointMutable(), override var
 
     fun set(center: EPoint, radius: Number) = set(center.x, center.y, radius)
 
-    fun set(x: Number, y: Number, radius: Number): ECircle {
+    fun set(x: Number, y: Number, radius: Number): ECircleMutable {
         this.center.set(x, y)
         this.radius = radius.f
         return this
@@ -51,7 +51,7 @@ class ECircle(override val center: EPointMutable = EPointMutable(), override var
 
     fun toListOfPoint(
         list: MutableList<EPointMutable>,
-        startAt: EAngleType? = null,
+        startAt: EAngle? = null,
         distanceList: List<Number>? = null
     ): List<EPointMutable> {
         if (list.isEmpty()) { // Don't divide by zero
@@ -85,7 +85,7 @@ class ECircle(override val center: EPointMutable = EPointMutable(), override var
         return list
     }
 
-    fun toListOfPoint(numberOfPoint: Int, startAt: EAngle? = null, distanceList: List<Number>? = null) = toListOfPoint(
+    fun toListOfPoint(numberOfPoint: Int, startAt: EAngleMutable? = null, distanceList: List<Number>? = null) = toListOfPoint(
         MutableList(numberOfPoint) { EPointMutable() }, startAt, distanceList
     )
 
@@ -111,7 +111,7 @@ class ECircle(override val center: EPointMutable = EPointMutable(), override var
     fun scaledAnchor(to: Number, anchor: EPoint = EPoint.half, buffer: EPointMutable = EPointMutable()) =
         scaledAnchor(to, anchor.x, anchor.y, buffer)
 
-    fun scaledRelative(to: Number, relativeTo: EPoint = EPoint.half): ECircle {
+    fun scaledRelative(to: Number, relativeTo: EPoint = EPoint.half): ECircleMutable {
         val to = to.f
         val newCenterX = center.x + (relativeTo.x - center.x) * (1 - to)
         val newCenterY = center.x + (relativeTo.x - center.x) * (1 - to)
@@ -121,9 +121,9 @@ class ECircle(override val center: EPointMutable = EPointMutable(), override var
     fun resized(newRadius: Number) = set(center = center, radius = newRadius)
     fun resizedBy(extraRadius: Number) = set(center = center, radius = radius + extraRadius.f)
 
-    fun intersects(other: ECircle) = this.center.distanceTo(other.center) < other.radius + this.radius
+    fun intersects(other: ECircleMutable) = this.center.distanceTo(other.center) < other.radius + this.radius
 
-    fun intersects(list: List<ECircle>): Boolean {
+    fun intersects(list: List<ECircleMutable>): Boolean {
         for (other in list) {
             if (other !== this && other.intersects(this)) {
                 return true

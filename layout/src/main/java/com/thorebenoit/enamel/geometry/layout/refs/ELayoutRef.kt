@@ -2,7 +2,7 @@ package com.thorebenoit.enamel.geometry.layout.refs
 
 import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ERectType
-import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 
@@ -11,7 +11,7 @@ import java.util.*
 
 class ELayoutRef<V : Any>(
     var ref: ELayoutRefObject<V>,
-    private val sizeToFit: ELayoutRef<V>.(ESizeType) -> ESizeType,
+    private val sizeToFit: ELayoutRef<V>.(ESize) -> ESize,
     private val arrangeIn: ELayoutRef<V>.(ERectType) -> Unit
 ) : ELayout {
 
@@ -22,7 +22,7 @@ class ELayoutRef<V : Any>(
     private var _frame: ERect = ERect()
     val frame: ERectType get() = _frame
 
-    override fun size(toFit: ESizeType): ESizeType {
+    override fun size(toFit: ESize): ESize {
         return sizeToFit(toFit)
     }
 
