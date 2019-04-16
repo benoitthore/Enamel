@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.geometry.layout
 
 import com.thorebenoit.enamel.geometry.alignement.*
-import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ESize
 
 class EBarLayout(child: ELayout, var side: ERectEdge) : ELayoutAlongAxis {
@@ -28,7 +28,7 @@ class EBarLayout(child: ELayout, var side: ERectEdge) : ELayoutAlongAxis {
         }
     }
 
-    override fun arrange(frame: ERectType) {
+    override fun arrange(frame: ERect) {
         val usingFrame = frame.rectAlignedInside(
             size = child.size(frame.size),
             aligned = side.alignement

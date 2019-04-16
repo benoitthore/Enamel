@@ -3,7 +3,7 @@ package com.thorebenoit.enamel.geometry.layout.transition
 import com.thorebenoit.enamel.core.math.d
 import com.thorebenoit.enamel.core.math.f
 import com.thorebenoit.enamel.core.time.ETimerAnimator
-import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.geometry.layout.refs.getAllChildren
@@ -34,10 +34,10 @@ val defaultDoAnim: suspend (Long, (Float) -> Unit) -> Unit = { duration, animato
 class ETransition<V : Any>(
     val executeOnUiThread: (suspend CoroutineScope.() -> Unit) -> Unit,
     val doAnimation: suspend (Long, (Float) -> Unit) -> Unit = defaultDoAnim,
-    val getEnterAnimation: (ELayoutRef<V>, ERectType) -> SingleElementAnimator<V>,
-    val getExitAnimation: (ELayoutRef<V>, ERectType) -> SingleElementAnimator<V>,
+    val getEnterAnimation: (ELayoutRef<V>, ERect) -> SingleElementAnimator<V>,
+    val getExitAnimation: (ELayoutRef<V>, ERect) -> SingleElementAnimator<V>,
     val getUpdateAnimation: UpdateAnimator.Builder<V> = EChangeBoundAnimator.getBuilder(),
-    var bounds: ERectType? = null
+    var bounds: ERect? = null
 ) {
 
     var layout: ELayout? = null
@@ -45,7 +45,7 @@ class ETransition<V : Any>(
 
     private var isInTransition = false
 
-    fun to(newLayout: ELayout, bounds: ERectType? = null) {
+    fun to(newLayout: ELayout, bounds: ERect? = null) {
         val transition = this
         executeOnUiThread {
 

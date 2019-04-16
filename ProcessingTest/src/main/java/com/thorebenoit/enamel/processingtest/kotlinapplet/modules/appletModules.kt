@@ -1,6 +1,6 @@
 package com.thorebenoit.enamel.processingtest.kotlinapplet.modules
 
-import com.thorebenoit.enamel.geometry.figures.ERect
+import com.thorebenoit.enamel.geometry.figures.ERectMutable
 import com.thorebenoit.enamel.geometry.primitives.unaryMinus
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.KotlinPAppletModule
 import com.thorebenoit.enamel.processingtest.kotlinapplet.createKeyListener
@@ -92,7 +92,7 @@ fun KotlinPAppletModule.draggableWindow(shouldDrag: () -> Boolean = { true }) = 
         if (shouldDrag()) {
             // TODO Offset
             val newPosition = mousePositionOnScreen.offset(-center)
-            val newFrame = ERect(newPosition, esize)
+            val newFrame = ERectMutable(newPosition, esize)
 
             if (displayFrame.contains(newFrame)) {
                 windowLocation = newPosition

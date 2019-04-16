@@ -1,6 +1,6 @@
 package com.thorebenoit.enamel.geometry.layout
 
-import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 
@@ -27,7 +27,7 @@ class ETrackingLayout(src: ELayout = ELayoutLeaf.unit, dst: ELayout = ELayoutLea
 
     override fun size(toFit: ESize): ESize = src.size(toFit)
 
-    override fun arrange(frame: ERectType) {
+    override fun arrange(frame: ERect) {
         src.arrange(frame)
         dst.arrange(frame)
     }

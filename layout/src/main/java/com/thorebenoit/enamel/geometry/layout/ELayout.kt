@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.geometry.layout
 
 import com.thorebenoit.enamel.geometry.alignement.ELayoutAxis
-import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ESize
 
 
@@ -11,7 +11,7 @@ interface ELayout {
     // TODO Refactor so these 2 functions don't allocate
     fun size(toFit: ESize): ESize
 
-    fun arrange(frame: ERectType)
+    fun arrange(frame: ERect)
 
 }
 

@@ -20,23 +20,23 @@ fun List<EPointMutable>.toCircles(radius: Number, buffer: List<ECircleMutable> =
     return buffer
 }
 
-fun ESize.toRect(buffer: ERect = ERect()) = buffer.set(0, 0, width, height)
+fun ESize.toRect(buffer: ERectMutable = ERectMutable()) = buffer.set(0, 0, width, height)
 
 
-fun ERectType.innerCircle(buffer: ECircleMutable = ECircleMutable()): ECircleMutable {
+fun ERect.innerCircle(buffer: ECircleMutable = ECircleMutable()): ECircleMutable {
     center(buffer.center) // set circles center to rect center
     buffer.radius = size.min / 2
     return buffer
 }
 
 
-fun ERectType.outterCircle(buffer: ECircleMutable = ECircleMutable()): ECircleMutable {
+fun ERect.outterCircle(buffer: ECircleMutable = ECircleMutable()): ECircleMutable {
     center(buffer.center) // set circles center to rect center
     buffer.radius = size.diagonal / 2
     return buffer
 }
 
-fun ECircle.outterRect(buffer: ERect = ERect()): ERect {
+fun ECircle.outterRect(buffer: ERectMutable = ERectMutable()): ERectMutable {
     val width = radius * 2
     buffer.width = width
     buffer.height = width
@@ -44,7 +44,7 @@ fun ECircle.outterRect(buffer: ERect = ERect()): ERect {
     return buffer
 }
 
-fun ECircle.innerRect(buffer: ERect = ERect()): ERect {
+fun ECircle.innerRect(buffer: ERectMutable = ERectMutable()): ERectMutable {
     val width = Math.sqrt((2 * radius * radius).toDouble()).f
     buffer.width = width
     buffer.height = width

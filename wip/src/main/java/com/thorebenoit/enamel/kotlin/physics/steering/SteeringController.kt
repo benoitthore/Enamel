@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.kotlin.physics.steering
 
 import com.thorebenoit.enamel.geometry.GeometryBufferProvider
-import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.primitives.EAngle
 import com.thorebenoit.enamel.geometry.primitives.EPointMutable
 import com.thorebenoit.enamel.geometry.primitives.EPoint
@@ -31,7 +31,7 @@ data class SteeringController(
     fun steerAway(target: EPoint) = physicsBody.addForce(getSteerAway(target))
     fun steerAngle(angle: EAngle) = physicsBody.addForce(getSteerAngle(angle))
     fun steerBackwards() = physicsBody.addForce(getSteerBackwards())
-    fun steerInside(rect: ERectType) = physicsBody.addForce(
+    fun steerInside(rect: ERect) = physicsBody.addForce(
         getSteerTowards(
             rect.center(GeometryBufferProvider.point())
         )

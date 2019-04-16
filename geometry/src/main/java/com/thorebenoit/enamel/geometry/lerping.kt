@@ -4,8 +4,8 @@ import com.thorebenoit.enamel.core.math.lerp
 import com.thorebenoit.enamel.geometry.primitives.EPointMutable
 import com.thorebenoit.enamel.geometry.primitives.EPoint
 import java.lang.Exception
+import com.thorebenoit.enamel.geometry.figures.ERectMutable
 import com.thorebenoit.enamel.geometry.figures.ERect
-import com.thorebenoit.enamel.geometry.figures.ERectType
 import com.thorebenoit.enamel.geometry.figures.ESizeMutable
 import com.thorebenoit.enamel.geometry.figures.ESize
 
@@ -33,7 +33,7 @@ fun ESizeMutable.lerp(fraction: Number, from: ESize, to: ESize): ESizeMutable =
         height = fraction.lerp(from.height, to.height)
     )
 
-fun ERect.lerp(fraction: Number, from: ERectType, to: ERectType): ERect = apply {
+fun ERectMutable.lerp(fraction: Number, from: ERect, to: ERect): ERectMutable = apply {
     size.lerp(fraction, from.size, to.size)
     origin.lerp(fraction, from.origin, to.origin)
 }

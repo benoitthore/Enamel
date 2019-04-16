@@ -50,8 +50,8 @@ abstract class KotlinPApplet : PApplet() {
         }
     }
 
-    val displayFrame get() = allocate { ERect(size = displayWidth size displayHeight) }
-    val eframe get() = allocate { ERect(size = esize) }
+    val displayFrame get() = allocate { ERectMutable(size = displayWidth size displayHeight) }
+    val eframe get() = allocate { ERectMutable(size = esize) }
     var esize: ESizeMutable
         get() = allocate { width size height }
         set(value) {
@@ -74,7 +74,7 @@ abstract class KotlinPApplet : PApplet() {
         }
 
 
-    val center get() = allocate { ERect(size = esize).center(EPointMutable()) }
+    val center get() = allocate { ERectMutable(size = esize).center(EPointMutable()) }
 
     private val mousePositionBuffer = allocate { EPointMutable() }
 
@@ -202,7 +202,7 @@ abstract class KotlinPApplet : PApplet() {
         return this
     }
 
-    open fun <T : ERectType> T.draw(): T {
+    open fun <T : ERect> T.draw(): T {
         rectMode(PConstants.CORNER)
         rect(x, y, width, height)
         return this
@@ -249,7 +249,7 @@ abstract class KotlinPApplet : PApplet() {
         return this
     }
 
-    fun <T : ELayout> T.arrangeAndDraw(frame: ERectType = eframe): T {
+    fun <T : ELayout> T.arrangeAndDraw(frame: ERect = eframe): T {
         arrange(frame)
         draw()
         return this

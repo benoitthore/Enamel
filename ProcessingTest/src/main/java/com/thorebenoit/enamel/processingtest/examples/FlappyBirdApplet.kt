@@ -9,8 +9,8 @@ import com.thorebenoit.enamel.core.math.random
 import com.thorebenoit.enamel.core.print
 import com.thorebenoit.enamel.core.threading.CoroutineLock
 import com.thorebenoit.enamel.geometry.alignement.EAlignment
+import com.thorebenoit.enamel.geometry.figures.ERectMutable
 import com.thorebenoit.enamel.geometry.figures.ERect
-import com.thorebenoit.enamel.geometry.figures.ERectType
 import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.primitives.EPointMutable
 import com.thorebenoit.enamel.geometry.primitives.times
@@ -240,7 +240,7 @@ class FlappyBirdWorld(
     open inner class Player(val w: Number, val h: Number) {
 
         val body = PhysicsBody(maxVelocity = 10.Ypx)
-        val collider: ERectType get() = ERect(body.position.x, body.position.y, w, h)
+        val collider: ERect get() = ERectMutable(body.position.x, body.position.y, w, h)
 
         fun update() {
             body.update()
@@ -280,8 +280,8 @@ class FlappyBirdWorld(
     inner class Pipe(var x: Float = 1f, val cut: Float = random(cutSize, 1f - cutSize)) {
         val w = 40.Xpx
 
-        val topRect = ERect()
-        val botRect = ERect()
+        val topRect = ERectMutable()
+        val botRect = ERectMutable()
         fun update() {
             x -= 5.Xpx
             topRect.set(x, 0, w, cut - cutSize)

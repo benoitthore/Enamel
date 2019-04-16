@@ -8,7 +8,7 @@ import com.thorebenoit.enamel.kotlin.ai.genetics.Genome
 import com.thorebenoit.enamel.kotlin.ai.genetics.Population
 import com.thorebenoit.enamel.geometry.alignement.NamedPoint
 import com.thorebenoit.enamel.geometry.figures.ERectCorners
-import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.primitives.EAngle
 import com.thorebenoit.enamel.geometry.primitives.EPoint
 import com.thorebenoit.enamel.geometry.primitives.point
@@ -27,7 +27,7 @@ class VectorGeneticsApplet : KotlinPApplet() {
 
     data class DnaV(val steeringVehicle: SteeringVehicle, val steeringData: List<EAngle>)
 
-    val obstacles: MutableList<ERectType> = mutableListOf()
+    val obstacles: MutableList<ERect> = mutableListOf()
 
     val target = (200 point 200).toCircle(100)
 

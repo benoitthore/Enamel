@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.geometry.layout
 
 import com.thorebenoit.enamel.geometry.alignement.isVertical
-import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ESize
 
 
@@ -37,7 +37,7 @@ class ESnuggingLayout(child: ELayoutAlongAxis) : ELayout {
         }
     }
 
-    override fun arrange(frame: ERectType) {
+    override fun arrange(frame: ERect) {
         child.arrange(frame)
     }
 

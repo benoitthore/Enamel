@@ -1,6 +1,6 @@
 package com.thorebenoit.enamel.geometry.layout
 
-import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.figures.minus
 import com.thorebenoit.enamel.geometry.primitives.EOffset
@@ -26,7 +26,7 @@ class EPaddingLayout(child: ELayout = ELayoutLeaf.unit, var padding: EOffset = E
         return child.size(toFit - padding) + padding
     }
 
-    override fun arrange(frame: ERectType) {
+    override fun arrange(frame: ERect) {
         child.arrange(frame - padding)
     }
 
