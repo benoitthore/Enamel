@@ -41,9 +41,9 @@ class ETransition<V : Any>(
 ) {
 
     var layout: ELayout? = null
-        private set
 
-    private var isInTransition = false
+    var isInTransition = false
+        private set
 
     fun to(newLayout: ELayout, bounds: ERect? = null) {
         val transition = this
