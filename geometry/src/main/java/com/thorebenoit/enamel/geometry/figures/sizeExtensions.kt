@@ -3,7 +3,7 @@ package com.thorebenoit.enamel.geometry.figures
 import com.thorebenoit.enamel.core.math.random
 
 
-fun List<ESizeType>.union(buffer: ESize = ESize()): ESize {
+fun List<ESize>.union(buffer: ESizeMutable = ESizeMutable()): ESizeMutable {
     var width = Float.MIN_VALUE
     var height = Float.MIN_VALUE
 

@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.processingtest.examples
 
 import com.thorebenoit.enamel.geometry.AllocationTracker
-import com.thorebenoit.enamel.geometry.figures.ECircle
+import com.thorebenoit.enamel.geometry.figures.ECircleMutable
 import com.thorebenoit.enamel.geometry.figures.size
 import com.thorebenoit.enamel.geometry.innerCircle
 import com.thorebenoit.enamel.geometry.primitives.EPointMutable
@@ -36,7 +36,7 @@ class RadarApplet : KotlinPApplet() {
         noFill()
         stroke(0f, 255f, 0f)
 
-        val circle = eframe.innerCircle(ECircle()).inset(25)
+        val circle = eframe.innerCircle(ECircleMutable()).inset(25)
         circle.draw()
 
         val start = circle.center
@@ -56,7 +56,7 @@ class RadarApplet : KotlinPApplet() {
         beepArray.forEach {
 
             fill(0f, 255f, 0f)
-            it.position.toCircle(4f * it.progress, ECircle()).draw()
+            it.position.toCircle(4f * it.progress, ECircleMutable()).draw()
             it.progress += 1 / 360f
         }
 

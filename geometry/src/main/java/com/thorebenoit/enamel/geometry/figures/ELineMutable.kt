@@ -7,13 +7,13 @@ import com.thorebenoit.enamel.geometry.primitives.*
 TODO Make mutable/immutable version
 TODO Make allocation free
  */
-open class ELineType(open val start: EPoint = EPoint.zero, open val end: EPoint = EPoint.zero) {
+open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EPoint.zero) {
 
     private fun Float.opposite() = 1f - this
 
     companion object {
-        val unit = ELineType(start = EPointMutable.zero, end = EPointMutable.unit)
-        val zero = ELineType(start = EPointMutable.zero, end = EPointMutable.zero)
+        val unit = ELine(start = EPointMutable.zero, end = EPointMutable.unit)
+        val zero = ELine(start = EPointMutable.zero, end = EPointMutable.zero)
 
         val START = 0f
         val END = 1f
@@ -58,17 +58,17 @@ open class ELineType(open val start: EPoint = EPoint.zero, open val end: EPoint 
         return fromPoint.offsetTowards(towards, totalDistance)
     }
 
-    fun isParallel(other: ELine) = linearFunction.a == other.linearFunction.a
+    fun isParallel(other: ELineMutable) = linearFunction.a == other.linearFunction.a
 
     fun center() = pointAt(0.5f)
 
-    fun rotate(offsetAngle: EAngle, around: EPoint = center()): ELine {
+    fun rotate(offsetAngle: EAngleMutable, around: EPoint = center()): ELineMutable {
         val newStart = start.rotateAround(offsetAngle, around)
         val newEnd = end.rotateAround(offsetAngle, around)
         return newStart line newEnd
     }
 
-    fun expanded(distance: Number, from: Float): ELineType {
+    fun expanded(distance: Number, from: Float): ELine {
         val start = pointAt(from.opposite())
         return start line extrapolateFrom(distance, from)
     }
@@ -101,7 +101,7 @@ open class ELineType(open val start: EPoint = EPoint.zero, open val end: EPoint 
         towards: Float,
         leftLength: Number,
         rightLength: Number
-    ): ELineType {
+    ): ELine {
         val start = perpendicularPointLeft(
             distanceFromLine = leftLength,
             distanceTowardsEndPoint = distance,
@@ -128,7 +128,7 @@ open class ELineType(open val start: EPoint = EPoint.zero, open val end: EPoint 
             rightLength = length.f / 2f
         )
 
-    fun perpendicular(at: Float, leftLength: Number, rightLength: Number): ELineType {
+    fun perpendicular(at: Float, leftLength: Number, rightLength: Number): ELine {
         val offset = length * at
         return perpendicular(
             distance = offset,
@@ -151,7 +151,7 @@ open class ELineType(open val start: EPoint = EPoint.zero, open val end: EPoint 
 
 }
 
-class ELine(override val start: EPointMutable = EPointMutable.zero, override val end: EPointMutable = EPointMutable.zero) : ELineType(start, end) {
+class ELineMutable(override val start: EPointMutable = EPointMutable.zero, override val end: EPointMutable = EPointMutable.zero) : ELine(start, end) {
 
     fun set(start: EPoint, end: EPoint) = set(start.x, start.y, end.x, end.y)
 
@@ -165,7 +165,7 @@ class ELine(override val start: EPointMutable = EPointMutable.zero, override val
 
     fun selfOffset(xOff: Number, yOff: Number) = start.offset(xOff, yOff) line end.offset(xOff, yOff)
     fun selfOffset(p: EPoint) = selfOffset(p.x, p.y)
-    fun selfScale(width: Number, height: Number): ELine {
+    fun selfScale(width: Number, height: Number): ELineMutable {
         start.x *= width.f
         end.x *= width.f
 
@@ -176,12 +176,12 @@ class ELine(override val start: EPointMutable = EPointMutable.zero, override val
     }
 }
 
-infix fun EPoint.line(end: EPoint) = ELineType(start = this, end = end)
-infix fun EPointMutable.line(end: EPointMutable) = ELine(start = this, end = end)
+infix fun EPoint.line(end: EPoint) = ELine(start = this, end = end)
+infix fun EPointMutable.line(end: EPointMutable) = ELineMutable(start = this, end = end)
 
 /// CONVERT
-fun List<EPoint>.toListOfLines(): List<ELineType> {
-    val ret = mutableListOf<ELineType>()
+fun List<EPoint>.toListOfLines(): List<ELine> {
+    val ret = mutableListOf<ELine>()
     forEachIndexed { i, curr ->
         if (i > 1) {
             val prev = get(i - 1)

@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.processingtest.examples.steering
 
 import com.thorebenoit.enamel.kotlin.core.color.randomColor
-import com.thorebenoit.enamel.geometry.figures.ECircle
+import com.thorebenoit.enamel.geometry.figures.ECircleMutable
 import com.thorebenoit.enamel.geometry.figures.EPolygon
 import com.thorebenoit.enamel.geometry.figures.toPolygon
 import com.thorebenoit.enamel.geometry.primitives.EPointMutable
@@ -19,11 +19,11 @@ data class SteeringVehicle(
 
     val shape: List<EPolygon> = kotlin.run {
 //        val rect1 = ERectCenter(width = 0.3, height = 1).scaleAnchor(radius, NamedPoint.center)
-//        val circle = ECircle(center = rect1.width + radius * 0.3 point 0, radius = radius * 0.3)
+//        val circle = ECircleMutable(center = rect1.width + radius * 0.3 point 0, radius = radius * 0.3)
 
         listOf(
 //            rect1.toPointList().toPolygon(),
-            ECircle(radius = radius).toListOfPoint(20).toPolygon()
+            ECircleMutable(radius = radius).toListOfPoint(20).toPolygon()
         )
     }
 

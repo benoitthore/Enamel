@@ -10,7 +10,7 @@ import com.thorebenoit.enamel.geometry.primitives.EPoint
 class ERectGroup(private val _rects: List<ERect>, overrideFrame: ERectType? = null) : Iterable<ERectType> by _rects {
 
     val frame: ERectType get() = _frame
-    val size: ESizeType get() = _frame.size
+    val size: ESize get() = _frame.size
     val origin: EPoint get() = _frame.origin
     val rects: List<ERectType> get() = _rects
 
@@ -18,7 +18,7 @@ class ERectGroup(private val _rects: List<ERect>, overrideFrame: ERectType? = nu
 
     private val _frame = ERect()
 //    private val _origin: EPointMutable
-//    private val _size: ESize
+//    private val _size: ESizeMutable
 
 
     init {
@@ -55,7 +55,7 @@ class ERectGroup(private val _rects: List<ERect>, overrideFrame: ERectType? = nu
 }
 
 // Allocates because this is essentially a constructor
-fun List<ESizeType>.rectGroup(
+fun List<ESize>.rectGroup(
     alignment: EAlignment,
     anchor: EPoint = EPoint.zero,
     position: EPoint = EPoint.zero,
@@ -70,7 +70,7 @@ fun List<ESizeType>.rectGroup(
             prev.rectAlignedOutside(
                 aligned = alignment,
                 size = size,
-                spacing = if (prev.size == ESizeType.zero) 0 else spacing
+                spacing = if (prev.size == ESize.zero) 0 else spacing
             )
         }
         prev
@@ -83,7 +83,7 @@ fun List<ESizeType>.rectGroup(
 }
 
 
-fun List<ESizeType>.rectGroupJustified(
+fun List<ESize>.rectGroupJustified(
     alignment: EAlignment,
     toFit: Number,
     anchor: EPoint = EPoint.zero,
@@ -105,7 +105,7 @@ fun List<ESizeType>.rectGroupJustified(
 
 fun List<Number>.rectGroupWeights(
     alignment: EAlignment,
-    toFit: ESizeType,
+    toFit: ESize,
     anchor: EPoint = EPoint.zero,
     position: EPoint = EPoint.zero,
     padding: EOffset = EOffset.zero,
@@ -123,10 +123,10 @@ fun List<Number>.rectGroupWeights(
 
     val totalWeight = sumByDouble { it.d }.f
 
-    val sizes: List<ESize> = if (alignment.isHorizontal) {
-        map { ESize((actualWidth) * it.toFloat() / totalWeight, toFit.height) }
+    val sizes: List<ESizeMutable> = if (alignment.isHorizontal) {
+        map { ESizeMutable((actualWidth) * it.toFloat() / totalWeight, toFit.height) }
     } else {
-        map { ESize(toFit.width, (actualHeight) * it.toFloat() / totalWeight) }
+        map { ESizeMutable(toFit.width, (actualHeight) * it.toFloat() / totalWeight) }
     }
 
     return sizes.rectGroup(

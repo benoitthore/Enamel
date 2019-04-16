@@ -3,7 +3,7 @@ package com.thorebenoit.enamel.geometry.primitives
 import com.thorebenoit.enamel.core.math.*
 import com.thorebenoit.enamel.geometry.Resetable
 import com.thorebenoit.enamel.geometry.allocateDebugMessage
-import com.thorebenoit.enamel.geometry.figures.ECircleType
+import com.thorebenoit.enamel.geometry.figures.ECircle
 
 //TODO Mark warning if not used on non-self functions in points/rect/circle/etc
 open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
@@ -22,7 +22,7 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
     }
 
     constructor(x: Number, y: Number) : this(x.f, y.f)
-    constructor(angle: EAngleType, magnitude: Number) : this(angle.cos * magnitude.f, angle.sin * magnitude.f)
+    constructor(angle: EAngle, magnitude: Number) : this(angle.cos * magnitude.f, angle.sin * magnitude.f)
 
     fun toMutable(buffer: EPointMutable = EPointMutable()) = buffer.set(x, y)
     fun toImmutable() = EPoint(x, y)
@@ -31,9 +31,9 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
 
     open val magnitude get() = Math.hypot(x.d, y.d)
 
-    fun heading(buffer: EAngle = EAngle()) = buffer.set(Math.atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
+    fun heading(buffer: EAngleMutable = EAngleMutable()) = buffer.set(Math.atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
 
-    fun angleTo(point: EPoint): EAngle =
+    fun angleTo(point: EPoint): EAngleMutable =
         Math.atan2(
             ((point.y - y).d), ((point.x - x).d)
         ).radians()
@@ -41,7 +41,7 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
     fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)
     fun distanceTo(x2: Number, y2: Number) = Math.hypot((x2.d - x), (y2.d - y)).f
 
-    fun distanceTo(circle: ECircleType): Float {
+    fun distanceTo(circle: ECircle): Float {
         val distance = distanceTo(circle.center) - circle.radius
         if (distance < 0f) {
             return 0f
@@ -102,14 +102,14 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
 
 
 
-    fun offsetAngle(angle: EAngleType, distance: Number, buffer: EPointMutable = EPointMutable()): EPointMutable {
+    fun offsetAngle(angle: EAngle, distance: Number, buffer: EPointMutable = EPointMutable()): EPointMutable {
         val fromX = x
         val fromY = y
         buffer.set(angle, distance)
         return buffer.set(buffer.x + fromX, buffer.y + fromY)
     }
 
-    fun rotateAround(angle: EAngleType, center: EPoint, buffer: EPointMutable = EPointMutable()): EPointMutable {
+    fun rotateAround(angle: EAngle, center: EPoint, buffer: EPointMutable = EPointMutable()): EPointMutable {
         val angleTo = center.angleTo(this)
         val distance = center.distanceTo(this)
         val totalAngle = angle + angleTo
@@ -149,7 +149,7 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
 
 
     constructor(x: Number, y: Number) : this(x.f, y.f)
-    constructor(angle: EAngle, magnitude: Number) : this(angle.cos * magnitude.f, angle.sin * magnitude.f)
+    constructor(angle: EAngleMutable, magnitude: Number) : this(angle.cos * magnitude.f, angle.sin * magnitude.f)
 
     companion object {
         val zero get() = EPointMutable(0f, 0f)
@@ -161,7 +161,7 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
 
     fun set(other: Tuple2) = set(other.v1, other.v2)
 
-    fun set(angle: EAngleType, magnitude: Number) =
+    fun set(angle: EAngle, magnitude: Number) =
         set(angle.cos * magnitude.f, angle.sin * magnitude.f)
 
     override var magnitude: Double
@@ -196,9 +196,9 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
 
     fun selfOffsetTowards(towards: EPoint, distance: Number) = offsetTowards(towards, distance, this)
     fun selfOffsetFrom(from: EPoint, distance: Number) = offsetFrom(from, distance, this)
-    fun selfOffsetAngle(angle: EAngleType, distance: Number) = offsetAngle(angle, distance)
+    fun selfOffsetAngle(angle: EAngle, distance: Number) = offsetAngle(angle, distance)
 
-    fun selfRotateAround(angle: EAngleType, center: EPointMutable) = rotateAround(angle, center, this)
+    fun selfRotateAround(angle: EAngle, center: EPointMutable) = rotateAround(angle, center, this)
 
     fun selfInverse() = inverse(this)
 

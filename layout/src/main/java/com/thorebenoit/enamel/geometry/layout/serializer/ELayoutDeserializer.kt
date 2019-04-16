@@ -2,7 +2,7 @@ package com.thorebenoit.enamel.geometry.layout.serializer
 
 import com.thorebenoit.enamel.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.geometry.alignement.ERectEdge
-import com.thorebenoit.enamel.geometry.figures.ESize
+import com.thorebenoit.enamel.geometry.figures.ESizeMutable
 import com.thorebenoit.enamel.geometry.layout.*
 import com.thorebenoit.enamel.kotlin.geometry.layout.*
 import com.thorebenoit.enamel.geometry.layout.ESizingLayout.ELayoutSpace
@@ -18,7 +18,7 @@ private fun JSONObject._optNumber(key: String) = opt(key) as? Number // Required
 
 private fun String.toRectEdge() = ERectEdge.valueOf(this)
 private fun String.toAlignment() = EAlignment.valueOf(this)
-private fun JSONObject.toSize() = ESize(width = _getNumber("height"), height = _getNumber("height"))
+private fun JSONObject.toSize() = ESizeMutable(width = _getNumber("height"), height = _getNumber("height"))
 private fun JSONObject.toOffset() =
     EOffset(
         left = _getNumber("left"),

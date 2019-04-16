@@ -4,7 +4,7 @@ import com.thorebenoit.enamel.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.geometry.alignement.layoutAxis
 import com.thorebenoit.enamel.geometry.figures.ERectType
-import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.figures.rectGroup
 
 
@@ -18,7 +18,7 @@ class EStackLayout(
     override val layoutAxis: ELayoutAxis get() = alignment.layoutAxis ?: ELayoutAxis.horizontal
 
 
-    override fun size(toFit: ESizeType): ESizeType {
+    override fun size(toFit: ESize): ESize {
         val group = childLayouts.map { it.size(toFit) }.rectGroup(alignment = alignment, spacing = spacing)
 
         if (alignment.isVertical) {

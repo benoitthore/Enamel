@@ -4,7 +4,7 @@
 //import com.thorebenoit.enamel.core.math.i
 //import com.thorebenoit.enamel.core.print
 //import com.thorebenoit.enamel.kotlin.core.time.ETimer
-//import ESizeType
+//import ESize
 //import size
 //import EPoint
 //import point
@@ -103,7 +103,7 @@
 //    KotlinPApplet.createApplet<DoodleTestApplet>()
 //}
 //
-//fun KotlinPApplet.getImageFromPoints(totalPoints: List<List<EPoint>>, imageSize: ESizeType): List<Float> {
+//fun KotlinPApplet.getImageFromPoints(totalPoints: List<List<EPoint>>, imageSize: ESize): List<Float> {
 //    val ratio = imageSize / esize
 //
 //    val totalPoints = totalPoints.map { it.map { it.times(ratio) } }
@@ -131,5 +131,5 @@
 //
 //}
 //
-//private fun ESizeType.toPoint() = width point height
-//private operator fun ESizeType.div(o: ESizeType): ESizeType = this.width / o.width size this.height / o.height
+//private fun ESize.toPoint() = width point height
+//private operator fun ESize.div(o: ESize): ESize = this.width / o.width size this.height / o.height

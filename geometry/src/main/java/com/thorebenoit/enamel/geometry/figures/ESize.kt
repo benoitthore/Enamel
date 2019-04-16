@@ -7,7 +7,7 @@ import com.thorebenoit.enamel.geometry.allocateDebugMessage
 import com.thorebenoit.enamel.geometry.allocate
 import com.thorebenoit.enamel.geometry.primitives.Tuple2
 
-open class ESizeType(open val width: Float = 0f, open val height: Float = 0f) : Tuple2 {
+open class ESize(open val width: Float = 0f, open val height: Float = 0f) : Tuple2 {
 
     constructor(width: Number, height: Number) : this(width.f, height.f)
 
@@ -15,19 +15,19 @@ open class ESizeType(open val width: Float = 0f, open val height: Float = 0f) : 
     override val v2: Number get() = height
 
     companion object {
-        val zero: ESizeType = allocate { ESizeType() }
-        val greatestSize: ESizeType = allocate { ESizeType(Float.MAX_VALUE, Float.MAX_VALUE) }
-        fun square(size: Number) = ESize(size, size)
+        val zero: ESize = allocate { ESize() }
+        val greatestSize: ESize = allocate { ESize(Float.MAX_VALUE, Float.MAX_VALUE) }
+        fun square(size: Number) = ESizeMutable(size, size)
     }
 
     init {
         allocateDebugMessage()
     }
 
-    fun toMutable() = ESize(width, height)
-    fun toImmutable() = ESizeType(width, height)
+    fun toMutable() = ESizeMutable(width, height)
+    fun toImmutable() = ESize(width, height)
 
-    fun copy(width: Number = this.width, height: Number = this.height, buffer: ESize = ESize()) =
+    fun copy(width: Number = this.width, height: Number = this.height, buffer: ESizeMutable = ESizeMutable()) =
         buffer.set(width, height)
 
     val min get() = Math.min(width, height)
@@ -36,30 +36,30 @@ open class ESizeType(open val width: Float = 0f, open val height: Float = 0f) : 
     val area get() = width * height
     val hasArea get() = area > 0
 
-    fun abs(buffer: ESize = ESize()) = buffer.set(Math.abs(width), Math.abs(height))
+    fun abs(buffer: ESizeMutable = ESizeMutable()) = buffer.set(Math.abs(width), Math.abs(height))
 
-    fun inset(x: Number, y: Number, buffer: ESize = ESize()) = buffer.set(width - x.f, height - y.f)
-    fun inset(other: Tuple2, buffer: ESize = ESize()) = inset(other.v1, other.v2, buffer)
-    fun inset(n: Number, buffer: ESize = ESize()) = inset(n, n, buffer)
+    fun inset(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) = buffer.set(width - x.f, height - y.f)
+    fun inset(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) = inset(other.v1, other.v2, buffer)
+    fun inset(n: Number, buffer: ESizeMutable = ESizeMutable()) = inset(n, n, buffer)
 
-    fun expand(x: Number, y: Number, buffer: ESize = ESize()) = inset(-x.f, -y.f, buffer)
-    fun expand(other: Tuple2, buffer: ESize = ESize()) = expand(other.v1, other.v2, buffer)
-    fun expand(n: Number, buffer: ESize = ESize()) = expand(n, n, buffer)
+    fun expand(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) = inset(-x.f, -y.f, buffer)
+    fun expand(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) = expand(other.v1, other.v2, buffer)
+    fun expand(n: Number, buffer: ESizeMutable = ESizeMutable()) = expand(n, n, buffer)
 
-    fun scale(x: Number, y: Number, buffer: ESize = ESize()) = buffer.set(width * x.f, height * y.f)
-    fun scale(other: Tuple2, buffer: ESize = ESize()) = scale(other.v1, other.v2, buffer)
-    fun scale(n: Number, buffer: ESize = ESize()) = scale(n, n, buffer)
+    fun scale(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) = buffer.set(width * x.f, height * y.f)
+    fun scale(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) = scale(other.v1, other.v2, buffer)
+    fun scale(n: Number, buffer: ESizeMutable = ESizeMutable()) = scale(n, n, buffer)
 
-    fun dividedBy(x: Number, y: Number, buffer: ESize = ESize()) = buffer.set(width / x.f, height / y.f)
-    fun dividedBy(other: Tuple2, buffer: ESize = ESize()) = dividedBy(other.v1, other.v2, buffer)
-    fun dividedBy(n: Number, buffer: ESize = ESize()) = dividedBy(n, n, buffer)
+    fun dividedBy(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) = buffer.set(width / x.f, height / y.f)
+    fun dividedBy(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) = dividedBy(other.v1, other.v2, buffer)
+    fun dividedBy(n: Number, buffer: ESizeMutable = ESizeMutable()) = dividedBy(n, n, buffer)
 
 
     override fun equals(other: Any?): Boolean =
-        (other as? ESizeType)?.let { it.width == width && it.height == height } ?: false
+        (other as? ESize)?.let { it.width == width && it.height == height } ?: false
 
     override fun toString(): String {
-        return "ESize(width=$width, height=$height)"
+        return "ESizeMutable(width=$width, height=$height)"
     }
 
     override fun hashCode(): Int {
@@ -70,18 +70,18 @@ open class ESizeType(open val width: Float = 0f, open val height: Float = 0f) : 
 
 }
 
-class ESize(override var width: Float = 0f, override var height: Float = 0f) : ESizeType(width, height),
+class ESizeMutable(override var width: Float = 0f, override var height: Float = 0f) : ESize(width, height),
     Resetable {
     constructor(width: Number, height: Number) : this(width.f, height.f)
     constructor(other: Tuple2) : this(other.v1, other.v2)
 
-    fun set(width: Number, height: Number): ESize {
+    fun set(width: Number, height: Number): ESizeMutable {
         this.width = width.f
         this.height = height.f
         return this
     }
 
-    fun set(size: ESizeType) = set(size.width, size.height)
+    fun set(size: ESize) = set(size.width, size.height)
 
     override fun reset() {
         set(0, 0)
@@ -106,4 +106,4 @@ class ESize(override var width: Float = 0f, override var height: Float = 0f) : E
 
 }
 
-infix fun Number.size(height: Number) = ESize(this, height)
+infix fun Number.size(height: Number) = ESizeMutable(this, height)

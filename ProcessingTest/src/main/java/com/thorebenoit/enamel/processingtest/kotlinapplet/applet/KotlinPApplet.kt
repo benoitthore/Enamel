@@ -32,27 +32,27 @@ abstract class KotlinPApplet : PApplet() {
     }
 
     companion object {
-        var defaultSize: ESizeType = 200 size 200
+        var defaultSize: ESize = 200 size 200
         val appletQueue: BlockingQueue<KotlinPApplet> = LinkedBlockingQueue()
 
         inline fun <reified T : KotlinPApplet> createApplet(width: Number, height: Number) =
             createApplet<T>(width size height)
 
-        inline fun <reified T : KotlinPApplet> createApplet(size: ESizeType = defaultSize): T {
+        inline fun <reified T : KotlinPApplet> createApplet(size: ESize = defaultSize): T {
             PApplet.main(T::class.java, size.toJson())
             return appletQueue.poll() as T
         }
     }
 
     override fun settings() {
-        args?.first()?.fromJsonSafe<ESize>()?.let {
+        args?.first()?.fromJsonSafe<ESizeMutable>()?.let {
             esize = it
         }
     }
 
     val displayFrame get() = allocate { ERect(size = displayWidth size displayHeight) }
     val eframe get() = allocate { ERect(size = esize) }
-    var esize: ESize
+    var esize: ESizeMutable
         get() = allocate { width size height }
         set(value) {
             surface?.apply {
@@ -197,7 +197,7 @@ abstract class KotlinPApplet : PApplet() {
     }
 
 
-    open fun <T : ECircleType> T.draw(): T {
+    open fun <T : ECircle> T.draw(): T {
         ellipse(x, y, radius * 2, radius * 2)
         return this
     }
@@ -208,7 +208,7 @@ abstract class KotlinPApplet : PApplet() {
         return this
     }
 
-    open fun <T : ELineType> T.draw(): T {
+    open fun <T : ELine> T.draw(): T {
         line(x1, y1, x2, y2)
         return this
     }

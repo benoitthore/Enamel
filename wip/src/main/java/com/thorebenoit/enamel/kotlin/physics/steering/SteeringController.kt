@@ -2,7 +2,7 @@ package com.thorebenoit.enamel.kotlin.physics.steering
 
 import com.thorebenoit.enamel.geometry.GeometryBufferProvider
 import com.thorebenoit.enamel.geometry.figures.ERectType
-import com.thorebenoit.enamel.geometry.primitives.EAngleType
+import com.thorebenoit.enamel.geometry.primitives.EAngle
 import com.thorebenoit.enamel.geometry.primitives.EPointMutable
 import com.thorebenoit.enamel.geometry.primitives.EPoint
 import com.thorebenoit.enamel.geometry.primitives.minus
@@ -29,7 +29,7 @@ data class SteeringController(
 
     fun steerTowards(target: EPoint) = physicsBody.addForce(getSteerTowards(target))
     fun steerAway(target: EPoint) = physicsBody.addForce(getSteerAway(target))
-    fun steerAngle(angle: EAngleType) = physicsBody.addForce(getSteerAngle(angle))
+    fun steerAngle(angle: EAngle) = physicsBody.addForce(getSteerAngle(angle))
     fun steerBackwards() = physicsBody.addForce(getSteerBackwards())
     fun steerInside(rect: ERectType) = physicsBody.addForce(
         getSteerTowards(
@@ -37,7 +37,7 @@ data class SteeringController(
         )
     )
 
-    fun getSteerAngle(angle: EAngleType): EPointMutable {
+    fun getSteerAngle(angle: EAngle): EPointMutable {
         val desired = EPointMutable().selfOffsetAngle(angle, 1).selfMult(physicsBody.maxVelocity)
 
         val steer = desired - physicsBody.velocity

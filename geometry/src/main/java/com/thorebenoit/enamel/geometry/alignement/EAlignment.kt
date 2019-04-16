@@ -11,7 +11,7 @@ PlaygroundApplet.start(800, 800) {
             stroke(red)
             val rect = eframe.inset(100).draw()
             EAlignment.all.forEach {
-                rect.rectAlignedOutside(it, ESizeType.square(20), spacing = 10).draw()
+                rect.rectAlignedOutside(it, ESize.square(20), spacing = 10).draw()
             }
 
         }

@@ -1,8 +1,8 @@
 package com.thorebenoit.enamel.geometry
 
-import com.thorebenoit.enamel.geometry.figures.ECircle
+import com.thorebenoit.enamel.geometry.figures.ECircleMutable
 import com.thorebenoit.enamel.geometry.figures.ERect
-import com.thorebenoit.enamel.geometry.primitives.EAngle
+import com.thorebenoit.enamel.geometry.primitives.EAngleMutable
 import com.thorebenoit.enamel.geometry.primitives.EPointMutable
 
 /*
@@ -16,7 +16,7 @@ object GeometryBufferProvider {
     }
     val circle by lazy {
         allocate {
-            GenericBufferProvider { ECircle() }
+            GenericBufferProvider { ECircleMutable() }
         }
     }
     val rect by lazy {
@@ -26,7 +26,7 @@ object GeometryBufferProvider {
     }
     val angle by lazy {
         allocate {
-            GenericBufferProvider { EAngle() }
+            GenericBufferProvider { EAngleMutable() }
         }
     }
 }

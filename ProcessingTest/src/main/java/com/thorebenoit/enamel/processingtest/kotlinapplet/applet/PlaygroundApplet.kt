@@ -3,7 +3,7 @@ package com.thorebenoit.enamel.processingtest.kotlinapplet.applet
 import com.thorebenoit.enamel.core.of
 import com.thorebenoit.enamel.core.print
 import com.thorebenoit.enamel.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.figures.size
 import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.geometry.layout.dsl.*
@@ -26,7 +26,7 @@ class PlaygroundApplet : KotlinPAppletLambda() {
         ) = start(width size height, init)
 
         fun start(
-            size: ESizeType = KotlinPApplet.defaultSize,
+            size: ESize = KotlinPApplet.defaultSize,
             init: PlaygroundApplet .() -> Unit
         ) {
             KotlinPApplet.createApplet<PlaygroundApplet>(size).apply {

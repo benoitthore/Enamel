@@ -2,7 +2,7 @@ package com.thorebenoit.enamel.geometry.layout
 
 import com.thorebenoit.enamel.geometry.alignement.*
 import com.thorebenoit.enamel.geometry.figures.ERectType
-import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.ESize
 
 class EBarLayout(child: ELayout, var side: ERectEdge) : ELayoutAlongAxis {
 
@@ -20,7 +20,7 @@ class EBarLayout(child: ELayout, var side: ERectEdge) : ELayoutAlongAxis {
     private val _childLayouts: MutableList<ELayout> = mutableListOf(child)
     override val childLayouts: List<ELayout> get() = _childLayouts
 
-    override fun size(toFit: ESizeType): ESizeType {
+    override fun size(toFit: ESize): ESize {
         return if (side.isHorizontal) {
             toFit.copy(height = child.size(toFit).height)
         } else {

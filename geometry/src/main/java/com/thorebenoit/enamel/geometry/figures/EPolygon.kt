@@ -14,7 +14,7 @@ class EPolygon(override val points: List<EPointMutable>) : EPolygonType(points) 
 
 fun <P : EPointMutable> List<P>.fit(rect: ERectType): List<P> = fit(rect.size).apply { forEach { it.selfOffset(rect.origin) } }
 
-fun <P : EPointMutable> List<P>.fit(size: ESizeType): List<P> {
+fun <P : EPointMutable> List<P>.fit(size: ESize): List<P> {
 
     if (isEmpty()) {
         return this

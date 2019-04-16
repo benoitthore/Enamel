@@ -2,7 +2,7 @@ package com.thorebenoit.enamel.geometry.layout
 
 import com.thorebenoit.enamel.geometry.alignement.isVertical
 import com.thorebenoit.enamel.geometry.figures.ERectType
-import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.ESize
 
 
 class ESnuggingLayout(child: ELayoutAlongAxis) : ELayout {
@@ -17,7 +17,7 @@ class ESnuggingLayout(child: ELayoutAlongAxis) : ELayout {
     private val _childLayouts: MutableList<ELayout> = mutableListOf(child)
     override val childLayouts: List<ELayout> get() = _childLayouts
 
-    override fun size(toFit: ESizeType): ESizeType {
+    override fun size(toFit: ESize): ESize {
         val sizes = child.childLayouts.map { it.size(toFit) }
 
         val maxChildExtent = sizes.map {

@@ -1,6 +1,6 @@
 package com.thorebenoit.enamel.geometry.alignement
 
-import com.thorebenoit.enamel.geometry.figures.ESizeType
+import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.primitives.EOffset
 import com.thorebenoit.enamel.geometry.primitives.times
 
@@ -31,33 +31,33 @@ val EAlignment.layoutAxis: ELayoutAxis?
 
 val ERectEdge.layoutAxis get() = if (isVertical) ELayoutAxis.vertical else ELayoutAxis.horizontal
 
-fun ESizeType.along(axis: ELayoutAxis): Float = when (axis) {
+fun ESize.along(axis: ELayoutAxis): Float = when (axis) {
     ELayoutAxis.vertical -> height
     ELayoutAxis.horizontal -> width
 }
 
-fun ESizeType.with(side: ELayoutAxis, newValue: Number) = ESizeType(
+fun ESize.with(side: ELayoutAxis, newValue: Number) = ESize(
     width = if (side == ELayoutAxis.horizontal) newValue else width,
     height = if (side == ELayoutAxis.vertical) newValue else height
 )
 
-fun ESizeType.fillSize(size: ESizeType): ESizeType {
+fun ESize.fillSize(size: ESize): ESize {
     return (scaleToFill(size) * this).abs()
 }
 
-fun ESizeType.fitSize(size: ESizeType): ESizeType {
+fun ESize.fitSize(size: ESize): ESize {
     return (scaleToFit(size) * this).abs()
 }
 
 
-fun ESizeType.scaleToFill(size: ESizeType): Float {
+fun ESize.scaleToFill(size: ESize): Float {
     val a = abs()
     val b = size.abs()
     return Math.max(b.width / a.width, b.height / a.height) // TODO what if Infinite
 }
 
 
-fun ESizeType.scaleToFit(size: ESizeType): Float {
+fun ESize.scaleToFit(size: ESize): Float {
     val a = abs()
     val b = size.abs()
     return Math.min(b.width / a.width, b.height / a.height) // TODO what if Infinite
