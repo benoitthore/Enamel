@@ -30,7 +30,7 @@ val Activity.screenSize
     }
 
 fun Context.eLayout(block: EViewGroup.() -> ELayout): EViewGroup = EViewGroup(this).apply {
-    goToLayout(block())
+    layout = block()
 }
 
 val Number.dp: Int
@@ -115,12 +115,12 @@ class MainActivity : AppCompatActivity() {
                 customView<EViewGroup> {
                     startServer()
 
-                    goToLayout(
+                    layout =
                         listOf(
                             "B".layoutTag,
                             "A".layoutTag
                         ).stacked(bottomCenter).arranged(topRight)
-                    )
+
 
                     backgroundColor = dkGray
                 }.linearLayoutLP {

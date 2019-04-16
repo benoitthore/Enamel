@@ -1,26 +1,30 @@
 package com.thorebenoit.enamel.android.elayout
-
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.view.doOnNextLayout
-import com.thorebenoit.enamel.android.dsl.contextConstructor
-import com.thorebenoit.enamel.android.dsl.views.backgroundColor
-import com.thorebenoit.enamel.android.dsl.views.textColor
 import com.thorebenoit.enamel.kotlin.core.color.*
-import com.thorebenoit.enamel.geometry.figures.ERect
-import com.thorebenoit.enamel.geometry.figures.ERectType
-import com.thorebenoit.enamel.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
-import com.thorebenoit.enamel.geometry.layout.refs.getLeafs
 import java.lang.Exception
 import androidx.core.view.children
 import com.thorebenoit.enamel.core.math.i
+import com.thorebenoit.enamel.geometry.figures.ERect
+import com.thorebenoit.enamel.geometry.figures.ERectMutable
 import com.thorebenoit.enamel.geometry.figures.ESizeMutable
+import com.thorebenoit.enamel.geometry.layout.EEmptyLayout
+import com.thorebenoit.enamel.geometry.layout.ELayout
+import com.thorebenoit.enamel.geometry.layout.refs.getLeafs
+import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
+import java.lang.reflect.Constructor
+
+
+private inline val <T : View> Class<T>.contextConstructor: Constructor<T>
+    get() = constructors.filter {
+        val params = it.parameterTypes
+        return@filter params.size == 1 && params[0] == Context::class.java
+    }.first() as Constructor<T>
 
 
 class EViewGroup : ViewGroup {
@@ -48,55 +52,62 @@ class EViewGroup : ViewGroup {
 
     init {
         setWillNotDraw(false)
-
-        ('A'..'Z')
-            .forEach { _tag ->
-
-                val i = (_tag - 'A' + 1) * 2
-                val str = (0 until i).map { _tag }.joinToString(separator = "")
-
-                prepareView<TextView>(_tag.toString()) {
-                    backgroundColor = blue
-                    textSize = 20f
-                    text = str
-                    textColor = white
-                }
-            }
     }
 
 
     private val _measureSizeBuffer = ESizeMutable()
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        var w: Number = MeasureSpec.getSize(widthMeasureSpec)
+        var h: Number = MeasureSpec.getSize(heightMeasureSpec)
         _measureSizeBuffer.set(
-            width = MeasureSpec.getSize(widthMeasureSpec),
-            height = MeasureSpec.getSize(heightMeasureSpec)
+            width = w,
+            height = h
         )
+
         val targetSize = transition.layout?.size(_measureSizeBuffer) ?: _measureSizeBuffer
 
+        w =
+            if (MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.EXACTLY) w else targetSize.width
+        h =
+            if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY) h else targetSize.height
+
         super.onMeasure(
-            MeasureSpec.makeMeasureSpec(targetSize.width.i,MeasureSpec.EXACTLY),
-            MeasureSpec.makeMeasureSpec(targetSize.height.i,MeasureSpec.EXACTLY))
+            MeasureSpec.makeMeasureSpec(w.i, MeasureSpec.EXACTLY),
+            MeasureSpec.makeMeasureSpec(h.i, MeasureSpec.EXACTLY)
+        )
     }
 
     private val transition = androidDefaultTransition()
 
+    var layout: ELayout
+        get() = transition.layout ?: EEmptyLayout
+        set(value) {
+            if (width == 0 || height == 0) {
+                doOnNextLayout {
+                    layout = value
+                }
+            } else {
+                transition.layout = value
+                value.arrange(eframe)
+            }
+        }
 
-    fun goToLayout(layout: ELayout) {
+    fun transitionTo(layout: ELayout) {
         if (width == 0 || height == 0) {
             doOnNextLayout {
-                goToLayout(layout)
+                transitionTo(layout)
             }
         } else {
             transition.to(layout, eframe)
-            requestLayout()
         }
     }
 
-    val eframe: ERectType get() = _eframe
-    private var _eframe: ERect = ERect()
+    val eframe: ERect get() = _eframe
+    private var _eframe: ERectMutable = ERectMutable()
 
-    val paddedFrame: ERectType get() = _paddedFrame
-    private var _paddedFrame: ERect = ERect()
+    val paddedFrame: ERect get() = _paddedFrame
+    private var _paddedFrame: ERectMutable = ERectMutable()
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         val left = 0f
@@ -119,9 +130,12 @@ class EViewGroup : ViewGroup {
             buffer = _paddedFrame
         )
 
-//        // TODO Handle with transition
-        transition.layout?.let {
-            it.arrange(eframe)
+//        // TODO Fix this hack
+        if (!transition.isInTransition) {
+
+            transition.layout?.let {
+                it.arrange(eframe)
+            }
         }
 
     }
@@ -164,5 +178,3 @@ class EViewGroup : ViewGroup {
 
 
 }
-
-
