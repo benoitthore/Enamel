@@ -1,6 +1,6 @@
 package com.thorebenoit.enamel.processingtest.examples.steering
 
-import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.primitives.*
 import com.thorebenoit.enamel.geometry.toRect
@@ -14,7 +14,7 @@ interface DotDrawer {
     var onMouseClicked: () -> Unit
     var onSized: () -> Unit
     var onScroll: (Int) -> Unit
-    var constraintFrame: ERectType
+    var constraintFrame: ERect
     var mouseRadius: Float
 
 }

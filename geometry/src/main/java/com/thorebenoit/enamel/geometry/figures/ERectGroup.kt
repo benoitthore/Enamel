@@ -7,16 +7,16 @@ import com.thorebenoit.enamel.geometry.allocate
 import com.thorebenoit.enamel.geometry.primitives.EOffset
 import com.thorebenoit.enamel.geometry.primitives.EPoint
 
-class ERectGroup(private val _rects: List<ERect>, overrideFrame: ERectType? = null) : Iterable<ERectType> by _rects {
+class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? = null) : Iterable<ERect> by _rects {
 
-    val frame: ERectType get() = _frame
+    val frame: ERect get() = _frame
     val size: ESize get() = _frame.size
     val origin: EPoint get() = _frame.origin
-    val rects: List<ERectType> get() = _rects
+    val rects: List<ERect> get() = _rects
 
     val count get() = _rects.size
 
-    private val _frame = ERect()
+    private val _frame = ERectMutable()
 //    private val _origin: EPointMutable
 //    private val _size: ESizeMutable
 
@@ -64,7 +64,7 @@ fun List<ESize>.rectGroup(
 ): ERectGroup {
 
 
-    var prev = allocate { ERect() }
+    var prev = allocate { ERectMutable() }
     val rects = mapIndexed { i, size ->
         prev = allocate {
             prev.rectAlignedOutside(

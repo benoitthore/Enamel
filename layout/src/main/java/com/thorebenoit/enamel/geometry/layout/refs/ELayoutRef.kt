@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.geometry.layout.refs
 
+import com.thorebenoit.enamel.geometry.figures.ERectMutable
 import com.thorebenoit.enamel.geometry.figures.ERect
-import com.thorebenoit.enamel.geometry.figures.ERectType
 import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
@@ -12,21 +12,21 @@ import java.util.*
 class ELayoutRef<V : Any>(
     var ref: ELayoutRefObject<V>,
     private val sizeToFit: ELayoutRef<V>.(ESize) -> ESize,
-    private val arrangeIn: ELayoutRef<V>.(ERectType) -> Unit
+    private val arrangeIn: ELayoutRef<V>.(ERect) -> Unit
 ) : ELayout {
 
     override val childLayouts: List<ELayout> = listOf()
 
     var isInMeasureMode = false
 
-    private var _frame: ERect = ERect()
-    val frame: ERectType get() = _frame
+    private var _frame: ERectMutable = ERectMutable()
+    val frame: ERect get() = _frame
 
     override fun size(toFit: ESize): ESize {
         return sizeToFit(toFit)
     }
 
-    override fun arrange(frame: ERectType) {
+    override fun arrange(frame: ERect) {
         _frame.set(frame)
         if (!isInMeasureMode) {
             ref.addToParent()

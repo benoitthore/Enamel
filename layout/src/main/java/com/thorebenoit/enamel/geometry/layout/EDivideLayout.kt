@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.geometry.layout
 
 import com.thorebenoit.enamel.geometry.alignement.*
-import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.figures.divided
 import com.thorebenoit.enamel.geometry.figures.union
@@ -51,7 +51,7 @@ class EDivideLayout(
         return toFit.with(axis, snugExtent)
     }
 
-    override fun arrange(frame: ERectType) {
+    override fun arrange(frame: ERect) {
         val (dividedSlice, dividedRemainder) = divide(frame)
         slice.arrange(dividedSlice)
         remainder.arrange(dividedRemainder)
@@ -96,7 +96,7 @@ private fun EDivideLayout.distance(toFit: ESize): Float = by.let { by ->
     }
 }
 
-private fun EDivideLayout.divide(frame: ERectType): Pair<ERectType, ERectType> {
+private fun EDivideLayout.divide(frame: ERect): Pair<ERect, ERect> {
     val distance = distance(frame.size)
     val divided = frame.divided(distance, edge)
 

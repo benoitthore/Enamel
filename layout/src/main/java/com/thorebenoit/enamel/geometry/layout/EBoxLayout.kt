@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.geometry.layout
 
 import com.thorebenoit.enamel.geometry.alignement.EAlignment
-import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 
@@ -28,7 +28,7 @@ class EBoxLayout(
         }
     }
 
-    override fun arrange(frame: ERectType) {
+    override fun arrange(frame: ERect) {
         val usingFrame = frame.rectAlignedInside(
             aligned = alignment,
             size = child.size(frame.size)

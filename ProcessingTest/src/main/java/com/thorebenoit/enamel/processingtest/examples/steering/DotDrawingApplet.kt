@@ -3,7 +3,7 @@ package com.thorebenoit.enamel.processingtest.examples.steering
 import com.thorebenoit.enamel.geometry.GeometryBufferProvider
 import com.thorebenoit.enamel.geometry.figures.ECircleMutable
 import com.thorebenoit.enamel.geometry.figures.EPolygon
-import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.primitives.EAngleMutable
 import com.thorebenoit.enamel.geometry.primitives.EPoint
@@ -46,7 +46,7 @@ class DotDrawingApplet : KotlinPApplet(), DotDrawer {
 
     override var onScroll: (Int) -> Unit = {}
     override var mouseRadius: Float = 0f
-    override var constraintFrame: ERectType = ERectType()
+    override var constraintFrame: ERect = ERect()
 
 
     init {
@@ -65,7 +65,7 @@ class DotDrawingApplet : KotlinPApplet(), DotDrawer {
 
 
     override fun draw() {
-        if (constraintFrame == ERectType.zero) {
+        if (constraintFrame == ERect.zero) {
             constraintFrame = eframe
         }
         if (!onSizedCalled) {

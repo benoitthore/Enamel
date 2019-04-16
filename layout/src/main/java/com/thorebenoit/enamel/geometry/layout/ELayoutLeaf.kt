@@ -1,8 +1,8 @@
 package com.thorebenoit.enamel.kotlin.geometry.layout
 
 import com.thorebenoit.enamel.geometry.alignement.ELayoutAxis
+import com.thorebenoit.enamel.geometry.figures.ERectMutable
 import com.thorebenoit.enamel.geometry.figures.ERect
-import com.thorebenoit.enamel.geometry.figures.ERectType
 import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.geometry.layout.ELayoutAlongAxis
@@ -15,8 +15,8 @@ class ELayoutLeaf(var color: Int = 0, var child: ELayout? = null) : ELayoutAlong
         val unit = ELayoutLeaf(0)
     }
 
-    private val _frame: ERect = ERect()
-    val frame: ERectType = _frame
+    private val _frame: ERectMutable = ERectMutable()
+    val frame: ERect = _frame
 
 
     override val childLayouts: List<ELayout>
@@ -25,7 +25,7 @@ class ELayoutLeaf(var color: Int = 0, var child: ELayout? = null) : ELayoutAlong
     override fun size(toFit: ESize): ESize = child?.size(toFit) ?: toFit
 
 
-    override fun arrange(frame: ERectType) {
+    override fun arrange(frame: ERect) {
         _frame.set(frame)
         child?.arrange(frame)
     }

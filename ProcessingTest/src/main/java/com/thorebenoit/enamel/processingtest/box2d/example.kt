@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.processingtest.box2d
 
 import com.thorebenoit.enamel.core.print
-import com.thorebenoit.enamel.geometry.figures.ERect
+import com.thorebenoit.enamel.geometry.figures.ERectMutable
 import com.thorebenoit.enamel.geometry.figures.ERectCenter
 import com.thorebenoit.enamel.geometry.figures.ESizeMutable
 import com.thorebenoit.enamel.geometry.figures.size
@@ -25,7 +25,7 @@ fun box2dTest(){
         world.setDebugDraw(debugDraw)
 
         onSetup {
-            world.addBox(ERect(size = ESizeMutable(width, 10)).print, isStatic = true)
+            world.addBox(ERectMutable(size = ESizeMutable(width, 10)).print, isStatic = true)
         }
 
         onMouseClicked {

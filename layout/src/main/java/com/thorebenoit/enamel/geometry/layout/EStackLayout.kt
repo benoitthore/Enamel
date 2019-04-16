@@ -3,7 +3,7 @@ package com.thorebenoit.enamel.geometry.layout
 import com.thorebenoit.enamel.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.geometry.alignement.layoutAxis
-import com.thorebenoit.enamel.geometry.figures.ERectType
+import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.figures.rectGroup
 
@@ -28,7 +28,7 @@ class EStackLayout(
         }
     }
 
-    override fun arrange(frame: ERectType) {
+    override fun arrange(frame: ERect) {
         val sizes = childLayouts.map { it.size(frame.size) }
         val frames = sizes.rectGroup(
             alignment = alignment,

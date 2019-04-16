@@ -21,21 +21,21 @@ Create the API without default arguments for buffer in order to make sure no all
 
 
  */
-open class ERectType(
+open class ERect(
     open val origin: EPoint = EPoint(),
     open val size: ESize = ESize()
 ) {
     companion object {
-        val zero = ERectType()
+        val zero = ERect()
     }
 
     init {
         allocateDebugMessage()
     }
 
-    fun toMutable(buffer: ERect = ERect()) = buffer.set(origin.toMutable(buffer.origin), size.toMutable())
-    fun toImmutable() = ERectType(origin.toImmutable(), size.toImmutable())
-    fun copy(buffer: ERect = ERect()) = ERect(origin.copy(buffer = buffer.origin), size.copy(buffer = buffer.size))
+    fun toMutable(buffer: ERectMutable = ERectMutable()) = buffer.set(origin.toMutable(buffer.origin), size.toMutable())
+    fun toImmutable() = ERect(origin.toImmutable(), size.toImmutable())
+    fun copy(buffer: ERectMutable = ERectMutable()) = ERectMutable(origin.copy(buffer = buffer.origin), size.copy(buffer = buffer.size))
 
     open val height get() = size.height
     open val width get() = size.width
@@ -77,7 +77,7 @@ open class ERectType(
         }
 
     // contains Rect
-    fun contains(other: ERectType) = contains(other.origin, other.size)
+    fun contains(other: ERect) = contains(other.origin, other.size)
 
     fun contains(origin: EPoint, size: ESize) = contains(origin.x, origin.y, size.width, size.height)
 
@@ -104,7 +104,7 @@ open class ERectType(
             )
         }
 
-    fun containsFull(other: ERectType) = contains(other.origin, other.size)
+    fun containsFull(other: ERect) = contains(other.origin, other.size)
 
     fun containsFull(origin: EPoint, size: ESize) = containsFull(origin.x, origin.y, size.width, size.height)
 
@@ -119,7 +119,7 @@ open class ERectType(
 
 
     //intersects
-    fun intersects(other: ERectType) = intersects(
+    fun intersects(other: ERect) = intersects(
         top = other.top,
         left = other.left,
         right = other.right,
@@ -163,8 +163,8 @@ open class ERectType(
         aligned: EAlignment,
         size: ESize,
         spacing: Number = 0,
-        buffer: ERect = ERect(this)
-    ): ERect {
+        buffer: ERectMutable = ERectMutable(this)
+    ): ERectMutable {
         val spacing = spacing.f
 
         val anchor = aligned.namedPoint
@@ -183,8 +183,8 @@ open class ERectType(
         aligned: EAlignment,
         size: ESize,
         spacing: Number = 0,
-        buffer: ERect = ERect(this)
-    ): ERect {
+        buffer: ERectMutable = ERectMutable(this)
+    ): ERectMutable {
         val spacing = spacing.f
 
         val anchor = aligned.flipped.namedPoint
@@ -200,16 +200,16 @@ open class ERectType(
 
 
     // Changing
-    fun offset(p: Tuple2, buffer: ERect = ERect(this)): ERect = offset(p.v1, p.v2, buffer)
+    fun offset(p: Tuple2, buffer: ERectMutable = ERectMutable(this)): ERectMutable = offset(p.v1, p.v2, buffer)
 
-    fun offset(x: Number = 0, y: Number = 0, buffer: ERect = ERect(this)): ERect {
+    fun offset(x: Number = 0, y: Number = 0, buffer: ERectMutable = ERectMutable(this)): ERectMutable {
         buffer.origin.selfOffset(x, y)
         return buffer
     }
 
-    fun inset(margin: Number, buffer: ERect = ERect(this)) = inset(margin, margin, buffer)
-    fun inset(p: Tuple2, buffer: ERect = ERect(this)) = inset(p.v1, p.v2, buffer)
-    fun inset(x: Number = 0, y: Number = 0, buffer: ERect = ERect(this)): ERect {
+    fun inset(margin: Number, buffer: ERectMutable = ERectMutable(this)) = inset(margin, margin, buffer)
+    fun inset(p: Tuple2, buffer: ERectMutable = ERectMutable(this)) = inset(p.v1, p.v2, buffer)
+    fun inset(x: Number = 0, y: Number = 0, buffer: ERectMutable = ERectMutable(this)): ERectMutable {
         val x = x.f
         val y = y.f
         buffer.left += x
@@ -219,11 +219,11 @@ open class ERectType(
         return buffer
     }
 
-    fun expand(margin: Number, buffer: ERect = ERect(this)) = expand(margin, margin, buffer)
-    fun expand(p: Tuple2, buffer: ERect = ERect(this)) = expand(p.v1, p.v2, buffer)
-    fun expand(x: Number = 0f, y: Number = 0f, buffer: ERect = ERect(this)) = inset(-x.f, -y.f, buffer)
+    fun expand(margin: Number, buffer: ERectMutable = ERectMutable(this)) = expand(margin, margin, buffer)
+    fun expand(p: Tuple2, buffer: ERectMutable = ERectMutable(this)) = expand(p.v1, p.v2, buffer)
+    fun expand(x: Number = 0f, y: Number = 0f, buffer: ERectMutable = ERectMutable(this)) = inset(-x.f, -y.f, buffer)
 
-    fun expand(padding: EOffset, buffer: ERect = ERect(this)): ERect {
+    fun expand(padding: EOffset, buffer: ERectMutable = ERectMutable(this)): ERectMutable {
         buffer.left -= padding.left
         buffer.top -= padding.top
         buffer.bottom += padding.bottom
@@ -236,8 +236,8 @@ open class ERectType(
         bottom: Number = this.bottom,
         left: Number = this.left,
         right: Number = this.right
-        , buffer: ERect = ERect(this)
-    ): ERect {
+        , buffer: ERectMutable = ERectMutable(this)
+    ): ERectMutable {
         buffer.left += left.f
         buffer.top += top.f
         buffer.bottom -= bottom.f
@@ -245,7 +245,7 @@ open class ERectType(
         return buffer
     }
 
-    fun padding(padding: EOffset, buffer: ERect = ERect(this)): ERect = padding(
+    fun padding(padding: EOffset, buffer: ERectMutable = ERectMutable(this)): ERectMutable = padding(
         left = padding.left,
         top = padding.top,
         bottom = padding.bottom,
@@ -254,9 +254,9 @@ open class ERectType(
     )
 
     // TODO Make self version
-    fun scale(t: Tuple2, buffer: ERect = ERect()): ERect = scale(t.v1, t.v2, buffer)
+    fun scale(t: Tuple2, buffer: ERectMutable = ERectMutable()): ERectMutable = scale(t.v1, t.v2, buffer)
 
-    fun scale(x: Number, y: Number, buffer: ERect = ERect()): ERect {
+    fun scale(x: Number, y: Number, buffer: ERectMutable = ERectMutable()): ERectMutable {
         buffer.x = this.x * x.f
         buffer.y = this.y * y.f
         buffer.width = this.width * x.f
@@ -265,10 +265,10 @@ open class ERectType(
         return buffer
     }
 
-    fun scaleAnchor(factor: Number, anchor: EPoint, buffer: ERect = ERect()) =
+    fun scaleAnchor(factor: Number, anchor: EPoint, buffer: ERectMutable = ERectMutable()) =
         scaleRelative(factor, pointAtAnchor(anchor, GeometryBufferProvider.point()), buffer)
 
-    fun scaleRelative(factor: Number, point: EPoint, buffer: ERect = ERect()): ERect {
+    fun scaleRelative(factor: Number, point: EPoint, buffer: ERectMutable = ERectMutable()): ERectMutable {
         buffer.set(this)
 
         val factor = factor.f
@@ -294,21 +294,21 @@ open class ERectType(
 
 
     override fun equals(other: Any?): Boolean {
-        return (other as? ERectType)?.let { other.origin == origin && other.size == size } ?: false
+        return (other as? ERect)?.let { other.origin == origin && other.size == size } ?: false
     }
 
 
     override fun toString(): String {
-        return "ERect(origin=$origin, size=$size)"
+        return "ERectMutable(origin=$origin, size=$size)"
     }
 
 }
 
-class ERect(override var origin: EPointMutable = EPointMutable(), override var size: ESizeMutable = ESizeMutable()) :
-    ERectType(origin, size), Resetable {
+class ERectMutable(override var origin: EPointMutable = EPointMutable(), override var size: ESizeMutable = ESizeMutable()) :
+    ERect(origin, size), Resetable {
 
-    // TODO Copy in ERectType
-    constructor(other: ERectType) : this(other.origin.copy(), other.size.copy())
+    // TODO Copy in ERect
+    constructor(other: ERect) : this(other.origin.copy(), other.size.copy())
 
     constructor(x: Number = 0f, y: Number = 0f, width: Number, height: Number) : this(x point y, width size height)
 
@@ -316,7 +316,7 @@ class ERect(override var origin: EPointMutable = EPointMutable(), override var s
         origin.reset(); size.reset()
     }
 
-    fun set(other: ERectType) = set(other.origin, other.size)
+    fun set(other: ERect) = set(other.origin, other.size)
     fun set(
         origin: EPoint = this.origin,
         size: ESize = this.size
@@ -342,7 +342,7 @@ class ERect(override var origin: EPointMutable = EPointMutable(), override var s
         y: Number = this.y,
         width: Number = this.width,
         height: Number = this.height
-    ): ERect {
+    ): ERectMutable {
         origin.x = x.f
         origin.y = y.f
         size.width = width.f
@@ -355,7 +355,7 @@ class ERect(override var origin: EPointMutable = EPointMutable(), override var s
         bottom: Number = this.bottom,
         left: Number = this.left,
         right: Number = this.right
-    ): ERect {
+    ): ERectMutable {
         this.top = top.f
         this.bottom = bottom.f
         this.left = left.f
@@ -424,8 +424,8 @@ class ERect(override var origin: EPointMutable = EPointMutable(), override var s
 
 
     //////
-    fun selfOffset(x: Number = 0, y: Number = 0): ERect = offset(x, y, this)
-    fun selfOffset(p : Tuple2): ERect = offset(p.v1, p.v2, this)
+    fun selfOffset(x: Number = 0, y: Number = 0): ERectMutable = offset(x, y, this)
+    fun selfOffset(p : Tuple2): ERectMutable = offset(p.v1, p.v2, this)
 
     fun selfInset(margin: Number) = inset(margin, margin, this)
     fun selfInset(p: EPoint) = inset(p.x, p.y, this)

@@ -9,7 +9,7 @@ import com.thorebenoit.enamel.geometry.alignement.isVertical
 import com.thorebenoit.enamel.geometry.primitives.EOffset
 import com.thorebenoit.enamel.geometry.primitives.EPoint
 
-fun ERectType.dividedFraction(fraction: Number, from: ERectEdge): Pair<ERectType, ERectType> {
+fun ERect.dividedFraction(fraction: Number, from: ERectEdge): Pair<ERect, ERect> {
     val fraction = fraction.f
 
     return if (from.isVertical) {
@@ -19,14 +19,14 @@ fun ERectType.dividedFraction(fraction: Number, from: ERectEdge): Pair<ERectType
     }
 }
 
-fun ERectType.divided(distance: Number, from: ERectEdge): Pair<ERectType, ERectType> {
+fun ERect.divided(distance: Number, from: ERectEdge): Pair<ERect, ERect> {
     val distance = distance.f
 
     if (from.isVertical && distance >= height) {
-        return this to ERectType.zero
+        return this to ERect.zero
     }
     if (from.isHorizontal && distance >= width) {
-        return this to ERectType.zero
+        return this to ERect.zero
     }
 
     val sliceHeight: Float
@@ -52,19 +52,19 @@ fun ERectType.divided(distance: Number, from: ERectEdge): Pair<ERectType, ERectT
     return slice to slice.rectAlignedOutside(from.alignement.flipped, remainderSize)
 }
 
-operator fun ERectType.minus(padding: EOffset) = padding(padding)
-operator fun ERectType.plus(padding: EOffset) = expand(padding)
+operator fun ERect.minus(padding: EOffset) = padding(padding)
+operator fun ERect.plus(padding: EOffset) = expand(padding)
 
 
 fun ERectCenter(
     position: EPoint,
-    width: Number, height: Number, buffer: ERect = ERect()
+    width: Number, height: Number, buffer: ERectMutable = ERectMutable()
 ) = ERectCenter(position.x, position.y, width, height, buffer)
 
 fun ERectCenter(
     x: Number = 0f, y: Number = 0f,
-    width: Number, height: Number, buffer: ERect = ERect()
-): ERect {
+    width: Number, height: Number, buffer: ERectMutable = ERectMutable()
+): ERectMutable {
 
     val width = width.f
     val height = height.f
@@ -79,7 +79,7 @@ fun ERectCenter(
 fun ERectCorners(
     corner1: EPoint,
     corner2: EPoint,
-    buffer: ERect = ERect()
+    buffer: ERectMutable = ERectMutable()
 ) = ERectCorners(corner1.x, corner1.y, corner2.x, corner2.y, buffer)
 
 fun ERectCorners(
@@ -87,8 +87,8 @@ fun ERectCorners(
     corner1Y: Number = 0,
     corner2X: Number = 0,
     corner2Y: Number = 0,
-    buffer: ERect = ERect()
-): ERect {
+    buffer: ERectMutable = ERectMutable()
+): ERectMutable {
     return ERectSides(
         top = Math.min(corner1Y.d, corner2Y.d),
         bottom = Math.max(corner1Y.d, corner2Y.d),
@@ -98,7 +98,7 @@ fun ERectCorners(
     )
 }
 
-fun ERectSides(left: Number, top: Number, right: Number, bottom: Number, buffer: ERect = ERect()): ERect {
+fun ERectSides(left: Number, top: Number, right: Number, bottom: Number, buffer: ERectMutable = ERectMutable()): ERectMutable {
     buffer.top = top.f
     buffer.left = left.f
     buffer.right = right.f
@@ -106,7 +106,7 @@ fun ERectSides(left: Number, top: Number, right: Number, bottom: Number, buffer:
     return buffer
 }
 
-fun ERectAnchorPos(anchor: EPoint, position: EPoint, size: ESizeMutable, buffer: ERect = ERect()) =
+fun ERectAnchorPos(anchor: EPoint, position: EPoint, size: ESizeMutable, buffer: ERectMutable = ERectMutable()) =
     buffer.set(
         x = position.x - size.width * anchor.x,
         y = position.y - size.height * anchor.y,
@@ -114,9 +114,9 @@ fun ERectAnchorPos(anchor: EPoint, position: EPoint, size: ESizeMutable, buffer:
     )
 
 
-fun List<ERectType>.union(buffer: ERect = ERect()): ERect {
+fun List<ERect>.union(buffer: ERectMutable = ERectMutable()): ERectMutable {
     if (isEmpty()) {
-        return ERect()
+        return ERectMutable()
     }
 
     var left = Float.MAX_VALUE

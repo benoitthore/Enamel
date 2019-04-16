@@ -3,13 +3,13 @@ package com.thorebenoit.enamel.processingtest.kotlinapplet
 import com.thorebenoit.enamel.core.math.f
 import com.thorebenoit.enamel.core.math.i
 import com.thorebenoit.enamel.geometry.allocate
-import com.thorebenoit.enamel.geometry.figures.ERect
+import com.thorebenoit.enamel.geometry.figures.ERectMutable
 import com.thorebenoit.enamel.geometry.figures.ESizeMutable
 import com.thorebenoit.enamel.geometry.figures.size
 import processing.core.PGraphics
 
 
-val PGraphics.eframe get() = allocate { ERect(size = esize) }
+val PGraphics.eframe get() = allocate { ERectMutable(size = esize) }
 var PGraphics.esize: ESizeMutable
     get() = allocate { width size height }
     set(value) {
