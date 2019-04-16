@@ -10,6 +10,12 @@ import com.thorebenoit.enamel.geometry.layout.ELayout
 
 fun ELayout.aligned(side: ERectEdge) = EBarLayout(this, side)
 
+
+
+fun distance(n : Number) = EDivideLayout.Division.Distance(n)
+fun fraction(n : Number) = EDivideLayout.Division.Fraction(n)
+inline fun slice() = EDivideLayout.Division.Slice
+
 fun ELayout.aligned(
     side: ERectEdge,
     of: ELayout,
