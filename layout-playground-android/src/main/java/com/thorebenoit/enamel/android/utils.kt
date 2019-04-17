@@ -14,3 +14,5 @@ fun Context.eLayout(block: EViewGroup.() -> ELayout): EViewGroup = EViewGroup(
 
 val Number.dp: Int
     get() = (toFloat() * Resources.getSystem().displayMetrics.density).toInt()
+
+
