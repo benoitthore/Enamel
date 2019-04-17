@@ -88,13 +88,3 @@ fun Context.demoView1(): EViewGroup {
         return@eLayout EEmptyLayout
     }
 }
-
-fun main() {
-    val list = ('A'..'F').flatMap { char ->
-        (1..3).map { nbChar ->
-            (List(nbChar) { char }).joinToString(separator = "")
-        }
-    }
-
-    println(list)
-}
