@@ -19,7 +19,7 @@ import com.thorebenoit.enamel.geometry.layout.transition.SingleElementAnimator
 
 private fun Throwable.log(tag: String = "ERROR") = Log.e(tag, message, this)
 
-fun EViewGroup.startServer(port: Int = PlaygroundServer.defaultPort) {
+fun <T : EViewGroup> T.startServer(port: Int = PlaygroundServer.defaultPort): T {
 
     val deserializer = ELayoutDeserializer()
     // Add more deserializer here
@@ -41,6 +41,8 @@ fun EViewGroup.startServer(port: Int = PlaygroundServer.defaultPort) {
             }
         }
     )
+
+    return this
 }
 
 private typealias Interpolator = (Float) -> Float

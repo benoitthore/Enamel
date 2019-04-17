@@ -29,7 +29,7 @@ private inline val <T : View> Class<T>.contextConstructor: Constructor<T>
     }.first() as Constructor<T>
 
 
-class EViewGroup : ViewGroup {
+open class EViewGroup : ViewGroup {
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -49,6 +49,7 @@ class EViewGroup : ViewGroup {
         prepareView(T::class.java, tag, builder)
 
 
+    // List of views that can be found by tags
     val viewList: List<View> get() = _viewList
     private val _viewList: MutableList<View> = mutableListOf()
 
@@ -162,7 +163,7 @@ class EViewGroup : ViewGroup {
         }
     }
 
-    fun getRefFromTag(tag: String): ELayout {
+    open fun getRefFromTag(tag: String): ELayout {
         var view = viewList.firstOrNull { it.tag == tag }
 
         // TODO This isn't perfect + risk of leaks
