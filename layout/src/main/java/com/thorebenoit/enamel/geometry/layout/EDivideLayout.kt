@@ -39,19 +39,19 @@ class EDivideLayout(
     // TODO This should wrap_content
     /*
     ex where it's not working:
-    val leftLayout = "A".layoutTag
-    val centerLayout = listOf("B", "BB")
-        .layoutTag
-        .stacked(bottomLeft)
-        .width(100.dp)
-        .leaf
+        val leftLayout = "A".layoutTag
+        val centerLayout = listOf("B", "BB")
+            .layoutTag
+            .map { it.width(100.dp) }
+            .stacked(bottomLeft)
+            .leaf
 
-    val rightLayout = "CCC".layoutTag
+        val rightLayout = "CCC".layoutTag
 
-    leftLayout
-        .aligned(left, centerLayout)
-        .arranged(topLeft)
-        .sendToPlayground()
+        leftLayout
+            .aligned(left, centerLayout)
+            .arranged(topLeft)
+            .sendToPlayground()
 //
      */
     override fun size(toFit: ESize): ESize {
