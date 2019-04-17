@@ -60,7 +60,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // TODO Remove
-    implementation(project(':wip')) {
+    implementation(project(':WIP-Kotlin')) {
         exclude group: 'org.nd4j'
         exclude group: 'org.deeplearning4j'
     }
