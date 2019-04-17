@@ -1,30 +1,3 @@
-# Motivation
-
-
-The Android Operating System has been built in the early 2000s for digital cameras. Many aspects of its SDK have changed since, apps aren't made in the way they used to be, but the core of the view/layout system is still the same.
-
-Even with ConstraintLayout's visual tool, which is easier to understand and manipulate than XML, the layout is essentially still defined in XML and there are not many aways to work around it.
-
-When Kotlin came around, people tried to make DSLs like Anko to enabled developers to design user interfaces programmatically in a much easier way than if using the raw Java API.
-
-Unfortunately there is many downsides using a Kotlin DSL. There is no instant preview: in order to see the result of a layout change, the app needs to be built and it can take between a few seconds to several minutes depending on the size of your project and your computer.
-
-The Android View API is supposed to be written in XML and executed on the Android OS, not on a computer. This means that any attempt to make the view creation process easier would have to work around these limitations.
-
-In order to fix this problem, this library has re-implements most of the layout stack in a way that allows it to be flexible.
-
-
-# Goal
-Create a algorithmical way of building layouts following these guidelines:
-- What you see is what you get
-- Kotlin friendly
-- Cross platform with an Android and Desktop implementation for fast prototyping
-- Support transition using animations
-- Can easily be extended: focused on composition and layering the API
-- Hot reload by sending a new layout to a running app/program
-- Few allocations in order to be garbage collection friendly
-
-
 
 
 # Layers

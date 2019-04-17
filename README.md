@@ -1,74 +1,29 @@
-# Enamel (Work In Progress)
-A set of tools and extensions for Android and Kotlin
+# ELayout
+## Motivation
 
-# Content
-## View DSL (Work in progress)
+Android’s layouts are thought to be built via XML, especially ConstraintLayout which has a really nice visual tools that comes with it. However building views this why downsides which is way people sometimes use Kotlin DSLs to build views in Android.
 
-Chain builder:
-```Kotlin
-        val myLayout = enamelContext {
-            constraintLayout {
-                val textView = textView("Text")
-                val button = button("Text")
-                val frame = frameLayout()
+The issue with these DSL is that they are nothing more than a layer on top of the raw Java APIs. Therefore, they can be a bit tricky to manipulate.
 
-                constraints {
+Also, when building views in code the preview isn’t available straight away. You need to first build your project which can take time if you need to do it many times in a row.
 
-                    buildChain {
+The goal of this library is to provide an alternative layout system that could fix some of these issues and make UI code more re-usable.
 
-                        space(8.dp)
 
-                        +textView
-                        space(8.dp)
+This library is essentially a **ViewGroup**, it doesn't have any DSL to build views so you can use it with whatever you prefer. However I recommend to use it with [Splitties View DSL](https://github.com/LouisCAD/Splitties) because this one just creates views without adding them to a ViewGroup   
 
-                        +button
-                        space(8.dp)
-
-                        +frame
-                        space(8.dp)
-
-                        vertical = true
-                        packed()
-                    }
-//                        ...
-                    listOf(textView, button, frame)
-                        .buildChain {
-                            defaultMargin = 8.dp
-
-                            vertical = true
-                            packed()
-                        }
-                }
-            }
-        }
-
-```
-
-## Extra Value Holder (backing field for extension property)
-https://kotlinlang.org/docs/reference/extensions.html#extension-properties
-
-When creating an extension property in Kotlin, the value can't be stored on the object since the value is resolved statically.
-The ExtraValueHolder class allows you to store a value anyway, in a memory efficient manner (It won't create memory leaks)
-
-Example:
-
-```Kotlin
-var Canvas.defaultPaint: Paint by ExtraValueHolder {
-    Paint().apply { color = Color.RED } // default value
-}
-    ...
-override fun onDraw(canvas: Canvas) {
-    with(canvas) {
-        drawLine(0f, 0f, 10f, 10f, defaultPaint)
-    }
-}
-```
+## Goal
+Create a algorithmical way of building layouts following these guidelines:
+- What you see is what you get
+- Kotlin friendly
+- Cross platform with an Android and Desktop implementation for fast prototyping
+- Support transition using animations
+- Can easily be extended: focused on composition and layering the API
+- Hot reload by sending a new layout to a running app/program
+- Few allocations in order to be garbage collection friendly
 
 
 
-More documentation coming later...
 
 # Credits
-https://github.com/AckeeCZ/anko-constraint-layout
-
 https://github.com/screensailor

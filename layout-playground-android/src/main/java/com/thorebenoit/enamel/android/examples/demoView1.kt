@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.widget.TextView
 import com.thorebenoit.enamel.android.dp
 import com.thorebenoit.enamel.android.eLayout
+import com.thorebenoit.enamel.android.randomColor
 import com.thorebenoit.enamel.geometry.alignement.EAlignment.*
 import com.thorebenoit.enamel.geometry.alignement.ERectEdge.*
 import com.thorebenoit.enamel.geometry.layout.EEmptyLayout
@@ -57,11 +58,6 @@ listOf("A","B","D","FFF","C")
     .sendToPlayground()
 */
 
-private val rnd = Random()
-private fun getRandomColor(): Int {
-    return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
-}
-
 fun Context.demoView1(): EViewGroup {
     return eLayout {
 
@@ -77,7 +73,7 @@ fun Context.demoView1(): EViewGroup {
 
         list.forEach { content ->
             prepareView<TextView>(tag = content) {
-                backgroundColor = getRandomColor()
+                backgroundColor = randomColor()
 
                 padding = 16.dp
                 text = content
