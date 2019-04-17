@@ -1,5 +1,4 @@
-//apply plugin: 'com.android.library'
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 
@@ -58,56 +57,28 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // TODO Remove
-    implementation(project(':WIP-Kotlin')) {
-        exclude group: 'org.nd4j'
-        exclude group: 'org.deeplearning4j'
-    }
     implementation(project(':core'))
     implementation(project(':geometry'))
     implementation(project(':layout'))
-    implementation(project(':layout_android'))
 
     //Kotlin
     implementation kotlinDependencies.stdlib
     implementation kotlinDependencies.reflect
 
     //X
-    implementation playServices.material
+//    implementation playServices.material
 
-    implementation paper.paperDb
-
-    // Jackson
-    implementation jackson.core
-    implementation jackson.kotlin
 
     implementation xDependencies.core
-    implementation xDependencies.cardview
-    implementation xDependencies.appcompat
-    implementation xDependencies.legacy
-    implementation xDependencies.annotation
-    implementation xDependencies.constraintLayout
-    implementation xDependencies.dynamicanimations
-
-    compile group: 'org.json', name: 'json', version: '20180813'
+//    implementation xDependencies.cardview
+//    implementation xDependencies.appcompat
+//    implementation xDependencies.legacy
+//    implementation xDependencies.annotation
+//    implementation xDependencies.constraintLayout
+//    implementation xDependencies.dynamicanimations
 
 
-    // Ktor
-    implementation ktor.core
-    implementation ktor.netty
-    implementation ktor.cio
 
-    // Room // https://stackoverflow.com/questions/50365581/why-does-android-arch-navigation-cause-program-type-already-present-android-sup
-//    implementation room.runtime
-//    implementation room.coroutines
-
-    //OkHttp/Retrofit
-    implementation squareup.retrofit
-    implementation squareup.jacksonConvertor
-    implementation squareup.gsonConvertor
-    implementation squareup.loggingInterceptor
-    implementation squareup.okhttpUrlConnection
-    implementation squareup.retrofitMock
     implementation coroutines.retrofit
     implementation coroutines.android
 

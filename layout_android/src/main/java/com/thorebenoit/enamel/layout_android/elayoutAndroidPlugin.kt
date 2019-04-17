@@ -1,11 +1,10 @@
-package com.thorebenoit.enamel.android.elayout
+package com.thorebenoit.enamel.layout_android
 
 import android.animation.ValueAnimator
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.animation.addListener
-import com.thorebenoit.enamel.android.threading.mainThreadCoroutine
 import com.thorebenoit.enamel.core.animations.EasingInterpolators
 import com.thorebenoit.enamel.core.threading.CoroutineLock
 import com.thorebenoit.enamel.geometry.figures.ESizeMutable
