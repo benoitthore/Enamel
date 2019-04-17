@@ -1,12 +1,9 @@
 package com.thorebenoit.enamel.android
 
-import com.thorebenoit.enamel.core.math.constrain
-import com.thorebenoit.enamel.core.math.f
-import com.thorebenoit.enamel.core.math.i
 
 fun randomColor() = colorHSL(Math.random().toFloat())
 
-fun colorHSL(h: Number) = HSLToColor(floatArrayOf(h.f * 360, 1f, .5f)) or 0xFF000000.toInt()
+fun colorHSL(h: Number) = HSLToColor(floatArrayOf(h.toFloat() * 360, 1f, .5f)) or 0xFF000000.toInt()
 
 private fun HSLToColor(hsl: FloatArray): Int {
     val h = hsl[0]
@@ -56,12 +53,20 @@ private fun HSLToColor(hsl: FloatArray): Int {
         }
     }
 
-    r = r.constrain(0, 255).i
-    g = g.constrain(0, 255).i
-    b = b.constrain(0, 255).i
+    r = r.constrain(0, 255).toInt()
+    g = g.constrain(0, 255).toInt()
+    b = b.constrain(0, 255).toInt()
 
     return rgb(r, g, b)
 }
+
+private fun Number.constrain(min: Number, max: Number): Float {
+    val max = max.toFloat()
+    val min = min.toFloat()
+    val number = this.toFloat()
+    return if (number < min) min else if (number > max) max else number
+}
+
 
 private fun rgb(
     red: Int,
