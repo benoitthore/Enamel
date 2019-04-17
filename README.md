@@ -1,7 +1,7 @@
 # ELayout
 ## Motivation
 
-Android’s layouts are thought to be built via XML, especially ConstraintLayout which has a really nice visual tools that comes with it. However building views this why downsides which is way people sometimes use Kotlin DSLs to build views in Android.
+Android’s layouts are thought to be built via XML, especially ConstraintLayout which has a really nice visual tools that comes with it. However building views this way has a few downsides, which is why people sometimes uses Kotlin DSLs to build views in Android.
 
 The issue with these DSL is that they are nothing more than a layer on top of the raw Java APIs. Therefore, they can be a bit tricky to manipulate.
 
