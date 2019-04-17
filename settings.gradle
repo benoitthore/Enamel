@@ -1,1 +1,1 @@
-include ':WIP-Android', ':ProcessingTest', ':core', ':geometry', ':layout',':WIP-Kotlin', ':layout_android'
+include ':WIP-Android', ':ProcessingTest', ':core', ':geometry', ':layout',':WIP-Kotlin', ':layout-android' , ':layout-playground-android'
