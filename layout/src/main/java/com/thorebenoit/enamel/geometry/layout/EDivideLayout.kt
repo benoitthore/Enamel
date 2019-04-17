@@ -52,25 +52,6 @@ class EDivideLayout(
     }
 
     override fun arrange(frame: ERect) {
-//        val (dividedSlice, dividedRemainder) = divide(frame)
-//        slice.arrange(dividedSlice)
-//
-//        // TODO Extract to ERect
-//        if (dividedRemainder == ERect.zero) {
-//
-//            val newSize = dividedSlice.size.copy()
-//
-//            if (edge.layoutAxis.isVertical) {
-//                newSize.height = 0f
-//            } else {
-//                newSize.width = 0f
-//            }
-//            val newFrame = dividedSlice.rectAlignedOutside(edge.alignment.flipped, newSize)
-//            remainder.arrange(newFrame)
-//
-//        } else {
-//            remainder.arrange(dividedRemainder)
-//        }
         val (dividedSlice, dividedRemainder) = divide(frame)
         slice.arrange(dividedSlice)
         remainder.arrange(dividedRemainder)
