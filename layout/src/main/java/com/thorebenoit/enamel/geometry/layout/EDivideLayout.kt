@@ -36,6 +36,24 @@ class EDivideLayout(
     private val _childLayouts: MutableList<ELayout> = mutableListOf(slice, remainder)
     override val childLayouts: List<ELayout> get() = _childLayouts
 
+    // TODO This should wrap_content
+    /*
+    ex where it's not working:
+    val leftLayout = "A".layoutTag
+    val centerLayout = listOf("B", "BB")
+        .layoutTag
+        .stacked(bottomLeft)
+        .width(100.dp)
+        .leaf
+
+    val rightLayout = "CCC".layoutTag
+
+    leftLayout
+        .aligned(left, centerLayout)
+        .arranged(topLeft)
+        .sendToPlayground()
+//
+     */
     override fun size(toFit: ESize): ESize {
         if (!snugged) {
             return toFit
