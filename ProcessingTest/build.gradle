@@ -10,7 +10,7 @@ dependencies {
     implementation(project(':core'))
     implementation(project(':geometry'))
     implementation(project(':layout'))
-    implementation(project(':wip'))
+    implementation(project(':WIP-Kotlin'))
 
 
 
