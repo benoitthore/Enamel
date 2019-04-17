@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.geometry.figures
 
+import com.thorebenoit.enamel.core.math.constrain
 import com.thorebenoit.enamel.core.math.d
 import com.thorebenoit.enamel.core.math.f
 import com.thorebenoit.enamel.geometry.alignement.ERectEdge
@@ -22,17 +23,10 @@ fun ERect.dividedFraction(fraction: Number, from: ERectEdge): Pair<ERect, ERect>
 fun ERect.divided(distance: Number, from: ERectEdge): Pair<ERect, ERect> {
     val distance = distance.f
 
-    if (from.isVertical && distance >= height) {
-        return this to ERect.zero
-    }
-    if (from.isHorizontal && distance >= width) {
-        return this to ERect.zero
-    }
-
-    val sliceHeight: Float
-    val sliceWidth: Float
-    val remainderHeight: Float
-    val remainderWidth: Float
+    var sliceHeight: Float
+    var sliceWidth: Float
+    var remainderHeight: Float
+    var remainderWidth: Float
 
     if (from.isVertical) {
         sliceHeight = distance
@@ -45,6 +39,12 @@ fun ERect.divided(distance: Number, from: ERectEdge): Pair<ERect, ERect> {
         remainderHeight = height
         remainderWidth = width - distance
     }
+
+    sliceHeight = sliceHeight.constrain(0,height)
+    sliceWidth = sliceWidth.constrain(0,width)
+    remainderHeight = remainderHeight.constrain(0,height)
+    remainderWidth = remainderWidth.constrain(0,width)
+
 
     val slice = rectAlignedInside(from.alignement, sliceWidth size sliceHeight)
     val remainderSize = ESize(remainderWidth, remainderHeight)
