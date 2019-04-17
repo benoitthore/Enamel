@@ -1,12 +1,14 @@
-package com.thorebenoit.enamel.android.elayout
+package com.thorebenoit.enamel.layout_android
+
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.alpha
 import androidx.core.view.doOnNextLayout
-import com.thorebenoit.enamel.kotlin.core.color.*
 import java.lang.Exception
 import androidx.core.view.children
 import com.thorebenoit.enamel.core.math.i
@@ -143,7 +145,7 @@ class EViewGroup : ViewGroup {
 
     private val debugPaint = Paint().apply {
         style = Paint.Style.FILL
-        color = red.withAlpha(0.5)
+        color = Color.argb(255 / 4, 255, 0, 0)
     }
 
     override fun onDraw(canvas: Canvas) {

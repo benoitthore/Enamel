@@ -8,17 +8,19 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.thorebenoit.enamel.android.dsl.customView
 import com.thorebenoit.enamel.android.dsl.views.*
-import com.thorebenoit.enamel.android.elayout.EViewGroup
+import com.thorebenoit.enamel.layout_android.EViewGroup
 import com.thorebenoit.enamel.kotlin.core.color.*
 import com.thorebenoit.enamel.geometry.figures.ESizeMutable
 import android.net.wifi.WifiManager
 import com.thorebenoit.enamel.android.dsl.withTag
-import com.thorebenoit.enamel.android.elayout.laidIn
-import com.thorebenoit.enamel.android.elayout.startServer
-import com.thorebenoit.enamel.geometry.alignement.EAlignment.*
+import com.thorebenoit.enamel.layout_android.laidIn
+import com.thorebenoit.enamel.layout_android.startServer
 import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.geometry.layout.dsl.*
-
+//
+import com.thorebenoit.enamel.geometry.alignement.EAlignment.*
+import com.thorebenoit.enamel.geometry.alignement.ERectEdge.*
+//
 
 private var screenSizeBuffer = ESizeMutable()
 private var screenSizePointBuffer = Point()
@@ -29,7 +31,9 @@ val Activity.screenSize
         screenSizeBuffer.set(x, y)
     }
 
-fun Context.eLayout(block: EViewGroup.() -> ELayout): EViewGroup = EViewGroup(this).apply {
+fun Context.eLayout(block: EViewGroup.() -> ELayout): EViewGroup = EViewGroup(
+    this
+).apply {
     layout = block()
 }
 
