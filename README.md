@@ -17,7 +17,7 @@ Create a algorithmical way of building layouts following these guidelines:
 - What you see is what you get
 - Kotlin friendly
 - Cross platform with an Android and Desktop implementation for fast prototyping
-- Support transition using animations
+- Support for animated transition
 - Can easily be extended: focused on composition and layering the API
 - Hot reload by sending a new layout to a running app/program
 - Few allocations in order to be garbage collection friendly
