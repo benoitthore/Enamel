@@ -25,17 +25,13 @@ import java.util.*
 
 
 /* KTS
-import com.thorebenoit.enamel.core.print
 import com.thorebenoit.enamel.geometry.layout.dsl.*
 import com.thorebenoit.enamel.geometry.alignement.*
 import com.thorebenoit.enamel.geometry.alignement.EAlignment.*
 import com.thorebenoit.enamel.geometry.alignement.ERectEdge.*
-import com.thorebenoit.enamel.geometry.layout.EDivideLayout
 import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.geometry.layout.playground.sendToPlayground
 import com.thorebenoit.enamel.kotlin.core.color.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 
 val Number.dp get() = toFloat() * 3
 
@@ -48,13 +44,13 @@ val list = ('A'..'F').flatMap { char ->
     }
 }
 
+val leftLayout = "AAA".layoutTag
+val centerLayout = "BBB".layoutTag
+val rightLayout = "CCC".layoutTag
 
-listOf("A","B","D","FFF","C")
-    .shuffled()
-    .layoutTag
-    .justified(bottomRight)
-    .arranged(topRight)
-    .padded(16.dp)
+
+rightLayout.aligned(right, leftLayout.aligned(left, centerLayout))
+    .arranged(topLeft)
     .sendToPlayground()
 */
 

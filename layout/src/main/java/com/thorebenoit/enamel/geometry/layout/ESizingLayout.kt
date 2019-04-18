@@ -1,10 +1,6 @@
 package com.thorebenoit.enamel.geometry.layout
 
-import com.thorebenoit.enamel.geometry.alignement.fillSize
-import com.thorebenoit.enamel.geometry.alignement.fitSize
-import com.thorebenoit.enamel.geometry.figures.ERect
-import com.thorebenoit.enamel.geometry.figures.ESize
-import com.thorebenoit.enamel.geometry.figures.size
+import com.thorebenoit.enamel.geometry.figures.*
 import com.thorebenoit.enamel.geometry.primitives.times
 
 class ESizingLayout(child: ELayout, var space: ELayoutSpace) : ELayout {

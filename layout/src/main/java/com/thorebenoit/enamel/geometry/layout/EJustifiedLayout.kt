@@ -4,10 +4,7 @@ import com.thorebenoit.enamel.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.geometry.alignement.along
 import com.thorebenoit.enamel.geometry.alignement.layoutAxis
-import com.thorebenoit.enamel.geometry.figures.ERectGroup
-import com.thorebenoit.enamel.geometry.figures.ERect
-import com.thorebenoit.enamel.geometry.figures.ESize
-import com.thorebenoit.enamel.geometry.figures.rectGroupJustified
+import com.thorebenoit.enamel.geometry.figures.*
 
 
 class EJustifiedLayout(

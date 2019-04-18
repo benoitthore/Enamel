@@ -1,11 +1,8 @@
 package com.thorebenoit.enamel.geometry.layout
 
 import com.thorebenoit.enamel.geometry.alignement.*
-import com.thorebenoit.enamel.geometry.figures.ERect
-import com.thorebenoit.enamel.geometry.figures.ESize
-import com.thorebenoit.enamel.geometry.figures.divided
-import com.thorebenoit.enamel.geometry.figures.union
 import com.thorebenoit.enamel.core.math.f
+import com.thorebenoit.enamel.geometry.figures.*
 import com.thorebenoit.enamel.geometry.toRect
 
 
@@ -36,29 +33,12 @@ class EDivideLayout(
     private val _childLayouts: MutableList<ELayout> = mutableListOf(slice, remainder)
     override val childLayouts: List<ELayout> get() = _childLayouts
 
-    // TODO This should wrap_content
-    /*
-    ex where it's not working:
-        val leftLayout = "A".layoutTag
-        val centerLayout = listOf("B", "BB")
-            .layoutTag
-            .map { it.width(100.dp) }
-            .stacked(bottomLeft)
-            .leaf
-
-        val rightLayout = "CCC".layoutTag
-
-        leftLayout
-            .aligned(left, centerLayout)
-            .arranged(topLeft)
-            .sendToPlayground()
-//
-     */
     override fun size(toFit: ESize): ESize {
         if (!snugged) {
             return toFit
         }
         val (dividedSlice, dividedRemainder) = divide(toFit.toRect())
+
         val axis = edge.layoutAxis.opposite
 
         val snugExtent = listOf(
