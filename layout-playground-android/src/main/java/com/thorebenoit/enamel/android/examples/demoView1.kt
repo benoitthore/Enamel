@@ -49,7 +49,7 @@ val centerLayout = "BBB".layoutTag
 val rightLayout = "CCC".layoutTag
 
 
-rightLayout.aligned(right, leftLayout.aligned(left, centerLayout))
+centerLayout.surroundedBy(leftLayout, rightLayout)
     .arranged(topLeft)
     .sendToPlayground()
 */
