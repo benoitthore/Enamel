@@ -1,20 +1,31 @@
 package com.thorebenoit.enamel.geometry.alignement
 
 enum class ERectEdge {
-    left, top, right, bottom
+    left, top, right, bottom;
+
+
+    val opposite: ERectEdge
+        get() = when (this) {
+            left -> right
+            top -> bottom
+            right -> left
+            bottom -> top
+        }
+
+
+    val alignement
+        get() = when (this) {
+            left -> EAlignment.leftCenter
+            top -> EAlignment.topCenter
+            right -> EAlignment.rightCenter
+            bottom -> EAlignment.bottomCenter
+        }
+
+    val isVertical
+        get() = when (this) {
+            left, right -> false
+            else -> true
+        }
+    val isHorizontal get() = !isVertical
+
 }
-
-val ERectEdge.alignement
-    get() = when (this) {
-        ERectEdge.left -> EAlignment.leftCenter
-        ERectEdge.top -> EAlignment.topCenter
-        ERectEdge.right -> EAlignment.rightCenter
-        ERectEdge.bottom -> EAlignment.bottomCenter
-    }
-
-val ERectEdge.isVertical
-    get() = when (this) {
-        ERectEdge.left, ERectEdge.right -> false
-        else -> true
-    }
-val ERectEdge.isHorizontal get() = !isVertical

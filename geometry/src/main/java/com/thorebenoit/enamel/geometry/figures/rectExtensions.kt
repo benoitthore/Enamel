@@ -4,9 +4,6 @@ import com.thorebenoit.enamel.core.math.constrain
 import com.thorebenoit.enamel.core.math.d
 import com.thorebenoit.enamel.core.math.f
 import com.thorebenoit.enamel.geometry.alignement.ERectEdge
-import com.thorebenoit.enamel.geometry.alignement.alignement
-import com.thorebenoit.enamel.geometry.alignement.isHorizontal
-import com.thorebenoit.enamel.geometry.alignement.isVertical
 import com.thorebenoit.enamel.geometry.primitives.EOffset
 import com.thorebenoit.enamel.geometry.primitives.EPoint
 

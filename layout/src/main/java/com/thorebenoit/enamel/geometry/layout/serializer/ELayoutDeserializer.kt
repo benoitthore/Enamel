@@ -4,7 +4,6 @@ import com.thorebenoit.enamel.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.geometry.alignement.ERectEdge
 import com.thorebenoit.enamel.geometry.figures.ESizeMutable
 import com.thorebenoit.enamel.geometry.layout.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.*
 import com.thorebenoit.enamel.geometry.layout.ESizingLayout.ELayoutSpace
 import com.thorebenoit.enamel.geometry.layout.ESizingLayout.ELayoutSpace.*
 import com.thorebenoit.enamel.geometry.layout.refs.ELayoutTag

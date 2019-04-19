@@ -1,7 +1,7 @@
 package com.thorebenoit.enamel.geometry.layout.dsl
 
 import com.thorebenoit.enamel.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
+import com.thorebenoit.enamel.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.geometry.layout.ETrackingLayout
 import com.thorebenoit.enamel.geometry.layout.refs.ELayoutTag
 

@@ -2,7 +2,6 @@ package com.thorebenoit.enamel.geometry.layout
 
 import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ESize
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 
 class ETrackingLayout(src: ELayout = ELayoutLeaf.unit, dst: ELayout = ELayoutLeaf.unit) : ELayout {
 

@@ -1,11 +1,9 @@
-package com.thorebenoit.enamel.kotlin.geometry.layout
+package com.thorebenoit.enamel.geometry.layout
 
 import com.thorebenoit.enamel.geometry.alignement.ELayoutAxis
 import com.thorebenoit.enamel.geometry.figures.ERectMutable
 import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ESize
-import com.thorebenoit.enamel.geometry.layout.ELayout
-import com.thorebenoit.enamel.geometry.layout.ELayoutAlongAxis
 
 class ELayoutLeaf(var color: Int = 0, var child: ELayout? = null) : ELayoutAlongAxis {
 

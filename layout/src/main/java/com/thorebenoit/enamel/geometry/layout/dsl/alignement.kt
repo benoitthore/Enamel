@@ -11,9 +11,8 @@ import com.thorebenoit.enamel.geometry.layout.ELayout
 fun ELayout.aligned(side: ERectEdge) = EBarLayout(this, side)
 
 
-
-fun distance(n : Number) = EDivideLayout.Division.Distance(n)
-fun fraction(n : Number) = EDivideLayout.Division.Fraction(n)
+fun distance(n: Number) = EDivideLayout.Division.Distance(n)
+fun fraction(n: Number) = EDivideLayout.Division.Fraction(n)
 inline fun slice() = EDivideLayout.Division.Slice
 
 fun ELayout.aligned(
@@ -33,3 +32,6 @@ fun ELayout.aligned(
 
 
 fun ELayout.arranged(alignement: EAlignment, snugged: Boolean = true) = EBoxLayout(this, alignement, snugged)
+
+fun ELayout.surroundedBy(start: ELayout, end: ELayout, axis: ERectEdge = ERectEdge.right) =
+    end.aligned(axis, start.aligned(axis.opposite, this))

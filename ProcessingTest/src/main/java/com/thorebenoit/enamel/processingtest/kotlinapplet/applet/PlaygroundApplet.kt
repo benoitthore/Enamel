@@ -7,7 +7,7 @@ import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.figures.size
 import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.geometry.layout.dsl.*
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
+import com.thorebenoit.enamel.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.geometry.layout.playground.sendToPlayground
 import com.thorebenoit.enamel.geometry.layout.serializer.ELayoutDeserializer
