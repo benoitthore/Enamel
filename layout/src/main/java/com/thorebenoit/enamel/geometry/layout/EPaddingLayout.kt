@@ -6,7 +6,6 @@ import com.thorebenoit.enamel.geometry.figures.minus
 import com.thorebenoit.enamel.geometry.primitives.EOffset
 import com.thorebenoit.enamel.geometry.primitives.minus
 import com.thorebenoit.enamel.geometry.primitives.plus
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
 
 
 class EPaddingLayout(child: ELayout = ELayoutLeaf.unit, var padding: EOffset = EOffset.zero) : ELayout {

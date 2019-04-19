@@ -8,7 +8,7 @@ import com.thorebenoit.enamel.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.geometry.*
 import com.thorebenoit.enamel.geometry.figures.*
 import com.thorebenoit.enamel.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
+import com.thorebenoit.enamel.geometry.layout.ELayoutLeaf
 import com.thorebenoit.enamel.geometry.primitives.EPointMutable
 import com.thorebenoit.enamel.geometry.primitives.EPoint
 import com.thorebenoit.enamel.geometry.toCircle

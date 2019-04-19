@@ -4,7 +4,7 @@ import com.thorebenoit.enamel.geometry.figures.ERectMutable
 import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ESize
 import com.thorebenoit.enamel.geometry.layout.ELayout
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
+import com.thorebenoit.enamel.geometry.layout.ELayoutLeaf
 
 import java.util.*
 

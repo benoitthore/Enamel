@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.graphics.alpha
 import androidx.core.view.doOnNextLayout
 import java.lang.Exception
 import androidx.core.view.children
@@ -18,7 +17,7 @@ import com.thorebenoit.enamel.geometry.figures.ESizeMutable
 import com.thorebenoit.enamel.geometry.layout.EEmptyLayout
 import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.geometry.layout.refs.getLeafs
-import com.thorebenoit.enamel.kotlin.geometry.layout.ELayoutLeaf
+import com.thorebenoit.enamel.geometry.layout.ELayoutLeaf
 import java.lang.reflect.Constructor
 
 
