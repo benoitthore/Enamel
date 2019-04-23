@@ -6,7 +6,7 @@ import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.layout_android.EViewGroup
 
 
-fun Context.eLayout(block: EViewGroup.() -> ELayout): EViewGroup = EViewGroup(
+fun Context.eViewGroup(block: EViewGroup.() -> ELayout): EViewGroup = EViewGroup(
     this
 ).apply {
     layout = block()

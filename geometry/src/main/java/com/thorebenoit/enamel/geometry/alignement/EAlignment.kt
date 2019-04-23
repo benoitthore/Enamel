@@ -31,7 +31,7 @@ enum class EAlignment {
     bottomLeft,
     bottomCenter,
     bottomRight,
-    middle,
+    center,
     leftTop,
     leftCenter,
     leftBottom,
@@ -48,7 +48,7 @@ enum class EAlignment {
             bottomLeft,
             bottomCenter,
             bottomRight,
-            middle,
+            center,
             leftTop,
             leftCenter,
             leftBottom,
@@ -67,7 +67,7 @@ enum class EAlignment {
             bottomLeft -> NamedPoint.bottomLeft
             bottomCenter -> NamedPoint.bottomCenter
             bottomRight -> NamedPoint.bottomRight
-            middle -> NamedPoint.center
+            center -> NamedPoint.center
             leftTop -> NamedPoint.topLeft
             leftCenter -> NamedPoint.middleLeft
             leftBottom -> NamedPoint.bottomLeft
@@ -84,14 +84,14 @@ enum class EAlignment {
             bottomLeft -> true
             bottomCenter -> true
             bottomRight -> true
-            middle -> true
+            center -> true
             else -> {
                 false
             }
         }
 
     val isHorizontal : Boolean
-        get() = this == middle || !isVertical
+        get() = this == center || !isVertical
 
     val spacingSign: EPoint
         get() = when (this) {
@@ -101,7 +101,7 @@ enum class EAlignment {
             bottomLeft -> spacingSignBottom
             bottomCenter -> spacingSignBottom
             bottomRight -> spacingSignBottom
-            middle -> spacingSignCenter
+            center -> spacingSignCenter
             leftTop -> spacingSignLeft
             leftCenter -> spacingSignLeft
             leftBottom -> spacingSignLeft
@@ -118,7 +118,7 @@ enum class EAlignment {
             bottomLeft -> topLeft
             bottomCenter -> topCenter
             bottomRight -> topRight
-            middle -> middle
+            center -> center
             leftTop -> rightTop
             leftCenter -> rightCenter
             leftBottom -> rightBottom

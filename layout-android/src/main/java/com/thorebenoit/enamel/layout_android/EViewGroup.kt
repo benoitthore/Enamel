@@ -82,6 +82,8 @@ open class EViewGroup : ViewGroup {
 
     private val transition = androidDefaultTransition()
 
+    val isInTransition get() = transition.isInTransition
+
     var layout: ELayout
         get() = transition.layout ?: EEmptyLayout
         set(value) {
@@ -178,5 +180,7 @@ open class EViewGroup : ViewGroup {
 
     }
 
+
+    fun <T : View> T.eLayoutRef() = laidIn(this@EViewGroup)
 
 }
