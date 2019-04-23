@@ -1,4 +1,6 @@
 # ELayout
+## Demo
+Demo video [available here](https://www.youtube.com/watch?v=MmUCau26tLg)
 ## Motivation
 
 Android's layout system is design to be used with XML, even though Kotlin DSLs exist, it's sometimes hard to work with and the lack of preview doesn't help.
@@ -20,8 +22,6 @@ Create a algorithmical way of building layouts following these guidelines:
 ## Get started
 
 To start using ELayout, check [this link](https://github.com/benoitthore/Enamel/wiki/Get-started) 
-
-
 
 # Credits
 https://github.com/screensailor
