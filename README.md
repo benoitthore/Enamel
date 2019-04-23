@@ -17,8 +17,9 @@ Create a algorithmical way of building layouts following these guidelines:
 - Hot reload by sending a new layout to a running app/program
 - Few allocations in order to be garbage collection friendly
 
+## Get started
 
-[Get started](https://github.com/benoitthore/Enamel/wiki/Get-started) 
+To start using ELayout, check [this link](https://github.com/benoitthore/Enamel/wiki/Get-started) 
 
 
 
