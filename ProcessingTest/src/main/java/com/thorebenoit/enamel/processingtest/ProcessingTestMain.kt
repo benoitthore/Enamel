@@ -25,7 +25,7 @@ object ProcessingTestMain {
 //    val smallLayout = small
 //        .sizedSquare(200)
 //        .padded(50)
-//        .arranged(middle, snugged = true)
+//        .arranged(center, snugged = true)
 //        .scaled(y = 2)
 //        .arranged(topRight)
 //
@@ -58,7 +58,7 @@ object ProcessingTestMain {
 //            val smallLayout = small
 //                .sizedSquare(200)
 //                .padded(50)
-//                .arranged(middle, snugged = true)
+//                .arranged(center, snugged = true)
 //                .scaled(y = 2)
 //                .arranged(topRight)
 //
@@ -82,7 +82,7 @@ object ProcessingTestMain {
 //
 //
 //                val size = l.size(esize)
-//                val frame = eframe.rectAlignedInside(middle, size = size)
+//                val frame = eframe.rectAlignedInside(center, size = size)
 //
 //                l.arrangeAndDraw(frame)
 //

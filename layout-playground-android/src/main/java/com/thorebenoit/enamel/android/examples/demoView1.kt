@@ -1,27 +1,15 @@
 package com.thorebenoit.enamel.android.examples
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Color
 import android.widget.TextView
 import com.thorebenoit.enamel.android.dp
-import com.thorebenoit.enamel.android.eLayout
+import com.thorebenoit.enamel.android.eViewGroup
 import com.thorebenoit.enamel.android.randomColor
-import com.thorebenoit.enamel.geometry.alignement.EAlignment.*
-import com.thorebenoit.enamel.geometry.alignement.ERectEdge.*
 import com.thorebenoit.enamel.geometry.layout.EEmptyLayout
-import com.thorebenoit.enamel.geometry.layout.ELayout
-import com.thorebenoit.enamel.geometry.layout.dsl.arranged
-import com.thorebenoit.enamel.geometry.layout.dsl.justified
-import com.thorebenoit.enamel.geometry.layout.dsl.snugged
-import com.thorebenoit.enamel.geometry.layout.dsl.stackedBottomRight
 import com.thorebenoit.enamel.layout_android.EViewGroup
-import com.thorebenoit.enamel.layout_android.laidIn
-import com.thorebenoit.enamel.layout_android.withTag
 import splitties.views.backgroundColor
-import splitties.views.dsl.core.textView
 import splitties.views.padding
-import java.util.*
 
 
 /* KTS
@@ -55,9 +43,9 @@ centerLayout.surroundedBy(leftLayout, rightLayout)
 */
 
 fun Context.demoView1(): EViewGroup {
-    return eLayout {
+    return eViewGroup {
 
-        this@eLayout.backgroundColor = Color.LTGRAY
+        this@eViewGroup.backgroundColor = Color.LTGRAY
 
         //      Generates [A, AA, AAA, B, BB, BBB, ...]
         val list = ('A'..'F').flatMap { char ->
@@ -77,6 +65,6 @@ fun Context.demoView1(): EViewGroup {
             }
         }
 
-        return@eLayout EEmptyLayout
+        return@eViewGroup EEmptyLayout
     }
 }

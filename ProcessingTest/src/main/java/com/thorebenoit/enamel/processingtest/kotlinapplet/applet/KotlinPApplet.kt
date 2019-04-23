@@ -64,7 +64,7 @@ abstract class KotlinPApplet : PApplet() {
     var windowLocation: EPoint = EPoint.inv
         get() {
             if (field == EPoint.inv) { // Because lateinit isn't possible
-                field = allocate { displayFrame.rectAlignedInside(aligned = EAlignment.middle, size = esize).center() }
+                field = allocate { displayFrame.rectAlignedInside(aligned = EAlignment.center, size = esize).center() }
             }
             return field
         }
