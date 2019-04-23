@@ -127,7 +127,6 @@ fun <T : View> T.laidIn(viewGroup: EViewGroup): ELayoutRef<T> {
                 frame.right.toInt(),
                 frame.bottom.toInt()
             )
-            view.requestLayout()
         }
     )
 }

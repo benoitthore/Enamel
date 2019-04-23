@@ -6,7 +6,10 @@ import android.widget.TextView
 import com.thorebenoit.enamel.android.dp
 import com.thorebenoit.enamel.android.eViewGroup
 import com.thorebenoit.enamel.android.randomColor
+import com.thorebenoit.enamel.geometry.alignement.EAlignment.*
+import com.thorebenoit.enamel.geometry.alignement.ERectEdge.*
 import com.thorebenoit.enamel.geometry.layout.EEmptyLayout
+import com.thorebenoit.enamel.geometry.layout.dsl.*
 import com.thorebenoit.enamel.layout_android.EViewGroup
 import splitties.views.backgroundColor
 import splitties.views.padding
@@ -65,6 +68,12 @@ fun Context.demoView1(): EViewGroup {
             }
         }
 
-        return@eViewGroup EEmptyLayout
+
+
+        return@eViewGroup list
+            .map { it.layoutTag }
+            .stacked(bottomCenter, spacing = 16.dp).snugged()
+            .padded(16.dp)
+            .arranged(topLeft)
     }
 }
