@@ -11,6 +11,7 @@ import androidx.core.view.doOnNextLayout
 import java.lang.Exception
 import androidx.core.view.children
 import com.thorebenoit.enamel.core.math.i
+import com.thorebenoit.enamel.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.geometry.figures.ERect
 import com.thorebenoit.enamel.geometry.figures.ERectMutable
 import com.thorebenoit.enamel.geometry.figures.ESizeMutable
@@ -18,7 +19,12 @@ import com.thorebenoit.enamel.geometry.layout.EEmptyLayout
 import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.geometry.layout.refs.getLeafs
 import com.thorebenoit.enamel.geometry.layout.ELayoutLeaf
+import com.thorebenoit.enamel.geometry.layout.dsl.arranged
+import com.thorebenoit.enamel.geometry.layout.dsl.padded
+import com.thorebenoit.enamel.geometry.layout.dsl.stacked
+import com.thorebenoit.enamel.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.geometry.layout.refs.ELayoutTag
+import com.thorebenoit.enamel.geometry.layout.refs.getAllChildren
 import java.lang.reflect.Constructor
 
 
@@ -54,7 +60,7 @@ open class EViewGroup : ViewGroup {
     private val _viewList: MutableList<View> = mutableListOf()
 
     init {
-        setWillNotDraw(false)
+        post { setWillNotDraw(false) }
     }
 
 
@@ -68,7 +74,7 @@ open class EViewGroup : ViewGroup {
             height = h
         )
 
-        val targetSize = transition.layout?.size(_measureSizeBuffer) ?: _measureSizeBuffer
+        val targetSize = layout.size(_measureSizeBuffer)
 
         w =
             if (MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.EXACTLY) w else targetSize.width
@@ -88,6 +94,7 @@ open class EViewGroup : ViewGroup {
     var layout: ELayout
         get() = transition.layout ?: EEmptyLayout
         set(value) {
+            val originalLayout = layout
             transition.layout = value
 
             if (width == 0 || height == 0) {
@@ -95,18 +102,22 @@ open class EViewGroup : ViewGroup {
                     layout = value
                 }
             } else {
+
+                // remove previous children
+                originalLayout.getAllChildren().forEach {
+                    if (it is ELayoutRef<*>) {
+                        (it.ref.viewRef as View).let(::removeView)
+                    }
+                }
+
+                updateLeaves()
                 value.arrange(eframe)
             }
         }
 
     fun transitionTo(layout: ELayout) {
 
-        // Replace tags with views
-        layout.getLeafs().forEach { leaf ->
-            (leaf.child as? ELayoutTag)?.let {
-                leaf.child = getRefFromTag(it.tag)
-            }
-        }
+        updateLeaves()
 
         if (width == 0 || height == 0) {
             doOnNextLayout {
@@ -116,6 +127,7 @@ open class EViewGroup : ViewGroup {
             transition.to(layout, eframe)
         }
     }
+
 
     val eframe: ERect get() = _eframe
     private var _eframe: ERectMutable = ERectMutable()
@@ -146,14 +158,18 @@ open class EViewGroup : ViewGroup {
 
 //        // TODO Fix this hack
         if (!transition.isInTransition) {
-
-            transition.layout?.let {
-                it.arrange(eframe)
-            }
+            layout.arrange(eframe)
         }
 
     }
 
+    private fun updateLeaves() {
+        layout.getLeafs().forEach { leaf ->
+            (leaf.child as? ELayoutTag)?.let {
+                leaf.child = getRefFromTag(it.tag)
+            }
+        }
+    }
 
     private val debugPaint = Paint().apply {
         style = Paint.Style.FILL
@@ -167,7 +183,7 @@ open class EViewGroup : ViewGroup {
     }
 
 
-    fun ELayoutLeaf.debugDraw(canvas: Canvas) {
+    private fun ELayoutLeaf.debugDraw(canvas: Canvas) {
         debugPaint.color = color
         frame.apply {
             canvas.drawRect(left, top, right, bottom, debugPaint)
