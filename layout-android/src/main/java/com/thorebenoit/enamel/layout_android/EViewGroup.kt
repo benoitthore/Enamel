@@ -110,20 +110,19 @@ open class EViewGroup : ViewGroup {
                     }
                 }
 
-                updateLeaves()
+                layout.updateLeaves()
                 value.arrange(eframe)
             }
         }
 
     fun transitionTo(layout: ELayout) {
 
-        updateLeaves()
-
         if (width == 0 || height == 0) {
             doOnNextLayout {
                 transitionTo(layout)
             }
         } else {
+        layout.updateLeaves()
             transition.to(layout, eframe)
         }
     }
@@ -163,8 +162,8 @@ open class EViewGroup : ViewGroup {
 
     }
 
-    private fun updateLeaves() {
-        layout.getLeafs().forEach { leaf ->
+    private fun ELayout.updateLeaves() {
+        getLeafs().forEach { leaf ->
             (leaf.child as? ELayoutTag)?.let {
                 leaf.child = getRefFromTag(it.tag)
             }
