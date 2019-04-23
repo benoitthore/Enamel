@@ -1,6 +1,7 @@
 package com.thorebenoit.enamel.core
 
 import java.lang.StringBuilder
+import java.text.DecimalFormat
 
 operator fun StringBuilder.plusAssign(str: String) {
     append(str)
@@ -39,4 +40,17 @@ fun Regex.capture(target: String): List<String> {
 private val _2decFormat = "%.2f"
 val Float._2dec get() = _2decFormat.format(this)
 val Double._2dec get() = _2decFormat.format(this)
+
+private val _bigNumberFormat = DecimalFormat("#,###.##")
+val Number.bigNumberFormat: String get() = _bigNumberFormat.format(this)
+
+fun Number.humanReadableByteCount(si: Boolean = true): String {
+    val bytes = toLong()
+
+    val unit = if (si) 1000 else 1024
+    if (bytes < unit) return "$bytes B"
+    val exp = (Math.log(bytes.toDouble()) / Math.log(unit.toDouble())).toInt()
+    val pre = (if (si) "kMGTPE" else "KMGTPE")[exp - 1] + if (si) "" else "i"
+    return String.format("%.1f %sB", bytes / Math.pow(unit.toDouble(), exp.toDouble()), pre)
+}
 
