@@ -30,13 +30,6 @@ fun <T : EViewGroup> T.startServer(port: Int = PlaygroundServer.defaultPort): T 
         onError = { e -> e.log(); System.exit(0) },
         onNewLayout = { newLayout ->
             mainThreadCoroutine {
-
-                newLayout.getLeafs().forEach { leaf ->
-                    (leaf.child as? ELayoutTag)?.let {
-                        leaf.child = getRefFromTag(it.tag)
-                    }
-                }
-
                 transitionTo(newLayout)
             }
         }
