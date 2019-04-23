@@ -1,14 +1,9 @@
 # ELayout
 ## Motivation
 
-Android’s layouts are thought to be built via XML, especially ConstraintLayout which has a really nice visual tools that comes with it. However building views this way has a few downsides, which is why people sometimes uses Kotlin DSLs to build views in Android.
+Android's layout system is design to be used with XML, even though Kotlin DSLs exist, it's sometimes hard to work with and the lack of preview doesn't help.
 
-The issue with these DSL is that they are nothing more than a layer on top of the raw Java APIs. Therefore, they can be a bit tricky to manipulate.
-
-Also, when building views in code the preview isn’t available straight away. You need to first build your project which can take time if you need to do it many times in a row.
-
-The goal of this library is to provide an alternative layout system that could fix some of these issues and make UI code more re-usable.
-
+This is an attempt to create an easier way of building UI using Kotlin.  
 
 This library is essentially a **ViewGroup**, it doesn't have any DSL to build views so you can use it with whatever you prefer. However I recommend to use it with [Splitties View DSL](https://github.com/LouisCAD/Splitties) because this one just creates views without adding them to a ViewGroup   
 
@@ -22,6 +17,8 @@ Create a algorithmical way of building layouts following these guidelines:
 - Hot reload by sending a new layout to a running app/program
 - Few allocations in order to be garbage collection friendly
 
+
+[Get started](https://github.com/benoitthore/Enamel/wiki/Get-started) 
 
 
 
