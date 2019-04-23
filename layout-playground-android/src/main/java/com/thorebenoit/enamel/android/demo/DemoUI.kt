@@ -11,6 +11,7 @@ import com.thorebenoit.enamel.geometry.alignement.EAlignment.*
 import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.layout_android.EViewGroup
 import com.thorebenoit.enamel.layout_android.laidIn
+import com.thorebenoit.enamel.layout_android.startServer
 import splitties.views.backgroundColor
 import splitties.views.dsl.core.textView
 import splitties.views.padding
@@ -20,8 +21,7 @@ class DemoUI(val context: Context) {
     val views: MutableMap<String, EViewGroup> = mutableMapOf()
 
     init {
-        views += "KTS playground" to context.demoView1()
-        views += "OTHER" to context.demoView1()
+        views += "KTS playground" to context.demoView1().startServer()
     }
 
     private var selected: String? = null
@@ -45,7 +45,6 @@ class DemoUI(val context: Context) {
         val newLayout = viewGroup.laidIn(home).arranged(topLeft)
 
         home.transitionTo(newLayout)
-
     }
 
 
