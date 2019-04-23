@@ -21,6 +21,7 @@ class DemoUI(val context: Context) {
 
     init {
         views += "KTS playground" to context.demoView1()
+        views += "OTHER" to context.demoView1()
     }
 
     private var selected: String? = null
@@ -63,8 +64,8 @@ class DemoUI(val context: Context) {
                 }
             }
             .map { it.laidIn(view) }
-            .stacked(EAlignment.bottomLeft, spacing = 16.dp)
+            .stacked(bottomLeft, spacing = 16.dp)
             .padded(16.dp)
-            .arranged(EAlignment.topLeft)
+            .arranged(topLeft)
     }
 }

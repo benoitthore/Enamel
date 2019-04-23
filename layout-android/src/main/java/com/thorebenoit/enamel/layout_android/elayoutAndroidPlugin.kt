@@ -98,7 +98,7 @@ private fun <T : View> T.createLayoutRef(viewGroup: EViewGroup): ELayoutRefObjec
         removeFromParent = {
             (parent as? ViewGroup)?.removeView(this)
         },
-        isSameView = { this.tag == it.tag }
+        isSameView = { this.tag != null && this.tag == it.tag }
     )
 }
 
