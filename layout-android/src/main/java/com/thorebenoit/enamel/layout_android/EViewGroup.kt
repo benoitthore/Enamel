@@ -18,6 +18,7 @@ import com.thorebenoit.enamel.geometry.layout.EEmptyLayout
 import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.geometry.layout.refs.getLeafs
 import com.thorebenoit.enamel.geometry.layout.ELayoutLeaf
+import com.thorebenoit.enamel.geometry.layout.refs.ELayoutTag
 import java.lang.reflect.Constructor
 
 
@@ -87,17 +88,26 @@ open class EViewGroup : ViewGroup {
     var layout: ELayout
         get() = transition.layout ?: EEmptyLayout
         set(value) {
+            transition.layout = value
+
             if (width == 0 || height == 0) {
                 doOnNextLayout {
                     layout = value
                 }
             } else {
-                transition.layout = value
                 value.arrange(eframe)
             }
         }
 
     fun transitionTo(layout: ELayout) {
+
+        // Replace tags with views
+        layout.getLeafs().forEach { leaf ->
+            (leaf.child as? ELayoutTag)?.let {
+                leaf.child = getRefFromTag(it.tag)
+            }
+        }
+
         if (width == 0 || height == 0) {
             doOnNextLayout {
                 transitionTo(layout)
