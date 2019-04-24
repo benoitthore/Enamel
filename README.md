@@ -24,4 +24,4 @@ Create a algorithmical way of building layouts following these guidelines:
 To start using ELayout, check [this link](https://github.com/benoitthore/Enamel/wiki/Get-started) 
 
 # Credits
-https://github.com/screensailor
+Enamel was inspired by a Swift framework of the same name and analogous API developed by [@screensailor](https://github.com/screensailor)
