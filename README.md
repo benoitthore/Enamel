@@ -3,7 +3,7 @@
 Demo video [available here](https://www.youtube.com/watch?v=MmUCau26tLg)
 ## Motivation
 
-Android's layout system is design to be used with XML, even though Kotlin DSLs exist, it's sometimes hard to work with and the lack of preview doesn't help.
+Android's layout system is design to be used with XML, even though Kotlin DSLs exist, it's sometimes hard to work with and the lack of real-time preview doesn't help.
 
 This is an attempt to create an easier way of building UI using Kotlin.  
 
