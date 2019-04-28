@@ -10,7 +10,6 @@ dependencies {
     implementation(project(':core'))
     implementation(project(':geometry'))
     implementation(project(':layout'))
-    implementation(project(':WIP-Kotlin'))
 
 
 
@@ -21,33 +20,17 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-compiler:$kotlinVersion"
     implementation "org.jetbrains.kotlin:kotlin-script-runtime:$kotlinVersion"
 
-
-
-
-
     implementation processing.core
-    implementation jbox2d.jbox2d
-    implementation koma.koma
 
     //Jackson
     implementation jackson.core
     implementation jackson.kotlin
 
 
-    implementation squareup.retrofit
-    implementation squareup.jacksonConvertor
-
-    implementation squareup.loggingInterceptor
-    implementation squareup.okhttpUrlConnection
-    implementation squareup.retrofit
-
-
     implementation coroutines.core
-    implementation coroutines.retrofit
 
     implementation rxJava.rxJava
 
-    // https://mvnrepository.com/artifact/org.json/json
     compile group: 'org.json', name: 'json', version: '20180813'
 
     // KTOR
@@ -55,12 +38,6 @@ dependencies {
     implementation ktor.netty
     implementation ktor.cio
     implementation ktor.html
-
-    implementation 'com.squareup:gifencoder:0.9.1'
-
-    implementation deeplearning4j.core
-    implementation deeplearning4j.nd4j
-
 
 }
 
