@@ -140,6 +140,8 @@ fun helloWorldTransition(context: Context): EViewGroup {
 
 At this point, the app is listening but if using an Emulator, you'll need to forward the traffic, so the app's server can get the data. You can do so by running the following command: `adb forward tcp:9321 tcp:9321`
 
+If the view is listening and the port forwarding is enabled, you should be able to see it on this page: http://localhost:9321/test
+
 Now that the app is listening for changes, create a Kotlin scratch file (`CMD`+`SHIFT`+`N`on Mac OS) then paste this code:
 
 ```Kotlin
@@ -169,7 +171,7 @@ _Make sure you select the `ProcessingTest` module in the toolbar_
 
 You can now run the code by pressing the Play button or `CMD`+`SHIFT`+`W` on Mac OS.
 
-If everything has been set up properly, you should see the view moving to the middle.
+If everything has been set up properly, you should see the views being updated.
 
 From now, you can play with the layout and try different possibilities.
 

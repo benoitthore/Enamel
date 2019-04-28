@@ -58,8 +58,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // TODO Remove
-//    implementation(project(':core'))
     implementation(project(':geometry'))
     implementation(project(':layout'))
     implementation(project(':layout-android'))
