@@ -5,8 +5,6 @@ import com.thorebenoit.enamel.geometry.layout.dsl.arranged
 import com.thorebenoit.enamel.geometry.layout.dsl.layoutTag
 import com.thorebenoit.enamel.geometry.layout.playground.sendToPlayground
 import com.thorebenoit.enamel.processingtest.kotlinapplet.applet.PlaygroundApplet
-import com.thorebenoit.enamel.kotlin.core.color.*
-
 
 ////
 import com.thorebenoit.enamel.geometry.layout.dsl.*
@@ -42,14 +40,6 @@ object ProcessingTestMain {
 
 
 
-        val layout1 = "layout1".layoutTag
-        val layout2 = "layout2".layoutTag
-
-        layout1.arranged(EAlignment.topLeft)
-            .sendToPlayground()
-
-        return
-
         PlaygroundApplet.start(800, 800) {
 
             //            val big = ELayoutLeaf(red)
@@ -73,7 +63,7 @@ object ProcessingTestMain {
             onDraw {
 
                 background(255)
-                fill(red)
+                fill(255f,0f,0f)
 //                listOf<Number>(1, 2, 1).rectGroupWeights(bottomCenter, eframe.size,spacing = frameCount*2).rects.forEach { it.draw() }
 
 
