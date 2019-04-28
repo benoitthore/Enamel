@@ -31,7 +31,8 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
 
     open val magnitude get() = Math.hypot(x.d, y.d)
 
-    fun heading(buffer: EAngleMutable = EAngleMutable()) = buffer.set(Math.atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
+    fun heading(buffer: EAngleMutable = EAngleMutable()) =
+        buffer.set(Math.atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
 
     fun angleTo(point: EPoint): EAngleMutable =
         Math.atan2(
@@ -76,15 +77,17 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
     fun offset(n: Number, buffer: EPointMutable = EPointMutable()) = offset(n, n, buffer)
     fun offset(other: Tuple2, buffer: EPointMutable = EPointMutable()) = offset(other.v1, other.v2, buffer)
 
-    fun minus(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) = buffer.set(this.x - x.f, this.y - y.f)
-    fun minus(n: Number, buffer: EPointMutable = EPointMutable()) = minus(n, n, buffer)
-    fun minus(other: Tuple2, buffer: EPointMutable = EPointMutable()) = minus(other.v1, other.v2, buffer)
+    fun sub(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) = buffer.set(this.x - x.f, this.y - y.f)
+    fun sub(n: Number, buffer: EPointMutable = EPointMutable()) = sub(n, n, buffer)
+    fun sub(other: Tuple2, buffer: EPointMutable = EPointMutable()) = sub(other.v1, other.v2, buffer)
 
     fun mult(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) = buffer.set(this.x * x.f, this.y * y.f)
-    fun mult(n: Number, buffer: EPointMutable = EPointMutable()) = mult(n,n,buffer)
+    fun mult(n: Number, buffer: EPointMutable = EPointMutable()) = mult(n, n, buffer)
     fun mult(other: Tuple2, buffer: EPointMutable = EPointMutable()) = mult(other.v1, other.v2, buffer)
 
-    fun dividedBy(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) = buffer.set(this.x / x.f, this.y / y.f)
+    fun dividedBy(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) =
+        buffer.set(this.x / x.f, this.y / y.f)
+
     fun dividedBy(n: Number, buffer: EPointMutable = EPointMutable()) = dividedBy(n, n, buffer)
     fun dividedBy(other: Tuple2, buffer: EPointMutable = EPointMutable()) = dividedBy(other.v1, other.v2, buffer)
 
@@ -98,8 +101,6 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
 
     fun offsetFrom(from: EPoint, distance: Number, buffer: EPointMutable = EPointMutable()) =
         from.offsetTowards(this, distance, buffer)
-
-
 
 
     fun offsetAngle(angle: EAngle, distance: Number, buffer: EPointMutable = EPointMutable()): EPointMutable {
@@ -141,6 +142,10 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
     fun setMagnitude(magnitude: Number, buffer: EPointMutable = EPointMutable()) =
         buffer.set(this).selfNormalize().selfMult(magnitude)
 
+    fun abs(buffer: EPointMutable = EPointMutable()) = buffer.also {
+        buffer.set(Math.abs(x), Math.abs(y))
+    }
+
 
 }
 
@@ -181,9 +186,9 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
     fun selfOffset(n: Number) = offset(n, this)
     fun selfOffset(other: Tuple2) = offset(other, this)
 
-    fun selfMinus(x: Number, y: Number) = minus(x, y, this)
-    fun selfMinus(n: Number) = minus(n, this)
-    fun selfMinus(other: Tuple2) = minus(other, this)
+    fun selfSub(x: Number, y: Number) = sub(x, y, this)
+    fun selfSub(n: Number) = sub(n, this)
+    fun selfSub(other: Tuple2) = sub(other, this)
 
     fun selfMult(x: Number, y: Number) = mult(x, y, this)
     fun selfMult(n: Number) = mult(n, this)

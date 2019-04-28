@@ -3,6 +3,9 @@ package com.thorebenoit.enamel.core
 import com.thorebenoit.enamel.core.math.Scale
 import java.nio.charset.Charset
 
+inline fun <T> Iterable<T>.contains(predicate: (T) -> Boolean) = filter(predicate).isNotEmpty()
+
+
 fun <T : Any> T.asList(): List<T> = listOf(this)
 
 fun List<Byte>.toStringFromBytes() = toByteArray().toStringFromBytes()

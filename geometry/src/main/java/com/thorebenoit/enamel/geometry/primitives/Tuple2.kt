@@ -13,6 +13,7 @@ interface Tuple2 {
 }
 
 
+// TODO val n = 1 / (p + 1 / 2)   -> make this possible
 inline operator fun EPoint.unaryMinus() = inverse()
 
 inline operator fun EPoint.div(other: Tuple2) = dividedBy(other)
@@ -24,8 +25,8 @@ inline operator fun EPoint.times(n: Number) = mult(n)
 inline operator fun EPoint.plus(other: Tuple2) = offset(other)
 inline operator fun EPoint.plus(n: Number) = offset(n)
 
-inline operator fun EPoint.minus(other: Tuple2) = minus(other)
-inline operator fun EPoint.minus(n: Number) = minus(n)
+inline operator fun EPoint.minus(other: Tuple2) = sub(other)
+inline operator fun EPoint.minus(n: Number) = sub(n)
 
 
 inline operator fun Number.times(p: EPoint) = p.times(this)
@@ -43,8 +44,8 @@ inline operator fun ESize.times(n: Number) = scale(n)
 inline operator fun ESize.plus(other: Tuple2) = expand(other)
 inline operator fun ESize.plus(n: Number) = expand(n)
 
-inline operator fun ESize.minus(other: Tuple2) = inset(other)
-inline operator fun ESize.minus(n: Number) = inset(n)
+inline fun ESize.sub(other: Tuple2) = inset(other)
+inline fun ESize.sub(n: Number) = inset(n)
 
 
 inline operator fun Number.times(p: ESize) = p.times(this)
