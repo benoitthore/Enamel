@@ -8,6 +8,11 @@ import com.thorebenoit.enamel.geometry.primitives.*
 // TODO Refactor so it follows the same model as in Point, Rect and Size for mutablility
 open class ECircle(open val center: EPoint = EPoint(), open val radius: Float = 0f) {
 
+    constructor(
+        center: EPoint,
+        radius: Number
+    ) : this(center, radius.toFloat())
+
     init {
         allocateDebugMessage()
     }
@@ -18,6 +23,23 @@ open class ECircle(open val center: EPoint = EPoint(), open val radius: Float = 
 
     fun toMutable() = ECircleMutable(center = center.toMutable(), radius = radius)
     fun toImmutable() = ECircle(center = center.toImmutable(), radius = radius)
+
+
+    fun intersects(other: ECircle) = this.center.distanceTo(other.center) < other.radius + this.radius
+
+    fun intersects(list: List<ECircle>): Boolean {
+        for (other in list) {
+            if (other !== this && other.intersects(this)) {
+                return true
+            }
+        }
+        return false
+
+    }
+
+    fun contains(x: Number, y: Number): Boolean = center.distanceTo(x, y) < radius
+    fun contains(point: EPoint) = contains(point.x, point.y)
+
 }
 
 class ECircleMutable(override val center: EPointMutable = EPointMutable(), override var radius: Float = 0f) :
@@ -85,9 +107,10 @@ class ECircleMutable(override val center: EPointMutable = EPointMutable(), overr
         return list
     }
 
-    fun toListOfPoint(numberOfPoint: Int, startAt: EAngleMutable? = null, distanceList: List<Number>? = null) = toListOfPoint(
-        MutableList(numberOfPoint) { EPointMutable() }, startAt, distanceList
-    )
+    fun toListOfPoint(numberOfPoint: Int, startAt: EAngleMutable? = null, distanceList: List<Number>? = null) =
+        toListOfPoint(
+            MutableList(numberOfPoint) { EPointMutable() }, startAt, distanceList
+        )
 
 
     fun inset(margin: Number) = set(center, radius - margin.f)
@@ -104,7 +127,9 @@ class ECircleMutable(override val center: EPointMutable = EPointMutable(), overr
         return EPointMutable(x = origin.x + size * x.f, y = origin.y + size * y.f)
     }
 
-    private fun pointAtAnchor(anchor: EPointMutable, buffer: EPointMutable = EPointMutable()) = pointAtAnchor(anchor.x, anchor.y, buffer)
+    private fun pointAtAnchor(anchor: EPointMutable, buffer: EPointMutable = EPointMutable()) =
+        pointAtAnchor(anchor.x, anchor.y, buffer)
+
     fun scaledAnchor(to: Number, x: Number, y: Number, buffer: EPointMutable = EPointMutable()) =
         scaledRelative(to, relativeTo = pointAtAnchor(x, y, buffer))
 
@@ -120,21 +145,6 @@ class ECircleMutable(override val center: EPointMutable = EPointMutable(), overr
 
     fun resized(newRadius: Number) = set(center = center, radius = newRadius)
     fun resizedBy(extraRadius: Number) = set(center = center, radius = radius + extraRadius.f)
-
-    fun intersects(other: ECircleMutable) = this.center.distanceTo(other.center) < other.radius + this.radius
-
-    fun intersects(list: List<ECircleMutable>): Boolean {
-        for (other in list) {
-            if (other !== this && other.intersects(this)) {
-                return true
-            }
-        }
-        return false
-
-    }
-
-    fun contains(x: Number, y: Number): Boolean = center.distanceTo(x, y) < radius
-    fun contains(point: EPointMutable) = contains(point.x, point.y)
 
 
 }
