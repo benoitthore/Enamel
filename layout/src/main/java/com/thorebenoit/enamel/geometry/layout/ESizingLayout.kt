@@ -34,7 +34,6 @@ class ESizingLayout(child: ELayout, var space: ELayoutSpace) : ELayout {
             //
 
             is ELayoutSpace.Scale -> {
-                TODO("This is probably not working")
                 with(space) {
                     return if (horizontal != null && vertical == null) {
                         val toFit = toFit * (horizontal size 1)
