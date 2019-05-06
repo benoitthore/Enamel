@@ -14,7 +14,7 @@ class ETrackingLayout(src: ELayout = ELayoutLeaf.unit, dst: ELayout = ELayoutLea
             _childLayouts.add(dst)
         }
 
-    var dst = src
+    var dst = dst
         set(value) {
             field = value
             _childLayouts.clear()
