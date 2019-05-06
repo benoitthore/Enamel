@@ -33,7 +33,7 @@ fun ELayout.fitting(width: Number, height: Number) = fitting(width size height)
 fun ELayout.filling(size: ESize) = ESizingLayout(this, ESizingLayout.ELayoutSpace.AspectFilling(size))
 fun ELayout.filling(width: Number, height: Number) = filling(width size height)
 
-fun ELayout.scaled(x: Number = 1, y: Number = 1) = ESizingLayout(this, ESizingLayout.ELayoutSpace.Scale(x, y))
+fun ELayout.scaled(x: Number? = null, y: Number? = null) = ESizingLayout(this, ESizingLayout.ELayoutSpace.Scale(x, y))
 fun ELayout.scaled(tuple2: Tuple2) = scaled(tuple2.v1, tuple2.v2)
 
 //////

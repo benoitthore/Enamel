@@ -20,7 +20,7 @@ object PlaygroundServer {
     private var _server: NettyApplicationEngine? = null
 
     fun start(
-        deserializer: ELayoutDeserializer,
+        deserializer: ELayoutDeserializer = ELayoutDeserializer(),
         port: Int = defaultPort,
         onError: (Throwable) -> Unit = { System.err.println(it) },
         onNewLayout: (ELayout) -> Unit
