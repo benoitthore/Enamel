@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.processingtest
 
+import com.thorebenoit.enamel.core.threading.coroutine
 import com.thorebenoit.enamel.geometry.alignement.EAlignment
 import com.thorebenoit.enamel.geometry.layout.dsl.arranged
 import com.thorebenoit.enamel.geometry.layout.dsl.layoutTag
@@ -11,7 +12,14 @@ import com.thorebenoit.enamel.geometry.layout.dsl.*
 import com.thorebenoit.enamel.geometry.alignement.*
 import com.thorebenoit.enamel.geometry.alignement.EAlignment.*
 import com.thorebenoit.enamel.geometry.alignement.ERectEdge.*
+import com.thorebenoit.enamel.geometry.layout.EEmptyLayout
+import com.thorebenoit.enamel.geometry.layout.ELayout
+import com.thorebenoit.enamel.geometry.layout.ELayoutLeaf
+import com.thorebenoit.enamel.geometry.layout.playground.PlaygroundServer
 import com.thorebenoit.enamel.geometry.layout.playground.sendToPlayground
+import com.thorebenoit.enamel.processingtest.kotlinapplet.colorHSL
+import com.thorebenoit.enamel.processingtest.kotlinapplet.randomColor
+
 //
 object ProcessingTestMain {
 
@@ -39,10 +47,10 @@ object ProcessingTestMain {
     fun main(args: Array<String>) {
 
 
-
         PlaygroundApplet.start(800, 800) {
 
-            //            val big = ELayoutLeaf(red)
+
+            val big = ELayoutLeaf(colorHSL(.25))
 //            val small = ELayoutLeaf(blue)
 //
 //            val smallLayout = small
@@ -58,26 +66,29 @@ object ProcessingTestMain {
 //                .padded(50)
 //                .aligned(top)
 
+//            var layout : ELayout = EEmptyLayout
+            var layout: ELayout = ELayoutLeaf(colorHSL(.25))
+                .sizedSquare(100)
+                .scaled(0.5, 1)
+                .padded(50)
+                .arranged(topLeft)
 
-            onMouseClicked { loop() }
+            coroutine {
+                PlaygroundServer.start {
+                    layout = it
+                }
+            }
+
             onDraw {
 
-                background(255)
-                fill(255f,0f,0f)
-//                listOf<Number>(1, 2, 1).rectGroupWeights(bottomCenter, eframe.size,spacing = frameCount*2).rects.forEach { it.draw() }
+                background(0)
+                fill(255f, 0f, 0f)
 
 
-//                val json = ELayoutSerializer().serialize(ELayoutDemo._3()).toString()
-//                val l = ELayoutDeserializer().deserialize(json)
-//
-//
-//                val size = l.size(esize)
-//                val frame = eframe.rectAlignedInside(center, size = size)
-//
-//                l.arrangeAndDraw(frame)
-//
-////                layout.arrangeAndDraw()
-                noLoop()
+
+                layout.arrange(eframe)
+                layout.draw()
+
             }
         }
 
