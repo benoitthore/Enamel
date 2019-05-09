@@ -115,20 +115,20 @@ open class EAngleMutable constructor(override var value: Float = 0f, override va
     }
 }
 
-fun Number.degrees(): EAngleMutable =
-    EAngleMutable(
+fun Number.degrees(buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
+    buffer.set(
         this.f,
         AngleType.DEGREE
     )
 
-fun Number.radians(): EAngleMutable =
-    EAngleMutable(
+fun Number.radians(buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
+    buffer.set(
         this.f,
         AngleType.RADIAN
     )
 
-fun Number.rotation(): EAngleMutable =
-    EAngleMutable(
+fun Number.rotation(buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
+    buffer.set(
         this.f,
         AngleType.ROTATION
     )

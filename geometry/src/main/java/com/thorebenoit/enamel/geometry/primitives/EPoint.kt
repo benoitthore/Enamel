@@ -34,10 +34,10 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
     fun heading(buffer: EAngleMutable = EAngleMutable()) =
         buffer.set(Math.atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
 
-    fun angleTo(point: EPoint): EAngleMutable =
+    fun angleTo(point: EPoint, buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
         Math.atan2(
             ((point.y - y).d), ((point.x - x).d)
-        ).radians()
+        ).radians(buffer)
 
     fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)
     fun distanceTo(x2: Number, y2: Number) = Math.hypot((x2.d - x), (y2.d - y)).f
