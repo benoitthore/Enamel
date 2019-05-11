@@ -18,3 +18,6 @@ fun <T : View> T.withTag(tag: Any): T = apply {
 fun <T : View> ELayoutRef<T>.withTag(tag: Any): ELayoutRef<T> = apply {
     this.ref.viewRef.tag = tag
 }
+
+
+val <T : View> ELayoutRef<T>.view get() = ref.viewRef

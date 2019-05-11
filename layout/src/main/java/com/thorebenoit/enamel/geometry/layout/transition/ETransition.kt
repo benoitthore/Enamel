@@ -8,8 +8,7 @@ import com.thorebenoit.enamel.geometry.layout.ELayout
 import com.thorebenoit.enamel.geometry.layout.refs.ELayoutRef
 import com.thorebenoit.enamel.geometry.layout.refs.getAllChildren
 import com.thorebenoit.enamel.geometry.layout.refs.getRefs
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import java.lang.Exception
 
 val defaultDoAnim: suspend (Long, (Float) -> Unit) -> Unit = { duration, animator ->
@@ -32,7 +31,7 @@ val defaultDoAnim: suspend (Long, (Float) -> Unit) -> Unit = { duration, animato
  *  - Improve performance
  */
 class ETransition<V : Any>(
-    val executeOnUiThread: (suspend CoroutineScope.() -> Unit) -> Unit,
+    val mainThreadDispatcher: CoroutineDispatcher,
     val doAnimation: suspend (Long, (Float) -> Unit) -> Unit = defaultDoAnim,
     val getEnterAnimation: (ELayoutRef<V>, ERect) -> SingleElementAnimator<V>,
     val getExitAnimation: (ELayoutRef<V>, ERect) -> SingleElementAnimator<V>,
@@ -44,6 +43,10 @@ class ETransition<V : Any>(
 
     var isInTransition = false
         private set
+
+    private fun executeOnUiThread(block: suspend CoroutineScope.() -> Unit) {
+        GlobalScope.launch(mainThreadDispatcher, block = block)
+    }
 
     fun to(newLayout: ELayout, bounds: ERect? = null) {
         val transition = this
