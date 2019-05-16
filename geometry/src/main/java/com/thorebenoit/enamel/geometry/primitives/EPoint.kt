@@ -201,7 +201,7 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
 
     fun selfOffsetTowards(towards: EPoint, distance: Number) = offsetTowards(towards, distance, this)
     fun selfOffsetFrom(from: EPoint, distance: Number) = offsetFrom(from, distance, this)
-    fun selfOffsetAngle(angle: EAngle, distance: Number) = offsetAngle(angle, distance)
+    fun selfOffsetAngle(angle: EAngle, distance: Number) = offsetAngle(angle, distance, this)
 
     fun selfRotateAround(angle: EAngle, center: EPointMutable) = rotateAround(angle, center, this)
 
