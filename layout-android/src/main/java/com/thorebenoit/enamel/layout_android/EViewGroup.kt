@@ -207,5 +207,6 @@ open class EViewGroup : ViewGroup {
 
 
     fun <T : View> T.eLayoutRef() = laidIn(this@EViewGroup)
+    fun <T : View> List<T>.eLayoutRef() = laidIn(this@EViewGroup)
 
 }

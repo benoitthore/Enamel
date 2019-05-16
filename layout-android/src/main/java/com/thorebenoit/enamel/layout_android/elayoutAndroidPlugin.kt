@@ -16,6 +16,7 @@ import com.thorebenoit.enamel.geometry.layout.refs.getLeafs
 import com.thorebenoit.enamel.geometry.layout.serializer.ELayoutDeserializer
 import com.thorebenoit.enamel.geometry.layout.transition.ETransition
 import com.thorebenoit.enamel.geometry.layout.transition.SingleElementAnimator
+import kotlinx.coroutines.Dispatchers
 
 private fun Throwable.log(tag: String = "ERROR") = Log.e(tag, message, this)
 
@@ -46,7 +47,7 @@ private val Interpolator.android
     }
 
 fun androidDefaultTransition() = ETransition<View>(
-    executeOnUiThread = { mainThreadCoroutine(it) },
+    mainThreadDispatcher = Dispatchers.Main,
     doAnimation = { duration, animator ->
         ValueAnimator.ofFloat(0f, 1f).apply {
             this.duration = duration
@@ -103,7 +104,6 @@ private fun <T : View> T.createLayoutRef(viewGroup: EViewGroup): ELayoutRefObjec
 }
 
 
-private inline val <T : View> ELayoutRef<T>.view get() = ref.viewRef
 fun <T : View> T.laidIn(viewGroup: EViewGroup): ELayoutRef<T> {
     val sizeBuffer = ESizeMutable()
 
