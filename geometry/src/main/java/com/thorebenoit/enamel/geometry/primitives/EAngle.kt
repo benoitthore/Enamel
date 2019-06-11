@@ -15,6 +15,8 @@ open class EAngle(
     protected open val value: Float = 0f,
     protected open val type: AngleType = AngleType.DEGREE
 ) {
+    constructor(angle: EAngle) : this(angle.value, angle.type)
+
     // The use of by lazy would create 3 new objects so it's better to calculate on initialisation
     val radians
         get() =
@@ -77,12 +79,17 @@ open class EAngle(
 //    operator fun Number.times(angle: EAngleMutable): EAngleMutable = angle * this
 }
 
-open class EAngleMutable constructor(override var value: Float = 0f, override var type: AngleType = AngleType.DEGREE) :
+class EAngleMutable constructor(override var value: Float = 0f, override var type: AngleType = AngleType.DEGREE) :
     EAngle(value, type), Resetable {
     companion object {
         val zero get() = 0.degrees()
         val unit get() = 1.rotation()
     }
+
+    // TODO Check why this is not working
+//    constructor(angle: EAngle) : this(angle.value, angle.type)
+    constructor(angle: EAngle) : this(angle.degrees, AngleType.DEGREE)
+
 
     fun set(other: EAngleMutable) = set(
         other.value,
