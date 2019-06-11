@@ -23,6 +23,7 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
     }
 
     constructor(x: Number, y: Number) : this(x.f, y.f)
+    constructor(other: EPoint) : this(other.x, other.y)
     constructor(angle: EAngle, magnitude: Number) : this(angle.cos * magnitude.f, angle.sin * magnitude.f)
 
     fun toMutable(buffer: EPointMutable = EPointMutable()) = buffer.set(x, y)
@@ -155,6 +156,7 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
 
 
     constructor(x: Number, y: Number) : this(x.f, y.f)
+    constructor(other: EPoint) : this(other.x, other.y)
     constructor(angle: EAngleMutable, magnitude: Number) : this(angle.cos * magnitude.f, angle.sin * magnitude.f)
 
     companion object {
