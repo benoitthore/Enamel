@@ -49,9 +49,11 @@ open class EAngle(
         get() = Math.tan(radians.d).f
 
 
-    operator fun unaryMinus(): EAngleMutable {
-        val opposite = value.degrees()
-        return opposite.set((value % 360) - 180, type)
+    operator fun unaryMinus(): EAngleMutable = inverse()
+
+    fun inverse(buffer: EAngleMutable = EAngleMutable()): EAngleMutable {
+        val opposite = value.degrees(buffer)
+        return opposite.set(-value, type)
     }
 
     operator fun plus(other: EAngleMutable): EAngleMutable =
@@ -115,6 +117,8 @@ class EAngleMutable constructor(override var value: Float = 0f, override var typ
 
         value += increment
     }
+
+    fun selfInverse() = inverse(this)
 
     override fun toString(): String {
         return "${degrees.toInt() % 360}°"
