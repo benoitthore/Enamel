@@ -165,6 +165,7 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
         val unit get() = EPointMutable(1f, 1f)
     }
 
+    fun set(other: EPoint) = apply { this.x = other.x; this.y = other.y }
     fun set(x: Number, y: Number) = apply { this.x = x.f; this.y = y.f }
 
     fun set(other: Tuple2) = set(other.v1, other.v2)
