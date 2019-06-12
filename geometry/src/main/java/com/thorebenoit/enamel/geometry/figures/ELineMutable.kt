@@ -3,6 +3,7 @@ package com.thorebenoit.enamel.geometry.figures
 import com.thorebenoit.enamel.core.math.*
 import com.thorebenoit.enamel.geometry.primitives.*
 
+
 /*
 TODO Make mutable/immutable version
 TODO Make allocation free
@@ -144,6 +145,13 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
         rightLength = length.f / 2f
     )
 
+    fun parallel(distance: Number, buffer: ELineMutable): ELine {
+
+        TODO()
+
+        return buffer
+    }
+
     override fun toString(): String {
         return "($start, $end)"
     }
@@ -151,7 +159,10 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
 
 }
 
-class ELineMutable(override val start: EPointMutable = EPointMutable.zero, override val end: EPointMutable = EPointMutable.zero) : ELine(start, end) {
+class ELineMutable(
+    override val start: EPointMutable = EPointMutable.zero,
+    override val end: EPointMutable = EPointMutable.zero
+) : ELine(start, end) {
 
     fun set(start: EPoint, end: EPoint) = set(start.x, start.y, end.x, end.y)
 
@@ -191,4 +202,67 @@ fun List<EPoint>.toListOfLines(): List<ELine> {
     return ret
 }
 
+//
+// TODO
 
+fun EPoint.closetPointOnSegment(line: ELine) = line.closetPointOnSegment(this)
+fun ELine.closetPointOnSegment(point: EPoint) = getClosestPointOnSegment(
+    start.x, start.y,
+    end.x, end.y,
+    point.x, point.y
+)
+
+/**
+ * Returns closest point on segment to point
+ * @param sx1 - segment x coord 1
+ * @param sy1 - segment y coord 1
+ * @param sx2 - segment x coord 2
+ * @param sy2 - segment y coord 2
+ * @param px - point x coord
+ * @param py - point y coord
+ * @return closets point on segment to point
+ */
+private fun getClosestPointOnSegment(sx1: Float, sy1: Float, sx2: Float, sy2: Float, px: Float, py: Float): EPoint {
+    val xDelta = sx2 - sx1
+    val yDelta = sy2 - sy1
+
+    if (xDelta == 0.0f && yDelta == 0.0f) {
+        throw IllegalArgumentException("Segment start equals segment end")
+    }
+
+    val u = ((px - sx1) * xDelta + (py - sy1) * yDelta) / (xDelta * xDelta + yDelta * yDelta)
+
+    return when {
+        u < 0 -> EPoint(sx1, sy1)
+        u > 1 -> EPoint(sx2, sy2)
+        else -> EPoint(Math.round(sx1 + u * xDelta), Math.round(sy1 + u * yDelta))
+    }
+}
+
+//
+fun EPoint.distanceTo(line: ELine) = line.distanceTo(this)
+
+fun ELine.distanceTo(point: EPoint): Float {
+    // A - the standalone point (x, y)
+    // B - start point of the line segment (x1, y1)
+    // C - end point of the line segment (x2, y2)
+    // D - the crossing point between line from A to BC
+    val A = point
+    val B = start
+    val C = end
+
+
+    val AB = A.distanceTo(B)
+    val BC = B.distanceTo(C)
+    val AC = A.distanceTo(C)
+
+    // Heron's formula
+    val s = (AB + BC + AC) / 2
+    val area = Math.sqrt((s * (s - AB) * (s - BC) * (s - AC)).toDouble()).toFloat()
+
+    // but also area == (BC * AD) / 2
+    // BC * AD == 2 * area
+    // AD == (2 * area) / BC
+    // TODO: check if BC == 0
+    return 2 * area / BC
+}
