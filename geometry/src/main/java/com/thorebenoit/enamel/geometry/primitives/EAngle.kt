@@ -11,9 +11,10 @@ enum class AngleType {
 }
 
 
+// TODO change internal to protected and fix the compile errors
 open class EAngle(
-    protected open val value: Float = 0f,
-    protected open val type: AngleType = AngleType.DEGREE
+    internal open val value: Float = 0f,
+    internal open val type: AngleType = AngleType.DEGREE
 ) {
     constructor(angle: EAngle) : this(angle.value, angle.type)
 
@@ -86,12 +87,10 @@ class EAngleMutable constructor(override var value: Float = 0f, override var typ
         val unit get() = 1.rotation()
     }
 
-    // TODO Check why this is not working
-//    constructor(angle: EAngle) : this(angle.value, angle.type)
-    constructor(angle: EAngle) : this(angle.degrees, AngleType.DEGREE)
+    constructor(angle: EAngle) : this(angle.value, angle.type)
 
 
-    fun set(other: EAngleMutable) = set(
+    fun set(other: EAngle) = set(
         other.value,
         other.type
     )
