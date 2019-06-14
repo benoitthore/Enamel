@@ -1,5 +1,6 @@
 package com.thorebenoit.enamel.geometry.primitives
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.thorebenoit.enamel.core.math.*
 import com.thorebenoit.enamel.geometry.Resetable
 import com.thorebenoit.enamel.geometry.allocateDebugMessage
@@ -8,7 +9,10 @@ import kotlin.math.*
 
 //TODO Mark warning if not used on non-self functions in points/rect/circle/etc
 open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
+
+    @get:JsonIgnore
     override val v1: Number get() = x
+    @get:JsonIgnore
     override val v2: Number get() = y
 
     companion object {
@@ -31,6 +35,7 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
     fun copy(buffer: EPointMutable = EPointMutable()) = buffer.set(x, y)
 
 
+    @get:JsonIgnore
     open val magnitude get() = hypot(x.d, y.d)
 
     fun heading(buffer: EAngleMutable = EAngleMutable()) =
