@@ -274,3 +274,35 @@ fun ELine.distanceTo(point: EPoint): Float {
     // TODO: check if BC == 0
     return 2 * area / BC
 }
+
+
+val List<ELine>.length: Float get() = sumByDouble { it.length.toDouble() }.toFloat()
+
+
+operator fun ELine.component1() = start
+operator fun ELine.component2() = end
+
+fun List<EPoint>.pointAtFraction(fraction: Number, buffer: EPointMutable = EPointMutable()) =
+    pointAtDistance(fraction.toFloat() * length, buffer)
+
+fun List<EPoint>.pointAtDistance(distance: Number, buffer: EPointMutable = EPointMutable()): EPointMutable {
+    var last: EPoint? = null
+    val distance = distance.toFloat()
+    var remainingDistance = distance
+
+    forEach { p ->
+        last?.let { last ->
+            val distanceToNext = last.distanceTo(p)
+            if (remainingDistance - distanceToNext < 0) {
+                return last.offsetTowards(p, remainingDistance, buffer)
+            }
+            remainingDistance -= distanceToNext
+        }
+        last = p
+    }
+
+    return last().toMutable(buffer)
+}
+
+
+

@@ -240,3 +240,19 @@ fun RandomPoint(magnitude: Number = 1f, buffer: EPointMutable = EPointMutable())
 
 infix fun Number.point(other: Number): EPointMutable =
     EPointMutable(this, other)
+
+
+
+
+val List<EPoint>.length: Float
+    get() {
+        var last: EPoint? = null
+        var total = 0f
+        forEach { p ->
+            last?.let { last ->
+                total += last.distanceTo(p)
+            }
+            last = p
+        }
+        return total
+    }
