@@ -56,6 +56,17 @@ open class EAngle(
         return opposite.set(-value, type)
     }
 
+    fun offset(other: EAngle, buffer: EAngleMutable = EAngleMutable()) = buffer.apply {
+        val increment = when (type) {
+
+            AngleType.DEGREE -> other.degrees
+            AngleType.RADIAN -> other.radians
+            AngleType.ROTATION -> other.rotation
+        }
+
+        value += increment
+    }
+
     operator fun plus(other: EAngleMutable): EAngleMutable =
         EAngleMutable(
             radians + other.radians,
@@ -79,6 +90,9 @@ open class EAngle(
             radians / n.f,
             AngleType.RADIAN
         )
+
+    operator fun compareTo(angle: EAngleMutable): Int = ((rotation - angle.rotation) * 100).toInt()
+
 //    operator fun Number.times(angle: EAngleMutable): EAngleMutable = angle * this
 }
 
@@ -107,22 +121,13 @@ class EAngleMutable constructor(override var value: Float = 0f, override var typ
         set(0, AngleType.DEGREE)
     }
 
-    fun offset(other: EAngle) {
-        val increment = when (type) {
-
-            AngleType.DEGREE -> other.degrees
-            AngleType.RADIAN -> other.radians
-            AngleType.ROTATION -> other.rotation
-        }
-
-        value += increment
-    }
-
     fun selfInverse() = inverse(this)
+    fun selfOffset(angle: EAngle) = offset(angle, this)
 
     override fun toString(): String {
         return "${degrees.toInt() % 360}°"
     }
+
 }
 
 fun Number.degrees(buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
