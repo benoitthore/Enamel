@@ -4,6 +4,7 @@ import com.thorebenoit.enamel.core.math.*
 import com.thorebenoit.enamel.geometry.Resetable
 import com.thorebenoit.enamel.geometry.allocateDebugMessage
 import com.thorebenoit.enamel.geometry.figures.ECircle
+import kotlin.math.*
 
 //TODO Mark warning if not used on non-self functions in points/rect/circle/etc
 open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
@@ -29,18 +30,18 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
     fun copy(buffer: EPointMutable = EPointMutable()) = buffer.set(x, y)
 
 
-    open val magnitude get() = Math.hypot(x.d, y.d)
+    open val magnitude get() = hypot(x.d, y.d)
 
     fun heading(buffer: EAngleMutable = EAngleMutable()) =
-        buffer.set(Math.atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
+        buffer.set(atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
 
     fun angleTo(point: EPoint, buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
-        Math.atan2(
+        atan2(
             ((point.y - y).d), ((point.x - x).d)
         ).radians(buffer)
 
     fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)
-    fun distanceTo(x2: Number, y2: Number) = Math.hypot((x2.d - x), (y2.d - y)).f
+    fun distanceTo(x2: Number, y2: Number) = hypot((x2.d - x), (y2.d - y)).f
 
     fun distanceTo(circle: ECircle): Float {
         val distance = distanceTo(circle.center) - circle.radius
@@ -143,7 +144,7 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
         buffer.set(this).selfNormalize().selfMult(magnitude)
 
     fun abs(buffer: EPointMutable = EPointMutable()) = buffer.also {
-        buffer.set(Math.abs(x), Math.abs(y))
+        buffer.set(abs(x), abs(y))
     }
 
 
