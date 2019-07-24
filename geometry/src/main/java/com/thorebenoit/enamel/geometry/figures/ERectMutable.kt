@@ -433,9 +433,6 @@ class ERectMutable(
         return this
     }
 
-    fun topLeft(): EPointMutable = origin
-
-
     override var width: Float
         get() = super.width
         set(value) {
