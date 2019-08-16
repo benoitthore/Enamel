@@ -1,4 +1,4 @@
-//package com.thorebenoit.enamel
+//package com.benoitthore.enamel
 //
 //import android.support.test.InstrumentationRegistry
 //import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@
 //    fun useAppContext() {
 //        // Context of the app under test.
 //        val appContext = InstrumentationRegistry.getTargetContext()
-//        assertEquals("com.thorebenoit.enamel", appContext.packageName)
+//        assertEquals("com.benoitthore.enamel", appContext.packageName)
 //    }
 //}

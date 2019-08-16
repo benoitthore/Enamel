@@ -1,4 +1,4 @@
-//package com.thorebenoit.enamel
+//package com.benoitthore.enamel
 //
 //import org.junit.Test
 //
