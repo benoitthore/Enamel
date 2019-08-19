@@ -7,9 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.doOnNextLayout
 import java.lang.Exception
-import androidx.core.view.children
 import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ERectMutable
@@ -23,12 +21,6 @@ import com.benoitthore.enamel.geometry.layout.refs.ELayoutTag
 import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
 import java.lang.reflect.Constructor
 
-
-private inline val <T : View> Class<T>.contextConstructor: Constructor<T>
-    get() = constructors.filter {
-        val params = it.parameterTypes
-        return@filter params.size == 1 && params[0] == Context::class.java
-    }.first() as Constructor<T>
 
 
 open class EViewGroup : ViewGroup {

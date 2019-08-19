@@ -1,10 +1,10 @@
 package com.benoitthore.enamel.layout_android
 
+import android.animation.Animator
 import android.animation.ValueAnimator
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.animation.addListener
 import com.benoitthore.enamel.core.animations.EasingInterpolators
 import com.benoitthore.enamel.core.threading.CoroutineLock
 import com.benoitthore.enamel.geometry.figures.ESizeMutable
@@ -57,7 +57,24 @@ fun androidDefaultTransition() = ETransition<View>(
                 animator(it.animatedFraction)
             }
 
-            addListener(onEnd = { lock.unlock() }, onCancel = { lock.unlock() })
+            addListener(
+                object : Animator.AnimatorListener {
+                    override fun onAnimationRepeat(animation: Animator?) {
+                    }
+
+                    override fun onAnimationEnd(animation: Animator?) {
+                        lock.unlock()
+                    }
+
+                    override fun onAnimationCancel(animation: Animator?) {
+                        lock.unlock()
+                    }
+
+                    override fun onAnimationStart(animation: Animator?) {
+
+                    }
+                }
+            )
             start()
             lock.wait()
         }
