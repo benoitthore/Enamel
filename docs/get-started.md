@@ -145,10 +145,10 @@ If the view is listening and the port forwarding is enabled, you should be able 
 Now that the app is listening for changes, create a Kotlin scratch file (`CMD`+`SHIFT`+`N`on Mac OS) then paste this code:
 
 ```Kotlin
-import com.thorebenoit.enamel.geometry.layout.dsl.*
-import com.thorebenoit.enamel.geometry.alignement.EAlignment.*
-import com.thorebenoit.enamel.geometry.layout.playground.PlaygroundClient
-import com.thorebenoit.enamel.geometry.layout.playground.sendToPlayground
+import com.benoitthore.enamel.geometry.layout.dsl.*
+import com.benoitthore.enamel.geometry.alignement.EAlignment.*
+import com.benoitthore.enamel.geometry.layout.playground.PlaygroundClient
+import com.benoitthore.enamel.geometry.layout.playground.sendToPlayground
 
 // Replace localhost by an IP address if you're using a physical device
 PlaygroundClient.defaultClient = PlaygroundClient("localhost")
