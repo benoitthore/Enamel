@@ -1,4 +1,4 @@
-package com.thorebenoit.enamel.layout-android;
+package com.benoitthore.enamel.layout-android;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.thorebenoit.enamel.layout-android.test", appContext.getPackageName());
+        assertEquals("com.benoitthore.enamel.layout-android.test", appContext.getPackageName());
     }
 }
