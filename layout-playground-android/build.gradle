@@ -65,21 +65,22 @@ dependencies {
     implementation(project(':layout'))
     implementation(project(':layout-android'))
 
-    //Kotlin
-    implementation kotlinDependencies.stdlib
-    implementation kotlinDependencies.reflect
-
-
     implementation "com.louiscad.splitties:splitties-views-dsl:3.0.0-alpha04"
-
-
-    implementation playServices.material
-
     implementation xDependencies.appcompat
     implementation xDependencies.core
 
-
-    implementation coroutines.android
+//    //Kotlin
+//    implementation kotlinDependencies.stdlib
+//    implementation kotlinDependencies.reflect
+//
+//
+//
+//
+//    implementation playServices.material
+//
+//
+//
+//    implementation coroutines.android
 
 }
 

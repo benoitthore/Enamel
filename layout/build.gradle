@@ -46,10 +46,6 @@ dependencies {
     implementation squareup.loggingInterceptor
     implementation squareup.okhttpUrlConnection
 
-    //Kotlin
-    implementation kotlinDependencies.stdlib
-    implementation kotlinDependencies.reflect
-
     //Jackson
     implementation jackson.core
     implementation jackson.kotlin
@@ -59,9 +55,6 @@ dependencies {
     // KTOR
     implementation ktor.core
     implementation ktor.netty
-    implementation ktor.cio
-    implementation ktor.html
-
 
     // JUnit
     testImplementation junit.junit

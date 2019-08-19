@@ -42,32 +42,14 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation(project(':core'))
 
-
-    //Kotlin
-    implementation kotlinDependencies.stdlib
-    implementation kotlinDependencies.reflect
-
     //Jackson
-    implementation jackson.core
+//    implementation jackson.core
     implementation jackson.kotlin
-
-    implementation group: 'org.json', name: 'json', version: '20180813'
-
-    // KTOR
-    implementation ktor.core
-    implementation ktor.netty
-    implementation ktor.cio
-    implementation ktor.html
-
 
     // JUnit
     testImplementation junit.junit
     testImplementation mockito.core
     testImplementation mockito.kotlin
-
-
-
-
 }
 
 
