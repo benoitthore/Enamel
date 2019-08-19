@@ -11,17 +11,13 @@ import androidx.core.view.doOnNextLayout
 import java.lang.Exception
 import androidx.core.view.children
 import com.benoitthore.enamel.core.math.i
-import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.figures.ESizeMutable
 import com.benoitthore.enamel.geometry.layout.EEmptyLayout
 import com.benoitthore.enamel.geometry.layout.ELayout
-import com.benoitthore.enamel.geometry.layout.refs.getLeafs
+import com.benoitthore.enamel.geometry.layout.refs.getLeaves
 import com.benoitthore.enamel.geometry.layout.ELayoutLeaf
-import com.benoitthore.enamel.geometry.layout.dsl.arranged
-import com.benoitthore.enamel.geometry.layout.dsl.padded
-import com.benoitthore.enamel.geometry.layout.dsl.stacked
 import com.benoitthore.enamel.geometry.layout.refs.ELayoutRef
 import com.benoitthore.enamel.geometry.layout.refs.ELayoutTag
 import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
@@ -56,8 +52,8 @@ open class EViewGroup : ViewGroup {
 
 
     // List of views that can be found by tags
-    val viewList: List<View> get() = _viewList
-    private val _viewList: MutableList<View> = mutableListOf()
+    val viewList: Set<View> get() = _viewList
+    private val _viewList: MutableSet<View> = mutableSetOf()
 
     init {
         post { setWillNotDraw(false) }
@@ -163,7 +159,7 @@ open class EViewGroup : ViewGroup {
     }
 
     private fun ELayout.updateLeaves() {
-        getLeafs().forEach { leaf ->
+        getLeaves().forEach { leaf ->
             (leaf.child as? ELayoutTag)?.let {
                 leaf.child = getRefFromTag(it.tag)
             }
@@ -176,7 +172,7 @@ open class EViewGroup : ViewGroup {
     }
 
     override fun onDraw(canvas: Canvas) {
-        transition.layout?.getLeafs()?.forEach { leaf ->
+        transition.layout?.getLeaves()?.forEach { leaf ->
             leaf.debugDraw(canvas)
         }
     }
@@ -206,6 +202,11 @@ open class EViewGroup : ViewGroup {
     }
 
 
+    fun <T : View> T.eLayoutRef(tag: Any? = null) = eLayoutRef().apply {
+        if (tag != null) {
+            withTag(tag)
+        }
+    }
     fun <T : View> T.eLayoutRef() = laidIn(this@EViewGroup)
     fun <T : View> List<T>.eLayoutRef() = laidIn(this@EViewGroup)
 

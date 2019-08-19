@@ -46,13 +46,13 @@ fun ELayout.getAllChildren(list: LinkedList<ELayout> = LinkedList()): List<ELayo
 
 fun <T : Any> ELayout.getObjects(): List<T> = getRefs<T>().map { it.ref.viewRef }
 
-fun ELayout.getLeafs(): List<ELayoutLeaf> {
+fun ELayout.getLeaves(): List<ELayoutLeaf> {
     val list = mutableListOf<ELayoutLeaf>()
 
     if (this is ELayoutLeaf) {
         list.add(this)
     }
-    list.addAll(childLayouts.flatMap { it.getLeafs() })
+    list.addAll(childLayouts.flatMap { it.getLeaves() })
 
     return list
 }
