@@ -19,7 +19,6 @@ import com.benoitthore.enamel.geometry.layout.ELayoutLeaf
 import com.benoitthore.enamel.geometry.layout.refs.ELayoutRef
 import com.benoitthore.enamel.geometry.layout.refs.ELayoutTag
 import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
-import java.lang.reflect.Constructor
 
 
 
@@ -50,7 +49,6 @@ open class EViewGroup : ViewGroup {
     init {
         post { setWillNotDraw(false) }
     }
-
 
     private val _measureSizeBuffer = ESizeMutable()
 

@@ -13,7 +13,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 
 
@@ -30,7 +30,7 @@ ext {
     siteUrl = 'https://github.com/benoitthore/Enamel'
     gitUrl = 'https://github.com/benoitthore/Enamel'
 
-    libraryVersion = '0.9.0-c'
+    libraryVersion = '0.9.0-g'
 
     developerId = 'benoitthore'
     developerName = 'Benoit Thore'
@@ -50,28 +50,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+//
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-
-
-    buildTypes {
-        debug {
-
-        }
-        dexOptions {
-            // release & debug is in project animators
-            matchingFallbacks = ['release', 'debug']
-        }
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
     }
 
 
@@ -91,7 +76,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation(project(':core'))
     implementation(project(':geometry'))

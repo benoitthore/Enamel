@@ -3,14 +3,15 @@ package com.benoitthore.enamel.android.examples
 import android.content.Context
 import android.graphics.Color
 import android.widget.Toast
-import com.benoitthore.enamel.android.dp
-import com.benoitthore.enamel.android.eViewGroup
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.layout.dsl.*
 import com.benoitthore.enamel.layout_android.EViewGroup
 import com.benoitthore.enamel.layout_android.withTag
 import splitties.views.backgroundColor
 import splitties.views.dsl.core.textView
+
+import com.benoitthore.enamel.layout_android.dp
+import com.benoitthore.enamel.layout_android.eViewGroup
 
 private val TITLE = "title"
 private val SUBTITLE = "subtitle"
