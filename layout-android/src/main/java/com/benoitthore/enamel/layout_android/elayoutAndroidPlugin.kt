@@ -11,8 +11,6 @@ import com.benoitthore.enamel.geometry.figures.ESizeMutable
 import com.benoitthore.enamel.geometry.layout.playground.PlaygroundServer
 import com.benoitthore.enamel.geometry.layout.refs.ELayoutRef
 import com.benoitthore.enamel.geometry.layout.refs.ELayoutRefObject
-import com.benoitthore.enamel.geometry.layout.refs.ELayoutTag
-import com.benoitthore.enamel.geometry.layout.refs.getLeafs
 import com.benoitthore.enamel.geometry.layout.serializer.ELayoutDeserializer
 import com.benoitthore.enamel.geometry.layout.transition.ETransition
 import com.benoitthore.enamel.geometry.layout.transition.SingleElementAnimator
