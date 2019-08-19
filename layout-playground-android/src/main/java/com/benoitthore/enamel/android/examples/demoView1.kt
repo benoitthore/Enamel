@@ -3,14 +3,12 @@ package com.benoitthore.enamel.android.examples
 import android.content.Context
 import android.graphics.Color
 import android.widget.TextView
-import com.benoitthore.enamel.android.dp
-import com.benoitthore.enamel.android.eViewGroup
 import com.benoitthore.enamel.android.randomColor
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.alignement.ERectEdge.*
 import com.benoitthore.enamel.geometry.layout.EEmptyLayout
 import com.benoitthore.enamel.geometry.layout.dsl.*
-import com.benoitthore.enamel.layout_android.EViewGroup
+import com.benoitthore.enamel.layout_android.*
 import splitties.views.backgroundColor
 import splitties.views.padding
 

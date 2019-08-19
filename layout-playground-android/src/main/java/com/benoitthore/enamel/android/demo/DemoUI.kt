@@ -1,17 +1,13 @@
 package com.benoitthore.enamel.android.demo
 
 import android.content.Context
-import com.benoitthore.enamel.android.dp
-import com.benoitthore.enamel.android.eViewGroup
 import com.benoitthore.enamel.android.examples.demoView1
 import com.benoitthore.enamel.android.randomColor
 import com.benoitthore.enamel.geometry.layout.dsl.*
 import com.benoitthore.enamel.geometry.alignement.*
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.layout.ELayout
-import com.benoitthore.enamel.layout_android.EViewGroup
-import com.benoitthore.enamel.layout_android.laidIn
-import com.benoitthore.enamel.layout_android.startServer
+import com.benoitthore.enamel.layout_android.*
 import splitties.views.backgroundColor
 import splitties.views.dsl.core.textView
 import splitties.views.padding
