@@ -5,13 +5,13 @@ import android.graphics.Color
 import android.widget.Toast
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.layout.dsl.*
-import com.benoitthore.enamel.layout_android.EViewGroup
-import com.benoitthore.enamel.layout_android.withTag
+import com.benoitthore.enamel.layout.android.EViewGroup
+import com.benoitthore.enamel.layout.android.withTag
 import splitties.views.backgroundColor
 import splitties.views.dsl.core.textView
 
-import com.benoitthore.enamel.layout_android.dp
-import com.benoitthore.enamel.layout_android.eViewGroup
+import com.benoitthore.enamel.layout.android.dp
+import com.benoitthore.enamel.layout.android.eViewGroup
 
 private val TITLE = "title"
 private val SUBTITLE = "subtitle"

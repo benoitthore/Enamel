@@ -31,7 +31,7 @@ dependencies {
 
     implementation rxJava.rxJava
 
-    compile group: 'org.json', name: 'json', version: '20180813'
+    implementation group: 'org.json', name: 'json', version: '20180813'
 
     // KTOR
     implementation ktor.core
