@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.layout_android
+package com.benoitthore.enamel.layout.android
 
 import android.animation.Animator
 import android.animation.ValueAnimator

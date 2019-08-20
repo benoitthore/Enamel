@@ -5,10 +5,10 @@ import android.graphics.Color
 import android.widget.TextView
 import com.benoitthore.enamel.android.randomColor
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
-import com.benoitthore.enamel.geometry.alignement.ERectEdge.*
-import com.benoitthore.enamel.geometry.layout.EEmptyLayout
 import com.benoitthore.enamel.geometry.layout.dsl.*
-import com.benoitthore.enamel.layout_android.*
+import com.benoitthore.enamel.layout.android.EViewGroup
+import com.benoitthore.enamel.layout.android.dp
+import com.benoitthore.enamel.layout.android.eViewGroup
 import splitties.views.backgroundColor
 import splitties.views.padding
 

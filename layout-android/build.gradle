@@ -89,7 +89,7 @@ dependencies {
     implementation kotlinDependencies.stdlib
     implementation kotlinDependencies.reflect
 
-    compile coroutines.android
+    api coroutines.android
 }
 
 
