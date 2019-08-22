@@ -33,5 +33,5 @@ fun ELayout.aligned(
 
 fun ELayout.arranged(alignement: EAlignment, snugged: Boolean = true) = EBoxLayout(this, alignement, snugged)
 
-fun ELayout.surroundedBy(start: ELayout, end: ELayout, axis: ERectEdge = ERectEdge.right) =
+fun ELayout.spreadBetween(start: ELayout, end: ELayout, axis: ERectEdge = ERectEdge.right) =
     end.aligned(axis, start.aligned(axis.opposite, this))
