@@ -16,3 +16,4 @@ doodle/
 .idea/
 gradle/
 local.properties
+.local/
