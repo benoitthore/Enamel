@@ -136,12 +136,12 @@ install {
 }
 
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
+    getArchiveClassifier().set('sources')
     from sourceSets.main.java.srcDirs
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    getArchiveClassifier().set('javadoc')
     from javadoc.destinationDir
 }
 
