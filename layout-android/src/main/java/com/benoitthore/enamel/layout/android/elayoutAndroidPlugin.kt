@@ -15,6 +15,7 @@ import com.benoitthore.enamel.geometry.layout.serializer.ELayoutDeserializer
 import com.benoitthore.enamel.geometry.layout.transition.ETransition
 import com.benoitthore.enamel.geometry.layout.transition.SingleElementAnimator
 import kotlinx.coroutines.Dispatchers
+import kotlin.system.exitProcess
 
 private fun Throwable.log(tag: String = "ERROR") = Log.e(tag, message, this)
 
@@ -26,7 +27,7 @@ fun <T : EViewGroup> T.startServer(port: Int = PlaygroundServer.defaultPort): T 
     PlaygroundServer.start(
         deserializer = deserializer,
         port = port,
-        onError = { e -> e.log(); System.exit(0) },
+        onError = { e -> e.log(); exitProcess(0) },
         onNewLayout = { newLayout ->
             mainThreadCoroutine {
                 transitionTo(newLayout)
