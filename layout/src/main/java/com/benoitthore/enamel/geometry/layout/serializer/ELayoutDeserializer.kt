@@ -17,7 +17,9 @@ private fun JSONObject._optNumber(key: String) = opt(key) as? Number // Required
 
 private fun String.toRectEdge() = ERectEdge.valueOf(this)
 private fun String.toAlignment() = EAlignment.valueOf(this)
-private fun JSONObject.toSize() = ESizeMutable(width = _getNumber("height"), height = _getNumber("height"))
+private fun JSONObject.toSize() =
+    ESizeMutable(width = _getNumber("height"), height = _getNumber("height"))
+
 private fun JSONObject.toOffset() =
     EOffset(
         left = _getNumber("left"),
@@ -134,11 +136,25 @@ class ELayoutDeserializer(
             )
         }
 
+        addDeserializer(EWeightLayout::class.java) { jsonObject ->
+            val weights = jsonObject.getJSONArray("weights").map { it as Number }
+
+            EWeightLayout(
+                alignment = jsonObject.getString("alignment").toAlignment(),
+                childLayouts = jsonObject.getJSONArray("children").deserialize(),
+                weights = weights,
+                spacing = jsonObject._getNumber("spacing")
+            )
+        }
+
     }
 
 
-    fun <T : ELayout> addDeserializer(clazz: Class<T>, deserializer: ELayoutDeserializer.(JSONObject) -> ELayout) {
-        deserializerMap[clazz] = deserializer as ELayoutDeserializer.(JSONObject) -> ELayout
+    fun <T : ELayout> addDeserializer(
+        clazz: Class<T>,
+        deserializer: ELayoutDeserializer.(JSONObject) -> ELayout
+    ) {
+        deserializerMap[clazz] = deserializer
     }
 
     fun readLayouts(jsonArray: JSONArray): MutableList<ELayout> {
@@ -147,8 +163,8 @@ class ELayoutDeserializer(
             .toMutableList()
     }
 
-    fun JSONObject.deserialize() = readLayout(this)
-    fun JSONArray.deserialize() = readLayouts(this)
+    private fun JSONObject.deserialize() = readLayout(this)
+    private fun JSONArray.deserialize() = readLayouts(this)
 
     fun readLayout(jsonObject: JSONObject): ELayout {
         val clazz = deserializeClass(jsonObject)

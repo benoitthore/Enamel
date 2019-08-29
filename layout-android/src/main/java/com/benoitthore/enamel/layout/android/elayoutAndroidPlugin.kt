@@ -35,6 +35,8 @@ fun <T : EViewGroup> T.startServer(port: Int = PlaygroundServer.defaultPort): T 
         }
     )
 
+    Log.i("ELayout","Make sure to run \"adb forward tcp:$port tcp:$port\"")
+
     return this
 }
 
