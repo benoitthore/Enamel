@@ -113,7 +113,7 @@ fun List<Number>.rectGroupWeights(
 ): ERectGroup {
 
     if (isEmpty()) {
-        TODO("TODO")
+        return ERectGroup(emptyList())
     }
 
     val spacing = spacing.toFloat()

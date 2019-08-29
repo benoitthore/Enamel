@@ -1,24 +1,17 @@
 package com.benoitthore.enamel.geometry.layout.dsl
 
 import com.benoitthore.enamel.geometry.alignement.EAlignment
+import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.figures.size
 import com.benoitthore.enamel.geometry.layout.EJustifiedLayout
 import com.benoitthore.enamel.geometry.layout.ELayout
 import com.benoitthore.enamel.geometry.layout.ESizingLayout
+import com.benoitthore.enamel.geometry.layout.EWeightLayout
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
 
 fun List<ELayout>.justified(alignment: EAlignment) = EJustifiedLayout(this.toMutableList(), alignment)
-/*
-    class Size(val size: ESize) : ELayoutSpace()
-    class Width(val width: Number) : ELayoutSpace()
-    class Height(val height: Number) : ELayoutSpace()
-    class Scale(val horizontal: Number?, val vertical: Number?) : ELayoutSpace()
-    class AspectFitting(val size: ESize) : ELayoutSpace()
-    class AspectFilling(val size: ESize) : ELayoutSpace()
-    class Func(val f: (ESize) -> ESize) : ELayoutSpace()
- */
 
 fun ELayout.sized(size: ESize) = ESizingLayout(this, ESizingLayout.ELayoutSpace.Size(size))
 fun ELayout.sized(width: Number, height: Number) = sized(width size height)
@@ -36,7 +29,7 @@ fun ELayout.filling(width: Number, height: Number) = filling(width size height)
 fun ELayout.scaled(x: Number? = null, y: Number? = null) = ESizingLayout(this, ESizingLayout.ELayoutSpace.Scale(x, y))
 fun ELayout.scaled(tuple2: Tuple2) = scaled(tuple2.v1, tuple2.v2)
 
-//////
+// Lists
 
 fun List<ELayout>.sized(size: ESize) = map { it.sized(size) }
 fun List<ELayout>.sized(width: Number, height: Number) = map { it.sized(width, height) }
@@ -54,3 +47,35 @@ fun List<ELayout>.filling(width: Number, height: Number) = map { it.filling(widt
 fun List<ELayout>.scaled(tuple2: Tuple2) = map { it.scaled(tuple2) }
 fun List<ELayout>.scaled(x: Number, y: Number) = map { it.scaled(x, y) }
 
+// Weights
+fun List<ELayout>.equallySized(alignment: ELayoutAxis, spacing: Number = 0) =
+    EWeightLayout(
+        alignment = when(alignment){
+            ELayoutAxis.vertical -> EAlignment.bottomCenter
+            ELayoutAxis.horizontal -> EAlignment.rightCenter
+        },
+        childLayouts = this,
+        weights = List(size) { 1 },
+        spacing = spacing
+    )
+
+fun List<Pair<ELayout, Number>>.weighted(
+    alignment: EAlignment,
+    spacing: Number = 0
+): EWeightLayout {
+
+    val childLayouts = ArrayList<ELayout>(size)
+    val weights = ArrayList<Number>(size)
+
+    forEach { (layout, weight) ->
+        childLayouts += layout
+        weights += weight
+    }
+
+    return EWeightLayout(
+        alignment = alignment,
+        childLayouts = childLayouts,
+        weights = weights,
+        spacing = spacing
+    )
+}
