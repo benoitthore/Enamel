@@ -21,25 +21,36 @@ import com.benoitthore.enamel.geometry.layout.refs.ELayoutTag
 import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
 
 
-
 open class EViewGroup : ViewGroup {
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
     fun <T : View> prepareView(clazz: Class<T>, tag: String, builder: T.() -> Unit): T {
         val view = clazz.contextConstructor.newInstance(context)
 
         view.tag = tag
         view.builder()
-
         _viewList.add(view)
+
         return view
     }
 
+
     inline fun <reified T : View> prepareView(tag: String, noinline builder: T.() -> Unit = {}) =
         prepareView(T::class.java, tag, builder)
+
+    fun <T : View> prepareView(view: T, tag: String, builder: T.() -> Unit = {}): T {
+        view.tag = tag
+        view.builder()
+        _viewList.add(view)
+        return view
+    }
 
 
     // List of views that can be found by tags
@@ -108,7 +119,7 @@ open class EViewGroup : ViewGroup {
                 transitionTo(layout)
             }
         } else {
-        layout.updateLeaves()
+            layout.updateLeaves()
             transition.to(layout, eframe)
         }
     }
@@ -197,6 +208,7 @@ open class EViewGroup : ViewGroup {
             withTag(tag)
         }
     }
+
     fun <T : View> T.eLayoutRef() = laidIn(this@EViewGroup)
     fun <T : View> List<T>.eLayoutRef() = laidIn(this@EViewGroup)
 
