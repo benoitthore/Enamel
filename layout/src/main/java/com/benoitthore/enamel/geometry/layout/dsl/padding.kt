@@ -4,6 +4,10 @@ import com.benoitthore.enamel.geometry.layout.ELayout
 import com.benoitthore.enamel.geometry.layout.EPaddingLayout
 import com.benoitthore.enamel.geometry.primitives.EOffset
 
+
+fun ELayout.paddedHorizontally(value: Number) = padded(left = value, right = value)
+fun ELayout.paddedVertically(value: Number) = padded(top = value, bottom = value)
+
 fun ELayout.padded(offset: EOffset) = EPaddingLayout(this, offset)
 fun ELayout.padded(all: Number) = EPaddingLayout(this, EOffset(all))
 fun ELayout.padded(
