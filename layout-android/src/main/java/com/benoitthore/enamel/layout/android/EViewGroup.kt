@@ -14,11 +14,8 @@ import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.figures.ESizeMutable
 import com.benoitthore.enamel.geometry.layout.EEmptyLayout
 import com.benoitthore.enamel.geometry.layout.ELayout
-import com.benoitthore.enamel.geometry.layout.refs.getLeaves
 import com.benoitthore.enamel.geometry.layout.ELayoutLeaf
-import com.benoitthore.enamel.geometry.layout.refs.ELayoutRef
-import com.benoitthore.enamel.geometry.layout.refs.ELayoutTag
-import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
+import com.benoitthore.enamel.geometry.layout.refs.*
 
 
 open class EViewGroup : ViewGroup {
@@ -139,7 +136,7 @@ open class EViewGroup : ViewGroup {
             buffer = _paddedFrame
         )
 
-//        // TODO Fix this hack
+//        // TODO Fix this hack, arrange should only be called by ETransition
         if (!transition.isInTransition) {
             layout.arrange(eframe)
         }
