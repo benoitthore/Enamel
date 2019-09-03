@@ -32,7 +32,7 @@ fun helloWorld(context: Context): EViewGroup = context.eViewGroup {
             backgroundColor = Color.RED
         }
         .withTag(TITLE) // Add a transition tag
-        .eLayoutRef() // create layout reference
+        .laid() // create layout reference
 
     val subTitle = context
         .textView {
@@ -42,7 +42,7 @@ fun helloWorld(context: Context): EViewGroup = context.eViewGroup {
             backgroundColor = Color.BLUE
             text = "Sub Title"
         }
-        .eLayoutRef() // create layout reference
+        .laid() // create layout reference
         .withTag(SUBTITLE) // Add a transition tag
 
     listOf(title, subTitle)
@@ -53,7 +53,7 @@ fun helloWorld(context: Context): EViewGroup = context.eViewGroup {
 
 Let's go through it step by step. TITLE and SUBTITLE can be ignored for now, they're used for transition.
 
-The first 2 statements create 2 TextViews using Splitties' DSL. However, these are Views and can't directly be used in the ELayout environment. They are converted into ELayout instances using the `elayoutRef()`. We will see what `withTag(TAG)` does later when we look at the transition API.
+The first 2 statements create 2 TextViews using Splitties' DSL. However, these are Views and can't directly be used in the ELayout environment. They are converted into ELayout instances using the `laid()`. We will see what `withTag(TAG)` does later when we look at the transition API.
 
 
 The last line is where the layout is actually created:

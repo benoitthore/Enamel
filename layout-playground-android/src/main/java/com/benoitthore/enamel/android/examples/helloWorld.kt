@@ -33,7 +33,7 @@ fun helloWorld(context: Context): EViewGroup = context.eViewGroup {
             backgroundColor = Color.RED
         }
         .withTag(TITLE) // Add a transition tag
-        .eLayoutRef() // create layout reference
+        .laid() // create layout reference
 
     val subTitle = context
         .textView {
@@ -43,7 +43,7 @@ fun helloWorld(context: Context): EViewGroup = context.eViewGroup {
             backgroundColor = Color.BLUE
             text = "Sub Title"
         }
-        .eLayoutRef() // create layout reference
+        .laid() // create layout reference
         .withTag(SUBTITLE) // Add a transition tag
 
     listOf(title, subTitle)
