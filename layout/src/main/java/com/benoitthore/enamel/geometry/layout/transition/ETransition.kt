@@ -56,6 +56,7 @@ class ETransition<V : Any>(
             ?: throw Exception("No bound provided, transition cannot proceed")
 
         if (!animate) {
+            layout?.getRefs<V>()?.forEach { it.ref.removeFromParent() }
             newLayout.arrange(bounds)
             layout = newLayout
             return
