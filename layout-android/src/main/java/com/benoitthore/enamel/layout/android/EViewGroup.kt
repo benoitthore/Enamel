@@ -203,13 +203,13 @@ open class EViewGroup : ViewGroup {
     }
 
 
-    fun <T : View> T.eLayoutRef(tag: Any? = null) = eLayoutRef().apply {
+    fun <T : View> T.laid(tag: Any? = null) = laid().apply {
         if (tag != null) {
             withTag(tag)
         }
     }
 
-    fun <T : View> T.eLayoutRef() = laidIn(this@EViewGroup)
-    fun <T : View> List<T>.eLayoutRef() = laidIn(this@EViewGroup)
+    fun <T : View> T.laid() = laidIn(this@EViewGroup)
+    fun <T : View> List<T>.laid() = laidIn(this@EViewGroup)
 
 }
