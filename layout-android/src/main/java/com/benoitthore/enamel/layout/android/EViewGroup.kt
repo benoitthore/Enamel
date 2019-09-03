@@ -86,7 +86,7 @@ open class EViewGroup : ViewGroup {
     val isInTransition get() = transition.isInTransition
 
     var layout: ELayout = EEmptyLayout
-        set(value) {
+        internal set(value) {
             field = value
             layout.updateLeaves()
         }
