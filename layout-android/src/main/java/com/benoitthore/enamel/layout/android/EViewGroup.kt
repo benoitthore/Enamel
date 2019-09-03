@@ -88,40 +88,27 @@ open class EViewGroup : ViewGroup {
 
     val isInTransition get() = transition.isInTransition
 
-    val layout: ELayout
-        get() = transition.layout ?: EEmptyLayout
-//        set(value) {
-//            val originalLayout = layout
-//            transition.layout = value
-//
-//            if (width == 0 || height == 0) {
-//                doOnNextLayout {
-//                    layout = value
-//                }
-//            } else {
-//
-//                // remove previous children
-//                originalLayout.getAllChildren().forEach {
-//                    if (it is ELayoutRef<*>) {
-//                        (it.ref.viewRef as View).let(::removeView)
-//                    }
-//                }
-//
-//                layout.updateLeaves()
-//                value.arrange(eframe)
-//            }
-//        }
+    var layout: ELayout = EEmptyLayout
+        set(value) {
+            field = value
+            layout.updateLeaves()
+        }
 
-    fun transitionTo(layout: ELayout, animate : Boolean = true) {
-
+    fun updateLayout(animate: Boolean = true) {
         if (width == 0 || height == 0) {
             doOnNextLayout {
-                transitionTo(layout)
+                transition.to(layout, eframe, animate)
             }
         } else {
-            layout.updateLeaves()
-            transition.to(layout, eframe,animate)
+
+            transition.to(layout, eframe, animate)
         }
+
+    }
+
+    fun transitionTo(layout: ELayout, animate: Boolean = true) {
+        this.layout = layout
+        updateLayout(animate)
     }
 
 
