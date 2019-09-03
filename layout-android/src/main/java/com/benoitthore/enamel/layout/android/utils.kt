@@ -9,7 +9,7 @@ import com.benoitthore.enamel.geometry.layout.refs.ELayoutRef
 fun Context.eViewGroup(block: EViewGroup.() -> ELayout): EViewGroup = EViewGroup(
     this
 ).apply {
-    layout = block()
+    transitionTo(block(), false)
 }
 
 val Number.dp: Int

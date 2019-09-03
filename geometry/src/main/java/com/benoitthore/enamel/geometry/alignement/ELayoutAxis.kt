@@ -1,8 +1,10 @@
 package com.benoitthore.enamel.geometry.alignement
 
+import com.benoitthore.enamel.core.print
 import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.primitives.EOffset
 import com.benoitthore.enamel.geometry.primitives.times
+import java.io.File
 
 enum class ELayoutAxis {
     vertical, horizontal

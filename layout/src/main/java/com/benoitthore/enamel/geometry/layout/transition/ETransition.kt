@@ -48,8 +48,19 @@ class ETransition<V : Any>(
         GlobalScope.launch(mainThreadDispatcher, block = block)
     }
 
-    fun to(newLayout: ELayout, bounds: ERect? = null) {
+    fun to(newLayout: ELayout, bounds: ERect? = null, animate: Boolean = true) {
         val transition = this
+
+        val bounds =
+            bounds ?: transition.bounds
+            ?: throw Exception("No bound provided, transition cannot proceed")
+
+        if (!animate) {
+            newLayout.arrange(bounds)
+            layout = newLayout
+            return
+        }
+
         executeOnUiThread {
 
             if (isInTransition) {
@@ -58,8 +69,7 @@ class ETransition<V : Any>(
             }
 
             isInTransition = true
-            val bounds =
-                bounds ?: transition.bounds ?: throw Exception("No bound provided, transition cannot proceed")
+
             val newRefs = newLayout.getRefs<V>()
 
 
@@ -142,7 +152,11 @@ class ETransition<V : Any>(
                 (it as? ELayoutRef<V>)?.let { new ->
 
                     updatingRefs[new]?.let { old ->
-                        updateAnimations += getUpdateAnimation.build(from = old, to = new, ref = new)
+                        updateAnimations += getUpdateAnimation.build(
+                            from = old,
+                            to = new,
+                            ref = new
+                        )
                     }
                     new.isInMeasureMode = false
                 }
