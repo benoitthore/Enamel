@@ -1,4 +1,4 @@
-# ELayout
+# ELayout (Work in progress)
 ## Demo
 Demo video [available here](https://www.youtube.com/watch?v=MmUCau26tLg)
 ## Motivation
