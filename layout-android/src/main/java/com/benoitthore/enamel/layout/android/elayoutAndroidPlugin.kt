@@ -17,7 +17,7 @@ import com.benoitthore.enamel.geometry.layout.transition.SingleElementAnimator
 import kotlinx.coroutines.Dispatchers
 import kotlin.system.exitProcess
 
-private fun Throwable.log(tag: String = "ERROR") = Log.e(tag, message, this)
+private fun Throwable.log(tag: String = "EViewGroup") = Log.e(tag, message, this)
 
 fun <T : EViewGroup> T.startServer(port: Int = PlaygroundServer.defaultPort): T {
 

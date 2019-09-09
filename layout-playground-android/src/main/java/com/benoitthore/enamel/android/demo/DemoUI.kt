@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.android.demo
 
 import android.content.Context
-import com.benoitthore.enamel.android.examples.demoView1
+import com.benoitthore.enamel.android.examples.ELayoutTestingView
 import com.benoitthore.enamel.android.randomColor
 import com.benoitthore.enamel.geometry.layout.dsl.*
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
@@ -16,7 +16,7 @@ class DemoUI(val context: Context) {
     val views: MutableMap<String, EViewGroup> = mutableMapOf()
 
     init {
-        views += "KTS playground" to context.demoView1().startServer()
+        views += "KTS playground" to ELayoutTestingView(context).startServer()
     }
 
     private var selected: String? = null

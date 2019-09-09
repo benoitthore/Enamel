@@ -17,6 +17,7 @@ import com.benoitthore.enamel.geometry.layout.ELayout
 import com.benoitthore.enamel.geometry.layout.ELayoutLeaf
 import com.benoitthore.enamel.geometry.layout.playground.PlaygroundServer
 import com.benoitthore.enamel.geometry.layout.playground.sendToPlayground
+import com.benoitthore.enamel.geometry.layout.refs.ELayoutTag
 import com.benoitthore.enamel.processingtest.kotlinapplet.colorHSL
 import com.benoitthore.enamel.processingtest.kotlinapplet.randomColor
 
@@ -45,32 +46,48 @@ object ProcessingTestMain {
     fun <T> T.asList(): List<T> = listOf(this)
     @JvmStatic
     fun main(args: Array<String>) {
-
+        var layout: ELayout = EEmptyLayout
 
         PlaygroundApplet.start(800, 800) {
 
-
-            val big = ELayoutLeaf(colorHSL(.25))
-//            val small = ELayoutLeaf(blue)
+            //
+//            val big = ELayoutLeaf(colorHSL(.25))
+////            val small = ELayoutLeaf(blue)
+////
+////            val smallLayout = small
+////                .sizedSquare(200)
+////                .padded(50)
+////                .arranged(center, snugged = true)
+////                .scaled(y = 2)
+////                .arranged(topRight)
+////
+////            val layout = big
+////                .tracked(smallLayout)
+////                .height(100)
+////                .padded(50)
+////                .aligned(top)
 //
-//            val smallLayout = small
-//                .sizedSquare(200)
+////            var layout : ELayout = EEmptyLayout
+//            var layout: ELayout = ELayoutLeaf(colorHSL(.25))
+//                .sizedSquare(100)
+//                .scaled(0.5, 1)
 //                .padded(50)
-//                .arranged(center, snugged = true)
-//                .scaled(y = 2)
-//                .arranged(topRight)
-//
-//            val layout = big
-//                .tracked(smallLayout)
-//                .height(100)
-//                .padded(50)
-//                .aligned(top)
+//                .arranged(topLeft)
 
-//            var layout : ELayout = EEmptyLayout
-            var layout: ELayout = ELayoutLeaf(colorHSL(.25))
-                .sizedSquare(100)
-                .scaled(0.5, 1)
-                .padded(50)
+
+            val redColor = 0x88_ff_00_00.toInt()
+            val blueColor = 0x88_00_00_ff.toInt()
+
+            val red = "red".layoutTag(redColor)
+            val blue = "blue".layoutTag(blueColor)
+
+            red.tracked(
+                blue.sized(100,100)
+                    .arranged(EAlignment.center)
+                    .scaled(2,1.5)
+                    .arranged(topLeft)
+            )
+                .sized(500, 500)
                 .arranged(topLeft)
 
             coroutine {
@@ -79,10 +96,10 @@ object ProcessingTestMain {
                 }
             }
 
+
             onDraw {
 
-                background(0)
-                fill(255f, 0f, 0f)
+                background(255)
 
 
 
