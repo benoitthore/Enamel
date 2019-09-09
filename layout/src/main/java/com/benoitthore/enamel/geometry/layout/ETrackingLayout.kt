@@ -7,7 +7,7 @@ class ETrackingLayout(src: ELayout = ELayoutLeaf.unit, dst: ELayout = ELayoutLea
 
     private val _childLayouts: MutableList<ELayout> = mutableListOf(src, dst)
     var src = src
-        set(value) {
+        internal set(value) {
             field = value
             _childLayouts.clear()
             _childLayouts.add(src)
@@ -15,7 +15,7 @@ class ETrackingLayout(src: ELayout = ELayoutLeaf.unit, dst: ELayout = ELayoutLea
         }
 
     var dst = dst
-        set(value) {
+        internal set(value) {
             field = value
             _childLayouts.clear()
             _childLayouts.add(src)

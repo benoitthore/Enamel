@@ -38,8 +38,9 @@ class EWeightLayout(
         )
     }
 
-    private fun sizes(toFit: ESize): List<ESize> {
-        return childLayouts.map { it.size(toFit) }
+    override fun toString(): String {
+        return "EWeightLayout(alignment=$alignment, childLayouts=$childLayouts, weights=$weights, spacing=$spacing)"
     }
+
 
 }

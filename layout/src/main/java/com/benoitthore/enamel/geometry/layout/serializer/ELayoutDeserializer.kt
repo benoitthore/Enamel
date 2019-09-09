@@ -15,6 +15,7 @@ import java.lang.Exception
 private fun JSONObject._getNumber(key: String) = get(key) as Number // Required to run on Android
 private fun JSONObject._optNumber(key: String) = opt(key) as? Number // Required to run on Android
 
+private fun JSONArray.iterable() = (0 until length()).map { get(it) }
 private fun String.toRectEdge() = ERectEdge.valueOf(this)
 private fun String.toAlignment() = EAlignment.valueOf(this)
 private fun JSONObject.toSize() =
@@ -137,7 +138,7 @@ class ELayoutDeserializer(
         }
 
         addDeserializer(EWeightLayout::class.java) { jsonObject ->
-            val weights = jsonObject.getJSONArray("weights").map { it as Number }
+            val weights = jsonObject.getJSONArray("weights").iterable().map { it as Number }
 
             EWeightLayout(
                 alignment = jsonObject.getString("alignment").toAlignment(),

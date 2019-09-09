@@ -6,21 +6,16 @@ import android.widget.TextView
 import com.benoitthore.enamel.android.randomColor
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.layout.dsl.*
+import com.benoitthore.enamel.geometry.layout.playground.PlaygroundServer
 import com.benoitthore.enamel.layout.android.EViewGroup
 import com.benoitthore.enamel.layout.android.dp
 import com.benoitthore.enamel.layout.android.eViewGroup
+import com.benoitthore.enamel.layout.android.startServer
 import splitties.views.backgroundColor
 import splitties.views.padding
 
 
 /* KTS
-import com.benoitthore.enamel.geometry.layout.dsl.*
-import com.benoitthore.enamel.geometry.alignement.*
-import com.benoitthore.enamel.geometry.alignement.EAlignment.*
-import com.benoitthore.enamel.geometry.alignement.ERectEdge.*
-import com.benoitthore.enamel.geometry.layout.ELayout
-import com.benoitthore.enamel.geometry.layout.playground.sendToPlayground
-
 val Number.dp get() = toFloat() * 3
 
 
@@ -42,8 +37,12 @@ centerLayout.spreadBetween(leftLayout, rightLayout)
     .sendToPlayground()
 */
 
-fun Context.demoView1(): EViewGroup {
-    return eViewGroup {
+fun ELayoutTestingView(
+    context: Context,
+    startServer: Boolean = false,
+    serverPort: Int = PlaygroundServer.defaultPort
+): EViewGroup {
+    return context.eViewGroup {
 
         this@eViewGroup.backgroundColor = Color.LTGRAY
 
@@ -55,13 +54,13 @@ fun Context.demoView1(): EViewGroup {
         }
 
 
-        list.forEach { content ->
-            prepareView<TextView>(tag = content) {
+        list.forEach { layoutTag ->
+            prepareView<TextView>(tag = layoutTag) {
                 backgroundColor = randomColor()
 
                 padding = 16.dp
-                text = content
-                tag = content
+                text = layoutTag
+                tag = layoutTag
             }
         }
 
@@ -72,5 +71,9 @@ fun Context.demoView1(): EViewGroup {
             .stacked(bottomCenter, spacing = 16.dp).snugged()
             .padded(16.dp)
             .arranged(topLeft)
+    }.also { viewGroup ->
+        if (startServer) {
+            viewGroup.startServer(serverPort)
+        }
     }
 }

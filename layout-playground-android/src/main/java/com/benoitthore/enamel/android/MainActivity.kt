@@ -8,7 +8,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(helloWorld(this))
+        setContentView(ELayoutTestingView(this, true))
     }
 
 }
