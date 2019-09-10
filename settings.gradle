@@ -1,1 +1,1 @@
-include ':ProcessingTest', ':core', ':geometry', ':layout', ':layout-android' , ':layout-playground-android'
+include ':ProcessingTest', ':core', ':geometry', ':layout', ':layout-android' , ':layout-playground-android',':geometry-playground-android'

@@ -100,7 +100,7 @@ class EAngleMutable constructor(override var value: Float = 0f, override var typ
     EAngle(value, type), Resetable {
     companion object {
         val zero get() = 0.degrees()
-        val unit get() = 1.rotation()
+        val unit get() = 1.rotations()
     }
 
     constructor(angle: EAngle) : this(angle.value, angle.type)
@@ -142,7 +142,7 @@ fun Number.radians(buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
         AngleType.RADIAN
     )
 
-fun Number.rotation(buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
+fun Number.rotations(buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
     buffer.set(
         this.f,
         AngleType.ROTATION
