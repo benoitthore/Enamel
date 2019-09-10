@@ -2,6 +2,7 @@ package com.benoitthore.enamel.geometry.figures
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.benoitthore.enamel.core.math.*
+import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.primitives.*
 
 
@@ -13,12 +14,13 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
 
     private fun Float.opposite() = 1f - this
 
+    init {
+        allocateDebugMessage()
+    }
+
     companion object {
         val unit = ELine(start = EPointMutable.zero, end = EPointMutable.unit)
         val zero = ELine(start = EPointMutable.zero, end = EPointMutable.zero)
-
-        val START = 0f
-        val END = 1f
     }
 
     @get:JsonIgnore
@@ -97,12 +99,20 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
         }
     }
 
-    fun perpendicularPointLeft(distanceFromLine: Number, distanceTowardsEndPoint: Number, towards: Float): EPoint {
+    fun perpendicularPointLeft(
+        distanceFromLine: Number,
+        distanceTowardsEndPoint: Number,
+        towards: Float
+    ): EPoint {
         val x = pointTowards(distanceTowardsEndPoint, towards)
         return x.offsetAngle(angle = angle - 90.degrees(), distance = distanceFromLine)
     }
 
-    fun perpendicularPointRight(distanceFromLine: Number, distanceTowardsEndPoint: Number, towards: Float) =
+    fun perpendicularPointRight(
+        distanceFromLine: Number,
+        distanceTowardsEndPoint: Number,
+        towards: Float
+    ) =
         perpendicularPointLeft(-distanceFromLine.f, distanceTowardsEndPoint, towards)
 
     fun perpendicular(
@@ -182,7 +192,9 @@ class ELineMutable(
         end.y = y2.f
     }
 
-    fun selfOffset(xOff: Number, yOff: Number) = start.offset(xOff, yOff) line end.offset(xOff, yOff)
+    fun selfOffset(xOff: Number, yOff: Number) =
+        start.offset(xOff, yOff) line end.offset(xOff, yOff)
+
     fun selfOffset(p: EPoint) = selfOffset(p.x, p.y)
     fun selfScale(width: Number, height: Number): ELineMutable {
         start.x *= width.f
@@ -230,7 +242,14 @@ fun ELine.closetPointOnSegment(point: EPoint) = getClosestPointOnSegment(
  * @param py - point y coord
  * @return closets point on segment to point
  */
-private fun getClosestPointOnSegment(sx1: Float, sy1: Float, sx2: Float, sy2: Float, px: Float, py: Float): EPoint {
+private fun getClosestPointOnSegment(
+    sx1: Float,
+    sy1: Float,
+    sx2: Float,
+    sy2: Float,
+    px: Float,
+    py: Float
+): EPoint {
     val xDelta = sx2 - sx1
     val yDelta = sy2 - sy1
 
@@ -285,7 +304,10 @@ operator fun ELine.component2() = end
 fun List<EPoint>.pointAtFraction(fraction: Number, buffer: EPointMutable = EPointMutable()) =
     pointAtDistance(fraction.toFloat() * length, buffer)
 
-fun List<EPoint>.pointAtDistance(distance: Number, buffer: EPointMutable = EPointMutable()): EPointMutable {
+fun List<EPoint>.pointAtDistance(
+    distance: Number,
+    buffer: EPointMutable = EPointMutable()
+): EPointMutable {
     var last: EPoint? = null
     val distance = distance.toFloat()
     var remainingDistance = distance

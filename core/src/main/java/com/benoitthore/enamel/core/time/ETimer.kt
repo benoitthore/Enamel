@@ -12,12 +12,19 @@ open class ETimer {
     }
 
     protected var startAt: Long = System.currentTimeMillis()
+    var isStarted = false
+        private set
 
-    val elapsed get() = System.currentTimeMillis() - startAt
+    val elapsed get() = if (isStarted) System.currentTimeMillis() - startAt else 0
 
 
     fun start() {
+        isStarted = true
         startAt = System.currentTimeMillis()
+    }
+
+    fun stop() {
+        isStarted = false
     }
 
     override fun toString(): String {

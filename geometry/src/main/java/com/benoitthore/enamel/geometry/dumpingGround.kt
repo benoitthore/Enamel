@@ -3,19 +3,41 @@ package com.benoitthore.enamel.geometry
 import com.benoitthore.enamel.geometry.AllocationTracker.allocationCountMap
 import com.benoitthore.enamel.geometry.AllocationTracker.debugAllocations
 import com.benoitthore.enamel.geometry.AllocationTracker.shouldPrint
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 
 /*
 This file is used to keep track of allocations, might be removed when library is done
  */
 
-inline fun <T> allocate(block: () -> T) = if (debugAllocations) {
-    debugAllocations = false
-    val ret = block()
-    debugAllocations = true
-    ret
-} else {
-    block()
+inline fun <T> allocate(block: () -> T): T {
+    return if (debugAllocations) {
+        debugAllocations = false
+        val ret = block()
+        debugAllocations = true
+        ret
+    } else {
+        block()
+    }
+}
+
+@ExperimentalContracts
+inline fun <T> allocateWithContract(block: () -> T): T {
+
+    contract {
+        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+    }
+
+    return if (debugAllocations) {
+        debugAllocations = false
+        val ret = block()
+        debugAllocations = true
+        ret
+    } else {
+        block()
+    }
 }
 
 object AllocationTracker {
