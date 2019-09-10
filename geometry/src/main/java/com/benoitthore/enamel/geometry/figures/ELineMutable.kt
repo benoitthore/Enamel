@@ -2,6 +2,7 @@ package com.benoitthore.enamel.geometry.figures
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.benoitthore.enamel.core.math.*
+import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.primitives.*
 
@@ -180,11 +181,17 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
 class ELineMutable(
     override val start: EPointMutable = EPointMutable.zero,
     override val end: EPointMutable = EPointMutable.zero
-) : ELine(start, end) {
+) : ELine(start, end), Resetable {
 
-    fun set(start: EPoint, end: EPoint) = set(start.x, start.y, end.x, end.y)
+    fun set(start: EPoint = this.start, end: EPoint = this.end) =
+        set(start.x, start.y, end.x, end.y)
 
-    fun set(x1: Number, y1: Number, x2: Number, y2: Number) = apply {
+    fun set(
+        x1: Number = start.x,
+        y1: Number = start.y,
+        x2: Number = end.x,
+        y2: Number = end.y
+    ) = apply {
         start.x = x1.f
         start.y = y1.f
 
@@ -192,8 +199,10 @@ class ELineMutable(
         end.y = y2.f
     }
 
-    fun selfOffset(xOff: Number, yOff: Number) =
-        start.offset(xOff, yOff) line end.offset(xOff, yOff)
+    fun selfOffset(xOff: Number, yOff: Number) = apply {
+        start.selfOffset(xOff, yOff)
+        end.selfOffset(xOff, yOff)
+    }
 
     fun selfOffset(p: EPoint) = selfOffset(p.x, p.y)
     fun selfScale(width: Number, height: Number): ELineMutable {
@@ -203,7 +212,11 @@ class ELineMutable(
         start.y *= height.f
         end.y *= height.f
         return this
+    }
 
+    override fun reset() {
+        start.reset()
+        end.reset()
     }
 }
 
