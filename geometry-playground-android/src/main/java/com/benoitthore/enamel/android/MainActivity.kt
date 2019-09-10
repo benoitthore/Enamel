@@ -4,10 +4,13 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.print
 import com.benoitthore.enamel.core.time.ETimer
 import com.benoitthore.enamel.geometry.AllocationTracker
 import com.benoitthore.enamel.geometry.alignement.EAlignment.center
+import com.benoitthore.enamel.geometry.figures.ECircle
+import com.benoitthore.enamel.geometry.figures.ECircleMutable
 import com.benoitthore.enamel.geometry.layout.dsl.arranged
 import com.benoitthore.enamel.geometry.primitives.AngleType
 import com.benoitthore.enamel.geometry.primitives.degrees
@@ -30,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         val timer = ETimer()
         val targetFrameDuration = 16f
-        val frameIncrease = 360 / 60 / 4
+        val frameIncrease = 1 / 60f
 
         val angle = 0.degrees()
 
@@ -53,9 +56,16 @@ class MainActivity : AppCompatActivity() {
                             angle.selfOffset((deltaTime * frameIncrease).radians(anglePool.next))
                         )
                         .map { it.toCircle(10.dp, circlePool.next) }
-                        .forEachIndexed { i, it ->
+                        .forEachIndexed { i, it: ECircle ->
+                            paint.strokeWidth = 0.dp.f
                             paint.color = if (i == 0) Color.RED else Color.BLACK
                             it.draw(paint)
+
+                            linePool().let { line ->
+                                paint.color = Color.CYAN
+                                paint.strokeWidth = 1.dp.f
+                                line.set(it.center, frame.center(pointPool())).draw(paint)
+                            }
                         }
 
                 }
