@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.android
+package com.benoitthore.enamel.android.extract
 
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -27,7 +27,6 @@ fun ERect.toAndroidRectF(buffer: RectF) = buffer.apply {
 }
 
 private val bufferRectF = RectF()
-val bufferERectMutable = ERectMutable()
 
 ////
 ////
@@ -71,24 +70,4 @@ fun Canvas.drawRoundRect(rect: ERect, rx: Number, ry: Number, paint: Paint) {
             paint
         )
     }
-}
-
-////
-////
-////
-
-fun View.frame(buffer: ERectMutable) = buffer.set(0, 0, width, height)
-fun View.paddedFrame(buffer: ERectMutable) = frame(buffer).selfPadding(
-    top = paddingTop,
-    bottom = paddingBottom,
-    left = paddingLeft,
-    right = paddingRight
-)
-
-inline fun View.frame(block: (ERect) -> Unit) = synchronized(bufferERectMutable) {
-    frame(bufferERectMutable).apply(block)
-}
-
-inline fun View.paddedFrame(block: (ERect) -> Unit) = synchronized(bufferERectMutable) {
-    paddedFrame(bufferERectMutable).apply(block)
 }

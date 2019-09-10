@@ -7,16 +7,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.print
-import com.benoitthore.enamel.core.threading.coroutine
 import com.benoitthore.enamel.core.time.ETimer
 import com.benoitthore.enamel.geometry.AllocationTracker
 import com.benoitthore.enamel.geometry.alignement.EAlignment.center
 import com.benoitthore.enamel.geometry.alignement.EAlignment.rightCenter
 import com.benoitthore.enamel.geometry.figures.ECircle
-import com.benoitthore.enamel.geometry.figures.ECircleMutable
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.layout.dsl.*
-import com.benoitthore.enamel.geometry.primitives.AngleType
 import com.benoitthore.enamel.geometry.primitives.degrees
 import com.benoitthore.enamel.geometry.primitives.radians
 import com.benoitthore.enamel.geometry.toCircle
@@ -46,32 +43,30 @@ fun Context.sleepCanvasView(sleep: Long? = null): CanvasTestView {
         } else 1f
         timer.start()
 
-        deltaTime.print
         pool.apply {
 
             canvas.drawColor(Color.RED)
-            paddedFrame { frame ->
-                frame.innerCircle(circlePool())
-                    .selfInset(width * 0.05)
-                    .toListOfPoint(
-                        pointPool.list(50),
-                        angle.selfOffset((deltaTime * frameIncrease).radians(anglePool()))
-                    )
-                    .map { it.toCircle(width * 0.01, circlePool()) }
-                    .forEachIndexed { i, it: ECircle ->
-                        paint.strokeWidth = 0.dp.f
-                        paint.color =
-                            if (i == 0) Color.WHITE else Color.BLACK
-                        it.draw(paint)
+            frame.innerCircle(circlePool())
+                .selfInset(width * 0.05)
+                .toListOfPoint(
+                    pointPool.list(50),
+                    angle.selfOffset((deltaTime * frameIncrease).radians(anglePool()))
+                )
+                .map { it.toCircle(width * 0.01, circlePool()) }
+                .forEachIndexed { i, it: ECircle ->
+                    paint.strokeWidth = 0.dp.f
+                    paint.color =
+                        if (i == 0) Color.WHITE else Color.BLACK
+                    it.draw(paint)
 
-                        linePool().let { line ->
-                            paint.color = Color.CYAN
-                            paint.strokeWidth = width * 0.005f
-                            line.set(it.center, frame.center(pointPool())).draw(paint)
-                        }
+                    linePool().let { line ->
+                        paint.color = Color.CYAN
+                        paint.strokeWidth = width * 0.005f
+                        line.set(it.center, frame.center(pointPool())).draw(paint)
                     }
+                }
 
-            }
+
         }
 
         GlobalScope.launch(Dispatchers.Main) {
