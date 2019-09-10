@@ -38,6 +38,7 @@ class Pool<T : Any>(val size: Int, val init: (Int) -> T) {
 //    val next get() = init(0)
 
     operator fun invoke() = next
+    operator fun invoke(size: Int) = list(size)
 
     private val listBuffer = MutableList(size) { list[it] }
 

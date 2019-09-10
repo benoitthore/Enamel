@@ -5,9 +5,14 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
+import com.benoitthore.enamel.android.extract.drawCircle
+import com.benoitthore.enamel.android.extract.drawLine
+import com.benoitthore.enamel.android.extract.drawRect
+import com.benoitthore.enamel.android.extract.drawRoundRect
 import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
 import com.benoitthore.enamel.geometry.figures.ERect
+import com.benoitthore.enamel.geometry.figures.ERectMutable
 
 class CanvasTestView : View {
     constructor(context: Context?) : super(context)
@@ -43,6 +48,54 @@ class CanvasTestView : View {
     fun ERect.drawRoundRect(rx: Number, ry: Number, paint: Paint) {
         cvs?.drawRoundRect(this, rx, ry, paint)
     }
+
+
+    var frameMapping: (ERectMutable) -> Unit = { }
+        set(value) {
+            field = value
+            updateFrameWithMapping()
+        }
+
+    private fun updateFrameWithMapping() {
+        _frame.set(originalFrame)
+        frameMapping(_frame)
+    }
+
+    val frame: ERect get() = _frame
+    private var _frame: ERectMutable = ERectMutable()
+
+    val paddedFrame: ERect get() = _paddedFrame
+    private var _paddedFrame: ERectMutable = ERectMutable()
+
+    private val originalFrame = ERectMutable()
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        val left = 0f
+        val top = 0f
+        val right = r.toFloat() - l
+        val bottom = b.toFloat() - t
+
+        originalFrame.setSides(
+            left = left,
+            top = top,
+            right = right,
+            bottom = bottom
+        )
+
+        originalFrame.padding(
+            left = paddingLeft,
+            right = paddingRight,
+            top = paddingTop,
+            bottom = paddingBottom,
+            buffer = _paddedFrame
+        )
+
+
+
+        updateFrameWithMapping()
+
+    }
+
 }
 
 
