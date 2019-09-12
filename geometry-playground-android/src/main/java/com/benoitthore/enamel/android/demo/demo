@@ -71,4 +71,123 @@ frame.scaleAnchor(ratio, 0.5,0.5)
 
 
 
-# Noisy rotating circles
+# Rotating circles
+
+## Inefficient memory management
+
+Allo
+var ratio = 0.5f
+
+val nbOfPoints = 10
+
+setContentView(
+    canvasView { canvas ->
+
+
+        frame
+            .inset(width * 0.1)
+            .innerCircle()
+            .toListOfPoint(nbOfPoints, startAt = ratio.rotations())
+            .map { it.toCircle(32.dp) }
+            .forEachIndexed { i, circle ->
+                paintCircle.color = colorHSL(i / nbOfPoints.f)
+                circle.draw(paintCircle)
+            }
+
+
+    }.also { v ->
+        v.backgroundColor = LTGRAY
+        v.touchProgress { x, y ->
+            ratio = y
+            v.invalidate()
+        }
+    }
+)
+
+## Efficient memory management
+AllocationTracker.debugAllocations = true
+
+var ratio = 0.5f
+
+        val nbOfPoints = 10
+
+        val pool = GeometryPool()
+
+        setContentView(
+            canvasView { canvas ->
+
+                frame
+                    .inset(width * 0.1, pool.rectPool())
+                    .innerCircle(pool.circlePool())
+                    .toListOfPoint(
+                        pool.pointPool(nbOfPoints),
+                        startAt = ratio.rotations(pool.anglePool())
+                    )
+                    .map { it.toCircle(32.dp, pool.circlePool()) }
+                    .forEachIndexed { i, circle ->
+                        paintCircle.color = colorHSL(i / nbOfPoints.f)
+                        circle.draw(paintCircle)
+                    }
+
+
+            }.also { v ->
+                v.backgroundColor = LTGRAY
+                v.touchProgress { x, y ->
+                    ratio = y
+                    v.invalidate()
+                }
+            }
+        )
+
+
+
+
+## Fancy coloured rainbow
+  val noise = OpenSimplexNoise()
+        var noiseOffset = 0f
+
+        var ratio = 0.5f
+
+        val nbOfPoints = 20
+
+        val pool = GeometryPool()
+
+        setContentView(
+            canvasView { canvas ->
+
+                frame
+                    .inset(width , pool.rectPool())
+                    .innerCircle(pool.circlePool())
+                    .let { circle ->
+                        circle.toListOfPoint(
+                            pool.pointPool(nbOfPoints),
+                            distanceList = (0 until nbOfPoints).map {
+                                Scale.map(
+                                    noise(it + noiseOffset),
+                                    -1,
+                                    1,
+                                    circle.radius * 0.1,
+                                    circle.radius
+                                )
+                            },
+                            startAt = ratio.rotations(pool.anglePool())
+                        )
+                    }
+                    .map { it.toCircle(16.dp, pool.circlePool()) }
+                    .forEachIndexed { i, circle ->
+                        paintCircle.color = colorHSL(i / nbOfPoints.f)
+                        circle.draw(paintCircle)
+                    }
+
+                noiseOffset += 0.05f
+                invalidate()
+
+
+            }.also { v ->
+                v.backgroundColor = LTGRAY
+                v.touchProgress { x, y ->
+                    ratio = y
+                    v.invalidate()
+                }
+            }
+        )
