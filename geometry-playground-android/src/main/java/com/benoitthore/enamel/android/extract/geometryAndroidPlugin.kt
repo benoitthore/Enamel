@@ -1,15 +1,23 @@
 package com.benoitthore.enamel.android.extract
 
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Rect
-import android.graphics.RectF
+import android.graphics.*
 import android.view.View
 import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.EPoint
+
+fun ELine.toLinearGradient(
+    colors: List<Int>,
+    shaderMode: Shader.TileMode = Shader.TileMode.CLAMP
+) =
+    LinearGradient(start.x, start.y, end.x, end.y, colors.toIntArray(), null, shaderMode)
+
+
+////
+////
+////
 
 fun ERect.toAndroidRect(buffer: Rect) = buffer.apply {
     val rect = this@toAndroidRect
