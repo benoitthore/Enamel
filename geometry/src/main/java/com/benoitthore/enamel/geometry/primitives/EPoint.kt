@@ -11,9 +11,11 @@ import kotlin.math.*
 open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
 
     @get:JsonIgnore
-    override val v1: Number get() = x
+    override val v1: Number
+        get() = x
     @get:JsonIgnore
-    override val v2: Number get() = y
+    override val v2: Number
+        get() = y
 
     companion object {
         val inv = EPoint(-1f, -1f)
@@ -28,7 +30,10 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
 
     constructor(x: Number, y: Number) : this(x.f, y.f)
     constructor(other: EPoint) : this(other.x, other.y)
-    constructor(angle: EAngle, magnitude: Number) : this(angle.cos * magnitude.f, angle.sin * magnitude.f)
+    constructor(angle: EAngle, magnitude: Number) : this(
+        angle.cos * magnitude.f,
+        angle.sin * magnitude.f
+    )
 
     fun toMutable(buffer: EPointMutable = EPointMutable()) = buffer.set(x, y)
     fun toImmutable() = EPoint(x, y)
@@ -36,15 +41,19 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
 
 
     @get:JsonIgnore
-    open val magnitude get() = hypot(x.d, y.d)
+    open val magnitude
+        get() = hypot(x.d, y.d)
 
     fun heading(buffer: EAngleMutable = EAngleMutable()) =
         buffer.set(atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
 
-    fun angleTo(point: EPoint, buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
+    fun angleTo(x: Number, y: Number, buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
         atan2(
-            ((point.y - y).d), ((point.x - x).d)
+            ((y.f - this.y).d), ((x.f - this.x).d)
         ).radians(buffer)
+
+    fun angleTo(point: EPoint, buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
+        angleTo(point.x, point.y, buffer)
 
     fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)
     fun distanceTo(x2: Number, y2: Number) = hypot((x2.d - x), (y2.d - y)).f
@@ -61,7 +70,8 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
         return "($x ; $y)"
     }
 
-    override fun equals(other: Any?): Boolean = (other as? EPoint)?.let { it.x == x && it.y == y } ?: false
+    override fun equals(other: Any?): Boolean =
+        (other as? EPoint)?.let { it.x == x && it.y == y } ?: false
 
     operator fun component1() = x
     operator fun component2() = y
@@ -80,26 +90,40 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
 
     fun inverse(buffer: EPointMutable = EPointMutable()) = buffer.set(-x, -y)
 
-    fun offset(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) = buffer.set(this.x + x.f, this.y + y.f)
+    fun offset(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) =
+        buffer.set(this.x + x.f, this.y + y.f)
+
     fun offset(n: Number, buffer: EPointMutable = EPointMutable()) = offset(n, n, buffer)
-    fun offset(other: Tuple2, buffer: EPointMutable = EPointMutable()) = offset(other.v1, other.v2, buffer)
+    fun offset(other: Tuple2, buffer: EPointMutable = EPointMutable()) =
+        offset(other.v1, other.v2, buffer)
 
-    fun sub(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) = buffer.set(this.x - x.f, this.y - y.f)
+    fun sub(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) =
+        buffer.set(this.x - x.f, this.y - y.f)
+
     fun sub(n: Number, buffer: EPointMutable = EPointMutable()) = sub(n, n, buffer)
-    fun sub(other: Tuple2, buffer: EPointMutable = EPointMutable()) = sub(other.v1, other.v2, buffer)
+    fun sub(other: Tuple2, buffer: EPointMutable = EPointMutable()) =
+        sub(other.v1, other.v2, buffer)
 
-    fun mult(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) = buffer.set(this.x * x.f, this.y * y.f)
+    fun mult(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) =
+        buffer.set(this.x * x.f, this.y * y.f)
+
     fun mult(n: Number, buffer: EPointMutable = EPointMutable()) = mult(n, n, buffer)
-    fun mult(other: Tuple2, buffer: EPointMutable = EPointMutable()) = mult(other.v1, other.v2, buffer)
+    fun mult(other: Tuple2, buffer: EPointMutable = EPointMutable()) =
+        mult(other.v1, other.v2, buffer)
 
     fun dividedBy(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) =
         buffer.set(this.x / x.f, this.y / y.f)
 
     fun dividedBy(n: Number, buffer: EPointMutable = EPointMutable()) = dividedBy(n, n, buffer)
-    fun dividedBy(other: Tuple2, buffer: EPointMutable = EPointMutable()) = dividedBy(other.v1, other.v2, buffer)
+    fun dividedBy(other: Tuple2, buffer: EPointMutable = EPointMutable()) =
+        dividedBy(other.v1, other.v2, buffer)
 
 
-    fun offsetTowards(towards: EPoint, distance: Number, buffer: EPointMutable = EPointMutable()): EPointMutable {
+    fun offsetTowards(
+        towards: EPoint,
+        distance: Number,
+        buffer: EPointMutable = EPointMutable()
+    ): EPointMutable {
         val fromX = x
         val fromY = y
         buffer.set(angle = angleTo(towards), magnitude = distance)
@@ -110,14 +134,22 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
         from.offsetTowards(this, distance, buffer)
 
 
-    fun offsetAngle(angle: EAngle, distance: Number, buffer: EPointMutable = EPointMutable()): EPointMutable {
+    fun offsetAngle(
+        angle: EAngle,
+        distance: Number,
+        buffer: EPointMutable = EPointMutable()
+    ): EPointMutable {
         val fromX = x
         val fromY = y
         buffer.set(angle, distance)
         return buffer.set(buffer.x + fromX, buffer.y + fromY)
     }
 
-    fun rotateAround(angle: EAngle, center: EPoint, buffer: EPointMutable = EPointMutable()): EPointMutable {
+    fun rotateAround(
+        angle: EAngle,
+        center: EPoint,
+        buffer: EPointMutable = EPointMutable()
+    ): EPointMutable {
         val angleTo = center.angleTo(this)
         val distance = center.distanceTo(this)
         val totalAngle = angle + angleTo
@@ -157,12 +189,16 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
 }
 
 
-class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EPoint(x, y), Resetable {
+class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EPoint(x, y),
+    Resetable {
 
 
     constructor(x: Number, y: Number) : this(x.f, y.f)
     constructor(other: EPoint) : this(other.x, other.y)
-    constructor(angle: EAngleMutable, magnitude: Number) : this(angle.cos * magnitude.f, angle.sin * magnitude.f)
+    constructor(angle: EAngleMutable, magnitude: Number) : this(
+        angle.cos * magnitude.f,
+        angle.sin * magnitude.f
+    )
 
     companion object {
         val zero get() = EPointMutable(0f, 0f)
@@ -208,7 +244,9 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
     fun selfDividedBy(other: Tuple2) = dividedBy(other, this)
 
 
-    fun selfOffsetTowards(towards: EPoint, distance: Number) = offsetTowards(towards, distance, this)
+    fun selfOffsetTowards(towards: EPoint, distance: Number) =
+        offsetTowards(towards, distance, this)
+
     fun selfOffsetFrom(from: EPoint, distance: Number) = offsetFrom(from, distance, this)
     fun selfOffsetAngle(angle: EAngle, distance: Number) = offsetAngle(angle, distance, this)
 
@@ -240,8 +278,6 @@ fun RandomPoint(magnitude: Number = 1f, buffer: EPointMutable = EPointMutable())
 
 infix fun Number.point(other: Number): EPointMutable =
     EPointMutable(this, other)
-
-
 
 
 val List<EPoint>.length: Float
