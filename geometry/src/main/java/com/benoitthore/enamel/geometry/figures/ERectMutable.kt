@@ -3,7 +3,6 @@ package com.benoitthore.enamel.geometry.figures
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.core.math.*
-import com.benoitthore.enamel.geometry.GeometryBufferProvider
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.primitives.*
 import java.lang.Exception
@@ -154,10 +153,13 @@ open class ERect(
         y: Number,
         buffer: EPointMutable = EPointMutable()
     ): EPointMutable =
-        buffer.set(x = origin.x + size.width * x.f, y = origin.y + size.height * y.f)
+        buffer.set(x = pointAtAnchorX(x), y = pointAtAnchorY(y))
 
     fun pointAtAnchor(anchor: EPoint, buffer: EPointMutable = EPointMutable()) =
         pointAtAnchor(anchor.x, anchor.y, buffer)
+
+    fun pointAtAnchorX(x: Number) = origin.x + size.width * x.f
+    fun pointAtAnchorY(y: Number) = origin.y + size.height * y.f
 
     fun anchorAtPoint(
         x: Number,
@@ -319,18 +321,39 @@ open class ERect(
     }
 
     fun scaleAnchor(factor: Number, anchor: EPoint, buffer: ERectMutable = ERectMutable()) =
-        scaleRelative(factor, pointAtAnchor(anchor, GeometryBufferProvider.point()), buffer)
+        scaleAnchor(factor, anchor.x, anchor.y, buffer)
+
+
+    fun scaleAnchor(
+        factor: Number,
+        anchorX: Number,
+        anchorY: Number,
+        buffer: ERectMutable = ERectMutable()
+    ) = scaleRelative(
+        factor,
+        pointAtAnchorX(anchorX),
+        pointAtAnchorY(anchorY),
+        buffer
+    )
+
 
     fun scaleRelative(
         factor: Number,
         point: EPoint,
         buffer: ERectMutable = ERectMutable()
+    ) = scaleRelative(factor, point.x, point.y, buffer)
+
+    fun scaleRelative(
+        factor: Number,
+        pointX: Number,
+        pointY: Number,
+        buffer: ERectMutable = ERectMutable()
     ): ERectMutable {
         buffer.set(this)
 
         val factor = factor.f
-        val newX = origin.x + (point.x - origin.x) * (1f - factor)
-        val newY = origin.y + (point.y - origin.y) * (1f - factor)
+        val newX = origin.x + (pointX.f - origin.x) * (1f - factor)
+        val newY = origin.y + (pointY.f - origin.y) * (1f - factor)
 
         buffer.origin.set(newX, newY)
         buffer.size.width *= factor
@@ -519,9 +542,15 @@ class ERectMutable(
 
     fun selfExpand(padding: EOffset) = expand(padding, this)
 
-
     fun selfScaleAnchor(factor: Number, anchor: EPoint) = scaleAnchor(factor, anchor, this)
+    fun selfScaleAnchor(
+        factor: Number,
+        anchorX: Number,
+        anchorY: Number
+    ) = scaleAnchor(factor, anchorX, anchorY, this)
 
     fun selfScaleRelative(factor: Number, point: EPoint) = scaleRelative(factor, point, this)
+    fun selfScaleRelative(factor: Number, pointX: Number, pointY: Number) =
+        scaleRelative(factor = factor, pointX = pointX, pointY = pointY, buffer = this)
 
 }

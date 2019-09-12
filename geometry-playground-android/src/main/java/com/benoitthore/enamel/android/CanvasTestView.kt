@@ -3,6 +3,7 @@ package com.benoitthore.enamel.android
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 import com.benoitthore.enamel.android.extract.drawCircle
@@ -13,6 +14,7 @@ import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ERectMutable
+import com.benoitthore.enamel.geometry.primitives.EPoint
 
 class CanvasTestView : View {
     constructor(context: Context?) : super(context)
@@ -22,6 +24,12 @@ class CanvasTestView : View {
         attrs,
         defStyleAttr
     )
+
+    init {
+
+//        setLayerType(LAYER_TYPE_HARDWARE, null)
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
+    }
 
     private var cvs: Canvas? = null
     var onDrawBlock: (CanvasTestView.(Canvas) -> Unit)? = null
@@ -33,20 +41,39 @@ class CanvasTestView : View {
 
     }
 
-    fun ERect.draw(paint: Paint) {
+    fun <T : ERect> T.draw(paint: Paint) = apply {
         cvs?.drawRect(this, paint)
     }
 
-    fun ECircle.draw(paint: Paint) {
+    fun <T : ECircle> T.draw(paint: Paint) = apply {
         cvs?.drawCircle(this, paint)
     }
 
-    fun ELine.draw(paint: Paint) {
+    fun <T : ELine> T.draw(paint: Paint) = apply {
         cvs?.drawLine(this, paint)
     }
 
-    fun ERect.drawRoundRect(rx: Number, ry: Number, paint: Paint) {
+    fun <T : ERect> T.drawRoundRect(rx: Number, ry: Number, paint: Paint) = apply {
         cvs?.drawRoundRect(this, rx, ry, paint)
+    }
+
+
+    private val path: Path = Path()
+    fun <T : EPoint> List<T>.draw(paint: Paint, closed: Boolean = true) = apply {
+        synchronized(path) {
+            path.reset()
+            forEachIndexed { i, p ->
+                if (i == 0) {
+                    path.moveTo(p.x, p.y)
+                } else {
+                    path.lineTo(p.x, p.y)
+                }
+            }
+            if (closed) {
+                path.close()
+            }
+            cvs?.drawPath(path, paint)
+        }
     }
 
 

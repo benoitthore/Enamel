@@ -1,0 +1,74 @@
+
+# With margin
+
+## Draw Rect
+
+val margin = 16.dp
+canvas.drawRect(
+    margin,
+    margin,
+    width - margin,
+    height - margin,
+    paintRect
+)
+
+
+## Draw Circle
+
+val centerX = width / 2f
+val centerY = height / 2f
+val radius = width / 2f - margin
+
+canvas.drawCircle(centerX, centerY, radius, paintCircle)
+
+
+## With Enamel
+
+frame
+    .inset(16.dp)
+    .draw(paintRect)
+    .innerCircle()
+    .draw(paintCircle)
+
+
+
+
+# With relative size
+
+## Without Enamel
+
+val ratio = 0.5f
+
+val w = width * ratio
+val h = height * ratio
+val cx = width / 2f
+val cy = height / 2f
+
+canvas.drawRect(
+    cx - w / 2f, cy - h / 2f,
+    cx + w / 2f, cy + h / 2f,
+    paintRect
+)
+
+val radius = min(w, h) / 2
+canvas.drawCircle(cx, cy, radius, paintCircle)
+
+## With Enamel
+
+PROBLEM
+frame.scale(ratio,ratio)
+  .draw(paintRect)
+  .innerCircle()
+  .draw(paintCircle)
+
+SOLUTION
+frame.scaleAnchor(ratio, 0.5,0.5)
+    .draw(paintRect)
+    .innerCircle()
+    .draw(paintCircle)
+
+
+
+
+
+# Noisy rotating circles
