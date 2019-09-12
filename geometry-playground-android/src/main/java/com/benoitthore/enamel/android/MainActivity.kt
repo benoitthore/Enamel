@@ -1,15 +1,13 @@
 package com.benoitthore.enamel.android
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.graphics.*
 import android.graphics.Color.*
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.benoitthore.enamel.android.demo.MyCanvasView
+import com.benoitthore.enamel.android.demo.CanvasTestView
+import com.benoitthore.enamel.android.demo.canvasView
 import com.benoitthore.enamel.android.extract.*
 import com.benoitthore.enamel.core.math.Scale
 import com.benoitthore.enamel.core.math.*
@@ -17,8 +15,6 @@ import com.benoitthore.enamel.core.time.ETimer
 import com.benoitthore.enamel.geometry.AllocationTracker
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.figures.ECircle
-import com.benoitthore.enamel.geometry.figures.ERectMutable
-import com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.layout.dsl.*
 import com.benoitthore.enamel.geometry.primitives.degrees
@@ -32,10 +28,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import splitties.views.backgroundColor
-import splitties.views.padding
 import kotlin.contracts.ExperimentalContracts
-import kotlin.math.max
-import kotlin.math.min
 
 
 operator fun OpenSimplexNoise.invoke(x: Number) = eval(x.d)
