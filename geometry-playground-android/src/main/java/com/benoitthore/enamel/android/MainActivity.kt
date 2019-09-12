@@ -79,7 +79,8 @@ fun Context.fancyView(): CanvasTestView {
 
             paint.color = LTGRAY
             paint.style = Paint.Style.STROKE
-            frame.innerCircle(circlePool()).draw(paint)
+            frame.innerCircle(circlePool())
+                //.draw(paint)
                 .selfInset(width * 0.005)
                 .also { circle ->
                     if (shader == null)
@@ -133,43 +134,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AllocationTracker.debugAllocations = true
 
-
-        val paintRect = Paint().apply {
-            style = Paint.Style.STROKE
-            strokeWidth = 2.dp
-            color = RED
-        }
-
-        val paintCircle = Paint().apply {
-            style = Paint.Style.STROKE
-            strokeWidth = 2.dp
-            color = BLUE
-        }
-
-        setContentView(
-            canvasView { canvas ->
-
-                canvas.drawColor(LTGRAY)
-
-                val margin = 64.dp
-                canvas.drawRect(
-                    margin,
-                    margin,
-                    width - margin,
-                    height - margin,
-                    paintRect
-                )
-
-                val circlePadding = 16.dp
-                val centerX = width / 2f
-                val centerY = height / 2f
-                val radius = min(width, height) / 2f - margin - circlePadding
-
-                canvas.drawCircle(centerX, centerY, radius, paintCircle)
-
-
-            }
-        )
+        setContentView(fancyView())
 
 
     }
