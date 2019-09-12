@@ -15,9 +15,11 @@ import com.benoitthore.enamel.core.time.ETimer
 import com.benoitthore.enamel.geometry.AllocationTracker
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.figures.ECircle
+import com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.layout.dsl.*
 import com.benoitthore.enamel.geometry.primitives.degrees
+import com.benoitthore.enamel.geometry.primitives.point
 import com.benoitthore.enamel.geometry.primitives.radians
 import com.benoitthore.enamel.geometry.primitives.rotations
 import com.benoitthore.enamel.geometry.toCircle
@@ -154,25 +156,56 @@ class MainActivity : AppCompatActivity() {
             color = BLUE
         }
 
+        AllocationTracker.debugAllocations = true
+
+
+        ///
+
+
+        val noise = OpenSimplexNoise()
+        var noiseOffset = 0f
+
         var ratio = 0.5f
+
+        val nbOfPoints = 20
+
+        val pool = GeometryPool()
 
         setContentView(
             canvasView { canvas ->
 
-
                 frame
-                    .inset(width * 0.1)
-                    .innerCircle()
-                    .toListOfPoint(10, startAt = ratio.rotations())
-                    .map { it.toCircle(32.dp) }
-                    .forEach { it.draw(paintCircle) }
+                    .inset(width , pool.rectPool())
+                    .innerCircle(pool.circlePool())
+                    .let { circle ->
+                        circle.toListOfPoint(
+                            pool.pointPool(nbOfPoints),
+                            distanceList = (0 until nbOfPoints).map {
+                                Scale.map(
+                                    noise(it + noiseOffset),
+                                    -1,
+                                    1,
+                                    circle.radius * 0.1,
+                                    circle.radius
+                                )
+                            },
+                            startAt = ratio.rotations(pool.anglePool())
+                        )
+                    }
+                    .map { it.toCircle(16.dp, pool.circlePool()) }
+                    .forEachIndexed { i, circle ->
+                        paintCircle.color = colorHSL(i / nbOfPoints.f)
+                        circle.draw(paintCircle)
+                    }
 
-                
+                noiseOffset += 0.05f
+                invalidate()
+
 
             }.also { v ->
                 v.backgroundColor = LTGRAY
                 v.touchProgress { x, y ->
-                    ratio = x
+                    ratio = y
                     v.invalidate()
                 }
             }

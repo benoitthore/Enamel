@@ -9,6 +9,7 @@ import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ERectMutable
+import com.benoitthore.enamel.geometry.primitives.EPoint
 
 fun ERect.toAndroidRect(buffer: Rect) = buffer.apply {
     val rect = this@toAndroidRect
@@ -38,10 +39,10 @@ fun Canvas.drawCircle(circle: ECircle, paint: Paint) {
     drawCircle(circle.x, circle.y, circle.radius, paint)
 }
 
-fun Canvas.drawLine(line: ELine, paint: Paint) {
-    line.apply {
-        drawLine(start.x, start.y, end.x, end.y, paint)
-    }
+fun Canvas.drawLine(line: ELine, paint: Paint) = drawLine(line.start, line.end, paint)
+
+fun Canvas.drawLine(start: EPoint, end: EPoint, paint: Paint) {
+    drawLine(start.x, start.y, end.x, end.y, paint)
 }
 
 fun Canvas.drawOvals(rects: List<ERect>, paint: Paint) = rects.forEach { drawOval(it, paint) }
