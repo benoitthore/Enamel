@@ -194,6 +194,7 @@ open class ERect(
         spacing: Number = 0,
         buffer: ERectMutable = ERectMutable(this)
     ): ERectMutable {
+        buffer.set(this)
         val spacing = spacing.f
 
         val anchor = aligned.namedPoint
@@ -217,8 +218,9 @@ open class ERect(
         aligned: EAlignment,
         size: ESize,
         spacing: Number = 0,
-        buffer: ERectMutable = ERectMutable(this)
+        buffer: ERectMutable = ERectMutable()
     ): ERectMutable {
+        buffer.set(this)
         val spacing = spacing.f
 
         val anchor = aligned.flipped.namedPoint
@@ -239,27 +241,29 @@ open class ERect(
 
 
     // Changing
-    fun offset(p: Tuple2, buffer: ERectMutable = ERectMutable(this)): ERectMutable =
+    fun offset(p: Tuple2, buffer: ERectMutable = ERectMutable()): ERectMutable =
         offset(p.v1, p.v2, buffer)
 
     fun offset(
         x: Number = 0,
         y: Number = 0,
-        buffer: ERectMutable = ERectMutable(this)
+        buffer: ERectMutable = ERectMutable()
     ): ERectMutable {
+        buffer.set(this)
         buffer.origin.selfOffset(x, y)
         return buffer
     }
 
-    fun inset(margin: Number, buffer: ERectMutable = ERectMutable(this)) =
+    fun inset(margin: Number, buffer: ERectMutable = ERectMutable()) =
         inset(margin, margin, buffer)
 
-    fun inset(p: Tuple2, buffer: ERectMutable = ERectMutable(this)) = inset(p.v1, p.v2, buffer)
+    fun inset(p: Tuple2, buffer: ERectMutable = ERectMutable()) = inset(p.v1, p.v2, buffer)
     fun inset(
         x: Number = 0,
         y: Number = 0,
-        buffer: ERectMutable = ERectMutable(this)
+        buffer: ERectMutable = ERectMutable()
     ): ERectMutable {
+        buffer.set(this)
         val x = x.f
         val y = y.f
         buffer.left += x
@@ -269,14 +273,15 @@ open class ERect(
         return buffer
     }
 
-    fun expand(margin: Number, buffer: ERectMutable = ERectMutable(this)) =
+    fun expand(margin: Number, buffer: ERectMutable = ERectMutable()) =
         expand(margin, margin, buffer)
 
-    fun expand(p: Tuple2, buffer: ERectMutable = ERectMutable(this)) = expand(p.v1, p.v2, buffer)
-    fun expand(x: Number = 0f, y: Number = 0f, buffer: ERectMutable = ERectMutable(this)) =
+    fun expand(p: Tuple2, buffer: ERectMutable = ERectMutable()) = expand(p.v1, p.v2, buffer)
+    fun expand(x: Number = 0f, y: Number = 0f, buffer: ERectMutable = ERectMutable()) =
         inset(-x.f, -y.f, buffer)
 
-    fun expand(padding: EOffset, buffer: ERectMutable = ERectMutable(this)): ERectMutable {
+    fun expand(padding: EOffset, buffer: ERectMutable = ERectMutable()): ERectMutable {
+        buffer.set(this)
         buffer.left -= padding.left
         buffer.top -= padding.top
         buffer.bottom += padding.bottom
@@ -289,8 +294,9 @@ open class ERect(
         bottom: Number = this.bottom,
         left: Number = this.left,
         right: Number = this.right
-        , buffer: ERectMutable = ERectMutable(this)
+        , buffer: ERectMutable = ERectMutable()
     ): ERectMutable {
+        buffer.set(this)
         buffer.left += left.f
         buffer.top += top.f
         buffer.bottom -= bottom.f
@@ -298,7 +304,7 @@ open class ERect(
         return buffer
     }
 
-    fun padding(padding: EOffset, buffer: ERectMutable = ERectMutable(this)): ERectMutable =
+    fun padding(padding: EOffset, buffer: ERectMutable = ERectMutable()): ERectMutable =
         padding(
             left = padding.left,
             top = padding.top,
