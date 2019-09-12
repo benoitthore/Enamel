@@ -30,7 +30,7 @@ setContentView(
         val circlePadding = 16.dp
         val centerX = width / 2f
         val centerY = height / 2f
-        val radius = width / 2f - margin - circlePadding
+        val radius = min(width, height) / 2f - margin - circlePadding
 
         canvas.drawCircle(centerX, centerY, radius, paintCircle)
 

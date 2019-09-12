@@ -33,6 +33,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import splitties.views.backgroundColor
 import kotlin.contracts.ExperimentalContracts
+import kotlin.math.min
 
 
 operator fun OpenSimplexNoise.invoke(x: Number) = eval(x.d)
@@ -133,7 +134,6 @@ class MainActivity : AppCompatActivity() {
         AllocationTracker.debugAllocations = true
 
 
-
         val paintRect = Paint().apply {
             style = Paint.Style.STROKE
             strokeWidth = 2.dp
@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity() {
                 val circlePadding = 16.dp
                 val centerX = width / 2f
                 val centerY = height / 2f
-                val radius = width / 2f - margin - circlePadding
+                val radius = min(width, height) / 2f - margin - circlePadding
 
                 canvas.drawCircle(centerX, centerY, radius, paintCircle)
 
