@@ -218,6 +218,26 @@ class ELineMutable(
         start.reset()
         end.reset()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as ELineMutable
+
+        if (start != other.start) return false
+        if (end != other.end) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = start.hashCode()
+        result = 31 * result + end.hashCode()
+        return result
+    }
+
+
 }
 
 infix fun EPoint.line(end: EPoint) = ELine(start = this, end = end)

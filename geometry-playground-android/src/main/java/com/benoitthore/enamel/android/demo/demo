@@ -1,25 +1,42 @@
 
+
 # With margin
+val paintRect = Paint().apply {
+    style = Paint.Style.STROKE
+    strokeWidth = 2.dp
+    color = RED
+}
 
-## Draw Rect
+val paintCircle = Paint().apply {
+    style = Paint.Style.STROKE
+    strokeWidth = 2.dp
+    color = BLUE
+}
 
-val margin = 16.dp
-canvas.drawRect(
-    margin,
-    margin,
-    width - margin,
-    height - margin,
-    paintRect
+setContentView(
+    canvasView { canvas ->
+
+        canvas.drawColor(LTGRAY)
+
+        val margin = 64.dp
+        canvas.drawRect(
+            margin,
+            margin,
+            width - margin,
+            height - margin,
+            paintRect
+        )
+
+        val circlePadding = 16.dp
+        val centerX = width / 2f
+        val centerY = height / 2f
+        val radius = width / 2f - margin - circlePadding
+
+        canvas.drawCircle(centerX, centerY, radius, paintCircle)
+
+
+    }
 )
-
-
-## Draw Circle
-
-val centerX = width / 2f
-val centerY = height / 2f
-val radius = width / 2f - margin
-
-canvas.drawCircle(centerX, centerY, radius, paintCircle)
 
 
 ## With Enamel
