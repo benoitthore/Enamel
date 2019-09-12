@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.android;
+package com.benoitthore.enamel.android.extract;
 
 
 

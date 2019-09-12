@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.android
+package com.benoitthore.enamel.android.demo
 
 import android.content.Context
 import android.graphics.Canvas

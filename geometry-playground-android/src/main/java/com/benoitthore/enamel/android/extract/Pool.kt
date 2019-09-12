@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.android
+package com.benoitthore.enamel.android.extract
 
 import com.benoitthore.enamel.geometry.figures.ECircleMutable
 import com.benoitthore.enamel.geometry.figures.ELineMutable
@@ -57,10 +57,13 @@ class Pool<T : Any>(val size: Int, val init: (Int) -> T) {
 }
 
 fun RectPool(size: Int = 50) = Pool(size) { ERectMutable() }
-fun PointPool(size: Int = 50) = Pool(size) { EPointMutable() }
-fun CirclePool(size: Int = 50) = Pool(size) { ECircleMutable() }
+fun PointPool(size: Int = 50) =
+    Pool(size) { EPointMutable() }
+fun CirclePool(size: Int = 50) =
+    Pool(size) { ECircleMutable() }
 fun LinePool(size: Int = 50) = Pool(size) { ELineMutable() }
-fun AnglePool(size: Int = 50) = Pool(size) { EAngleMutable() }
+fun AnglePool(size: Int = 50) =
+    Pool(size) { EAngleMutable() }
 
 class GeometryPool(
     rectPoolSize: Int = 50,
@@ -71,11 +74,16 @@ class GeometryPool(
 ) {
     constructor(size: Int) : this(size, size, size, size, size)
 
-    val rectPool: Pool<ERectMutable> = RectPool(rectPoolSize)
-    val pointPool: Pool<EPointMutable> = PointPool(pointPoolSize)
-    val circlePool: Pool<ECircleMutable> = CirclePool(circlePoolSize)
-    val linePool: Pool<ELineMutable> = LinePool(linePoolSize)
-    val anglePool: Pool<EAngleMutable> = AnglePool(anglePoolSize)
+    val rectPool: Pool<ERectMutable> =
+        RectPool(rectPoolSize)
+    val pointPool: Pool<EPointMutable> =
+        PointPool(pointPoolSize)
+    val circlePool: Pool<ECircleMutable> =
+        CirclePool(circlePoolSize)
+    val linePool: Pool<ELineMutable> =
+        LinePool(linePoolSize)
+    val anglePool: Pool<EAngleMutable> =
+        AnglePool(anglePoolSize)
 
 
 }
