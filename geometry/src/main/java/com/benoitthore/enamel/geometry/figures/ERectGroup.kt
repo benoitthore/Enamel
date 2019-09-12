@@ -1,13 +1,13 @@
 package com.benoitthore.enamel.geometry.figures
 
 import com.benoitthore.enamel.core.math.*
-import com.benoitthore.enamel.geometry.GeometryBufferProvider
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.allocate
 import com.benoitthore.enamel.geometry.primitives.EOffset
 import com.benoitthore.enamel.geometry.primitives.EPoint
 
-class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? = null) : Iterable<ERect> by _rects {
+class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? = null) :
+    Iterable<ERect> by _rects {
 
     val frame: ERect get() = _frame
     val size: ESize get() = _frame.size
@@ -22,7 +22,7 @@ class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? =
 
 
     init {
-        val frameTmp = overrideFrame ?: _rects.union(GeometryBufferProvider.rect())
+        val frameTmp = overrideFrame ?: _rects.union()
         _frame.size.set(frameTmp.size)
         _frame.origin.set(frameTmp.origin)
     }
@@ -45,7 +45,7 @@ class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? =
     }
 
     fun aligned(anchor: EPoint, position: EPoint) {
-        val pointAtAnchor = frame.pointAtAnchor(anchor, buffer = GeometryBufferProvider.point())
+        val pointAtAnchor = frame.pointAtAnchor(anchor)
 
         val offsetX = position.x - pointAtAnchor.x
         val offsetY = position.y - pointAtAnchor.y
@@ -118,8 +118,10 @@ fun List<Number>.rectGroupWeights(
 
     val spacing = spacing.toFloat()
 
-    val actualWidth = if (alignment.isHorizontal) toFit.width - (spacing * (size - 1)) else toFit.width
-    val actualHeight = if (alignment.isVertical) toFit.height - (spacing * (size - 1)) else toFit.height
+    val actualWidth =
+        if (alignment.isHorizontal) toFit.width - (spacing * (size - 1)) else toFit.width
+    val actualHeight =
+        if (alignment.isVertical) toFit.height - (spacing * (size - 1)) else toFit.height
 
     val totalWeight = sumByDouble { it.d }.f
 

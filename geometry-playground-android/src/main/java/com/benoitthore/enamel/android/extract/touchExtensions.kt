@@ -2,9 +2,22 @@ package com.benoitthore.enamel.android.extract
 
 import android.view.MotionEvent
 import android.view.View
+import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
+import kotlin.math.max
 
+
+fun View.touchProgress(block: (x:Float,y:Float) -> Unit) {
+    singleTouch { isDown, current, previous ->
+        if (current == null) {
+            return@singleTouch
+        }
+        val x = current.x / width
+        val y = current.y / height
+        block(x,y)
+    }
+}
 
 fun EPointMutable.set(event: MotionEvent): EPointMutable {
     set(event.x, event.y)
@@ -38,7 +51,11 @@ fun View.singleTouch(block: (isDown: Boolean, current: EPoint?, previous: EPoint
     }
 }
 
-data class ETouchEvent(val position: EPointMutable = EPointMutable(), var isDown: Boolean = false, var id: Int = -1) {
+data class ETouchEvent(
+    val position: EPointMutable = EPointMutable(),
+    var isDown: Boolean = false,
+    var id: Int = -1
+) {
     fun reset() {
         position.reset()
         isDown = false
