@@ -26,6 +26,13 @@ fun random(min: Number, max: Number): Float =
     RANDOM.nextFloat().lerp(min, max)
 
 fun Number.lerp(from: Number, to: Number): Float = from.f + this.f * (to.f - from.f)
+fun Number.map(start1: Number, stop1: Number, start2: Number, stop2: Number) = Scale.map(
+    this,
+    start1 = start1,
+    stop1 = stop1,
+    start2 = start2,
+    stop2 = stop2
+)
 
 inline infix fun Number.nearlyEquals(n2: Number) = nearlyEquals(n2, œ)
 inline fun Number.nearlyEquals(n2: Number, threshold: Number) =
