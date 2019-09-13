@@ -126,5 +126,9 @@ class CanvasTestView : View {
 }
 
 
-fun Context.canvasView(onDrawBlock: CanvasTestView.(Canvas) -> Unit) =
-    CanvasTestView(this).apply { this.onDrawBlock = onDrawBlock }
+fun Context.canvasView(
+    init: CanvasTestView.() -> Unit = {},
+    onDrawBlock: CanvasTestView.(Canvas) -> Unit
+) =
+    CanvasTestView(this)
+        .apply { init(); this.onDrawBlock = onDrawBlock }
