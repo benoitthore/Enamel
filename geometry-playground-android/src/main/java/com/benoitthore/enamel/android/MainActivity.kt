@@ -56,7 +56,7 @@ fun Context.fancyView(): CanvasTestView {
     val noiseOffsetIncrease = 5f
     val noiseZoom = 750f
 
-    val speedUpMultiplier = 1500
+    val speedUpMultiplier = 500
 
     // Keep track of
     val angle = 0.degrees()
