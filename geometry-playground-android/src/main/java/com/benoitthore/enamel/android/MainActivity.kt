@@ -3,27 +3,34 @@ package com.benoitthore.enamel.android
 import android.animation.TimeInterpolator
 import android.content.Context
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
-import android.graphics.*
+import android.graphics.Canvas
 import android.graphics.Color.*
+import android.graphics.Paint
+import android.graphics.Shader
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.benoitthore.enamel.android.bubble.BubbleController
+import com.benoitthore.enamel.android.bubble.BubbleView
 import com.benoitthore.enamel.android.demo.CanvasTestView
 import com.benoitthore.enamel.android.demo.canvasView
 import com.benoitthore.enamel.android.extract.*
 import com.benoitthore.enamel.core.animations.EasingInterpolators
-import com.benoitthore.enamel.core.math.*
+import com.benoitthore.enamel.core.math.d
+import com.benoitthore.enamel.core.math.map
 import com.benoitthore.enamel.core.time.ETimer
 import com.benoitthore.enamel.geometry.AllocationTracker
 import com.benoitthore.enamel.geometry.figures.ECircle
+import com.benoitthore.enamel.geometry.figures.ECircleMutable
 import com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.innerRect
+import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.degrees
 import com.benoitthore.enamel.geometry.primitives.radians
 import com.benoitthore.enamel.geometry.toCircle
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.benoitthore.enamel.layout.android.dp
 import kotlin.contracts.ExperimentalContracts
 
 
@@ -163,11 +170,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AllocationTracker.debugAllocations = true
 
-        setContentView(fancyView())
-
-
+        setContentView(BubbleView(this).also {
+            BubbleController(it).start()
+        })
     }
-
 }
-
-
