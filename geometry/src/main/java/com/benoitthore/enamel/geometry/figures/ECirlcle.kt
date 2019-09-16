@@ -174,9 +174,11 @@ class ECircleMutable(
         set(0, 0, 0)
     }
 
-    fun set(center: EPoint, radius: Number) = set(center.x, center.y, radius)
+    fun set(other: ECircle) = set(other.center.x, other.center.y, other.radius)
+    fun set(center: EPoint = this.center, radius: Number = this.radius) =
+        set(center.x, center.y, radius)
 
-    fun set(x: Number, y: Number, radius: Number): ECircleMutable {
+    fun set(x: Number = this.x, y: Number = this.y, radius: Number = this.radius): ECircleMutable {
         this.center.set(x, y)
         this.radius = radius.f
         return this
