@@ -25,7 +25,10 @@ fun random(max: Number): Float = random(min = 0f, max = max)
 fun random(min: Number, max: Number): Float =
     RANDOM.nextFloat().lerp(min, max)
 
-fun Number.lerp(from: Number, to: Number): Float = from.f + this.f * (to.f - from.f)
+inline fun Number.interpolate(from: Number, to: Number, interpolator: (Number) -> Number): Float =
+    from.f + interpolator(this.f).f * (to.f - from.f)
+
+fun Number.lerp(from: Number, to: Number): Float = interpolate(from, to) { it }
 fun Number.map(start1: Number, stop1: Number, start2: Number, stop2: Number) = Scale.map(
     this,
     start1 = start1,

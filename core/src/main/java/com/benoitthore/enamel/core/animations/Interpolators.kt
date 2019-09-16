@@ -24,8 +24,6 @@ val bounceInterpolator: Interpolator = {
     }
 }
 
-infix fun Number.interpolateWith(interpolator: Interpolator) = interpolator(this.f)
-
 // https://github.com/MasayukiSuda/EasingInterpolator/blob/master/ei/src/main/java/com/daasuu/ei/EasingProvider.java
 object EasingInterpolators {
     val quadInOut: Interpolator = { getPowInOut(it, 2) }
