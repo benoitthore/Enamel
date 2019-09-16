@@ -54,7 +54,7 @@ class BubbleView : CanvasTestView, BubbleController.View {
     }
 
     override fun update() {
-        invalidate()
+        postInvalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
