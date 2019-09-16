@@ -10,10 +10,31 @@ import com.benoitthore.enamel.geometry.primitives.EPoint
 
 fun ELine.toLinearGradient(
     colors: List<Int>,
+    positions: List<Float>? = null,
     shaderMode: Shader.TileMode = Shader.TileMode.CLAMP
 ) =
-    LinearGradient(start.x, start.y, end.x, end.y, colors.toIntArray(), null, shaderMode)
+    LinearGradient(
+        start.x,
+        start.y,
+        end.x,
+        end.y,
+        colors.toIntArray(),
+        positions?.toFloatArray(),
+        shaderMode
+    )
 
+fun ECircle.toRadialGradient(
+    colors: List<Int>,
+    stops: List<Float>? = null,
+    shaderMode: Shader.TileMode = Shader.TileMode.CLAMP
+) = RadialGradient(
+    center.x,
+    center.y,
+    radius,
+    colors.toIntArray(),
+    stops?.toFloatArray(),
+    shaderMode
+)
 
 ////
 ////
