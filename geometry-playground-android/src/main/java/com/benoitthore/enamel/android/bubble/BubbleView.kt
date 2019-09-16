@@ -28,7 +28,7 @@ class BubbleView : CanvasTestView, BubbleController.View {
 
     override var handleTouch: (EPoint) -> Boolean = { false }
 
-    private var circleSize: Number = 16.dp
+    private var circleSize: Number = 32.dp
         set(value) {
             field = value
             bubble.radius = value.toFloat()
