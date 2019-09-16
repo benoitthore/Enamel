@@ -16,7 +16,7 @@ import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.EPoint
 
-class CanvasTestView : View {
+open class CanvasTestView : View {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
