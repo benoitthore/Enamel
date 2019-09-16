@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.benoitthore.enamel.core.animations.EasingInterpolators
 import com.benoitthore.enamel.core.threading.CoroutineLock
 import com.benoitthore.enamel.geometry.figures.ESizeMutable
+import com.benoitthore.enamel.geometry.layout.ELayout
 import com.benoitthore.enamel.geometry.layout.playground.PlaygroundServer
 import com.benoitthore.enamel.geometry.layout.refs.ELayoutRef
 import com.benoitthore.enamel.geometry.layout.refs.ELayoutRefObject
@@ -19,7 +20,10 @@ import kotlin.system.exitProcess
 
 private fun Throwable.log(tag: String = "EViewGroup") = Log.e(tag, message, this)
 
-fun <T : EViewGroup> T.startServer(port: Int = PlaygroundServer.defaultPort): T {
+fun <T : EViewGroup> T.startServer(
+    port: Int = PlaygroundServer.defaultPort,
+    interceptLayout: T.(ELayout) -> ELayout = { it }
+): T {
 
     val deserializer = ELayoutDeserializer()
     // Add more deserializer here
@@ -30,7 +34,7 @@ fun <T : EViewGroup> T.startServer(port: Int = PlaygroundServer.defaultPort): T 
         onError = { e -> e.log(); exitProcess(0) },
         onNewLayout = { newLayout ->
             mainThreadCoroutine {
-                transitionTo(newLayout)
+                transitionTo(interceptLayout(newLayout))
             }
         }
     )
