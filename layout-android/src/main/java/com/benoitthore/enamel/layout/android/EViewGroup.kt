@@ -28,32 +28,6 @@ open class EViewGroup : ViewGroup {
         defStyleAttr
     )
 
-    fun <T : View> prepareView(clazz: Class<T>, tag: String, builder: T.() -> Unit): T {
-        val view = clazz.contextConstructor.newInstance(context)
-
-        view.tag = tag
-        view.builder()
-        _viewList.add(view)
-
-        return view
-    }
-
-
-    inline fun <reified T : View> prepareView(tag: String, noinline builder: T.() -> Unit = {}) =
-        prepareView(T::class.java, tag, builder)
-
-    fun <T : View> prepareView(view: T, tag: String, builder: T.() -> Unit = {}): T {
-        view.tag = tag
-        view.builder()
-        _viewList.add(view)
-        return view
-    }
-
-
-    // List of views that can be found by tags
-    val viewList: Set<View> get() = _viewList
-    private val _viewList: MutableSet<View> = mutableSetOf()
-
     init {
         post { setWillNotDraw(false) }
     }
@@ -86,10 +60,6 @@ open class EViewGroup : ViewGroup {
     val isInTransition get() = transition.isInTransition
 
     var layout: ELayout = EEmptyLayout
-        internal set(value) {
-            field = value
-            layout.updateLeaves()
-        }
 
     fun updateLayout(animate: Boolean = true) {
         if (width == 0 || height == 0) {
@@ -143,14 +113,6 @@ open class EViewGroup : ViewGroup {
 
     }
 
-    private fun ELayout.updateLeaves() {
-        getLeaves().forEach { leaf ->
-            (leaf.child as? ELayoutTag)?.let {
-                leaf.child = getRefFromTag(it.tag)
-            }
-        }
-    }
-
     private val debugPaint = Paint().apply {
         style = Paint.Style.FILL
         color = Color.argb(255 / 4, 255, 0, 0)
@@ -169,23 +131,6 @@ open class EViewGroup : ViewGroup {
             canvas.drawRect(left, top, right, bottom, debugPaint)
         }
     }
-
-    open fun getRefFromTag(tag: String): ELayout {
-        var view = viewList.firstOrNull { it.tag == tag }
-
-        // TODO This isn't perfect + risk of leaks
-        if (view == null) {
-            view = children
-                .firstOrNull { it.tag == tag }
-                ?.also {
-                    _viewList += it
-                }
-        }
-
-        return view?.laidIn(this) ?: throw Exception("Unknown tag $tag")
-
-    }
-
 
     fun <T : View> T.laid(tag: Any? = null) = laid().apply {
         if (tag != null) {

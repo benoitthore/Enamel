@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.benoitthore.enamel.android.extract.drawCircle
 import com.benoitthore.enamel.android.extract.drawLine
+import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.innerCircle
@@ -26,7 +27,7 @@ class MyCanvasView : View {
 
     val paint = Paint().apply {
         isAntiAlias = true
-        strokeWidth = 4.dp
+        strokeWidth = 4.dp.f
         color = Color.BLUE
         style = Paint.Style.STROKE
     }
@@ -34,7 +35,7 @@ class MyCanvasView : View {
     init {
         setOnClickListener { invalidate() }
 
-        padding = 16.dp.toInt()
+        padding = 16.dp
     }
 
     private val frame = ERectMutable()

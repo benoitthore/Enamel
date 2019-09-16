@@ -12,8 +12,8 @@ fun Context.eViewGroup(block: EViewGroup.() -> ELayout): EViewGroup = EViewGroup
     transitionTo(block(), false)
 }
 
-inline val Number.dp: Float
-    get() = toFloat() * Resources.getSystem().displayMetrics.density
+inline val Number.dp: Int
+    get() = (toFloat() * Resources.getSystem().displayMetrics.density).toInt()
 
 
 fun <T : View> T.withTag(tag: Any): T = apply {

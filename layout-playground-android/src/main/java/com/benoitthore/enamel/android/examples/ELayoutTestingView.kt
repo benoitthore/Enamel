@@ -2,16 +2,16 @@ package com.benoitthore.enamel.android.examples
 
 import android.content.Context
 import android.graphics.Color
-import android.widget.TextView
 import com.benoitthore.enamel.android.randomColor
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
+import com.benoitthore.enamel.geometry.layout.ELayout
 import com.benoitthore.enamel.geometry.layout.dsl.*
 import com.benoitthore.enamel.geometry.layout.playground.PlaygroundServer
-import com.benoitthore.enamel.layout.android.EViewGroup
-import com.benoitthore.enamel.layout.android.dp
-import com.benoitthore.enamel.layout.android.eViewGroup
-import com.benoitthore.enamel.layout.android.startServer
+import com.benoitthore.enamel.geometry.layout.refs.ELayoutTag
+import com.benoitthore.enamel.geometry.layout.refs.getLeaves
+import com.benoitthore.enamel.layout.android.*
 import splitties.views.backgroundColor
+import splitties.views.dsl.core.textView
 import splitties.views.padding
 
 
@@ -42,38 +42,52 @@ fun ELayoutTestingView(
     startServer: Boolean = false,
     serverPort: Int = PlaygroundServer.defaultPort
 ): EViewGroup {
-    return context.eViewGroup {
-
-        this@eViewGroup.backgroundColor = Color.LTGRAY
-
-        //      Generates [A, AA, AAA, B, BB, BBB, ...]
-        val list = ('A'..'F').flatMap { char ->
-            (1..3).map { nbChar ->
-                (List(nbChar) { char }).joinToString(separator = "")
-            }
+    //      Generates [A, AA, AAA, B, BB, BBB, ...]
+    val textViewList = ('A'..'F').flatMap { char ->
+        (1..3).map { nbChar ->
+            (List(nbChar) { char }).joinToString(separator = "")
         }
-
-
-        list.forEach { layoutTag ->
-            prepareView<TextView>(tag = layoutTag) {
+    }
+        .map { layoutTag ->
+            context.textView {
                 backgroundColor = randomColor()
 
                 padding = 16.dp
                 text = layoutTag
                 tag = layoutTag
             }
+                .withTag(layoutTag)
+
         }
 
 
+    val viewGroup = context.eViewGroup {
 
-        return@eViewGroup list
-            .map { it.layoutTag }
+        this@eViewGroup.backgroundColor = Color.LTGRAY
+
+        textViewList.laid()
             .stacked(bottomCenter, spacing = 16.dp).snugged()
             .padded(16.dp)
             .arranged(topLeft)
-    }.also { viewGroup ->
-        if (startServer) {
-            viewGroup.startServer(serverPort)
+    }
+
+    fun refFromTag(tag: String): ELayout =
+        textViewList.firstOrNull { it.tag == tag }?.laidIn(viewGroup)
+            ?: throw Exception("Unknown tag $tag")
+
+
+    if (startServer) {
+        viewGroup.startServer(serverPort) { layout ->
+
+            layout.getLeaves().forEach { leaf ->
+                (leaf.child as? ELayoutTag)?.let {
+                    leaf.child = refFromTag(it.tag)
+                }
+            }
+
+            layout
         }
     }
+
+    return viewGroup
 }
