@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnNextLayout
 import com.benoitthore.enamel.android.bubble.BubbleController
 import com.benoitthore.enamel.android.bubble.BubbleView
 import com.benoitthore.enamel.android.demo.CanvasTestView
@@ -168,10 +169,12 @@ class MainActivity : AppCompatActivity() {
     @ExperimentalContracts
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AllocationTracker.debugAllocations = true
+        AllocationTracker.debugAllocations = false
 
-        setContentView(BubbleView(this).also {
-            BubbleController(it).start()
+        setContentView(BubbleView(this).also { v->
+            v.doOnNextLayout {
+                BubbleController(v).start()
+            }
         })
     }
 }

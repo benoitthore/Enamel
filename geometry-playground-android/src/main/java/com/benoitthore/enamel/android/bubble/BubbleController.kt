@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.android.bubble
 
+import com.benoitthore.enamel.core.print
 import com.benoitthore.enamel.core.threading.coroutine
 import com.benoitthore.enamel.core.threading.singleThreadCoroutine
 import com.benoitthore.enamel.geometry.figures.ECircleMutable
@@ -8,6 +9,7 @@ import com.benoitthore.enamel.geometry.lerp
 import com.benoitthore.enamel.geometry.primitives.EAngle
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.times
 import com.benoitthore.enamel.layout.android.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -26,10 +28,13 @@ class BubbleController(val view: BubbleController.View) {
         var touchListener: (isDown: Boolean, current: EPoint?, previous: EPoint?) -> Unit
     }
 
-    private val bodyCtrl = BodyController(PhysicsBody(maxVelocity = 10.dp))
+    private val bodyCtrl = BodyController(PhysicsBody(maxVelocity = 1920 / 60f))
 
     fun start() {
+        bodyCtrl.position = view.bubble.center
+
         view.apply {
+
 
             var follow: EPoint? = null
             touchListener = { isDown: Boolean, current: EPoint?, previous: EPoint? ->
@@ -38,16 +43,25 @@ class BubbleController(val view: BubbleController.View) {
 
             singleThreadCoroutine {
                 while (true) {
+
+                    // CHOOSE TARGET
                     follow?.let {
+                        if (view.bubble.contains(it)) {
+                            bodyCtrl.stop()
+                        } else {
+                            bodyCtrl.follow(it)
 
-                        bodyCtrl.follow(it)
+                        }
 //                    bodyCtrl.constraintTo(frame)
-
-                        view.bubble.set(center = bodyCtrl.position)
+                        Unit
                     }
-
-                    update()
+                    bodyCtrl.constraintTo(frame)
+                    // UPDATE
+                    view.bubble.set(center = bodyCtrl.position)
+                    bodyCtrl.body.update()
                     view.update()
+
+                    // FRAME DELAY
                     delay(16)
                 }
             }
@@ -62,10 +76,14 @@ class BubbleController(val view: BubbleController.View) {
 
 }
 
-class BodyController(private val body: PhysicsBody) {
+class BodyController(val body: PhysicsBody) {
 
-    val position: EPoint get() = body.position
-    val steeringBehaviour = SteeringBehaviour(body, 1_000_000)
+    var position: EPoint
+        get() = body.position
+        set(value) {
+            body.position.set(value)
+        }
+    val steeringBehaviour = SteeringBehaviour(body, 10)
 
     fun constraintTo(frame: ERect) {
         if (!frame.contains(body.position)) {
@@ -75,8 +93,12 @@ class BodyController(private val body: PhysicsBody) {
     }
 
     fun follow(target: EPoint) {
-//        body.position.lerp(0.01,body.position,target)
+//        body.position.lerp(0.1,body.position,target)
         steeringBehaviour.steerTowards(target)
+    }
+
+    fun stop() {
+        body.velocity.selfMult(0.75)
     }
 
 }
@@ -87,6 +109,7 @@ class PhysicsBody(maxVelocity: Number, val position: EPointMutable = EPointMutab
     val velocity: EPointMutable = EPointMutable()
     val acceleration: EPointMutable = EPointMutable()
 
+//    var friction: Number = 0.000000001f
 
     fun addForce(force: EPoint) {
         acceleration.selfOffset(force)
@@ -97,8 +120,11 @@ class PhysicsBody(maxVelocity: Number, val position: EPointMutable = EPointMutab
             .selfLimitMagnitude(maxVelocity)
         position.selfOffset(velocity.x * deltaTime, velocity.y * deltaTime)
 
+
         // TODO Use delta time instead ?
         // Clear acceleration after constraintFrame
+
+//        velocity.selfMult(friction)
         acceleration.set(0, 0)
     }
 }
