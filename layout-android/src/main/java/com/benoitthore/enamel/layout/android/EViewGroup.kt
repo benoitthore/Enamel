@@ -60,6 +60,7 @@ open class EViewGroup : ViewGroup {
     val isInTransition get() = transition.isInTransition
 
     var layout: ELayout = EEmptyLayout
+    private set
 
     fun updateLayout(animate: Boolean = true) {
         if (width == 0 || height == 0) {
