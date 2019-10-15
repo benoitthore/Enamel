@@ -41,7 +41,7 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
 
 
     @get:JsonIgnore
-    open val magnitude
+    open val magnitude: Number
         get() = hypot(x.d, y.d)
 
     fun heading(buffer: EAngleMutable = EAngleMutable()) =
@@ -171,7 +171,7 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
         val max = max.f
         buffer.set(this)
 
-        if (buffer.magnitude > max) {
+        if (buffer.magnitude.d > max) {
             buffer.selfNormalize().selfMult(max)
         }
 
@@ -214,7 +214,7 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
     fun set(angle: EAngle, magnitude: Number) =
         set(angle.cos * magnitude.f, angle.sin * magnitude.f)
 
-    override var magnitude: Double
+    override var magnitude
         get() = super.magnitude
         set(value) {
             selfSetMagnitude(value)
