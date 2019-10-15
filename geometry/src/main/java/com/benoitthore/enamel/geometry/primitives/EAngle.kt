@@ -93,6 +93,9 @@ open class EAngle(
 
     operator fun compareTo(angle: EAngleMutable): Int = ((rotation - angle.rotation) * 100).toInt()
 
+    fun toMutable(): EAngleMutable = EAngleMutable(value,type)
+    fun toImmutable(): EAngle = EAngle(value,type)
+
 //    operator fun Number.times(angle: EAngleMutable): EAngleMutable = angle * this
 }
 
