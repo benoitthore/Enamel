@@ -12,8 +12,6 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.doOnNextLayout
-import com.benoitthore.enamel.android.bubble.BubbleController
-import com.benoitthore.enamel.android.bubble.BubbleView
 import com.benoitthore.enamel.android.demo.CanvasTestView
 import com.benoitthore.enamel.android.demo.canvasView
 import com.benoitthore.enamel.android.extract.*
@@ -166,15 +164,10 @@ fun Context.fancyView(): CanvasTestView {
 
 class MainActivity : AppCompatActivity() {
 
-    @ExperimentalContracts
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AllocationTracker.debugAllocations = false
 
-        setContentView(BubbleView(this).also { v->
-            v.doOnNextLayout {
-                BubbleController(v).start()
-            }
-        })
+        setContentView(fancyView())
     }
 }
