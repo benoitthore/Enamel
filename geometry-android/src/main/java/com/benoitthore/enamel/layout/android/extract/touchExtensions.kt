@@ -1,31 +1,20 @@
-package com.benoitthore.enamel.android.extract
+package com.benoitthore.enamel.layout.android.extract
 
 import android.view.MotionEvent
 import android.view.View
-import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
-import kotlin.math.max
 
 
-fun View.touchProgress(block: (x:Float,y:Float) -> Unit) {
-    singleTouch { isDown, current, previous ->
-        if (current == null) {
-            return@singleTouch
-        }
-        val x = current.x / width
-        val y = current.y / height
-        block(x,y)
-    }
-}
+fun EPointMutable.set(event: MotionEvent) = apply { set(event.x, event.y) }
 
-fun EPointMutable.set(event: MotionEvent): EPointMutable {
-    set(event.x, event.y)
-
-    return this
-}
-
-fun View.singleTouch(block: (isDown: Boolean, current: EPoint?, previous: EPoint?) -> Unit) {
+/**
+ * Allows to easily work with EPoint for when dealing with touch events
+ * isDown: Boolean -> true as long as the user is touching the screen
+ * current: EPoint? -> current touch location, null when isDown is false
+ * previous: EPoint? -> Location of the previous touch, null if isDown has just been set to true
+ */
+fun View.singleTouch(block: (isDown: Boolean, current: EPoint?, previous: EPoint?) -> Boolean) {
     val previous = EPointMutable()
     val current = EPointMutable()
 
@@ -33,8 +22,7 @@ fun View.singleTouch(block: (isDown: Boolean, current: EPoint?, previous: EPoint
 
         previous.set(current)
         current.set(e)
-
-        when (e.action) {
+        return@setOnTouchListener when (e.action) {
             MotionEvent.ACTION_DOWN -> {
                 block(true, current, null)
             }
@@ -44,12 +32,28 @@ fun View.singleTouch(block: (isDown: Boolean, current: EPoint?, previous: EPoint
             MotionEvent.ACTION_MOVE -> {
                 block(true, current, previous)
             }
+            else -> false
         }
 
 
-        true
     }
 }
+
+/**
+ * Like a singleTouch with x and y normalized over the View's size
+ * (0,0) being top left and (1,1) bottom right
+ */
+fun View.normalizedTouch(block: (x: Float, y: Float) -> Boolean) {
+    singleTouch { isDown, current, previous ->
+        if (current == null) {
+            return@singleTouch false
+        }
+        val x = current.x / width
+        val y = current.y / height
+        return@singleTouch block(x, y)
+    }
+}
+
 
 data class ETouchEvent(
     val position: EPointMutable = EPointMutable(),
@@ -85,10 +89,8 @@ fun View.mutliTouch(maxFingers: Int = 10, onTouch: (List<ETouchEvent>) -> Boolea
             val x = e.getX(i)
             val y = e.getY(i)
             val id = e.getPointerId(i)
-            val action = e.actionMasked
-//            val actionIndex = e.actionIndex
 
-            val isDown = when (action) {
+            val isDown = when (val action = e.actionMasked) {
                 MotionEvent.ACTION_DOWN -> true
                 MotionEvent.ACTION_UP -> false
                 MotionEvent.ACTION_POINTER_DOWN -> true
