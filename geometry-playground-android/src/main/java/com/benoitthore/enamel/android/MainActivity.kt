@@ -10,10 +10,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.benoitthore.enamel.android.demo.CanvasTestView
 import com.benoitthore.enamel.android.demo.canvasView
-import com.benoitthore.enamel.layout.android.extract.*
 import com.benoitthore.enamel.core.animations.EasingInterpolators
 import com.benoitthore.enamel.core.math.map
-import com.benoitthore.enamel.core.math.noise.*
+import com.benoitthore.enamel.core.math.noise.OpenSimplexNoise
+import com.benoitthore.enamel.core.math.noise.invoke
 import com.benoitthore.enamel.core.time.ETimer
 import com.benoitthore.enamel.geometry.AllocationTracker
 import com.benoitthore.enamel.geometry.figures.ECircle
@@ -23,6 +23,10 @@ import com.benoitthore.enamel.geometry.innerRect
 import com.benoitthore.enamel.geometry.primitives.degrees
 import com.benoitthore.enamel.geometry.primitives.radians
 import com.benoitthore.enamel.geometry.toCircle
+import com.benoitthore.enamel.layout.android.extract.GeometryPool
+import com.benoitthore.enamel.layout.android.extract.colorHSL
+import com.benoitthore.enamel.layout.android.extract.prepareAnimation
+import com.benoitthore.enamel.layout.android.extract.toLinearGradient
 
 
 val Context.isLandscape get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
@@ -154,7 +158,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AllocationTracker.debugAllocations = false
+        AllocationTracker.debugAllocations = true
         setContentView(fancyView())
     }
 }

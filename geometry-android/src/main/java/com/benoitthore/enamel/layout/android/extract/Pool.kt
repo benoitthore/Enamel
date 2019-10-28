@@ -6,33 +6,7 @@ import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.EAngleMutable
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
 
-/*
-    val rectPool: Pool<ERectMutable>
-    val pointPool: Pool<EPointMutable>
-    val circlePool: Pool<ECircleMutable>
-    val linePool: Pool<ELineMutable>
-    val anglePool: Pool<EAngleMutable>
-
-    allocate {
-        rectPool = RectPool()
-        pointPool = PointPool()
-        circlePool = CirclePool()
-        linePool = LinePool()
-        anglePool = AnglePool()
-    }
-*/
-
-/*
-    val rectPool = RectPool()
-    val pointPool = PointPool()
-    val circlePool = CirclePool()
-    val linePool = LinePool()
-    val anglePool = AnglePool()
- */
-
-
-//interface
-class Pool<T : Any>(val size: Int, val init: (Int) -> T) {
+class Pool<T : Any>(val size: Int, init: (Int) -> T) {
     private val list = List(size, init)
     private var i = 0
     val next: T
@@ -78,24 +52,28 @@ fun AnglePool(size: Int = 50) =
     Pool(size) { EAngleMutable() }
 
 class GeometryPool(
-    rectPoolSize: Int = 50,
-    pointPoolSize: Int = 50,
-    circlePoolSize: Int = 50,
-    linePoolSize: Int = 50,
-    anglePoolSize: Int = 50
+    val rectPool: Pool<ERectMutable> = RectPool(50),
+    val pointPool: Pool<EPointMutable> = PointPool(50),
+    val circlePool: Pool<ECircleMutable> = CirclePool(50),
+    val linePool: Pool<ELineMutable> = LinePool(50),
+    val anglePool: Pool<EAngleMutable> = AnglePool(50)
 ) {
     constructor(size: Int) : this(size, size, size, size, size)
 
-    val rectPool: Pool<ERectMutable> =
-        RectPool(rectPoolSize)
-    val pointPool: Pool<EPointMutable> =
-        PointPool(pointPoolSize)
-    val circlePool: Pool<ECircleMutable> =
-        CirclePool(circlePoolSize)
-    val linePool: Pool<ELineMutable> =
-        LinePool(linePoolSize)
-    val anglePool: Pool<EAngleMutable> =
-        AnglePool(anglePoolSize)
+    constructor(
+        rectPoolSize: Int = 50,
+        pointPoolSize: Int = 50,
+        circlePoolSize: Int = 50,
+        linePoolSize: Int = 50,
+        anglePoolSize: Int = 50
+    ) : this(
+        rectPool = RectPool(rectPoolSize),
+        pointPool = PointPool(pointPoolSize),
+        circlePool = CirclePool(circlePoolSize),
+        linePool = LinePool(linePoolSize),
+        anglePool = AnglePool(anglePoolSize)
+    )
+
 
     inline fun use(block: GeometryPool.() -> Unit) {
         reset()
