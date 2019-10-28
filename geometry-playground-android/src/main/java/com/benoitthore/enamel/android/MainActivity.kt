@@ -2,42 +2,30 @@ package com.benoitthore.enamel.android
 
 import android.animation.TimeInterpolator
 import android.content.Context
-import android.content.res.Configuration.ORIENTATION_LANDSCAPE
-import android.graphics.Canvas
+import android.content.res.Configuration
 import android.graphics.Color.*
 import android.graphics.Paint
 import android.graphics.Shader
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.doOnNextLayout
 import com.benoitthore.enamel.android.demo.CanvasTestView
 import com.benoitthore.enamel.android.demo.canvasView
-import com.benoitthore.enamel.android.extract.*
+import com.benoitthore.enamel.layout.android.extract.*
 import com.benoitthore.enamel.core.animations.EasingInterpolators
-import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.map
+import com.benoitthore.enamel.core.math.noise.*
 import com.benoitthore.enamel.core.time.ETimer
 import com.benoitthore.enamel.geometry.AllocationTracker
 import com.benoitthore.enamel.geometry.figures.ECircle
-import com.benoitthore.enamel.geometry.figures.ECircleMutable
 import com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.innerRect
-import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.degrees
 import com.benoitthore.enamel.geometry.primitives.radians
 import com.benoitthore.enamel.geometry.toCircle
-import com.benoitthore.enamel.layout.android.dp
-import kotlin.contracts.ExperimentalContracts
 
 
-operator fun OpenSimplexNoise.invoke(x: Number) = eval(x.d)
-operator fun OpenSimplexNoise.invoke(x: Number, y: Number) = eval(x.d, y.d)
-operator fun OpenSimplexNoise.invoke(x: Number, y: Number, z: Number) = eval(x.d, y.d, z.d)
-
-val Context.isLandscape get() = resources.configuration.orientation == ORIENTATION_LANDSCAPE
+val Context.isLandscape get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
 fun Context.fancyView(): CanvasTestView {
     val pool = GeometryPool(100)
@@ -167,7 +155,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AllocationTracker.debugAllocations = false
-
         setContentView(fancyView())
     }
 }

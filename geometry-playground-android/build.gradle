@@ -65,8 +65,8 @@ dependencies {
     implementation(project(':geometry'))
     implementation(project(':layout'))
     implementation(project(':layout-android'))
+    implementation(project(':geometry-android'))
 
-    implementation "com.louiscad.splitties:splitties-views-dsl:3.0.0-alpha04"
     implementation xDependencies.appcompat
     implementation xDependencies.core
 

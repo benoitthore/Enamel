@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.android.extract
+package com.benoitthore.enamel.layout.android.extract
 
 import com.benoitthore.enamel.geometry.figures.ECircleMutable
 import com.benoitthore.enamel.geometry.figures.ELineMutable

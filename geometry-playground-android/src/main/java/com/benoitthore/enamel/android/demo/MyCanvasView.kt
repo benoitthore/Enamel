@@ -6,14 +6,13 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import com.benoitthore.enamel.android.extract.drawCircle
-import com.benoitthore.enamel.android.extract.drawLine
+import com.benoitthore.enamel.layout.android.extract.drawCircle
+import com.benoitthore.enamel.layout.android.extract.drawLine
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.layout.android.dp
-import splitties.views.padding
 
 class MyCanvasView : View {
     constructor(context: Context?) : super(context)
@@ -35,7 +34,7 @@ class MyCanvasView : View {
     init {
         setOnClickListener { invalidate() }
 
-        padding = 16.dp
+        setPadding(16.dp, 16.dp, 16.dp, 16.dp)
     }
 
     private val frame = ERectMutable()

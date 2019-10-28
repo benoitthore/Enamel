@@ -6,10 +6,10 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
-import com.benoitthore.enamel.android.extract.drawCircle
-import com.benoitthore.enamel.android.extract.drawLine
-import com.benoitthore.enamel.android.extract.drawRect
-import com.benoitthore.enamel.android.extract.drawRoundRect
+import com.benoitthore.enamel.layout.android.extract.drawCircle
+import com.benoitthore.enamel.layout.android.extract.drawLine
+import com.benoitthore.enamel.layout.android.extract.drawRect
+import com.benoitthore.enamel.layout.android.extract.drawRoundRect
 import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
 import com.benoitthore.enamel.geometry.figures.ERect

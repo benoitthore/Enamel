@@ -1,11 +1,9 @@
-package com.benoitthore.enamel.android.extract
+package com.benoitthore.enamel.layout.android.extract
 
 import android.graphics.*
-import android.view.View
 import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
 import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.EPoint
 
 fun ELine.toLinearGradient(

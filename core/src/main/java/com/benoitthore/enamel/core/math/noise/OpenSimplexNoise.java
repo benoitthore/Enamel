@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.android.extract;
+package com.benoitthore.enamel.core.math.noise;
 
 
 
