@@ -21,10 +21,10 @@ class EStackLayout(
     override fun size(toFit: ESize): ESize {
         val group = children.map { it.size(toFit) }.rectGroup(alignment = alignment, spacing = spacing)
 
-        if (alignment.isVertical) {
-            return toFit.copy(height = group.size.height)
+        return if (alignment.isVertical) {
+            toFit.copy(height = group.size.height)
         } else {
-            return toFit.copy(width = group.size.width)
+            toFit.copy(width = group.size.width)
         }
     }
 

@@ -55,17 +55,18 @@ class EFlowLayout(
                 cols += EStackLayout(
                     spacing = childSpacing,
                     alignment = childAlignment,
-                    children = row.toMutableList().apply { if (isNotEmpty()) removeAt(row.size - 1) } // TODO Optimise perfs
+                    children = row
+                        .toMutableList()
+                        .apply { if (isNotEmpty()) removeAt(row.size - 1) }
                 ).snugged()
             }
             row.lastOrNull()?.let { row.clear(); row += it }
-
 
             if (i == children.size - 1) {
                 cols += EStackLayout(
                     spacing = childSpacing,
                     alignment = childAlignment,
-                    children = row.toMutableList()// TODO Optimise perfs
+                    children = row.toMutableList()
                 ).snugged()
             }
         }

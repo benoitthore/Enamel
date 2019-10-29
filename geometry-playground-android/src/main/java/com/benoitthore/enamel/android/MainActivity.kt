@@ -31,6 +31,7 @@ import com.benoitthore.enamel.geometry.layout.ELayout
 import com.benoitthore.enamel.geometry.layout.ELayoutLeaf
 import com.benoitthore.enamel.geometry.layout.ESizingLayout
 import com.benoitthore.enamel.geometry.layout.dsl.arranged
+import com.benoitthore.enamel.geometry.layout.dsl.padded
 import com.benoitthore.enamel.geometry.layout.dsl.sized
 import com.benoitthore.enamel.geometry.layout.flowed
 import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
@@ -180,10 +181,13 @@ class MainActivity : AppCompatActivity() {
 
             val list = List(10) {
                 ELayoutLeaf(randomColor())
-                    .sized(ESize.RandomSquare(32.dp, 64.dp))
+//                    .sized(ESize.RandomSquare(32.dp, 64.dp))
+                    .sized(ESize.Square(64.dp))
 
             }
-            val layout = list.flowed()
+            val layout = list
+                .flowed(lineSpacing = 8.dp, childSpacing = 16.dp)
+                .padded(8.dp)
 
             layout.arranged(topLeft).arrange(frame)
 
