@@ -35,16 +35,6 @@ class EFlowLayout(
         measurableArrange(frame)
     }
 
-    data class ChildSettings(
-        val spacing: Number = 0,
-        val alignment: EAlignment = rightCenter
-    )
-
-    data class LineSettings(
-        val spacing: Number = 0,
-        val alignment: EAlignment = bottomLeft
-    )
-
     fun measurableArrange(rect: ERect, shouldArrange: Boolean = true): ESize {
         var rowWidth = 0f
         val cols = mutableListOf<ELayout>()
