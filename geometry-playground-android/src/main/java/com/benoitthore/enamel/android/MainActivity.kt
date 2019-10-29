@@ -3,10 +3,15 @@ package com.benoitthore.enamel.android
 import android.animation.TimeInterpolator
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.*
 import android.graphics.Color.*
-import android.graphics.Paint
-import android.graphics.Shader
+import android.os.Build
 import android.os.Bundle
+import android.text.Layout
+import android.text.StaticLayout
+import android.text.TextPaint
+import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.benoitthore.enamel.android.demo.CanvasTestView
 import com.benoitthore.enamel.android.demo.canvasView
@@ -14,20 +19,27 @@ import com.benoitthore.enamel.core.animations.EasingInterpolators
 import com.benoitthore.enamel.core.math.map
 import com.benoitthore.enamel.core.math.noise.OpenSimplexNoise
 import com.benoitthore.enamel.core.math.noise.invoke
+import com.benoitthore.enamel.core.math.random
 import com.benoitthore.enamel.core.time.ETimer
 import com.benoitthore.enamel.geometry.AllocationTracker
-import com.benoitthore.enamel.geometry.figures.ECircle
-import com.benoitthore.enamel.geometry.figures.line
+import com.benoitthore.enamel.geometry.alignement.EAlignment.*
+import com.benoitthore.enamel.geometry.alignement.EAlignment
+import com.benoitthore.enamel.geometry.figures.*
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.innerRect
+import com.benoitthore.enamel.geometry.layout.ELayout
+import com.benoitthore.enamel.geometry.layout.ELayoutLeaf
+import com.benoitthore.enamel.geometry.layout.ESizingLayout
+import com.benoitthore.enamel.geometry.layout.dsl.arranged
+import com.benoitthore.enamel.geometry.layout.dsl.sized
+import com.benoitthore.enamel.geometry.layout.flowed
+import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
+import com.benoitthore.enamel.geometry.layout.refs.getLeaves
 import com.benoitthore.enamel.geometry.primitives.degrees
 import com.benoitthore.enamel.geometry.primitives.radians
 import com.benoitthore.enamel.geometry.toCircle
-import com.benoitthore.enamel.layout.android.extract.GeometryPool
-import com.benoitthore.enamel.layout.android.extract.colorHSL
-import com.benoitthore.enamel.layout.android.extract.prepareAnimation
-import com.benoitthore.enamel.layout.android.extract.toLinearGradient
-
+import com.benoitthore.enamel.layout.android.dp
+import com.benoitthore.enamel.layout.android.extract.*
 
 val Context.isLandscape get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
@@ -153,12 +165,61 @@ fun Context.fancyView(): CanvasTestView {
     }
 }
 
-
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AllocationTracker.debugAllocations = true
-        setContentView(fancyView())
+//        setContentView(fancyView())
+
+        val paint = Paint().apply {
+            style = Paint.Style.FILL
+        }
+
+        setContentView(canvasView { canvas ->
+
+            val list = List(10) {
+                ELayoutLeaf(randomColor())
+                    .sized(ESize.RandomSquare(32.dp, 64.dp))
+
+            }
+            val layout = list.flowed()
+
+            layout.arranged(topLeft).arrange(frame)
+
+            layout.getLeaves().forEach { leaf ->
+                paint.color = leaf.color
+                canvas.drawRect(leaf.frame, paint)
+            }
+        })
+
     }
+}
+
+data class ETextStyle(val alignment: EAlignment = EAlignment.topLeft)
+class ETextView(
+    val paint: TextPaint,
+    val style: ETextStyle = ETextStyle()
+) : ELayout {
+    var text: String = ""
+
+    override val children: List<ELayout> = emptyList()
+
+    private val rect: Rect = Rect()
+    private val bufferSize = ESizeMutable()
+    override fun size(toFit: ESize): ESize {
+        rect.width()
+        paint.getTextBounds(text, 0, 1, rect)
+
+        return bufferSize.set(rect.width(), rect.height())
+    }
+
+    override fun arrange(frame: ERect) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun draw(canvas: Canvas) {
+
+    }
+
 }
