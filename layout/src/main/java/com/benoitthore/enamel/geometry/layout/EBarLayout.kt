@@ -18,7 +18,7 @@ class EBarLayout(child: ELayout, var side: ERectEdge) : ELayoutAlongAxis {
 
 
     private val _childLayouts: MutableList<ELayout> = mutableListOf(child)
-    override val childLayouts: List<ELayout> get() = _childLayouts
+    override val children: List<ELayout> get() = _childLayouts
 
     override fun size(toFit: ESize): ESize {
         return if (side.isHorizontal) {

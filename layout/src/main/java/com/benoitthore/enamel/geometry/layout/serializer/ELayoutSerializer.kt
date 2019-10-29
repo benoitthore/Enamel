@@ -1,10 +1,7 @@
 package com.benoitthore.enamel.geometry.layout.serializer
 
-import com.benoitthore.enamel.core.*
-import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.layout.*
-import com.benoitthore.enamel.geometry.layout.dsl.*
 import com.benoitthore.enamel.geometry.layout.ESizingLayout.ELayoutSpace.*
 import com.benoitthore.enamel.geometry.layout.refs.ELayoutTag
 import com.benoitthore.enamel.geometry.primitives.EOffset
@@ -71,7 +68,7 @@ class ELayoutSerializer(
             JSONObject().apply {
                 put("alignment", layout.alignment.name)
                 put("spacing", layout.spacing)
-                put("children", serialize(layout.childLayouts))
+                put("children", serialize(layout.children))
             }
         }
         addSerializer(EDivideLayout::class.java) { layout ->
@@ -98,7 +95,7 @@ class ELayoutSerializer(
         addSerializer(EJustifiedLayout::class.java) { layout ->
             JSONObject().apply {
                 put("alignment", layout.alignment)
-                put("children", serialize(layout.childLayouts))
+                put("children", serialize(layout.children))
             }
         }
         addSerializer(EPaddingLayout::class.java) { layout ->
@@ -148,7 +145,7 @@ class ELayoutSerializer(
                 put("alignment", layout.alignment)
                 put("spacing", layout.spacing)
                 put("weights", layout.weights)
-                put("children", serialize(layout.childLayouts))
+                put("children", serialize(layout.children))
             }
         }
     }

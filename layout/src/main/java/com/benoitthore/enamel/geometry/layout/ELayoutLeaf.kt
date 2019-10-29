@@ -17,7 +17,7 @@ class ELayoutLeaf(var color: Int = 0, var child: ELayout? = null) : ELayoutAlong
     val frame: ERect = _frame
 
 
-    override val childLayouts: List<ELayout>
+    override val children: List<ELayout>
         get() = child?.let { listOf(it) } ?: emptyList() // TODO add setter on child to avoid allocation on get()
 
     override fun size(toFit: ESize): ESize = child?.size(toFit) ?: toFit

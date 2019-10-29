@@ -20,7 +20,6 @@ class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? =
 //    private val _origin: EPointMutable
 //    private val _size: ESizeMutable
 
-
     init {
         val frameTmp = overrideFrame ?: _rects.union()
         _frame.size.set(frameTmp.size)

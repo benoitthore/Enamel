@@ -6,7 +6,7 @@ import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.layout.ELayout
 
 class ELayoutTag(var tag: String) : ELayout {
-    override val childLayouts: List<ELayout> = emptyList()
+    override val children: List<ELayout> = emptyList()
 
     val frame: ERect get() = _frame
     private val _frame = ERectMutable()

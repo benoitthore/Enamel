@@ -19,7 +19,7 @@ class EPaddingLayout(child: ELayout = ELayoutLeaf.unit, var padding: EOffset = E
 
 
     private val _childLayouts: MutableList<ELayout> = mutableListOf(child)
-    override val childLayouts: List<ELayout> get() = _childLayouts
+    override val children: List<ELayout> get() = _childLayouts
 
     override fun size(toFit: ESize): ESize {
         return child.size(toFit.sub(padding)) + padding

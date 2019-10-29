@@ -2,13 +2,12 @@ package com.benoitthore.enamel.geometry.layout
 
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
-import com.benoitthore.enamel.geometry.alignement.along
 import com.benoitthore.enamel.geometry.alignement.layoutAxis
 import com.benoitthore.enamel.geometry.figures.*
 
 
 class EJustifiedLayout(
-    override val childLayouts: MutableList<ELayout>,
+    override val children: MutableList<ELayout>,
     var alignment: EAlignment
 ) : ELayoutAlongAxis {
 
@@ -18,7 +17,7 @@ class EJustifiedLayout(
 
     override fun arrange(frame: ERect) {
         val group = rects(frame)
-        childLayouts.zip(group)
+        children.zip(group)
             .forEach { (layout, rect) ->
                 layout.arrange(rect)
             }
@@ -36,12 +35,12 @@ class EJustifiedLayout(
     }
 
     private fun sizes(toFit: ESize): List<ESize> {
-        return childLayouts.map { it.size(toFit) }
+        return children.map { it.size(toFit) }
     }
 
 
     override fun toString(): String {
-        return "EJustifiedLayout(alignment=$alignment, layoutAxis=$layoutAxis, childLayouts=$childLayouts)"
+        return "EJustifiedLayout(alignment=$alignment, layoutAxis=$layoutAxis, children=$children)"
     }
 
 

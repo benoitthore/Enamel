@@ -17,7 +17,7 @@ class EBoxLayout(
             _childLayouts.add(field)
         }
     private val _childLayouts: MutableList<ELayout> = mutableListOf(child)
-    override val childLayouts: List<ELayout> get() = _childLayouts
+    override val children: List<ELayout> get() = _childLayouts
 
     override fun size(toFit: ESize): ESize {
         return if (snugged) {

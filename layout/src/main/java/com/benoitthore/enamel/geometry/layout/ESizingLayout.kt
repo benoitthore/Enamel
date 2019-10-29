@@ -13,7 +13,7 @@ class ESizingLayout(child: ELayout, var space: ELayoutSpace) : ELayout {
         }
 
     private val _childLayouts: MutableList<ELayout> = mutableListOf(child)
-    override val childLayouts: List<ELayout> get() = _childLayouts
+    override val children: List<ELayout> get() = _childLayouts
 
     override fun size(toFit: ESize): ESize {
         val space = space
