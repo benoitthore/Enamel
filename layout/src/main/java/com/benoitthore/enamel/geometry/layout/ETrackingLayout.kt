@@ -22,7 +22,7 @@ class ETrackingLayout(src: ELayout = ELayoutLeaf.unit, dst: ELayout = ELayoutLea
             _childLayouts.add(dst)
         }
 
-    override val childLayouts: List<ELayout> get() = _childLayouts
+    override val children: List<ELayout> get() = _childLayouts
 
     override fun size(toFit: ESize): ESize = src.size(toFit)
 

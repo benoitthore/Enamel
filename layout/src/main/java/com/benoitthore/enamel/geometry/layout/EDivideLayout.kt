@@ -31,7 +31,7 @@ class EDivideLayout(
         }
 
     private val _childLayouts: MutableList<ELayout> = mutableListOf(slice, remainder)
-    override val childLayouts: List<ELayout> get() = _childLayouts
+    override val children: List<ELayout> get() = _childLayouts
 
     override fun size(toFit: ESize): ESize {
         if (!snugged) {

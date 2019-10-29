@@ -1,7 +1,6 @@
 package com.benoitthore.enamel.geometry.layout.dsl
 
 import com.benoitthore.enamel.geometry.alignement.EAlignment
-import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.figures.size
 import com.benoitthore.enamel.geometry.layout.EJustifiedLayout
@@ -58,7 +57,7 @@ fun List<ELayout>.scaled(x: Number, y: Number) = map { it.scaled(x, y) }
 fun List<ELayout>.equallySized(alignment: EAlignment, spacing: Number = 0) =
     EWeightLayout(
         alignment = alignment,
-        childLayouts = this,
+        children = this,
         weights = List(size) { 1 },
         spacing = spacing
     )
@@ -78,7 +77,7 @@ fun List<Pair<ELayout, Number>>.weighted(
 
     return EWeightLayout(
         alignment = alignment,
-        childLayouts = childLayouts,
+        children = childLayouts,
         weights = weights,
         spacing = spacing
     )

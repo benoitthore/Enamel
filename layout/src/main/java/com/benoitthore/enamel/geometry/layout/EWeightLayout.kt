@@ -10,7 +10,7 @@ import com.benoitthore.enamel.geometry.figures.rectGroupWeights
 
 class EWeightLayout(
     val alignment: EAlignment,
-    override val childLayouts: List<ELayout>,
+    override val children: List<ELayout>,
     val weights: List<Number>,
     val spacing: Number
 ) :
@@ -22,7 +22,7 @@ class EWeightLayout(
 
     override fun arrange(frame: ERect) {
         val group = rects(frame)
-        childLayouts.zip(group)
+        children.zip(group)
             .forEach { (layout, rect) ->
                 layout.arrange(rect)
             }
@@ -39,7 +39,7 @@ class EWeightLayout(
     }
 
     override fun toString(): String {
-        return "EWeightLayout(alignment=$alignment, childLayouts=$childLayouts, weights=$weights, spacing=$spacing)"
+        return "EWeightLayout(alignment=$alignment, children=$children, weights=$weights, spacing=$spacing)"
     }
 
 

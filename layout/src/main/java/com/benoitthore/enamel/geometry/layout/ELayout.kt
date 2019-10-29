@@ -6,7 +6,7 @@ import com.benoitthore.enamel.geometry.figures.ESize
 
 
 interface ELayout {
-    val childLayouts: List<ELayout>
+    val children: List<ELayout>
 
     // TODO Refactor so these 2 functions don't allocate
     fun size(toFit: ESize): ESize

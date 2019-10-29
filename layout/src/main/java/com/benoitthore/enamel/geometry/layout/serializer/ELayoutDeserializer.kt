@@ -75,7 +75,7 @@ class ELayoutDeserializer(
 
         addDeserializer(EStackLayout::class.java) { jsonObject ->
             EStackLayout(
-                childLayouts = jsonObject.getJSONArray("children").deserialize().toMutableList(),
+                children = jsonObject.getJSONArray("children").deserialize().toMutableList(),
                 spacing = jsonObject._getNumber("spacing"),
                 alignment = jsonObject.getString("alignment").toAlignment()
             )
@@ -101,7 +101,7 @@ class ELayoutDeserializer(
         addDeserializer(EJustifiedLayout::class.java) { jsonObject ->
             EJustifiedLayout(
                 alignment = jsonObject.getString("alignment").toAlignment(),
-                childLayouts = jsonObject.getJSONArray("children").deserialize()
+                children = jsonObject.getJSONArray("children").deserialize()
             )
         }
         addDeserializer(EPaddingLayout::class.java) { jsonObject ->
@@ -142,7 +142,7 @@ class ELayoutDeserializer(
 
             EWeightLayout(
                 alignment = jsonObject.getString("alignment").toAlignment(),
-                childLayouts = jsonObject.getJSONArray("children").deserialize(),
+                children = jsonObject.getJSONArray("children").deserialize(),
                 weights = weights,
                 spacing = jsonObject._getNumber("spacing")
             )

@@ -2,6 +2,7 @@ package com.benoitthore.enamel.geometry.figures
 
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.core.math.random
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.allocate
@@ -17,7 +18,20 @@ open class ESize(open val width: Float = 0f, open val height: Float = 0f) : Tupl
     companion object {
         val zero: ESize = allocate { ESize() }
         val greatestSize: ESize = allocate { ESize(Float.MAX_VALUE, Float.MAX_VALUE) }
-        fun square(size: Number) = ESizeMutable(size, size)
+        fun Square(size: Number) = ESizeMutable(size, size)
+
+        fun RandomSquare(minSize: Number, maxSize: Number): ESizeMutable =
+            Random(minSize, maxSize, minSize, maxSize)
+
+        fun Random(
+            minWidth: Number = 0,
+            maxWidth: Number = 1,
+            minHeight: Number = 0,
+            maxHeight: Number = 1
+        ): ESizeMutable = ESizeMutable(
+            random(minWidth, maxWidth),
+            random(minHeight, maxHeight)
+        )
     }
 
     init {
@@ -27,7 +41,11 @@ open class ESize(open val width: Float = 0f, open val height: Float = 0f) : Tupl
     fun toMutable() = ESizeMutable(width, height)
     fun toImmutable() = ESize(width, height)
 
-    fun copy(width: Number = this.width, height: Number = this.height, buffer: ESizeMutable = ESizeMutable()) =
+    fun copy(
+        width: Number = this.width,
+        height: Number = this.height,
+        buffer: ESizeMutable = ESizeMutable()
+    ) =
         buffer.set(width, height)
 
     val min get() = Math.min(width, height)
@@ -38,20 +56,36 @@ open class ESize(open val width: Float = 0f, open val height: Float = 0f) : Tupl
 
     fun abs(buffer: ESizeMutable = ESizeMutable()) = buffer.set(Math.abs(width), Math.abs(height))
 
-    fun inset(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) = buffer.set(width - x.f, height - y.f)
-    fun inset(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) = inset(other.v1, other.v2, buffer)
+    fun inset(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) =
+        buffer.set(width - x.f, height - y.f)
+
+    fun inset(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) =
+        inset(other.v1, other.v2, buffer)
+
     fun inset(n: Number, buffer: ESizeMutable = ESizeMutable()) = inset(n, n, buffer)
 
-    fun expand(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) = inset(-x.f, -y.f, buffer)
-    fun expand(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) = expand(other.v1, other.v2, buffer)
+    fun expand(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) =
+        inset(-x.f, -y.f, buffer)
+
+    fun expand(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) =
+        expand(other.v1, other.v2, buffer)
+
     fun expand(n: Number, buffer: ESizeMutable = ESizeMutable()) = expand(n, n, buffer)
 
-    fun scale(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) = buffer.set(width * x.f, height * y.f)
-    fun scale(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) = scale(other.v1, other.v2, buffer)
+    fun scale(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) =
+        buffer.set(width * x.f, height * y.f)
+
+    fun scale(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) =
+        scale(other.v1, other.v2, buffer)
+
     fun scale(n: Number, buffer: ESizeMutable = ESizeMutable()) = scale(n, n, buffer)
 
-    fun dividedBy(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) = buffer.set(width / x.f, height / y.f)
-    fun dividedBy(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) = dividedBy(other.v1, other.v2, buffer)
+    fun dividedBy(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) =
+        buffer.set(width / x.f, height / y.f)
+
+    fun dividedBy(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) =
+        dividedBy(other.v1, other.v2, buffer)
+
     fun dividedBy(n: Number, buffer: ESizeMutable = ESizeMutable()) = dividedBy(n, n, buffer)
 
 
@@ -70,7 +104,8 @@ open class ESize(open val width: Float = 0f, open val height: Float = 0f) : Tupl
 
 }
 
-class ESizeMutable(override var width: Float = 0f, override var height: Float = 0f) : ESize(width, height),
+class ESizeMutable(override var width: Float = 0f, override var height: Float = 0f) :
+    ESize(width, height),
     Resetable {
     constructor(width: Number, height: Number) : this(width.f, height.f)
     constructor(other: Tuple2) : this(other.v1, other.v2)
@@ -107,3 +142,4 @@ class ESizeMutable(override var width: Float = 0f, override var height: Float = 
 }
 
 infix fun Number.size(height: Number) = ESizeMutable(this, height)
+

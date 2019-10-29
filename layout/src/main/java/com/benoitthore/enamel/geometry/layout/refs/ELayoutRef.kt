@@ -15,7 +15,7 @@ class ELayoutRef<V : Any>(
     private val arrangeIn: ELayoutRef<V>.(ERect) -> Unit
 ) : ELayout {
 
-    override val childLayouts: List<ELayout> = listOf()
+    override val children: List<ELayout> = listOf()
 
     var isInMeasureMode = false
 
@@ -40,7 +40,7 @@ class ELayoutRef<V : Any>(
 // TODO Test
 fun ELayout.getAllChildren(list: LinkedList<ELayout> = LinkedList()): List<ELayout> {
     list += this
-    childLayouts.flatMap { it.getAllChildren(list) }
+    children.flatMap { it.getAllChildren(list) }
     return list
 }
 
@@ -52,7 +52,7 @@ fun ELayout.getLeaves(): List<ELayoutLeaf> {
     if (this is ELayoutLeaf) {
         list.add(this)
     }
-    list.addAll(childLayouts.flatMap { it.getLeaves() })
+    list.addAll(children.flatMap { it.getLeaves() })
 
     return list
 }
@@ -63,7 +63,7 @@ fun <T : Any> ELayout.getRefs(): List<ELayoutRef<T>> {
     (this as? ELayoutRef<T>)?.let {
         list.add(it)
     }
-    list.addAll(childLayouts.flatMap { it.getRefs<T>() })
+    list.addAll(children.flatMap { it.getRefs<T>() })
 
     return list
 }

@@ -15,10 +15,10 @@ class ESnuggingLayout(child: ELayoutAlongAxis) : ELayout {
         }
 
     private val _childLayouts: MutableList<ELayout> = mutableListOf(child)
-    override val childLayouts: List<ELayout> get() = _childLayouts
+    override val children: List<ELayout> get() = _childLayouts
 
     override fun size(toFit: ESize): ESize {
-        val sizes = child.childLayouts.map { it.size(toFit) }
+        val sizes = child.children.map { it.size(toFit) }
 
         val maxChildExtent = sizes.map {
             if (child.layoutAxis.isVertical) {
