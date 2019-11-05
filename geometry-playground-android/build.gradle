@@ -68,6 +68,7 @@ dependencies {
     implementation(project(':geometry-android'))
 
     implementation xDependencies.appcompat
+    implementation picasso.picasso
     implementation xDependencies.core
 
 }
