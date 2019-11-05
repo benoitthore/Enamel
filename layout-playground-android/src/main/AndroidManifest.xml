@@ -14,7 +14,7 @@
             android:supportsRtl="true"
             android:name="android.support.multidex.MultiDexApplication"
             android:theme="@style/AppTheme">
-        <activity android:name=".android.MainActivity">
+        <activity android:name=".android.MainActivity2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

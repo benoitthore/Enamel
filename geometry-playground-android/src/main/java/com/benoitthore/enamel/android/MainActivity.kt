@@ -1,48 +1,35 @@
 package com.benoitthore.enamel.android
 
-import android.animation.TimeInterpolator
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color.*
-import android.os.Build
+import android.graphics.Paint
 import android.os.Bundle
-import android.text.Layout
-import android.text.StaticLayout
 import android.text.TextPaint
-import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.benoitthore.enamel.android.demo.CanvasTestView
 import com.benoitthore.enamel.android.demo.canvasView
-import com.benoitthore.enamel.core.animations.EasingInterpolators
-import com.benoitthore.enamel.core.math.map
-import com.benoitthore.enamel.core.math.noise.OpenSimplexNoise
-import com.benoitthore.enamel.core.math.noise.invoke
-import com.benoitthore.enamel.core.math.random
-import com.benoitthore.enamel.core.time.ETimer
 import com.benoitthore.enamel.geometry.AllocationTracker
-import com.benoitthore.enamel.geometry.alignement.EAlignment.*
-import com.benoitthore.enamel.geometry.alignement.EAlignment
-import com.benoitthore.enamel.geometry.figures.*
-import com.benoitthore.enamel.geometry.innerCircle
-import com.benoitthore.enamel.geometry.innerRect
+import com.benoitthore.enamel.geometry.figures.ERect
+import com.benoitthore.enamel.geometry.figures.ERectMutable
+import com.benoitthore.enamel.geometry.figures.ESize
+import com.benoitthore.enamel.geometry.figures.ESizeMutable
 import com.benoitthore.enamel.geometry.layout.ELayout
-import com.benoitthore.enamel.geometry.layout.ELayoutLeaf
-import com.benoitthore.enamel.geometry.layout.ESizingLayout
-import com.benoitthore.enamel.geometry.layout.dsl.arranged
 import com.benoitthore.enamel.geometry.layout.dsl.padded
-import com.benoitthore.enamel.geometry.layout.dsl.sized
 import com.benoitthore.enamel.geometry.layout.flowed
-import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
-import com.benoitthore.enamel.geometry.layout.refs.getLeaves
-import com.benoitthore.enamel.geometry.primitives.degrees
-import com.benoitthore.enamel.geometry.primitives.radians
-import com.benoitthore.enamel.geometry.toCircle
 import com.benoitthore.enamel.layout.android.dp
-import com.benoitthore.enamel.layout.android.extract.*
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.RequestCreator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 val Context.isLandscape get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+val loremIpsum =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
 
 class MainActivity : AppCompatActivity() {
 
@@ -60,47 +47,70 @@ class MainActivity : AppCompatActivity() {
             textSize = 60f
             color = WHITE
         }
-        var text = """
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-        deserunt mollit anim id est laborum
-""".trimIndent()
 
-        val wordLayout = text.toWordLayout(textPaint).padded(32.dp)
-        setContentView(canvasView { canvas ->
 
-            canvas.drawColor(DKGRAY)
+        val wordLayout = loremIpsum.toWordLayout(textPaint).padded(32.dp)
 
-            wordLayout.arrange(frame)
-            wordLayout.getAllChildren().forEach { layout ->
-                (layout as? EWordLayout)?.let {
-                    canvas.drawRect(it.frame, paint)
-                    it.draw(canvas)
-                }
+        GlobalScope.launch(Dispatchers.Main) {
+            val image =
+                "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12234558/Chinook-On-White-03.jpg"
+                    .downloadImage()
 
-            }
+            setContentView(canvasView { canvas ->
 
-//            val list = List(10) {
-//                ELayoutLeaf(colorHSL(random(0, 0.8)))
-//                    .sized(ESize.RandomSquare(128.dp, 32.dp))
-//
-//            }
-//            val layout = list
-//                .flowed(lineSpacing = 8.dp, childSpacing = 16.dp)
-//                .padded(8.dp)
-//
-//            layout.arranged(topLeft).arrange(frame)
-//
-//            layout.getLeaves().forEach { leaf ->
-//                paint.color = leaf.color
-//                canvas.drawRect(leaf.frame, paint)
-//            }
-        })
+                canvas.drawColor(DKGRAY)
+
+                canvas.drawBitmap(image, 0f, 0f, paint)
+
+//                wordLayout.arrange(frame)
+//                wordLayout.getAllChildren().forEach { layout ->
+//                    (layout as? EWordLayout)?.let {
+//                        canvas.drawRect(it.frame, paint)
+//                        it.draw(canvas)
+//                    }
+//                }
+
+            })
+        }
 
     }
 }
+
+// EXTRACT
+
+suspend inline fun String.downloadImage(crossinline block: RequestCreator.() -> Unit = {}): Bitmap =
+    withContext(Dispatchers.IO) {
+        Picasso.get()
+            .load(this@downloadImage)
+            .apply(block)
+            .get()
+    }
+
+
+//suspend fun String.downloadImage(
+//    block: RequestCreator.() -> Unit = {}
+//): Bitmap = suspendCoroutine { cont ->
+//    GlobalScope.launch(Dispatchers.Main) {
+//        Picasso.get()
+//            .load(this@downloadImage)
+//            .apply(block)
+//            .into(object : Target {
+//                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+//                    Log.d("Download", "Starting")
+//                }
+//
+//                override fun onBitmapFailed(e: Exception, errorDrawable: Drawable?) {
+//                    cont.resumeWith(Result.failure(e))
+//                }
+//
+//                override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom?) {
+//                    cont.resumeWith(Result.success(bitmap))
+//                }
+//            })
+//
+//
+//    }
+//}
 
 fun CharSequence.toWordLayout(paint: Paint) =
     split(" ")
