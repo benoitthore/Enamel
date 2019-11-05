@@ -44,128 +44,6 @@ import com.benoitthore.enamel.layout.android.extract.*
 
 val Context.isLandscape get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-fun Context.fancyView(): CanvasTestView {
-    val pool = GeometryPool(100)
-
-
-    // Utils
-    val noise = OpenSimplexNoise()
-    val timer = ETimer()
-    val paint = Paint()
-    val debugPaint = Paint().apply {
-        color = WHITE
-    }
-    paint.apply {
-        isAntiAlias = true
-    }
-
-    // Settings
-    val targetFrameDuration = 16f
-
-    val angleIncrease = 0.5 * 1 / 60f
-
-    val noiseOffsetIncrease = 5f
-    val noiseZoom = 750f
-
-    val speedUpMultiplier = 500
-
-    // Keep track of
-    val angle = 0.degrees()
-    var noiseOffset = 0f
-
-
-    var shader: Shader? = null
-    return canvasView({
-        setOnClickListener {
-            var last = 0f
-            prepareAnimation {
-                noiseOffset += (it - last) * noiseOffsetIncrease * speedUpMultiplier
-                last = it
-            }.apply {
-                duration = 4000
-                interpolator = TimeInterpolator { input -> EasingInterpolators.cubicInOut(input) }
-                start()
-            }
-        }
-    }) { canvas ->
-
-        canvas.drawColor(DKGRAY)
-
-        val deltaTime = if (timer.isStarted) {
-            timer.elapsed / targetFrameDuration
-        } else 1f
-        timer.start()
-
-
-        noiseOffset += noiseOffsetIncrease * deltaTime
-
-        pool.use {
-
-            paint.color = LTGRAY
-            paint.style = Paint.Style.STROKE
-
-            // Define big circle
-            frame.innerCircle(circlePool())
-                .selfInset(width * 0.005)
-                // Set gradient shader
-                .also { circle: ECircle ->
-                    if (shader == null)
-                        circle.innerRect(rectPool())
-                            .selfScaleAnchor(0.66, 0.5, 0.5).let {
-                                shader = (it.topLeft() line it.bottomRight())
-                                    .toLinearGradient(
-                                        (0 until 4).map { colorHSL(it / 4f) }
-                                    )
-                            }
-                }
-                // Small circles positions
-                .let { circle: ECircle ->
-
-                    val points = circle.toListOfPoint(
-                        pointPool.list(50),
-                        angle.selfOffset((deltaTime * angleIncrease).radians(anglePool()))
-                    )
-
-
-                    // Point position with noise
-                    points.forEachIndexed { i, point ->
-                        val distance = noise(
-                            x = (noiseOffset + point.x) / noiseZoom,
-                            y = point.y / noiseZoom
-                        )
-                            .map(-1, 1, 0.33, 1) * circle.radius
-                        point.set(
-                            circle.center.offsetTowards(point, distance, pointPool())
-                        )
-                    }
-                    points
-                }
-                // Convert points to small circle
-                .map { it.toCircle(width * 0.01, circlePool()) }
-
-                // Draw
-                .forEachIndexed { i, circle: ECircle ->
-                    paint.style = Paint.Style.FILL
-                    paint.color = WHITE
-
-                    paint.shader = shader
-                    circle.draw(paint)
-
-                    linePool().let { line ->
-                        paint.color = CYAN
-                        paint.strokeWidth = width * 0.0025f
-                        line.set(circle.center, frame.center(pointPool())).draw(paint)
-                    }
-                    paint.shader = null
-                }
-
-
-            invalidate()
-        }
-
-    }
-}
-
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -173,57 +51,97 @@ class MainActivity : AppCompatActivity() {
         AllocationTracker.debugAllocations = true
 //        setContentView(fancyView())
 
-        val paint = Paint().apply {
+        val paint = TextPaint().apply {
             style = Paint.Style.FILL
+            color = BLACK
         }
 
+        val textPaint = TextPaint().apply {
+            textSize = 60f
+            color = WHITE
+        }
+        var text = """
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+        deserunt mollit anim id est laborum
+""".trimIndent()
+
+        val wordLayout = text.toWordLayout(textPaint).padded(32.dp)
         setContentView(canvasView { canvas ->
 
-            val list = List(10) {
-                ELayoutLeaf(randomColor())
-//                    .sized(ESize.RandomSquare(32.dp, 64.dp))
-                    .sized(ESize.Square(64.dp))
+            canvas.drawColor(DKGRAY)
+
+            wordLayout.arrange(frame)
+            wordLayout.getAllChildren().forEach { layout ->
+                (layout as? EWordLayout)?.let {
+                    canvas.drawRect(it.frame, paint)
+                    it.draw(canvas)
+                }
 
             }
-            val layout = list
-                .flowed(lineSpacing = 8.dp, childSpacing = 16.dp)
-                .padded(8.dp)
 
-            layout.arranged(topLeft).arrange(frame)
-
-            layout.getLeaves().forEach { leaf ->
-                paint.color = leaf.color
-                canvas.drawRect(leaf.frame, paint)
-            }
+//            val list = List(10) {
+//                ELayoutLeaf(colorHSL(random(0, 0.8)))
+//                    .sized(ESize.RandomSquare(128.dp, 32.dp))
+//
+//            }
+//            val layout = list
+//                .flowed(lineSpacing = 8.dp, childSpacing = 16.dp)
+//                .padded(8.dp)
+//
+//            layout.arranged(topLeft).arrange(frame)
+//
+//            layout.getLeaves().forEach { leaf ->
+//                paint.color = leaf.color
+//                canvas.drawRect(leaf.frame, paint)
+//            }
         })
 
     }
 }
 
-data class ETextStyle(val alignment: EAlignment = EAlignment.topLeft)
-class ETextView(
-    val paint: TextPaint,
-    val style: ETextStyle = ETextStyle()
+fun CharSequence.toWordLayout(paint: Paint) =
+    split(" ")
+        .filter { it.isNotBlank() }
+        .map { EWordLayout(paint, it) }
+        .flowed(lineSpacing = 8.dp, childSpacing = 16.dp)
+
+class EWordLayout(
+    val paint: Paint,
+    text: CharSequence = ""
 ) : ELayout {
-    var text: String = ""
+
+    var text: CharSequence = text
+        set(value) {
+            field = value
+            stringText = value.toString()
+        }
+    // Avoid allocation
+    private var stringText = this.text.toString()
 
     override val children: List<ELayout> = emptyList()
+    private val _frame = ERectMutable()
+    val frame: ERect get() = _frame
 
-    private val rect: Rect = Rect()
     private val bufferSize = ESizeMutable()
-    override fun size(toFit: ESize): ESize {
-        rect.width()
-        paint.getTextBounds(text, 0, 1, rect)
 
-        return bufferSize.set(rect.width(), rect.height())
+    override fun size(toFit: ESize): ESize {
+
+        return bufferSize.set(
+            paint.measureText(stringText),
+            paint.textSize + paint.descent()
+        )
     }
 
+
     override fun arrange(frame: ERect) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        _frame.set(frame)
     }
 
     fun draw(canvas: Canvas) {
-
+        canvas.drawText(stringText, _frame.x, _frame.y - paint.ascent(), paint)
     }
 
 }

@@ -8,13 +8,13 @@ import com.benoitthore.enamel.geometry.figures.ESizeMutable
 import com.benoitthore.enamel.geometry.layout.dsl.snugged
 import java.util.*
 
-fun List<ELayout>.flowed(
+fun Iterable<ELayout>.flowed(
     childSpacing: Number = 0,
     childAlignment: EAlignment = rightCenter,
     lineSpacing: Number = 0,
     lineAlignment: EAlignment = bottomLeft
 ) = EFlowLayout(
-    children = this,
+    children = this.toList(),
     childSpacing = childSpacing,
     childAlignment = childAlignment,
     lineSpacing = lineSpacing,
@@ -35,7 +35,7 @@ class EFlowLayout(
         measurableArrange(frame)
     }
 
-    fun measurableArrange(rect: ERect, shouldArrange: Boolean = true): ESize {
+    private fun measurableArrange(rect: ERect, shouldArrange: Boolean = true): ESize {
         var rowWidth = 0f
         val cols = mutableListOf<ELayout>()
         val row = mutableListOf<ELayout>()
@@ -59,8 +59,8 @@ class EFlowLayout(
                         .toMutableList()
                         .apply { if (isNotEmpty()) removeAt(row.size - 1) }
                 ).snugged()
+                row.lastOrNull()?.let { row.clear(); row += it }
             }
-            row.lastOrNull()?.let { row.clear(); row += it }
 
             if (i == children.size - 1) {
                 cols += EStackLayout(
