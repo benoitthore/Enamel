@@ -52,6 +52,11 @@ fun ERect.divided(distance: Number, from: ERectEdge): Pair<ERect, ERect> {
 operator fun ERect.minus(padding: EOffset) = padding(padding)
 operator fun ERect.plus(padding: EOffset) = expand(padding)
 
+fun ERectCenter(
+    position: EPoint,
+    size: ESize, buffer: ERectMutable = ERectMutable()
+) = ERectCenter(position.x, position.y, size.width, size.height, buffer)
+
 
 fun ERectCenter(
     position: EPoint,
