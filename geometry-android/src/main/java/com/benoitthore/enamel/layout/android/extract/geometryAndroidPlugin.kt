@@ -38,16 +38,14 @@ fun ECircle.toRadialGradient(
 ////
 ////
 
-fun ERect.toAndroidRect(buffer: Rect) = buffer.apply {
-    val rect = this@toAndroidRect
+fun Rect.set(rect: ERect) = apply {
     left = rect.left.toInt()
     top = rect.top.toInt()
     right = rect.right.toInt()
     bottom = rect.bottom.toInt()
 }
 
-fun ERect.toAndroidRectF(buffer: RectF) = buffer.apply {
-    val rect = this@toAndroidRectF
+fun RectF.set(rect: ERect) = apply {
     left = rect.left
     top = rect.top
     right = rect.right
@@ -75,14 +73,14 @@ fun Canvas.drawLine(start: EPoint, end: EPoint, paint: Paint) {
 fun Canvas.drawOvals(rects: List<ERect>, paint: Paint) = rects.forEach { drawOval(it, paint) }
 fun Canvas.drawOval(rect: ERect, paint: Paint) {
     synchronized(bufferRectF) {
-        drawOval(rect.toAndroidRectF(bufferRectF), paint)
+        drawOval(bufferRectF.set(rect), paint)
     }
 }
 
 fun Canvas.drawRects(rects: List<ERect>, paint: Paint) = rects.forEach { drawRect(it, paint) }
 fun Canvas.drawRect(rect: ERect, paint: Paint) {
     synchronized(bufferRectF) {
-        drawRect(rect.toAndroidRectF(bufferRectF), paint)
+        drawRect(bufferRectF.set(rect), paint)
     }
 }
 
@@ -92,7 +90,7 @@ fun Canvas.drawRoundRect(rects: List<ERect>, rx: Number, ry: Number, paint: Pain
 fun Canvas.drawRoundRect(rect: ERect, rx: Number, ry: Number, paint: Paint) {
     synchronized(bufferRectF) {
         drawRoundRect(
-            rect.toAndroidRectF(bufferRectF),
+            bufferRectF.set(rect),
             rx.toFloat(),
             ry.toFloat(),
             paint

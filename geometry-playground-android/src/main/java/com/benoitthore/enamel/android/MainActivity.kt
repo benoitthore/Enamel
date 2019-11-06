@@ -3,31 +3,34 @@ package com.benoitthore.enamel.android
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color.*
 import android.graphics.Paint
-import android.graphics.drawable.BitmapDrawable
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextPaint
 import androidx.appcompat.app.AppCompatActivity
 import com.benoitthore.enamel.android.demo.canvasView
 import com.benoitthore.enamel.geometry.AllocationTracker
+import com.benoitthore.enamel.geometry.alignement.EAlignment
+import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.figures.*
 import com.benoitthore.enamel.geometry.layout.ELayout
+import com.benoitthore.enamel.geometry.layout.dsl.filling
+import com.benoitthore.enamel.geometry.layout.dsl.justified
 import com.benoitthore.enamel.geometry.layout.dsl.padded
+import com.benoitthore.enamel.geometry.layout.dsl.stackedBottomRight
 import com.benoitthore.enamel.geometry.layout.flowed
+import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
 import com.benoitthore.enamel.layout.android.dp
+import com.benoitthore.enamel.layout.android.extract.drawRect
+import com.benoitthore.enamel.layout.android.extract.set
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import com.squareup.picasso.Target
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.lang.Exception
-import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.*
+import kotlin.coroutines.resume
 
 val Context.isLandscape get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
@@ -55,15 +58,29 @@ class MainActivity : AppCompatActivity() {
         val wordLayout = loremIpsum.toWordLayout(textPaint).padded(32.dp)
 
         GlobalScope.launch(Dispatchers.Main) {
-            val image =
-                "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12234558/Chinook-On-White-03.jpg"
-                    .imageLayout()
+            //            val image = List(3) {
+//                "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12234558/Chinook-On-White-03.jpg"
+//                    .imageLayout()
+//            }
+//                .justified(bottomCenter)
+//                .padded(16.dp)
 
+            val image: ELayout =
+                "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12234558/Chinook-On-White-03.jpg".imageLayout()
             setContentView(canvasView { canvas ->
 
                 canvas.drawColor(DKGRAY)
 
-                image.draw(canvas)
+                val layout = image.padded(32.dp)
+
+                layout.arrange(frame)
+
+                layout.getAllChildren().forEach {
+                    (it as? ECanvasLayout)?.let { _ ->
+                        it.draw(canvas)
+//                        canvas.drawRect(it.frame, paint)
+                    }
+                }
 
 //                wordLayout.arrange(frame)
 //                wordLayout.getAllChildren().forEach { layout ->
@@ -83,7 +100,7 @@ class MainActivity : AppCompatActivity() {
 
 suspend inline fun String.downloadImage(crossinline block: RequestCreator.() -> Unit = {}): Bitmap =
     withContext(Dispatchers.Main) {
-        suspendCoroutine<Bitmap> { cont ->
+        suspendCancellableCoroutine<Bitmap> { cont ->
             Picasso.get()
                 .load(this@downloadImage)
                 .apply(block)
@@ -93,11 +110,11 @@ suspend inline fun String.downloadImage(crossinline block: RequestCreator.() -> 
                     }
 
                     override fun onBitmapFailed(e: Exception, errorDrawable: Drawable?) {
-                        cont.resumeWith(Result.failure(e))
+                        cont.cancel(e)
                     }
 
                     override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom?) {
-                        cont.resumeWith(Result.success(bitmap))
+                        cont.resume(bitmap)
                     }
                 })
         }
@@ -132,12 +149,14 @@ class EImageLayout(
     val paint: Paint
 ) : ECanvasLayout() {
 
-    override fun size(toFit: ESize): ESize {
-        return image.width size image.height
-    }
+    override fun size(toFit: ESize): ESize = image.width size image.height
 
+    private val srcRectBuffer = Rect()
+    private val dstRectBuffer = Rect()
     override fun draw(canvas: Canvas) {
-        canvas.drawBitmap(image, frame.left, frame.top, paint)
+        srcRectBuffer.set(0, 0, image.width, image.height)
+        dstRectBuffer.set(frame)
+        canvas.drawBitmap(image, srcRectBuffer, dstRectBuffer, paint)
     }
 }
 
