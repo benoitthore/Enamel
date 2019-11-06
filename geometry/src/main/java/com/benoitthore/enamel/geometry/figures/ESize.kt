@@ -7,6 +7,7 @@ import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.allocate
 import com.benoitthore.enamel.geometry.primitives.Tuple2
+import kotlin.math.*
 
 open class ESize(open val width: Float = 0f, open val height: Float = 0f) : Tuple2 {
 
@@ -54,7 +55,7 @@ open class ESize(open val width: Float = 0f, open val height: Float = 0f) : Tupl
     val area get() = width * height
     val hasArea get() = area > 0
 
-    fun abs(buffer: ESizeMutable = ESizeMutable()) = buffer.set(Math.abs(width), Math.abs(height))
+    fun abs(buffer: ESizeMutable = ESizeMutable()) = buffer.set(abs(width), Math.abs(height))
 
     fun inset(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) =
         buffer.set(width - x.f, height - y.f)

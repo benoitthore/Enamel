@@ -1,9 +1,10 @@
 package com.benoitthore.enamel.geometry.figures
 
-import com.benoitthore.enamel.core.math.random
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.alignement.isVertical
 import com.benoitthore.enamel.geometry.primitives.times
+import kotlin.math.max
+import kotlin.math.min
 
 
 fun ESize.along(axis: ELayoutAxis): Float = when (axis) {
@@ -28,14 +29,14 @@ fun ESize.fitSize(size: ESize): ESize {
 fun ESize.scaleToFill(size: ESize): Float {
     val a = abs()
     val b = size.abs()
-    return Math.max(b.width / a.width, b.height / a.height) // TODO what if Infinite
+    return max(b.width / a.width, b.height / a.height) // TODO what if Infinite
 }
 
 
 fun ESize.scaleToFit(size: ESize): Float {
     val a = abs()
     val b = size.abs()
-    return Math.min(b.width / a.width, b.height / a.height) // TODO what if Infinite
+    return min(b.width / a.width, b.height / a.height) // TODO what if Infinite
 }
 
 
@@ -72,5 +73,3 @@ fun List<ESize>.unionAlongAxis(axis: ELayoutAxis, buffer: ESizeMutable = ESizeMu
 
     return union
 }
-
-fun randomSize(maxWidth: Number = 1, maxHeight: Number = 1) = random(maxWidth) size random(maxHeight)

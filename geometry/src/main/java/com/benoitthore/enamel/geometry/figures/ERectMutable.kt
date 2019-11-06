@@ -5,7 +5,6 @@ import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.primitives.*
-import java.lang.Exception
 
 /*
 This class should be the example to follow in order to implement mutability

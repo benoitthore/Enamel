@@ -10,7 +10,6 @@ import com.benoitthore.enamel.geometry.layout.refs.ELayoutTag
 import com.benoitthore.enamel.geometry.primitives.EOffset
 import org.json.JSONArray
 import org.json.JSONObject
-import java.lang.Exception
 
 private fun JSONObject._getNumber(key: String) = get(key) as Number // Required to run on Android
 private fun JSONObject._optNumber(key: String) = opt(key) as? Number // Required to run on Android

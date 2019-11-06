@@ -7,7 +7,6 @@ import com.benoitthore.enamel.geometry.layout.refs.ELayoutTag
 import com.benoitthore.enamel.geometry.primitives.EOffset
 import org.json.JSONArray
 import org.json.JSONObject
-import java.lang.Exception
 
 private fun JSONObject.putSize(size: ESize): JSONObject =
     put("width", size.width).put("height", size.height)
