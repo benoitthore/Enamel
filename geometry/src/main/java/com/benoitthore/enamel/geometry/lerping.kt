@@ -3,7 +3,6 @@ package com.benoitthore.enamel.geometry
 import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.EPoint
-import java.lang.Exception
 import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ESizeMutable

@@ -9,7 +9,6 @@ import com.benoitthore.enamel.geometry.layout.refs.ELayoutRef
 import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
 import com.benoitthore.enamel.geometry.layout.refs.getRefs
 import kotlinx.coroutines.*
-import java.lang.Exception
 
 val defaultDoAnim: suspend (Long, (Float) -> Unit) -> Unit = { duration, animator ->
     val timer = ETimerAnimator(duration)

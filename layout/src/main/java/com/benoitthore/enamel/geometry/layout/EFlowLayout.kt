@@ -1,12 +1,12 @@
 package com.benoitthore.enamel.geometry.layout
 
 import com.benoitthore.enamel.geometry.alignement.EAlignment
-import com.benoitthore.enamel.geometry.alignement.EAlignment.*
+import com.benoitthore.enamel.geometry.alignement.EAlignment.bottomLeft
+import com.benoitthore.enamel.geometry.alignement.EAlignment.rightCenter
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.figures.ESizeMutable
 import com.benoitthore.enamel.geometry.layout.dsl.snugged
-import java.util.*
 
 fun Iterable<ELayout>.flowed(
     childSpacing: Number = 0,
