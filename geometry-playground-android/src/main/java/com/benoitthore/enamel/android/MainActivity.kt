@@ -3,9 +3,12 @@ package com.benoitthore.enamel.android
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color.*
 import android.graphics.Paint
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextPaint
 import androidx.appcompat.app.AppCompatActivity
@@ -21,10 +24,13 @@ import com.benoitthore.enamel.geometry.layout.flowed
 import com.benoitthore.enamel.layout.android.dp
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
+import com.squareup.picasso.Target
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
+import kotlin.coroutines.suspendCoroutine
 
 val Context.isLandscape get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
@@ -35,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AllocationTracker.debugAllocations = true
+        AllocationTracker.debugAllocations = false
 //        setContentView(fancyView())
 
         val paint = TextPaint().apply {
@@ -79,38 +85,27 @@ class MainActivity : AppCompatActivity() {
 // EXTRACT
 
 suspend inline fun String.downloadImage(crossinline block: RequestCreator.() -> Unit = {}): Bitmap =
-    withContext(Dispatchers.IO) {
-        Picasso.get()
-            .load(this@downloadImage)
-            .apply(block)
-            .get()
+    withContext(Dispatchers.Main) {
+        suspendCoroutine<Bitmap> { cont ->
+            Picasso.get()
+                .load(this@downloadImage)
+                .apply(block)
+                .into(object : Target {
+                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+
+                    }
+
+                    override fun onBitmapFailed(e: Exception, errorDrawable: Drawable?) {
+                        cont.resumeWith(Result.failure(e))
+                    }
+
+                    override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom?) {
+                        cont.resumeWith(Result.success(bitmap))
+                    }
+                })
+        }
     }
 
-
-//suspend fun String.downloadImage(
-//    block: RequestCreator.() -> Unit = {}
-//): Bitmap = suspendCoroutine { cont ->
-//    GlobalScope.launch(Dispatchers.Main) {
-//        Picasso.get()
-//            .load(this@downloadImage)
-//            .apply(block)
-//            .into(object : Target {
-//                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-//                    Log.d("Download", "Starting")
-//                }
-//
-//                override fun onBitmapFailed(e: Exception, errorDrawable: Drawable?) {
-//                    cont.resumeWith(Result.failure(e))
-//                }
-//
-//                override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom?) {
-//                    cont.resumeWith(Result.success(bitmap))
-//                }
-//            })
-//
-//
-//    }
-//}
 
 fun CharSequence.toWordLayout(paint: Paint) =
     split(" ")
