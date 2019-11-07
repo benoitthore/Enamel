@@ -9,7 +9,7 @@ import com.benoitthore.enamel.geometry.primitives.EPointMutable
 fun EPointMutable.set(event: MotionEvent) = apply { set(event.x, event.y) }
 
 /**
- * Allows to easily work with EPoint for when dealing with touch events
+ * Allows to work with EPoint when dealing with touch events
  * isDown: Boolean -> true as long as the user is touching the screen
  * current: EPoint? -> current touch location, null when isDown is false
  * previous: EPoint? -> Location of the previous touch, null if isDown has just been set to true
