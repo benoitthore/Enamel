@@ -50,3 +50,31 @@ inline fun <T> Iterable<T>.findIndex(predicate: (T) -> Boolean): Int? {
     forEachIndexed { index, t -> if (predicate(t)) return index }
     return null
 }
+
+class LazyList<T> private constructor(
+    val delegate: MutableList<T>,
+    val maxSize: Int,
+    val init: (Int) -> T
+
+) : List<T> by delegate {
+
+    constructor(maxSize: Int, init: (Int) -> T) : this(
+        delegate = mutableListOf(),
+        maxSize = maxSize,
+        init = init
+    )
+
+    override val size: Int get() = maxSize
+
+    override fun get(index: Int): T {
+        if (index >= maxSize) {
+            throw Exception("cannot retrieve index $index, max size is $maxSize")
+        }
+        if (delegate.size <= index) {
+            for (i in delegate.size until index+1) {
+                delegate += init(i)
+            }
+        }
+        return delegate[index]
+    }
+}

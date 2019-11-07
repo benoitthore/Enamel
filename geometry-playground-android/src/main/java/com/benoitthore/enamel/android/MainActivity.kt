@@ -28,9 +28,13 @@ import androidx.annotation.IntegerRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.benoitthore.enamel.R
+import com.benoitthore.enamel.geometry.primitives.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.div
+import com.benoitthore.enamel.layout.android.extract.GeometryPool
 import com.benoitthore.enamel.layout.android.extract.layout.ECanvasLayout
 import com.benoitthore.enamel.layout.android.extract.layout.EImageLayout
 import com.benoitthore.enamel.layout.android.extract.layout.EWordLayout
+import com.benoitthore.enamel.layout.android.extract.singleTouch
 
 
 val Context.isLandscape get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
@@ -58,11 +62,25 @@ class MainActivity : AppCompatActivity() {
                 ContextCompat.getDrawable(applicationContext, R.drawable.ic_launcher_foreground)!!
             val image: ELayout = EImageLayout(drawable)
 
-            setContentView(canvasView { canvas ->
+            val pool = GeometryPool(20)
+
+            setContentView(canvasView(init = {
+//                singleTouch { _, current, previous ->
+//                    current?.let {
+//                        if (lastTouch == null) {
+//                            lastTouch = EPointMutable()
+//                        }
+//                        lastTouch!!.set(it)
+//                    }
+//                    invalidate()
+//                    true
+//                }
+            }) { canvas ->
 
                 canvas.drawColor(DKGRAY)
 
                 val layout = image.padded(32.dp)
+
 
                 layout.arrange(frame)
 
@@ -71,6 +89,7 @@ class MainActivity : AppCompatActivity() {
                         it.draw(canvas)
                     }
                 }
+                invalidate()
             })
         }
 
@@ -79,6 +98,7 @@ class MainActivity : AppCompatActivity() {
 
 // EXTRACT
 
+// TODO Make 1 layout per line instead of 1 per word
 fun CharSequence.toWordLayout(paint: Paint) =
     split(" ")
         .filter { it.isNotBlank() }

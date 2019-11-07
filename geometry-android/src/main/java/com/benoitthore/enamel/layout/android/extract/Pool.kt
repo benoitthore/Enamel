@@ -1,13 +1,14 @@
 package com.benoitthore.enamel.layout.android.extract
 
-import com.benoitthore.enamel.geometry.figures.ECircleMutable
-import com.benoitthore.enamel.geometry.figures.ELineMutable
-import com.benoitthore.enamel.geometry.figures.ERectMutable
-import com.benoitthore.enamel.geometry.primitives.EAngleMutable
-import com.benoitthore.enamel.geometry.primitives.EPointMutable
+import android.view.View
+import com.benoitthore.enamel.core.LazyList
+import com.benoitthore.enamel.core.asList
+import com.benoitthore.enamel.geometry.figures.*
+import com.benoitthore.enamel.geometry.primitives.*
+
 
 class Pool<T : Any>(val size: Int, init: (Int) -> T) {
-    private val list = List(size, init)
+    private val list = LazyList(size, init)
     private var i = 0
     val next: T
         get() {
@@ -52,11 +53,11 @@ fun AnglePool(size: Int = 50) =
     Pool(size) { EAngleMutable() }
 
 class GeometryPool(
-    val rectPool: Pool<ERectMutable> = RectPool(50),
-    val pointPool: Pool<EPointMutable> = PointPool(50),
-    val circlePool: Pool<ECircleMutable> = CirclePool(50),
-    val linePool: Pool<ELineMutable> = LinePool(50),
-    val anglePool: Pool<EAngleMutable> = AnglePool(50)
+    val rect: Pool<ERectMutable> = RectPool(50),
+    val point: Pool<EPointMutable> = PointPool(50),
+    val circle: Pool<ECircleMutable> = CirclePool(50),
+    val line: Pool<ELineMutable> = LinePool(50),
+    val angle: Pool<EAngleMutable> = AnglePool(50)
 ) {
     constructor(size: Int) : this(size, size, size, size, size)
 
@@ -67,11 +68,11 @@ class GeometryPool(
         linePoolSize: Int = 50,
         anglePoolSize: Int = 50
     ) : this(
-        rectPool = RectPool(rectPoolSize),
-        pointPool = PointPool(pointPoolSize),
-        circlePool = CirclePool(circlePoolSize),
-        linePool = LinePool(linePoolSize),
-        anglePool = AnglePool(anglePoolSize)
+        rect = RectPool(rectPoolSize),
+        point = PointPool(pointPoolSize),
+        circle = CirclePool(circlePoolSize),
+        line = LinePool(linePoolSize),
+        angle = AnglePool(anglePoolSize)
     )
 
 
@@ -82,12 +83,36 @@ class GeometryPool(
     }
 
     fun reset() {
-        rectPool.reset()
-        pointPool.reset()
-        circlePool.reset()
-        linePool.reset()
-        anglePool.reset()
+        rect.reset()
+        point.reset()
+        circle.reset()
+        line.reset()
+        angle.reset()
     }
 
+    val invokeMap: Map<Class<*>, () -> Any> = mapOf(
+        ELine::class.java to { line() },
+        ELineMutable::class.java to { line() },
+
+        ERectMutable::class.java to { rect() },
+        ERect::class.java to { rect() },
+
+        EPointMutable::class.java to { point() },
+        EPoint::class.java to { point() },
+
+        ECircleMutable::class.java to { circle() },
+        ECircle::class.java to { circle() },
+
+        EAngleMutable::class.java to { angle() },
+        EAngle::class.java to { angle() }
+
+
+    )
+
+    // Is this dodgy ?
+    inline operator fun <reified T> invoke(
+        onError: () -> T = { throw Exception("Cannot work with class ${T::class.java}") }
+    ): T =
+        invokeMap[T::class.java]?.let { it as T } ?: onError()
 
 }
