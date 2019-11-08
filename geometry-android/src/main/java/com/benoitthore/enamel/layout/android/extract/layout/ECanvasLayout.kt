@@ -8,8 +8,7 @@ import com.benoitthore.enamel.geometry.layout.ELayout
 import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
 
 abstract class ECanvasLayout : ELayout {
-    // TODO Should there be a view reference on these layouts?
-//    abstract val view : View
+    abstract val view : View // TODO Make this work
     override val children: List<ELayout> get() = emptyList()
 
     private val _frame = ERectMutable()
