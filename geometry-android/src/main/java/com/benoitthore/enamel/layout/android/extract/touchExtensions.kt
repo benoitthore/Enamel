@@ -2,27 +2,53 @@ package com.benoitthore.enamel.layout.android.extract
 
 import android.view.MotionEvent
 import android.view.View
+import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
 
-
 fun EPointMutable.set(event: MotionEvent) = apply { set(event.x, event.y) }
 
-/**
- * Allows to work with EPoint when dealing with touch events
- * isDown: Boolean -> true as long as the user is touching the screen
- * current: EPoint? -> current touch location, null when isDown is false
- * previous: EPoint? -> Location of the previous touch, null if isDown has just been set to true
- */
-fun View.singleTouch(block: (isDown: Boolean, current: EPoint?, previous: EPoint?) -> Boolean) {
+typealias ETouchListener = (isDown: Boolean, current: EPoint?, previous: EPoint?) -> Boolean
+
+class OnClickTouchListener(
+    private val getFrame: () -> ERect,
+    private val callback: () -> Unit
+) : ETouchListener {
+
+    private var down = false
+    private var isTouched = false
+    override fun invoke(isDown: Boolean, current: EPoint?, previous: EPoint?): Boolean {
+        if (current == null) { // just up
+            if (!down) {
+                return false
+            }
+
+            if (isTouched) {
+                down = false
+                isTouched = false
+                callback()
+                return true
+            }
+            return false
+        }
+
+        if (!down && isDown) { // just down
+            down = true
+        }
+        return getFrame().contains(current).also { isTouched = it }
+    }
+}
+
+class SingleTouchDelegate(val block: ETouchListener) : View.OnTouchListener {
+
     val previous = EPointMutable()
     val current = EPointMutable()
 
-    setOnTouchListener { _, e ->
-
+    override fun onTouch(v: View?, e: MotionEvent): Boolean {
         previous.set(current)
         current.set(e)
-        return@setOnTouchListener when (e.action) {
+
+        return when (e.action) {
             MotionEvent.ACTION_DOWN -> {
                 block(true, current, null)
             }
@@ -34,10 +60,17 @@ fun View.singleTouch(block: (isDown: Boolean, current: EPoint?, previous: EPoint
             }
             else -> false
         }
-
-
     }
 }
+
+/**
+ * Allows to work with EPoint when dealing with touch events
+ * isDown: Boolean -> true as long as the user is touching the screen
+ * current: EPoint? -> current touch location, null when isDown is false
+ * previous: EPoint? -> Location of the previous touch, null if isDown has just been set to true
+ */
+fun View.singleTouch(block: (isDown: Boolean, current: EPoint?, previous: EPoint?) -> Boolean) =
+    setOnTouchListener(SingleTouchDelegate(block))
 
 /**
  * Like a singleTouch with x and y normalized over the View's size

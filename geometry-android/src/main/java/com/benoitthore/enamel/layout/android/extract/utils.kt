@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.layout.android.extract
 
 import android.animation.ValueAnimator
+import android.content.res.Resources
 
 fun prepareAnimation(
     duration: Long = 1000L,
@@ -12,3 +13,7 @@ fun prepareAnimation(
         this.duration = duration
         init()
     }
+
+
+internal inline val Number.dp: Int
+    get() = (toFloat() * Resources.getSystem().displayMetrics.density).toInt()

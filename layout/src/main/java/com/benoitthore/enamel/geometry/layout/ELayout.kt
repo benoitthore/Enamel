@@ -12,7 +12,6 @@ interface ELayout {
     fun size(toFit: ESize): ESize
 
     fun arrange(frame: ERect)
-
 }
 
 interface ELayoutAlongAxis : ELayout {
