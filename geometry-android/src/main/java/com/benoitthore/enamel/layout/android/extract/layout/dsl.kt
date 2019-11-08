@@ -10,7 +10,6 @@ import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.layout.android.extract.SingleTouchDelegate
 import com.benoitthore.enamel.layout.android.extract.dp
 
-
 fun Drawable.imageLayout(paint: Paint = Paint()) = EImageLayout(drawable = this, paint = paint)
 
 // TODO Make 1 layout per line instead of 1 per word
