@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import com.benoitthore.enamel.R
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.alignement.EAlignment
+import com.benoitthore.enamel.geometry.layout.EFlowLayout
 import com.benoitthore.enamel.geometry.layout.ELayout
 import com.benoitthore.enamel.geometry.layout.dsl.arranged
 import com.benoitthore.enamel.geometry.layout.dsl.sizedSquare
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             .changeTintOnClick(view)
             .sizedSquare(128.dp)
 
-        val textview = generateText(10).wordLayout(textPaint)
+        val textview = generateText(10).wordLayout(textPaint).changeTextColorOnClick(view)
 
         view.layout = listOf(image1, textview, image2).stackedBottomCenter(16.dp).arranged(center)
         setContentView(view)
@@ -83,6 +84,17 @@ private fun EImageLayout.changeTintOnClick(view: View): ELayout =
             paint.colorFilter =
                 PorterDuffColorFilter(randomColor(), PorterDuff.Mode.MULTIPLY)
             view.invalidate()
+        }
+    }
+
+private fun EFlowLayout.changeTextColorOnClick(view: View): ELayout =
+    let { layout ->
+        layout.onClick {
+            val color = randomColor()
+            children.filterIsInstance<EWordLayout>().forEach {
+                it.paint.color = color
+                view.invalidate()
+            }
         }
     }
 
