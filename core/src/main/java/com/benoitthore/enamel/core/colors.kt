@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.layout.android.extract
+package com.benoitthore.enamel.core
 
 import com.benoitthore.enamel.core.math.*
 
@@ -31,7 +31,13 @@ fun Int.withAlpha(percentage: Number): Int {
 
 fun randomColor() = colorHSL(Math.random().toFloat())
 
-fun colorHSL(h: Number) = HSLToColor(floatArrayOf(h.f * 360, 1f, .5f)) or 0xFF000000.toInt()
+fun colorHSL(h: Number) = HSLToColor(
+    floatArrayOf(
+        h.f * 360,
+        1f,
+        .5f
+    )
+) or 0xFF000000.toInt()
 
 private fun HSLToColor(hsl: FloatArray): Int {
     val h = hsl[0]
@@ -96,7 +102,8 @@ private fun rgb(
     return -0x1000000 or (red shl 16) or (green shl 8) or blue
 }
 
-fun Number.argbEvaluate(startValue: Int, endValue: Int): Int = ARGB_evaluate(toFloat(), startValue, endValue)
+fun Number.argbEvaluate(startValue: Int, endValue: Int): Int =
+    ARGB_evaluate(toFloat(), startValue, endValue)
 
 fun ARGB_evaluate(fraction: Float, startValue: Int, endValue: Int): Int {
     val startInt = startValue

@@ -8,8 +8,10 @@ import com.benoitthore.enamel.geometry.layout.ELayout
 import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
 
 abstract class ECanvasLayout : ELayout {
-//    abstract val view : View // TODO Make this work
+
     override val children: List<ELayout> get() = emptyList()
+
+    var viewParent: View? = null
 
     private val _frame = ERectMutable()
     val frame: ERect get() = _frame

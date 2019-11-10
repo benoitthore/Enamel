@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.layout.android.extract.layout
 
+import android.graphics.Bitmap
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.view.View
@@ -11,6 +12,7 @@ import com.benoitthore.enamel.layout.android.extract.SingleTouchDelegate
 import com.benoitthore.enamel.layout.android.extract.dp
 
 fun Drawable.imageLayout(paint: Paint = Paint()) = EImageLayout(drawable = this, paint = paint)
+fun Bitmap.imageLayout(paint: Paint = Paint()) = EImageLayout(image = this, paint = paint)
 
 // TODO Make 1 layout per line instead of 1 per word
 // TODO Handle \n
@@ -24,6 +26,20 @@ fun CharSequence.wordLayout(
         .flowed(lineSpacing = lineSpacing, childSpacing = childSpacing)
 
 fun ELayout.onClick(function: () -> Unit): EClickLayout = EClickLayout(this, function)
+
+fun ELayout.addToView(view: View) {
+    getAllChildren().filterIsInstance<ECanvasLayout>().forEach {
+        if(it.viewParent == null){
+            it.viewParent = view
+        }else{
+            throw Exception("$it already added to ${it.viewParent}")
+        }
+    }
+}
+
+fun ELayout.removeFromView(view: View) {
+    getAllChildren().filterIsInstance<ECanvasLayout>().forEach { it.viewParent = view }
+}
 
 fun ELayout.setupClicks(view: View) {
     val touchLayouts = getAllChildren().filterIsInstance<EClickLayout>()

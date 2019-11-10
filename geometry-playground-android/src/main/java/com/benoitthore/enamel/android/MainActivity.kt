@@ -16,22 +16,21 @@ import com.squareup.picasso.Target
 import kotlinx.coroutines.*
 import kotlin.coroutines.resume
 import android.graphics.Bitmap
-import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.benoitthore.enamel.R
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
-import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.layout.EFlowLayout
 import com.benoitthore.enamel.geometry.layout.ELayout
-import com.benoitthore.enamel.geometry.layout.dsl.arranged
-import com.benoitthore.enamel.geometry.layout.dsl.sizedSquare
-import com.benoitthore.enamel.geometry.layout.dsl.stackedBottomCenter
 import com.benoitthore.enamel.layout.android.extract.CanvasLayoutView
-import com.benoitthore.enamel.layout.android.extract.GeometryPool
 import com.benoitthore.enamel.layout.android.extract.layout.*
-import com.benoitthore.enamel.layout.android.extract.randomColor
+import com.benoitthore.enamel.core.randomColor
+import com.benoitthore.enamel.geometry.figures.ESize
+import com.benoitthore.enamel.geometry.figures.size
+import com.benoitthore.enamel.geometry.innerCircle
+import com.benoitthore.enamel.geometry.layout.dsl.*
+import com.benoitthore.enamel.geometry.toCircles
+import com.benoitthore.enamel.layout.android.extract.drawCircles
 
 
 val Context.isLandscape get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
@@ -62,38 +61,60 @@ class MainActivity : AppCompatActivity() {
 
         val image1 = ContextCompat.getDrawable(this, R.drawable.ic_launcher_background)!!
             .imageLayout()
-            .changeTintOnClick(view)
+            .changeTintOnClick()
             .sizedSquare(64.dp)
 
         val image2 = ContextCompat.getDrawable(this, R.drawable.ic_launcher_background)!!
             .imageLayout()
-            .changeTintOnClick(view)
+            .changeTintOnClick()
             .sizedSquare(128.dp)
 
-        val textview = generateText(10).wordLayout(textPaint).changeTextColorOnClick(view)
+        val textview = generateText(10).wordLayout(textPaint).changeTextColorOnClick()
 
-        view.layout = listOf(image1, textview, image2).stackedBottomCenter(16.dp).arranged(center)
+        val myCanvasLayout = object : ECanvasLayout() {
+            val paint = Paint().apply {
+                color = RED
+                style = Paint.Style.FILL
+            }
+
+            override fun draw(canvas: Canvas) {
+
+                val circles = frame
+                    .innerCircle()
+                    .toListOfPoint(10)
+                    .toCircles(frame.size.min * 0.1)
+
+                canvas.drawCircles(circles, paint)
+            }
+
+            override fun size(toFit: ESize): ESize = toFit.min size toFit.min
+        }
+            .sizedSquare(128.dp)
+
+        val l1 = listOf(myCanvasLayout,image1, textview, image2).stackedBottomCenter(32.dp)
+            .arranged(center)
+        view.layout = l1
         setContentView(view)
     }
 
 }
 
-private fun EImageLayout.changeTintOnClick(view: View): ELayout =
+private fun EImageLayout.changeTintOnClick(): ELayout =
     let { layout ->
         layout.onClick {
             paint.colorFilter =
                 PorterDuffColorFilter(randomColor(), PorterDuff.Mode.MULTIPLY)
-            view.invalidate()
+            layout.viewParent?.invalidate()
         }
     }
 
-private fun EFlowLayout.changeTextColorOnClick(view: View): ELayout =
+private fun EFlowLayout.changeTextColorOnClick(): ELayout =
     let { layout ->
         layout.onClick {
             val color = randomColor()
             children.filterIsInstance<EWordLayout>().forEach {
                 it.paint.color = color
-                view.invalidate()
+                it.viewParent?.invalidate()
             }
         }
     }
