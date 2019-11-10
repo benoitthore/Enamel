@@ -25,13 +25,14 @@ fun CharSequence.wordLayout(
     split(" ").filter { it.isNotBlank() }.map { EWordLayout(paint, it) }
         .flowed(lineSpacing = lineSpacing, childSpacing = childSpacing)
 
-fun ELayout.onClick(function: () -> Unit): EClickLayout = EClickLayout(this, function)
+fun <T : ELayout> T.onClick(function: T.() -> Unit): EClickLayout =
+    EClickLayout(this) { function(this) }
 
 fun ELayout.addToView(view: View) {
     getAllChildren().filterIsInstance<ECanvasLayout>().forEach {
-        if(it.viewParent == null){
+        if (it.viewParent == null) {
             it.viewParent = view
-        }else{
+        } else {
             throw Exception("$it already added to ${it.viewParent}")
         }
     }

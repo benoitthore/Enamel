@@ -19,6 +19,7 @@ import android.graphics.Bitmap
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.benoitthore.enamel.R
+import com.benoitthore.enamel.core.math.random
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.layout.EFlowLayout
 import com.benoitthore.enamel.geometry.layout.ELayout
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         val textview = generateText(10).wordLayout(textPaint).changeTextColorOnClick()
 
         val myCanvasLayout = object : ECanvasLayout() {
-            val paint = Paint().apply {
+            val myPaint = Paint().apply {
                 color = RED
                 style = Paint.Style.FILL
             }
@@ -82,16 +83,18 @@ class MainActivity : AppCompatActivity() {
                 val circles = frame
                     .innerCircle()
                     .toListOfPoint(10)
-                    .toCircles(frame.size.min * 0.1)
+                    .toCircles(frame.size.min * 0.05)
 
-                canvas.drawCircles(circles, paint)
+                canvas.drawCircles(circles, myPaint)
             }
 
             override fun size(toFit: ESize): ESize = toFit.min size toFit.min
         }
+            .onClick { myPaint.color = randomColor(); invalidate() }
             .sizedSquare(128.dp)
 
-        val l1 = listOf(myCanvasLayout,image1, textview, image2).stackedBottomCenter(32.dp)
+
+        val l1 = listOf(myCanvasLayout, image1, textview, image2).stackedBottomCenter(32.dp)
             .arranged(center)
         view.layout = l1
         setContentView(view)
