@@ -10,17 +10,14 @@ import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.layout.ELayout
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
-import com.benoitthore.enamel.layout.android.extract.ETouchListener
-import com.benoitthore.enamel.layout.android.extract.OnClickTouchListener
-import com.benoitthore.enamel.layout.android.extract.SingleTouchDelegate
-import com.benoitthore.enamel.layout.android.extract.set
+import com.benoitthore.enamel.layout.android.extract.*
 
 class EClickLayout(val child: ELayout, val callback: () -> Unit) : ECanvasLayout() {
     internal val touchListener = OnClickTouchListener(getFrame = { frame }, callback = callback)
 
     override fun size(toFit: ESize): ESize = child.size(toFit)
 
-    override fun draw(canvas: Canvas) = child.draw(canvas)
+    override fun draw(canvas: Canvas) = canvas.drawLayout(child)
 
     override fun arrange(frame: ERect) {
         super.arrange(frame)

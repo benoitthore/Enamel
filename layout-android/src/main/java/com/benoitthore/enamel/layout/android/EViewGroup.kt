@@ -120,7 +120,7 @@ open class EViewGroup : ViewGroup {
     }
 
     override fun onDraw(canvas: Canvas) {
-        transition.layout?.getLeaves()?.forEach { leaf ->
+        transition.layout?.getAllChildrenWithType<ELayoutLeaf>()?.forEach { leaf ->
             leaf.debugDraw(canvas)
         }
     }

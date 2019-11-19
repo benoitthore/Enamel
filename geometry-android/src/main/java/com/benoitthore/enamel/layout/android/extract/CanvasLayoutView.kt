@@ -7,8 +7,10 @@ import android.view.View
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.layout.ELayout
+import com.benoitthore.enamel.geometry.layout.ELayoutLeaf
+import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
+import com.benoitthore.enamel.geometry.layout.refs.getAllChildrenWithType
 import com.benoitthore.enamel.layout.android.extract.layout.addToView
-import com.benoitthore.enamel.layout.android.extract.layout.draw
 import com.benoitthore.enamel.layout.android.extract.layout.setupClicks
 
 open class CanvasLayoutView @JvmOverloads constructor(
@@ -58,7 +60,8 @@ open class CanvasLayoutView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        layout?.draw(canvas)
+        val layout = layout ?: return
+        canvas.drawLayout(layout)
     }
 }
 
