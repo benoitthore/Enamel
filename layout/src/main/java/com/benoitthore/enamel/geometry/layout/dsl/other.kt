@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.geometry.layout.dsl
 
+import com.benoitthore.enamel.core.withAlpha
 import com.benoitthore.enamel.geometry.layout.ELayout
 import com.benoitthore.enamel.geometry.layout.ELayoutLeaf
 import com.benoitthore.enamel.geometry.layout.ETrackingLayout
@@ -13,3 +14,4 @@ inline val List<String>.layoutTag get() = map { it.layoutTag }
 fun ELayout.tracked(dst: ELayout) = ETrackingLayout(src = this, dst = dst)
 
 fun ELayout.leaf(color: Int) = ELayoutLeaf(color = color, child = this)
+fun ELayout.leafTransparent(color: Int) = ELayoutLeaf(color = color.withAlpha(0.5), child = this)

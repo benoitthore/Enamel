@@ -94,7 +94,8 @@ class MainActivity : AppCompatActivity() {
             .sizedSquare(128.dp)
 
 
-        val l1 = listOf(myCanvasLayout, image1, textview, image2).stackedBottomCenter(32.dp)
+        val l1 = listOf(myCanvasLayout, image1, textview, image2)
+            .stackedBottomCenter(32.dp)
             .arranged(center)
         view.layout = l1
         setContentView(view)
@@ -117,7 +118,7 @@ private fun EFlowLayout.changeTextColorOnClick(): ELayout =
             val color = randomColor()
             children.filterIsInstance<EWordLayout>().forEach {
                 it.paint.color = color
-                it.viewParent?.invalidate()
+                it.invalidate()
             }
         }
     }

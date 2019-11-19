@@ -29,7 +29,7 @@ fun Int.withAlpha(percentage: Number): Int {
     return (alpha shl 24) or (red shl 16) or (green shl 8) or blue
 }
 
-fun randomColor() = colorHSL(Math.random().toFloat())
+fun randomColor() = colorHSL(random().toFloat())
 
 fun colorHSL(h: Number) = HSLToColor(
     floatArrayOf(

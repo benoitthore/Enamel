@@ -26,18 +26,3 @@ abstract class ECanvasLayout : ELayout {
 fun ECanvasLayout.invalidate() {
     viewParent?.invalidate()
 }
-
-// TODO Allocation
-fun ELayout.draw(canvas: Canvas) {
-    if (this is ECanvasLayout) {
-        draw(canvas)
-    }
-    if (children.isEmpty()) {
-        return
-    }
-    getAllChildren().asSequence()
-        .filterIsInstance<ECanvasLayout>()
-        .forEach {
-            it.draw(canvas)
-        }
-}

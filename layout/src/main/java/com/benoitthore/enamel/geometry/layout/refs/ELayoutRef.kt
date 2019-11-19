@@ -36,24 +36,12 @@ class ELayoutRef<V : Any>(
 }
 
 
-//
-// TODO Test
-fun ELayout.getAllChildren(list: LinkedList<ELayout> = LinkedList()): List<ELayout> {
+inline fun <reified T : ELayout> ELayout.getAllChildrenWithType(list: MutableList<ELayout> = LinkedList()) =
+    getAllChildren(list).asSequence().filterIsInstance<T>()
+
+fun ELayout.getAllChildren(list: MutableList<ELayout> = LinkedList()): Iterable<ELayout> {
     list += this
     children.flatMap { it.getAllChildren(list) }
-    return list
-}
-
-fun <T : Any> ELayout.getObjects(): List<T> = getRefs<T>().map { it.ref.viewRef }
-
-fun ELayout.getLeaves(): List<ELayoutLeaf> {
-    val list = mutableListOf<ELayoutLeaf>()
-
-    if (this is ELayoutLeaf) {
-        list.add(this)
-    }
-    list.addAll(children.flatMap { it.getLeaves() })
-
     return list
 }
 

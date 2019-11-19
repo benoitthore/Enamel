@@ -5,9 +5,11 @@ import android.graphics.Color
 import com.benoitthore.enamel.android.randomColor
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.layout.ELayout
+import com.benoitthore.enamel.geometry.layout.ELayoutLeaf
 import com.benoitthore.enamel.geometry.layout.dsl.*
 import com.benoitthore.enamel.geometry.layout.playground.PlaygroundServer
 import com.benoitthore.enamel.geometry.layout.refs.ELayoutTag
+import com.benoitthore.enamel.geometry.layout.refs.getAllChildrenWithType
 import com.benoitthore.enamel.geometry.layout.refs.getLeaves
 import com.benoitthore.enamel.layout.android.*
 import splitties.views.backgroundColor
@@ -79,7 +81,7 @@ fun ELayoutTestingView(
     if (startServer) {
         viewGroup.startServer(serverPort) { layout ->
 
-            layout.getLeaves().forEach { leaf ->
+            layout.getAllChildrenWithType<ELayoutLeaf>().forEach { leaf ->
                 (leaf.child as? ELayoutTag)?.let {
                     leaf.child = refFromTag(it.tag)
                 }
