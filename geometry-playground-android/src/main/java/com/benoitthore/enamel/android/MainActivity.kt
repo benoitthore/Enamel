@@ -45,7 +45,27 @@ fun generateText(numberOfWords: Int = 10): String = with(loremIpsum.split(" ").s
     (0 until numberOfWords).joinToString(separator = " ") { random() }
 }
 
+
 class MainActivity : AppCompatActivity() {
+
+    private val myCanvasLayout = object : ECanvasLayout() {
+        val myPaint = Paint().apply {
+            color = RED
+            style = Paint.Style.FILL
+        }
+
+        override fun draw(canvas: Canvas) {
+
+            val circles = frame
+                .innerCircle()
+                .toListOfPoint(10)
+                .toCircles(frame.size.min * 0.05)
+
+            canvas.drawCircles(circles, myPaint)
+        }
+
+        override fun size(toFit: ESize): ESize = toFit.min size toFit.min
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,43 +80,29 @@ class MainActivity : AppCompatActivity() {
         val view = CanvasLayoutView(this)
         view.setBackgroundColor(DKGRAY)
 
-        val image1 = ContextCompat.getDrawable(this, R.drawable.ic_launcher_background)!!
+        val imageLayout1 = ContextCompat.getDrawable(this, R.drawable.ic_launcher_background)!!
             .imageLayout()
-            .changeTintOnClick()
-            .sizedSquare(64.dp)
-
-        val image2 = ContextCompat.getDrawable(this, R.drawable.ic_launcher_background)!!
+        val imageLayout2 = ContextCompat.getDrawable(this, R.drawable.ic_launcher_background)!!
             .imageLayout()
-            .changeTintOnClick()
-            .sizedSquare(128.dp)
+        val textLayout = generateText(10).wordLayout(textPaint)
 
-        val textview = generateText(10).wordLayout(textPaint).changeTextColorOnClick()
+        val image1 = imageLayout1.changeTintOnClick().sizedSquare(64.dp)
 
-        val myCanvasLayout = object : ECanvasLayout() {
-            val myPaint = Paint().apply {
-                color = RED
-                style = Paint.Style.FILL
-            }
+        val image2 = imageLayout2.changeTintOnClick().sizedSquare(128.dp)
 
-            override fun draw(canvas: Canvas) {
+        val textview = textLayout.changeTextColorOnClick()
 
-                val circles = frame
-                    .innerCircle()
-                    .toListOfPoint(10)
-                    .toCircles(frame.size.min * 0.05)
-
-                canvas.drawCircles(circles, myPaint)
-            }
-
-            override fun size(toFit: ESize): ESize = toFit.min size toFit.min
-        }
+        val myCustomCanvasView = myCanvasLayout
+            // TODO Nesting isn't possible with EClickLayout
             .onClick { myPaint.color = randomColor(); invalidate() }
             .sizedSquare(128.dp)
 
 
-        val l1 = listOf(myCanvasLayout, image1, textview, image2)
+        val l1 = listOf(myCustomCanvasView, image1, textview, image2)
             .stackedBottomCenter(32.dp)
+            .padded(16.dp)
             .arranged(center)
+
         view.layout = l1
         setContentView(view)
     }

@@ -51,12 +51,19 @@ class ETextLayout(
     var text: CharSequence = text
 
     override fun draw(canvas: Canvas) {
-        staticLayout?.draw(canvas) ?: throw Exception("Arrange function not called")
+        val staticLayout =
+            staticLayout ?: throw Exception("Arrange function not called")
+
+        canvas.save()
+        canvas.translate(frame.left, frame.top)
+        staticLayout.draw(canvas)
+        canvas.restore()
     }
 
     override fun arrange(frame: ERect) {
+        val differentFrames = frame.width != this.frame.width
         super.arrange(frame)
-        if (staticLayout == null || frame.width != this.frame.width) {
+        if (staticLayout == null || differentFrames) {
             staticLayout = StaticLayout(
                 text,
                 paint,
@@ -70,6 +77,9 @@ class ETextLayout(
     }
 
     override fun size(toFit: ESize): ESize {
+        if (toFit.width < 0) {
+            return ESize.zero
+        }
         val staticLayout = StaticLayout(
             text,
             paint,
