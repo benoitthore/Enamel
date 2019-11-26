@@ -112,7 +112,7 @@ private fun EImageLayout.changeTintOnClick(): ELayout =
         }
     }
 
-private fun EFlowLayout.changeTextColorOnClick(): ELayout =
+private fun ELayout.changeTextColorOnClick(): ELayout =
     let { layout ->
         layout.onClick {
             val color = randomColor()
