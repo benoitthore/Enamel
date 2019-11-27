@@ -12,13 +12,10 @@ import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.layout.android.extract.SingleTouchDelegate
 import com.benoitthore.enamel.layout.android.extract.dp
 
-fun CharSequence.wordLayout(paint: TextPaint) = ETextLayout(this, paint)
+fun CharSequence.textLayout(paint: TextPaint) = ETextLayout(this, paint)
 
 fun Drawable.imageLayout(paint: Paint = Paint()) = EImageLayout(drawable = this, paint = paint)
 fun Bitmap.imageLayout(paint: Paint = Paint()) = EImageLayout(image = this, paint = paint)
-
-fun <T : ELayout> T.onClick(function: T.() -> Unit): EClickLayout =
-    EClickLayout(this) { function(this) }
 
 fun ELayout.addToView(view: View) {
     getAllChildren().filterIsInstance<ECanvasLayout>().forEach {
@@ -35,7 +32,7 @@ fun ELayout.removeFromView(view: View) {
 }
 
 fun ELayout.setupClicks(view: View) {
-    val touchLayouts = getAllChildren().filterIsInstance<EClickLayout>()
+    val touchLayouts = getAllChildren().filterIsInstance<ECanvasLayout>()
 
     val touchListener =
         SingleTouchDelegate { isDown: Boolean, current: EPoint?, previous: EPoint? ->
