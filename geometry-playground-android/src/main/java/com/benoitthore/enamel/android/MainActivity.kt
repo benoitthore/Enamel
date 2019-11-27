@@ -19,9 +19,7 @@ import android.graphics.Bitmap
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.benoitthore.enamel.R
-import com.benoitthore.enamel.core.math.random
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
-import com.benoitthore.enamel.geometry.layout.EFlowLayout
 import com.benoitthore.enamel.geometry.layout.ELayout
 import com.benoitthore.enamel.layout.android.extract.CanvasLayoutView
 import com.benoitthore.enamel.layout.android.extract.layout.*
@@ -48,25 +46,6 @@ fun generateText(numberOfWords: Int = 10): String = with(loremIpsum.split(" ").s
 
 class MainActivity : AppCompatActivity() {
 
-    private val myCanvasLayout = object : ECanvasLayout() {
-        val myPaint = Paint().apply {
-            color = RED
-            style = Paint.Style.FILL
-        }
-
-        override fun draw(canvas: Canvas) {
-
-            val circles = frame
-                .innerCircle()
-                .toListOfPoint(10)
-                .toCircles(frame.size.min * 0.05)
-
-            canvas.drawCircles(circles, myPaint)
-        }
-
-        override fun size(toFit: ESize): ESize = toFit.min size toFit.min
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -84,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             .imageLayout()
         val imageLayout2 = ContextCompat.getDrawable(this, R.drawable.ic_launcher_background)!!
             .imageLayout()
-        val textLayout = generateText(10).wordLayout(textPaint)
+        val textLayout = generateText(10).textLayout(textPaint)
 
         val image1 = imageLayout1.changeTintOnClick().sizedSquare(64.dp)
 
@@ -92,13 +71,9 @@ class MainActivity : AppCompatActivity() {
 
         val textview = textLayout.changeTextColorOnClick()
 
-        val myCustomCanvasView = myCanvasLayout
-            // TODO Nesting isn't possible with EClickLayout
-            .onClick { myPaint.color = randomColor(); invalidate() }
-            .sizedSquare(128.dp)
 
 
-        val l1 = listOf(myCustomCanvasView, image1, textview, image2)
+        val l1 = listOf(image1, textview, image2)
             .stackedBottomCenter(32.dp)
             .padded(16.dp)
             .arranged(center)
@@ -118,7 +93,7 @@ private fun EImageLayout.changeTintOnClick(): ELayout =
         }
     }
 
-private fun ELayout.changeTextColorOnClick(): ELayout =
+private fun ECanvasLayout.changeTextColorOnClick(): ECanvasLayout =
     let { layout ->
         layout.onClick {
             val color = randomColor()
@@ -128,7 +103,6 @@ private fun ELayout.changeTextColorOnClick(): ELayout =
             }
         }
     }
-
 /////
 /////
 /////
