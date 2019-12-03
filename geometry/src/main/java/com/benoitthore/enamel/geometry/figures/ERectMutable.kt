@@ -253,22 +253,27 @@ open class ERect(
         return buffer
     }
 
+    // TODO Expand/Inset/Padding -> align
     fun inset(margin: Number, buffer: ERectMutable = ERectMutable()) =
         inset(margin, margin, buffer)
-
     fun inset(p: Tuple2, buffer: ERectMutable = ERectMutable()) = inset(p.v1, p.v2, buffer)
     fun inset(
         x: Number = 0,
         y: Number = 0,
         buffer: ERectMutable = ERectMutable()
+    ) = inset(left = x, top = y, right = x, bottom = y, buffer = buffer)
+    fun inset(
+        left: Number = 0,
+        top: Number = 0,
+        right: Number = 0,
+        bottom: Number = 0,
+        buffer: ERectMutable = ERectMutable()
     ): ERectMutable {
         buffer.set(this)
-        val x = x.f
-        val y = y.f
-        buffer.left += x
-        buffer.top += y
-        buffer.bottom -= y
-        buffer.right -= x
+        buffer.left += left.toFloat()
+        buffer.top += top.toFloat()
+        buffer.bottom -= bottom.toFloat()
+        buffer.right -= right.toFloat()
         return buffer
     }
 
@@ -279,14 +284,27 @@ open class ERect(
     fun expand(x: Number = 0f, y: Number = 0f, buffer: ERectMutable = ERectMutable()) =
         inset(-x.f, -y.f, buffer)
 
-    fun expand(padding: EOffset, buffer: ERectMutable = ERectMutable()): ERectMutable {
-        buffer.set(this)
-        buffer.left -= padding.left
-        buffer.top -= padding.top
-        buffer.bottom += padding.bottom
-        buffer.right += padding.right
-        return buffer
-    }
+    fun expand(
+        left: Number = 0,
+        top: Number = 0,
+        right: Number = 0,
+        bottom: Number = 0,
+        buffer: ERectMutable = ERectMutable()
+    ): ERectMutable = inset(
+        left = -left.toFloat(),
+        top = -top.toFloat(),
+        right = -right.toFloat(),
+        bottom = -bottom.toFloat(),
+        buffer = buffer
+    )
+
+    fun expand(padding: EOffset, buffer: ERectMutable = ERectMutable()) = expand(
+        left = padding.left,
+        top = padding.top,
+        right = padding.right,
+        bottom = padding.bottom,
+        buffer = buffer
+    )
 
     fun padding(
         top: Number = this.top,
