@@ -16,6 +16,11 @@ open class EAngle(
     internal open val value: Float = 0f,
     internal open val type: AngleType = AngleType.DEGREE
 ) {
+    companion object {
+        val zero = 0.degrees()
+        val unit = 1.rotations()
+    }
+
     constructor(angle: EAngle) : this(angle.value, angle.type)
 
     // The use of by lazy would create 3 new objects so it's better to calculate on initialisation
@@ -93,13 +98,16 @@ open class EAngle(
 
     operator fun compareTo(angle: EAngleMutable): Int = ((rotation - angle.rotation) * 100).toInt()
 
-    fun toMutable(): EAngleMutable = EAngleMutable(value,type)
-    fun toImmutable(): EAngle = EAngle(value,type)
+    fun toMutable(): EAngleMutable = EAngleMutable(value, type)
+    fun toImmutable(): EAngle = EAngle(value, type)
 
 //    operator fun Number.times(angle: EAngleMutable): EAngleMutable = angle * this
 }
 
-class EAngleMutable constructor(override var value: Float = 0f, override var type: AngleType = AngleType.DEGREE) :
+class EAngleMutable constructor(
+    override var value: Float = 0f,
+    override var type: AngleType = AngleType.DEGREE
+) :
     EAngle(value, type), Resetable {
     companion object {
         val zero get() = 0.degrees()
