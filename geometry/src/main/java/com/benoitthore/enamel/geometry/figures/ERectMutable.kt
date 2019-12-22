@@ -551,10 +551,10 @@ class ERectMutable(
 
     fun selfPadding(padding: EOffset) = padding(padding, this)
     fun selfPadding(
-        top: Number = this.top,
-        bottom: Number = this.bottom,
-        left: Number = this.left,
-        right: Number = this.right
+        top: Number = 0,
+        bottom: Number = 0,
+        left: Number = 0,
+        right: Number = 0
     ) = padding(
         top = top,
         bottom = bottom,
