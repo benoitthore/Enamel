@@ -37,7 +37,8 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
 
     fun toMutable(buffer: EPointMutable = EPointMutable()) = buffer.set(x, y)
     fun toImmutable() = EPoint(x, y)
-    fun copy(buffer: EPointMutable = EPointMutable()) = buffer.set(x, y)
+    fun copy(x: Number = this.x, y: Number = this.y, buffer: EPointMutable = EPointMutable()) =
+        buffer.set(x, y)
 
 
     @get:JsonIgnore

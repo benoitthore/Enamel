@@ -156,8 +156,19 @@ class ECircleMutable(
     ECircle(center, radius), Resetable {
     constructor(center: EPointMutable = EPointMutable(), radius: Number) : this(center, radius.f)
 
-    fun copy(buffer: ECircleMutable = ECircleMutable()) =
-        ECircleMutable(center.copy(buffer.center), radius)
+    fun copy(
+        x: Number = this.x,
+        y: Number = this.y,
+        radius: Number = this.radius,
+        buffer: ECircleMutable = ECircleMutable()
+    ) =
+        ECircleMutable(center.copy(x = x, y = y, buffer = buffer.center), radius = radius)
+
+    fun copy(
+        center: EPoint,
+        radius: Number = this.radius,
+        buffer: ECircleMutable = ECircleMutable()
+    ) = copy(x = center.x, y = center.y, radius = radius, buffer = buffer)
 
     override var x: Float
         get() = super.x
