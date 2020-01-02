@@ -7,17 +7,25 @@ import com.benoitthore.enamel.geometry.alignement.ERectEdge
 import com.benoitthore.enamel.geometry.primitives.EOffset
 import com.benoitthore.enamel.geometry.primitives.EPoint
 
-fun ERect.dividedFraction(fraction: Number, from: ERectEdge): Pair<ERect, ERect> {
+fun ERect.dividedFraction(
+    fraction: Number,
+    from: ERectEdge,
+    buffer: Pair<ERectMutable, ERectMutable> = ERectMutable() to ERectMutable()
+): Pair<ERect, ERect> {
     val fraction = fraction.f
 
     return if (from.isVertical) {
-        divided(height * fraction, from)
+        divided(height * fraction, from,buffer=buffer)
     } else {
-        divided(width * fraction, from)
+        divided(width * fraction, from,buffer=buffer)
     }
 }
 
-fun ERect.divided(distance: Number, from: ERectEdge): Pair<ERect, ERect> {
+fun ERect.divided(
+    distance: Number,
+    from: ERectEdge,
+    buffer: Pair<ERectMutable, ERectMutable> = ERectMutable() to ERectMutable()
+): Pair<ERectMutable, ERectMutable> {
     val distance = distance.f
 
     var sliceHeight: Float
@@ -37,16 +45,18 @@ fun ERect.divided(distance: Number, from: ERectEdge): Pair<ERect, ERect> {
         remainderWidth = width - distance
     }
 
-    sliceHeight = sliceHeight.constrain(0,height)
-    sliceWidth = sliceWidth.constrain(0,width)
-    remainderHeight = remainderHeight.constrain(0,height)
-    remainderWidth = remainderWidth.constrain(0,width)
+    sliceHeight = sliceHeight.constrain(0, height)
+    sliceWidth = sliceWidth.constrain(0, width)
+    remainderHeight = remainderHeight.constrain(0, height)
+    remainderWidth = remainderWidth.constrain(0, width)
 
 
-    val slice = rectAlignedInside(from.alignement, sliceWidth size sliceHeight)
+    val slice =
+        rectAlignedInside(from.alignement, sliceWidth size sliceHeight, buffer = buffer.first)
     val remainderSize = ESize(remainderWidth, remainderHeight)
-
-    return slice to slice.rectAlignedOutside(from.alignement.flipped, remainderSize)
+    val remainder =
+        slice.rectAlignedOutside(from.alignement.flipped, remainderSize, buffer = buffer.second)
+    return slice to remainder
 }
 
 operator fun ERect.minus(padding: EOffset) = padding(padding)
@@ -72,7 +82,6 @@ fun ERectCenter(
     val height = height.f
     val x = x.f - width / 2
     val y = y.f - height / 2
-
 
     return buffer.set(x = x, y = y, width = width, height = height)
 }
@@ -100,7 +109,13 @@ fun ERectCorners(
     )
 }
 
-fun ERectSides(left: Number, top: Number, right: Number, bottom: Number, buffer: ERectMutable = ERectMutable()): ERectMutable {
+fun ERectSides(
+    left: Number,
+    top: Number,
+    right: Number,
+    bottom: Number,
+    buffer: ERectMutable = ERectMutable()
+): ERectMutable {
     buffer.top = top.f
     buffer.left = left.f
     buffer.right = right.f
@@ -108,7 +123,12 @@ fun ERectSides(left: Number, top: Number, right: Number, bottom: Number, buffer:
     return buffer
 }
 
-fun ERectAnchorPos(anchor: EPoint, position: EPoint, size: ESizeMutable, buffer: ERectMutable = ERectMutable()) =
+fun ERectAnchorPos(
+    anchor: EPoint,
+    position: EPoint,
+    size: ESizeMutable,
+    buffer: ERectMutable = ERectMutable()
+) =
     buffer.set(
         x = position.x - size.width * anchor.x,
         y = position.y - size.height * anchor.y,
