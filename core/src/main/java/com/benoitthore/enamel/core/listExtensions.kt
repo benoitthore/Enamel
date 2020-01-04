@@ -3,7 +3,7 @@ package com.benoitthore.enamel.core
 import com.benoitthore.enamel.core.math.Scale
 import java.nio.charset.Charset
 
-inline fun <T> Iterable<T>.contains(predicate: (T) -> Boolean) = filter(predicate).isNotEmpty()
+inline fun <T> Iterable<T>.contains(predicate: (T) -> Boolean) = any(predicate)
 
 
 fun <T : Any> T.asList(): List<T> = listOf(this)
