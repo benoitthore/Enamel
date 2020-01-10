@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.geometry.layout.serializer
 
+import com.benoitthore.enamel.core.WorkInProgress
 import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.layout.*
 import com.benoitthore.enamel.geometry.layout.ESizingLayout.ELayoutSpace.*
@@ -19,6 +20,7 @@ private fun JSONObject.putOffset(name: String, offset: EOffset): JSONObject = pu
         .put("bottom", offset.bottom)
 )
 
+@WorkInProgress
 class ELayoutSerializer(
     val serializeClass: JSONObject.(ELayout) -> Unit = {
         put(
