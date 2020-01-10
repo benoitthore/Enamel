@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import com.benoitthore.enamel.core.WorkInProgress
 import java.lang.Exception
 import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.figures.ERect
@@ -62,7 +63,8 @@ open class EViewGroup : ViewGroup {
     var layout: ELayout = EEmptyLayout
     private set
 
-    fun updateLayout(animate: Boolean = true) {
+    @WorkInProgress
+    private fun updateLayout(animate: Boolean = true) {
         if (width == 0 || height == 0) {
             doOnNextLayout {
                 transition.to(layout, eframe, animate)
@@ -74,6 +76,7 @@ open class EViewGroup : ViewGroup {
 
     }
 
+    @WorkInProgress
     fun transitionTo(layout: ELayout, animate: Boolean = true) {
         this.layout = layout
         updateLayout(animate)
@@ -120,7 +123,7 @@ open class EViewGroup : ViewGroup {
     }
 
     override fun onDraw(canvas: Canvas) {
-        transition.layout?.getAllChildrenWithType<ELayoutLeaf>()?.forEach { leaf ->
+        layout.getAllChildrenWithType<ELayoutLeaf>()?.forEach { leaf ->
             leaf.debugDraw(canvas)
         }
     }

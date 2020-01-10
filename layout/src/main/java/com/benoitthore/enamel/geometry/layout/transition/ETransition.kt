@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.geometry.layout.transition
 
+import com.benoitthore.enamel.core.WorkInProgress
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.time.ETimerAnimator
@@ -20,7 +21,6 @@ val defaultDoAnim: suspend (Long, (Float) -> Unit) -> Unit = { duration, animato
         delay(8)
     }
     animator(1f)
-
 }
 
 /**
@@ -29,6 +29,7 @@ val defaultDoAnim: suspend (Long, (Float) -> Unit) -> Unit = { duration, animato
  *  -
  *  - Improve performance
  */
+@WorkInProgress
 class ETransition<V : Any>(
     val mainThreadDispatcher: CoroutineDispatcher,
     val doAnimation: suspend (Long, (Float) -> Unit) -> Unit = defaultDoAnim,

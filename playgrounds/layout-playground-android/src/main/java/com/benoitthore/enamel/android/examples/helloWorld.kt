@@ -59,6 +59,7 @@ fun helloWorldTransition(context: Context): EViewGroup {
     val title = TITLE.layoutTag
     val subTitle = SUBTITLE.layoutTag
 
+    
     // Define second layout
     val newLayout = listOf(title, subTitle)
         .stacked(bottomRight, 16.dp).snugged()        // Snug means wrap_content (horizontally in this case)

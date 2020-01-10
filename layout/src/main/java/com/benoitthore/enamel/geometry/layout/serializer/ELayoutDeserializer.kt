@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.geometry.layout.serializer
 
+import com.benoitthore.enamel.core.WorkInProgress
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.ERectEdge
 import com.benoitthore.enamel.geometry.figures.ESizeMutable
@@ -28,6 +29,7 @@ private fun JSONObject.toOffset() =
         bottom = _getNumber("bottom")
     )
 
+@WorkInProgress
 class ELayoutDeserializer(
     val deserializeClass: (JSONObject) -> Class<out ELayout> = {
         Class.forName(
