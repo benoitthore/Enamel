@@ -13,11 +13,13 @@ inline val Number.dp: Int
     get() = (toFloat() * Resources.getSystem().displayMetrics.density).toInt()
 
 // TODO Stop using tags or use setTag(key,tag)
+@Deprecated("")
 fun <T : View> T.withTag(tag: Any): T = apply {
     this.tag = tag
 }
 
 // TODO Stop using tags or use setTag(key,tag)
+@Deprecated("")
 fun <T : View> ELayoutRef<T>.withTag(tag: Any): ELayoutRef<T> = apply {
     this.ref.viewRef.tag = tag
 }
