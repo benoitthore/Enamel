@@ -139,6 +139,7 @@ open class EViewGroup : ViewGroup {
         }
     }
 
+    @Deprecated("")
     fun <T : View> T.laid(tag: Any? = null) = laid().apply {
         if (tag != null) {
             withTag(tag)
