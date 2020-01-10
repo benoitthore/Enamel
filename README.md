@@ -21,7 +21,18 @@ Create a algorithmical way of building layouts following these guidelines:
 
 ## Get started
 
-To start using ELayout, check [this link](https://github.com/benoitthore/Enamel/blob/master/docs/get-started.md) 
+### Gradle
+```
+com.benoitthore.enamel:core:$enamelVersion
+com.benoitthore.enamel:layout:$enamelVersion
+com.benoitthore.enamel:layout-android:$enamelVersion
+```
+Latest version is `0.9.1`
+
+### Hello world
+
+Coming soon
+
 
 # Credits
 Enamel was inspired by a Swift framework of the same name and analogous API developed by [@screensailor](https://github.com/screensailor)
