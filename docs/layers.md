@@ -1,16 +1,3 @@
-
-
-# Layers
-Computers only work with numbers, so do layout systems. In order to make a good layout system, a good geometry stack is required.
-
-This library uses different layers in order to achieve its goals, the lowest layer being raw geometry with `points`, `rectangle`, `circles`, and other basic geometry components, as well `sizes` and `angles` for measurements  
-
-In the `Primitve` and the `Figure` layers, every object has a **Mutable** version. Example: `EPointMutable` extends `EPoint`.
-
-The **Mutable** class extends the immutable one which can sometimes be a source of error but it's unfortunately required in order to keep the library small and efficient when it comes to memory allocation
-
-Most functions have an optional **buffer** parameter which can be passed in order to avoid allocations.
-
 ## Primitives
 Primitives are object made of raw Java types such as numbers and boolean. Enums can also be included in this layer.
 
