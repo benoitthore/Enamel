@@ -61,7 +61,10 @@ open class EViewGroup : ViewGroup {
     val isInTransition get() = transition.isInTransition
 
     var layout: ELayout = EEmptyLayout
-    private set
+    set(value) {
+        field = value
+        layout.arrange(paddedFrame)
+    }
 
     @WorkInProgress
     private fun updateLayout(animate: Boolean = true) {
@@ -112,7 +115,7 @@ open class EViewGroup : ViewGroup {
 
 //        // TODO Fix this hack, arrange should only be called by ETransition
         if (!transition.isInTransition) {
-            layout.arrange(eframe)
+            layout.arrange(paddedFrame)
         }
 
     }
