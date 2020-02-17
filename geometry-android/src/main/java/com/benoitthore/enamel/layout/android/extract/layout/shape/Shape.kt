@@ -1,15 +1,16 @@
 package com.benoitthore.enamel.layout.android.extract.layout.shape
 
+import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Paint
 import android.graphics.Path
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.EAngleMutable
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
-import com.benoitthore.enamel.layout.android.extract.drawRect
-import com.benoitthore.enamel.layout.android.extract.layout.ECanvasLayout
 import com.benoitthore.enamel.layout.android.extract.plusAssign
 
 abstract class Shape {
@@ -27,12 +28,13 @@ abstract class Shape {
         canvas.withSave { onDraw(canvas) }
     }
 
-    abstract fun onDraw(canvas: Canvas)
+    protected abstract fun onDraw(canvas: Canvas)
 
-    abstract fun update()
+    protected abstract fun update()
 }
 
-class RectShape(rect: ERect) : Shape() {
+open class RectShape(rect: ERect = ERect.zero) : Shape() {
+
     val rect: ERectMutable = rect.toMutable()
     private val path: Path = Path()
 
@@ -45,6 +47,31 @@ class RectShape(rect: ERect) : Shape() {
         path += rect
     }
 }
+
+class DrawableShape : RectShape() {
+    private var drawable: Drawable? = null
+     
+    fun setDrawable(drawable: Drawable): DrawableShape {
+        this.drawable = drawable
+        return this
+    }
+
+    fun setBitmap(bitmap: Bitmap, resources : Resources): DrawableShape {
+        drawable = BitmapDrawable(resources,bitmap)
+        return this
+    }
+
+    override fun onDraw(canvas: Canvas) {
+//        drawable!!.setBounds(
+//            rectF.left as Int,
+//            rectF.top as Int,
+//            rectF.right as Int,
+//            rectF.bottom as Int
+//        )
+//        drawable!!.draw(canvas)
+    }
+}
+
 
 inline fun Canvas.withSave(crossinline block: Canvas.() -> Unit) = apply {
     val save = save()
