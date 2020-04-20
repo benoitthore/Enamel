@@ -1,6 +1,5 @@
 package com.benoitthore.enamel.geometry.primitives
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
@@ -10,10 +9,8 @@ import kotlin.math.*
 //TODO Mark warning if not used on non-self functions in points/rect/circle/etc
 open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
 
-    @get:JsonIgnore
     override val v1: Number
         get() = x
-    @get:JsonIgnore
     override val v2: Number
         get() = y
 
@@ -41,7 +38,6 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
         buffer.set(x, y)
 
 
-    @get:JsonIgnore
     open val magnitude: Number
         get() = hypot(x.d, y.d)
 

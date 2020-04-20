@@ -41,33 +41,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
-    //OkHttp/Retrofit
-    implementation squareup.retrofit
-    implementation squareup.jacksonConvertor
-
-    implementation squareup.loggingInterceptor
-    implementation squareup.okhttpUrlConnection
-    implementation squareup.retrofitMock
-
-    //Jackson
-    implementation jackson.core
-    implementation jackson.kotlin
-
-    implementation group: 'org.json', name: 'json', version: '20180813'
-
-    // KTOR
-    implementation ktor.core
-    implementation ktor.netty
-    implementation ktor.cio
-
-
     // JUnit
     testImplementation junit.junit
     testImplementation mockito.core
     testImplementation mockito.kotlin
-
-
-
 }
 
 

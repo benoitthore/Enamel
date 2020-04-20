@@ -2,13 +2,13 @@ package com.benoitthore.enamel.android
 
 import android.content.Context
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.*
 import android.graphics.Color.*
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextPaint
 import androidx.appcompat.app.AppCompatActivity
-import com.benoitthore.enamel.layout.android.dp
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import com.squareup.picasso.Target
@@ -34,6 +34,7 @@ import com.benoitthore.enamel.layout.android.extract.drawCircle
 import com.benoitthore.enamel.layout.android.extract.drawCircles
 import com.benoitthore.enamel.layout.android.extract.drawRect
 
+inline val Number.dp get() = (toFloat() * Resources.getSystem().displayMetrics.density).toInt()
 
 class MainActivity : AppCompatActivity() {
 

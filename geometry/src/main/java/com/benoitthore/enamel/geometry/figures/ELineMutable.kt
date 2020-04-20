@@ -1,6 +1,5 @@
 package com.benoitthore.enamel.geometry.figures
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
@@ -24,26 +23,19 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
         val zero = ELine(start = EPointMutable.zero, end = EPointMutable.zero)
     }
 
-    @get:JsonIgnore
     val length
         get() = start.distanceTo(end).f
-    @get:JsonIgnore
     val angle
         get() = start.angleTo(end)
-    @get:JsonIgnore
     val x1
         get() = start.x
-    @get:JsonIgnore
     val x2
         get() = end.x
-    @get:JsonIgnore
     val y1
         get() = start.y
-    @get:JsonIgnore
     val y2
         get() = end.y
 
-    @get:JsonIgnore
     val linearFunction: ELinearFunction
         get() = run {
             val a = (end.y - start.y) / (end.x - start.x)

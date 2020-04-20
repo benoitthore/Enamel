@@ -43,26 +43,14 @@ dependencies {
     implementation(project(':core'))
     implementation(project(':geometry'))
 
-    implementation squareup.loggingInterceptor
-    implementation squareup.okhttpUrlConnection
-
     //Jackson
     implementation jackson.core
     implementation jackson.kotlin
-
-    implementation group: 'org.json', name: 'json', version: '20180813'
-
-    // KTOR
-    implementation ktor.core
-    implementation ktor.netty
 
     // JUnit
     testImplementation junit.junit
     testImplementation mockito.core
     testImplementation mockito.kotlin
-
-
-
 }
 
 

@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.text.TextPaint
 import androidx.appcompat.app.AppCompatActivity
 import com.benoitthore.enamel.geometry.AllocationTracker
-import com.benoitthore.enamel.layout.android.dp
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import com.squareup.picasso.Target

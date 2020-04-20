@@ -9,11 +9,10 @@ android {
     compileSdkVersion 28
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
     }
 
     compileOptions {
@@ -58,19 +57,17 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:multidex:1.0.3'
+//    implementation 'com.android.support:multidex:1.0.3'
 
 
     implementation(project(':core'))
     implementation(project(':geometry'))
     implementation(project(':layout'))
-    implementation(project(':layout-android'))
     implementation(project(':geometry-android'))
 
     implementation xDependencies.appcompat
     implementation picasso.picasso
     implementation xDependencies.core
-
 }
 
 

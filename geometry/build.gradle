@@ -42,10 +42,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation(project(':core'))
 
-    //Jackson
-//    implementation jackson.core
-    implementation jackson.kotlin
-
     // JUnit
     testImplementation junit.junit
     testImplementation mockito.core
