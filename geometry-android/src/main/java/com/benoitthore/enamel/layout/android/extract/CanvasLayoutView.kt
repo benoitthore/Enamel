@@ -6,10 +6,27 @@ import android.util.AttributeSet
 import android.view.View
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ERectMutable
+import com.benoitthore.enamel.geometry.layout.ELayout
+import com.benoitthore.enamel.geometry.layout.ELayoutLeaf
+import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
+import com.benoitthore.enamel.geometry.layout.refs.getAllChildrenWithType
+import com.benoitthore.enamel.layout.android.extract.layout.addToView
+import com.benoitthore.enamel.layout.android.extract.layout.setupClicks
 
 open class CanvasLayoutView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
+
+    var layout: ELayout? = null
+        set(value) {
+            field = value
+            field?.let {
+                it.setupClicks(this)
+                it.addToView(this)
+                it.arrange(frame)
+            }
+            invalidate()
+        }
 
     val paddedFrame: ERect get() = _paddedFrame
     val frame: ERect get() = _frame
@@ -38,8 +55,14 @@ open class CanvasLayoutView @JvmOverloads constructor(
             buffer = _paddedFrame
         )
 
+        layout?.arrange(frame)
     }
 
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        val layout = layout ?: return
+        canvas.drawLayout(layout)
+    }
 }
 
 
