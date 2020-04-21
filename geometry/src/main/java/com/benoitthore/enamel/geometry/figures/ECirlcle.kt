@@ -90,61 +90,61 @@ open class ECircle(open val center: EPoint = EPoint(), open val radius: Float = 
     fun pointAtAnchor(
         x: Number,
         y: Number,
-        buffer: EPointMutable = EPointMutable()
+        target: EPointMutable = EPointMutable()
     ): EPointMutable {
-        val origin = buffer.set(center.x - radius, center.y - radius)
+        val origin = target.set(center.x - radius, center.y - radius)
         val size = radius * 2
         return EPointMutable(x = origin.x + size * x.f, y = origin.y + size * y.f)
     }
 
-    fun pointAtAnchor(anchor: EPointMutable, buffer: EPointMutable = EPointMutable()) =
-        pointAtAnchor(anchor.x, anchor.y, buffer)
+    fun pointAtAnchor(anchor: EPointMutable, target: EPointMutable = EPointMutable()) =
+        pointAtAnchor(anchor.x, anchor.y, target)
 
 
-    fun inset(margin: Number, buffer: ECircleMutable = ECircleMutable()) =
-        buffer.set(center, radius - margin.f)
+    fun inset(margin: Number, target: ECircleMutable = ECircleMutable()) =
+        target.set(center, radius - margin.f)
 
-    fun expand(margin: Number, buffer: ECircleMutable = ECircleMutable()) = inset(-margin.f, buffer)
+    fun expand(margin: Number, target: ECircleMutable = ECircleMutable()) = inset(-margin.f, target)
 
-    fun offset(x: Number, y: Number, buffer: ECircleMutable = ECircleMutable()) =
-        buffer.set(this.x + x.f, this.y + y.f, radius)
+    fun offset(x: Number, y: Number, target: ECircleMutable = ECircleMutable()) =
+        target.set(this.x + x.f, this.y + y.f, radius)
 
-    fun offset(n: Number, buffer: ECircleMutable = ECircleMutable()) = offset(n, n, buffer)
-    fun offset(point: EPointMutable, buffer: ECircleMutable = ECircleMutable()) =
-        offset(point.x, point.y, buffer)
+    fun offset(n: Number, target: ECircleMutable = ECircleMutable()) = offset(n, n, target)
+    fun offset(point: EPointMutable, target: ECircleMutable = ECircleMutable()) =
+        offset(point.x, point.y, target)
 
 
     fun scaledAnchor(
         to: Number, x: Number, y: Number,
         pointBuffer: EPointMutable = EPointMutable(),
-        buffer: ECircleMutable = ECircleMutable()
+        target: ECircleMutable = ECircleMutable()
     ) =
-        scaledRelative(to, relativeTo = pointAtAnchor(x, y, pointBuffer), buffer = buffer)
+        scaledRelative(to, relativeTo = pointAtAnchor(x, y, pointBuffer), target = target)
 
     fun scaledAnchor(
         to: Number,
         anchor: EPoint = EPoint.half,
         pointBuffer: EPointMutable = EPointMutable(),
-        buffer: ECircleMutable = ECircleMutable()
+        target: ECircleMutable = ECircleMutable()
     ) =
-        scaledAnchor(to, anchor.x, anchor.y, pointBuffer = pointBuffer, buffer = buffer)
+        scaledAnchor(to, anchor.x, anchor.y, pointBuffer = pointBuffer, target = target)
 
     fun scaledRelative(
         to: Number,
         relativeTo: EPoint = EPoint.half,
-        buffer: ECircleMutable = ECircleMutable()
+        target: ECircleMutable = ECircleMutable()
     ): ECircleMutable {
         val to = to.f
         val newCenterX = center.x + (relativeTo.x - center.x) * (1 - to)
         val newCenterY = center.x + (relativeTo.x - center.x) * (1 - to)
-        return buffer.set(newCenterX, newCenterY, radius * to)
+        return target.set(newCenterX, newCenterY, radius * to)
     }
 
-    fun resized(newRadius: Number, buffer: ECircleMutable = ECircleMutable()) =
-        buffer.set(center = center, radius = newRadius)
+    fun resized(newRadius: Number, target: ECircleMutable = ECircleMutable()) =
+        target.set(center = center, radius = newRadius)
 
-    fun resizedBy(extraRadius: Number, buffer: ECircleMutable = ECircleMutable()) =
-        buffer.set(center = center, radius = radius + extraRadius.f)
+    fun resizedBy(extraRadius: Number, target: ECircleMutable = ECircleMutable()) =
+        target.set(center = center, radius = radius + extraRadius.f)
 
 
 }
@@ -160,15 +160,15 @@ class ECircleMutable(
         x: Number = this.x,
         y: Number = this.y,
         radius: Number = this.radius,
-        buffer: ECircleMutable = ECircleMutable()
+        target: ECircleMutable = ECircleMutable()
     ) =
-        ECircleMutable(center.copy(x = x, y = y, buffer = buffer.center), radius = radius)
+        ECircleMutable(center.copy(x = x, y = y, target = target.center), radius = radius)
 
     fun copy(
         center: EPoint,
         radius: Number = this.radius,
-        buffer: ECircleMutable = ECircleMutable()
-    ) = copy(x = center.x, y = center.y, radius = radius, buffer = buffer)
+        target: ECircleMutable = ECircleMutable()
+    ) = copy(x = center.x, y = center.y, radius = radius, target = target)
 
     override var x: Float
         get() = super.x
@@ -196,44 +196,44 @@ class ECircleMutable(
     }
 
 
-    fun selfInset(margin: Number) = inset(margin = margin, buffer = this)
+    fun selfInset(margin: Number) = inset(margin = margin, target = this)
 
-    fun selfExpand(margin: Number) = expand(margin = margin, buffer = this)
-    fun selfOffset(x: Number, y: Number) = offset(x = x, y = y, buffer = this)
+    fun selfExpand(margin: Number) = expand(margin = margin, target = this)
+    fun selfOffset(x: Number, y: Number) = offset(x = x, y = y, target = this)
 
-    fun selfOffset(n: Number) = offset(n = n, buffer = this)
-    fun selfOffset(point: EPointMutable) = offset(point = point, buffer = this)
+    fun selfOffset(n: Number) = offset(n = n, target = this)
+    fun selfOffset(point: EPointMutable) = offset(point = point, target = this)
 
     fun selfScaledAnchor(
         to: Number, x: Number, y: Number,
         pointBuffer: EPointMutable = EPointMutable()
-    ) = scaledAnchor(to = to, x = x, y = y, buffer = this, pointBuffer = pointBuffer)
+    ) = scaledAnchor(to = to, x = x, y = y, target = this, pointBuffer = pointBuffer)
 
     fun selfScaledAnchor(
         to: Number,
         anchor: EPoint = EPoint.half,
         pointBuffer: EPointMutable = EPointMutable(),
-        buffer: ECircleMutable = ECircleMutable()
+        target: ECircleMutable = ECircleMutable()
     ) = scaledAnchor(
         to = to,
         anchor = anchor,
         pointBuffer = pointBuffer,
-        buffer = buffer
+        target = target
     )
 
     fun selfScaledRelative(
         to: Number,
         relativeTo: EPoint = EPoint.half,
-        buffer: ECircleMutable = ECircleMutable()
+        target: ECircleMutable = ECircleMutable()
     ) = scaledRelative(
         to = to,
         relativeTo = relativeTo,
-        buffer = buffer
+        target = target
     )
 
-    fun selfResized(newRadius: Number) = resized(newRadius = newRadius, buffer = this)
+    fun selfResized(newRadius: Number) = resized(newRadius = newRadius, target = this)
 
-    fun selfResizedBy(extraRadius: Number) = resizedBy(extraRadius = extraRadius, buffer = this)
+    fun selfResizedBy(extraRadius: Number) = resizedBy(extraRadius = extraRadius, target = this)
 
 
 }

@@ -114,7 +114,7 @@ open class CanvasTestView : View {
             right = paddingRight,
             top = paddingTop,
             bottom = paddingBottom,
-            buffer = _paddedFrame
+            target = _paddedFrame
         )
 
 

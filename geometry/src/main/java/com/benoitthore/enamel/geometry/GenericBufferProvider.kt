@@ -1,8 +1,8 @@
 package com.benoitthore.enamel.geometry
 
-class GenericBufferProvider<T : Resetable>(bufferSize: Int = 20, val default: () -> T) {
+class GenericBufferProvider<T : Resetable>(targetSize: Int = 20, val default: () -> T) {
     private var index = 0
-    private val list: List<T> = List(bufferSize) { default() }
+    private val list: List<T> = List(targetSize) { default() }
     fun get(): T = list[index++ % list.size]
 
     operator fun invoke() = get().apply { reset() }

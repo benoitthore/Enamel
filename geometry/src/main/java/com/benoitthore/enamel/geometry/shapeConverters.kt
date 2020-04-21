@@ -6,48 +6,48 @@ import com.benoitthore.enamel.geometry.primitives.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.EPoint
 
 
-fun EPoint.toCircle(radius: Number, buffer: ECircleMutable = ECircleMutable()): ECircleMutable {
-    buffer.center.set(this)
-    buffer.radius = radius.f
-    return buffer
+fun EPoint.toCircle(radius: Number, target: ECircleMutable = ECircleMutable()): ECircleMutable {
+    target.center.set(this)
+    target.radius = radius.f
+    return target
 }
 
 
-fun List<EPointMutable>.toCircles(radius: Number, buffer: List<ECircleMutable> = MutableList(size) { ECircleMutable() }): List<ECircleMutable> {
+fun List<EPointMutable>.toCircles(radius: Number, target: List<ECircleMutable> = MutableList(size) { ECircleMutable() }): List<ECircleMutable> {
     forEachIndexed { i, p ->
-        p.toCircle(radius, buffer[i])
+        p.toCircle(radius, target[i])
     }
-    return buffer
+    return target
 }
 
-fun ESize.toRect(buffer: ERectMutable = ERectMutable()) = buffer.set(0, 0, width, height)
+fun ESize.toRect(target: ERectMutable = ERectMutable()) = target.set(0, 0, width, height)
 
 
-fun ERect.innerCircle(buffer: ECircleMutable = ECircleMutable()): ECircleMutable {
-    center(buffer.center) // set circles center to rect center
-    buffer.radius = size.min / 2
-    return buffer
+fun ERect.innerCircle(target: ECircleMutable = ECircleMutable()): ECircleMutable {
+    center(target.center) // set circles center to rect center
+    target.radius = size.min / 2
+    return target
 }
 
 
-fun ERect.outterCircle(buffer: ECircleMutable = ECircleMutable()): ECircleMutable {
-    center(buffer.center) // set circles center to rect center
-    buffer.radius = size.diagonal / 2
-    return buffer
+fun ERect.outterCircle(target: ECircleMutable = ECircleMutable()): ECircleMutable {
+    center(target.center) // set circles center to rect center
+    target.radius = size.diagonal / 2
+    return target
 }
 
-fun ECircle.outterRect(buffer: ERectMutable = ERectMutable()): ERectMutable {
+fun ECircle.outterRect(target: ERectMutable = ERectMutable()): ERectMutable {
     val width = radius * 2
-    buffer.width = width
-    buffer.height = width
-    buffer.center = center
-    return buffer
+    target.width = width
+    target.height = width
+    target.center = center
+    return target
 }
 
-fun ECircle.innerRect(buffer: ERectMutable = ERectMutable()): ERectMutable {
+fun ECircle.innerRect(target: ERectMutable = ERectMutable()): ERectMutable {
     val width = Math.sqrt((2 * radius * radius).toDouble()).f
-    buffer.width = width
-    buffer.height = width
-    buffer.center = center
-    return buffer
+    target.width = width
+    target.height = width
+    target.center = center
+    return target
 }

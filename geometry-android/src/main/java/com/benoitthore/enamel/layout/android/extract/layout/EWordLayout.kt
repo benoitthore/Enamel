@@ -30,9 +30,9 @@ class EWordLayout(
     override val children: List<ELayout> = emptyList()
 
 
-    private val bufferSize = ESizeMutable()
+    private val targetSize = ESizeMutable()
 
-    override fun size(toFit: ESize): ESize = bufferSize.set(
+    override fun size(toFit: ESize): ESize = targetSize.set(
         paint.measureText(stringText),
         paint.textSize + paint.descent()
     )

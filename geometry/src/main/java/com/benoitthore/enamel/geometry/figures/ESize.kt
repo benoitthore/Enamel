@@ -45,9 +45,9 @@ open class ESize(open val width: Float = 0f, open val height: Float = 0f) : Tupl
     fun copy(
         width: Number = this.width,
         height: Number = this.height,
-        buffer: ESizeMutable = ESizeMutable()
+        target: ESizeMutable = ESizeMutable()
     ) =
-        buffer.set(width, height)
+        target.set(width, height)
 
     val min get() = Math.min(width, height)
     val max get() = Math.max(width, height)
@@ -55,39 +55,39 @@ open class ESize(open val width: Float = 0f, open val height: Float = 0f) : Tupl
     val area get() = width * height
     val hasArea get() = area > 0
 
-    fun abs(buffer: ESizeMutable = ESizeMutable()) = buffer.set(abs(width), Math.abs(height))
+    fun abs(target: ESizeMutable = ESizeMutable()) = target.set(abs(width), Math.abs(height))
 
-    fun inset(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) =
-        buffer.set(width - x.f, height - y.f)
+    fun inset(x: Number, y: Number, target: ESizeMutable = ESizeMutable()) =
+        target.set(width - x.f, height - y.f)
 
-    fun inset(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) =
-        inset(other.v1, other.v2, buffer)
+    fun inset(other: Tuple2, target: ESizeMutable = ESizeMutable()) =
+        inset(other.v1, other.v2, target)
 
-    fun inset(n: Number, buffer: ESizeMutable = ESizeMutable()) = inset(n, n, buffer)
+    fun inset(n: Number, target: ESizeMutable = ESizeMutable()) = inset(n, n, target)
 
-    fun expand(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) =
-        inset(-x.f, -y.f, buffer)
+    fun expand(x: Number, y: Number, target: ESizeMutable = ESizeMutable()) =
+        inset(-x.f, -y.f, target)
 
-    fun expand(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) =
-        expand(other.v1, other.v2, buffer)
+    fun expand(other: Tuple2, target: ESizeMutable = ESizeMutable()) =
+        expand(other.v1, other.v2, target)
 
-    fun expand(n: Number, buffer: ESizeMutable = ESizeMutable()) = expand(n, n, buffer)
+    fun expand(n: Number, target: ESizeMutable = ESizeMutable()) = expand(n, n, target)
 
-    fun scale(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) =
-        buffer.set(width * x.f, height * y.f)
+    fun scale(x: Number, y: Number, target: ESizeMutable = ESizeMutable()) =
+        target.set(width * x.f, height * y.f)
 
-    fun scale(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) =
-        scale(other.v1, other.v2, buffer)
+    fun scale(other: Tuple2, target: ESizeMutable = ESizeMutable()) =
+        scale(other.v1, other.v2, target)
 
-    fun scale(n: Number, buffer: ESizeMutable = ESizeMutable()) = scale(n, n, buffer)
+    fun scale(n: Number, target: ESizeMutable = ESizeMutable()) = scale(n, n, target)
 
-    fun dividedBy(x: Number, y: Number, buffer: ESizeMutable = ESizeMutable()) =
-        buffer.set(width / x.f, height / y.f)
+    fun dividedBy(x: Number, y: Number, target: ESizeMutable = ESizeMutable()) =
+        target.set(width / x.f, height / y.f)
 
-    fun dividedBy(other: Tuple2, buffer: ESizeMutable = ESizeMutable()) =
-        dividedBy(other.v1, other.v2, buffer)
+    fun dividedBy(other: Tuple2, target: ESizeMutable = ESizeMutable()) =
+        dividedBy(other.v1, other.v2, target)
 
-    fun dividedBy(n: Number, buffer: ESizeMutable = ESizeMutable()) = dividedBy(n, n, buffer)
+    fun dividedBy(n: Number, target: ESizeMutable = ESizeMutable()) = dividedBy(n, n, target)
 
 
     override fun equals(other: Any?): Boolean =

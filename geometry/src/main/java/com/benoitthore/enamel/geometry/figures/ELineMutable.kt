@@ -156,11 +156,11 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
         rightLength = length.f / 2f
     )
 
-    fun parallel(distance: Number, buffer: ELineMutable): ELine {
+    fun parallel(distance: Number, target: ELineMutable): ELine {
 
         TODO()
 
-        return buffer
+        return target
     }
 
     override fun toString(): String {
@@ -326,12 +326,12 @@ val List<ELine>.length: Float get() = sumByDouble { it.length.toDouble() }.toFlo
 operator fun ELine.component1() = start
 operator fun ELine.component2() = end
 
-fun List<EPoint>.pointAtFraction(fraction: Number, buffer: EPointMutable = EPointMutable()) =
-    pointAtDistance(fraction.toFloat() * length, buffer)
+fun List<EPoint>.pointAtFraction(fraction: Number, target: EPointMutable = EPointMutable()) =
+    pointAtDistance(fraction.toFloat() * length, target)
 
 fun List<EPoint>.pointAtDistance(
     distance: Number,
-    buffer: EPointMutable = EPointMutable()
+    target: EPointMutable = EPointMutable()
 ): EPointMutable {
     var last: EPoint? = null
     val distance = distance.toFloat()
@@ -341,14 +341,14 @@ fun List<EPoint>.pointAtDistance(
         last?.let { last ->
             val distanceToNext = last.distanceTo(p)
             if (remainingDistance - distanceToNext < 0) {
-                return last.offsetTowards(p, remainingDistance, buffer)
+                return last.offsetTowards(p, remainingDistance, target)
             }
             remainingDistance -= distanceToNext
         }
         last = p
     }
 
-    return last().toMutable(buffer)
+    return last().toMutable(target)
 }
 
 

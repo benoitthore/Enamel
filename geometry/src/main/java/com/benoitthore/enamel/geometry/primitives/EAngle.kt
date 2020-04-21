@@ -56,12 +56,12 @@ open class EAngle(
 
     operator fun unaryMinus(): EAngleMutable = inverse()
 
-    fun inverse(buffer: EAngleMutable = EAngleMutable()): EAngleMutable {
-        val opposite = value.degrees(buffer)
+    fun inverse(target: EAngleMutable = EAngleMutable()): EAngleMutable {
+        val opposite = value.degrees(target)
         return opposite.set(-value, type)
     }
 
-    fun offset(other: EAngle, buffer: EAngleMutable = EAngleMutable()) = buffer.apply {
+    fun offset(other: EAngle, target: EAngleMutable = EAngleMutable()) = target.apply {
         val increment = when (type) {
 
             AngleType.DEGREE -> other.degrees
@@ -141,20 +141,20 @@ class EAngleMutable constructor(
 
 }
 
-fun Number.degrees(buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
-    buffer.set(
+fun Number.degrees(target: EAngleMutable = EAngleMutable()): EAngleMutable =
+    target.set(
         this.f,
         AngleType.DEGREE
     )
 
-fun Number.radians(buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
-    buffer.set(
+fun Number.radians(target: EAngleMutable = EAngleMutable()): EAngleMutable =
+    target.set(
         this.f,
         AngleType.RADIAN
     )
 
-fun Number.rotations(buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
-    buffer.set(
+fun Number.rotations(target: EAngleMutable = EAngleMutable()): EAngleMutable =
+    target.set(
         this.f,
         AngleType.ROTATION
     )

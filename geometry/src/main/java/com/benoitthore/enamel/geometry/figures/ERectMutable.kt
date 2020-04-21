@@ -11,11 +11,11 @@ This class should be the example to follow in order to implement mutability
 
 Note:
 
-Immutable doesn't have any function requiring a buffer, but:
-- Only toImmutable() allocates without providing a buffer
-- Only toMutable() requires a buffer
+Immutable doesn't have any function requiring a target, but:
+- Only toImmutable() allocates without providing a target
+- Only toMutable() requires a target
 
-Create the API without default arguments for buffer in order to make sure no allocation is done by the library itself, then the user can decide
+Create the API without default arguments for target in order to make sure no allocation is done by the library itself, then the user can decide
 
 
  */
@@ -31,12 +31,12 @@ open class ERect(
         allocateDebugMessage()
     }
 
-    fun toMutable(buffer: ERectMutable = ERectMutable()) =
-        buffer.set(origin.toMutable(buffer.origin), size.toMutable())
+    fun toMutable(target: ERectMutable = ERectMutable()) =
+        target.set(origin.toMutable(target.origin), size.toMutable())
 
     fun toImmutable() = ERect(origin.toImmutable(), size.toImmutable())
-    fun copy(buffer: ERectMutable = ERectMutable()) =
-        ERectMutable(origin.copy(buffer = buffer.origin), size.copy(buffer = buffer.size))
+    fun copy(target: ERectMutable = ERectMutable()) =
+        ERectMutable(origin.copy(target = target.origin), size.copy(target = target.size))
 
     open val height get() = size.height
     open val width get() = size.width
@@ -150,12 +150,12 @@ open class ERect(
     fun pointAtAnchor(
         x: Number,
         y: Number,
-        buffer: EPointMutable = EPointMutable()
+        target: EPointMutable = EPointMutable()
     ): EPointMutable =
-        buffer.set(x = pointAtAnchorX(x), y = pointAtAnchorY(y))
+        target.set(x = pointAtAnchorX(x), y = pointAtAnchorY(y))
 
-    fun pointAtAnchor(anchor: EPoint, buffer: EPointMutable = EPointMutable()) =
-        pointAtAnchor(anchor.x, anchor.y, buffer)
+    fun pointAtAnchor(anchor: EPoint, target: EPointMutable = EPointMutable()) =
+        pointAtAnchor(anchor.x, anchor.y, target)
 
     fun pointAtAnchorX(x: Number) = origin.x + size.width * x.f
     fun pointAtAnchorY(y: Number) = origin.y + size.height * y.f
@@ -163,27 +163,27 @@ open class ERect(
     fun anchorAtPoint(
         x: Number,
         y: Number,
-        buffer: EPointMutable = EPointMutable()
+        target: EPointMutable = EPointMutable()
     ): EPointMutable {
         val x = if (width == 0f) .5f else x.f / width
         val y = if (height == 0f) .5f else y.f / height
-        return buffer.set(x, y)
+        return target.set(x, y)
     }
 
-    fun center(buffer: EPointMutable = EPointMutable()): EPointMutable =
-        pointAtAnchor(0.5f, 0.5f, buffer)
+    fun center(target: EPointMutable = EPointMutable()): EPointMutable =
+        pointAtAnchor(0.5f, 0.5f, target)
 
-    fun topLeft(buffer: EPointMutable = EPointMutable()): EPointMutable =
-        pointAtAnchor(0f, 0f, buffer)
+    fun topLeft(target: EPointMutable = EPointMutable()): EPointMutable =
+        pointAtAnchor(0f, 0f, target)
 
-    fun topRight(buffer: EPointMutable = EPointMutable()): EPointMutable =
-        pointAtAnchor(1f, 0.0f, buffer)
+    fun topRight(target: EPointMutable = EPointMutable()): EPointMutable =
+        pointAtAnchor(1f, 0.0f, target)
 
-    fun bottomRight(buffer: EPointMutable = EPointMutable()): EPointMutable =
-        pointAtAnchor(1f, 1f, buffer)
+    fun bottomRight(target: EPointMutable = EPointMutable()): EPointMutable =
+        pointAtAnchor(1f, 1f, target)
 
-    fun bottomLeft(buffer: EPointMutable = EPointMutable()): EPointMutable =
-        pointAtAnchor(0f, 1f, buffer)
+    fun bottomLeft(target: EPointMutable = EPointMutable()): EPointMutable =
+        pointAtAnchor(0f, 1f, target)
 
 
     // Alignement
@@ -191,24 +191,24 @@ open class ERect(
         aligned: EAlignment,
         size: ESize,
         spacing: Number = 0,
-        buffer: ERectMutable = ERectMutable(this)
+        target: ERectMutable = ERectMutable(this)
     ): ERectMutable {
-        buffer.set(this)
+        target.set(this)
         val spacing = spacing.f
 
         val anchor = aligned.namedPoint
         val spacingSign = aligned.spacingSign
 
-        val position = pointAtAnchor(aligned.namedPoint, buffer = buffer.origin)
-            .offset(spacingSign.x * spacing, spacingSign.y * spacing, buffer = buffer.origin)
+        val position = pointAtAnchor(aligned.namedPoint, target = target.origin)
+            .offset(spacingSign.x * spacing, spacingSign.y * spacing, target = target.origin)
 
-        buffer.size.set(size)
+        target.size.set(size)
 
         return ERectAnchorPos(
             anchor = anchor,
             position = position,
-            size = buffer.size,
-            buffer = buffer
+            size = target.size,
+            target = target
         )
     }
 
@@ -217,93 +217,93 @@ open class ERect(
         aligned: EAlignment,
         size: ESize,
         spacing: Number = 0,
-        buffer: ERectMutable = ERectMutable()
+        target: ERectMutable = ERectMutable()
     ): ERectMutable {
-        buffer.set(this)
+        target.set(this)
         val spacing = spacing.f
 
         val anchor = aligned.flipped.namedPoint
         val spacingSign = aligned.flipped.spacingSign
 
-        val position = pointAtAnchor(aligned.namedPoint, buffer = buffer.origin)
-            .offset(spacingSign.x * spacing, spacingSign.y * spacing, buffer = buffer.origin)
+        val position = pointAtAnchor(aligned.namedPoint, target = target.origin)
+            .offset(spacingSign.x * spacing, spacingSign.y * spacing, target = target.origin)
 
-        buffer.size.set(size)
+        target.size.set(size)
 
         return ERectAnchorPos(
             anchor = anchor,
             position = position,
-            size = buffer.size,
-            buffer = buffer
+            size = target.size,
+            target = target
         )
     }
 
 
     // Changing
-    fun offset(p: Tuple2, buffer: ERectMutable = ERectMutable()): ERectMutable =
-        offset(p.v1, p.v2, buffer)
+    fun offset(p: Tuple2, target: ERectMutable = ERectMutable()): ERectMutable =
+        offset(p.v1, p.v2, target)
 
     fun offset(
         x: Number = 0,
         y: Number = 0,
-        buffer: ERectMutable = ERectMutable()
+        target: ERectMutable = ERectMutable()
     ): ERectMutable {
-        buffer.set(this)
-        buffer.origin.selfOffset(x, y)
-        return buffer
+        target.set(this)
+        target.origin.selfOffset(x, y)
+        return target
     }
 
     // TODO Expand/Inset/Padding -> align
-    fun inset(margin: Number, buffer: ERectMutable = ERectMutable()) =
-        inset(margin, margin, buffer)
-    fun inset(p: Tuple2, buffer: ERectMutable = ERectMutable()) = inset(p.v1, p.v2, buffer)
+    fun inset(margin: Number, target: ERectMutable = ERectMutable()) =
+        inset(margin, margin, target)
+    fun inset(p: Tuple2, target: ERectMutable = ERectMutable()) = inset(p.v1, p.v2, target)
     fun inset(
         x: Number = 0,
         y: Number = 0,
-        buffer: ERectMutable = ERectMutable()
-    ) = inset(left = x, top = y, right = x, bottom = y, buffer = buffer)
+        target: ERectMutable = ERectMutable()
+    ) = inset(left = x, top = y, right = x, bottom = y, target = target)
     fun inset(
         left: Number = 0,
         top: Number = 0,
         right: Number = 0,
         bottom: Number = 0,
-        buffer: ERectMutable = ERectMutable()
+        target: ERectMutable = ERectMutable()
     ): ERectMutable {
-        buffer.set(this)
-        buffer.left += left.toFloat()
-        buffer.top += top.toFloat()
-        buffer.bottom -= bottom.toFloat()
-        buffer.right -= right.toFloat()
-        return buffer
+        target.set(this)
+        target.left += left.toFloat()
+        target.top += top.toFloat()
+        target.bottom -= bottom.toFloat()
+        target.right -= right.toFloat()
+        return target
     }
 
-    fun expand(margin: Number, buffer: ERectMutable = ERectMutable()) =
-        expand(margin, margin, buffer)
+    fun expand(margin: Number, target: ERectMutable = ERectMutable()) =
+        expand(margin, margin, target)
 
-    fun expand(p: Tuple2, buffer: ERectMutable = ERectMutable()) = expand(p.v1, p.v2, buffer)
-    fun expand(x: Number = 0f, y: Number = 0f, buffer: ERectMutable = ERectMutable()) =
-        inset(-x.f, -y.f, buffer)
+    fun expand(p: Tuple2, target: ERectMutable = ERectMutable()) = expand(p.v1, p.v2, target)
+    fun expand(x: Number = 0f, y: Number = 0f, target: ERectMutable = ERectMutable()) =
+        inset(-x.f, -y.f, target)
 
     fun expand(
         left: Number = 0,
         top: Number = 0,
         right: Number = 0,
         bottom: Number = 0,
-        buffer: ERectMutable = ERectMutable()
+        target: ERectMutable = ERectMutable()
     ): ERectMutable = inset(
         left = -left.toFloat(),
         top = -top.toFloat(),
         right = -right.toFloat(),
         bottom = -bottom.toFloat(),
-        buffer = buffer
+        target = target
     )
 
-    fun expand(padding: EOffset, buffer: ERectMutable = ERectMutable()) = expand(
+    fun expand(padding: EOffset, target: ERectMutable = ERectMutable()) = expand(
         left = padding.left,
         top = padding.top,
         right = padding.right,
         bottom = padding.bottom,
-        buffer = buffer
+        target = target
     )
 
     fun padding(
@@ -311,95 +311,95 @@ open class ERect(
         bottom: Number = this.bottom,
         left: Number = this.left,
         right: Number = this.right
-        , buffer: ERectMutable = ERectMutable()
+        , target: ERectMutable = ERectMutable()
     ): ERectMutable {
-        buffer.set(this)
-        buffer.left += left.f
-        buffer.top += top.f
-        buffer.bottom -= bottom.f
-        buffer.right -= right.f
-        return buffer
+        target.set(this)
+        target.left += left.f
+        target.top += top.f
+        target.bottom -= bottom.f
+        target.right -= right.f
+        return target
     }
 
-    fun padding(padding: EOffset, buffer: ERectMutable = ERectMutable()): ERectMutable =
+    fun padding(padding: EOffset, target: ERectMutable = ERectMutable()): ERectMutable =
         padding(
             left = padding.left,
             top = padding.top,
             bottom = padding.bottom,
             right = padding.right,
-            buffer = buffer
+            target = target
         )
 
     // TODO Make self version
-    fun scale(t: Tuple2, buffer: ERectMutable = ERectMutable()): ERectMutable =
-        scale(t.v1, t.v2, buffer)
+    fun scale(t: Tuple2, target: ERectMutable = ERectMutable()): ERectMutable =
+        scale(t.v1, t.v2, target)
 
-    fun scale(x: Number, y: Number, buffer: ERectMutable = ERectMutable()): ERectMutable {
-        buffer.x = this.x * x.f
-        buffer.y = this.y * y.f
-        buffer.width = this.width * x.f
-        buffer.height = this.height * y.f
+    fun scale(x: Number, y: Number, target: ERectMutable = ERectMutable()): ERectMutable {
+        target.x = this.x * x.f
+        target.y = this.y * y.f
+        target.width = this.width * x.f
+        target.height = this.height * y.f
 
-        return buffer
+        return target
     }
 
-    fun scaleAnchor(factor: Number, anchor: EPoint, buffer: ERectMutable = ERectMutable()) =
-        scaleAnchor(factor, anchor.x, anchor.y, buffer)
+    fun scaleAnchor(factor: Number, anchor: EPoint, target: ERectMutable = ERectMutable()) =
+        scaleAnchor(factor, anchor.x, anchor.y, target)
 
 
     fun scaleAnchor(
         factor: Number,
         anchorX: Number,
         anchorY: Number,
-        buffer: ERectMutable = ERectMutable()
+        target: ERectMutable = ERectMutable()
     ) = scaleRelative(
         factor,
         pointAtAnchorX(anchorX),
         pointAtAnchorY(anchorY),
-        buffer
+        target
     )
 
 
     fun scaleRelative(
         factor: Number,
         point: EPoint,
-        buffer: ERectMutable = ERectMutable()
-    ) = scaleRelative(factor, point.x, point.y, buffer)
+        target: ERectMutable = ERectMutable()
+    ) = scaleRelative(factor, point.x, point.y, target)
 
     fun scaleRelative(
         factor: Number,
         pointX: Number,
         pointY: Number,
-        buffer: ERectMutable = ERectMutable()
+        target: ERectMutable = ERectMutable()
     ): ERectMutable {
-        buffer.set(this)
+        target.set(this)
 
         val factor = factor.f
         val newX = origin.x + (pointX.f - origin.x) * (1f - factor)
         val newY = origin.y + (pointY.f - origin.y) * (1f - factor)
 
-        buffer.origin.set(newX, newY)
-        buffer.size.width *= factor
-        buffer.size.height *= factor
-        return buffer
+        target.origin.set(newX, newY)
+        target.size.width *= factor
+        target.size.height *= factor
+        return target
     }
 
     fun toPointList(
-        buffer: List<EPointMutable> = listOf(
+        target: List<EPointMutable> = listOf(
             EPointMutable(),
             EPointMutable(),
             EPointMutable(),
             EPointMutable()
         )
     ): List<EPointMutable> {
-        if (buffer.size != 4) {
-            throw Exception("Needs 4 points in buffer")
+        if (target.size != 4) {
+            throw Exception("Needs 4 points in target")
         }
-        buffer[0].set(top, left)
-        buffer[1].set(top, right)
-        buffer[2].set(bottom, right)
-        buffer[3].set(bottom, left)
-        return buffer
+        target[0].set(top, left)
+        target[1].set(top, right)
+        target[2].set(bottom, right)
+        target[3].set(bottom, left)
+        return target
     }
 
 
@@ -560,7 +560,7 @@ class ERectMutable(
         bottom = bottom,
         left = left,
         right = right,
-        buffer = this
+        target = this
     )
 
     fun selfExpand(padding: EOffset) = expand(padding, this)
@@ -574,6 +574,6 @@ class ERectMutable(
 
     fun selfScaleRelative(factor: Number, point: EPoint) = scaleRelative(factor, point, this)
     fun selfScaleRelative(factor: Number, pointX: Number, pointY: Number) =
-        scaleRelative(factor = factor, pointX = pointX, pointY = pointY, buffer = this)
+        scaleRelative(factor = factor, pointX = pointX, pointY = pointY, target = this)
 
 }

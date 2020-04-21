@@ -32,25 +32,25 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
         angle.sin * magnitude.f
     )
 
-    fun toMutable(buffer: EPointMutable = EPointMutable()) = buffer.set(x, y)
+    fun toMutable(target: EPointMutable = EPointMutable()) = target.set(x, y)
     fun toImmutable() = EPoint(x, y)
-    fun copy(x: Number = this.x, y: Number = this.y, buffer: EPointMutable = EPointMutable()) =
-        buffer.set(x, y)
+    fun copy(x: Number = this.x, y: Number = this.y, target: EPointMutable = EPointMutable()) =
+        target.set(x, y)
 
 
     open val magnitude: Number
         get() = hypot(x.d, y.d)
 
-    fun heading(buffer: EAngleMutable = EAngleMutable()) =
-        buffer.set(atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
+    fun heading(target: EAngleMutable = EAngleMutable()) =
+        target.set(atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
 
-    fun angleTo(x: Number, y: Number, buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
+    fun angleTo(x: Number, y: Number, target: EAngleMutable = EAngleMutable()): EAngleMutable =
         atan2(
             ((y.f - this.y).d), ((x.f - this.x).d)
-        ).radians(buffer)
+        ).radians(target)
 
-    fun angleTo(point: EPoint, buffer: EAngleMutable = EAngleMutable()): EAngleMutable =
-        angleTo(point.x, point.y, buffer)
+    fun angleTo(point: EPoint, target: EAngleMutable = EAngleMutable()): EAngleMutable =
+        angleTo(point.x, point.y, target)
 
     fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)
     fun distanceTo(x2: Number, y2: Number) = hypot((x2.d - x), (y2.d - y)).f
@@ -85,101 +85,101 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
     //////
 
 
-    fun inverse(buffer: EPointMutable = EPointMutable()) = buffer.set(-x, -y)
+    fun inverse(target: EPointMutable = EPointMutable()) = target.set(-x, -y)
 
-    fun offset(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) =
-        buffer.set(this.x + x.f, this.y + y.f)
+    fun offset(x: Number, y: Number, target: EPointMutable = EPointMutable()) =
+        target.set(this.x + x.f, this.y + y.f)
 
-    fun offset(n: Number, buffer: EPointMutable = EPointMutable()) = offset(n, n, buffer)
-    fun offset(other: Tuple2, buffer: EPointMutable = EPointMutable()) =
-        offset(other.v1, other.v2, buffer)
+    fun offset(n: Number, target: EPointMutable = EPointMutable()) = offset(n, n, target)
+    fun offset(other: Tuple2, target: EPointMutable = EPointMutable()) =
+        offset(other.v1, other.v2, target)
 
-    fun sub(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) =
-        buffer.set(this.x - x.f, this.y - y.f)
+    fun sub(x: Number, y: Number, target: EPointMutable = EPointMutable()) =
+        target.set(this.x - x.f, this.y - y.f)
 
-    fun sub(n: Number, buffer: EPointMutable = EPointMutable()) = sub(n, n, buffer)
-    fun sub(other: Tuple2, buffer: EPointMutable = EPointMutable()) =
-        sub(other.v1, other.v2, buffer)
+    fun sub(n: Number, target: EPointMutable = EPointMutable()) = sub(n, n, target)
+    fun sub(other: Tuple2, target: EPointMutable = EPointMutable()) =
+        sub(other.v1, other.v2, target)
 
-    fun mult(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) =
-        buffer.set(this.x * x.f, this.y * y.f)
+    fun mult(x: Number, y: Number, target: EPointMutable = EPointMutable()) =
+        target.set(this.x * x.f, this.y * y.f)
 
-    fun mult(n: Number, buffer: EPointMutable = EPointMutable()) = mult(n, n, buffer)
-    fun mult(other: Tuple2, buffer: EPointMutable = EPointMutable()) =
-        mult(other.v1, other.v2, buffer)
+    fun mult(n: Number, target: EPointMutable = EPointMutable()) = mult(n, n, target)
+    fun mult(other: Tuple2, target: EPointMutable = EPointMutable()) =
+        mult(other.v1, other.v2, target)
 
-    fun dividedBy(x: Number, y: Number, buffer: EPointMutable = EPointMutable()) =
-        buffer.set(this.x / x.f, this.y / y.f)
+    fun dividedBy(x: Number, y: Number, target: EPointMutable = EPointMutable()) =
+        target.set(this.x / x.f, this.y / y.f)
 
-    fun dividedBy(n: Number, buffer: EPointMutable = EPointMutable()) = dividedBy(n, n, buffer)
-    fun dividedBy(other: Tuple2, buffer: EPointMutable = EPointMutable()) =
-        dividedBy(other.v1, other.v2, buffer)
+    fun dividedBy(n: Number, target: EPointMutable = EPointMutable()) = dividedBy(n, n, target)
+    fun dividedBy(other: Tuple2, target: EPointMutable = EPointMutable()) =
+        dividedBy(other.v1, other.v2, target)
 
 
     fun offsetTowards(
         towards: EPoint,
         distance: Number,
-        buffer: EPointMutable = EPointMutable()
+        target: EPointMutable = EPointMutable()
     ): EPointMutable {
         val fromX = x
         val fromY = y
-        buffer.set(angle = angleTo(towards), magnitude = distance)
-        return buffer.set(buffer.x + fromX, buffer.y + fromY)
+        target.set(angle = angleTo(towards), magnitude = distance)
+        return target.set(target.x + fromX, target.y + fromY)
     }
 
-    fun offsetFrom(from: EPoint, distance: Number, buffer: EPointMutable = EPointMutable()) =
-        from.offsetTowards(this, distance, buffer)
+    fun offsetFrom(from: EPoint, distance: Number, target: EPointMutable = EPointMutable()) =
+        from.offsetTowards(this, distance, target)
 
 
     fun offsetAngle(
         angle: EAngle,
         distance: Number,
-        buffer: EPointMutable = EPointMutable()
+        target: EPointMutable = EPointMutable()
     ): EPointMutable {
         val fromX = x
         val fromY = y
-        buffer.set(angle, distance)
-        return buffer.set(buffer.x + fromX, buffer.y + fromY)
+        target.set(angle, distance)
+        return target.set(target.x + fromX, target.y + fromY)
     }
 
     fun rotateAround(
         angle: EAngle,
         center: EPoint,
-        buffer: EPointMutable = EPointMutable()
+        target: EPointMutable = EPointMutable()
     ): EPointMutable {
         val angleTo = center.angleTo(this)
         val distance = center.distanceTo(this)
         val totalAngle = angle + angleTo
         val x = center.x + totalAngle.cos * distance
         val y = center.y + totalAngle.sin * distance
-        return buffer.set(x, y)
+        return target.set(x, y)
     }
 
-    fun normalize(buffer: EPointMutable = EPointMutable()): EPointMutable {
+    fun normalize(target: EPointMutable = EPointMutable()): EPointMutable {
         val magnitude = magnitude.f
-        buffer.set(this)
+        target.set(this)
         if (magnitude != 0f) {
-            buffer.selfDividedBy(magnitude)
+            target.selfDividedBy(magnitude)
         }
-        return buffer
+        return target
     }
 
-    fun limitMagnitude(max: Number, buffer: EPointMutable = EPointMutable()): EPointMutable {
+    fun limitMagnitude(max: Number, target: EPointMutable = EPointMutable()): EPointMutable {
         val max = max.f
-        buffer.set(this)
+        target.set(this)
 
-        if (buffer.magnitude.d > max) {
-            buffer.selfNormalize().selfMult(max)
+        if (target.magnitude.d > max) {
+            target.selfNormalize().selfMult(max)
         }
 
-        return buffer
+        return target
     }
 
-    fun setMagnitude(magnitude: Number, buffer: EPointMutable = EPointMutable()) =
-        buffer.set(this).selfNormalize().selfMult(magnitude)
+    fun setMagnitude(magnitude: Number, target: EPointMutable = EPointMutable()) =
+        target.set(this).selfNormalize().selfMult(magnitude)
 
-    fun abs(buffer: EPointMutable = EPointMutable()) = buffer.also {
-        buffer.set(abs(x), abs(y))
+    fun abs(target: EPointMutable = EPointMutable()) = target.also {
+        target.set(abs(x), abs(y))
     }
 
 
@@ -258,8 +258,8 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
 }
 
 
-fun RandomPoint(magnitude: Number = 1f, buffer: EPointMutable = EPointMutable()) =
-    buffer.set(
+fun RandomPoint(magnitude: Number = 1f, target: EPointMutable = EPointMutable()) =
+    target.set(
         x = randomSign() * random() * magnitude.f,
         y = randomSign() * random() * magnitude.f
     )

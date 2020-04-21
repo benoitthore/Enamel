@@ -52,7 +52,7 @@ open class CanvasLayoutView @JvmOverloads constructor(
             right = paddingRight,
             top = paddingTop,
             bottom = paddingBottom,
-            buffer = _paddedFrame
+            target = _paddedFrame
         )
 
         layout?.arrange(frame)

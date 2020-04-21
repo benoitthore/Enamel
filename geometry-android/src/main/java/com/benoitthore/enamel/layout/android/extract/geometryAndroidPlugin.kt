@@ -52,7 +52,7 @@ fun RectF.set(rect: ERect) = apply {
     bottom = rect.bottom
 }
 
-private val bufferRectF = RectF()
+private val targetRectF = RectF()
 
 ////
 ////
@@ -72,15 +72,15 @@ fun Canvas.drawLine(start: EPoint, end: EPoint, paint: Paint) {
 
 fun Canvas.drawOvals(rects: List<ERect>, paint: Paint) = rects.forEach { drawOval(it, paint) }
 fun Canvas.drawOval(rect: ERect, paint: Paint) {
-    synchronized(bufferRectF) {
-        drawOval(bufferRectF.set(rect), paint)
+    synchronized(targetRectF) {
+        drawOval(targetRectF.set(rect), paint)
     }
 }
 
 fun Canvas.drawRects(rects: List<ERect>, paint: Paint) = rects.forEach { drawRect(it, paint) }
 fun Canvas.drawRect(rect: ERect, paint: Paint) {
-    synchronized(bufferRectF) {
-        drawRect(bufferRectF.set(rect), paint)
+    synchronized(targetRectF) {
+        drawRect(targetRectF.set(rect), paint)
     }
 }
 
@@ -88,9 +88,9 @@ fun Canvas.drawRoundRect(rects: List<ERect>, rx: Number, ry: Number, paint: Pain
     rects.forEach { drawRoundRect(it, rx, ry, paint) }
 
 fun Canvas.drawRoundRect(rect: ERect, rx: Number, ry: Number, paint: Paint) {
-    synchronized(bufferRectF) {
+    synchronized(targetRectF) {
         drawRoundRect(
-            bufferRectF.set(rect),
+            targetRectF.set(rect),
             rx.toFloat(),
             ry.toFloat(),
             paint

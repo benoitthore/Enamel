@@ -40,7 +40,7 @@ fun ESize.scaleToFit(size: ESize): Float {
 }
 
 
-fun List<ESize>.union(buffer: ESizeMutable = ESizeMutable()): ESizeMutable {
+fun List<ESize>.union(target: ESizeMutable = ESizeMutable()): ESizeMutable {
     var width = Float.MIN_VALUE
     var height = Float.MIN_VALUE
 
@@ -53,10 +53,10 @@ fun List<ESize>.union(buffer: ESizeMutable = ESizeMutable()): ESizeMutable {
         }
     }
 
-    return buffer.set(width, height)
+    return target.set(width, height)
 }
 
-fun List<ESize>.unionAlongAxis(axis: ELayoutAxis, buffer: ESizeMutable = ESizeMutable()): ESizeMutable {
+fun List<ESize>.unionAlongAxis(axis: ELayoutAxis, target: ESizeMutable = ESizeMutable()): ESizeMutable {
 
     var sum = 0f
 
@@ -64,7 +64,7 @@ fun List<ESize>.unionAlongAxis(axis: ELayoutAxis, buffer: ESizeMutable = ESizeMu
         sum += it.along(axis)
     }
 
-    val union = union(buffer = buffer)
+    val union = union(target = target)
     if (axis.isVertical) {
         union.height = sum
     } else {

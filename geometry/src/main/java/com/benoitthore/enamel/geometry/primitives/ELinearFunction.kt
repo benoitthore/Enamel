@@ -38,10 +38,10 @@ data class ELinearFunction(val slope: Float = 1f, val yIntercept: Float = 0f) {
         return x point y
     }
 
-    fun toLine(length: Number, buffer: ELineMutable = ELineMutable()): ELineMutable {
+    fun toLine(length: Number, target: ELineMutable = ELineMutable()): ELineMutable {
         val x1 = 0f
         val x2 = length
         // TODO Make length work properly using pyth theorem
-        return buffer.set(x1, this[x1], x2, this[x2])
+        return target.set(x1, this[x1], x2, this[x2])
     }
 }
