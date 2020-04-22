@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.core.math
 
 import java.util.*
+import kotlin.math.abs
 
 inline val Number.i get() = toInt()
 inline val Number.f get() = toFloat()
@@ -39,7 +40,7 @@ fun Number.map(start1: Number, stop1: Number, start2: Number, stop2: Number) = S
 
 inline infix fun Number.nearlyEquals(n2: Number) = nearlyEquals(n2, œ)
 inline fun Number.nearlyEquals(n2: Number, threshold: Number) =
-    Math.abs(this.d - n2.d) < threshold.d
+    abs(this.d - n2.d) < threshold.d
 
 fun Number.constrain(min: Number, max: Number): Float {
     val max = max.f

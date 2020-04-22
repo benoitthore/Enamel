@@ -106,8 +106,7 @@ open class ESize(open val width: Float = 0f, open val height: Float = 0f) : Tupl
 }
 
 class ESizeMutable(override var width: Float = 0f, override var height: Float = 0f) :
-    ESize(width, height),
-    Resetable {
+    ESize(width, height), Resetable {
     constructor(width: Number, height: Number) : this(width.f, height.f)
     constructor(other: Tuple2) : this(other.v1, other.v2)
 

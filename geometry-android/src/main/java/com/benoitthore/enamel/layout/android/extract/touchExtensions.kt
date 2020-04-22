@@ -135,8 +135,6 @@ fun View.mutliTouch(maxFingers: Int = 10, onTouch: (List<ETouchEvent>) -> Boolea
                 eTouchEvent.id = id
                 eTouchEvent.position.set(x, y)
                 eTouchEvent.isDown = isDown
-
-                Unit
             }
 
         }

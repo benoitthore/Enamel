@@ -1,38 +1,29 @@
 package com.benoitthore.enamel.android
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Configuration
 import android.content.res.Resources
-import android.graphics.*
-import android.graphics.Color.*
-import android.graphics.drawable.Drawable
+import android.graphics.Canvas
+import android.graphics.Color
 import android.os.Bundle
-import android.text.TextPaint
-import androidx.appcompat.app.AppCompatActivity
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.RequestCreator
-import com.squareup.picasso.Target
-import kotlinx.coroutines.*
-import kotlin.coroutines.resume
-import android.graphics.Bitmap
 import android.util.AttributeSet
 import android.view.View
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-import com.benoitthore.enamel.R
+import androidx.appcompat.app.AppCompatActivity
+import com.benoitthore.enamel.core.animations.endInterpolator
+import com.benoitthore.enamel.core.color
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.alignement.EAlignment.*
-import com.benoitthore.enamel.geometry.layout.ELayout
-import com.benoitthore.enamel.layout.android.extract.CanvasLayoutView
-import com.benoitthore.enamel.layout.android.extract.layout.*
 import com.benoitthore.enamel.core.randomColor
-import com.benoitthore.enamel.geometry.*
+import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.figures.ESize
+import com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.figures.size
-import com.benoitthore.enamel.geometry.layout.dsl.*
-import com.benoitthore.enamel.layout.android.extract.drawCircle
-import com.benoitthore.enamel.layout.android.extract.drawCircles
-import com.benoitthore.enamel.layout.android.extract.drawRect
+import com.benoitthore.enamel.geometry.innerCircle
+import com.benoitthore.enamel.geometry.innerRect
+import com.benoitthore.enamel.geometry.primitives.degrees
+import com.benoitthore.enamel.layout.android.EFrameView
+import com.benoitthore.enamel.layout.android.visualentity.EGradient
+import com.benoitthore.enamel.layout.android.visualentity.EStyle
+import com.benoitthore.enamel.layout.android.visualentity.RectVisualEntity
 
 inline val Number.dp get() = (toFloat() * Resources.getSystem().displayMetrics.density).toInt()
 
@@ -44,28 +35,41 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+
 class TestView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : CanvasLayoutView(context, attrs, defStyleAttr) {
-    private val paint = TextPaint()
-        .apply {
-            style = Paint.Style.STROKE
-            strokeWidth = 8.dp.f
-            color = randomColor()
-        }
+) : EFrameView(context, attrs, defStyleAttr) {
 
-    init {
-        setOnClickListener {
-            paint.color = randomColor()
-            invalidate()
-        }
+    val entity = RectVisualEntity().apply {
+        style = EStyle(
+//            fill = EStyle.Mesh.Color(Color.RED),
+            fill = EStyle.Mesh.Gradient(
+//                EGradient.DiagonalFill(45.degrees(), (0 until 5).map { randomColor() })
+                EGradient.Diagonal(
+                    frame.topLeft() line frame.bottomRight(),
+                    listOf(Color.RED, Color.YELLOW)
+                )
+            ),
+            border = EStyle.Border(Color.BLACK, 4.dp.f)
+        )
+    }
+
+    @SuppressLint("DrawAllocation")
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+
+        frame.innerCircle().innerRect(target = entity.rect)
+
+        (entity.style.fill as EStyle.Mesh.Gradient).gradient = EGradient.Diagonal(
+            entity.rect.topLeft() line entity.rect.bottomRight(),
+            listOf(Color.RED, Color.YELLOW)
+        )
+        entity.updateStyle()
     }
 
     override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
+        canvas.drawColor(0xcccccc.color)
+        entity.draw(canvas)
 
-        val circle = frame.center().toCircle(width * 0.25)
-        canvas.drawCircle(circle, paint)
-        canvas.drawRect(circle.innerRect().selfInset(8.dp), paint)
     }
 }

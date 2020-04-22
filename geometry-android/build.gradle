@@ -86,7 +86,6 @@ dependencies {
     implementation kotlinDependencies.stdlib
     implementation kotlinDependencies.reflect
 
-    api coroutines.android
 }
 
 

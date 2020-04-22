@@ -181,14 +181,11 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
     fun abs(target: EPointMutable = EPointMutable()) = target.also {
         target.set(abs(x), abs(y))
     }
-
-
 }
 
 
 class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EPoint(x, y),
     Resetable {
-
 
     constructor(x: Number, y: Number) : this(x.f, y.f)
     constructor(other: EPoint) : this(other.x, other.y)
@@ -198,6 +195,7 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
     )
 
     companion object {
+        // TODO Replace with functions since these instantiate: zero(), half(), unit()
         val zero get() = EPointMutable(0f, 0f)
         val half get() = EPointMutable(0.5f, 0.5f)
         val unit get() = EPointMutable(1f, 1f)
@@ -216,7 +214,6 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
         set(value) {
             selfSetMagnitude(value)
         }
-
 
     override fun reset() {
         set(0, 0)
