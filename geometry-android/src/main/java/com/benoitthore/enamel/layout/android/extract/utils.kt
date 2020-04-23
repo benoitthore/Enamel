@@ -1,12 +1,14 @@
 package com.benoitthore.enamel.layout.android.extract
 
+import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.res.Resources
+import android.os.SystemClock
 
-fun prepareAnimation(
+inline fun prepareAnimation(
     duration: Long = 1000L,
     init: ValueAnimator.() -> Unit = {},
-    onUpdate: (Float) -> Unit
+    crossinline onUpdate: (progress: Float) -> Unit
 ): ValueAnimator =
     ValueAnimator.ofFloat(0f, 1f).apply {
         addUpdateListener { onUpdate(it.animatedFraction) }

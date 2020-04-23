@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.android
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
@@ -10,7 +11,7 @@ import android.util.AttributeSet
 import androidx.appcompat.app.AppCompatActivity
 import com.benoitthore.enamel.core.animations.sinInterpolator
 import com.benoitthore.enamel.core.color
-import com.benoitthore.enamel.geometry.figures.ELineMutable
+import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.innerRect
 import com.benoitthore.enamel.geometry.primitives.rotations
@@ -40,12 +41,22 @@ class TestView @JvmOverloads constructor(
     }
 
     init {
+        var animator: ValueAnimator? = null
         setOnClickListener {
-            prepareAnimation(1500L) {
-                offset1 = sinInterpolator(it)
-                updateUI()
+
+            if (animator?.isRunning == true) {
+                return@setOnClickListener
+            }
+
+            val start = entity.transformation.rotation.rotations
+            val end = entity.transformation.rotation.rotations + 0.5
+            animator = prepareAnimation(750L) {
+                offset1 = sinInterpolator(it).lerp(start, end)
+
+                entity.transformation.rotation.set(offset1.rotations())
                 invalidate()
-            }.start()
+            }
+            animator?.start()
         }
     }
 
@@ -58,12 +69,10 @@ class TestView @JvmOverloads constructor(
     var offset1 = 0f
     private fun updateUI() {
         val frame = frame.innerCircle().innerRect(target = entity.rect)
-
         entity.style = buildEStyle {
             border = gradient
                 .diagonalConstrainedMesh(
-                    line = frame.diagonalTLBR()
-                        .rotate(offset1.rotations(), target = ELineMutable()),
+                    line = frame.diagonalTLBR(),
                     colors = listOf(RED, YELLOW)
                 ).asBorder(frame.size.min / 3)
 

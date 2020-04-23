@@ -42,7 +42,7 @@ open class EAngle(
                 AngleType.ROTATION -> 360 * value
                 AngleType.DEGREE -> value
             }
-    val rotation
+    val rotations
         get() =
             when (type) {
                 AngleType.RADIAN -> (value / (2 * π))
@@ -69,7 +69,7 @@ open class EAngle(
 
             AngleType.DEGREE -> other.degrees
             AngleType.RADIAN -> other.radians
-            AngleType.ROTATION -> other.rotation
+            AngleType.ROTATION -> other.rotations
         }
 
         value += increment
@@ -99,7 +99,7 @@ open class EAngle(
             AngleType.RADIAN
         )
 
-    operator fun compareTo(angle: EAngleMutable): Int = ((rotation - angle.rotation) * 100).toInt()
+    operator fun compareTo(angle: EAngleMutable): Int = ((rotations - angle.rotations) * 100).toInt()
 
     fun toMutable(): EAngleMutable = EAngleMutable(value, type)
     fun toImmutable(): EAngle = EAngle(value, type)

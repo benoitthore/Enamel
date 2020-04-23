@@ -26,8 +26,8 @@ inline fun Canvas.withTransformation(
             translate(translation.x, translation.y)
             rotate(
                 rotation.degrees,
-                rotationPivot.x,
-                rotationPivot.y
+                width * rotationPivot.x,
+                height * rotationPivot.y
             )
             scale(scale.x, scale.y, scalePivot.x, scalePivot.y)
         }
