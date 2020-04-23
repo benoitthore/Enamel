@@ -24,8 +24,8 @@ open class EFrameView @JvmOverloads constructor(
 }
 
 // Use these functions if you don't want to extend EFrameView
-fun ERectMutable.setBounds(view: View) : ERectMutable = apply { set(0, 0, view.width, view.height) }
-fun ERectMutable.setBoundsWithPadding(view: View) : ERectMutable =
+fun ERectMutable.setBounds(view: View): ERectMutable = apply { set(0, 0, view.width, view.height) }
+fun ERectMutable.setBoundsWithPadding(view: View): ERectMutable =
     setBounds(view)
         .padding(
             left = view.paddingLeft,

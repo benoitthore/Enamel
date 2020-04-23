@@ -256,12 +256,14 @@ open class ERect(
     // TODO Expand/Inset/Padding -> align
     fun inset(margin: Number, target: ERectMutable = ERectMutable()) =
         inset(margin, margin, target)
+
     fun inset(p: Tuple2, target: ERectMutable = ERectMutable()) = inset(p.v1, p.v2, target)
     fun inset(
         x: Number = 0,
         y: Number = 0,
         target: ERectMutable = ERectMutable()
     ) = inset(left = x, top = y, right = x, bottom = y, target = target)
+
     fun inset(
         left: Number = 0,
         top: Number = 0,
@@ -392,8 +394,8 @@ open class ERect(
             EPointMutable()
         )
     ): List<EPointMutable> {
-        if (target.size != 4) {
-            throw Exception("Needs 4 points in target")
+        require(target.size == 4) {
+            "Needs 4 points in target"
         }
         target[0].set(top, left)
         target[1].set(top, right)
@@ -402,6 +404,23 @@ open class ERect(
         return target
     }
 
+    /***
+     * @return the diagonal going from top right to bottom left
+     */
+    fun diagonalTRBL(target: ELineMutable = ELineMutable()): ELine {
+        topRight(target.start)
+        bottomLeft(target.end)
+        return target
+    }
+
+    /***
+     * @return the diagonal going from top left to bottom right
+     */
+    fun diagonalTLBR(target: ELineMutable = ELineMutable()): ELine {
+        topLeft(target.start)
+        bottomRight(target.end)
+        return target
+    }
 
     override fun equals(other: Any?): Boolean {
         return (other as? ERect)?.let { other.origin == origin && other.size == size } ?: false
@@ -411,6 +430,7 @@ open class ERect(
     override fun toString(): String {
         return "ERectMutable(origin=$origin, size=$size)"
     }
+
 
 }
 

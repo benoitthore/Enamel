@@ -4,6 +4,8 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.layout.android.extract.*
+import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
+import com.benoitthore.enamel.layout.android.visualentity.style.EStyleable
 
 class RectVisualEntity : EStyleable, ETransformable {
 
@@ -14,8 +16,7 @@ class RectVisualEntity : EStyleable, ETransformable {
             updateStyle()
         }
 
-    override var transformation: ETransformation =
-        ETransformation()
+    override val transformation: ETransformation = ETransformation()
 
     val rect: ERectMutable =
         ERectMutable()
@@ -23,20 +24,20 @@ class RectVisualEntity : EStyleable, ETransformable {
     private val fillPaint: Paint by lazy {
         Paint(Paint.ANTI_ALIAS_FLAG)
             .apply {
-            style = Paint.Style.FILL
-        }
+                style = Paint.Style.FILL
+            }
     }
     private val borderPaint: Paint by lazy {
         Paint(Paint.ANTI_ALIAS_FLAG)
             .apply {
-            style = Paint.Style.STROKE
-        }
+                style = Paint.Style.STROKE
+            }
     }
     private val shadowPaint: Paint by lazy {
         Paint(Paint.ANTI_ALIAS_FLAG)
             .apply {
-            style = Paint.Style.FILL
-        }
+                style = Paint.Style.FILL
+            }
     }
 
     fun updateStyle() {

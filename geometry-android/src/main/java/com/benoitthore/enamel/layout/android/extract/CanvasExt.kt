@@ -5,58 +5,9 @@ import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.primitives.EPoint
-
-fun ELine.toLinearGradient(
-    colors: List<Int>,
-    positions: List<Float>? = null,
-    shaderMode: Shader.TileMode = Shader.TileMode.CLAMP
-) =
-    LinearGradient(
-        start.x,
-        start.y,
-        end.x,
-        end.y,
-        colors.toIntArray(),
-        positions?.toFloatArray(),
-        shaderMode
-    )
-
-fun ECircle.toRadialGradient(
-    colors: List<Int>,
-    stops: List<Float>? = null,
-    shaderMode: Shader.TileMode = Shader.TileMode.CLAMP
-) = RadialGradient(
-    center.x,
-    center.y,
-    radius,
-    colors.toIntArray(),
-    stops?.toFloatArray(),
-    shaderMode
-)
-
-////
-////
-////
-
-fun Rect.set(rect: ERect) = apply {
-    left = rect.left.toInt()
-    top = rect.top.toInt()
-    right = rect.right.toInt()
-    bottom = rect.bottom.toInt()
-}
-
-fun RectF.set(rect: ERect) = apply {
-    left = rect.left
-    top = rect.top
-    right = rect.right
-    bottom = rect.bottom
-}
+import com.benoitthore.enamel.layout.android.set
 
 private val targetRectF = RectF()
-
-////
-////
-////
 fun Canvas.drawCircles(circles: List<ECircle>, paint: Paint) =
     circles.forEach { draw(it, paint) }
 

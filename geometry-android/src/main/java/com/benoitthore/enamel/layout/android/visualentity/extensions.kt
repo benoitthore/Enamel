@@ -3,6 +3,7 @@ package com.benoitthore.enamel.layout.android.visualentity
 import android.graphics.Canvas
 import android.graphics.Paint
 import com.benoitthore.enamel.geometry.figures.ERect
+import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 
 fun Paint.setMesh(frame: ERect, mesh: EStyle.Mesh) {
     alpha = ((mesh.alpha) * 255).toInt()
