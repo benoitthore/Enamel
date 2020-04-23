@@ -1,13 +1,14 @@
 package com.benoitthore.enamel.layout.android.extract
 
 import android.graphics.*
+import android.os.Build
 import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.layout.android.set
 
-private val targetRectF = RectF()
+//private val targetRectF = RectF()
 fun Canvas.drawCircles(circles: List<ECircle>, paint: Paint) =
     circles.forEach { draw(it, paint) }
 
@@ -23,21 +24,31 @@ fun Canvas.draw(start: EPoint, end: EPoint, paint: Paint) {
 
 fun Canvas.drawRects(rects: List<ERect>, paint: Paint) = rects.forEach { draw(it, paint) }
 fun Canvas.draw(rect: ERect, paint: Paint) {
-    synchronized(targetRectF) {
-        drawRect(targetRectF.set(rect), paint)
-    }
+    drawRect(
+        rect.left,
+        rect.top,
+        rect.right,
+        rect.bottom, paint
+    )
 }
 
 fun Canvas.drawRoundRects(rects: List<ERect>, rx: Number, ry: Number, paint: Paint) =
     rects.forEach { draw(it, rx, ry, paint) }
 
 fun Canvas.draw(rect: ERect, rx: Number, ry: Number, paint: Paint) {
-    synchronized(targetRectF) {
+//    synchronized(targetRectF) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         drawRoundRect(
-            targetRectF.set(rect),
+            rect.left,
+            rect.top,
+            rect.right,
+            rect.bottom,
             rx.toFloat(),
             ry.toFloat(),
             paint
         )
+    } else {
+        drawRoundRect(RectF().set(rect), rx.toFloat(), ry.toFloat(), paint)
     }
+//    }
 }
