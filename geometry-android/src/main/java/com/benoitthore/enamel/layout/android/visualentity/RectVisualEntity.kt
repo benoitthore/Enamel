@@ -3,7 +3,7 @@ package com.benoitthore.enamel.layout.android.visualentity
 import android.graphics.Canvas
 import android.graphics.Paint
 import com.benoitthore.enamel.geometry.figures.ERectMutable
-import com.benoitthore.enamel.layout.android.extract.drawRect
+import com.benoitthore.enamel.layout.android.extract.*
 
 class RectVisualEntity : EStyleable, ETransformable {
 
@@ -57,10 +57,10 @@ class RectVisualEntity : EStyleable, ETransformable {
     fun draw(canvas: Canvas) {
         canvas.withTransformation(transformation) {
             if (style.border != null) {
-                canvas.drawRect(rect, borderPaint)
+                canvas.draw(rect, borderPaint)
             }
             if (style.fill != null) {
-                canvas.drawRect(rect, fillPaint)
+                canvas.draw(rect, fillPaint)
             }
 
             // TODO

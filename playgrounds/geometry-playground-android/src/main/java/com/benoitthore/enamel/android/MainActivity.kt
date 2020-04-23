@@ -10,7 +10,7 @@ import android.os.Bundle
 import android.text.TextPaint
 import android.util.AttributeSet
 import androidx.appcompat.app.AppCompatActivity
-import com.benoitthore.enamel.core._2dec
+import com.benoitthore.enamel.android.prototypes.PrototypeView
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.figures.ELineMutable
 import com.benoitthore.enamel.geometry.figures.line
@@ -19,8 +19,7 @@ import com.benoitthore.enamel.geometry.innerRect
 import com.benoitthore.enamel.geometry.primitives.point
 import com.benoitthore.enamel.geometry.toCircle
 import com.benoitthore.enamel.layout.android.EFrameView
-import com.benoitthore.enamel.layout.android.extract.drawCircle
-import com.benoitthore.enamel.layout.android.extract.drawLine
+import com.benoitthore.enamel.layout.android.extract.draw
 import com.benoitthore.enamel.layout.android.visualentity.EGradient
 import com.benoitthore.enamel.layout.android.visualentity.EStyle
 import com.benoitthore.enamel.layout.android.visualentity.RectVisualEntity
@@ -31,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        setContentView(PrototypeView(this))
         setContentView(TestView(this))
     }
 }
@@ -76,7 +76,7 @@ class TestView @JvmOverloads constructor(
 
         val greenLine = (0 point height / 2) line (width point height / 2)
         paint.color = Color.GREEN
-        canvas.drawLine(greenLine, paint)
+        canvas.draw(greenLine, paint)
 
         val redLine = greenLine
             .perpendicular(0.5, greenLine.length, ELineMutable())
@@ -84,13 +84,13 @@ class TestView @JvmOverloads constructor(
         val blueLine = redLine.expanded(32.dp, from = .5f, target = ELineMutable())
 
         paint.color = Color.BLUE
-        canvas.drawLine(blueLine, paint)
-        canvas.drawCircle(blueLine.start.toCircle(16.dp),paint)
+        canvas.draw(blueLine, paint)
+        canvas.draw(blueLine.start.toCircle(16.dp), paint)
 
 
         paint.color = Color.RED
-        canvas.drawLine(redLine, paint)
-        canvas.drawCircle(redLine.start.toCircle(16.dp),paint)
+        canvas.draw(redLine, paint)
+        canvas.draw(redLine.start.toCircle(16.dp), paint)
 
         // OFFSET
 //        off += 0.0025f

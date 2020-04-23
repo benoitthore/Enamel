@@ -6,10 +6,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
-import com.benoitthore.enamel.layout.android.extract.drawCircle
-import com.benoitthore.enamel.layout.android.extract.drawLine
-import com.benoitthore.enamel.layout.android.extract.drawRect
-import com.benoitthore.enamel.layout.android.extract.drawRoundRect
+import com.benoitthore.enamel.layout.android.extract.*
 import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
 import com.benoitthore.enamel.geometry.figures.ERect
@@ -42,19 +39,19 @@ open class CanvasTestView : View {
     }
 
     fun <T : ERect> T.draw(paint: Paint) = apply {
-        cvs?.drawRect(this, paint)
+        cvs?.draw(this, paint)
     }
 
     fun <T : ECircle> T.draw(paint: Paint) = apply {
-        cvs?.drawCircle(this, paint)
+        cvs?.draw(this, paint)
     }
 
     fun <T : ELine> T.draw(paint: Paint) = apply {
-        cvs?.drawLine(this, paint)
+        cvs?.draw(this, paint)
     }
 
     fun <T : ERect> T.drawRoundRect(rx: Number, ry: Number, paint: Paint) = apply {
-        cvs?.drawRoundRect(this, rx, ry, paint)
+        cvs?.draw(this, rx, ry, paint)
     }
 
 

@@ -18,24 +18,18 @@ open class EFrameView @JvmOverloads constructor(
 
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        val left = 0f
-        val top = 0f
-        val right = r.toFloat() - l
-        val bottom = b.toFloat() - t
-
-        _frame.setSides(
-            left = left,
-            top = top,
-            right = right,
-            bottom = bottom
-        )
-
-        _frame.padding(
-            left = paddingLeft,
-            right = paddingRight,
-            top = paddingTop,
-            bottom = paddingBottom,
-            target = _paddedFrame
-        )
+        _frame.setBounds(this)
+        _paddedFrame.setBoundsWithPadding(this)
     }
 }
+
+// Use these functions if you don't want to extend EFrameView
+fun ERectMutable.setBounds(view: View) : ERectMutable = apply { set(0, 0, view.width, view.height) }
+fun ERectMutable.setBoundsWithPadding(view: View) : ERectMutable =
+    setBounds(view)
+        .padding(
+            left = view.paddingLeft,
+            right = view.paddingRight,
+            top = view.paddingTop,
+            bottom = view.paddingBottom
+        )

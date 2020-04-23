@@ -58,36 +58,29 @@ private val targetRectF = RectF()
 ////
 ////
 fun Canvas.drawCircles(circles: List<ECircle>, paint: Paint) =
-    circles.forEach { drawCircle(it, paint) }
+    circles.forEach { draw(it, paint) }
 
-fun Canvas.drawCircle(circle: ECircle, paint: Paint) {
+fun Canvas.draw(circle: ECircle, paint: Paint) {
     drawCircle(circle.x, circle.y, circle.radius, paint)
 }
 
-fun Canvas.drawLine(line: ELine, paint: Paint) = drawLine(line.start, line.end, paint)
+fun Canvas.draw(line: ELine, paint: Paint) = draw(line.start, line.end, paint)
 
-fun Canvas.drawLine(start: EPoint, end: EPoint, paint: Paint) {
+fun Canvas.draw(start: EPoint, end: EPoint, paint: Paint) {
     drawLine(start.x, start.y, end.x, end.y, paint)
 }
 
-fun Canvas.drawOvals(rects: List<ERect>, paint: Paint) = rects.forEach { drawOval(it, paint) }
-fun Canvas.drawOval(rect: ERect, paint: Paint) {
-    synchronized(targetRectF) {
-        drawOval(targetRectF.set(rect), paint)
-    }
-}
-
-fun Canvas.drawRects(rects: List<ERect>, paint: Paint) = rects.forEach { drawRect(it, paint) }
-fun Canvas.drawRect(rect: ERect, paint: Paint) {
+fun Canvas.drawRects(rects: List<ERect>, paint: Paint) = rects.forEach { draw(it, paint) }
+fun Canvas.draw(rect: ERect, paint: Paint) {
     synchronized(targetRectF) {
         drawRect(targetRectF.set(rect), paint)
     }
 }
 
-fun Canvas.drawRoundRect(rects: List<ERect>, rx: Number, ry: Number, paint: Paint) =
-    rects.forEach { drawRoundRect(it, rx, ry, paint) }
+fun Canvas.drawRoundRects(rects: List<ERect>, rx: Number, ry: Number, paint: Paint) =
+    rects.forEach { draw(it, rx, ry, paint) }
 
-fun Canvas.drawRoundRect(rect: ERect, rx: Number, ry: Number, paint: Paint) {
+fun Canvas.draw(rect: ERect, rx: Number, ry: Number, paint: Paint) {
     synchronized(targetRectF) {
         drawRoundRect(
             targetRectF.set(rect),

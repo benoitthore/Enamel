@@ -7,8 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import com.benoitthore.enamel.android.dp
-import com.benoitthore.enamel.layout.android.extract.drawCircle
-import com.benoitthore.enamel.layout.android.extract.drawLine
+import com.benoitthore.enamel.layout.android.extract.*
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.figures.ERectMutable
@@ -55,12 +54,12 @@ class MyCanvasView : View {
             bottom = paddingBottom
         )
 
-        canvas.drawLine(frame.topLeft() line frame.bottomRight(), paint)
-        canvas.drawLine(frame.topRight() line frame.bottomLeft(), paint)
-        canvas.drawCircle(paddedFrame.innerCircle(), paint)
-//        canvas.drawLine(0f, 0f, width.toFloat(), height.toFloat(), paint)
-//        canvas.drawLine(width.toFloat(), 0f, 0f, height.toFloat(), paint)
-//        canvas.drawCircle(width / 2f, height / 2f, 0.8f * min(width, height) / 2f, paint)
+        canvas.draw(frame.topLeft() line frame.bottomRight(), paint)
+        canvas.draw(frame.topRight() line frame.bottomLeft(), paint)
+        canvas.draw(paddedFrame.innerCircle(), paint)
+//        canvas.draw(0f, 0f, width.toFloat(), height.toFloat(), paint)
+//        canvas.draw(width.toFloat(), 0f, 0f, height.toFloat(), paint)
+//        canvas.draw(width / 2f, height / 2f, 0.8f * min(width, height) / 2f, paint)
 
 
     }
