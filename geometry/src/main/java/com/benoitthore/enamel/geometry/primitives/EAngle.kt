@@ -3,6 +3,9 @@ package com.benoitthore.enamel.geometry.primitives
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.Resetable
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.tan
 
 val π = Math.PI.f
 
@@ -47,11 +50,11 @@ open class EAngle(
                 AngleType.DEGREE -> value / 360
             }
     val cos
-        get() = Math.cos(radians.d).f
+        get() = cos(radians.d).f
     val sin
-        get() = Math.sin(radians.d).f
+        get() = sin(radians.d).f
     val tan
-        get() = Math.tan(radians.d).f
+        get() = tan(radians.d).f
 
 
     operator fun unaryMinus(): EAngleMutable = inverse()

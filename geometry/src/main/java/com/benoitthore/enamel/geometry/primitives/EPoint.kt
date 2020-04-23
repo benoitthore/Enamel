@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.geometry.primitives
 
 import com.benoitthore.enamel.core.math.*
+import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.figures.ECircle
@@ -45,9 +46,12 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
         target.set(atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
 
     fun angleTo(x: Number, y: Number, target: EAngleMutable = EAngleMutable()): EAngleMutable =
+        _angleTo(x, y).radians(target)
+
+    internal fun _angleTo(x: Number, y: Number): Double =
         atan2(
             ((y.f - this.y).d), ((x.f - this.x).d)
-        ).radians(target)
+        )
 
     fun angleTo(point: EPoint, target: EAngleMutable = EAngleMutable()): EAngleMutable =
         angleTo(point.x, point.y, target)
@@ -117,19 +121,26 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
 
 
     fun offsetTowards(
-        towards: EPoint,
+        towardsX: Number,
+        towardsY: Number,
         distance: Number,
         target: EPointMutable = EPointMutable()
     ): EPointMutable {
         val fromX = x
         val fromY = y
-        target.set(angle = angleTo(towards), magnitude = distance)
+        target._set(angle = _angleTo(towardsX, towardsY), magnitude = distance)
         return target.set(target.x + fromX, target.y + fromY)
     }
 
+    fun offsetTowards(
+        towards: EPoint,
+        distance: Number,
+        target: EPointMutable = EPointMutable()
+    ): EPointMutable = offsetTowards(towards.x, towards.y, distance, target)
+
+
     fun offsetFrom(from: EPoint, distance: Number, target: EPointMutable = EPointMutable()) =
         from.offsetTowards(this, distance, target)
-
 
     fun offsetAngle(
         angle: EAngle,
@@ -142,6 +153,7 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
         return target.set(target.x + fromX, target.y + fromY)
     }
 
+    @Allocates
     fun rotateAround(
         angle: EAngle,
         center: EPoint,
@@ -209,6 +221,10 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
     fun set(angle: EAngle, magnitude: Number) =
         set(angle.cos * magnitude.f, angle.sin * magnitude.f)
 
+    // Used to set angle without having to allocate one
+    internal fun _set(angle: Number, magnitude: Number) =
+        set(cos(angle.toFloat()) * magnitude.f, sin(angle.toFloat()) * magnitude.f)
+
     override var magnitude
         get() = super.magnitude
         set(value) {
@@ -240,6 +256,12 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
 
     fun selfOffsetTowards(towards: EPoint, distance: Number) =
         offsetTowards(towards, distance, this)
+
+    fun selfOffsetTowards(
+        towardsX: Number,
+        towardsY: Number, distance: Number
+    ) =
+        offsetTowards(towardsX, towardsY, distance, this)
 
     fun selfOffsetFrom(from: EPoint, distance: Number) = offsetFrom(from, distance, this)
     fun selfOffsetAngle(angle: EAngle, distance: Number) = offsetAngle(angle, distance, this)
