@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.geometry.figures
 
 import com.benoitthore.enamel.core.math.*
+import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.primitives.*
@@ -25,8 +26,8 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
 
     val length
         get() = start.distanceTo(end).f
-    val angle
-        get() = start.angleTo(end)
+
+    fun angle(target: EAngleMutable) = angleRadians.radians(target = target)
     val x1
         get() = start.x
     val x2
@@ -36,6 +37,9 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
     val y2
         get() = end.y
 
+    private val angleRadians get() = start._angleTo(end.x, end.y)
+
+    @Allocates
     val linearFunction: ELinearFunction
         get() = run {
             val a = (end.y - start.y) / (end.x - start.x)
@@ -45,36 +49,55 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
             ELinearFunction(a, b)
         }
 
-    fun pointAt(at: Float): EPoint = start.offsetTowards(end, length * at)
+    fun pointAt(at: Float, target: EPointMutable): EPointMutable =
+        start.offsetTowards(end, length * at, target = target)
 
-    fun pointFrom(distance: Number, from: Float): EPoint {
-        val opposite = pointAt(from.opposite())
-        return opposite.offsetFrom(pointAt(from), distance)
+    @Allocates
+    fun pointFrom(distance: Number, from: Float, target: EPointMutable): EPoint {
+        val opposite = pointAt(from.opposite(), target = EPointMutable())
+        return target.set(opposite.offsetFrom(pointAt(from, target = EPointMutable()), distance))
     }
 
-    fun pointTowards(distance: Number, towards: Float) =
-        pointAt(towards.opposite()).offsetTowards(pointAt(towards), distance)
+    @Allocates
+    fun pointTowards(distance: Number, towards: Float, target: EPointMutable) =
+        target.set(
+            pointAt(towards.opposite(), target = EPointMutable()).offsetTowards(
+                pointAt(
+                    towards,
+                    target = EPointMutable()
+                ), distance
+            )
+        )
 
-    fun extrapolateFrom(distance: Number, from: Float): EPoint {
-        val fromPoint = pointAt(from.opposite())
-        val towards = pointAt(from)
+    fun extrapolateFrom(distance: Number, from: Number, target: EPointMutable): EPoint {
+        val from = from.toFloat()
+
+        val fromPoint = pointAt(from.opposite(), target = target)
+
         val totalDistance = length + distance.f
-        return fromPoint.offsetTowards(towards, totalDistance)
+
+        return fromPoint._offsetAngle(angleRadians, totalDistance, target = fromPoint)
     }
 
-    fun isParallel(other: ELineMutable) = linearFunction.a == other.linearFunction.a
+    fun isParallel(other: ELineMutable) = angleRadians == angleRadians
 
-    fun center() = pointAt(0.5f)
+    fun center(target: EPointMutable) = pointAt(0.5f, target = target)
 
-    fun rotate(offsetAngle: EAngleMutable, around: EPoint = center()): ELineMutable {
-        val newStart = start.rotateAround(offsetAngle, around)
-        val newEnd = end.rotateAround(offsetAngle, around)
-        return newStart line newEnd
+    fun rotate(
+        offsetAngle: EAngleMutable,
+        around: EPoint = center(EPointMutable()),
+        target: ELineMutable
+    ): ELineMutable {
+        start.rotateAround(offsetAngle, around, target = target.start)
+        end.rotateAround(offsetAngle, around, target = target.end)
+        return target
     }
 
-    fun expanded(distance: Number, from: Float): ELine {
-        val start = pointAt(from.opposite())
-        return start line extrapolateFrom(distance, from)
+    fun expanded(distance: Number, from: Number = 0f, target: ELineMutable): ELineMutable {
+        val from = from.toFloat()
+        pointAt(from, target = target.start)
+        extrapolateFrom(distance, from.opposite(), target = target.end)
+        return target
     }
 
     fun toListOfPoints(number: Int): List<EPoint> {
@@ -92,68 +115,86 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
         }
     }
 
+    @Allocates
     fun perpendicularPointLeft(
         distanceFromLine: Number,
         distanceTowardsEndPoint: Number,
-        towards: Float
+        towards: Float,
+        target: EPointMutable
     ): EPoint {
-        val x = pointTowards(distanceTowardsEndPoint, towards)
-        return x.offsetAngle(angle = angle - 90.degrees(), distance = distanceFromLine)
+        val x = pointTowards(distanceTowardsEndPoint, towards, target = EPointMutable())
+        return target.set(x.offsetAngle(angle = angle(EAngleMutable()) - 90.degrees(), distance = distanceFromLine))
     }
 
     fun perpendicularPointRight(
         distanceFromLine: Number,
         distanceTowardsEndPoint: Number,
-        towards: Float
+        towards: Float,
+        target: EPointMutable
     ) =
-        perpendicularPointLeft(-distanceFromLine.f, distanceTowardsEndPoint, towards)
+        perpendicularPointLeft(
+            -distanceFromLine.f,
+            distanceTowardsEndPoint,
+            towards,
+            target = target
+        )
 
     fun perpendicular(
         distance: Number,
         towards: Float,
         leftLength: Number,
-        rightLength: Number
+        rightLength: Number,
+        target: ELineMutable
     ): ELine {
-        val start = perpendicularPointLeft(
+        perpendicularPointLeft(
             distanceFromLine = leftLength,
             distanceTowardsEndPoint = distance,
-            towards = towards
+            towards = towards,
+            target = target.start
         )
-        val end = perpendicularPointRight(
+        perpendicularPointRight(
             distanceFromLine = rightLength,
             distanceTowardsEndPoint = distance,
-            towards = towards
+            towards = towards,
+            target = target.end
         )
 
-        return start line end
+        return target
     }
 
     fun perpendicular(
         distance: Number,
         towards: Float,
-        length: Number
+        length: Number,
+        target: ELineMutable
     ) =
         perpendicular(
             distance = distance,
             towards = towards,
             leftLength = length.f / 2f,
-            rightLength = length.f / 2f
+            rightLength = length.f / 2f,
+            target = target
         )
 
-    fun perpendicular(at: Float, leftLength: Number, rightLength: Number): ELine {
-        val offset = length * at
+    fun perpendicular(
+        at: Number, leftLength: Number, rightLength: Number,
+        target: ELineMutable
+    ): ELine {
+        val offset = length * at.toFloat()
         return perpendicular(
             distance = offset,
             towards = 1f,
             leftLength = leftLength,
-            rightLength = rightLength
+            rightLength = rightLength,
+            target = target
         )
     }
 
-    fun perpendicular(at: Float, length: Number) = perpendicular(
+    fun perpendicular(at: Number, length: Number, target: ELineMutable) = perpendicular(
         at = at,
         leftLength = length.f / 2f,
-        rightLength = length.f / 2f
+        rightLength = length.f / 2f,
+        target = target
     )
 
     fun parallel(distance: Number, target: ELineMutable): ELine {
@@ -213,9 +254,8 @@ class ELineMutable(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (other !is ELineMutable) return false
 
-        other as ELineMutable
 
         if (start != other.start) return false
         if (end != other.end) return false

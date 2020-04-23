@@ -10,6 +10,7 @@ import com.benoitthore.enamel.android.dp
 import com.benoitthore.enamel.layout.android.extract.drawCircle
 import com.benoitthore.enamel.layout.android.extract.drawLine
 import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.innerCircle
@@ -34,7 +35,7 @@ class MyCanvasView : View {
     init {
         setOnClickListener { invalidate() }
 
-        setPadding(16.dp, 16.dp, 16.dp, 16.dp)
+        setPadding(16.dp.i, 16.dp.i, 16.dp.i, 16.dp.i)
     }
 
     private val frame = ERectMutable()

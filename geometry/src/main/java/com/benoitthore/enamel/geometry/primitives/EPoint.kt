@@ -146,10 +146,16 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
         angle: EAngle,
         distance: Number,
         target: EPointMutable = EPointMutable()
+    ): EPointMutable = _offsetAngle(angle.radians, distance, target)
+
+    internal fun _offsetAngle(
+        angleRadians: Number,
+        distance: Number,
+        target: EPointMutable = EPointMutable()
     ): EPointMutable {
         val fromX = x
         val fromY = y
-        target.set(angle, distance)
+        target._set(angleRadians, distance)
         return target.set(target.x + fromX, target.y + fromY)
     }
 

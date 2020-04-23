@@ -5,27 +5,27 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
+import android.text.TextPaint
 import android.util.AttributeSet
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.benoitthore.enamel.core.animations.endInterpolator
-import com.benoitthore.enamel.core.color
+import com.benoitthore.enamel.core._2dec
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.core.randomColor
-import com.benoitthore.enamel.geometry.alignement.EAlignment
-import com.benoitthore.enamel.geometry.figures.ESize
+import com.benoitthore.enamel.geometry.figures.ELineMutable
 import com.benoitthore.enamel.geometry.figures.line
-import com.benoitthore.enamel.geometry.figures.size
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.innerRect
-import com.benoitthore.enamel.geometry.primitives.degrees
+import com.benoitthore.enamel.geometry.primitives.point
+import com.benoitthore.enamel.geometry.toCircle
 import com.benoitthore.enamel.layout.android.EFrameView
+import com.benoitthore.enamel.layout.android.extract.drawCircle
+import com.benoitthore.enamel.layout.android.extract.drawLine
 import com.benoitthore.enamel.layout.android.visualentity.EGradient
 import com.benoitthore.enamel.layout.android.visualentity.EStyle
 import com.benoitthore.enamel.layout.android.visualentity.RectVisualEntity
 
-inline val Number.dp get() = (toFloat() * Resources.getSystem().displayMetrics.density).toInt()
+inline val Number.dp get() = toFloat() * Resources.getSystem().displayMetrics.density
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,15 +42,7 @@ class TestView @JvmOverloads constructor(
 
     val entity = RectVisualEntity().apply {
         style = EStyle(
-//            fill = EStyle.Mesh.Color(Color.RED),
-            fill = EStyle.Mesh.Gradient(
-//                EGradient.DiagonalFill(45.degrees(), (0 until 5).map { randomColor() })
-                EGradient.Diagonal(
-                    frame.topLeft() line frame.bottomRight(),
-                    listOf(Color.RED, Color.YELLOW)
-                )
-            ),
-            border = EStyle.Border(Color.BLACK, 4.dp.f)
+//            fill = EStyle.Mesh.Color(Color.RED)
         )
     }
 
@@ -60,16 +52,54 @@ class TestView @JvmOverloads constructor(
 
         frame.innerCircle().innerRect(target = entity.rect)
 
-        (entity.style.fill as EStyle.Mesh.Gradient).gradient = EGradient.Diagonal(
-            entity.rect.topLeft() line entity.rect.bottomRight(),
-            listOf(Color.RED, Color.YELLOW)
+        entity.style.border = EStyle.Border(
+            mesh = EStyle.Mesh.Gradient(
+                EGradient.Diagonal(
+                    entity.rect.topLeft() line entity.rect.bottomRight(),
+                    listOf(Color.RED, Color.YELLOW)
+                )
+            ),
+            width = 4.dp.f
         )
         entity.updateStyle()
     }
 
+    private val paint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
+        strokeWidth = 8.dp
+        textSize = 20.dp
+    }
+
     override fun onDraw(canvas: Canvas) {
-        canvas.drawColor(0xcccccc.color)
-        entity.draw(canvas)
+//        canvas.drawColor(0xcccccc.color)
+//        entity.draw(canvas)
+
+
+        val greenLine = (0 point height / 2) line (width point height / 2)
+        paint.color = Color.GREEN
+        canvas.drawLine(greenLine, paint)
+
+        val redLine = greenLine
+            .perpendicular(0.5, greenLine.length, ELineMutable())
+
+        val blueLine = redLine.expanded(32.dp, from = .5f, target = ELineMutable())
+
+        paint.color = Color.BLUE
+        canvas.drawLine(blueLine, paint)
+        canvas.drawCircle(blueLine.start.toCircle(16.dp),paint)
+
+
+        paint.color = Color.RED
+        canvas.drawLine(redLine, paint)
+        canvas.drawCircle(redLine.start.toCircle(16.dp),paint)
+
+        // OFFSET
+//        off += 0.0025f
+//        if (off > 1) {
+//            off = 0f
+//        }
+//        paint.color = Color.BLACK
+//        canvas.drawText(off._2dec, 0f, paint.textSize, paint)
+//        invalidate()
 
     }
 }

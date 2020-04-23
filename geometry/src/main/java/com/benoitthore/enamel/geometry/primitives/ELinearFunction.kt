@@ -3,6 +3,7 @@ package com.benoitthore.enamel.geometry.primitives
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.figures.ELineMutable
 
+//TODO Make this an interface that's implemented by ELine
 data class ELinearFunction(val slope: Float = 1f, val yIntercept: Float = 0f) {
 
     inline val a
