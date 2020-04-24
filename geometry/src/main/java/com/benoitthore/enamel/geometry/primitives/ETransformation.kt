@@ -1,8 +1,4 @@
-package com.benoitthore.enamel.layout.android.visualentity
-
-import com.benoitthore.enamel.geometry.primitives.EAngleMutable
-import com.benoitthore.enamel.geometry.primitives.EPointMutable
-import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
+package com.benoitthore.enamel.geometry.primitives
 
 class ETransformation {
     val rotation: EAngleMutable = EAngleMutable()

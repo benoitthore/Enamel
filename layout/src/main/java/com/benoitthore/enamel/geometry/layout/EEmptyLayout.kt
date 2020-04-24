@@ -7,7 +7,7 @@ import com.benoitthore.enamel.geometry.figures.ESize
 object EEmptyLayout : ELayout {
 
 
-    override val children: List<ELayout> = emptyList()
+    override val children: List<ELayout> get() = emptyList()
 
     override fun size(toFit: ESize): ESize = ESize.zero
     override fun arrange(frame: ERect) {}

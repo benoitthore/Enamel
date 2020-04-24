@@ -1,13 +1,11 @@
 package com.benoitthore.enamel.layout.android.visualentity
 
 import android.graphics.Canvas
-import android.graphics.Paint
 import com.benoitthore.enamel.geometry.figures.ERectMutable
-import com.benoitthore.enamel.layout.android.extract.*
-import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
-import com.benoitthore.enamel.layout.android.visualentity.style.EStyleable
+import com.benoitthore.enamel.geometry.figures.ESize
+import com.benoitthore.enamel.layout.android.extract.draw
 
-class RectVisualEntity : ShapeVisualEntity() {
+class RectVisualEntity : DrawableVisualEntity() {
 
     val rect: ERectMutable =
         ERectMutable()
@@ -19,29 +17,21 @@ class RectVisualEntity : ShapeVisualEntity() {
         val n = n.toFloat()
         rx = n
         ry = n
-
     }
 
-    fun draw(canvas: Canvas) {
+    override fun onFrameUpdated() {
+        rect.origin.set(frame.origin)
+    }
+
+    override fun size(toFit: ESize): ESize = rect.size
+
+    override fun draw(canvas: Canvas) {
         canvas.withTransformation(transformation) {
             if (style.border != null) {
-                canvas.draw(rect, rx, ry, borderPaint)
+                canvas.draw(rect, rx, ry, drawer.borderPaint)
             }
             if (style.fill != null) {
-                canvas.draw(rect, rx, ry, fillPaint)
-            }
-
-            // TODO
-//            canvas.drawRect(rect, shadowPaint)
-        }
-    }
-
-    override fun updateStyle() {
-        with(style) {
-            fill?.let { fillPaint.setMesh(rect, it) }
-            border?.let {
-                borderPaint.strokeWidth = it.width
-                borderPaint.setMesh(rect, it.mesh)
+                canvas.draw(rect, rx, ry, drawer.fillPaint)
             }
         }
     }

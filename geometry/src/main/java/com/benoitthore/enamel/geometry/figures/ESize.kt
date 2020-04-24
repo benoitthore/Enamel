@@ -1,8 +1,8 @@
 package com.benoitthore.enamel.geometry.figures
 
-import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.core.math.random
+import com.benoitthore.enamel.core.math.random as _random
+import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.allocate
@@ -19,19 +19,19 @@ open class ESize(open val width: Float = 0f, open val height: Float = 0f) : Tupl
     companion object {
         val zero: ESize = allocate { ESize() }
         val greatestSize: ESize = allocate { ESize(Float.MAX_VALUE, Float.MAX_VALUE) }
-        fun Square(size: Number) = ESizeMutable(size, size)
+        fun square(size: Number) = ESizeMutable(size, size)
 
-        fun RandomSquare(minSize: Number, maxSize: Number): ESizeMutable =
-            Random(minSize, maxSize, minSize, maxSize)
+        fun random(minSize: Number, maxSize: Number): ESizeMutable =
+            random(minSize, maxSize, minSize, maxSize)
 
-        fun Random(
+        fun random(
             minWidth: Number = 0,
             maxWidth: Number = 1,
             minHeight: Number = 0,
             maxHeight: Number = 1
         ): ESizeMutable = ESizeMutable(
-            random(minWidth, maxWidth),
-            random(minHeight, maxHeight)
+            _random(minWidth, maxWidth),
+            _random(minHeight, maxHeight)
         )
     }
 

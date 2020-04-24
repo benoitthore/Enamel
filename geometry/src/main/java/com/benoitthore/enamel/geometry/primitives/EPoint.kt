@@ -1,6 +1,9 @@
 package com.benoitthore.enamel.geometry.primitives
 
-import com.benoitthore.enamel.core.math.*
+import com.benoitthore.enamel.core.math.d
+import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.core.math.randomSign
+import com.benoitthore.enamel.core.math.random as _random
 import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
@@ -20,6 +23,23 @@ open class EPoint(open val x: Float = 0f, open val y: Float = 0f) : Tuple2 {
         val zero = EPoint(0f, 0f)
         val half = EPoint(0.5f, 0.5f)
         val unit = EPoint(1f, 1f)
+
+        fun random(magnitude: Number = 1f, target: EPointMutable = EPointMutable()) =
+            target.set(
+                x = randomSign() * _random() * magnitude.f,
+                y = randomSign() * _random() * magnitude.f
+            ).selfLimitMagnitude(magnitude)
+
+        fun random(
+            minX: Number = 1f,
+            minY: Number = 1f,
+            maxX: Number = 1f,
+            maxY: Number = 1f,
+            target: EPointMutable = EPointMutable()
+        ) = target.set(
+            x = _random(minX, maxX),
+            y = _random(minY, maxY)
+        )
     }
 
     init {
@@ -282,13 +302,6 @@ class EPointMutable(override var x: Float = 0f, override var y: Float = 0f) : EP
 
 }
 
-
-fun RandomPoint(magnitude: Number = 1f, target: EPointMutable = EPointMutable()) =
-    target.set(
-        x = randomSign() * random() * magnitude.f,
-        y = randomSign() * random() * magnitude.f
-    )
-        .selfLimitMagnitude(magnitude)
 
 /////////////////////////
 /////////////////////////

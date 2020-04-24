@@ -16,8 +16,19 @@ import com.benoitthore.enamel.R
 import com.benoitthore.enamel.core.color
 import com.benoitthore.enamel.core.math.constrain
 import com.benoitthore.enamel.core.math.lerp
+import com.benoitthore.enamel.core.math.random
+import com.benoitthore.enamel.core.math.randomBool
+import com.benoitthore.enamel.core.randomColor
+import com.benoitthore.enamel.geometry.alignement.ERectEdge
+import com.benoitthore.enamel.geometry.figures.ERect
+import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.innerRect
+import com.benoitthore.enamel.geometry.layout.dsl.aligned
+import com.benoitthore.enamel.geometry.layout.dsl.padded
+import com.benoitthore.enamel.geometry.layout.dsl.snugged
+import com.benoitthore.enamel.geometry.layout.dsl.stackedBottomRight
+import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.layout.android.EFrameView
 import com.benoitthore.enamel.layout.android.visualentity.RectVisualEntity
 import com.benoitthore.enamel.layout.android.visualentity.style.*
@@ -64,35 +75,33 @@ class TestView @JvmOverloads constructor(
         }
 
     private fun onProgressUpdate() {
-        entity.setCornerRadius(progress.lerp(0, entity.rect.size.min / 2))
+//        entity.setCornerRadius(progress.lerp(0, entity.rect.size.min / 2))
     }
 
-    val entity = RectVisualEntity().apply {
-        setCornerRadius(0.1)
-    }
+    val entities = (0 until 10).map { RectVisualEntity().apply { style = randomStyle() } }
 
     @SuppressLint("DrawAllocation")
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         super.onLayout(changed, l, t, r, b)
-        updateUI()
+
+        val minSize = 16.dp
+        entities.forEach {
+            it.rect.set(ERect(EPoint.random(width, height), ESize.random(minSize, minSize * 3)))
+        }
+        entities.stackedBottomRight(minSize / 2).snugged()
+            .aligned(ERectEdge.left)
+            .padded(16.dp)
+            .arrange(frame)
     }
 
-    private fun updateUI() {
-        val frame = frame.innerCircle().innerRect(target = entity.rect)
-        val gradientCircle = frame.innerCircle()
-        entity.style = EStyle(
-            border = DiagonalConstrained(
-                line = frame.diagonalTLBR(),
-                colors = listOf(RED, YELLOW)
-            ).asBorder(16.dp),
-            fill = Radial(gradientCircle, listOf(RED, WHITE, BLUE)).asMesh(),
-            shadow = Mesh.Color(RED).asShadow(4.dp)
-        )
-    }
+    private fun randomStyle() = EStyle(
+        fill = Mesh.Color(randomColor()),
+        border = if (randomBool()) null else Border(BLACK, random(2.dp, 4.dp))
+    )
 
 
     override fun onDraw(canvas: Canvas) {
         canvas.drawColor(0xcccccc.color)
-        entity.draw(canvas)
+        entities.forEach { it.draw(canvas) }
     }
 }

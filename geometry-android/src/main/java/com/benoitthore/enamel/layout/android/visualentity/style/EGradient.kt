@@ -8,7 +8,6 @@ import com.benoitthore.enamel.geometry.figures.ELine
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.primitives.EAngle
 
-
 sealed class EGradient(
     protected val colors: List<Int>,
     protected val stops: List<Float>?,
@@ -16,7 +15,6 @@ sealed class EGradient(
 ) {
     companion object {
         val DEFAULT_SHADER_MODE = Shader.TileMode.CLAMP
-
     }
 
     abstract fun getShader(frame: ERect): Shader

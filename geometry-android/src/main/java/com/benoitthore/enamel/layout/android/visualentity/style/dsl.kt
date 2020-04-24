@@ -24,79 +24,78 @@ interface MeshBuilder {
 }
 
 // TODO This ins't easy to use, refactor it
-interface GradientBuilder {
-    fun diagonalConstrained(
-        line: ELine,
-        colors: List<Int>,
-        stops: List<Float>? = null,
-        shaderMode: Shader.TileMode = EGradient.DEFAULT_SHADER_MODE
-    ) = EGradient.DiagonalConstrained(
-        line = line,
-        colors = colors,
-        stops = stops,
-        shaderMode = shaderMode
-    )
-
-    fun diagonalFill(
-        angle: EAngle,
-        colors: List<Int>,
-        stops: List<Float>? = null,
-        shaderMode: Shader.TileMode = EGradient.DEFAULT_SHADER_MODE
-    ) = EGradient.DiagonalFill(
-        angle = angle,
-        colors = colors,
-        stops = stops,
-        shaderMode = shaderMode
-    )
-
-    fun radial(
-        circle: ECircle,
-        colors: List<Int>,
-        stops: List<Float>? = null,
-        shaderMode: Shader.TileMode = EGradient.DEFAULT_SHADER_MODE
-    ) = EGradient.Radial(
-        circle = circle,
-        colors = colors,
-        stops = stops,
-        shaderMode = shaderMode
-    )
-
-
-    fun diagonalConstrainedMesh(
-        line: ELine,
-        colors: List<Int>,
-        stops: List<Float>? = null,
-        shaderMode: Shader.TileMode = EGradient.DEFAULT_SHADER_MODE
-    ) = diagonalConstrained(
-        line = line,
-        colors = colors,
-        stops = stops,
-        shaderMode = shaderMode
-    ).asMesh()
-
-    fun diagonalFillMesh(
-        angle: EAngle,
-        colors: List<Int>,
-        stops: List<Float>? = null,
-        shaderMode: Shader.TileMode = EGradient.DEFAULT_SHADER_MODE
-    ) = diagonalFill(
-        angle = angle,
-        colors = colors,
-        stops = stops,
-        shaderMode = shaderMode
-    ).asMesh()
-
-    fun radialMesh(
-        circle: ECircle,
-        colors: List<Int>,
-        stops: List<Float>? = null,
-        shaderMode: Shader.TileMode = EGradient.DEFAULT_SHADER_MODE
-    ) = radial(
-        circle = circle,
-        colors = colors,
-        stops = stops,
-        shaderMode = shaderMode
-    ).asMesh()
-
-
-}
+//interface GradientBuilder {
+//    fun diagonalConstrained(
+//        line: ELine,
+//        colors: List<Int>,
+//        stops: List<Float>? = null,
+//        shaderMode: Shader.TileMode = EGradient.DEFAULT_SHADER_MODE
+//    ) = EGradient.DiagonalConstrained(
+//        line = line,
+//        colors = colors,
+//        stops = stops,
+//        shaderMode = shaderMode
+//    )
+//
+//    fun diagonalFill(
+//        angle: EAngle,
+//        colors: List<Int>,
+//        stops: List<Float>? = null,
+//        shaderMode: Shader.TileMode = EGradient.DEFAULT_SHADER_MODE
+//    ) = EGradient.DiagonalFill(
+//        angle = angle,
+//        colors = colors,
+//        stops = stops,
+//        shaderMode = shaderMode
+//    )
+//
+//    fun radial(
+//        circle: ECircle,
+//        colors: List<Int>,
+//        stops: List<Float>? = null,
+//        shaderMode: Shader.TileMode = EGradient.DEFAULT_SHADER_MODE
+//    ) = EGradient.Radial(
+//        circle = circle,
+//        colors = colors,
+//        stops = stops,
+//        shaderMode = shaderMode
+//    )
+//
+//
+//    fun diagonalConstrainedMesh(
+//        line: ELine,
+//        colors: List<Int>,
+//        stops: List<Float>? = null,
+//        shaderMode: Shader.TileMode = EGradient.DEFAULT_SHADER_MODE
+//    ) = diagonalConstrained(
+//        line = line,
+//        colors = colors,
+//        stops = stops,
+//        shaderMode = shaderMode
+//    ).asMesh()
+//
+//    fun diagonalFillMesh(
+//        angle: EAngle,
+//        colors: List<Int>,
+//        stops: List<Float>? = null,
+//        shaderMode: Shader.TileMode = EGradient.DEFAULT_SHADER_MODE
+//    ) = diagonalFill(
+//        angle = angle,
+//        colors = colors,
+//        stops = stops,
+//        shaderMode = shaderMode
+//    ).asMesh()
+//
+//    fun radialMesh(
+//        circle: ECircle,
+//        colors: List<Int>,
+//        stops: List<Float>? = null,
+//        shaderMode: Shader.TileMode = EGradient.DEFAULT_SHADER_MODE
+//    ) = radial(
+//        circle = circle,
+//        colors = colors,
+//        stops = stops,
+//        shaderMode = shaderMode
+//    ).asMesh()
+//
+//}

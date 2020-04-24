@@ -1,12 +1,13 @@
 package com.benoitthore.enamel.layout.android.visualentity.style
 
-import android.graphics.Shader
-import com.benoitthore.enamel.geometry.figures.ECircle
-import com.benoitthore.enamel.geometry.figures.ELine
 import com.benoitthore.enamel.geometry.primitives.*
 
 interface EStyleable {
     var style: EStyle
+}
+
+interface EDrawable {
+    val drawer: VisualEntityDrawer
 }
 
 data class EStyle(
