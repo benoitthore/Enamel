@@ -25,6 +25,7 @@ import com.benoitthore.enamel.geometry.layout.emptyLayout
 import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
 import com.benoitthore.enamel.geometry.outterCircle
 import com.benoitthore.enamel.layout.android.EFrameView
+import com.benoitthore.enamel.layout.android.extract.singleTouch
 import com.benoitthore.enamel.layout.android.visualentity.*
 import com.benoitthore.enamel.layout.android.visualentity.style.*
 
@@ -96,18 +97,16 @@ class TestView @JvmOverloads constructor(
             et1.entity.rect.outterCircle(this)
         }.asLayout()
 
+        singleTouch { isDown, current, previous ->
+
+            if (current != null)
+                et1.entity.transformation.translation.set(current)
+
+            invalidate()
+            true
+        }
     }
 
-    var layout: ELayout = emptyLayout()
-
-    @SuppressLint("DrawAllocation")
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        super.onLayout(changed, l, t, r, b)
-        layout = et2.tracked(et1)
-            .arranged(EAlignment.center)
-
-        layout.arrange(frame)
-    }
 
     override fun onDraw(canvas: Canvas) {
         canvas.drawColor(0xcccccc.color)
