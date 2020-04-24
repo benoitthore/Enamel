@@ -1,22 +1,24 @@
 package com.benoitthore.enamel.android
 
-import android.animation.ValueAnimator
+import com.benoitthore.enamel.layout.android.visualentity.style.EGradient.*
+import com.benoitthore.enamel.layout.android.visualentity.style.EStyle.*
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Color.*
 import android.os.Bundle
 import android.util.AttributeSet
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
-import com.benoitthore.enamel.core.animations.sinInterpolator
+import com.benoitthore.enamel.R
 import com.benoitthore.enamel.core.color
+import com.benoitthore.enamel.core.math.constrain
 import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.innerRect
-import com.benoitthore.enamel.geometry.primitives.rotations
 import com.benoitthore.enamel.layout.android.EFrameView
-import com.benoitthore.enamel.layout.android.extract.prepareAnimation
 import com.benoitthore.enamel.layout.android.visualentity.RectVisualEntity
 import com.benoitthore.enamel.layout.android.visualentity.style.*
 
@@ -27,7 +29,25 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(PrototypeView(this))
-        setContentView(TestView(this))
+        setContentView(
+            R.layout.activity_main
+        )
+
+        val seekbar = findViewById<SeekBar>(R.id.seekbar)
+        val testView = findViewById<TestView>(R.id.testView)
+
+        seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val progress = progress / 100f
+                testView.progress = progress
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+        })
     }
 }
 
@@ -36,28 +56,19 @@ class TestView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : EFrameView(context, attrs, defStyleAttr) {
 
-    val entity = RectVisualEntity().apply {
+    var progress: Float = 0f
+        set(value) {
+            field = value.constrain(0, 1)
+            onProgressUpdate()
+            invalidate()
+        }
 
+    private fun onProgressUpdate() {
+        entity.setCornerRadius(progress.lerp(0, entity.rect.size.min / 2))
     }
 
-    init {
-        var animator: ValueAnimator? = null
-        setOnClickListener {
-
-            if (animator?.isRunning == true) {
-                return@setOnClickListener
-            }
-
-            val start = entity.transformation.rotation.rotations
-            val end = entity.transformation.rotation.rotations + 0.5
-            animator = prepareAnimation(750L) {
-                offset1 = sinInterpolator(it).lerp(start, end)
-
-                entity.transformation.rotation.set(offset1.rotations())
-                invalidate()
-            }
-            animator?.start()
-        }
+    val entity = RectVisualEntity().apply {
+        setCornerRadius(0.1)
     }
 
     @SuppressLint("DrawAllocation")
@@ -66,20 +77,19 @@ class TestView @JvmOverloads constructor(
         updateUI()
     }
 
-    var offset1 = 0f
     private fun updateUI() {
         val frame = frame.innerCircle().innerRect(target = entity.rect)
-        entity.style = buildEStyle {
-            border = gradient
-                .diagonalConstrainedMesh(
-                    line = frame.diagonalTLBR(),
-                    colors = listOf(RED, YELLOW)
-                ).asBorder(frame.size.min / 3)
-
-            val gradientCircle = frame.innerCircle().selfInset(16.dp)
-            fill = gradient.radialMesh(gradientCircle, listOf(RED, WHITE, BLUE))
-        }
+        val gradientCircle = frame.innerCircle()
+        entity.style = EStyle(
+            border = DiagonalConstrained(
+                line = frame.diagonalTLBR(),
+                colors = listOf(RED, YELLOW)
+            ).asBorder(16.dp),
+            fill = Radial(gradientCircle, listOf(RED, WHITE, BLUE)).asMesh(),
+            shadow = Mesh.Color(RED).asShadow(4.dp)
+        )
     }
+
 
     override fun onDraw(canvas: Canvas) {
         canvas.drawColor(0xcccccc.color)

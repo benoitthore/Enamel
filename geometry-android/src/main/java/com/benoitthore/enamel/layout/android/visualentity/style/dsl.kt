@@ -15,31 +15,15 @@ fun EStyle.Mesh.asShadow(xOff: Number, yOff: Number) = asShadow(xOff point yOff)
 fun EStyle.Mesh.asShadow(offset: EPoint) = asShadow(offset.toMutable())
 fun EStyle.Mesh.asShadow(offset: EPointMutable) = EStyle.Shadow(this, offset)
 fun EGradient.asMesh(alpha: Float = 1f) = EStyle.Mesh.Gradient(this, alpha)
+fun EGradient.asBorder(width: Number, alpha: Float = 1f) = asMesh(alpha).asBorder(width)
 
-
-inline fun buildEStyle(crossinline block: EStyleBuilder.() -> Unit): EStyle =
-    EStyleBuilder().apply(block).build()
-
-class EStyleBuilder  : MeshBuilder{
-
-    val gradient = object : GradientBuilder {}
-
-    fun build(): EStyle = EStyle(
-        fill = fill,
-        border = border,
-        shadow = shadow
-    )
-
-    var fill: EStyle.Mesh? = null
-    var border: EStyle.Border? = null
-    var shadow: EStyle.Shadow? = null
-}
 
 interface MeshBuilder {
     fun color(color: Int, alpha: Number = 1) =
         EStyle.Mesh.Color(color = color, alpha = alpha.toFloat())
 }
 
+// TODO This ins't easy to use, refactor it
 interface GradientBuilder {
     fun diagonalConstrained(
         line: ELine,
