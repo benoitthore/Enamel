@@ -1,12 +1,9 @@
 package com.benoitthore.enamel.android
 
-import com.benoitthore.enamel.layout.android.visualentity.style.EGradient.*
-import com.benoitthore.enamel.layout.android.visualentity.style.EStyle.*
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Color.*
 import android.os.Bundle
 import android.util.AttributeSet
@@ -14,23 +11,21 @@ import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import com.benoitthore.enamel.R
 import com.benoitthore.enamel.core.color
-import com.benoitthore.enamel.core.math.constrain
-import com.benoitthore.enamel.core.math.lerp
-import com.benoitthore.enamel.core.math.random
-import com.benoitthore.enamel.core.math.randomBool
-import com.benoitthore.enamel.core.randomColor
-import com.benoitthore.enamel.geometry.alignement.ERectEdge
+import com.benoitthore.enamel.core.math.*
+import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.ESize
+import com.benoitthore.enamel.geometry.figures.line
+import com.benoitthore.enamel.geometry.figures.size
 import com.benoitthore.enamel.geometry.innerCircle
-import com.benoitthore.enamel.geometry.innerRect
-import com.benoitthore.enamel.geometry.layout.dsl.aligned
-import com.benoitthore.enamel.geometry.layout.dsl.padded
-import com.benoitthore.enamel.geometry.layout.dsl.snugged
-import com.benoitthore.enamel.geometry.layout.dsl.stackedBottomRight
-import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.layout.EEmptyLayout
+import com.benoitthore.enamel.geometry.layout.ELayout
+import com.benoitthore.enamel.geometry.layout.dsl.arranged
+import com.benoitthore.enamel.geometry.layout.dsl.tracked
+import com.benoitthore.enamel.geometry.layout.emptyLayout
+import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
+import com.benoitthore.enamel.geometry.outterCircle
 import com.benoitthore.enamel.layout.android.EFrameView
-import com.benoitthore.enamel.layout.android.visualentity.RectVisualEntity
+import com.benoitthore.enamel.layout.android.visualentity.*
 import com.benoitthore.enamel.layout.android.visualentity.style.*
 
 inline val Number.dp get() = toFloat() * Resources.getSystem().displayMetrics.density
@@ -75,33 +70,48 @@ class TestView @JvmOverloads constructor(
         }
 
     private fun onProgressUpdate() {
-//        entity.setCornerRadius(progress.lerp(0, entity.rect.size.min / 2))
+        progress
     }
 
-    val entities = (0 until 10).map { RectVisualEntity().apply { style = randomStyle() } }
+    private val layouts = mutableListOf<EDrawableLayout<*>>()
+
+    private val et1: EDrawableLayout<RectVisualEntity>
+    private val et2: EDrawableLayout<CircleVisualEntity>
+
+
+    init {
+        val rect = ERect(size = 100.dp size 100.dp)
+        val diagonal = rect.diagonalTLBR()
+
+        et1 = RectVisualEntity(
+            EStyle(fill = diagonal.toEGradient(colors = listOf(RED, YELLOW)).asMesh()),
+            rect
+        ).asLayout()
+
+        et2 = CircleVisualEntity(
+            EStyle(
+                border = EStyle.Mesh.Color(BLACK).asBorder(4.dp)
+            )
+        ) {
+            et1.entity.rect.outterCircle(this)
+        }.asLayout()
+
+    }
+
+    var layout: ELayout = emptyLayout()
 
     @SuppressLint("DrawAllocation")
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         super.onLayout(changed, l, t, r, b)
+        layout = et2.tracked(et1)
+            .arranged(EAlignment.center)
 
-        val minSize = 16.dp
-        entities.forEach {
-            it.rect.set(ERect(EPoint.random(width, height), ESize.random(minSize, minSize * 3)))
-        }
-        entities.stackedBottomRight(minSize / 2).snugged()
-            .aligned(ERectEdge.left)
-            .padded(16.dp)
-            .arrange(frame)
+        layout.arrange(frame)
     }
-
-    private fun randomStyle() = EStyle(
-        fill = Mesh.Color(randomColor()),
-        border = if (randomBool()) null else Border(BLACK, random(2.dp, 4.dp))
-    )
-
 
     override fun onDraw(canvas: Canvas) {
         canvas.drawColor(0xcccccc.color)
-        entities.forEach { it.draw(canvas) }
+        et1.entity.draw(canvas)
+        et2.entity.draw(canvas)
     }
 }

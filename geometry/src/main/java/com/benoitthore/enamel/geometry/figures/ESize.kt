@@ -21,15 +21,20 @@ open class ESize(open val width: Float = 0f, open val height: Float = 0f) : Tupl
         val greatestSize: ESize = allocate { ESize(Float.MAX_VALUE, Float.MAX_VALUE) }
         fun square(size: Number) = ESizeMutable(size, size)
 
-        fun random(minSize: Number, maxSize: Number): ESizeMutable =
-            random(minSize, maxSize, minSize, maxSize)
+        fun random(
+            minSize: Number,
+            maxSize: Number,
+            target: ESizeMutable = ESizeMutable()
+        ): ESizeMutable =
+            random(minSize, maxSize, minSize, maxSize, target)
 
         fun random(
             minWidth: Number = 0,
             maxWidth: Number = 1,
             minHeight: Number = 0,
-            maxHeight: Number = 1
-        ): ESizeMutable = ESizeMutable(
+            maxHeight: Number = 1,
+            target: ESizeMutable = ESizeMutable()
+        ): ESizeMutable = target.set(
             _random(minWidth, maxWidth),
             _random(minHeight, maxHeight)
         )

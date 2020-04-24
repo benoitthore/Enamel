@@ -32,16 +32,12 @@ class VisualEntityDrawer : EStyleable {
     }
 
 
-    private var lastFrame = ERectMutable()
-    fun updateStyle(frame: ERect = lastFrame) {
-
-        lastFrame.set(frame)
-
+    fun updateStyle() {
         with(style) {
-            fill?.let { fillPaint.setMesh(frame, it) }
+            fill?.let { fillPaint.setMesh(it) }
             border?.let {
                 borderPaint.strokeWidth = it.width
-                borderPaint.setMesh(frame, it.mesh)
+                borderPaint.setMesh(it.mesh)
             }
         }
     }

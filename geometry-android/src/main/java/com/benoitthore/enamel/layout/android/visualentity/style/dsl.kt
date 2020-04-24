@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.layout.android.visualentity.style
 
+import android.graphics.LinearGradient
 import android.graphics.Shader
 import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
@@ -16,6 +17,7 @@ fun EStyle.Mesh.asShadow(offset: EPoint) = asShadow(offset.toMutable())
 fun EStyle.Mesh.asShadow(offset: EPointMutable) = EStyle.Shadow(this, offset)
 fun EGradient.asMesh(alpha: Float = 1f) = EStyle.Mesh.Gradient(this, alpha)
 fun EGradient.asBorder(width: Number, alpha: Float = 1f) = asMesh(alpha).asBorder(width)
+
 
 
 interface MeshBuilder {

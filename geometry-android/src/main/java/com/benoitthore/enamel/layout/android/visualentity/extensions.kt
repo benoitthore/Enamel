@@ -6,14 +6,14 @@ import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.primitives.ETransformation
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 
-fun Paint.setMesh(frame: ERect, mesh: EStyle.Mesh) {
+fun Paint.setMesh(mesh: EStyle.Mesh) {
     alpha = ((mesh.alpha) * 255).toInt()
     when (mesh) {
         is EStyle.Mesh.Color -> {
             color = mesh.color
         }
         is EStyle.Mesh.Gradient -> {
-            shader = mesh.gradient.getShader(frame)
+            shader = mesh.gradient.shader
         }
     }
 }

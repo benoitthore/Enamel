@@ -58,6 +58,28 @@ enum class EAlignment {
         )
     }
 
+    val isTop: Boolean
+        get() =
+            this == topLeft || this == topCenter || this == topRight ||
+                    this == leftTop || this == rightTop
+
+
+    val isBottom: Boolean
+        get() =
+            this == bottomLeft || this == bottomCenter || this == bottomRight ||
+                    this == leftBottom || this == rightBottom
+
+    val isLeft: Boolean
+        get() =
+            this == leftTop || this == leftCenter || this == leftBottom ||
+                    this == topLeft || this == bottomLeft
+
+    val isRight: Boolean
+        get() =
+            this == rightTop || this == rightCenter || this == rightBottom ||
+                    this == topRight || this == bottomRight
+
+    val isCenter: Boolean get() = this == center
 
     val namedPoint: EPoint
         get() = when (this) {
@@ -90,7 +112,7 @@ enum class EAlignment {
             }
         }
 
-    val isHorizontal : Boolean
+    val isHorizontal: Boolean
         get() = this == center || !isVertical
 
     val spacingSign: EPoint
