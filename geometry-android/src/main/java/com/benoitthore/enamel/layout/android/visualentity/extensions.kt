@@ -28,8 +28,8 @@ fun Paint.setMesh(mesh: EStyle.Mesh) {
         is EStyle.Mesh.Color -> {
             color = mesh.color
         }
-        is EStyle.Mesh.Gradient -> {
-            shader = mesh.gradient.shader
+        is EStyle.Mesh.Texture -> {
+            shader = mesh.shader
         }
     }
 }

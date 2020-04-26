@@ -1,5 +1,7 @@
 package com.benoitthore.enamel.layout.android.visualentity.style
 
+import android.graphics.Bitmap
+import android.graphics.Shader
 import com.benoitthore.enamel.geometry.primitives.*
 
 interface EStyleable {
@@ -20,9 +22,9 @@ data class EStyle(
         constructor(color: Int, width: Float) : this(Mesh.Color(color), width)
     }
 
-    sealed class Mesh(var alpha: Float) {
-        class Color(var color: Int, alpha: Float = 1f) : Mesh(alpha)
-        class Gradient(var gradient: EGradient, alpha: Float = 1f) : Mesh(alpha)
-    }
+}
 
+sealed class Mesh(var alpha: Float) {
+    class Color(var color: Int, alpha: Float = 1f) : Mesh(alpha)
+    class Texture(val shader: Shader, alpha: Float = 1f) : Mesh(alpha)
 }
