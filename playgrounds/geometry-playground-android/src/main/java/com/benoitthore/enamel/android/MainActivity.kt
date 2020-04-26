@@ -85,7 +85,7 @@ class TestView @JvmOverloads constructor(
         val diagonal = rect.diagonalTLBR()
 
         et1 = RectVisualEntity(
-            EStyle(fill = diagonal.toLinearGradient(colors = listOf(RED, YELLOW)).asMesh()),
+            EStyle(fill = Mesh(shader = diagonal.toLinearGradient(colors = listOf(RED, YELLOW)))),
             rect
         )
 

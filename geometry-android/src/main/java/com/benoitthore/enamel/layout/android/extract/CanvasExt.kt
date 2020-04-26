@@ -6,7 +6,7 @@ import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.primitives.EPoint
-import com.benoitthore.enamel.layout.android.set
+import com.benoitthore.enamel.layout.android.visualentity.set
 
 //private val targetRectF = RectF()
 fun Canvas.drawCircles(circles: List<ECircle>, paint: Paint) =

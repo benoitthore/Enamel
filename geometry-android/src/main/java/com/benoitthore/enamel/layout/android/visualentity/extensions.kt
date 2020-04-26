@@ -4,9 +4,9 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.primitives.ETransformation
-import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 import android.graphics.Rect
 import android.graphics.RectF
+import com.benoitthore.enamel.layout.android.visualentity.style.Mesh
 
 fun Rect.set(rect: ERect) = apply {
     left = rect.left.toInt()
@@ -22,16 +22,9 @@ fun RectF.set(rect: ERect) = apply {
     bottom = rect.bottom
 }
 
-fun Paint.setMesh(mesh: EStyle.Mesh) {
-    alpha = ((mesh.alpha) * 255).toInt()
-    when (mesh) {
-        is EStyle.Mesh.Color -> {
-            color = mesh.color
-        }
-        is EStyle.Mesh.Texture -> {
-            shader = mesh.shader
-        }
-    }
+fun Paint.setMesh(mesh: Mesh) {
+    mesh.color?.let { color = it }
+    mesh.shader?.let { shader = it }
 }
 
 inline fun Canvas.withTransformation(

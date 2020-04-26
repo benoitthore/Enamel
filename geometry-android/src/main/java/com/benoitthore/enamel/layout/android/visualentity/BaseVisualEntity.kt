@@ -1,11 +1,7 @@
 package com.benoitthore.enamel.layout.android.visualentity
 
 import android.graphics.Canvas
-import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.ERectMutable
-import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.primitives.ETransformation
-import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyleable
 import com.benoitthore.enamel.layout.android.visualentity.style.VisualEntityDrawer
 

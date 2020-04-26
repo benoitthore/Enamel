@@ -5,8 +5,6 @@ import android.graphics.RadialGradient
 import android.graphics.Shader
 import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
-import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.primitives.EAngle
 
 fun ELine.toLinearGradient(vararg colors: Int) = toLinearGradient(colors.toList())
 fun ECircle.toRadialGradient(vararg colors: Int) = toRadialGradient(colors.toList())
