@@ -16,7 +16,6 @@ open class EFrameView @JvmOverloads constructor(
     val paddedFrame: ERect get() = _paddedFrame
     private var _paddedFrame: ERectMutable = ERectMutable()
 
-
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         _frame.setBounds(this)
         _paddedFrame.setBoundsWithPadding(this)

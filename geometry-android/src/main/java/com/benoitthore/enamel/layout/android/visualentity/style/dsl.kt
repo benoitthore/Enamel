@@ -19,7 +19,6 @@ fun EGradient.asMesh(alpha: Float = 1f) = EStyle.Mesh.Gradient(this, alpha)
 fun EGradient.asBorder(width: Number, alpha: Float = 1f) = asMesh(alpha).asBorder(width)
 
 
-
 interface MeshBuilder {
     fun color(color: Int, alpha: Number = 1) =
         EStyle.Mesh.Color(color = color, alpha = alpha.toFloat())

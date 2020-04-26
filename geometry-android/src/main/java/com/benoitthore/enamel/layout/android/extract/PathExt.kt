@@ -25,7 +25,7 @@ fun ECircle.addToPath(path: Path, dir: Path.Direction = Path.Direction.CW) {
     path.addCircle(x, y, radius, dir)
 }
 
-fun ELine.addToPath(path: Path, dir: Path.Direction = Path.Direction.CW) {
+fun ELine.addToPath(path: Path) {
     path.moveTo(start.x, start.y)
     path.lineTo(end.x, end.y)
 }

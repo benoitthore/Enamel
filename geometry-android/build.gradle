@@ -80,7 +80,8 @@ dependencies {
 
     implementation(project(':core'))
     implementation(project(':geometry'))
-    implementation(project(':layout'))
+    // TODO Put back when geometry is implemented
+//    implementation(project(':layout'))
 
     //Kotlin
     implementation kotlinDependencies.stdlib

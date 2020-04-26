@@ -74,10 +74,10 @@ class TestView @JvmOverloads constructor(
         progress
     }
 
-    private val layouts = mutableListOf<EDrawableLayout<*>>()
+    private val layouts = mutableListOf<VisualEntity>()
 
-    private val et1: EDrawableLayout<RectVisualEntity>
-    private val et2: EDrawableLayout<CircleVisualEntity>
+    private val et1: RectVisualEntity
+    private val et2: CircleVisualEntity
 
 
     init {
@@ -87,21 +87,23 @@ class TestView @JvmOverloads constructor(
         et1 = RectVisualEntity(
             EStyle(fill = diagonal.toEGradient(colors = listOf(RED, YELLOW)).asMesh()),
             rect
-        ).asLayout()
+        )
 
         et2 = CircleVisualEntity(
-            EStyle(
-                border = EStyle.Mesh.Color(BLACK).asBorder(4.dp)
-            )
+            et1.style.copy()
         ) {
-            et1.entity.rect.outterCircle(this)
-        }.asLayout()
+            et1.rect.outterCircle(this)
+        }
 
         singleTouch { isDown, current, previous ->
 
-            if (current != null)
-                et1.entity.transformation.translation.set(current)
-
+            if (current != null) {
+                // Move rect to finger
+                et1.transformation.translation.set(current)
+                // Move circle under rect
+                et2.circle.set(center = current)
+                et2.circle.selfOffset(0, et1.rect.height)
+            }
             invalidate()
             true
         }
@@ -110,7 +112,7 @@ class TestView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         canvas.drawColor(0xcccccc.color)
-        et1.entity.draw(canvas)
-        et2.entity.draw(canvas)
+        et1.draw(canvas)
+        et2.draw(canvas)
     }
 }

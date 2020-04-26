@@ -6,6 +6,7 @@ import android.graphics.Shader
 import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
 import com.benoitthore.enamel.geometry.figures.ERect
+import com.benoitthore.enamel.geometry.primitives.EAngle
 
 sealed class EGradient(
     protected val colors: List<Int>,
