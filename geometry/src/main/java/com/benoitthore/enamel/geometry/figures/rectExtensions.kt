@@ -4,13 +4,15 @@ import com.benoitthore.enamel.core.math.constrain
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.alignement.ERectEdge
+import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.e.rectSides
 import com.benoitthore.enamel.geometry.primitives.EOffset
 import com.benoitthore.enamel.geometry.primitives.EPoint
 
 fun ERect.dividedFraction(
     fraction: Number,
     from: ERectEdge,
-    target: Pair<ERectMutable, ERectMutable> = ERectMutable() to ERectMutable()
+    target: Pair<ERectMutable, ERectMutable> = E.mrect() to E.mrect()
 ): Pair<ERect, ERect> {
     val fraction = fraction.f
 
@@ -24,7 +26,7 @@ fun ERect.dividedFraction(
 fun ERect.divided(
     distance: Number,
     from: ERectEdge,
-    target: Pair<ERectMutable, ERectMutable> = ERectMutable() to ERectMutable()
+    target: Pair<ERectMutable, ERectMutable> = E.mrect() to E.mrect()
 ): Pair<ERectMutable, ERectMutable> {
     val distance = distance.f
 
@@ -53,7 +55,7 @@ fun ERect.divided(
 
     val slice =
         rectAlignedInside(from.alignement, sliceWidth size sliceHeight, target = target.first)
-    val remainderSize = ESize(remainderWidth, remainderHeight)
+    val remainderSize = E.size(remainderWidth, remainderHeight)
     val remainder =
         slice.rectAlignedOutside(from.alignement.flipped, remainderSize, target = target.second)
     return slice to remainder
@@ -62,9 +64,9 @@ fun ERect.divided(
 operator fun ERect.minus(padding: EOffset) = padding(padding)
 operator fun ERect.plus(padding: EOffset) = expand(padding)
 
-fun List<ERect>.union(target: ERectMutable = ERectMutable()): ERectMutable {
+fun List<ERect>.union(target: ERectMutable = E.mrect()): ERectMutable {
     if (isEmpty()) {
-        return ERectMutable()
+        return E.mrect()
     }
 
     var left = Float.MAX_VALUE
@@ -88,7 +90,7 @@ fun List<ERect>.union(target: ERectMutable = ERectMutable()): ERectMutable {
             bottom = it.bottom
         }
     }
-    return ERectSides(
+    return E.rectSides(
         top = top,
         left = left,
         right = right,

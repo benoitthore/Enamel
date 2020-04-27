@@ -15,16 +15,9 @@ enum class AngleType {
 
 
 // TODO change internal to protected and fix the compile errors
-open class EAngle(
-    internal open val value: Float = 0f,
-    internal open val type: AngleType = AngleType.DEGREE
-) {
-    companion object {
-        val zero = 0.degrees()
-        val unit = 1.rotations()
-    }
-
-    constructor(angle: EAngle) : this(angle.value, angle.type)
+interface EAngle {
+    val value: Float
+    val type: AngleType
 
     // The use of by lazy would create 3 new objects so it's better to calculate on initialisation
     val radians
@@ -99,7 +92,8 @@ open class EAngle(
             AngleType.RADIAN
         )
 
-    operator fun compareTo(angle: EAngleMutable): Int = ((rotations - angle.rotations) * 100).toInt()
+    operator fun compareTo(angle: EAngleMutable): Int =
+        ((rotations - angle.rotations) * 100).toInt()
 
     fun toMutable(): EAngleMutable = EAngleMutable(value, type)
     fun toImmutable(): EAngle = EAngle(value, type)
@@ -107,18 +101,9 @@ open class EAngle(
 //    operator fun Number.times(angle: EAngleMutable): EAngleMutable = angle * this
 }
 
-class EAngleMutable constructor(
-    override var value: Float = 0f,
-    override var type: AngleType = AngleType.DEGREE
-) :
-    EAngle(value, type), Resetable {
-    companion object {
-        val zero get() = 0.degrees()
-        val unit get() = 1.rotations()
-    }
-
-    constructor(angle: EAngle) : this(angle.value, angle.type)
-
+interface EAngleMutable : EAngle, Resetable {
+    override var value: Float
+    override var type: AngleType
 
     fun set(other: EAngle) = set(
         other.value,
@@ -137,10 +122,6 @@ class EAngleMutable constructor(
 
     fun selfInverse() = inverse(this)
     fun selfOffset(angle: EAngle) = offset(angle, this)
-
-    override fun toString(): String {
-        return "${degrees.toInt() % 360}°"
-    }
 
 }
 

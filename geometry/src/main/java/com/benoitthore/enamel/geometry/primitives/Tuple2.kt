@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.geometry.primitives
 
+import com.benoitthore.enamel.geometry.e.E
 import com.benoitthore.enamel.geometry.figures.ESizeMutable
 import com.benoitthore.enamel.geometry.figures.ESize
 
@@ -35,7 +36,7 @@ inline operator fun Number.div(p: EPoint): EPoint {
 }
 
 
-inline operator fun ESize.unaryMinus() = ESizeMutable(-width, -height)
+inline operator fun ESize.unaryMinus() = E.msize(-width, -height)
 
 inline operator fun ESize.div(other: Tuple2) = dividedBy(other)
 inline operator fun ESize.div(n: Number) = dividedBy(n)

@@ -2,6 +2,7 @@ package com.benoitthore.enamel.layout.android.extract
 
 import android.view.MotionEvent
 import android.view.View
+import com.benoitthore.enamel.geometry.e.E
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
@@ -41,8 +42,8 @@ class OnClickTouchListener(
 
 class SingleTouchDelegate(val block: ETouchListener) : View.OnTouchListener {
 
-    val previous = EPointMutable()
-    val current = EPointMutable()
+    val previous = E.mpoint()
+    val current = E.mpoint()
 
     override fun onTouch(v: View?, e: MotionEvent): Boolean {
         previous.set(current)
@@ -89,7 +90,7 @@ fun View.normalizedTouch(block: (x: Float, y: Float) -> Boolean) {
 
 
 data class ETouchEvent(
-    val position: EPointMutable = EPointMutable(),
+    val position: EPointMutable = E.mpoint(),
     var isDown: Boolean = false,
     var id: Int = -1
 ) {
@@ -108,9 +109,9 @@ data class ETouchEvent(
 
 fun View.mutliTouch(maxFingers: Int = 10, onTouch: (List<ETouchEvent>) -> Boolean) {
 
-    val touch = EPointMutable()
+    val touch = E.mpoint()
 
-    val list = List(maxFingers) { ETouchEvent(EPointMutable(), false, -1) }
+    val list = List(maxFingers) { ETouchEvent(E.mpoint(), false, -1) }
 
     setOnTouchListener { v, e ->
         touch.set(e)

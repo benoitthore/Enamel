@@ -14,6 +14,7 @@ import com.benoitthore.enamel.R
 import com.benoitthore.enamel.core.color
 import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.geometry.alignement.EAlignment
+import com.benoitthore.enamel.geometry.e.E
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.figures.size
@@ -79,7 +80,7 @@ class TestView @JvmOverloads constructor(
     private val et2: CircleVisualEntity
 
     init {
-        val rect = ERect(size = 100.dp size 100.dp)
+        val rect = E.rect(size = 100.dp size 100.dp)
         val diagonal = rect.diagonalTLBR()
 
         et1 = RectVisualEntity(

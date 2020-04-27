@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
+import com.benoitthore.enamel.geometry.e.E
 import com.benoitthore.enamel.layout.android.extract.*
 import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
@@ -86,12 +87,12 @@ open class CanvasTestView : View {
     }
 
     val frame: ERect get() = _frame
-    private var _frame: ERectMutable = ERectMutable()
+    private var _frame: ERectMutable = E.mrect()
 
     val paddedFrame: ERect get() = _paddedFrame
-    private var _paddedFrame: ERectMutable = ERectMutable()
+    private var _paddedFrame: ERectMutable = E.mrect()
 
-    private val originalFrame = ERectMutable()
+    private val originalFrame = E.mrect()
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         val left = 0f

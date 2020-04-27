@@ -6,114 +6,73 @@ import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.allocate
+import com.benoitthore.enamel.geometry.e.E
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import kotlin.math.*
 
-open class ESize(open val width: Float = 0f, open val height: Float = 0f) : Tuple2 {
-
-    constructor(width: Number, height: Number) : this(width.f, height.f)
+interface ESize : Tuple2 {
+    val width: Float
+    val height: Float
 
     override val v1: Number get() = width
     override val v2: Number get() = height
 
-    companion object {
-        val zero: ESize = allocate { ESize() }
-        val greatestSize: ESize = allocate { ESize(Float.MAX_VALUE, Float.MAX_VALUE) }
-        fun square(size: Number) = ESizeMutable(size, size)
-
-        fun random(
-            minSize: Number,
-            maxSize: Number,
-            target: ESizeMutable = ESizeMutable()
-        ): ESizeMutable =
-            random(minSize, maxSize, minSize, maxSize, target)
-
-        fun random(
-            minWidth: Number = 0,
-            maxWidth: Number = 1,
-            minHeight: Number = 0,
-            maxHeight: Number = 1,
-            target: ESizeMutable = ESizeMutable()
-        ): ESizeMutable = target.set(
-            _random(minWidth, maxWidth),
-            _random(minHeight, maxHeight)
-        )
-    }
-
-    init {
-        allocateDebugMessage()
-    }
-
-    fun toMutable() = ESizeMutable(width, height)
-    fun toImmutable() = ESize(width, height)
+    fun toMutable() = E.msize(width, height)
+    fun toImmutable() = E.size(width, height)
 
     fun copy(
         width: Number = this.width,
         height: Number = this.height,
-        target: ESizeMutable = ESizeMutable()
+        target: ESizeMutable = E.msize()
     ) =
         target.set(width, height)
 
-    val min get() = Math.min(width, height)
-    val max get() = Math.max(width, height)
-    val diagonal get() = Math.hypot(width.d, height.d).f
+    val min get() = min(width, height)
+    val max get() = max(width, height)
+    val diagonal get() = hypot(width.d, height.d).f
     val area get() = width * height
     val hasArea get() = area > 0
 
-    fun abs(target: ESizeMutable = ESizeMutable()) = target.set(abs(width), Math.abs(height))
+    fun abs(target: ESizeMutable = E.msize()) = target.set(abs(width), abs(height))
 
-    fun inset(x: Number, y: Number, target: ESizeMutable = ESizeMutable()) =
+    fun inset(x: Number, y: Number, target: ESizeMutable = E.msize()) =
         target.set(width - x.f, height - y.f)
 
-    fun inset(other: Tuple2, target: ESizeMutable = ESizeMutable()) =
+    fun inset(other: Tuple2, target: ESizeMutable = E.msize()) =
         inset(other.v1, other.v2, target)
 
-    fun inset(n: Number, target: ESizeMutable = ESizeMutable()) = inset(n, n, target)
+    fun inset(n: Number, target: ESizeMutable = E.msize()) = inset(n, n, target)
 
-    fun expand(x: Number, y: Number, target: ESizeMutable = ESizeMutable()) =
+    fun expand(x: Number, y: Number, target: ESizeMutable = E.msize()) =
         inset(-x.f, -y.f, target)
 
-    fun expand(other: Tuple2, target: ESizeMutable = ESizeMutable()) =
+    fun expand(other: Tuple2, target: ESizeMutable = E.msize()) =
         expand(other.v1, other.v2, target)
 
-    fun expand(n: Number, target: ESizeMutable = ESizeMutable()) = expand(n, n, target)
+    fun expand(n: Number, target: ESizeMutable = E.msize()) = expand(n, n, target)
 
-    fun scale(x: Number, y: Number, target: ESizeMutable = ESizeMutable()) =
+    fun scale(x: Number, y: Number, target: ESizeMutable = E.msize()) =
         target.set(width * x.f, height * y.f)
 
-    fun scale(other: Tuple2, target: ESizeMutable = ESizeMutable()) =
+    fun scale(other: Tuple2, target: ESizeMutable = E.msize()) =
         scale(other.v1, other.v2, target)
 
-    fun scale(n: Number, target: ESizeMutable = ESizeMutable()) = scale(n, n, target)
+    fun scale(n: Number, target: ESizeMutable = E.msize()) = scale(n, n, target)
 
-    fun dividedBy(x: Number, y: Number, target: ESizeMutable = ESizeMutable()) =
+    fun dividedBy(x: Number, y: Number, target: ESizeMutable = E.msize()) =
         target.set(width / x.f, height / y.f)
 
-    fun dividedBy(other: Tuple2, target: ESizeMutable = ESizeMutable()) =
+    fun dividedBy(other: Tuple2, target: ESizeMutable = E.msize()) =
         dividedBy(other.v1, other.v2, target)
 
-    fun dividedBy(n: Number, target: ESizeMutable = ESizeMutable()) = dividedBy(n, n, target)
+    fun dividedBy(n: Number, target: ESizeMutable = E.msize()) = dividedBy(n, n, target)
 
-
-    override fun equals(other: Any?): Boolean =
-        (other as? ESize)?.let { it.width == width && it.height == height } ?: false
-
-    override fun toString(): String {
-        return "ESizeMutable(width=$width, height=$height)"
-    }
-
-    override fun hashCode(): Int {
-        var result = width.hashCode()
-        result = 31 * result + height.hashCode()
-        return result
-    }
 
 }
 
-class ESizeMutable(override var width: Float = 0f, override var height: Float = 0f) :
-    ESize(width, height), Resetable {
-    constructor(width: Number, height: Number) : this(width.f, height.f)
-    constructor(other: Tuple2) : this(other.v1, other.v2)
+interface ESizeMutable : ESize, Resetable {
+    override var width: Float
+    override var height: Float
 
     fun set(width: Number, height: Number): ESizeMutable {
         this.width = width.f
@@ -146,5 +105,5 @@ class ESizeMutable(override var width: Float = 0f, override var height: Float = 
 
 }
 
-infix fun Number.size(height: Number) = ESizeMutable(this, height)
+infix fun Number.size(height: Number) = E.msize(this, height)
 

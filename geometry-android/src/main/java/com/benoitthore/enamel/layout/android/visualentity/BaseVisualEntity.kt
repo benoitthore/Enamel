@@ -11,7 +11,7 @@ abstract class BaseVisualEntity private constructor(protected val drawer: Visual
 
     constructor() : this(VisualEntityDrawer())
 
-    override val transformation: ETransformation = ETransformation()
+    override val transformation: ETransformation = ETransformation.Impl()
 
     override fun draw(canvas: Canvas) {
         canvas.withSave {

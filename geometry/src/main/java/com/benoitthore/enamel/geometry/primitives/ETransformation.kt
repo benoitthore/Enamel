@@ -1,13 +1,21 @@
 package com.benoitthore.enamel.geometry.primitives
 
-class ETransformation {
-    val rotation: EAngleMutable = EAngleMutable()
-    val rotationPivot: EPointMutable = EPointMutable.half
+import com.benoitthore.enamel.geometry.e.E
 
-    val scale: EPointMutable = EPointMutable.unit
-    val scalePivot: EPointMutable = EPointMutable.half
+interface ETransformation {
+    val rotation: EAngleMutable
+    val rotationPivot: EPointMutable
+    val scale: EPointMutable
+    val scalePivot: EPointMutable
+    val translation: EPointMutable
 
-    val translation: EPointMutable = EPointMutable()
+    class Impl : ETransformation{
+        override val rotation: EAngleMutable = EAngleMutable()
+        override val rotationPivot: EPointMutable = E.PointMutable.half
+        override val scale: EPointMutable = E.PointMutable.unit
+        override val scalePivot: EPointMutable = E.PointMutable.half
+        override val translation: EPointMutable = E.mpoint()
+    }
 }
 
 interface ETransformable {

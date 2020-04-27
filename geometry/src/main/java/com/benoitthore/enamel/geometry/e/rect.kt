@@ -1,27 +1,13 @@
-package com.benoitthore.enamel.geometry
+package com.benoitthore.enamel.geometry.e
 
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.figures.*
+import com.benoitthore.enamel.geometry.figures.ERectMutable
+import com.benoitthore.enamel.geometry.figures.ESize
+import com.benoitthore.enamel.geometry.figures.ESizeMutable
 import com.benoitthore.enamel.geometry.primitives.EPoint
-import com.benoitthore.enamel.geometry.primitives.EPointMutable
 import kotlin.math.max
 import kotlin.math.min
-
-/**
- * This interface can be used to create any kind of shape provided by this library
- */
-interface E {
-    fun point(x: Number = 0, y: Number = 0): EPoint
-    fun circle(center: EPoint = point(), radius: Number = 0f): ECircle
-    fun size(width: Number = 0, height: Number = 0): ESize
-    fun rect(origin: EPoint = point(), size: ESize = size()): ERect
-
-    fun mpoint(x: Number = 0, y: Number = 0): EPointMutable
-    fun mcircle(center: EPointMutable = mpoint(), radius: Number = 0f): ECircleMutable
-    fun msize(width: Number = 0, height: Number = 0): ESizeMutable
-    fun mrect(origin: EPointMutable = mpoint(), size: ESizeMutable = msize()): ERectMutable
-}
 
 fun E.rectCenter(
     position: EPoint,

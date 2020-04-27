@@ -5,6 +5,7 @@ import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.allocate
 import com.benoitthore.enamel.geometry.primitives.EOffset
 import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.e.E
 
 class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? = null) :
     Iterable<ERect> by _rects {
@@ -16,7 +17,7 @@ class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? =
 
     val count get() = _rects.size
 
-    private val _frame = ERectMutable()
+    private val _frame = E.mrect()
 //    private val _origin: EPointMutable
 //    private val _size: ESizeMutable
 
@@ -56,20 +57,20 @@ class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? =
 // Allocates because this is essentially a constructor
 fun List<ESize>.rectGroup(
     alignment: EAlignment,
-    anchor: EPoint = EPoint.zero,
-    position: EPoint = EPoint.zero,
+    anchor: EPoint = E.Point.zero,
+    position: EPoint = E.Point.zero,
     padding: EOffset = EOffset.zero,
     spacing: Number = 0
 ): ERectGroup {
 
 
-    var prev = allocate { ERectMutable() }
+    var prev = allocate { E.mrect() }
     val rects = mapIndexed { i, size ->
         prev = allocate {
             prev.rectAlignedOutside(
                 aligned = alignment,
                 size = size,
-                spacing = if (prev.size == ESize.zero) 0 else spacing
+                spacing = if (prev.size == E.Size.zero) 0 else spacing
             )
         }
         prev
@@ -85,8 +86,8 @@ fun List<ESize>.rectGroup(
 fun List<ESize>.rectGroupJustified(
     alignment: EAlignment,
     toFit: Number,
-    anchor: EPoint = EPoint.zero,
-    position: EPoint = EPoint.zero,
+    anchor: EPoint = E.Point.zero,
+    position: EPoint = E.Point.zero,
     padding: EOffset = EOffset.zero
 ): ERectGroup {
     val pack = rectGroup(alignment)
@@ -105,8 +106,8 @@ fun List<ESize>.rectGroupJustified(
 fun List<Number>.rectGroupWeights(
     alignment: EAlignment,
     toFit: ESize,
-    anchor: EPoint = EPoint.zero,
-    position: EPoint = EPoint.zero,
+    anchor: EPoint = E.Point.zero,
+    position: EPoint = E.Point.zero,
     padding: EOffset = EOffset.zero,
     spacing: Number = 0
 ): ERectGroup {
@@ -125,9 +126,9 @@ fun List<Number>.rectGroupWeights(
     val totalWeight = sumByDouble { it.d }.f
 
     val sizes: List<ESizeMutable> = if (alignment.isHorizontal) {
-        map { ESizeMutable((actualWidth) * it.toFloat() / totalWeight, toFit.height) }
+        map { E.msize((actualWidth) * it.toFloat() / totalWeight, toFit.height) }
     } else {
-        map { ESizeMutable(toFit.width, (actualHeight) * it.toFloat() / totalWeight) }
+        map { E.msize(toFit.width, (actualHeight) * it.toFloat() / totalWeight) }
     }
 
     return sizes.rectGroup(

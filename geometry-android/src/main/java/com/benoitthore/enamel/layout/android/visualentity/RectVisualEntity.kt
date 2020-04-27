@@ -2,14 +2,15 @@ package com.benoitthore.enamel.layout.android.visualentity
 
 import android.graphics.Canvas
 import android.graphics.ColorFilter
+import com.benoitthore.enamel.geometry.e.E
 import com.benoitthore.enamel.geometry.figures.*
 import com.benoitthore.enamel.layout.android.extract.draw
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 
-class RectVisualEntity(style: EStyle, rect: ERect = ERect()) : BaseVisualEntity() {
+class RectVisualEntity(style: EStyle, rect: ERect = E.rect()) : BaseVisualEntity() {
 
     constructor(style: EStyle, builder: ERectMutable.() -> Unit) :
-            this(style, ERectMutable().apply(builder))
+            this(style, E.mrect().apply(builder))
 
     init {
         this.style = style
@@ -39,10 +40,10 @@ class RectVisualEntity(style: EStyle, rect: ERect = ERect()) : BaseVisualEntity(
 }
 
 
-class CircleVisualEntity(style: EStyle, circle: ECircle = ECircle()) : BaseVisualEntity() {
+class CircleVisualEntity(style: EStyle, circle: ECircle = E.circle()) : BaseVisualEntity() {
 
     constructor(style: EStyle, builder: ECircleMutable.() -> Unit) :
-            this(style, ECircleMutable().apply(builder))
+            this(style, E.mcircle().apply(builder))
 
     init {
         this.style = style

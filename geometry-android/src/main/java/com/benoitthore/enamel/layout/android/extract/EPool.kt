@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.layout.android.extract
 
 import com.benoitthore.enamel.core.LazyList
+import com.benoitthore.enamel.geometry.e.E
 import com.benoitthore.enamel.geometry.figures.*
 import com.benoitthore.enamel.geometry.primitives.*
 
@@ -38,12 +39,12 @@ class EPool<T : Any>(val size: Int, init: (Int) -> T) {
     }
 }
 
-fun RectPool(size: Int = 50) = EPool(size) { ERectMutable() }
+fun RectPool(size: Int = 50) = EPool(size) { E.mrect() }
 fun PointPool(size: Int = 50) =
-    EPool(size) { EPointMutable() }
+    EPool(size) { E.mpoint() }
 
 fun CirclePool(size: Int = 50) =
-    EPool(size) { ECircleMutable() }
+    EPool(size) { E.mcircle() }
 
 fun LinePool(size: Int = 50) = EPool(size) { ELineMutable() }
 fun AnglePool(size: Int = 50) =

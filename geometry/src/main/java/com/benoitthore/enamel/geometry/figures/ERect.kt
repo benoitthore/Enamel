@@ -4,60 +4,43 @@ import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.geometry.allocateDebugMessage
+import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.e.rectAnchorPos
 import com.benoitthore.enamel.geometry.primitives.*
 
-/*
-This class should be the example to follow in order to implement mutability
+interface ERect {
 
-Note:
+    val origin: EPoint
+    val size: ESize
 
-Immutable doesn't have any function requiring a target, but:
-- Only toImmutable() allocates without providing a target
-- Only toMutable() requires a target
-
- */
-open class ERect(
-    open val origin: EPoint = EPoint(),
-    open val size: ESize = ESize()
-) {
-    companion object {
-        val zero = ERect()
-    }
-
-    init {
-        allocateDebugMessage()
-    }
-
-    fun toMutable(target: ERectMutable = ERectMutable()) =
+    fun toMutable(target: ERectMutable = E.mrect()) =
         target.set(origin.toMutable(target.origin), size.toMutable())
 
-    fun toImmutable() = ERect(origin.toImmutable(), size.toImmutable())
-    fun copy(target: ERectMutable = ERectMutable()) =
-        ERectMutable(origin.copy(target = target.origin), size.copy(target = target.size))
+    fun toImmutable() = E.rect(this)
+    fun copy(target: ERectMutable = E.mrect()) =
+        E.mrect(origin.copy(target = target.origin), size.copy(target = target.size))
 
-    open val height get() = size.height
-    open val width get() = size.width
+    val height get() = size.height
+    val width get() = size.width
 
-    open val top: Float
+    val top: Float
         get() = origin.y
-    open val bottom: Float
+    val bottom: Float
         get() = top + height
-    open val left: Float
+    val left: Float
         get() = origin.x
-    open val right: Float
+    val right: Float
         get() = origin.x + width
 
-    open val x: Float
+    val x: Float
         get() = origin.x
-    open val y: Float
+    val y: Float
         get() = origin.y
-
 
     // contains Point
     fun contains(x: Number, y: Number) = contains(x, y, 0, 0)
 
     fun contains(p: EPoint) = contains(p.x, p.y)
-
 
     // contains Circle: When dealing with circles, use x and y as center
     fun contains(p: EPoint, radius: Number): Boolean = contains(p.x, p.y, radius)
@@ -147,11 +130,11 @@ open class ERect(
     fun pointAtAnchor(
         x: Number,
         y: Number,
-        target: EPointMutable = EPointMutable()
+        target: EPointMutable = E.mpoint()
     ): EPointMutable =
         target.set(x = pointAtAnchorX(x), y = pointAtAnchorY(y))
 
-    fun pointAtAnchor(anchor: EPoint, target: EPointMutable = EPointMutable()) =
+    fun pointAtAnchor(anchor: EPoint, target: EPointMutable = E.mpoint()) =
         pointAtAnchor(anchor.x, anchor.y, target)
 
     fun pointAtAnchorX(x: Number) = origin.x + size.width * x.f
@@ -160,26 +143,26 @@ open class ERect(
     fun anchorAtPoint(
         x: Number,
         y: Number,
-        target: EPointMutable = EPointMutable()
+        target: EPointMutable = E.mpoint()
     ): EPointMutable {
         val x = if (width == 0f) .5f else x.f / width
         val y = if (height == 0f) .5f else y.f / height
         return target.set(x, y)
     }
 
-    fun center(target: EPointMutable = EPointMutable()): EPointMutable =
+    fun center(target: EPointMutable = E.mpoint()): EPointMutable =
         pointAtAnchor(0.5f, 0.5f, target)
 
-    fun topLeft(target: EPointMutable = EPointMutable()): EPointMutable =
+    fun topLeft(target: EPointMutable = E.mpoint()): EPointMutable =
         pointAtAnchor(0f, 0f, target)
 
-    fun topRight(target: EPointMutable = EPointMutable()): EPointMutable =
+    fun topRight(target: EPointMutable = E.mpoint()): EPointMutable =
         pointAtAnchor(1f, 0.0f, target)
 
-    fun bottomRight(target: EPointMutable = EPointMutable()): EPointMutable =
+    fun bottomRight(target: EPointMutable = E.mpoint()): EPointMutable =
         pointAtAnchor(1f, 1f, target)
 
-    fun bottomLeft(target: EPointMutable = EPointMutable()): EPointMutable =
+    fun bottomLeft(target: EPointMutable = E.mpoint()): EPointMutable =
         pointAtAnchor(0f, 1f, target)
 
 
@@ -188,7 +171,7 @@ open class ERect(
         aligned: EAlignment,
         size: ESize,
         spacing: Number = 0,
-        target: ERectMutable = ERectMutable(this)
+        target: ERectMutable = E.mrect(this)
     ): ERectMutable {
         target.set(this)
         val spacing = spacing.f
@@ -201,7 +184,7 @@ open class ERect(
 
         target.size.set(size)
 
-        return ERectAnchorPos(
+        return E.rectAnchorPos(
             anchor = anchor,
             position = position,
             size = target.size,
@@ -214,7 +197,7 @@ open class ERect(
         aligned: EAlignment,
         size: ESize,
         spacing: Number = 0,
-        target: ERectMutable = ERectMutable()
+        target: ERectMutable = E.mrect()
     ): ERectMutable {
         target.set(this)
         val spacing = spacing.f
@@ -227,7 +210,7 @@ open class ERect(
 
         target.size.set(size)
 
-        return ERectAnchorPos(
+        return E.rectAnchorPos(
             anchor = anchor,
             position = position,
             size = target.size,
@@ -237,13 +220,13 @@ open class ERect(
 
 
     // Changing
-    fun offset(p: Tuple2, target: ERectMutable = ERectMutable()): ERectMutable =
+    fun offset(p: Tuple2, target: ERectMutable = E.mrect()): ERectMutable =
         offset(p.v1, p.v2, target)
 
     fun offset(
         x: Number = 0,
         y: Number = 0,
-        target: ERectMutable = ERectMutable()
+        target: ERectMutable = E.mrect()
     ): ERectMutable {
         target.set(this)
         target.origin.selfOffset(x, y)
@@ -251,14 +234,14 @@ open class ERect(
     }
 
     // TODO Expand/Inset/Padding -> align
-    fun inset(margin: Number, target: ERectMutable = ERectMutable()) =
+    fun inset(margin: Number, target: ERectMutable = E.mrect()) =
         inset(margin, margin, target)
 
-    fun inset(p: Tuple2, target: ERectMutable = ERectMutable()) = inset(p.v1, p.v2, target)
+    fun inset(p: Tuple2, target: ERectMutable = E.mrect()) = inset(p.v1, p.v2, target)
     fun inset(
         x: Number = 0,
         y: Number = 0,
-        target: ERectMutable = ERectMutable()
+        target: ERectMutable = E.mrect()
     ) = inset(left = x, top = y, right = x, bottom = y, target = target)
 
     fun inset(
@@ -266,7 +249,7 @@ open class ERect(
         top: Number = 0,
         right: Number = 0,
         bottom: Number = 0,
-        target: ERectMutable = ERectMutable()
+        target: ERectMutable = E.mrect()
     ): ERectMutable {
         target.set(this)
         target.left += left.toFloat()
@@ -276,11 +259,11 @@ open class ERect(
         return target
     }
 
-    fun expand(margin: Number, target: ERectMutable = ERectMutable()) =
+    fun expand(margin: Number, target: ERectMutable = E.mrect()) =
         expand(margin, margin, target)
 
-    fun expand(p: Tuple2, target: ERectMutable = ERectMutable()) = expand(p.v1, p.v2, target)
-    fun expand(x: Number = 0f, y: Number = 0f, target: ERectMutable = ERectMutable()) =
+    fun expand(p: Tuple2, target: ERectMutable = E.mrect()) = expand(p.v1, p.v2, target)
+    fun expand(x: Number = 0f, y: Number = 0f, target: ERectMutable = E.mrect()) =
         inset(-x.f, -y.f, target)
 
     fun expand(
@@ -288,7 +271,7 @@ open class ERect(
         top: Number = 0,
         right: Number = 0,
         bottom: Number = 0,
-        target: ERectMutable = ERectMutable()
+        target: ERectMutable = E.mrect()
     ): ERectMutable = inset(
         left = -left.toFloat(),
         top = -top.toFloat(),
@@ -297,7 +280,7 @@ open class ERect(
         target = target
     )
 
-    fun expand(padding: EOffset, target: ERectMutable = ERectMutable()) = expand(
+    fun expand(padding: EOffset, target: ERectMutable = E.mrect()) = expand(
         left = padding.left,
         top = padding.top,
         right = padding.right,
@@ -310,7 +293,7 @@ open class ERect(
         bottom: Number = this.bottom,
         left: Number = this.left,
         right: Number = this.right
-        , target: ERectMutable = ERectMutable()
+        , target: ERectMutable = E.mrect()
     ): ERectMutable {
         target.set(this)
         target.left += left.f
@@ -320,7 +303,7 @@ open class ERect(
         return target
     }
 
-    fun padding(padding: EOffset, target: ERectMutable = ERectMutable()): ERectMutable =
+    fun padding(padding: EOffset, target: ERectMutable = E.mrect()): ERectMutable =
         padding(
             left = padding.left,
             top = padding.top,
@@ -330,10 +313,10 @@ open class ERect(
         )
 
     // TODO Make self version
-    fun scale(t: Tuple2, target: ERectMutable = ERectMutable()): ERectMutable =
+    fun scale(t: Tuple2, target: ERectMutable = E.mrect()): ERectMutable =
         scale(t.v1, t.v2, target)
 
-    fun scale(x: Number, y: Number, target: ERectMutable = ERectMutable()): ERectMutable {
+    fun scale(x: Number, y: Number, target: ERectMutable = E.mrect()): ERectMutable {
         target.x = this.x * x.f
         target.y = this.y * y.f
         target.width = this.width * x.f
@@ -342,7 +325,7 @@ open class ERect(
         return target
     }
 
-    fun scaleAnchor(factor: Number, anchor: EPoint, target: ERectMutable = ERectMutable()) =
+    fun scaleAnchor(factor: Number, anchor: EPoint, target: ERectMutable = E.mrect()) =
         scaleAnchor(factor, anchor.x, anchor.y, target)
 
 
@@ -350,7 +333,7 @@ open class ERect(
         factor: Number,
         anchorX: Number,
         anchorY: Number,
-        target: ERectMutable = ERectMutable()
+        target: ERectMutable = E.mrect()
     ) = scaleRelative(
         factor,
         pointAtAnchorX(anchorX),
@@ -362,14 +345,14 @@ open class ERect(
     fun scaleRelative(
         factor: Number,
         point: EPoint,
-        target: ERectMutable = ERectMutable()
+        target: ERectMutable = E.mrect()
     ) = scaleRelative(factor, point.x, point.y, target)
 
     fun scaleRelative(
         factor: Number,
         pointX: Number,
         pointY: Number,
-        target: ERectMutable = ERectMutable()
+        target: ERectMutable = E.mrect()
     ): ERectMutable {
         target.set(this)
 
@@ -385,10 +368,10 @@ open class ERect(
 
     fun toPointList(
         target: List<EPointMutable> = listOf(
-            EPointMutable(),
-            EPointMutable(),
-            EPointMutable(),
-            EPointMutable()
+            E.mpoint(),
+            E.mpoint(),
+            E.mpoint(),
+            E.mpoint()
         )
     ): List<EPointMutable> {
         require(target.size == 4) {
@@ -419,31 +402,11 @@ open class ERect(
         return target
     }
 
-    override fun equals(other: Any?): Boolean {
-        return (other as? ERect)?.let { other.origin == origin && other.size == size } ?: false
-    }
-
-
-    override fun toString(): String {
-        return "ERectMutable(origin=$origin, size=$size)"
-    }
-
-
 }
 
-class ERectMutable(
-    override var origin: EPointMutable = EPointMutable(),
-    override var size: ESizeMutable = ESizeMutable()
-) :
-    ERect(origin, size), Resetable {
-
-    // TODO Copy in ERect
-    constructor(other: ERect) : this(other.origin.copy(), other.size.copy())
-
-    constructor(x: Number = 0f, y: Number = 0f, width: Number, height: Number) : this(
-        x point y,
-        width size height
-    )
+interface ERectMutable : ERect, Resetable {
+    override var origin: EPointMutable
+    override var size: ESizeMutable
 
     override fun reset() {
         origin.reset(); size.reset()

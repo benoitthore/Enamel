@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.geometry.layout
 
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
+import com.benoitthore.enamel.geometry.e.E
 import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ESize
@@ -13,7 +14,7 @@ class ELayoutLeaf(var color: Int = 0, var child: ELayout? = null) : ELayoutAlong
         val unit = ELayoutLeaf(0)
     }
 
-    private val _frame: ERectMutable = ERectMutable()
+    private val _frame: ERectMutable = E.mrect()
     val frame: ERect = _frame
 
 

@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.geometry.alignement
 
+import com.benoitthore.enamel.geometry.e.E
 import com.benoitthore.enamel.geometry.primitives.EPoint
 
 /* UI TEST
@@ -18,11 +19,11 @@ PlaygroundApplet.start(800, 800) {
 
     }
  */
-private val spacingSignTop = EPoint(0, 1)
-private val spacingSignBottom = EPoint(0, -1)
-private val spacingSignLeft = EPoint(1, 0)
-private val spacingSignRight = EPoint(-1, 0)
-private val spacingSignCenter = EPoint(0, 0)
+private val spacingSignTop = E.point(0, 1)
+private val spacingSignBottom = E.point(0, -1)
+private val spacingSignLeft = E.point(1, 0)
+private val spacingSignRight = E.point(-1, 0)
+private val spacingSignCenter = E.point(0, 0)
 
 enum class EAlignment {
     topLeft,

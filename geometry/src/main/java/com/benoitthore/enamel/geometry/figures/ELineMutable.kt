@@ -4,6 +4,7 @@ import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
+import com.benoitthore.enamel.geometry.e.E
 import com.benoitthore.enamel.geometry.primitives.*
 
 
@@ -11,7 +12,7 @@ import com.benoitthore.enamel.geometry.primitives.*
 TODO Make mutable/immutable version
 TODO Make allocation free
  */
-open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EPoint.zero) {
+open class ELine(open val start: EPoint = E.Point.zero, open val end: EPoint = E.Point.zero) {
 
     private fun Float.opposite() = 1f - this
 
@@ -20,8 +21,8 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
     }
 
     companion object {
-        val unit = ELine(start = EPointMutable.zero, end = EPointMutable.unit)
-        val zero = ELine(start = EPointMutable.zero, end = EPointMutable.zero)
+        val unit = ELine(start = E.PointMutable.zero, end = E.PointMutable.unit)
+        val zero = ELine(start = E.PointMutable.zero, end = E.PointMutable.zero)
     }
 
     val length
@@ -54,17 +55,17 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
 
     @Allocates
     fun pointFrom(distance: Number, from: Float, target: EPointMutable): EPoint {
-        val opposite = pointAt(from.opposite(), target = EPointMutable())
-        return target.set(opposite.offsetFrom(pointAt(from, target = EPointMutable()), distance))
+        val opposite = pointAt(from.opposite(), target = E.mpoint())
+        return target.set(opposite.offsetFrom(pointAt(from, target = E.mpoint()), distance))
     }
 
     @Allocates
     fun pointTowards(distance: Number, towards: Float, target: EPointMutable) =
         target.set(
-            pointAt(towards.opposite(), target = EPointMutable()).offsetTowards(
+            pointAt(towards.opposite(), target = E.mpoint()).offsetTowards(
                 pointAt(
                     towards,
-                    target = EPointMutable()
+                    target = E.mpoint()
                 ), distance
             )
         )
@@ -85,7 +86,7 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
 
     fun rotate(
         offsetAngle: EAngleMutable,
-        around: EPoint = center(EPointMutable()),
+        around: EPoint = center(E.mpoint()),
         target: ELineMutable
     ): ELineMutable {
         start.rotateAround(offsetAngle, around, target = target.start)
@@ -122,7 +123,7 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
         towards: Float,
         target: EPointMutable
     ): EPoint {
-        val x = pointTowards(distanceTowardsEndPoint, towards, target = EPointMutable())
+        val x = pointTowards(distanceTowardsEndPoint, towards, target = E.mpoint())
         return target.set(x.offsetAngle(angle = angle(EAngleMutable()) - 90.degrees(), distance = distanceFromLine))
     }
 
@@ -212,8 +213,8 @@ open class ELine(open val start: EPoint = EPoint.zero, open val end: EPoint = EP
 }
 
 class ELineMutable(
-    override val start: EPointMutable = EPointMutable.zero,
-    override val end: EPointMutable = EPointMutable.zero
+    override val start: EPointMutable = E.PointMutable.zero,
+    override val end: EPointMutable = E.PointMutable.zero
 ) : ELine(start, end), Resetable {
 
     fun set(start: EPoint = this.start, end: EPoint = this.end) =
@@ -325,9 +326,9 @@ private fun getClosestPointOnSegment(
     val u = ((px - sx1) * xDelta + (py - sy1) * yDelta) / (xDelta * xDelta + yDelta * yDelta)
 
     return when {
-        u < 0 -> EPoint(sx1, sy1)
-        u > 1 -> EPoint(sx2, sy2)
-        else -> EPoint(Math.round(sx1 + u * xDelta), Math.round(sy1 + u * yDelta))
+        u < 0 -> E.point(sx1, sy1)
+        u > 1 -> E.point(sx2, sy2)
+        else -> E.point(Math.round(sx1 + u * xDelta), Math.round(sy1 + u * yDelta))
     }
 }
 
@@ -366,12 +367,12 @@ val List<ELine>.length: Float get() = sumByDouble { it.length.toDouble() }.toFlo
 operator fun ELine.component1() = start
 operator fun ELine.component2() = end
 
-fun List<EPoint>.pointAtFraction(fraction: Number, target: EPointMutable = EPointMutable()) =
+fun List<EPoint>.pointAtFraction(fraction: Number, target: EPointMutable = E.mpoint()) =
     pointAtDistance(fraction.toFloat() * length, target)
 
 fun List<EPoint>.pointAtDistance(
     distance: Number,
-    target: EPointMutable = EPointMutable()
+    target: EPointMutable = E.mpoint()
 ): EPointMutable {
     var last: EPoint? = null
     val distance = distance.toFloat()

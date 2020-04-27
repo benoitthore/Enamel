@@ -4,13 +4,9 @@ import com.benoitthore.enamel.core.math.Scale
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.EPoint
 
-open class EPolygonType(open val points: List<EPoint>) {
+open class EPolygonType(open val points: List<EPoint>)
 
-}
-
-class EPolygon(override val points: List<EPointMutable>) : EPolygonType(points) {
-
-}
+class EPolygon(override val points: List<EPointMutable>) : EPolygonType(points)
 
 fun <P : EPointMutable> List<P>.fit(rect: ERect): List<P> = fit(rect.size).apply { forEach { it.selfOffset(rect.origin) } }
 
