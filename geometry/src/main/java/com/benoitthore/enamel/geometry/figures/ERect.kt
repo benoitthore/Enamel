@@ -516,12 +516,12 @@ interface ERectMutable : ERect, Resetable {
         }
 
     var center: EPoint
-        @Deprecated("User center() instead", level = DeprecationLevel.WARNING)
-        get() = center()
         set(value) {
             origin.x = value.x - width / 2
             origin.y = value.y - height / 2
         }
+        @Deprecated("User center() instead", level = DeprecationLevel.WARNING)
+        get() = center()
 
 
     //////

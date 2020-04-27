@@ -8,11 +8,14 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnLayout
 import com.benoitthore.enamel.R
 import com.benoitthore.enamel.core.color
 import com.benoitthore.enamel.core.math.*
+import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.size
+import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.outterCircle
 import com.benoitthore.enamel.layout.android.EFrameView
 import com.benoitthore.enamel.layout.android.extract.singleTouch
@@ -64,55 +67,54 @@ class TestView @JvmOverloads constructor(
         progress
     }
 
-    private val et1: RectVisualEntity
-    private val et2: CircleVisualEntity
+    private val ve1: RectVisualEntity = RectVisualEntity()
 
     init {
-        val rect = E.rect(size = 100.dp size 100.dp)
-        val diagonal = rect.diagonalTLBR()
+        doOnLayout {
+            frame.rectAlignedInside(center, 100.dp size 100.dp, target = ve1)
 
-        et1 = RectVisualEntity(
-            EStyle(fill = Mesh(shader = diagonal.toLinearGradient(colors = listOf(RED, YELLOW)))),
-            rect
-        )
+            ve1.style = ve1.style.copy(
+                fill = Mesh(shader = ve1.innerCircle().toRadialGradient(RED, YELLOW))
+            )
 
-        et2 = CircleVisualEntity(
-            et1.style.copy()
-        ) {
-            et1.rect.outterCircle(this)
-        }
-
-        singleTouch { _, current, _ ->
-
-            if (current != null) {
-                // Move rect to finger
-                et1.transformation.translation.set(current)
-                // Move circle under rect
-                et2.circle.set(center = current)
-                et2.circle.selfOffset(0, et1.rect.height)
+            singleTouch { isDown, current, previous ->
+                if (current != null) {
+                    ve1.center = current
+                    invalidate()
+                }
+                true
             }
-            invalidate()
-            true
         }
     }
 
-
-    private val paint = Paint().apply {
-        color = Color.RED
-    }
-
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        super.onLayout(changed, l, t, r, b)
-    }
-
-    private val bufferPoint = E.mpoint()
-    private val bufferCircle = E.mcircle()
-
-
-    var i = 0
     override fun onDraw(canvas: Canvas) {
         canvas.drawColor(0xcccccc.color)
-        et1.draw(canvas)
-        et2.draw(canvas)
+        ve1.draw(canvas)
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

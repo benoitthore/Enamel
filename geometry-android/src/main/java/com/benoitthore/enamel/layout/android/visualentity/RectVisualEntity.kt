@@ -6,7 +6,8 @@ import com.benoitthore.enamel.geometry.figures.*
 import com.benoitthore.enamel.layout.android.extract.draw
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 
-class RectVisualEntity(style: EStyle, rect: ERect = E.rect()) : BaseVisualEntity() {
+class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.rect()) : BaseVisualEntity(),
+    ERectMutable by rect.toMutable() {
 
     constructor(style: EStyle, builder: ERectMutable.() -> Unit) :
             this(style, E.mrect().apply(builder))
@@ -14,28 +15,18 @@ class RectVisualEntity(style: EStyle, rect: ERect = E.rect()) : BaseVisualEntity
     init {
         this.style = style
     }
-    val rect: ERectMutable = rect.toMutable()
-
-    var rx: Float = 0f
-    var ry: Float = 0f
-
-    fun setCornerRadius(n: Number) {
-        val n = n.toFloat()
-        rx = n
-        ry = n
-    }
 
     override fun onDraw(canvas: Canvas) {
         if (style.border != null) {
-            canvas.draw(rect, rx, ry, drawer.borderPaint)
+            canvas.draw(this, drawer.borderPaint)
         }
         if (style.fill != null) {
-            canvas.draw(rect, rx, ry, drawer.fillPaint)
+            canvas.draw(this, drawer.fillPaint)
         }
     }
 
     override val intrinsicSize: ESize
-        get() = rect.size
+        get() = size
 }
 
 
