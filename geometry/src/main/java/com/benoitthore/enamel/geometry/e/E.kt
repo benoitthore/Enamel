@@ -14,64 +14,13 @@ object E {
 
     // TODO Extract to get rid of Anonymous classes
     // PRIMARY CONSTRUCTORS
-    fun mpoint(x: Number = 0, y: Number = 0) = object : EPointMutable {
-        override var x: Float = x.toFloat()
-        override var y: Float = y.toFloat()
-
-        init {
-            allocateDebugMessage()
-        }
-
-        override fun toString(): String {
-            return "point($x ; $y)"
-        }
-
-        override fun equals(other: Any?): Boolean =
-            (other as? EPoint)?.let { it.x == x && it.y == y } ?: false
-
-        override fun hashCode(): Int {
-            var result = x.hashCode()
-            result = 31 * result + y.hashCode()
-            return result
-        }
-    }
+    fun mpoint(x: Number = 0, y: Number = 0): EPointMutable = EPointMutable.Impl(x, y)
 
     fun mcircle(center: EPoint = mpoint(), radius: Number = 0f): ECircleMutable =
-        object : ECircleMutable {
-            init {
-                allocateDebugMessage()
-            }
+        ECircleMutable.Impl(center, radius)
 
-            override val center: EPointMutable = center.copy()
-            override var radius: Float = radius.toFloat()
-
-            override fun equals(other: Any?): Boolean =
-                (other as? ECircleMutable)?.let { other.center == this.center && other.radius == this.radius }
-                    ?: false
-
-        }
-
-    fun msize(width: Number = 0, height: Number = 0): ESizeMutable = object : ESizeMutable {
-        init {
-            allocateDebugMessage()
-        }
-
-        override var width: Float = width.toFloat()
-        override var height: Float = height.toFloat()
-
-        override fun equals(other: Any?): Boolean =
-            (other as? ESize)?.let { it.width == this.width && it.height == this.height } ?: false
-
-        override fun toString(): String {
-            return "size(width=$width, height=$height)"
-        }
-
-        override fun hashCode(): Int {
-            var result = width.hashCode()
-            result = 31 * result + height.hashCode()
-            return result
-        }
-    }
+    fun msize(width: Number = 0, height: Number = 0): ESizeMutable =
+        ESizeMutable.Impl(width, height)
 
     fun mrect(origin: EPointMutable = mpoint(), size: ESizeMutable = msize()): ERectMutable =
         object : ERectMutable {
@@ -83,13 +32,8 @@ object E {
             override var size: ESizeMutable = E.msize(size)
         }
 
-    // TODO Carry on with angle
-    fun mangle(value: Number, type: AngleType) = object : EAngleMutable {
-        override var value: Float = value.toFloat()
-        override var type: AngleType = type
-    }
-
-//    fun mangle(value: Number = 0f, type: AngleType = AngleType.DEGREE) =
+    fun mangle(value: Number = 0f, type: AngleType = AngleType.RADIAN): EAngleMutable =
+        EAngleMutable.Impl(value, type)
 
     // POINT
     fun point(x: Number = 0, y: Number = 0): EPoint =
@@ -137,7 +81,8 @@ object E {
     fun mrect(other: ERect): ERectMutable = mrect(other.origin.toMutable(), other.size.toMutable())
 
     // ANGLE
-    fun angle(value: Number, type: AngleType) = mangle(value, type).toMutable()
+    fun angle(value: Number = 0f, type: AngleType = AngleType.RADIAN): EAngle =
+        mangle(value, type).toMutable()
 
     object Point {
         val inv = point(-1f, -1f)

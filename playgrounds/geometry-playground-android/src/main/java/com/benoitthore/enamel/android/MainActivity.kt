@@ -3,9 +3,8 @@ package com.benoitthore.enamel.android
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Canvas
+import android.graphics.*
 import android.graphics.Color.*
-import android.graphics.Path
 import android.os.Bundle
 import android.util.AttributeSet
 import android.widget.SeekBar
@@ -13,8 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.benoitthore.enamel.R
 import com.benoitthore.enamel.core.color
 import com.benoitthore.enamel.core.math.*
+import com.benoitthore.enamel.core.randomColor
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.figures.size
@@ -26,10 +27,14 @@ import com.benoitthore.enamel.geometry.layout.dsl.tracked
 import com.benoitthore.enamel.geometry.layout.emptyLayout
 import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
 import com.benoitthore.enamel.geometry.outterCircle
+import com.benoitthore.enamel.geometry.outterRect
+import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.toCircle
 import com.benoitthore.enamel.layout.android.EFrameView
 import com.benoitthore.enamel.layout.android.extract.singleTouch
 import com.benoitthore.enamel.layout.android.visualentity.*
 import com.benoitthore.enamel.layout.android.visualentity.style.*
+import com.benoitthore.enamel.layout.android.extract.*
 
 inline val Number.dp get() = toFloat() * Resources.getSystem().displayMetrics.density
 
@@ -94,7 +99,7 @@ class TestView @JvmOverloads constructor(
             et1.rect.outterCircle(this)
         }
 
-        singleTouch { isDown, current, previous ->
+        singleTouch { _, current, _ ->
 
             if (current != null) {
                 // Move rect to finger
@@ -109,6 +114,19 @@ class TestView @JvmOverloads constructor(
     }
 
 
+    private val paint = Paint().apply {
+        color = Color.RED
+    }
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+    }
+
+    private val bufferPoint = E.mpoint()
+    private val bufferCircle = E.mcircle()
+
+
+    var i = 0
     override fun onDraw(canvas: Canvas) {
         canvas.drawColor(0xcccccc.color)
         et1.draw(canvas)

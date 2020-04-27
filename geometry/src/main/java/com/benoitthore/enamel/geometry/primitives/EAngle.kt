@@ -3,6 +3,7 @@ package com.benoitthore.enamel.geometry.primitives
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.Resetable
+import com.benoitthore.enamel.geometry.e.E
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
@@ -52,12 +53,12 @@ interface EAngle {
 
     operator fun unaryMinus(): EAngleMutable = inverse()
 
-    fun inverse(target: EAngleMutable = EAngleMutable()): EAngleMutable {
+    fun inverse(target: EAngleMutable = E.mangle()): EAngleMutable {
         val opposite = value.degrees(target)
         return opposite.set(-value, type)
     }
 
-    fun offset(other: EAngle, target: EAngleMutable = EAngleMutable()) = target.apply {
+    fun offset(other: EAngle, target: EAngleMutable = E.mangle()) = target.apply {
         val increment = when (type) {
 
             AngleType.DEGREE -> other.degrees
@@ -69,25 +70,25 @@ interface EAngle {
     }
 
     operator fun plus(other: EAngleMutable): EAngleMutable =
-        EAngleMutable(
+        E.mangle(
             radians + other.radians,
             AngleType.RADIAN
         )
 
     operator fun minus(other: EAngleMutable): EAngleMutable =
-        EAngleMutable(
+        E.mangle(
             radians - other.radians,
             AngleType.RADIAN
         )
 
     operator fun times(n: Number): EAngleMutable =
-        EAngleMutable(
+        E.mangle(
             radians * n.f,
             AngleType.RADIAN
         )
 
     operator fun div(n: Number): EAngleMutable =
-        EAngleMutable(
+        E.mangle(
             radians / n.f,
             AngleType.RADIAN
         )
@@ -95,13 +96,18 @@ interface EAngle {
     operator fun compareTo(angle: EAngleMutable): Int =
         ((rotations - angle.rotations) * 100).toInt()
 
-    fun toMutable(): EAngleMutable = EAngleMutable(value, type)
-    fun toImmutable(): EAngle = EAngle(value, type)
+    fun toMutable(): EAngleMutable = E.mangle(value, type)
+    fun toImmutable(): EAngle = E.angle(value, type)
 
 //    operator fun Number.times(angle: EAngleMutable): EAngleMutable = angle * this
 }
 
 interface EAngleMutable : EAngle, Resetable {
+
+    class Impl(value: Number, override var type: AngleType) : EAngleMutable {
+        override var value: Float = value.toFloat()
+    }
+
     override var value: Float
     override var type: AngleType
 
@@ -125,19 +131,19 @@ interface EAngleMutable : EAngle, Resetable {
 
 }
 
-fun Number.degrees(target: EAngleMutable = EAngleMutable()): EAngleMutable =
+fun Number.degrees(target: EAngleMutable = E.mangle()): EAngleMutable =
     target.set(
         this.f,
         AngleType.DEGREE
     )
 
-fun Number.radians(target: EAngleMutable = EAngleMutable()): EAngleMutable =
+fun Number.radians(target: EAngleMutable = E.mangle()): EAngleMutable =
     target.set(
         this.f,
         AngleType.RADIAN
     )
 
-fun Number.rotations(target: EAngleMutable = EAngleMutable()): EAngleMutable =
+fun Number.rotations(target: EAngleMutable = E.mangle()): EAngleMutable =
     target.set(
         this.f,
         AngleType.ROTATION

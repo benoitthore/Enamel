@@ -48,7 +48,7 @@ fun CirclePool(size: Int = 50) =
 
 fun LinePool(size: Int = 50) = EPool(size) { ELineMutable() }
 fun AnglePool(size: Int = 50) =
-    EPool(size) { EAngleMutable() }
+    EPool(size) { E.mangle() }
 
 class GeometryPool(
     val rect: EPool<ERectMutable> = RectPool(50),

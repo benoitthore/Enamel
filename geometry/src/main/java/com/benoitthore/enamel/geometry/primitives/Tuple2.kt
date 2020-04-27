@@ -5,7 +5,7 @@ import com.benoitthore.enamel.geometry.figures.ESizeMutable
 import com.benoitthore.enamel.geometry.figures.ESize
 
 /**
- * This file is used to facilitate development of HIGHER LEVEL APIs, it doesn't care about allocations
+ * This file is used to facilitate development but allocates a new Tuple every time a function is called
  */
 
 interface Tuple2 {

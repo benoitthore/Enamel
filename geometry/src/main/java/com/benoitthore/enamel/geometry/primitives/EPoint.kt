@@ -4,6 +4,7 @@ import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.Resetable
+import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.e.E
 import kotlin.math.*
@@ -21,17 +22,17 @@ interface EPoint : Tuple2 {
     fun copy(x: Number = this.x, y: Number = this.y, target: EPointMutable = E.mpoint()) =
         target.set(x, y)
 
-    open val magnitude: Number
+    val magnitude: Number
         get() = hypot(x.d, y.d)
 
-    fun heading(target: EAngleMutable = EAngleMutable()) =
+    fun heading(target: EAngleMutable = E.mangle()) =
         target.set(atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
 
-    fun angleTo(x: Number, y: Number, target: EAngleMutable = EAngleMutable()): EAngleMutable =
+    fun angleTo(x: Number, y: Number, target: EAngleMutable = E.mangle()): EAngleMutable =
         _angleTo(x, y).radians(target)
 
 
-    fun angleTo(point: EPoint, target: EAngleMutable = EAngleMutable()): EAngleMutable =
+    fun angleTo(point: EPoint, target: EAngleMutable = E.mangle()): EAngleMutable =
         angleTo(point.x, point.y, target)
 
     fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)
@@ -155,6 +156,28 @@ interface EPoint : Tuple2 {
 }
 
 interface EPointMutable : EPoint, Resetable {
+    class Impl(x: Number, y: Number) : EPointMutable {
+        override var x: Float = x.toFloat()
+        override var y: Float = y.toFloat()
+
+        init {
+            allocateDebugMessage()
+        }
+
+        override fun toString(): String {
+            return "point($x ; $y)"
+        }
+
+        override fun equals(other: Any?): Boolean =
+            (other as? EPoint)?.let { it.x == x && it.y == y } ?: false
+
+        override fun hashCode(): Int {
+            var result = x.hashCode()
+            result = 31 * result + y.hashCode()
+            return result
+        }
+    }
+
     override var x: Float
     override var y: Float
 

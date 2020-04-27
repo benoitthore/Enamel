@@ -74,7 +74,7 @@ interface ECircle {
 
     fun toListOfPoint(
         numberOfPoint: Int,
-        startAt: EAngleMutable? = null,
+        startAt: EAngle? = null,
         distanceList: List<Number>? = null
     ) =
         toListOfPoint(
@@ -144,7 +144,39 @@ interface ECircle {
 
 }
 
-interface ECircleMutable:   ECircle, Resetable {
+interface ECircleMutable : ECircle, Resetable {
+    class Impl(center: EPoint, radius: Number) : ECircleMutable {
+        init {
+            allocateDebugMessage()
+        }
+
+        override val center: EPointMutable = center.copy()
+        override var radius: Float = radius.toFloat()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+
+            if (other !is Impl) return false
+
+            if (center != other.center) return false
+            if (radius != other.radius) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = center.hashCode()
+            result = 31 * result + radius.hashCode()
+            return result
+        }
+
+        override fun toString(): String {
+            return "Circle(center=$center, radius=$radius)"
+        }
+
+
+    }
+
     override val center: EPointMutable
     override var radius: Float
 

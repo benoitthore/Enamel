@@ -71,6 +71,12 @@ interface ESize : Tuple2 {
 }
 
 interface ESizeMutable : ESize, Resetable {
+
+    class Impl(width: Number, height: Number) : ESizeMutable {
+        override var width: Float = width.toFloat()
+        override var height: Float = height.toFloat()
+    }
+
     override var width: Float
     override var height: Float
 

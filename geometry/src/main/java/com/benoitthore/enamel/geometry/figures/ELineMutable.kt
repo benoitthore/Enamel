@@ -21,8 +21,8 @@ open class ELine(open val start: EPoint = E.Point.zero, open val end: EPoint = E
     }
 
     companion object {
-        val unit = ELine(start = E.PointMutable.zero, end = E.PointMutable.unit)
-        val zero = ELine(start = E.PointMutable.zero, end = E.PointMutable.zero)
+        val unit = ELine(start = E.PointMutable.zero(), end = E.PointMutable.unit())
+        val zero = ELine(start = E.PointMutable.zero(), end = E.PointMutable.zero())
     }
 
     val length
@@ -124,7 +124,7 @@ open class ELine(open val start: EPoint = E.Point.zero, open val end: EPoint = E
         target: EPointMutable
     ): EPoint {
         val x = pointTowards(distanceTowardsEndPoint, towards, target = E.mpoint())
-        return target.set(x.offsetAngle(angle = angle(EAngleMutable()) - 90.degrees(), distance = distanceFromLine))
+        return target.set(x.offsetAngle(angle = angle(E.mangle()) - 90.degrees(), distance = distanceFromLine))
     }
 
     fun perpendicularPointRight(
@@ -213,8 +213,8 @@ open class ELine(open val start: EPoint = E.Point.zero, open val end: EPoint = E
 }
 
 class ELineMutable(
-    override val start: EPointMutable = E.PointMutable.zero,
-    override val end: EPointMutable = E.PointMutable.zero
+    override val start: EPointMutable = E.PointMutable.zero(),
+    override val end: EPointMutable = E.PointMutable.zero()
 ) : ELine(start, end), Resetable {
 
     fun set(start: EPoint = this.start, end: EPoint = this.end) =
