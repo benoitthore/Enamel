@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.geometry.layout
 
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.figures.minus
@@ -8,7 +9,7 @@ import com.benoitthore.enamel.geometry.primitives.plus
 import com.benoitthore.enamel.geometry.primitives.sub
 
 
-class EPaddingLayout(child: ELayout = ELayoutLeaf.unit, var padding: EOffset = EOffset.zero) : ELayout {
+class EPaddingLayout(child: ELayout = ELayoutLeaf.unit, var padding: EOffset = E.Offset.zero) : ELayout {
 
     var child: ELayout = child
         set(value) {

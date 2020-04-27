@@ -1,6 +1,5 @@
 package com.benoitthore.enamel.android
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
@@ -12,28 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.benoitthore.enamel.R
 import com.benoitthore.enamel.core.color
 import com.benoitthore.enamel.core.math.*
-import com.benoitthore.enamel.core.randomColor
-import com.benoitthore.enamel.geometry.alignement.EAlignment
-import com.benoitthore.enamel.geometry.e.E
-import com.benoitthore.enamel.geometry.figures.ECircle
-import com.benoitthore.enamel.geometry.figures.ERect
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.size
-import com.benoitthore.enamel.geometry.innerCircle
-import com.benoitthore.enamel.geometry.layout.EEmptyLayout
-import com.benoitthore.enamel.geometry.layout.ELayout
-import com.benoitthore.enamel.geometry.layout.dsl.arranged
-import com.benoitthore.enamel.geometry.layout.dsl.tracked
-import com.benoitthore.enamel.geometry.layout.emptyLayout
-import com.benoitthore.enamel.geometry.layout.refs.getAllChildren
 import com.benoitthore.enamel.geometry.outterCircle
-import com.benoitthore.enamel.geometry.outterRect
-import com.benoitthore.enamel.geometry.primitives.EPoint
-import com.benoitthore.enamel.geometry.toCircle
 import com.benoitthore.enamel.layout.android.EFrameView
 import com.benoitthore.enamel.layout.android.extract.singleTouch
 import com.benoitthore.enamel.layout.android.visualentity.*
 import com.benoitthore.enamel.layout.android.visualentity.style.*
-import com.benoitthore.enamel.layout.android.extract.*
 
 inline val Number.dp get() = toFloat() * Resources.getSystem().displayMetrics.density
 

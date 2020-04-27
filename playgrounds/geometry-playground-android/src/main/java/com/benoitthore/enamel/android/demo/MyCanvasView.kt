@@ -10,8 +10,7 @@ import com.benoitthore.enamel.android.dp
 import com.benoitthore.enamel.layout.android.extract.*
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.math.i
-import com.benoitthore.enamel.geometry.e.E
-import com.benoitthore.enamel.geometry.figures.ERectMutable
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.innerCircle
 

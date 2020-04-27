@@ -1,8 +1,7 @@
 package com.benoitthore.enamel.geometry.alignement
 
 import com.benoitthore.enamel.geometry.allocate
-import com.benoitthore.enamel.geometry.e.E
-import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.builders.E
 
 
 class NamedPoint {

@@ -2,7 +2,7 @@ package com.benoitthore.enamel.geometry.figures
 
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.alignement.isVertical
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.times
 import kotlin.math.max
 import kotlin.math.min

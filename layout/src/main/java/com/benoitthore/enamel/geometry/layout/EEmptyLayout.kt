@@ -1,6 +1,6 @@
 package com.benoitthore.enamel.geometry.layout
 
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ESize
 

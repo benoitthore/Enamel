@@ -3,7 +3,7 @@ package com.benoitthore.enamel.geometry.figures
 import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.*
 
 // TODO Refactor so it follows the same model as in Point, Rect and Size for mutablility
@@ -145,12 +145,13 @@ interface ECircle {
 }
 
 interface ECircleMutable : ECircle, Resetable {
-    class Impl(center: EPoint, radius: Number) : ECircleMutable {
+    class Impl internal constructor(centerX: Number, centerY: Number, radius: Number) :
+        ECircleMutable {
         init {
             allocateDebugMessage()
         }
 
-        override val center: EPointMutable = center.copy()
+        override val center: EPointMutable = E.mpoint(centerX, centerY)
         override var radius: Float = radius.toFloat()
 
         override fun equals(other: Any?): Boolean {

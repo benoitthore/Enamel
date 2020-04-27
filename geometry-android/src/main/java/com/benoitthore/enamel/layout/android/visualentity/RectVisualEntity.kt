@@ -1,8 +1,7 @@
 package com.benoitthore.enamel.layout.android.visualentity
 
 import android.graphics.Canvas
-import android.graphics.ColorFilter
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.*
 import com.benoitthore.enamel.layout.android.extract.draw
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle

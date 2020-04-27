@@ -3,7 +3,7 @@ package com.benoitthore.enamel.geometry.layout
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.EAlignment.bottomLeft
 import com.benoitthore.enamel.geometry.alignement.EAlignment.rightCenter
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.layout.dsl.snugged

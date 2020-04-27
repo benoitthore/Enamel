@@ -1,6 +1,6 @@
 package com.benoitthore.enamel.geometry.primitives
 
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 
 interface ETransformation {
     val rotation: EAngleMutable

@@ -1,7 +1,6 @@
 package com.benoitthore.enamel.geometry.primitives
 
-import com.benoitthore.enamel.geometry.e.E
-import com.benoitthore.enamel.geometry.figures.ESizeMutable
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.ESize
 
 /**

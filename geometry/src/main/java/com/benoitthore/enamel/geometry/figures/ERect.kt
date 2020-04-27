@@ -4,8 +4,7 @@ import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.geometry.allocateDebugMessage
-import com.benoitthore.enamel.geometry.e.E
-import com.benoitthore.enamel.geometry.e.rectAnchorPos
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.*
 
 interface ERect {
@@ -184,7 +183,7 @@ interface ERect {
 
         target.size.set(size)
 
-        return E.rectAnchorPos(
+        return E.mrectAnchorPos(
             anchor = anchor,
             position = position,
             size = target.size,
@@ -210,7 +209,7 @@ interface ERect {
 
         target.size.set(size)
 
-        return E.rectAnchorPos(
+        return E.mrectAnchorPos(
             anchor = anchor,
             position = position,
             size = target.size,
@@ -405,8 +404,17 @@ interface ERect {
 }
 
 interface ERectMutable : ERect, Resetable {
-    override var origin: EPointMutable
-    override var size: ESizeMutable
+    override val origin: EPointMutable
+    override val size: ESizeMutable
+
+    class Impl internal constructor(x: Number, y: Number, width: Number, height: Number) : ERectMutable {
+        init {
+            allocateDebugMessage()
+        }
+
+        override val origin: EPointMutable = E.mpoint(x, y)
+        override val size: ESizeMutable = E.msize(width, height)
+    }
 
     override fun reset() {
         origin.reset(); size.reset()

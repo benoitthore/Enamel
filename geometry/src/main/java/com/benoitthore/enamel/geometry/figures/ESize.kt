@@ -1,12 +1,9 @@
 package com.benoitthore.enamel.geometry.figures
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.core.math.random as _random
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.geometry.Resetable
-import com.benoitthore.enamel.geometry.allocateDebugMessage
-import com.benoitthore.enamel.geometry.allocate
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import kotlin.math.*
 
@@ -72,7 +69,7 @@ interface ESize : Tuple2 {
 
 interface ESizeMutable : ESize, Resetable {
 
-    class Impl(width: Number, height: Number) : ESizeMutable {
+    class Impl internal constructor(width: Number, height: Number) : ESizeMutable {
         override var width: Float = width.toFloat()
         override var height: Float = height.toFloat()
     }

@@ -1,13 +1,10 @@
 package com.benoitthore.enamel.geometry.figures
 
 import com.benoitthore.enamel.core.math.constrain
-import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.alignement.ERectEdge
-import com.benoitthore.enamel.geometry.e.E
-import com.benoitthore.enamel.geometry.e.rectSides
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.EOffset
-import com.benoitthore.enamel.geometry.primitives.EPoint
 
 fun ERect.dividedFraction(
     fraction: Number,
@@ -90,7 +87,7 @@ fun List<ERect>.union(target: ERectMutable = E.mrect()): ERectMutable {
             bottom = it.bottom
         }
     }
-    return E.rectSides(
+    return E.mrectSides(
         top = top,
         left = left,
         right = right,

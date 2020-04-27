@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.layout.android.extract
 
 import com.benoitthore.enamel.core.LazyList
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.*
 import com.benoitthore.enamel.geometry.primitives.*
 

@@ -1,18 +1,24 @@
 package com.benoitthore.enamel.geometry.primitives
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.allocateDebugMessage
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.ELineMutable
 
-//TODO Make this an interface that's implemented by ELine
-data class ELinearFunction(val slope: Float = 1f, val yIntercept: Float = 0f) {
+interface ELinearFunction {
 
-    inline val a
-        get() = slope
-    inline val b
-        get() = yIntercept
+    class Impl internal constructor(override val slope: Float, override val yIntercept: Float) :
+        ELinearFunction {
+        init {
+            allocateDebugMessage()
+        }
+    }
 
-    constructor(slope: Number = 1f, yIntercept: Number = 0f) : this(slope.f, yIntercept.f)
+    val slope: Float
+    val yIntercept: Float
+
+    val a get() = slope
+    val b get() = yIntercept
 
     operator fun get(x: Number) = get(x.f)
     operator fun get(x: Float) = a * x + b

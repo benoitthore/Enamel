@@ -4,17 +4,16 @@ import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.*
 
 
 /*
 TODO Make allocation free
  */
-interface ELine {
+interface ELine : ELinearFunction {
     val start: EPoint
     val end: EPoint
-    private fun Float.opposite() = 1f - this
 
     val length
         get() = start.distanceTo(end).f
@@ -31,15 +30,11 @@ interface ELine {
 
     private val angleRadians get() = start._angleTo(end.x, end.y)
 
-    @Allocates
-    val linearFunction: ELinearFunction
-        get() = run {
-            val a = (end.y - start.y) / (end.x - start.x)
-            // y = ax + b
-            // So -> b  = y - ax
-            val b = start.y - a * start.x
-            ELinearFunction(a, b)
-        }
+    override val slope: Float
+        get() = (end.y - start.y) / (end.x - start.x)
+
+    override val yIntercept: Float
+        get() = start.y - a * start.x
 
     fun pointAt(at: Float, target: EPointMutable): EPointMutable =
         start.offsetTowards(end, length * at, target = target)
@@ -201,11 +196,22 @@ interface ELine {
         return target
     }
 
+
+    private fun Float.opposite() = 1f - this
 }
 
 interface ELineMutable : ELine, Resetable {
 
-    class Impl(x1: Number = 0, y1: Number = 0, x2: Number = 0, y2: Number = 0) : ELineMutable {
+    class Impl internal constructor(
+        x1: Number = 0,
+        y1: Number = 0,
+        x2: Number = 0,
+        y2: Number = 0
+    ) : ELineMutable {
+        init {
+            allocateDebugMessage()
+        }
+
         override val start: EPointMutable = E.mpoint(x1, y1)
         override val end: EPointMutable = E.mpoint(x2, y2)
     }
@@ -259,7 +265,7 @@ fun List<EPoint>.toListOfLines(): List<ELine> {
     forEachIndexed { i, curr ->
         if (i > 1) {
             val prev = get(i - 1)
-            ret.add(E.line(prev , curr))
+            ret.add(E.line(prev, curr))
         }
     }
     return ret

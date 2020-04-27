@@ -2,7 +2,7 @@ package com.benoitthore.enamel.layout.android.extract
 
 import android.view.MotionEvent
 import android.view.View
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.EPointMutable

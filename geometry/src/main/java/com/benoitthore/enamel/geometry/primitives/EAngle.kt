@@ -3,7 +3,7 @@ package com.benoitthore.enamel.geometry.primitives
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.Resetable
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
@@ -104,7 +104,7 @@ interface EAngle {
 
 interface EAngleMutable : EAngle, Resetable {
 
-    class Impl(value: Number, override var type: AngleType) : EAngleMutable {
+    class Impl internal constructor(value: Number, override var type: AngleType) : EAngleMutable {
         override var value: Float = value.toFloat()
     }
 

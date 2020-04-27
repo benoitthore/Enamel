@@ -6,7 +6,7 @@ import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.figures.ECircle
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 import kotlin.math.*
 
 interface EPoint : Tuple2 {
@@ -156,7 +156,7 @@ interface EPoint : Tuple2 {
 }
 
 interface EPointMutable : EPoint, Resetable {
-    class Impl(x: Number, y: Number) : EPointMutable {
+    class Impl internal constructor(x: Number, y: Number) : EPointMutable {
         override var x: Float = x.toFloat()
         override var y: Float = y.toFloat()
 

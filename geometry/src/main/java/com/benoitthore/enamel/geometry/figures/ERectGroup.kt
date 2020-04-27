@@ -5,7 +5,7 @@ import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.allocate
 import com.benoitthore.enamel.geometry.primitives.EOffset
 import com.benoitthore.enamel.geometry.primitives.EPoint
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 
 class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? = null) :
     Iterable<ERect> by _rects {
@@ -59,7 +59,7 @@ fun List<ESize>.rectGroup(
     alignment: EAlignment,
     anchor: EPoint = E.Point.zero,
     position: EPoint = E.Point.zero,
-    padding: EOffset = EOffset.zero,
+    padding: EOffset = E.Offset.zero,
     spacing: Number = 0
 ): ERectGroup {
 
@@ -88,7 +88,7 @@ fun List<ESize>.rectGroupJustified(
     toFit: Number,
     anchor: EPoint = E.Point.zero,
     position: EPoint = E.Point.zero,
-    padding: EOffset = EOffset.zero
+    padding: EOffset = E.Offset.zero
 ): ERectGroup {
     val pack = rectGroup(alignment)
     val packedSpace = if (alignment.isHorizontal) pack.size.width else pack.size.height
@@ -108,7 +108,7 @@ fun List<Number>.rectGroupWeights(
     toFit: ESize,
     anchor: EPoint = E.Point.zero,
     position: EPoint = E.Point.zero,
-    padding: EOffset = EOffset.zero,
+    padding: EOffset = E.Offset.zero,
     spacing: Number = 0
 ): ERectGroup {
 

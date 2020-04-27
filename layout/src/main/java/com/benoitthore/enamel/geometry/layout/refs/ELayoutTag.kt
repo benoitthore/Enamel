@@ -1,8 +1,7 @@
 package com.benoitthore.enamel.geometry.layout.refs
 
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.layout.ELayout
 

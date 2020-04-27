@@ -1,6 +1,6 @@
 package com.benoitthore.enamel.geometry.alignement
 
-import com.benoitthore.enamel.geometry.e.E
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.EPoint
 
 /* UI TEST
