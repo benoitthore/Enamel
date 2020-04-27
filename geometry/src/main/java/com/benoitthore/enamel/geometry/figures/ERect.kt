@@ -15,9 +15,6 @@ Immutable doesn't have any function requiring a target, but:
 - Only toImmutable() allocates without providing a target
 - Only toMutable() requires a target
 
-Create the API without default arguments for target in order to make sure no allocation is done by the library itself, then the user can decide
-
-
  */
 open class ERect(
     open val origin: EPoint = EPoint(),

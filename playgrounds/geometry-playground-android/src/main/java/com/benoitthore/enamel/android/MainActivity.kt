@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Color.*
+import android.graphics.Path
 import android.os.Bundle
 import android.util.AttributeSet
 import android.widget.SeekBar
@@ -74,11 +75,8 @@ class TestView @JvmOverloads constructor(
         progress
     }
 
-    private val layouts = mutableListOf<VisualEntity>()
-
     private val et1: RectVisualEntity
     private val et2: CircleVisualEntity
-
 
     init {
         val rect = ERect(size = 100.dp size 100.dp)
