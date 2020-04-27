@@ -46,7 +46,7 @@ fun PointPool(size: Int = 50) =
 fun CirclePool(size: Int = 50) =
     EPool(size) { E.mcircle() }
 
-fun LinePool(size: Int = 50) = EPool(size) { ELineMutable() }
+fun LinePool(size: Int = 50) = EPool(size) { E.mline() }
 fun AnglePool(size: Int = 50) =
     EPool(size) { E.mangle() }
 

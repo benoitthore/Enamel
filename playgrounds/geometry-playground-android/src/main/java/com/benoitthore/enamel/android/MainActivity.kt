@@ -17,7 +17,6 @@ import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.e.E
 import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.figures.size
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.layout.EEmptyLayout

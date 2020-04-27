@@ -387,7 +387,7 @@ interface ERect {
     /***
      * @return the diagonal going from top right to bottom left
      */
-    fun diagonalTRBL(target: ELineMutable = ELineMutable()): ELine {
+    fun diagonalTRBL(target: ELineMutable = E.mline()): ELine {
         topRight(target.start)
         bottomLeft(target.end)
         return target
@@ -396,7 +396,7 @@ interface ERect {
     /***
      * @return the diagonal going from top left to bottom right
      */
-    fun diagonalTLBR(target: ELineMutable = ELineMutable()): ELine {
+    fun diagonalTLBR(target: ELineMutable = E.mline()): ELine {
         topLeft(target.start)
         bottomRight(target.end)
         return target

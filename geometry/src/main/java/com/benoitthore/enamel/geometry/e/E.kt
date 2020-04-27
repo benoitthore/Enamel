@@ -12,9 +12,13 @@ import kotlin.math.*
  */
 object E {
 
-    // TODO Extract to get rid of Anonymous classes
     // PRIMARY CONSTRUCTORS
     fun mpoint(x: Number = 0, y: Number = 0): EPointMutable = EPointMutable.Impl(x, y)
+
+    fun mline(x1: Number = 0, y1: Number = 0, x2: Number = 0, y2: Number = 0): ELineMutable =
+        ELineMutable.Impl(x1, y1, x2, y2)
+
+    fun mline(start: EPoint, end: EPoint) = mline(start.x, start.y, end.x, end.y)
 
     fun mcircle(center: EPoint = mpoint(), radius: Number = 0f): ECircleMutable =
         ECircleMutable.Impl(center, radius)
@@ -56,6 +60,12 @@ object E {
             angle.cos * magnitude.f,
             angle.sin * magnitude.f
         )
+
+    // LINE
+    fun line(x1: Number = 0, y1: Number = 0, x2: Number = 0, y2: Number = 0): ELine =
+        line(x1, y1, x2, y2)
+
+    fun line(start: EPoint, end: EPoint): ELine = line(start.x, start.y, end.x, end.y)
 
     // CIRCLE
     fun circle(center: EPoint = point(), radius: Number = 0f): ECircle =
@@ -112,6 +122,12 @@ object E {
         fun zero(target: EPointMutable = E.mpoint()) = target.set(0f, 0f)
         fun half(target: EPointMutable = E.mpoint()) = target.set(0.5f, 0.5f)
         fun unit(target: EPointMutable = E.mpoint()) = target.set(1f, 1f)
+    }
+
+    object Line {
+        //TODO
+//        val unit = E.line(0,0,1,1)
+//        val zero = E.line()
     }
 
     object Rect {

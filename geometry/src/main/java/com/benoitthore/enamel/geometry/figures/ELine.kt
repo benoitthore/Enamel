@@ -9,21 +9,12 @@ import com.benoitthore.enamel.geometry.primitives.*
 
 
 /*
-TODO Make mutable/immutable version
 TODO Make allocation free
  */
-open class ELine(open val start: EPoint = E.Point.zero, open val end: EPoint = E.Point.zero) {
-
+interface ELine {
+    val start: EPoint
+    val end: EPoint
     private fun Float.opposite() = 1f - this
-
-    init {
-        allocateDebugMessage()
-    }
-
-    companion object {
-        val unit = ELine(start = E.PointMutable.zero(), end = E.PointMutable.unit())
-        val zero = ELine(start = E.PointMutable.zero(), end = E.PointMutable.zero())
-    }
 
     val length
         get() = start.distanceTo(end).f
@@ -124,7 +115,12 @@ open class ELine(open val start: EPoint = E.Point.zero, open val end: EPoint = E
         target: EPointMutable
     ): EPoint {
         val x = pointTowards(distanceTowardsEndPoint, towards, target = E.mpoint())
-        return target.set(x.offsetAngle(angle = angle(E.mangle()) - 90.degrees(), distance = distanceFromLine))
+        return target.set(
+            x.offsetAngle(
+                angle = angle(E.mangle()) - 90.degrees(),
+                distance = distanceFromLine
+            )
+        )
     }
 
     fun perpendicularPointRight(
@@ -205,17 +201,17 @@ open class ELine(open val start: EPoint = E.Point.zero, open val end: EPoint = E
         return target
     }
 
-    override fun toString(): String {
-        return "($start, $end)"
-    }
-
-
 }
 
-class ELineMutable(
-    override val start: EPointMutable = E.PointMutable.zero(),
-    override val end: EPointMutable = E.PointMutable.zero()
-) : ELine(start, end), Resetable {
+interface ELineMutable : ELine, Resetable {
+
+    class Impl(x1: Number = 0, y1: Number = 0, x2: Number = 0, y2: Number = 0) : ELineMutable {
+        override val start: EPointMutable = E.mpoint(x1, y1)
+        override val end: EPointMutable = E.mpoint(x2, y2)
+    }
+
+    override val start: EPointMutable
+    override val end: EPointMutable
 
     fun set(start: EPoint = this.start, end: EPoint = this.end) =
         set(start.x, start.y, end.x, end.y)
@@ -253,43 +249,23 @@ class ELineMutable(
         end.reset()
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is ELineMutable) return false
-
-
-        if (start != other.start) return false
-        if (end != other.end) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = start.hashCode()
-        result = 31 * result + end.hashCode()
-        return result
-    }
-
-
 }
 
-infix fun EPoint.line(end: EPoint) = ELine(start = this, end = end)
-infix fun EPointMutable.line(end: EPointMutable) = ELineMutable(start = this, end = end)
+infix fun EPoint.line(end: EPoint) = E.line(start = this, end = end)
+infix fun EPointMutable.line(end: EPointMutable) = E.mline(start = this, end = end)
 
-/// CONVERT
 fun List<EPoint>.toListOfLines(): List<ELine> {
     val ret = mutableListOf<ELine>()
     forEachIndexed { i, curr ->
         if (i > 1) {
             val prev = get(i - 1)
-            ret.add(prev line curr)
+            ret.add(E.line(prev , curr))
         }
     }
     return ret
 }
 
 //
-// TODO
 
 fun EPoint.closetPointOnSegment(line: ELine) = line.closetPointOnSegment(this)
 fun ELine.closetPointOnSegment(point: EPoint) = getClosestPointOnSegment(

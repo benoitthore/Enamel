@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.geometry.primitives
 
 import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.geometry.e.E
 import com.benoitthore.enamel.geometry.figures.ELineMutable
 
 //TODO Make this an interface that's implemented by ELine
@@ -39,7 +40,7 @@ data class ELinearFunction(val slope: Float = 1f, val yIntercept: Float = 0f) {
         return x point y
     }
 
-    fun toLine(length: Number, target: ELineMutable = ELineMutable()): ELineMutable {
+    fun toLine(length: Number, target: ELineMutable = E.mline()): ELineMutable {
         val x1 = 0f
         val x2 = length
         // TODO Make length work properly using pyth theorem
