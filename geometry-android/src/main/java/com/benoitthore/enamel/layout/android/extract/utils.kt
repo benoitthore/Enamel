@@ -17,5 +17,5 @@ inline fun prepareAnimation(
     }
 
 
-internal inline val Number.dp: Int
-    get() = (toFloat() * Resources.getSystem().displayMetrics.density).toInt()
+internal inline val Number.dp: Float
+    get() = toFloat() * Resources.getSystem().displayMetrics.density

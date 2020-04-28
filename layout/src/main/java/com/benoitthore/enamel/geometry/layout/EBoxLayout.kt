@@ -29,7 +29,7 @@ class EBoxLayout(
 
     override fun arrange(frame: ERect) {
         val usingFrame = frame.rectAlignedInside(
-            aligned = alignment,
+            alignment = alignment,
             size = child.size(frame.size)
         )
         child.arrange(usingFrame)

@@ -8,8 +8,15 @@ import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.layout.android.visualentity.set
 
+fun Canvas.drawPointList(points: List<EPoint>, radius: Float, paint: Paint) =
+    points.forEach { draw(it, radius, paint) }
+
+fun Canvas.draw(p: EPoint, radius: Float, paint: Paint) {
+    drawCircle(p.x, p.y, radius, paint)
+}
+
 //private val targetRectF = RectF()
-fun Canvas.drawCircles(circles: List<ECircle>, paint: Paint) =
+fun Canvas.drawCircleList(circles: List<ECircle>, paint: Paint) =
     circles.forEach { draw(it, paint) }
 
 fun Canvas.draw(circle: ECircle, paint: Paint) {
@@ -22,7 +29,7 @@ fun Canvas.draw(start: EPoint, end: EPoint, paint: Paint) {
     drawLine(start.x, start.y, end.x, end.y, paint)
 }
 
-fun Canvas.drawRects(rects: List<ERect>, paint: Paint) = rects.forEach { draw(it, paint) }
+fun Canvas.drawRectList(rects: List<ERect>, paint: Paint) = rects.forEach { draw(it, paint) }
 fun Canvas.draw(rect: ERect, paint: Paint) {
     drawRect(
         rect.left,
@@ -32,7 +39,7 @@ fun Canvas.draw(rect: ERect, paint: Paint) {
     )
 }
 
-fun Canvas.drawRoundRects(rects: List<ERect>, rx: Number, ry: Number, paint: Paint) =
+fun Canvas.drawRoundRectList(rects: List<ERect>, rx: Number, ry: Number, paint: Paint) =
     rects.forEach { draw(it, rx, ry, paint) }
 
 fun Canvas.draw(rect: ERect, rx: Number, ry: Number, paint: Paint) {

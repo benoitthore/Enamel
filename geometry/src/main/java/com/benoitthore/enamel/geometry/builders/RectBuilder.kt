@@ -31,22 +31,26 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     //
     //TODO Add non mutable function
     fun mrectCenter(
-        position: EPoint,
-        size: ESize, target: ERectMutable = mrect()
-    ) = mrectCenter(position.x, position.y, size.width, size.height, target)
+        center: EPoint,
+        size: ESize,
+        target: ERectMutable = mrect()
+    ) = mrectCenter(center.x, center.y, size.width, size.height, target)
 
     //
     //TODO Add non mutable function
     fun mrectCenter(
-        position: EPoint,
-        width: Number, height: Number, target: ERectMutable = mrect()
-    ) = mrectCenter(position.x, position.y, width, height, target)
+        center: EPoint,
+        width: Number,
+        height: Number,
+        target: ERectMutable = mrect()
+    ) = mrectCenter(center.x, center.y, width, height, target)
 
     //
     //TODO Add non mutable function
     fun mrectCenter(
-        x: Number = 0f, y: Number = 0f,
-        width: Number, height: Number, target: ERectMutable = mrect()
+        x: Number = 0f,y: Number = 0f,
+        width: Number, height: Number,
+        target: ERectMutable = mrect()
     ): ERectMutable {
 
         val width = width.f

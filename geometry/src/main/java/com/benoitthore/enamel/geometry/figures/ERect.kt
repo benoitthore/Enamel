@@ -167,7 +167,7 @@ interface ERect {
 
     // Alignement
     fun rectAlignedInside(
-        aligned: EAlignment,
+        alignment: EAlignment,
         size: ESize,
         spacing: Number = 0,
         target: ERectMutable = E.mrect(this)
@@ -175,10 +175,10 @@ interface ERect {
         target.set(this)
         val spacing = spacing.f
 
-        val anchor = aligned.namedPoint
-        val spacingSign = aligned.spacingSign
+        val anchor = alignment.namedPoint
+        val spacingSign = alignment.spacingSign
 
-        val position = pointAtAnchor(aligned.namedPoint, target = target.origin)
+        val position = pointAtAnchor(alignment.namedPoint, target = target.origin)
             .offset(spacingSign.x * spacing, spacingSign.y * spacing, target = target.origin)
 
         target.size.set(size)
@@ -193,7 +193,7 @@ interface ERect {
 
 
     fun rectAlignedOutside(
-        aligned: EAlignment,
+        alignment: EAlignment,
         size: ESize,
         spacing: Number = 0,
         target: ERectMutable = E.mrect()
@@ -201,10 +201,10 @@ interface ERect {
         target.set(this)
         val spacing = spacing.f
 
-        val anchor = aligned.flipped.namedPoint
-        val spacingSign = aligned.flipped.spacingSign
+        val anchor = alignment.flipped.namedPoint
+        val spacingSign = alignment.flipped.spacingSign
 
-        val position = pointAtAnchor(aligned.namedPoint, target = target.origin)
+        val position = pointAtAnchor(alignment.namedPoint, target = target.origin)
             .offset(spacingSign.x * spacing, spacingSign.y * spacing, target = target.origin)
 
         target.size.set(size)
@@ -407,7 +407,8 @@ interface ERectMutable : ERect, Resetable {
     override val origin: EPointMutable
     override val size: ESizeMutable
 
-    class Impl internal constructor(x: Number, y: Number, width: Number, height: Number) : ERectMutable {
+    class Impl internal constructor(x: Number, y: Number, width: Number, height: Number) :
+        ERectMutable {
         init {
             allocateDebugMessage()
         }
@@ -452,6 +453,12 @@ interface ERectMutable : ERect, Resetable {
         size.width = width.f
         size.height = height.f
         return this
+    }
+
+    fun setCenter(point: EPoint) = setCenter(point.x, point.y)
+    fun setCenter(x: Number, y: Number) = apply {
+        origin.x = x.f - width / 2
+        origin.y = y.f - height / 2
     }
 
     fun setSides(
@@ -514,15 +521,6 @@ interface ERectMutable : ERect, Resetable {
         set(value) {
             size.height += value - bottom
         }
-
-    var center: EPoint
-        set(value) {
-            origin.x = value.x - width / 2
-            origin.y = value.y - height / 2
-        }
-        @Deprecated("User center() instead", level = DeprecationLevel.WARNING)
-        get() = center()
-
 
     //////
     fun selfOffset(x: Number = 0, y: Number = 0): ERectMutable = offset(x, y, this)

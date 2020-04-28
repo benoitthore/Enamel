@@ -38,10 +38,6 @@ fun Number.map(start1: Number, stop1: Number, start2: Number, stop2: Number) = S
     stop2 = stop2
 )
 
-inline infix fun Number.nearlyEquals(n2: Number) = nearlyEquals(n2, œ)
-inline fun Number.nearlyEquals(n2: Number, threshold: Number) =
-    abs(this.d - n2.d) < threshold.d
-
 fun Number.constrain(min: Number, max: Number): Float {
     val max = max.f
     val min = min.f

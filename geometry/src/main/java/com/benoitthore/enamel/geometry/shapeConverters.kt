@@ -41,7 +41,7 @@ fun ECircle.outterRect(target: ERectMutable = E.mrect()): ERectMutable {
     val width = radius * 2
     target.width = width
     target.height = width
-    target.center = center
+    target.setCenter(center)
     return target
 }
 
@@ -49,6 +49,6 @@ fun ECircle.innerRect(target: ERectMutable = E.mrect()): ERectMutable {
     val width = Math.sqrt((2 * radius * radius).toDouble()).f
     target.width = width
     target.height = width
-    target.center = center
+    target.setCenter(center)
     return target
 }

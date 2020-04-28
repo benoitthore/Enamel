@@ -126,7 +126,7 @@ interface ECircle {
 
     fun scaledRelative(
         to: Number,
-        relativeTo: EPoint = E.Point.half,
+        relativeTo: EPoint,
         target: ECircleMutable = E.mcircle()
     ): ECircleMutable {
         val to = to.f
@@ -248,7 +248,7 @@ interface ECircleMutable : ECircle, Resetable {
 
     fun selfScaledRelative(
         to: Number,
-        relativeTo: EPoint = E.Point.half,
+        relativeTo: EPoint,
         target: ECircleMutable = E.mcircle()
     ) = scaledRelative(
         to = to,

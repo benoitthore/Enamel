@@ -1,7 +1,6 @@
 package com.benoitthore.enamel.geometry.primitives
 
-import com.benoitthore.enamel.core.math.d
-import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.builders.E
 import kotlin.math.cos
@@ -106,6 +105,29 @@ interface EAngleMutable : EAngle, Resetable {
 
     class Impl internal constructor(value: Number, override var type: AngleType) : EAngleMutable {
         override var value: Float = value.toFloat()
+
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+
+            if (other !is EAngleMutable) return false
+
+            if (type != other.type) return false
+            if (value != other.value) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = type.hashCode()
+            result = 31 * result + value.hashCode()
+            return result
+        }
+
+        override fun toString(): String {
+            return "${degrees.i}°"
+        }
+
     }
 
     override var value: Float
@@ -128,6 +150,7 @@ interface EAngleMutable : EAngle, Resetable {
 
     fun selfInverse() = inverse(this)
     fun selfOffset(angle: EAngle) = offset(angle, this)
+
 
 }
 
