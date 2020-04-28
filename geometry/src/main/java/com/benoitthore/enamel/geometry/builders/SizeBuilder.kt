@@ -13,6 +13,11 @@ interface SizeBuilder : BaseBuilder {
     fun msize(other: ESize) = msize(other.width, other.height)
     fun size(other: ESize): ESize = msize(other)
 
+    //
+
+    fun msizeSquare(n: Number) = msize(n, n)
+    fun sizeSquare(n: Number): ESize = msizeSquare(n)
+
     val Size get() = _Size
     val SizeMutable get() = _SizeMutable
 

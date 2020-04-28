@@ -1,102 +1,88 @@
 package com.benoitthore.enamel.android
 
-import android.content.Context
 import android.content.res.Resources
-import android.graphics.*
-import android.graphics.Color.*
 import android.os.Bundle
-import android.util.AttributeSet
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.SeekBar
+import android.widget.Space
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.doOnLayout
 import com.benoitthore.enamel.R
-import com.benoitthore.enamel.core.color
-import com.benoitthore.enamel.core.math.*
-import com.benoitthore.enamel.geometry.alignement.EAlignment.*
-import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.size
-import com.benoitthore.enamel.geometry.innerCircle
-import com.benoitthore.enamel.geometry.outterCircle
-import com.benoitthore.enamel.layout.android.EFrameView
-import com.benoitthore.enamel.layout.android.extract.singleTouch
-import com.benoitthore.enamel.layout.android.visualentity.*
-import com.benoitthore.enamel.layout.android.visualentity.style.*
+import com.benoitthore.enamel.android.demo.*
+import com.benoitthore.enamel.android.demo.DemoRunner
+import com.benoitthore.enamel.android.demo.DemoView
+import com.benoitthore.enamel.core.math.i
 
 inline val Number.dp get() = toFloat() * Resources.getSystem().displayMetrics.density
 
+fun SeekBar.onSeekChanged(block: SeekBar.(progress: Int) -> Unit) =
+    setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+            seekBar.block(progress)
+        }
+
+        override fun onStartTrackingTouch(seekBar: SeekBar?) {
+        }
+
+        override fun onStopTrackingTouch(seekBar: SeekBar?) {
+        }
+    })
+
 class MainActivity : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 //        setContentView(PrototypeView(this))
-        setContentView(
-            R.layout.activity_main
-        )
 
-        val seekbar = findViewById<SeekBar>(R.id.seekbar)
-        val testView = findViewById<TestView>(R.id.testView)
+        setContentView(R.layout.activity_main)
+        findViewById<Button>(R.id.previousButton).setOnClickListener {
+            currentDemo--
+        }
+        findViewById<Button>(R.id.nextButton).setOnClickListener {
+            currentDemo++
+        }
+        demoView(RectAlignmentAnchor_Rect)
 
-        seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val progress = progress / 100f
-                testView.progress = progress
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
-        })
     }
-}
 
-
-class TestView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : EFrameView(context, attrs, defStyleAttr) {
-
-    var progress: Float = 0f
+    private var currentDemo = 0
         set(value) {
-            field = value.constrain(0, 1)
-            onProgressUpdate()
-            invalidate()
+            val max = DemoRunner.runners.size - 1
+            field = (value % (max)).coerceIn(0, max)
+            val runner : DemoRunner=  DemoRunner.runners[field]
+            demoView(runner)
         }
 
-    private fun onProgressUpdate() {
-        progress
-    }
+    private fun demoView(runner: DemoRunner) {
+        val demoView = findViewById<DemoView>(R.id.testView)
 
-    private val ve1: RectVisualEntity = RectVisualEntity()
+        demoView.demoRunner = runner
 
-    init {
-        doOnLayout {
-            frame.rectAlignedInside(center, 100.dp size 100.dp, target = ve1)
+        findViewById<LinearLayout>(R.id.seekbar_holder).apply {
 
-            ve1.style = ve1.style.copy(
-                fill = Mesh(shader = ve1.innerCircle().toRadialGradient(RED, YELLOW))
-            )
+            removeAllViews()
+            runner.progressLabels.forEachIndexed { i, label ->
 
-            singleTouch { isDown, current, previous ->
-                if (current != null) {
-                    ve1.center = current
-                    invalidate()
+                addView(SeekBar(context).apply {
+                    onSeekChanged { progress ->
+                        demoView.setAnimatedValue(i, progress / 100f)
+                    }
+
+                    progress = 50
+                })
+
+
+                if (i < runner.progressLabels.size - 1) {
+                    addView(Space(context), LinearLayout.LayoutParams(16.dp.i, 16.dp.i))
                 }
-                true
+
             }
         }
-    }
 
-    override fun onDraw(canvas: Canvas) {
-        canvas.drawColor(0xcccccc.color)
-        ve1.draw(canvas)
     }
 }
-
-
-
-
-
 
 
 

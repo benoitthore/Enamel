@@ -29,8 +29,8 @@ class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.rect()) : BaseV
         get() = size
 }
 
-
-class CircleVisualEntity(style: EStyle, circle: ECircle = E.circle()) : BaseVisualEntity() {
+class CircleVisualEntity(style: EStyle, circle: ECircleMutable = E.mcircle()) : BaseVisualEntity(),
+    ECircleMutable by circle {
 
     constructor(style: EStyle, builder: ECircleMutable.() -> Unit) :
             this(style, E.mcircle().apply(builder))
@@ -39,18 +39,16 @@ class CircleVisualEntity(style: EStyle, circle: ECircle = E.circle()) : BaseVisu
         this.style = style
     }
 
-    val circle: ECircleMutable = circle.toMutable()
-
     override fun onDraw(canvas: Canvas) {
         if (style.border != null) {
-            canvas.draw(circle, drawer.borderPaint)
+            canvas.draw(this, drawer.borderPaint)
         }
         if (style.fill != null) {
-            canvas.draw(circle, drawer.fillPaint)
+            canvas.draw(this, drawer.fillPaint)
         }
     }
 
     override val intrinsicSize: ESize
-        get() = circle.radius * 2 size circle.radius * 2
+        get() = radius * 2 size radius * 2
 
 }

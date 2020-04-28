@@ -29,16 +29,17 @@ enum class EAlignment {
     topLeft,
     topCenter,
     topRight,
-    bottomLeft,
-    bottomCenter,
-    bottomRight,
-    center,
-    leftTop,
-    leftCenter,
-    leftBottom,
     rightTop,
     rightCenter,
-    rightBottom;
+    rightBottom,
+    bottomRight,
+    bottomCenter,
+    bottomLeft,
+    leftBottom,
+    leftCenter,
+    leftTop,
+    center,
+    ;
 
     companion object {
 

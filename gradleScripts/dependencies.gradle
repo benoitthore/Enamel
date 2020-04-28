@@ -49,12 +49,12 @@ ext {
     ]
 
     xDependencies = [
-            core             : "androidx.core:core-ktx:1.0.1",
+            core             : "androidx.core:core:1.2.0",
+            coreKtx          : "androidx.core:core-ktx:1.2.0",
             cardview         : "androidx.cardview:cardview:1.0.0",
-            appcompat        : "androidx.appcompat:appcompat:1.0.2",
-            legacy           : "androidx.legacy:legacy-support-v4:1.0.0",
+            appcompat        : "androidx.appcompat:appcompat:1.1.0",
             annotation       : "androidx.annotation:annotation:1.0.0",
-            constraintLayout : "androidx.constraintlayout:constraintlayout:2.0.0-alpha2",
+            constraintLayout : "androidx.constraintlayout:constraintlayout:1.1.3",
             dynamicanimations: "androidx.dynamicanimation:dynamicanimation:1.0.0"
     ]
 
@@ -119,7 +119,7 @@ ext {
     ]
 
     bumptech = [
-            glide        : "com.github.bumptech.glide:glide:$glideVersion",
+            glide: "com.github.bumptech.glide:glide:$glideVersion",
 //            glideCompiler: "com.github.bumptech.glide:compiler:$glideVersion"
     ]
 
@@ -178,7 +178,7 @@ ext {
     ]
 
     ktor = [
-            core: "io.ktor:ktor-server-core:$ktorVersion",
+            core : "io.ktor:ktor-server-core:$ktorVersion",
             netty: "io.ktor:ktor-server-netty:$ktorVersion",
             html : "io.ktor:ktor-html-builder:$ktorVersion",
             cio  : "io.ktor:ktor-server-cio:$ktorVersion"

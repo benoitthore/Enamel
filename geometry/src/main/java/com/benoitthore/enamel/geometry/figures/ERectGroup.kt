@@ -68,7 +68,7 @@ fun List<ESize>.rectGroup(
     val rects = mapIndexed { i, size ->
         prev = allocate {
             prev.rectAlignedOutside(
-                aligned = alignment,
+                alignment = alignment,
                 size = size,
                 spacing = if (prev.size == E.Size.zero) 0 else spacing
             )

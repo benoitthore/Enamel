@@ -31,7 +31,7 @@ class EBarLayout(child: ELayout, var side: ERectEdge) : ELayoutAlongAxis {
     override fun arrange(frame: ERect) {
         val usingFrame = frame.rectAlignedInside(
             size = child.size(frame.size),
-            aligned = side.alignement
+            alignment = side.alignement
         )
         child.arrange(usingFrame)
     }
