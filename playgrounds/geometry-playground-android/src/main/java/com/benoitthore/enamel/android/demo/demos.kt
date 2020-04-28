@@ -13,7 +13,7 @@ import com.benoitthore.enamel.geometry.primitives.rotations
 import com.benoitthore.enamel.layout.android.extract.draw
 import com.benoitthore.enamel.layout.android.extract.drawPointList
 
-object CircleToListOfPoint : DemoRunner() {
+object CircleToListOfPoint : DemoDrawer() {
 
     override val progressLabels: List<String> = listOf("numberOfPoint", "startAt (angle)")
 
@@ -41,7 +41,7 @@ object CircleToListOfPoint : DemoRunner() {
 }
 
 
-object RectAlignmentOutside : DemoRunner() {
+object RectAlignmentOutside : DemoDrawer() {
 
     override val progressLabels: List<String> = listOf("alignment", "size")
 
@@ -66,7 +66,7 @@ object RectAlignmentOutside : DemoRunner() {
 
 }
 
-object RectAlignmentInside : DemoRunner() {
+object RectAlignmentInside : DemoDrawer() {
 
     override val progressLabels: List<String> = listOf("alignment", "size")
 
@@ -92,7 +92,7 @@ object RectAlignmentInside : DemoRunner() {
 }
 
 
-object RectAlignmentAnchor_Point : DemoRunner() {
+object RectAlignmentAnchor_Point : DemoDrawer() {
 
     override val progressLabels: List<String> = listOf("x", "y")
 
@@ -109,7 +109,7 @@ object RectAlignmentAnchor_Point : DemoRunner() {
 
         val originalShape = canvas.halfFrame()
         val createdShape = originalShape
-            .pointAtAnchor(E.point(animatedValue1, animatedValue2))
+            .pointAtAnchor(E.Point(animatedValue1, animatedValue2))
 
         canvas.draw(originalShape, originalPaint)
         canvas.draw(createdShape, 8.dp, createdPaint)
@@ -118,7 +118,7 @@ object RectAlignmentAnchor_Point : DemoRunner() {
 }
 
 
-object RectAlignmentAnchor_Rect : DemoRunner() {
+object RectAlignmentAnchor_Rect : DemoDrawer() {
 
     override val progressLabels: List<String> = listOf("x", "y", "size")
 
@@ -136,7 +136,7 @@ object RectAlignmentAnchor_Rect : DemoRunner() {
 
         val originalShape = canvas.halfFrame()
         val createdShape = E.mrectCenter(
-            center = originalShape.pointAtAnchor(E.point(x, y)),
+            center = originalShape.pointAtAnchor(E.Point(x, y)),
             size = E.sizeSquare(size)
         )
 

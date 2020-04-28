@@ -1,10 +1,12 @@
 package com.benoitthore.enamel.geometry.builders
 
+import com.benoitthore.enamel.geometry.figures.EOval
 import com.benoitthore.enamel.geometry.primitives.*
 
-interface AngleBuilder : BaseBuilder {
-    fun Angle(value: Number = 0f, type: AngleType = AngleType.RADIAN): EAngle =
-        mAngle(value, type).toMutable()
+interface OvalBuilder : BaseBuilder {
+
+    fun Oval(centerX: Number, centerY: Number, rx: Number, ry: Number): EOval
+            = moval(centerX, centerY, rx, ry)
 
     object Angle {
         val zero = 0.degrees()

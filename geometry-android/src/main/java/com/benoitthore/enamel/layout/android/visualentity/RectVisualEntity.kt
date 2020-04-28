@@ -6,11 +6,11 @@ import com.benoitthore.enamel.geometry.figures.*
 import com.benoitthore.enamel.layout.android.extract.draw
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 
-class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.rect()) : BaseVisualEntity(),
+class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.Rect()) : BaseVisualEntity(),
     ERectMutable by rect.toMutable() {
 
     constructor(style: EStyle, builder: ERectMutable.() -> Unit) :
-            this(style, E.mrect().apply(builder))
+            this(style, E.mRect().apply(builder))
 
     init {
         this.style = style

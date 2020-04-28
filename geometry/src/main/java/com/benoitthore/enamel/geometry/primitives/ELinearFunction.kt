@@ -46,7 +46,7 @@ interface ELinearFunction {
         return x point y
     }
 
-    fun toLine(length: Number, target: ELineMutable = E.mline()): ELineMutable {
+    fun toLine(length: Number, target: ELineMutable = E.mLine()): ELineMutable {
         val x1 = 0f
         val x2 = length
         // TODO Make length work properly using pyth theorem

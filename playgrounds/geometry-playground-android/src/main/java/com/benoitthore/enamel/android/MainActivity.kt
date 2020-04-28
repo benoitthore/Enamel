@@ -9,7 +9,7 @@ import android.widget.Space
 import androidx.appcompat.app.AppCompatActivity
 import com.benoitthore.enamel.R
 import com.benoitthore.enamel.android.demo.*
-import com.benoitthore.enamel.android.demo.DemoRunner
+import com.benoitthore.enamel.android.demo.DemoDrawer
 import com.benoitthore.enamel.android.demo.DemoView
 import com.benoitthore.enamel.core.math.i
 
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             demoView(Demos[field])
         }
 
-    private fun demoView(runner: DemoRunner) {
+    private fun demoView(runner: DemoDrawer) {
         val demoView = findViewById<DemoView>(R.id.testView)
 
         demoView.demoRunner = runner

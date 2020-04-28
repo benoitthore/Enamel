@@ -6,12 +6,14 @@ import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.*
+import com.benoitthore.enamel.geometry.svg.ESVG
+import com.benoitthore.enamel.geometry.svg.ESVGContext
 
 
 /*
 TODO Make allocation free
  */
-interface ELine : ELinearFunction {
+interface ELine : ELinearFunction, ESVG {
     val start: EPoint
     val end: EPoint
 
@@ -36,22 +38,29 @@ interface ELine : ELinearFunction {
     override val yIntercept: Float
         get() = start.y - a * start.x
 
+    override fun addTo(context: ESVGContext) {
+        with(context){
+            move(start)
+            line(end)
+        }
+    }
+
     fun pointAt(at: Float, target: EPointMutable): EPointMutable =
         start.offsetTowards(end, length * at, target = target)
 
     @Allocates
     fun pointFrom(distance: Number, from: Float, target: EPointMutable): EPoint {
-        val opposite = pointAt(from.opposite(), target = E.mpoint())
-        return target.set(opposite.offsetFrom(pointAt(from, target = E.mpoint()), distance))
+        val opposite = pointAt(from.opposite(), target = E.mPoint())
+        return target.set(opposite.offsetFrom(pointAt(from, target = E.mPoint()), distance))
     }
 
     @Allocates
     fun pointTowards(distance: Number, towards: Float, target: EPointMutable) =
         target.set(
-            pointAt(towards.opposite(), target = E.mpoint()).offsetTowards(
+            pointAt(towards.opposite(), target = E.mPoint()).offsetTowards(
                 pointAt(
                     towards,
-                    target = E.mpoint()
+                    target = E.mPoint()
                 ), distance
             )
         )
@@ -72,7 +81,7 @@ interface ELine : ELinearFunction {
 
     fun rotate(
         offsetAngle: EAngleMutable,
-        around: EPoint = center(E.mpoint()),
+        around: EPoint = center(E.mPoint()),
         target: ELineMutable
     ): ELineMutable {
         start.rotateAround(offsetAngle, around, target = target.start)
@@ -109,10 +118,10 @@ interface ELine : ELinearFunction {
         towards: Float,
         target: EPointMutable
     ): EPoint {
-        val x = pointTowards(distanceTowardsEndPoint, towards, target = E.mpoint())
+        val x = pointTowards(distanceTowardsEndPoint, towards, target = E.mPoint())
         return target.set(
             x.offsetAngle(
-                angle = angle(E.mangle()) - 90.degrees(),
+                angle = angle(E.mAngle()) - 90.degrees(),
                 distance = distanceFromLine
             )
         )
@@ -212,8 +221,8 @@ interface ELineMutable : ELine, Resetable {
             allocateDebugMessage()
         }
 
-        override val start: EPointMutable = E.mpoint(x1, y1)
-        override val end: EPointMutable = E.mpoint(x2, y2)
+        override val start: EPointMutable = E.mPoint(x1, y1)
+        override val end: EPointMutable = E.mPoint(x2, y2)
     }
 
     override val start: EPointMutable
@@ -257,15 +266,15 @@ interface ELineMutable : ELine, Resetable {
 
 }
 
-infix fun EPoint.line(end: EPoint) = E.line(start = this, end = end)
-infix fun EPointMutable.line(end: EPointMutable) = E.mline(start = this, end = end)
+infix fun EPoint.line(end: EPoint) = E.Line(start = this, end = end)
+infix fun EPointMutable.line(end: EPointMutable) = E.mLine(start = this, end = end)
 
 fun List<EPoint>.toListOfLines(): List<ELine> {
     val ret = mutableListOf<ELine>()
     forEachIndexed { i, curr ->
         if (i > 1) {
             val prev = get(i - 1)
-            ret.add(E.line(prev, curr))
+            ret.add(E.Line(prev, curr))
         }
     }
     return ret
@@ -308,9 +317,9 @@ private fun getClosestPointOnSegment(
     val u = ((px - sx1) * xDelta + (py - sy1) * yDelta) / (xDelta * xDelta + yDelta * yDelta)
 
     return when {
-        u < 0 -> E.point(sx1, sy1)
-        u > 1 -> E.point(sx2, sy2)
-        else -> E.point(Math.round(sx1 + u * xDelta), Math.round(sy1 + u * yDelta))
+        u < 0 -> E.Point(sx1, sy1)
+        u > 1 -> E.Point(sx2, sy2)
+        else -> E.Point(Math.round(sx1 + u * xDelta), Math.round(sy1 + u * yDelta))
     }
 }
 
@@ -349,12 +358,12 @@ val List<ELine>.length: Float get() = sumByDouble { it.length.toDouble() }.toFlo
 operator fun ELine.component1() = start
 operator fun ELine.component2() = end
 
-fun List<EPoint>.pointAtFraction(fraction: Number, target: EPointMutable = E.mpoint()) =
+fun List<EPoint>.pointAtFraction(fraction: Number, target: EPointMutable = E.mPoint()) =
     pointAtDistance(fraction.toFloat() * length, target)
 
 fun List<EPoint>.pointAtDistance(
     distance: Number,
-    target: EPointMutable = E.mpoint()
+    target: EPointMutable = E.mPoint()
 ): EPointMutable {
     var last: EPoint? = null
     val distance = distance.toFloat()

@@ -5,9 +5,13 @@ import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.*
+import com.benoitthore.enamel.geometry.svg.ESVG
+import com.benoitthore.enamel.geometry.svg.ESVGContext
 
-// TODO Refactor so it follows the same model as in Point, Rect and Size for mutablility
-interface ECircle {
+interface ECircle : ESVG {
+    override fun addTo(context: ESVGContext) {
+        context.oval(x - radius, y - radius, x + radius, y - radius)
+    }
 
     val center: EPoint
     val radius: Float
@@ -19,7 +23,6 @@ interface ECircle {
     fun toMutable() = E.mcircle(center = center.toMutable(), radius = radius)
     fun toImmutable() = E.circle(center = center.toImmutable(), radius = radius)
 
-
     fun intersects(other: ECircle) =
         this.center.distanceTo(other.center) < other.radius + this.radius
 
@@ -30,7 +33,6 @@ interface ECircle {
             }
         }
         return false
-
     }
 
     fun contains(x: Number, y: Number): Boolean = center.distanceTo(x, y) < radius
@@ -78,21 +80,21 @@ interface ECircle {
         distanceList: List<Number>? = null
     ) =
         toListOfPoint(
-            MutableList(numberOfPoint) { E.mpoint() }, startAt, distanceList
+            MutableList(numberOfPoint) { E.mPoint() }, startAt, distanceList
         )
 
 
     fun pointAtAnchor(
         x: Number,
         y: Number,
-        target: EPointMutable = E.mpoint()
+        target: EPointMutable = E.mPoint()
     ): EPointMutable {
         val origin = target.set(center.x - radius, center.y - radius)
         val size = radius * 2
-        return E.mpoint(x = origin.x + size * x.f, y = origin.y + size * y.f)
+        return E.mPoint(x = origin.x + size * x.f, y = origin.y + size * y.f)
     }
 
-    fun pointAtAnchor(anchor: EPointMutable, target: EPointMutable = E.mpoint()) =
+    fun pointAtAnchor(anchor: EPointMutable, target: EPointMutable = E.mPoint()) =
         pointAtAnchor(anchor.x, anchor.y, target)
 
 
@@ -111,7 +113,7 @@ interface ECircle {
 
     fun scaledAnchor(
         to: Number, x: Number, y: Number,
-        pointBuffer: EPointMutable = E.mpoint(),
+        pointBuffer: EPointMutable = E.mPoint(),
         target: ECircleMutable = E.mcircle()
     ) =
         scaledRelative(to, relativeTo = pointAtAnchor(x, y, pointBuffer), target = target)
@@ -119,7 +121,7 @@ interface ECircle {
     fun scaledAnchor(
         to: Number,
         anchor: EPoint = E.Point.half,
-        pointBuffer: EPointMutable = E.mpoint(),
+        pointBuffer: EPointMutable = E.mPoint(),
         target: ECircleMutable = E.mcircle()
     ) =
         scaledAnchor(to, anchor.x, anchor.y, pointBuffer = pointBuffer, target = target)
@@ -151,7 +153,7 @@ interface ECircleMutable : ECircle, Resetable {
             allocateDebugMessage()
         }
 
-        override val center: EPointMutable = E.mpoint(centerX, centerY)
+        override val center: EPointMutable = E.mPoint(centerX, centerY)
         override var radius: Float = radius.toFloat()
 
         override fun equals(other: Any?): Boolean {
@@ -231,13 +233,13 @@ interface ECircleMutable : ECircle, Resetable {
 
     fun selfScaledAnchor(
         to: Number, x: Number, y: Number,
-        pointBuffer: EPointMutable = E.mpoint()
+        pointBuffer: EPointMutable = E.mPoint()
     ) = scaledAnchor(to = to, x = x, y = y, target = this, pointBuffer = pointBuffer)
 
     fun selfScaledAnchor(
         to: Number,
         anchor: EPoint = E.Point.half,
-        pointBuffer: EPointMutable = E.mpoint(),
+        pointBuffer: EPointMutable = E.mPoint(),
         target: ECircleMutable = E.mcircle()
     ) = scaledAnchor(
         to = to,

@@ -39,16 +39,16 @@ class EPool<T : Any>(val size: Int, init: (Int) -> T) {
     }
 }
 
-fun RectPool(size: Int = 50) = EPool(size) { E.mrect() }
+fun RectPool(size: Int = 50) = EPool(size) { E.mRect() }
 fun PointPool(size: Int = 50) =
-    EPool(size) { E.mpoint() }
+    EPool(size) { E.mPoint() }
 
 fun CirclePool(size: Int = 50) =
     EPool(size) { E.mcircle() }
 
-fun LinePool(size: Int = 50) = EPool(size) { E.mline() }
+fun LinePool(size: Int = 50) = EPool(size) { E.mLine() }
 fun AnglePool(size: Int = 50) =
-    EPool(size) { E.mangle() }
+    EPool(size) { E.mAngle() }
 
 class GeometryPool(
     val rect: EPool<ERectMutable> = RectPool(50),

@@ -9,7 +9,7 @@ import com.benoitthore.enamel.geometry.primitives.EOffset
 fun ERect.dividedFraction(
     fraction: Number,
     from: ERectEdge,
-    target: Pair<ERectMutable, ERectMutable> = E.mrect() to E.mrect()
+    target: Pair<ERectMutable, ERectMutable> = E.mRect() to E.mRect()
 ): Pair<ERect, ERect> {
     val fraction = fraction.f
 
@@ -23,7 +23,7 @@ fun ERect.dividedFraction(
 fun ERect.divided(
     distance: Number,
     from: ERectEdge,
-    target: Pair<ERectMutable, ERectMutable> = E.mrect() to E.mrect()
+    target: Pair<ERectMutable, ERectMutable> = E.mRect() to E.mRect()
 ): Pair<ERectMutable, ERectMutable> {
     val distance = distance.f
 
@@ -52,7 +52,7 @@ fun ERect.divided(
 
     val slice =
         rectAlignedInside(from.alignement, sliceWidth size sliceHeight, target = target.first)
-    val remainderSize = E.size(remainderWidth, remainderHeight)
+    val remainderSize = E.Size(remainderWidth, remainderHeight)
     val remainder =
         slice.rectAlignedOutside(from.alignement.flipped, remainderSize, target = target.second)
     return slice to remainder
@@ -61,9 +61,9 @@ fun ERect.divided(
 operator fun ERect.minus(padding: EOffset) = padding(padding)
 operator fun ERect.plus(padding: EOffset) = expand(padding)
 
-fun List<ERect>.union(target: ERectMutable = E.mrect()): ERectMutable {
+fun List<ERect>.union(target: ERectMutable = E.mRect()): ERectMutable {
     if (isEmpty()) {
-        return E.mrect()
+        return E.mRect()
     }
 
     var left = Float.MAX_VALUE

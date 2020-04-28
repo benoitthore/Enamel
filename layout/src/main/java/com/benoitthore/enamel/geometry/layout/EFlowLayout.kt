@@ -29,7 +29,7 @@ class EFlowLayout(
     val lineAlignment: EAlignment = bottomLeft
 ) : ELayout {
     override fun size(toFit: ESize): ESize =
-        measurableArrange(rect = E.rect(size = toFit), shouldArrange = false)
+        measurableArrange(rect = E.Rect(size = toFit), shouldArrange = false)
 
     override fun arrange(frame: ERect) {
         measurableArrange(frame)
@@ -39,7 +39,7 @@ class EFlowLayout(
         var rowWidth = 0f
         val cols = mutableListOf<ELayout>()
         val row = mutableListOf<ELayout>()
-        val rowSize = E.msize()
+        val rowSize = E.mSize()
         val limit = if (childAlignment.isVertical) rect.height else rect.width
 
         children.forEachIndexed { i, child ->

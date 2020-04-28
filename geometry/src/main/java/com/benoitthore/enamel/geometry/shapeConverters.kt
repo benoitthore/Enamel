@@ -21,7 +21,7 @@ fun List<EPointMutable>.toCircles(radius: Number, target: List<ECircleMutable> =
     return target
 }
 
-fun ESize.toRect(target: ERectMutable = E.mrect()) = target.set(0, 0, width, height)
+fun ESize.toRect(target: ERectMutable = E.mRect()) = target.set(0, 0, width, height)
 
 
 fun ERect.innerCircle(target: ECircleMutable = E.mcircle()): ECircleMutable {
@@ -37,7 +37,7 @@ fun ERect.outterCircle(target: ECircleMutable = E.mcircle()): ECircleMutable {
     return target
 }
 
-fun ECircle.outterRect(target: ERectMutable = E.mrect()): ERectMutable {
+fun ECircle.outterRect(target: ERectMutable = E.mRect()): ERectMutable {
     val width = radius * 2
     target.width = width
     target.height = width
@@ -45,7 +45,7 @@ fun ECircle.outterRect(target: ERectMutable = E.mrect()): ERectMutable {
     return target
 }
 
-fun ECircle.innerRect(target: ERectMutable = E.mrect()): ERectMutable {
+fun ECircle.innerRect(target: ERectMutable = E.mRect()): ERectMutable {
     val width = Math.sqrt((2 * radius * radius).toDouble()).f
     target.width = width
     target.height = width

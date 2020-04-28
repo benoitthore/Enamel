@@ -5,15 +5,8 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import androidx.core.view.doOnLayout
 import com.benoitthore.enamel.android.dp
-import com.benoitthore.enamel.core.color
-import com.benoitthore.enamel.core.math.constrain
-import com.benoitthore.enamel.geometry.figures.ECircle
-import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.layout.android.EFrameView
-import com.benoitthore.enamel.layout.android.extract.draw
-import com.benoitthore.enamel.layout.android.extract.drawPointList
 
 class DemoView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -30,7 +23,7 @@ class DemoView @JvmOverloads constructor(
         invalidate()
     }
 
-    var demoRunner: DemoRunner? = null
+    var demoRunner: DemoDrawer? = null
         set(value) {
             field = value
             animatedValues = MutableList(field?.progressLabels?.size ?: 0) { 0f }

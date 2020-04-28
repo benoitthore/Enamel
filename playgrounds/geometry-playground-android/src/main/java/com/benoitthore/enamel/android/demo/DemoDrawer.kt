@@ -6,11 +6,10 @@ import android.graphics.Paint
 import android.text.TextPaint
 import com.benoitthore.enamel.android.dp
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.div
 
 
-val Demos = listOf<DemoRunner>(
+val Demos = listOf<DemoDrawer>(
     CircleToListOfPoint,
     RectAlignmentAnchor_Point,
     RectAlignmentAnchor_Rect,
@@ -18,11 +17,11 @@ val Demos = listOf<DemoRunner>(
     RectAlignmentOutside
 ).filterNotNull()
 
-abstract class DemoRunner {
+abstract class DemoDrawer {
 
     abstract val progressLabels: List<String>
 
-    fun Canvas.frame() = E.mrect(size = E.size(width, height))
+    fun Canvas.frame() = E.mRect(size = E.Size(width, height))
     fun Canvas.halfFrame() = E.mrectCenter(
         center = frame().center(),
         size = frame().size / 2

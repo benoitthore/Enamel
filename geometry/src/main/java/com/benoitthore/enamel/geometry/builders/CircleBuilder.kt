@@ -11,9 +11,9 @@ interface CircleBuilder : PointBuilder, BaseBuilder {
 
     //
 
-    fun mcircle(center: EPoint = mpoint(), radius: Number = 0f): ECircleMutable =
+    fun mcircle(center: EPoint = mPoint(), radius: Number = 0f): ECircleMutable =
         mcircle(center.x, center.y, radius)
 
-    fun circle(center: EPoint = point(), radius: Number = 0f): ECircle =
+    fun circle(center: EPoint = Point(), radius: Number = 0f): ECircle =
         mcircle(center, radius)
 }

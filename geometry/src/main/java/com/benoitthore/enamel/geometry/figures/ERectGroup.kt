@@ -17,7 +17,7 @@ class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? =
 
     val count get() = _rects.size
 
-    private val _frame = E.mrect()
+    private val _frame = E.mRect()
 //    private val _origin: EPointMutable
 //    private val _size: ESizeMutable
 
@@ -64,7 +64,7 @@ fun List<ESize>.rectGroup(
 ): ERectGroup {
 
 
-    var prev = allocate { E.mrect() }
+    var prev = allocate { E.mRect() }
     val rects = mapIndexed { i, size ->
         prev = allocate {
             prev.rectAlignedOutside(
@@ -126,9 +126,9 @@ fun List<Number>.rectGroupWeights(
     val totalWeight = sumByDouble { it.d }.f
 
     val sizes: List<ESizeMutable> = if (alignment.isHorizontal) {
-        map { E.msize((actualWidth) * it.toFloat() / totalWeight, toFit.height) }
+        map { E.mSize((actualWidth) * it.toFloat() / totalWeight, toFit.height) }
     } else {
-        map { E.msize(toFit.width, (actualHeight) * it.toFloat() / totalWeight) }
+        map { E.mSize(toFit.width, (actualHeight) * it.toFloat() / totalWeight) }
     }
 
     return sizes.rectGroup(

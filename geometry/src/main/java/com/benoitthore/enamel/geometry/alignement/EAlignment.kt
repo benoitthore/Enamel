@@ -19,11 +19,11 @@ PlaygroundApplet.start(800, 800) {
 
     }
  */
-private val spacingSignTop = E.point(0, 1)
-private val spacingSignBottom = E.point(0, -1)
-private val spacingSignLeft = E.point(1, 0)
-private val spacingSignRight = E.point(-1, 0)
-private val spacingSignCenter = E.point(0, 0)
+private val spacingSignTop = E.Point(0, 1)
+private val spacingSignBottom = E.Point(0, -1)
+private val spacingSignLeft = E.Point(1, 0)
+private val spacingSignRight = E.Point(-1, 0)
+private val spacingSignCenter = E.Point(0, 0)
 
 enum class EAlignment {
     topLeft,

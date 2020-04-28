@@ -14,7 +14,7 @@ class ELayoutLeaf(var color: Int = 0, var child: ELayout? = null) : ELayoutAlong
         val unit = ELayoutLeaf(0)
     }
 
-    private val _frame: ERectMutable = E.mrect()
+    private val _frame: ERectMutable = E.mRect()
     val frame: ERect = _frame
 
 

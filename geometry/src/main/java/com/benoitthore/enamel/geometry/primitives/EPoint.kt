@@ -17,22 +17,22 @@ interface EPoint : Tuple2 {
     override val v2: Number
         get() = y
 
-    fun toMutable(target: EPointMutable = E.mpoint()) = target.set(x, y)
-    fun toImmutable() = E.point(x, y)
-    fun copy(x: Number = this.x, y: Number = this.y, target: EPointMutable = E.mpoint()) =
+    fun toMutable(target: EPointMutable = E.mPoint()) = target.set(x, y)
+    fun toImmutable() = E.Point(x, y)
+    fun copy(x: Number = this.x, y: Number = this.y, target: EPointMutable = E.mPoint()) =
         target.set(x, y)
 
     val magnitude: Number
         get() = hypot(x.d, y.d)
 
-    fun heading(target: EAngleMutable = E.mangle()) =
+    fun heading(target: EAngleMutable = E.mAngle()) =
         target.set(atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
 
-    fun angleTo(x: Number, y: Number, target: EAngleMutable = E.mangle()): EAngleMutable =
+    fun angleTo(x: Number, y: Number, target: EAngleMutable = E.mAngle()): EAngleMutable =
         _angleTo(x, y).radians(target)
 
 
-    fun angleTo(point: EPoint, target: EAngleMutable = E.mangle()): EAngleMutable =
+    fun angleTo(point: EPoint, target: EAngleMutable = E.mAngle()): EAngleMutable =
         angleTo(point.x, point.y, target)
 
     fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)
@@ -53,41 +53,41 @@ interface EPoint : Tuple2 {
     //////
     //////
 
-    fun inverse(target: EPointMutable = E.mpoint()) = target.set(-x, -y)
+    fun inverse(target: EPointMutable = E.mPoint()) = target.set(-x, -y)
 
-    fun offset(x: Number, y: Number, target: EPointMutable = E.mpoint()) =
+    fun offset(x: Number, y: Number, target: EPointMutable = E.mPoint()) =
         target.set(this.x + x.f, this.y + y.f)
 
-    fun offset(n: Number, target: EPointMutable = E.mpoint()) = offset(n, n, target)
-    fun offset(other: Tuple2, target: EPointMutable = E.mpoint()) =
+    fun offset(n: Number, target: EPointMutable = E.mPoint()) = offset(n, n, target)
+    fun offset(other: Tuple2, target: EPointMutable = E.mPoint()) =
         offset(other.v1, other.v2, target)
 
-    fun sub(x: Number, y: Number, target: EPointMutable = E.mpoint()) =
+    fun sub(x: Number, y: Number, target: EPointMutable = E.mPoint()) =
         target.set(this.x - x.f, this.y - y.f)
 
-    fun sub(n: Number, target: EPointMutable = E.mpoint()) = sub(n, n, target)
-    fun sub(other: Tuple2, target: EPointMutable = E.mpoint()) =
+    fun sub(n: Number, target: EPointMutable = E.mPoint()) = sub(n, n, target)
+    fun sub(other: Tuple2, target: EPointMutable = E.mPoint()) =
         sub(other.v1, other.v2, target)
 
-    fun mult(x: Number, y: Number, target: EPointMutable = E.mpoint()) =
+    fun mult(x: Number, y: Number, target: EPointMutable = E.mPoint()) =
         target.set(this.x * x.f, this.y * y.f)
 
-    fun mult(n: Number, target: EPointMutable = E.mpoint()) = mult(n, n, target)
-    fun mult(other: Tuple2, target: EPointMutable = E.mpoint()) =
+    fun mult(n: Number, target: EPointMutable = E.mPoint()) = mult(n, n, target)
+    fun mult(other: Tuple2, target: EPointMutable = E.mPoint()) =
         mult(other.v1, other.v2, target)
 
-    fun dividedBy(x: Number, y: Number, target: EPointMutable = E.mpoint()) =
+    fun dividedBy(x: Number, y: Number, target: EPointMutable = E.mPoint()) =
         target.set(this.x / x.f, this.y / y.f)
 
-    fun dividedBy(n: Number, target: EPointMutable = E.mpoint()) = dividedBy(n, n, target)
-    fun dividedBy(other: Tuple2, target: EPointMutable = E.mpoint()) =
+    fun dividedBy(n: Number, target: EPointMutable = E.mPoint()) = dividedBy(n, n, target)
+    fun dividedBy(other: Tuple2, target: EPointMutable = E.mPoint()) =
         dividedBy(other.v1, other.v2, target)
 
     fun offsetTowards(
         towardsX: Number,
         towardsY: Number,
         distance: Number,
-        target: EPointMutable = E.mpoint()
+        target: EPointMutable = E.mPoint()
     ): EPointMutable {
         val fromX = x
         val fromY = y
@@ -98,24 +98,24 @@ interface EPoint : Tuple2 {
     fun offsetTowards(
         towards: EPoint,
         distance: Number,
-        target: EPointMutable = E.mpoint()
+        target: EPointMutable = E.mPoint()
     ): EPointMutable = offsetTowards(towards.x, towards.y, distance, target)
 
 
-    fun offsetFrom(from: EPoint, distance: Number, target: EPointMutable = E.mpoint()) =
+    fun offsetFrom(from: EPoint, distance: Number, target: EPointMutable = E.mPoint()) =
         from.offsetTowards(this, distance, target)
 
     fun offsetAngle(
         angle: EAngle,
         distance: Number,
-        target: EPointMutable = E.mpoint()
+        target: EPointMutable = E.mPoint()
     ): EPointMutable = _offsetAngle(angle.radians, distance, target)
 
     @Allocates
     fun rotateAround(
         angle: EAngle,
         center: EPoint,
-        target: EPointMutable = E.mpoint()
+        target: EPointMutable = E.mPoint()
     ): EPointMutable {
         val angleTo = center.angleTo(this)
         val distance = center.distanceTo(this)
@@ -125,7 +125,7 @@ interface EPoint : Tuple2 {
         return target.set(x, y)
     }
 
-    fun normalize(target: EPointMutable = E.mpoint()): EPointMutable {
+    fun normalize(target: EPointMutable = E.mPoint()): EPointMutable {
         val magnitude = magnitude.f
         target.set(this)
         if (magnitude != 0f) {
@@ -134,7 +134,7 @@ interface EPoint : Tuple2 {
         return target
     }
 
-    fun limitMagnitude(max: Number, target: EPointMutable = E.mpoint()): EPointMutable {
+    fun limitMagnitude(max: Number, target: EPointMutable = E.mPoint()): EPointMutable {
         val max = max.f
         target.set(this)
 
@@ -145,10 +145,10 @@ interface EPoint : Tuple2 {
         return target
     }
 
-    fun setMagnitude(magnitude: Number, target: EPointMutable = E.mpoint()) =
+    fun setMagnitude(magnitude: Number, target: EPointMutable = E.mPoint()) =
         target.set(this).selfNormalize().selfMult(magnitude)
 
-    fun abs(target: EPointMutable = E.mpoint()) = target.also {
+    fun abs(target: EPointMutable = E.mPoint()) = target.also {
         target.set(abs(x), abs(y))
     }
 
@@ -248,7 +248,7 @@ internal fun EPoint._angleTo(x: Number, y: Number): Double =
 internal fun EPoint._offsetAngle(
     angleRadians: Number,
     distance: Number,
-    target: EPointMutable = E.mpoint()
+    target: EPointMutable = E.mPoint()
 ): EPointMutable {
     val fromX = x
     val fromY = y
@@ -270,7 +270,7 @@ internal fun EPointMutable._set(angle: Number, magnitude: Number) =
 /////////////////////////
 
 infix fun Number.point(other: Number): EPointMutable =
-    E.mpoint(this, other)
+    E.mPoint(this, other)
 
 
 val List<EPoint>.length: Float

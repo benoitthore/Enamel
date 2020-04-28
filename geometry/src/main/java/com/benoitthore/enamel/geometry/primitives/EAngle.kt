@@ -16,6 +16,11 @@ enum class AngleType {
 
 // TODO change internal to protected and fix the compile errors
 interface EAngle {
+    enum class Direction {
+        CW, //ClockWise
+        CCW //CounterClockWise
+    }
+
     val value: Float
     val type: AngleType
 
@@ -52,12 +57,12 @@ interface EAngle {
 
     operator fun unaryMinus(): EAngleMutable = inverse()
 
-    fun inverse(target: EAngleMutable = E.mangle()): EAngleMutable {
+    fun inverse(target: EAngleMutable = E.mAngle()): EAngleMutable {
         val opposite = value.degrees(target)
         return opposite.set(-value, type)
     }
 
-    fun offset(other: EAngle, target: EAngleMutable = E.mangle()) = target.apply {
+    fun offset(other: EAngle, target: EAngleMutable = E.mAngle()) = target.apply {
         val increment = when (type) {
 
             AngleType.DEGREE -> other.degrees
@@ -69,25 +74,25 @@ interface EAngle {
     }
 
     operator fun plus(other: EAngleMutable): EAngleMutable =
-        E.mangle(
+        E.mAngle(
             radians + other.radians,
             AngleType.RADIAN
         )
 
     operator fun minus(other: EAngleMutable): EAngleMutable =
-        E.mangle(
+        E.mAngle(
             radians - other.radians,
             AngleType.RADIAN
         )
 
     operator fun times(n: Number): EAngleMutable =
-        E.mangle(
+        E.mAngle(
             radians * n.f,
             AngleType.RADIAN
         )
 
     operator fun div(n: Number): EAngleMutable =
-        E.mangle(
+        E.mAngle(
             radians / n.f,
             AngleType.RADIAN
         )
@@ -95,8 +100,8 @@ interface EAngle {
     operator fun compareTo(angle: EAngleMutable): Int =
         ((rotations - angle.rotations) * 100).toInt()
 
-    fun toMutable(): EAngleMutable = E.mangle(value, type)
-    fun toImmutable(): EAngle = E.angle(value, type)
+    fun toMutable(): EAngleMutable = E.mAngle(value, type)
+    fun toImmutable(): EAngle = E.Angle(value, type)
 
 //    operator fun Number.times(angle: EAngleMutable): EAngleMutable = angle * this
 }
@@ -154,19 +159,19 @@ interface EAngleMutable : EAngle, Resetable {
 
 }
 
-fun Number.degrees(target: EAngleMutable = E.mangle()): EAngleMutable =
+fun Number.degrees(target: EAngleMutable = E.mAngle()): EAngleMutable =
     target.set(
         this.f,
         AngleType.DEGREE
     )
 
-fun Number.radians(target: EAngleMutable = E.mangle()): EAngleMutable =
+fun Number.radians(target: EAngleMutable = E.mAngle()): EAngleMutable =
     target.set(
         this.f,
         AngleType.RADIAN
     )
 
-fun Number.rotations(target: EAngleMutable = E.mangle()): EAngleMutable =
+fun Number.rotations(target: EAngleMutable = E.mAngle()): EAngleMutable =
     target.set(
         this.f,
         AngleType.ROTATION

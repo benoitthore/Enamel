@@ -1,31 +1,98 @@
 package com.benoitthore.enamel.layout.android.extract
 
 import android.graphics.Path
+import android.graphics.RectF
+import android.os.Build
 import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
+import com.benoitthore.enamel.geometry.figures.EOval
 import com.benoitthore.enamel.geometry.figures.ERect
+import com.benoitthore.enamel.geometry.primitives.EAngle
+import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.svg.ESVGContext
 
-operator fun Path.plusAssign(rect: ERect) {
-    rect.addToPath(this)
-}
 
-operator fun Path.plusAssign(circle: ECircle) {
-    circle.addToPath(this)
-}
+val EAngle.Direction.pathDirection
+    get() :Path.Direction = when (this) {
+        EAngle.Direction.CW -> Path.Direction.CW
+        EAngle.Direction.CCW -> Path.Direction.CCW
+    }
 
-operator fun Path.plusAssign(line: ELine) {
-    line.addToPath(this)
-}
 
-fun ERect.addToPath(path: Path, dir: Path.Direction = Path.Direction.CW) {
-    path.addRect(left, top, right, bottom, dir)
-}
+fun Path.createContext() = PathESVGContext(this)
 
-fun ECircle.addToPath(path: Path, dir: Path.Direction = Path.Direction.CW) {
-    path.addCircle(x, y, radius, dir)
-}
+class PathESVGContext(val path: Path) : ESVGContext {
+    override fun reset() {
+        path.reset()
+    }
 
-fun ELine.addToPath(path: Path) {
-    path.moveTo(start.x, start.y)
-    path.lineTo(end.x, end.y)
+    override fun close() {
+        path.close()
+    }
+
+    override fun move(toX: Number, toY: Number) {
+        path.moveTo(toX.toFloat(), toY.toFloat())
+    }
+
+    override fun line(toX: Number, toY: Number) {
+        path.lineTo(toX.toFloat(), toY.toFloat())
+    }
+
+    override fun rect(
+        left: Number,
+        top: Number,
+        right: Number,
+        bottom: Number,
+        direction: EAngle.Direction
+    ) {
+        path.addRect(
+            left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat(),
+            direction.pathDirection
+        )
+    }
+
+    override fun oval(
+        left: Number,
+        top: Number,
+        right: Number,
+        bottom: Number,
+        direction: EAngle.Direction
+    ) {
+        val left = left.toFloat()
+        val top = top.toFloat()
+        val right = right.toFloat()
+        val bottom = bottom.toFloat()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            path.addOval(left, top, right, bottom, direction.pathDirection)
+        } else {
+            path.addOval(RectF(left, top, right, bottom), direction.pathDirection)
+        }
+
+    }
+
+    override fun arc(
+        center: EPoint,
+        radius: Number,
+        startAngle: EAngle,
+        endAngle: EAngle,
+        direction: EAngle.Direction
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun curve(toX: Number, toY: Number, controlX: Number, controlY: Number) {
+        TODO("Not yet implemented")
+    }
+
+    override fun curve(
+        toX: Number,
+        toY: Number,
+        control1X: Number,
+        control1Y: Number,
+        control2X: Number,
+        control2Y: Number
+    ) {
+        TODO("Not yet implemented")
+    }
+
 }

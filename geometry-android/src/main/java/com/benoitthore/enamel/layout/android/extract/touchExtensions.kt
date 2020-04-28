@@ -42,8 +42,8 @@ class OnClickTouchListener(
 
 class SingleTouchDelegate(val block: ETouchListener) : View.OnTouchListener {
 
-    val previous = E.mpoint()
-    val current = E.mpoint()
+    val previous = E.mPoint()
+    val current = E.mPoint()
 
     override fun onTouch(v: View?, e: MotionEvent): Boolean {
         previous.set(current)
@@ -90,7 +90,7 @@ fun View.normalizedTouch(block: (x: Float, y: Float) -> Boolean) {
 
 
 data class ETouchEvent(
-    val position: EPointMutable = E.mpoint(),
+    val position: EPointMutable = E.mPoint(),
     var isDown: Boolean = false,
     var id: Int = -1
 ) {
@@ -109,9 +109,9 @@ data class ETouchEvent(
 
 fun View.mutliTouch(maxFingers: Int = 10, onTouch: (List<ETouchEvent>) -> Boolean) {
 
-    val touch = E.mpoint()
+    val touch = E.mPoint()
 
-    val list = List(maxFingers) { ETouchEvent(E.mpoint(), false, -1) }
+    val list = List(maxFingers) { ETouchEvent(E.mPoint(), false, -1) }
 
     setOnTouchListener { v, e ->
         touch.set(e)

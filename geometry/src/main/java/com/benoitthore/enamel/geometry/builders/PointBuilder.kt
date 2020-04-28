@@ -8,24 +8,24 @@ import com.benoitthore.enamel.geometry.primitives.EPointMutable
 
 interface PointBuilder : BaseBuilder {
 
-    fun point(x: Number = 0, y: Number = 0): EPoint =
-        mpoint(x, y)
+    fun Point(x: Number = 0, y: Number = 0): EPoint =
+        mPoint(x, y)
 
     //
-    fun point(other: EPoint) =
-        point(other.x, other.y)
+    fun Point(other: EPoint) =
+        Point(other.x, other.y)
 
-    fun point(angle: EAngle, magnitude: Number) =
-        point(
+    fun Point(angle: EAngle, magnitude: Number) =
+        Point(
             angle.cos * magnitude.f,
             angle.sin * magnitude.f
         )
 
-    fun mpoint(other: EPoint) =
-        mpoint(other.x, other.y)
+    fun mPoint(other: EPoint) =
+        mPoint(other.x, other.y)
 
-    fun mpoint(angle: EAngle, magnitude: Number) =
-        mpoint(
+    fun mPoint(angle: EAngle, magnitude: Number) =
+        mPoint(
             angle.cos * magnitude.f,
             angle.sin * magnitude.f
         )
@@ -33,12 +33,12 @@ interface PointBuilder : BaseBuilder {
     val Point get() = _Point
 
     object _Point {
-        val inv = E.point(-1f, -1f)
-        val zero = E.point(0f, 0f)
-        val half = E.point(0.5f, 0.5f)
-        val unit = E.point(1f, 1f)
+        val inv = E.Point(-1f, -1f)
+        val zero = E.Point(0f, 0f)
+        val half = E.Point(0.5f, 0.5f)
+        val unit = E.Point(1f, 1f)
 
-        fun random(magnitude: Number = 1f, target: EPointMutable = E.mpoint()) =
+        fun random(magnitude: Number = 1f, target: EPointMutable = E.mPoint()) =
             target.set(
                 x = randomSign() * com.benoitthore.enamel.core.math.random() * magnitude.f,
                 y = randomSign() * com.benoitthore.enamel.core.math.random() * magnitude.f
@@ -49,7 +49,7 @@ interface PointBuilder : BaseBuilder {
             minY: Number = 0f,
             maxX: Number = 1f,
             maxY: Number = 1f,
-            target: EPointMutable = E.mpoint()
+            target: EPointMutable = E.mPoint()
         ) = target.set(
             x = com.benoitthore.enamel.core.math.random(minX, maxX),
             y = com.benoitthore.enamel.core.math.random(minY, maxY)
@@ -59,9 +59,9 @@ interface PointBuilder : BaseBuilder {
     val PointMutable get() = _PointMutable
 
     object _PointMutable {
-        fun zero(target: EPointMutable = E.mpoint()) = target.set(0f, 0f)
-        fun half(target: EPointMutable = E.mpoint()) = target.set(0.5f, 0.5f)
-        fun unit(target: EPointMutable = E.mpoint()) = target.set(1f, 1f)
+        fun zero(target: EPointMutable = E.mPoint()) = target.set(0f, 0f)
+        fun half(target: EPointMutable = E.mPoint()) = target.set(0.5f, 0.5f)
+        fun unit(target: EPointMutable = E.mPoint()) = target.set(1f, 1f)
     }
 
 }

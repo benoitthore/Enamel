@@ -12,28 +12,28 @@ import kotlin.math.min
 
 interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
 
-    fun rect(x: Number = 0f, y: Number = 0f, width: Number = 0f, height: Number = 0f) =
-        mrect(x, y, width, height)
+    fun Rect(x: Number = 0f, y: Number = 0f, width: Number = 0f, height: Number = 0f) =
+        mRect(x, y, width, height)
 
     //
 
-    fun rect(origin: EPoint = point(), size: ESize = size()): ERect =
-        mrect(origin.toMutable(), size.toMutable())
+    fun Rect(origin: EPoint = Point(), size: ESize = Size()): ERect =
+        mRect(origin.toMutable(), size.toMutable())
 
-    fun mrect(origin: EPoint = mpoint(), size: ESize = msize()): ERectMutable =
-        mrect(origin.x, origin.y, size.width, size.height)
+    fun mRect(origin: EPoint = mPoint(), size: ESize = mSize()): ERectMutable =
+        mRect(origin.x, origin.y, size.width, size.height)
 
     //
 
-    fun mrect(other: ERect): ERectMutable = mrect(other.origin, other.size)
-    fun rect(other: ERect): ERect = mrect(other)
+    fun mRect(other: ERect): ERectMutable = mRect(other.origin, other.size)
+    fun Rect(other: ERect): ERect = mRect(other)
 
     //
     //TODO Add non mutable function
     fun mrectCenter(
         center: EPoint,
         size: ESize,
-        target: ERectMutable = mrect()
+        target: ERectMutable = mRect()
     ) = mrectCenter(center.x, center.y, size.width, size.height, target)
 
     //
@@ -42,7 +42,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
         center: EPoint,
         width: Number,
         height: Number,
-        target: ERectMutable = mrect()
+        target: ERectMutable = mRect()
     ) = mrectCenter(center.x, center.y, width, height, target)
 
     //
@@ -50,7 +50,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     fun mrectCenter(
         x: Number = 0f,y: Number = 0f,
         width: Number, height: Number,
-        target: ERectMutable = mrect()
+        target: ERectMutable = mRect()
     ): ERectMutable {
 
         val width = width.f
@@ -66,7 +66,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     fun mrectCorners(
         corner1: EPoint,
         corner2: EPoint,
-        target: ERectMutable = mrect()
+        target: ERectMutable = mRect()
     ) = mrectCorners(corner1.x, corner1.y, corner2.x, corner2.y, target)
 
     //
@@ -76,7 +76,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
         corner1Y: Number = 0,
         corner2X: Number = 0,
         corner2Y: Number = 0,
-        target: ERectMutable = mrect()
+        target: ERectMutable = mRect()
     ): ERectMutable {
         return mrectSides(
             top = min(corner1Y.d, corner2Y.d),
@@ -94,7 +94,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
         top: Number,
         right: Number,
         bottom: Number,
-        target: ERectMutable = mrect()
+        target: ERectMutable = mRect()
     ): ERectMutable {
         target.top = top.f
         target.left = left.f
@@ -109,7 +109,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
         anchor: EPoint,
         position: EPoint,
         size: ESizeMutable,
-        target: ERectMutable = mrect()
+        target: ERectMutable = mRect()
     ) = target.set(
         x = position.x - size.width * anchor.x,
         y = position.y - size.height * anchor.y,
@@ -119,13 +119,13 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     val Rect get() = _Rect
 
     object _Rect {
-        val zero = E.rect()
+        val zero = E.Rect()
     }
 
     val RectMutable get() = _RectMutable
 
     object _RectMutable {
-        val zero = E.mrect()
+        val zero = E.mRect()
     }
 
 }
