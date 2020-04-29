@@ -24,7 +24,7 @@ fun RectF.set(rect: ERect) = apply {
 
 fun Paint.setMesh(mesh: Mesh) {
     mesh.color?.let { color = it }
-    mesh.shader?.let { shader = it }
+    mesh.shader?.let { shader = it.shader }
 }
 
 inline fun Canvas.withTransformation(
@@ -45,7 +45,7 @@ inline fun Canvas.withTransformation(
     }
 
 
-// TODO Replace with AndroidX
+// Not using AndroidX to avoid conflicts
 inline fun Canvas.withSave(crossinline block: Canvas.() -> Unit) = apply {
     val save = save()
     block()

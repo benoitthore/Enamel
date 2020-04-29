@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Color.*
 import android.graphics.Paint
 import android.graphics.Path
 import android.os.Bundle
@@ -25,14 +26,22 @@ import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.core.math.map
 import com.benoitthore.enamel.core.math.noise.OpenSimplexNoise
 import com.benoitthore.enamel.core.withAlpha
+import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.innerCircle
+import com.benoitthore.enamel.geometry.outterCircle
 import com.benoitthore.enamel.geometry.primitives.rotations
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.addTo
 import com.benoitthore.enamel.geometry.toCircle
 import com.benoitthore.enamel.layout.android.extract.createContext
+import com.benoitthore.enamel.layout.android.extract.singleTouch
 import com.benoitthore.enamel.layout.android.setBounds
+import com.benoitthore.enamel.layout.android.visualentity.RectVisualEntity
+import com.benoitthore.enamel.layout.android.visualentity.VisualEntityView
+import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
+import com.benoitthore.enamel.layout.android.visualentity.style.Mesh
+import com.benoitthore.enamel.layout.android.visualentity.style.toShader
 
 inline val Number.dp get() = toFloat() * Resources.getSystem().displayMetrics.density
 
@@ -55,6 +64,27 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val view = VisualEntityView(this)
+        setContentView(view)
+
+
+        view.singleTouch { _, current, _ ->
+            if (current != null) {
+                val viewFrame = E.mRect().setBounds(view)
+                val rect =
+                    viewFrame.rectAlignedInside(center, size = E.SizeSquare(viewFrame.size.min / 2))
+
+//                val shader = rect.innerCircle().apply { set(radius, radius) }.toShader(RED, YELLOW)
+                val shader = rect.diagonalTLBR().apply { setCenter(0, 0) }.toShader(RED, YELLOW)
+                val style = EStyle(fill = Mesh(shader = shader))
+
+                val entity = RectVisualEntity(style, rect)
+                entity.setCenter(current)
+
+                view.show(entity)
+            }
+            true
+        }
 
 
 //        setContentView(JolieVue(this))

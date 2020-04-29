@@ -13,7 +13,7 @@ import com.benoitthore.enamel.geometry.svg.SVGContext
 /*
 TODO Make allocation free
  */
-interface ELine : ELinearFunction, ESVG {
+interface ELine : ELinearFunction, ESVG, HasCenter {
     val start: EPoint
     val end: EPoint
 
@@ -38,8 +38,13 @@ interface ELine : ELinearFunction, ESVG {
     override val yIntercept: Float
         get() = start.y - a * start.x
 
+    override val centerX: Float
+        get() = (start.x + end.x) / 2
+    override val centerY: Float
+        get() = (start.y + end.y) / 2
+
     override fun addTo(context: SVGContext) {
-        with(context){
+        with(context) {
             move(start)
             line(end)
         }
@@ -209,7 +214,7 @@ interface ELine : ELinearFunction, ESVG {
     private fun Float.opposite() = 1f - this
 }
 
-interface ELineMutable : ELine, Resetable {
+interface ELineMutable : ELine, CanSetCenter, Resetable {
 
     class Impl internal constructor(
         x1: Number = 0,
@@ -227,6 +232,13 @@ interface ELineMutable : ELine, Resetable {
 
     override val start: EPointMutable
     override val end: EPointMutable
+
+    override fun setCenter(x: Number, y: Number) {
+        val xOffset = x.toFloat() - centerX
+        val yOffset = y.toFloat() - centerY
+        start.selfOffset(xOffset, yOffset)
+        end.selfOffset(xOffset, yOffset)
+    }
 
     fun set(start: EPoint = this.start, end: EPoint = this.end) =
         set(start.x, start.y, end.x, end.y)

@@ -137,7 +137,7 @@ object RectAlignmentAnchor_Rect : DemoDrawer() {
         val originalShape = canvas.halfFrame()
         val createdShape = E.mrectCenter(
             center = originalShape.pointAtAnchor(E.Point(x, y)),
-            size = E.sizeSquare(size)
+            size = E.SizeSquare(size)
         )
 
         canvas.draw(originalShape, originalPaint)

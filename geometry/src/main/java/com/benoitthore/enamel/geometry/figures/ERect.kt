@@ -392,7 +392,7 @@ interface ERect : ESVG {
     /***
      * @return the diagonal going from top right to bottom left
      */
-    fun diagonalTRBL(target: ELineMutable = E.mLine()): ELine {
+    fun diagonalTRBL(target: ELineMutable = E.mLine()): ELineMutable {
         topRight(target.start)
         bottomLeft(target.end)
         return target
@@ -401,7 +401,7 @@ interface ERect : ESVG {
     /***
      * @return the diagonal going from top left to bottom right
      */
-    fun diagonalTLBR(target: ELineMutable = E.mLine()): ELine {
+    fun diagonalTLBR(target: ELineMutable = E.mLine()): ELineMutable {
         topLeft(target.start)
         bottomRight(target.end)
         return target
@@ -468,10 +468,10 @@ interface ERectMutable : ERect, Resetable {
     }
 
     fun setSides(
-        top: Number = this.top,
-        bottom: Number = this.bottom,
         left: Number = this.left,
-        right: Number = this.right
+        top: Number = this.top,
+        right: Number = this.right,
+        bottom: Number = this.bottom
     ): ERectMutable {
         this.top = top.f
         this.bottom = bottom.f

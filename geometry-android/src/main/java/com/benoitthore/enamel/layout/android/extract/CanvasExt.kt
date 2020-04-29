@@ -1,12 +1,17 @@
 package com.benoitthore.enamel.layout.android.extract
 
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.Region
 import android.os.Build
 import com.benoitthore.enamel.geometry.figures.ECircle
 import com.benoitthore.enamel.geometry.figures.ELine
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.layout.android.visualentity.set
+import com.benoitthore.enamel.layout.android.visualentity.withSave
 
 fun Canvas.drawPointList(points: List<EPoint>, radius: Float, paint: Paint) =
     points.forEach { draw(it, radius, paint) }
@@ -15,7 +20,6 @@ fun Canvas.draw(p: EPoint, radius: Float, paint: Paint) {
     drawCircle(p.x, p.y, radius, paint)
 }
 
-//private val targetRectF = RectF()
 fun Canvas.drawCircleList(circles: List<ECircle>, paint: Paint) =
     circles.forEach { draw(it, paint) }
 
@@ -30,20 +34,26 @@ fun Canvas.draw(start: EPoint, end: EPoint, paint: Paint) {
 }
 
 fun Canvas.drawRectList(rects: List<ERect>, paint: Paint) = rects.forEach { draw(it, paint) }
-fun Canvas.draw(rect: ERect, paint: Paint) {
-    drawRect(
-        rect.left,
-        rect.top,
-        rect.right,
-        rect.bottom, paint
-    )
+fun Canvas.draw(rect: ERect, paint: Paint, translate: Boolean = true) {
+    if (translate) {
+        withSave {
+            translate(rect.origin)
+            drawRect(0f, 0f, rect.width, rect.height, paint)
+        }
+    } else {
+        drawRect(
+            rect.left,
+            rect.top,
+            rect.right,
+            rect.bottom, paint
+        )
+    }
 }
 
 fun Canvas.drawRoundRectList(rects: List<ERect>, rx: Number, ry: Number, paint: Paint) =
     rects.forEach { draw(it, rx, ry, paint) }
 
 fun Canvas.draw(rect: ERect, rx: Number, ry: Number, paint: Paint) {
-//    synchronized(targetRectF) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         drawRoundRect(
             rect.left,
@@ -57,5 +67,28 @@ fun Canvas.draw(rect: ERect, rx: Number, ry: Number, paint: Paint) {
     } else {
         drawRoundRect(RectF().set(rect), rx.toFloat(), ry.toFloat(), paint)
     }
-//    }
+}
+
+fun Canvas.translate(xy: Tuple2) {
+    translate(xy.v1.toFloat(), xy.v2.toFloat())
+}
+
+fun Canvas.scale(xy: Tuple2) {
+    scale(xy.v1.toFloat(), xy.v2.toFloat())
+}
+
+fun Canvas.skew(xy: Tuple2) {
+    skew(xy.v1.toFloat(), xy.v2.toFloat())
+}
+
+fun Canvas.clipPath(path: PathSVGContext) {
+    clipPath(path.path)
+}
+
+fun Canvas.clipOutPath(path: PathSVGContext) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        clipOutPath(path.path)
+    } else {
+        clipPath(path.path, Region.Op.DIFFERENCE)
+    }
 }

@@ -16,7 +16,7 @@ interface SizeBuilder : BaseBuilder {
     //
 
     fun msizeSquare(n: Number) = mSize(n, n)
-    fun sizeSquare(n: Number): ESize = msizeSquare(n)
+    fun SizeSquare(n: Number): ESize = msizeSquare(n)
 
     val Size get() = _Size
     val SizeMutable get() = _SizeMutable
