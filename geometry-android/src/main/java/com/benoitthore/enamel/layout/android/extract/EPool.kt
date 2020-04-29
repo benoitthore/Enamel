@@ -50,6 +50,7 @@ fun LinePool(size: Int = 50) = EPool(size) { E.mLine() }
 fun AnglePool(size: Int = 50) =
     EPool(size) { E.mAngle() }
 
+// TODO Make this an interface
 class GeometryPool(
     val rect: EPool<ERectMutable> = RectPool(50),
     val point: EPool<EPointMutable> = PointPool(50),

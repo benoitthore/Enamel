@@ -83,7 +83,7 @@ object RectAlignmentInside : DemoDrawer() {
 
         val originalShape = canvas.halfFrame()
         val createdShape = originalShape
-            .rectAlignedInside(alignment = progress1, size = progress2, spacing = 16.dp)
+            .rectAlignedInside(alignment = progress1, size = progress2)
 
         canvas.draw(originalShape, originalPaint)
         canvas.draw(createdShape, createdPaint)

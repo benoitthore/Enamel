@@ -9,7 +9,7 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.div
 
 
-val Demos = listOf<DemoDrawer>(
+val Demos = mutableListOf<DemoDrawer>(
     CircleToListOfPoint,
     RectAlignmentAnchor_Point,
     RectAlignmentAnchor_Rect,

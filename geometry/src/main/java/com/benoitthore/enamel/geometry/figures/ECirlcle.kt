@@ -9,8 +9,10 @@ import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.ESVGContext
 
 interface ECircle : ESVG {
+
+
     override fun addTo(context: ESVGContext) {
-        context.oval(x - radius, y - radius, x + radius, y - radius)
+        context.oval(x - radius, y - radius, x + radius, y + radius)
     }
 
     val center: EPoint
@@ -37,6 +39,9 @@ interface ECircle : ESVG {
 
     fun contains(x: Number, y: Number): Boolean = center.distanceTo(x, y) < radius
     fun contains(point: EPoint) = contains(point.x, point.y)
+
+    fun pointAtAngle(angle: EAngle, target: EPointMutable): EPointMutable =
+        target.set(angle, radius).selfOffset(center)
 
     fun toListOfPoint(
         list: MutableList<EPointMutable>,
@@ -75,12 +80,19 @@ interface ECircle : ESVG {
     }
 
     fun toListOfPoint(
-        numberOfPoint: Int,
-        startAt: EAngle? = null,
-        distanceList: List<Number>? = null
+        distanceList: List<Number>,
+        startAt: EAngle? = null
     ) =
         toListOfPoint(
-            MutableList(numberOfPoint) { E.mPoint() }, startAt, distanceList
+            MutableList(distanceList.size) { E.mPoint() }, startAt, distanceList
+        )
+
+    fun toListOfPoint(
+        numberOfPoint: Int,
+        startAt: EAngle? = null
+    ) =
+        toListOfPoint(
+            MutableList(numberOfPoint) { E.mPoint() }, startAt
         )
 
 

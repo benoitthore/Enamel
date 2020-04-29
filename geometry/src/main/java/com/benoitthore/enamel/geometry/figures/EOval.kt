@@ -11,8 +11,8 @@ interface EOval {
     val ry: Float
 
     val left get() = center.x + rx
-    val top get() = center.x - ry
-    val bottom get() = center.x + ry
+    val top get() = center.y - ry
+    val bottom get() = center.y + ry
     val right get() = center.x - rx
 }
 
@@ -29,6 +29,6 @@ interface EOvalMutable : EOval, Resetable {
 
     class Impl(cx: Number, cy: Number, override var rx: Float, override var ry: Float) :
         EOvalMutable {
-        override val center: EPointMutable = E.mPoint(cx,cy)
+        override val center: EPointMutable = E.mPoint(cx, cy)
     }
 }

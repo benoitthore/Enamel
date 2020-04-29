@@ -1,14 +1,15 @@
 package com.benoitthore.enamel.layout.android.extract
 
+import android.graphics.Canvas
 import android.graphics.Path
 import android.graphics.RectF
 import android.os.Build
-import com.benoitthore.enamel.geometry.figures.ECircle
-import com.benoitthore.enamel.geometry.figures.ELine
-import com.benoitthore.enamel.geometry.figures.EOval
-import com.benoitthore.enamel.geometry.figures.ERect
+import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.*
 import com.benoitthore.enamel.geometry.primitives.EAngle
 import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.primitives.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point
 import com.benoitthore.enamel.geometry.svg.ESVGContext
 
 

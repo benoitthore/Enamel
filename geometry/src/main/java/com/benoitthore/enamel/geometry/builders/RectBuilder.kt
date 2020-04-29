@@ -63,15 +63,15 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
 
     //
     //TODO Add non mutable function
-    fun mrectCorners(
+    fun mRectCorners(
         corner1: EPoint,
         corner2: EPoint,
         target: ERectMutable = mRect()
-    ) = mrectCorners(corner1.x, corner1.y, corner2.x, corner2.y, target)
+    ) = mRectCorners(corner1.x, corner1.y, corner2.x, corner2.y, target)
 
     //
     //TODO Add non mutable function
-    fun mrectCorners(
+    fun mRectCorners(
         corner1X: Number = 0,
         corner1Y: Number = 0,
         corner2X: Number = 0,
