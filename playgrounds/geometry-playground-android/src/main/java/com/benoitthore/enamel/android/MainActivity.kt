@@ -68,21 +68,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
 
-        view.singleTouch { _, current, _ ->
-            if (current != null) {
-                val viewFrame = E.mRect().setBounds(view)
-                val rect =
-                    viewFrame.rectAlignedInside(center, size = E.SizeSquare(viewFrame.size.min / 2))
+        view.singleTouch {
+            val viewFrame = E.mRect().setBounds(view)
+            val rect =
+                viewFrame.rectAlignedInside(center, size = E.SizeSquare(viewFrame.size.min / 2))
 
 //                val shader = rect.innerCircle().apply { set(radius, radius) }.toShader(RED, YELLOW)
-                val shader = rect.diagonalTLBR().apply { setCenter(0, 0) }.toShader(RED, YELLOW)
-                val style = EStyle(fill = Mesh(shader = shader))
+            val shader = rect.diagonalTLBR().apply { setCenter(0, 0) }.toShader(RED, YELLOW)
+            val style = EStyle(fill = Mesh(shader = shader))
 
-                val entity = RectVisualEntity(style, rect)
-                entity.setCenter(current)
+            val entity = RectVisualEntity(style, rect)
+            entity.setCenter(it.position)
 
-                view.show(entity)
-            }
+            view.show(entity)
             true
         }
 
