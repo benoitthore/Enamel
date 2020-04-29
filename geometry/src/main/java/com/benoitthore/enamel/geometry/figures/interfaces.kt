@@ -33,7 +33,7 @@ interface HasBounds {
         target.setSides(top = top, left = left, right = right, bottom = bottom)
 }
 
-interface CanSetBounds {
+interface CanSetBounds : HasBounds {
     fun setBounds(left: Number, top: Number, right: Number, bottom: Number)
     fun setBounds(rect: ERect) = with(rect) { setBounds(left, top, right, bottom) }
 }
