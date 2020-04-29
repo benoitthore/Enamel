@@ -9,7 +9,7 @@ class ELayoutTag(var tag: String) : ELayout {
     override val children: List<ELayout> get() = emptyList()
 
     val frame: ERect get() = _frame
-    private val _frame = E.mRect()
+    private val _frame = E.RectMutable()
 
     override fun size(toFit: ESize): ESize = toFit
 

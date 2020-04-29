@@ -35,7 +35,7 @@ inline operator fun Number.div(p: EPoint): EPoint {
 }
 
 
-inline operator fun ESize.unaryMinus() = E.mSize(-width, -height)
+inline operator fun ESize.unaryMinus() = E.SizeMutable(-width, -height)
 
 inline operator fun ESize.div(other: Tuple2) = dividedBy(other)
 inline operator fun ESize.div(n: Number) = dividedBy(n)

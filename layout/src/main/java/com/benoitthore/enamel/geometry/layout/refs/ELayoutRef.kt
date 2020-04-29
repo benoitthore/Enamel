@@ -19,7 +19,7 @@ class ELayoutRef<V : Any>(
 
     var isInMeasureMode = false
 
-    private var _frame: ERectMutable = E.mRect()
+    private var _frame: ERectMutable = E.RectMutable()
     val frame: ERect get() = _frame
 
     override fun size(toFit: ESize): ESize {

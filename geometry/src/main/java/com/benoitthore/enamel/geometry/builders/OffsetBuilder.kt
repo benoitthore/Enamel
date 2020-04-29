@@ -12,7 +12,7 @@ interface OffsetBuilder : BaseBuilder {
         bottom: Number = 0f,
         left: Number = 0f
     ): EOffset =
-        moffset(
+        OffsetMutable(
             top = top,
             right = right,
             bottom = bottom,
@@ -20,8 +20,8 @@ interface OffsetBuilder : BaseBuilder {
         )
 
     //
-    fun moffset(all: Number) = moffset(all, all, all, all)
-    fun offset(all: Number): EOffset = moffset(all, all, all, all)
+    fun moffset(all: Number) = OffsetMutable(all, all, all, all)
+    fun offset(all: Number): EOffset = OffsetMutable(all, all, all, all)
 
     val OffsetMutable get() = _OffsetMutable
     val Offset get() = _Offset

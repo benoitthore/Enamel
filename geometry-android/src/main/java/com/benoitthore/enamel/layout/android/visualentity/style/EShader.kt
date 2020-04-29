@@ -21,7 +21,7 @@ fun ELine.toShader(
 ) =
     EShader(
         toLinearGradient(colors, stops, shaderMode),
-        E.mRectCorners(start, end)
+        E.RectMutableCorners(start, end)
     )
 
 fun ECircle.toShader(

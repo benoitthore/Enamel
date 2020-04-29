@@ -18,12 +18,12 @@ interface ERect : ESVG {
         context.rect(this)
     }
 
-    fun toMutable(target: ERectMutable = E.mRect()) =
+    fun toMutable(target: ERectMutable = E.RectMutable()) =
         target.set(origin.toMutable(target.origin), size.toMutable())
 
     fun toImmutable() = E.Rect(this)
-    fun copy(target: ERectMutable = E.mRect()) =
-        E.mRect(origin.copy(target = target.origin), size.copy(target = target.size))
+    fun copy(target: ERectMutable = E.RectMutable()) =
+        E.RectMutable(origin.copy(target = target.origin), size.copy(target = target.size))
 
     val height get() = size.height
     val width get() = size.width
@@ -135,11 +135,11 @@ interface ERect : ESVG {
     fun pointAtAnchor(
         x: Number,
         y: Number,
-        target: EPointMutable = E.mPoint()
+        target: EPointMutable = E.PointMutable()
     ): EPointMutable =
         target.set(x = pointAtAnchorX(x), y = pointAtAnchorY(y))
 
-    fun pointAtAnchor(anchor: EPoint, target: EPointMutable = E.mPoint()) =
+    fun pointAtAnchor(anchor: EPoint, target: EPointMutable = E.PointMutable()) =
         pointAtAnchor(anchor.x, anchor.y, target)
 
     fun pointAtAnchorX(x: Number) = origin.x + size.width * x.f
@@ -148,26 +148,26 @@ interface ERect : ESVG {
     fun anchorAtPoint(
         x: Number,
         y: Number,
-        target: EPointMutable = E.mPoint()
+        target: EPointMutable = E.PointMutable()
     ): EPointMutable {
         val x = if (width == 0f) .5f else x.f / width
         val y = if (height == 0f) .5f else y.f / height
         return target.set(x, y)
     }
 
-    fun center(target: EPointMutable = E.mPoint()): EPointMutable =
+    fun center(target: EPointMutable = E.PointMutable()): EPointMutable =
         pointAtAnchor(0.5f, 0.5f, target)
 
-    fun topLeft(target: EPointMutable = E.mPoint()): EPointMutable =
+    fun topLeft(target: EPointMutable = E.PointMutable()): EPointMutable =
         pointAtAnchor(0f, 0f, target)
 
-    fun topRight(target: EPointMutable = E.mPoint()): EPointMutable =
+    fun topRight(target: EPointMutable = E.PointMutable()): EPointMutable =
         pointAtAnchor(1f, 0.0f, target)
 
-    fun bottomRight(target: EPointMutable = E.mPoint()): EPointMutable =
+    fun bottomRight(target: EPointMutable = E.PointMutable()): EPointMutable =
         pointAtAnchor(1f, 1f, target)
 
-    fun bottomLeft(target: EPointMutable = E.mPoint()): EPointMutable =
+    fun bottomLeft(target: EPointMutable = E.PointMutable()): EPointMutable =
         pointAtAnchor(0f, 1f, target)
 
 
@@ -176,7 +176,7 @@ interface ERect : ESVG {
         alignment: EAlignment,
         size: ESize,
         spacing: Number = 0,
-        target: ERectMutable = E.mRect(this)
+        target: ERectMutable = E.RectMutable(this)
     ): ERectMutable {
         target.set(this)
         val spacing = spacing.f
@@ -189,7 +189,7 @@ interface ERect : ESVG {
 
         target.size.set(size)
 
-        return E.mrectAnchorPos(
+        return E.RectMutableAnchorPos(
             anchor = anchor,
             position = position,
             size = target.size,
@@ -202,7 +202,7 @@ interface ERect : ESVG {
         alignment: EAlignment,
         size: ESize,
         spacing: Number = 0,
-        target: ERectMutable = E.mRect()
+        target: ERectMutable = E.RectMutable()
     ): ERectMutable {
         target.set(this)
         val spacing = spacing.f
@@ -215,7 +215,7 @@ interface ERect : ESVG {
 
         target.size.set(size)
 
-        return E.mrectAnchorPos(
+        return E.RectMutableAnchorPos(
             anchor = anchor,
             position = position,
             size = target.size,
@@ -225,13 +225,13 @@ interface ERect : ESVG {
 
 
     // Changing
-    fun offset(p: Tuple2, target: ERectMutable = E.mRect()): ERectMutable =
+    fun offset(p: Tuple2, target: ERectMutable = E.RectMutable()): ERectMutable =
         offset(p.v1, p.v2, target)
 
     fun offset(
         x: Number = 0,
         y: Number = 0,
-        target: ERectMutable = E.mRect()
+        target: ERectMutable = E.RectMutable()
     ): ERectMutable {
         target.set(this)
         target.origin.selfOffset(x, y)
@@ -239,14 +239,14 @@ interface ERect : ESVG {
     }
 
     // TODO Expand/Inset/Padding -> align
-    fun inset(margin: Number, target: ERectMutable = E.mRect()) =
+    fun inset(margin: Number, target: ERectMutable = E.RectMutable()) =
         inset(margin, margin, target)
 
-    fun inset(p: Tuple2, target: ERectMutable = E.mRect()) = inset(p.v1, p.v2, target)
+    fun inset(p: Tuple2, target: ERectMutable = E.RectMutable()) = inset(p.v1, p.v2, target)
     fun inset(
         x: Number = 0,
         y: Number = 0,
-        target: ERectMutable = E.mRect()
+        target: ERectMutable = E.RectMutable()
     ) = inset(left = x, top = y, right = x, bottom = y, target = target)
 
     fun inset(
@@ -254,7 +254,7 @@ interface ERect : ESVG {
         top: Number = 0,
         right: Number = 0,
         bottom: Number = 0,
-        target: ERectMutable = E.mRect()
+        target: ERectMutable = E.RectMutable()
     ): ERectMutable {
         target.set(this)
         target.left += left.toFloat()
@@ -264,11 +264,11 @@ interface ERect : ESVG {
         return target
     }
 
-    fun expand(margin: Number, target: ERectMutable = E.mRect()) =
+    fun expand(margin: Number, target: ERectMutable = E.RectMutable()) =
         expand(margin, margin, target)
 
-    fun expand(p: Tuple2, target: ERectMutable = E.mRect()) = expand(p.v1, p.v2, target)
-    fun expand(x: Number = 0f, y: Number = 0f, target: ERectMutable = E.mRect()) =
+    fun expand(p: Tuple2, target: ERectMutable = E.RectMutable()) = expand(p.v1, p.v2, target)
+    fun expand(x: Number = 0f, y: Number = 0f, target: ERectMutable = E.RectMutable()) =
         inset(-x.f, -y.f, target)
 
     fun expand(
@@ -276,7 +276,7 @@ interface ERect : ESVG {
         top: Number = 0,
         right: Number = 0,
         bottom: Number = 0,
-        target: ERectMutable = E.mRect()
+        target: ERectMutable = E.RectMutable()
     ): ERectMutable = inset(
         left = -left.toFloat(),
         top = -top.toFloat(),
@@ -285,7 +285,7 @@ interface ERect : ESVG {
         target = target
     )
 
-    fun expand(padding: EOffset, target: ERectMutable = E.mRect()) = expand(
+    fun expand(padding: EOffset, target: ERectMutable = E.RectMutable()) = expand(
         left = padding.left,
         top = padding.top,
         right = padding.right,
@@ -298,7 +298,7 @@ interface ERect : ESVG {
         bottom: Number = this.bottom,
         left: Number = this.left,
         right: Number = this.right
-        , target: ERectMutable = E.mRect()
+        , target: ERectMutable = E.RectMutable()
     ): ERectMutable {
         target.set(this)
         target.left += left.f
@@ -308,7 +308,7 @@ interface ERect : ESVG {
         return target
     }
 
-    fun padding(padding: EOffset, target: ERectMutable = E.mRect()): ERectMutable =
+    fun padding(padding: EOffset, target: ERectMutable = E.RectMutable()): ERectMutable =
         padding(
             left = padding.left,
             top = padding.top,
@@ -318,10 +318,10 @@ interface ERect : ESVG {
         )
 
     // TODO Make self version
-    fun scale(t: Tuple2, target: ERectMutable = E.mRect()): ERectMutable =
+    fun scale(t: Tuple2, target: ERectMutable = E.RectMutable()): ERectMutable =
         scale(t.v1, t.v2, target)
 
-    fun scale(x: Number, y: Number, target: ERectMutable = E.mRect()): ERectMutable {
+    fun scale(x: Number, y: Number, target: ERectMutable = E.RectMutable()): ERectMutable {
         target.x = this.x * x.f
         target.y = this.y * y.f
         target.width = this.width * x.f
@@ -330,7 +330,7 @@ interface ERect : ESVG {
         return target
     }
 
-    fun scaleAnchor(factor: Number, anchor: EPoint, target: ERectMutable = E.mRect()) =
+    fun scaleAnchor(factor: Number, anchor: EPoint, target: ERectMutable = E.RectMutable()) =
         scaleAnchor(factor, anchor.x, anchor.y, target)
 
 
@@ -338,7 +338,7 @@ interface ERect : ESVG {
         factor: Number,
         anchorX: Number,
         anchorY: Number,
-        target: ERectMutable = E.mRect()
+        target: ERectMutable = E.RectMutable()
     ) = scaleRelative(
         factor,
         pointAtAnchorX(anchorX),
@@ -350,14 +350,14 @@ interface ERect : ESVG {
     fun scaleRelative(
         factor: Number,
         point: EPoint,
-        target: ERectMutable = E.mRect()
+        target: ERectMutable = E.RectMutable()
     ) = scaleRelative(factor, point.x, point.y, target)
 
     fun scaleRelative(
         factor: Number,
         pointX: Number,
         pointY: Number,
-        target: ERectMutable = E.mRect()
+        target: ERectMutable = E.RectMutable()
     ): ERectMutable {
         target.set(this)
 
@@ -373,10 +373,10 @@ interface ERect : ESVG {
 
     fun toPointList(
         target: List<EPointMutable> = listOf(
-            E.mPoint(),
-            E.mPoint(),
-            E.mPoint(),
-            E.mPoint()
+            E.PointMutable(),
+            E.PointMutable(),
+            E.PointMutable(),
+            E.PointMutable()
         )
     ): List<EPointMutable> {
         require(target.size == 4) {
@@ -392,7 +392,7 @@ interface ERect : ESVG {
     /***
      * @return the diagonal going from top right to bottom left
      */
-    fun diagonalTRBL(target: ELineMutable = E.mLine()): ELineMutable {
+    fun diagonalTRBL(target: ELineMutable = E.LineMutable()): ELineMutable {
         topRight(target.start)
         bottomLeft(target.end)
         return target
@@ -401,7 +401,7 @@ interface ERect : ESVG {
     /***
      * @return the diagonal going from top left to bottom right
      */
-    fun diagonalTLBR(target: ELineMutable = E.mLine()): ELineMutable {
+    fun diagonalTLBR(target: ELineMutable = E.LineMutable()): ELineMutable {
         topLeft(target.start)
         bottomRight(target.end)
         return target
@@ -419,8 +419,8 @@ interface ERectMutable : ERect, Resetable {
             allocateDebugMessage()
         }
 
-        override val origin: EPointMutable = E.mPoint(x, y)
-        override val size: ESizeMutable = E.mSize(width, height)
+        override val origin: EPointMutable = E.PointMutable(x, y)
+        override val size: ESizeMutable = E.SizeMutable(width, height)
     }
 
     override fun reset() {

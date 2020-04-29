@@ -39,16 +39,16 @@ class EPool<T : Any>(val size: Int, init: (Int) -> T) {
     }
 }
 
-fun RectPool(size: Int = 50) = EPool(size) { E.mRect() }
+fun RectPool(size: Int = 50) = EPool(size) { E.RectMutable() }
 fun PointPool(size: Int = 50) =
-    EPool(size) { E.mPoint() }
+    EPool(size) { E.PointMutable() }
 
 fun CirclePool(size: Int = 50) =
-    EPool(size) { E.mcircle() }
+    EPool(size) { E.CircleMutable() }
 
-fun LinePool(size: Int = 50) = EPool(size) { E.mLine() }
+fun LinePool(size: Int = 50) = EPool(size) { E.LineMutable() }
 fun AnglePool(size: Int = 50) =
-    EPool(size) { E.mAngle() }
+    EPool(size) { E.AngleMutable() }
 
 // TODO Make this an interface
 class GeometryPool(

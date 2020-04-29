@@ -55,17 +55,17 @@ interface ELine : ELinearFunction, ESVG, HasCenter {
 
     @Allocates
     fun pointFrom(distance: Number, from: Float, target: EPointMutable): EPoint {
-        val opposite = pointAt(from.opposite(), target = E.mPoint())
-        return target.set(opposite.offsetFrom(pointAt(from, target = E.mPoint()), distance))
+        val opposite = pointAt(from.opposite(), target = E.PointMutable())
+        return target.set(opposite.offsetFrom(pointAt(from, target = E.PointMutable()), distance))
     }
 
     @Allocates
     fun pointTowards(distance: Number, towards: Float, target: EPointMutable) =
         target.set(
-            pointAt(towards.opposite(), target = E.mPoint()).offsetTowards(
+            pointAt(towards.opposite(), target = E.PointMutable()).offsetTowards(
                 pointAt(
                     towards,
-                    target = E.mPoint()
+                    target = E.PointMutable()
                 ), distance
             )
         )
@@ -73,11 +73,11 @@ interface ELine : ELinearFunction, ESVG, HasCenter {
     fun extrapolateFrom(distance: Number, from: Number, target: EPointMutable): EPoint {
         val from = from.toFloat()
 
-        val fromPoint = pointAt(from.opposite(), target = target)
+        val froPointMutable = pointAt(from.opposite(), target = target)
 
         val totalDistance = length + distance.f
 
-        return fromPoint._offsetAngle(angleRadians, totalDistance, target = fromPoint)
+        return froPointMutable._offsetAngle(angleRadians, totalDistance, target = froPointMutable)
     }
 
     fun isParallel(other: ELineMutable) = angleRadians == angleRadians
@@ -86,7 +86,7 @@ interface ELine : ELinearFunction, ESVG, HasCenter {
 
     fun rotate(
         offsetAngle: EAngleMutable,
-        around: EPoint = center(E.mPoint()),
+        around: EPoint = center(E.PointMutable()),
         target: ELineMutable
     ): ELineMutable {
         start.rotateAround(offsetAngle, around, target = target.start)
@@ -118,28 +118,28 @@ interface ELine : ELinearFunction, ESVG, HasCenter {
 
     @Allocates
     fun perpendicularPointLeft(
-        distanceFromLine: Number,
+        distanceFroLineMutable: Number,
         distanceTowardsEndPoint: Number,
         towards: Float,
         target: EPointMutable
     ): EPoint {
-        val x = pointTowards(distanceTowardsEndPoint, towards, target = E.mPoint())
+        val x = pointTowards(distanceTowardsEndPoint, towards, target = E.PointMutable())
         return target.set(
             x.offsetAngle(
-                angle = angle(E.mAngle()) - 90.degrees(),
-                distance = distanceFromLine
+                angle = angle(E.AngleMutable()) - 90.degrees(),
+                distance = distanceFroLineMutable
             )
         )
     }
 
     fun perpendicularPointRight(
-        distanceFromLine: Number,
+        distanceFroLineMutable: Number,
         distanceTowardsEndPoint: Number,
         towards: Float,
         target: EPointMutable
     ) =
         perpendicularPointLeft(
-            -distanceFromLine.f,
+            -distanceFroLineMutable.f,
             distanceTowardsEndPoint,
             towards,
             target = target
@@ -153,13 +153,13 @@ interface ELine : ELinearFunction, ESVG, HasCenter {
         target: ELineMutable
     ): ELine {
         perpendicularPointLeft(
-            distanceFromLine = leftLength,
+            distanceFroLineMutable = leftLength,
             distanceTowardsEndPoint = distance,
             towards = towards,
             target = target.start
         )
         perpendicularPointRight(
-            distanceFromLine = rightLength,
+            distanceFroLineMutable = rightLength,
             distanceTowardsEndPoint = distance,
             towards = towards,
             target = target.end
@@ -226,8 +226,8 @@ interface ELineMutable : ELine, CanSetCenter, Resetable {
             allocateDebugMessage()
         }
 
-        override val start: EPointMutable = E.mPoint(x1, y1)
-        override val end: EPointMutable = E.mPoint(x2, y2)
+        override val start: EPointMutable = E.PointMutable(x1, y1)
+        override val end: EPointMutable = E.PointMutable(x2, y2)
     }
 
     override val start: EPointMutable
@@ -279,7 +279,7 @@ interface ELineMutable : ELine, CanSetCenter, Resetable {
 }
 
 infix fun EPoint.line(end: EPoint) = E.Line(start = this, end = end)
-infix fun EPointMutable.line(end: EPointMutable) = E.mLine(start = this, end = end)
+infix fun EPointMutable.line(end: EPointMutable) = E.LineMutable(start = this, end = end)
 
 fun List<EPoint>.toListOfLines(): List<ELine> {
     val ret = mutableListOf<ELine>()
@@ -370,12 +370,12 @@ val List<ELine>.length: Float get() = sumByDouble { it.length.toDouble() }.toFlo
 operator fun ELine.component1() = start
 operator fun ELine.component2() = end
 
-fun List<EPoint>.pointAtFraction(fraction: Number, target: EPointMutable = E.mPoint()) =
+fun List<EPoint>.pointAtFraction(fraction: Number, target: EPointMutable = E.PointMutable()) =
     pointAtDistance(fraction.toFloat() * length, target)
 
 fun List<EPoint>.pointAtDistance(
     distance: Number,
-    target: EPointMutable = E.mPoint()
+    target: EPointMutable = E.PointMutable()
 ): EPointMutable {
     var last: EPoint? = null
     val distance = distance.toFloat()

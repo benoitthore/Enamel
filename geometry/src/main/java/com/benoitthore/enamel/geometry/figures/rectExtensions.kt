@@ -9,7 +9,7 @@ import com.benoitthore.enamel.geometry.primitives.EOffset
 fun ERect.dividedFraction(
     fraction: Number,
     from: ERectEdge,
-    target: Pair<ERectMutable, ERectMutable> = E.mRect() to E.mRect()
+    target: Pair<ERectMutable, ERectMutable> = E.RectMutable() to E.RectMutable()
 ): Pair<ERect, ERect> {
     val fraction = fraction.f
 
@@ -23,7 +23,7 @@ fun ERect.dividedFraction(
 fun ERect.divided(
     distance: Number,
     from: ERectEdge,
-    target: Pair<ERectMutable, ERectMutable> = E.mRect() to E.mRect()
+    target: Pair<ERectMutable, ERectMutable> = E.RectMutable() to E.RectMutable()
 ): Pair<ERectMutable, ERectMutable> {
     val distance = distance.f
 
@@ -61,9 +61,9 @@ fun ERect.divided(
 operator fun ERect.minus(padding: EOffset) = padding(padding)
 operator fun ERect.plus(padding: EOffset) = expand(padding)
 
-fun List<ERect>.union(target: ERectMutable = E.mRect()): ERectMutable {
+fun List<ERect>.union(target: ERectMutable = E.RectMutable()): ERectMutable {
     if (isEmpty()) {
-        return E.mRect()
+        return E.RectMutable()
     }
 
     var left = Float.MAX_VALUE
@@ -87,7 +87,7 @@ fun List<ERect>.union(target: ERectMutable = E.mRect()): ERectMutable {
             bottom = it.bottom
         }
     }
-    return E.mrectSides(
+    return E.RectMutableSides(
         top = top,
         left = left,
         right = right,

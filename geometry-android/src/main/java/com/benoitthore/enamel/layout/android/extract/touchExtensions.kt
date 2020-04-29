@@ -20,8 +20,8 @@ sealed class ETouchEvent(val position: EPointMutable) {
 
 class SingleTouchDelegate(val block: ETouchListener) : View.OnTouchListener {
 
-    private val previous = E.mPoint()
-    private val current = E.mPoint()
+    private val previous = E.PointMutable()
+    private val current = E.PointMutable()
     private val up = ETouchEvent.Up(current)
     private val move = ETouchEvent.Move(position = current, previous = previous)
     private val down = ETouchEvent.Down(current)
@@ -52,7 +52,7 @@ fun View.singleTouch(block: (ETouchEvent) -> Boolean) =
 
 
 data class ETouchInstance(
-    val position: EPointMutable = E.mPoint(),
+    val position: EPointMutable = E.PointMutable(),
     var isDown: Boolean = false,
     var id: Int = -1
 ) {
@@ -71,9 +71,9 @@ data class ETouchInstance(
 
 fun View.mutliTouch(maxFingers: Int = 10, onTouch: (List<ETouchInstance>) -> Boolean) {
 
-    val touch = E.mPoint()
+    val touch = E.PointMutable()
 
-    val list = List(maxFingers) { ETouchInstance(E.mPoint(), false, -1) }
+    val list = List(maxFingers) { ETouchInstance(E.PointMutable(), false, -1) }
 
     setOnTouchListener { v, e ->
         touch.set(e)

@@ -7,13 +7,13 @@ import com.benoitthore.enamel.geometry.primitives.EPoint
 interface CircleBuilder : PointBuilder, BaseBuilder {
 
     fun circle(centerX: Number, centerY: Number, radius: Number = 0f): ECircle =
-        mcircle(centerX, centerY, radius)
+        CircleMutable(centerX, centerY, radius)
 
     //
 
-    fun mcircle(center: EPoint = mPoint(), radius: Number = 0f): ECircleMutable =
-        mcircle(center.x, center.y, radius)
+    fun CircleMutable(center: EPoint = PointMutable(), radius: Number = 0f): ECircleMutable =
+        CircleMutable(center.x, center.y, radius)
 
     fun circle(center: EPoint = Point(), radius: Number = 0f): ECircle =
-        mcircle(center, radius)
+        CircleMutable(center, radius)
 }

@@ -12,7 +12,7 @@ interface ConvertsToPoint {
 
 // TODO Add to Rect, Oval, Circle
 interface HasCenter {
-    fun getCenter(target: EPointMutable = E.mPoint()): EPointMutable = target.set(centerX, centerY)
+    fun getCenter(target: EPointMutable = E.PointMutable()): EPointMutable = target.set(centerX, centerY)
     val centerX: Float
     val centerY: Float
 }
@@ -29,7 +29,7 @@ interface HasBounds {
     val top: Float
     val right: Float
     val bottom: Float
-    fun getBounds(target: ERectMutable = E.mRect()) =
+    fun getBounds(target: ERectMutable = E.RectMutable()) =
         target.setSides(top = top, left = left, right = right, bottom = bottom)
 }
 

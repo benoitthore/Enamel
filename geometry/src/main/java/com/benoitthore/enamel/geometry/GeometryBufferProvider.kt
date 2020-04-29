@@ -9,17 +9,17 @@
 //object GeometryBufferProvider {
 //    val point by lazy {
 //        allocate {
-//            GenericBufferProvider { E.mpoint() }
+//            GenericBufferProvider { E.PointMutable() }
 //        }
 //    }
 //    val circle by lazy {
 //        allocate {
-//            GenericBufferProvider { E.mcircle() }
+//            GenericBufferProvider { E.CircleMutable() }
 //        }
 //    }
 //    val rect by lazy {
 //        allocate {
-//            GenericBufferProvider { E.mrect() }
+//            GenericBufferProvider { E.RectMutable() }
 //        }
 //    }
 //    val angle by lazy {

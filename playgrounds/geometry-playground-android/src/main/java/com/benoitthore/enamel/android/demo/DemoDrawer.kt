@@ -21,8 +21,8 @@ abstract class DemoDrawer {
 
     abstract val progressLabels: List<String>
 
-    fun Canvas.frame() = E.mRect(size = E.Size(width, height))
-    fun Canvas.halfFrame() = E.mrectCenter(
+    fun Canvas.frame() = E.RectMutable(size = E.Size(width, height))
+    fun Canvas.halfFrame() = E.RectMutableCenter(
         center = frame().center(),
         size = frame().size / 2
     )

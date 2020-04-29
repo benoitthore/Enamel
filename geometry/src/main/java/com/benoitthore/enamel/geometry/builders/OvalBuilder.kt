@@ -6,7 +6,7 @@ import com.benoitthore.enamel.geometry.primitives.*
 interface OvalBuilder : BaseBuilder {
 
     fun Oval(centerX: Number, centerY: Number, rx: Number, ry: Number): EOval
-            = moval(centerX, centerY, rx, ry)
+            = OvalMutable(centerX, centerY, rx, ry)
 
     object Angle {
         val zero = 0.degrees()

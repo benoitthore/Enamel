@@ -11,7 +11,7 @@ class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.Rect()) : SVGVi
     ERectMutable by rect.toMutable() {
 
     constructor(style: EStyle, builder: ERectMutable.() -> Unit) :
-            this(style, E.mRect().apply(builder))
+            this(style, E.RectMutable().apply(builder))
 
     init {
         this.style = style
@@ -30,11 +30,11 @@ class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.Rect()) : SVGVi
         get() = size
 }
 
-class CircleVisualEntity(style: EStyle, circle: ECircleMutable = E.mcircle()) : SVGVisualEntity(),
+class CircleVisualEntity(style: EStyle, circle: ECircleMutable = E.CircleMutable()) : SVGVisualEntity(),
     ECircleMutable by circle {
 
     constructor(style: EStyle, builder: ECircleMutable.() -> Unit) :
-            this(style, E.mcircle().apply(builder))
+            this(style, E.CircleMutable().apply(builder))
 
     init {
         this.style = style

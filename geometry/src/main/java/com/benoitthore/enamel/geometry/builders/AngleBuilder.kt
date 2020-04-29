@@ -4,7 +4,7 @@ import com.benoitthore.enamel.geometry.primitives.*
 
 interface AngleBuilder : BaseBuilder {
     fun Angle(value: Number = 0f, type: AngleType = AngleType.RADIAN): EAngle =
-        mAngle(value, type).toMutable()
+        AngleMutable(value, type).toMutable()
 
     object Angle {
         val zero = 0.degrees()

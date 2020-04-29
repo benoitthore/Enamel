@@ -29,6 +29,6 @@ interface EOvalMutable : EOval, Resetable {
 
     class Impl(cx: Number, cy: Number, override var rx: Float, override var ry: Float) :
         EOvalMutable {
-        override val center: EPointMutable = E.mPoint(cx, cy)
+        override val center: EPointMutable = E.PointMutable(cx, cy)
     }
 }

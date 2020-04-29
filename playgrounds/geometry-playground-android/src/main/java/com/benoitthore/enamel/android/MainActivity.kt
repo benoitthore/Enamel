@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
 
         view.singleTouch {
-            val viewFrame = E.mRect().setBounds(view)
+            val viewFrame = E.RectMutable().setBounds(view)
             val rect =
                 viewFrame.rectAlignedInside(center, size = E.SizeSquare(viewFrame.size.min / 2))
 
@@ -181,7 +181,7 @@ class JolieVue @JvmOverloads constructor(
         canvas.drawColor(colorHSL(color).withAlpha(0.5))
         pathContext.reset()
 
-        val frame = E.mRect().setBounds(this)
+        val frame = E.RectMutable().setBounds(this)
         val center = frame.center()
 
         val mainCircle = frame.innerCircle()
@@ -198,7 +198,7 @@ class JolieVue @JvmOverloads constructor(
         circleList.flatMap {
             listOf<ESVG>(
                 it.toCircle(10.dp),
-                E.mLine(center, it.selfOffsetTowards(center, 10.dp))
+                E.LineMutable(center, it.selfOffsetTowards(center, 10.dp))
             )
         }
             .addTo(pathContext)

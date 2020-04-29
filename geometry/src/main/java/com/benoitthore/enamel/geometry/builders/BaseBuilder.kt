@@ -8,16 +8,16 @@ import com.benoitthore.enamel.geometry.primitives.*
 
 interface BaseBuilder {
 
-    fun mPoint(x: Number = 0, y: Number = 0): EPointMutable =
+    fun PointMutable(x: Number = 0, y: Number = 0): EPointMutable =
         EPointMutable.Impl(x, y)
 
-    fun mAngle(value: Number = 0f, type: AngleType = AngleType.RADIAN): EAngleMutable =
+    fun AngleMutable(value: Number = 0f, type: AngleType = AngleType.RADIAN): EAngleMutable =
         EAngleMutable.Impl(
             value,
             type
         )
 
-    fun mRect(
+    fun RectMutable(
         x: Number = 0f,
         y: Number = 0f,
         width: Number = 0f,
@@ -25,19 +25,19 @@ interface BaseBuilder {
     ): ERectMutable =
         ERectMutable.Impl(x, y, width, height)
 
-    fun mSize(width: Number = 0, height: Number = 0): ESizeMutable =
+    fun SizeMutable(width: Number = 0, height: Number = 0): ESizeMutable =
         ESizeMutable.Impl(width, height)
 
-    fun mcircle(centerX: Number, centerY: Number, radius: Number = 0f): ECircleMutable =
+    fun CircleMutable(centerX: Number, centerY: Number, radius: Number = 0f): ECircleMutable =
         ECircleMutable.Impl(centerX, centerY, radius)
 
-    fun moval(centerX: Number, centerY: Number, rx: Number, ry: Number): EOvalMutable =
+    fun OvalMutable(centerX: Number, centerY: Number, rx: Number, ry: Number): EOvalMutable =
         EOvalMutable.Impl(centerX, centerY, rx.toFloat(), ry.toFloat())
 
-    fun mlinearFunction(slope: Number, yIntercept: Number): ELinearFunction =
+    fun LineMutablearFunction(slope: Number, yIntercept: Number): ELinearFunction =
         ELinearFunction.Impl(slope.toFloat(), yIntercept.toFloat())
 
-    fun moffset(
+    fun OffsetMutable(
         top: Number = 0f, right: Number = 0f, bottom: Number = 0f, left: Number = 0f
     ): EOffsetMutable = EOffsetMutable.Impl(
         top = top.toFloat(),

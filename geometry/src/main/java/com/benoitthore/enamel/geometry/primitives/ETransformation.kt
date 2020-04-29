@@ -10,11 +10,11 @@ interface ETransformation {
     val translation: EPointMutable
 
     class Impl : ETransformation {
-        override val rotation: EAngleMutable = E.mAngle()
+        override val rotation: EAngleMutable = E.AngleMutable()
         override val rotationPivot: EPointMutable = E.PointMutable.half()
         override val scale: EPointMutable = E.PointMutable.unit()
         override val scalePivot: EPointMutable = E.PointMutable.half()
-        override val translation: EPointMutable = E.mPoint()
+        override val translation: EPointMutable = E.PointMutable()
     }
 }
 
