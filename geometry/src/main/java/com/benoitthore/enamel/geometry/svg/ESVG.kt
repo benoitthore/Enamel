@@ -6,13 +6,13 @@ import com.benoitthore.enamel.geometry.primitives.EAngle
 import com.benoitthore.enamel.geometry.primitives.EPoint
 
 
-fun List<ESVG>.addTo(context: ESVGContext) = forEach { it.addTo(context) }
+fun List<ESVG>.addTo(context: SVGContext) = forEach { it.addTo(context) }
 
 interface ESVG {
-    fun addTo(context: ESVGContext)
+    fun addTo(context: SVGContext)
 }
 
-interface ESVGContext {
+interface SVGContext {
     fun reset()
     fun close()
 

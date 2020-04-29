@@ -6,7 +6,7 @@ import com.benoitthore.enamel.geometry.figures.*
 import com.benoitthore.enamel.layout.android.extract.draw
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 
-class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.Rect()) : BaseVisualEntity(),
+class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.Rect()) : SVGVisualEntity(),
     ERectMutable by rect.toMutable() {
 
     constructor(style: EStyle, builder: ERectMutable.() -> Unit) :
@@ -29,7 +29,7 @@ class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.Rect()) : BaseV
         get() = size
 }
 
-class CircleVisualEntity(style: EStyle, circle: ECircleMutable = E.mcircle()) : BaseVisualEntity(),
+class CircleVisualEntity(style: EStyle, circle: ECircleMutable = E.mcircle()) : SVGVisualEntity(),
     ECircleMutable by circle {
 
     constructor(style: EStyle, builder: ECircleMutable.() -> Unit) :

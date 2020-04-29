@@ -7,7 +7,7 @@ import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.*
 import com.benoitthore.enamel.geometry.svg.ESVG
-import com.benoitthore.enamel.geometry.svg.ESVGContext
+import com.benoitthore.enamel.geometry.svg.SVGContext
 
 
 /*
@@ -38,7 +38,7 @@ interface ELine : ELinearFunction, ESVG {
     override val yIntercept: Float
         get() = start.y - a * start.x
 
-    override fun addTo(context: ESVGContext) {
+    override fun addTo(context: SVGContext) {
         with(context){
             move(start)
             line(end)

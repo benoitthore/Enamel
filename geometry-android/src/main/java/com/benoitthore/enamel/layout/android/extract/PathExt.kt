@@ -1,17 +1,11 @@
 package com.benoitthore.enamel.layout.android.extract
 
-import android.graphics.Canvas
 import android.graphics.Path
 import android.graphics.RectF
 import android.os.Build
-import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.*
 import com.benoitthore.enamel.geometry.primitives.EAngle
 import com.benoitthore.enamel.geometry.primitives.EPoint
-import com.benoitthore.enamel.geometry.primitives.EPointMutable
-import com.benoitthore.enamel.geometry.primitives.point
-import com.benoitthore.enamel.geometry.svg.ESVGContext
-
+import com.benoitthore.enamel.geometry.svg.SVGContext
 
 val EAngle.Direction.pathDirection
     get() :Path.Direction = when (this) {
@@ -20,9 +14,9 @@ val EAngle.Direction.pathDirection
     }
 
 
-fun Path.createContext() = PathESVGContext(this)
+fun Path.createContext() = PathSVGContext(this)
 
-class PathESVGContext(val path: Path) : ESVGContext {
+class PathSVGContext(val path: Path = Path()) : SVGContext {
     override fun reset() {
         path.reset()
     }

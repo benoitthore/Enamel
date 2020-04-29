@@ -6,12 +6,12 @@ import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.*
 import com.benoitthore.enamel.geometry.svg.ESVG
-import com.benoitthore.enamel.geometry.svg.ESVGContext
+import com.benoitthore.enamel.geometry.svg.SVGContext
 
 interface ECircle : ESVG {
 
 
-    override fun addTo(context: ESVGContext) {
+    override fun addTo(context: SVGContext) {
         context.oval(x - radius, y - radius, x + radius, y + radius)
     }
 

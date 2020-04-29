@@ -7,14 +7,14 @@ import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.*
 import com.benoitthore.enamel.geometry.svg.ESVG
-import com.benoitthore.enamel.geometry.svg.ESVGContext
+import com.benoitthore.enamel.geometry.svg.SVGContext
 
 interface ERect : ESVG {
 
     val origin: EPoint
     val size: ESize
 
-    override fun addTo(context: ESVGContext) {
+    override fun addTo(context: SVGContext) {
         context.rect(this)
     }
 
