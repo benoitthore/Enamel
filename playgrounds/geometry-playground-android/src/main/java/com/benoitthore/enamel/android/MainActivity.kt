@@ -27,7 +27,6 @@ import com.benoitthore.enamel.core.math.map
 import com.benoitthore.enamel.core.math.noise.OpenSimplexNoise
 import com.benoitthore.enamel.core.withAlpha
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
-import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
 import com.benoitthore.enamel.geometry.builders.E
@@ -40,9 +39,8 @@ import com.benoitthore.enamel.geometry.svg.addTo
 import com.benoitthore.enamel.geometry.toCircle
 import com.benoitthore.enamel.layout.android.createContext
 import com.benoitthore.enamel.layout.android.extract.multiTouch
-import com.benoitthore.enamel.layout.android.extract.singleTouch
 import com.benoitthore.enamel.layout.android.setBounds
-import com.benoitthore.enamel.layout.android.visualentity.RectVisualEntity
+import com.benoitthore.enamel.layout.android.visualentity.RectVisualEntitoriginY
 import com.benoitthore.enamel.layout.android.visualentity.VisualEntityView
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 import com.benoitthore.enamel.layout.android.visualentity.style.Mesh
@@ -86,8 +84,8 @@ class MainActivity : AppCompatActivity() {
                 val shader = rect.diagonalTLBR().apply { setCenter(0, 0) }.toShader(RED, YELLOW)
                 val style = EStyle(fill = Mesh(shader = shader))
 
-                val entity = RectVisualEntity(style, rect)
-                val entity2 = RectVisualEntity(style, E.RectMutable(size = 100 size 100))
+                val entity = RectVisualEntitoriginY(style, rect)
+                val entity2 = RectVisualEntitoriginY(style, E.RectMutable(size = 100 size 100))
                 entity.setCenter(touchEvent.position)
 
                 entity2.selfAlignOutside(entity, bottomRight).selfOffset(entity2.width, 0)

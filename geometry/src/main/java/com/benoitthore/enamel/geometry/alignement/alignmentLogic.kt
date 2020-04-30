@@ -23,8 +23,8 @@ fun <T : CanSetBounds> T.selfAlign(
     val positionX = frame.pointAtAnchorX(alignment.namedPoint.x) + spacingSign.x * spacing
     val positionY = frame.pointAtAnchorY(alignment.namedPoint.y) + spacingSign.y * spacing
 
-    this.x = positionX - width * anchor.x
-    this.y = positionY - height * anchor.y
+    this.originX = positionX - width * anchor.x
+    this.originY = positionY - height * anchor.y
 
     return this
 }

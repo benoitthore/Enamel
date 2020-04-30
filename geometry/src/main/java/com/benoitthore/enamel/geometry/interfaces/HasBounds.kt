@@ -15,12 +15,12 @@ interface HasBounds {
     val right: Float
     val bottom: Float
 
-    val x: Float get() = left
-    val y: Float get() = top
+    val originX: Float get() = left
+    val originY: Float get() = top
     val width: Float get() = right - left
     val height: Float get() = bottom - top
 
-    fun getBounds(target: ERectMutable = E.RectMutable()): ERect = target.set(x, y, width, height)
+    fun getBounds(target: ERectMutable = E.RectMutable()): ERect = target.set(originX, originY, width, height)
 }
 
 
@@ -124,8 +124,8 @@ fun HasBounds.pointAtAnchor(
 fun HasBounds.pointAtAnchor(anchor: EPoint, target: EPointMutable = E.PointMutable()) =
     pointAtAnchor(anchor.x, anchor.y, target)
 
-fun HasBounds.pointAtAnchorX(x: Number) = this.x.f + width * x.f
-fun HasBounds.pointAtAnchorY(y: Number) = this.y.f + height * y.f
+fun HasBounds.pointAtAnchorX(x: Number) = this.originX.f + width * x.f
+fun HasBounds.pointAtAnchorY(y: Number) = this.originY.f + height * y.f
 
 fun HasBounds.anchorAtPoint(
     x: Number,
@@ -163,8 +163,8 @@ fun HasBounds.offset(
     target: CanSetBounds = E.RectMutable()
 ): CanSetBounds {
     target.set(this)
-    target.x += x.f
-    target.y += y.f
+    target.originX += x.f
+    target.originY += y.f
     return target
 }
 
@@ -252,8 +252,8 @@ fun HasBounds.scale(t: Tuple2, target: CanSetBounds = E.RectMutable()): CanSetBo
     scale(t.v1, t.v2, target)
 
 fun HasBounds.scale(x: Number, y: Number, target: CanSetBounds = E.RectMutable()): CanSetBounds {
-    target.x = this.x * x.f
-    target.y = this.y * y.f
+    target.originX = this.originX * x.f
+    target.originY = this.originY * y.f
     target.width = this.width * x.f
     target.height = this.height * y.f
 
@@ -292,8 +292,8 @@ fun HasBounds.scaleRelative(
     target.set(this)
 
     val factor = factor.f
-    target.x = x + (pointX.f - x) * (1f - factor)
-    target.y = y + (pointY.f - y) * (1f - factor)
+    target.originX = originX + (pointX.f - originX) * (1f - factor)
+    target.originY = originY + (pointY.f - originY) * (1f - factor)
 
     target.width *= factor
     target.height *= factor

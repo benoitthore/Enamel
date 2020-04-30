@@ -6,7 +6,7 @@ import com.benoitthore.enamel.geometry.figures.*
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 
-class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.Rect()) : SVGVisualEntity(),
+class RectVisualEntitoriginY(style: EStyle = EStyle(), rect: ERect = E.Rect()) : SVGVisualEntity(),
     ERectMutable by rect.toMutable() {
 
     constructor(style: EStyle, builder: ERectMutable.() -> Unit) :

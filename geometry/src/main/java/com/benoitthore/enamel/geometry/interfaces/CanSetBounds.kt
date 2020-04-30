@@ -8,7 +8,6 @@ import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.primitives.EOffset
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
-import com.benoitthore.enamel.geometry.interfaces.*
 
 interface CanSetBounds : HasBounds {
     override var left: Float
@@ -16,17 +15,17 @@ interface CanSetBounds : HasBounds {
     override var right: Float
     override var bottom: Float
 
-    override var x: Float
-        get() = super.x
+    override var originX: Float
+        get() = super.originX
         set(value) {
-            val xOff = value - x
+            val xOff = value - originX
             left += xOff
             right += xOff
         }
-    override var y: Float
-        get() = super.y
+    override var originY: Float
+        get() = super.originY
         set(value) {
-            val yOff = value - y
+            val yOff = value - originY
             top += yOff
             bottom += yOff
         }
@@ -59,7 +58,7 @@ fun <T : CanSetBounds> T.set(
     origin: EPoint?,
     size: ESize?
 ): T =
-    set(origin?.x ?: x, origin?.y ?: y, size?.width ?: width, size?.height ?: height)
+    set(origin?.x ?: originX, origin?.y ?: originY, size?.width ?: width, size?.height ?: height)
 
 //TOOO Find why this won't compile
 //fun <T : CanSetBounds> T.set(
@@ -70,20 +69,20 @@ fun <T : CanSetBounds> T.set(
 //    set(origin?.x ?: 0, origin?.y ?: 0, width, height)
 
 fun <T : CanSetBounds> T.set(
-    x: Number = this.x,
-    y: Number = this.y,
+    x: Number = this.originX,
+    y: Number = this.originY,
     size: ESize? = null
 ): T =
     set(x, y, size?.width ?: width, size?.height ?: height)
 
 fun <T : CanSetBounds> T.set(
-    x: Number = this.x,
-    y: Number = this.y,
+    x: Number = this.originX,
+    y: Number = this.originY,
     width: Number = this.width,
     height: Number = this.height
 ): T = apply {
-    this.x = x.f
-    this.y = y.f
+    this.originX = x.f
+    this.originY = y.f
     this.width = width.f
     this.height = height.f
 }
@@ -104,8 +103,8 @@ fun <T : CanSetBounds> T.setSize(
 
 fun <T : CanSetBounds> T.setCenter(point: EPoint) = setCenter(point.x, point.y)
 fun <T : CanSetBounds> T.setCenter(x: Number, y: Number) = apply {
-    this.x = x.f - width / 2
-    this.y = y.f - height / 2
+    this.originX = x.f - width / 2
+    this.originY = y.f - height / 2
 }
 
 fun <T : CanSetBounds> T.setSides(

@@ -4,6 +4,7 @@ import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.interfaces.HasBounds
 import com.benoitthore.enamel.geometry.primitives.*
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
@@ -113,7 +114,8 @@ interface ECircle : ESVG {
     fun inset(margin: Number, target: ECircleMutable = E.CircleMutable()) =
         target.set(center, radius - margin.f)
 
-    fun expand(margin: Number, target: ECircleMutable = E.CircleMutable()) = inset(-margin.f, target)
+    fun expand(margin: Number, target: ECircleMutable = E.CircleMutable()) =
+        inset(-margin.f, target)
 
     fun offset(x: Number, y: Number, target: ECircleMutable = E.CircleMutable()) =
         target.set(this.x + x.f, this.y + y.f, radius)
