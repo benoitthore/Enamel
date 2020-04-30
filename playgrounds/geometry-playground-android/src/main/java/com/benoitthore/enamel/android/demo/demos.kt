@@ -16,6 +16,14 @@ import com.benoitthore.enamel.geometry.primitives.rotations
 import com.benoitthore.enamel.layout.android.extract.draw
 import com.benoitthore.enamel.layout.android.extract.drawPointList
 
+val Demos = mutableListOf(
+    CircleToListOfPoint,
+    RectAlignmentAnchor_Point,
+    RectAlignmentAnchor_Rect,
+    RectAlignmentInside,
+    RectAlignmentOutside
+)
+
 object CircleToListOfPoint : DemoDrawer() {
 
     override val progressLabels: List<String> = listOf("numberOfPoint", "startAt (angle)")

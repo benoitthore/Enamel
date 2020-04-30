@@ -86,6 +86,20 @@ fun <T : CanSetBounds> T.set(
     this.height = height.f
 }
 
+fun <T : CanSetBounds> T.setSize(size : ESize): T = apply {
+    this.width = size.width.f
+    this.height = size.height.f
+}
+
+
+fun <T : CanSetBounds> T.setSize(
+    width: Number = this.width,
+    height: Number = this.height
+): T = apply {
+    this.width = width.f
+    this.height = height.f
+}
+
 fun <T : CanSetBounds> T.setCenter(point: EPoint) = setCenter(point.x, point.y)
 fun <T : CanSetBounds> T.setCenter(x: Number, y: Number) = apply {
     this.x = x.f - width / 2

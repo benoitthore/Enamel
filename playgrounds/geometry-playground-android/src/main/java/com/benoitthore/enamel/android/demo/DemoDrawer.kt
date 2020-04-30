@@ -10,14 +10,6 @@ import com.benoitthore.enamel.geometry.interfaces.center
 import com.benoitthore.enamel.geometry.primitives.div
 
 
-val Demos = mutableListOf(
-    CircleToListOfPoint,
-    RectAlignmentAnchor_Point,
-    RectAlignmentAnchor_Rect,
-    RectAlignmentInside,
-    RectAlignmentOutside
-)
-
 abstract class DemoDrawer {
 
     abstract val progressLabels: List<String>
