@@ -5,6 +5,8 @@ import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.interfaces.CanSetCenter
+import com.benoitthore.enamel.geometry.interfaces.HasCenter
 import com.benoitthore.enamel.geometry.primitives.*
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
@@ -13,7 +15,8 @@ import com.benoitthore.enamel.geometry.svg.SVGContext
 /*
 TODO Make allocation free
  */
-interface ELine : ELinearFunction, ESVG, HasCenter {
+interface ELine : ELinearFunction, ESVG,
+    HasCenter {
     val start: EPoint
     val end: EPoint
 
@@ -214,7 +217,8 @@ interface ELine : ELinearFunction, ESVG, HasCenter {
     private fun Float.opposite() = 1f - this
 }
 
-interface ELineMutable : ELine, CanSetCenter, Resetable {
+interface ELineMutable : ELine,
+    CanSetCenter, Resetable {
 
     class Impl internal constructor(
         x1: Number = 0,

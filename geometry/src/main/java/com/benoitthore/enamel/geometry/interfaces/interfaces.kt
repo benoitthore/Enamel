@@ -1,6 +1,7 @@
-package com.benoitthore.enamel.geometry.figures
+package com.benoitthore.enamel.geometry.interfaces
 
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
 
@@ -12,7 +13,9 @@ interface ConvertsToPoint {
 
 // TODO Add to Rect, Oval, Circle
 interface HasCenter {
-    fun getCenter(target: EPointMutable = E.PointMutable()): EPointMutable = target.set(centerX, centerY)
+    fun getCenter(target: EPointMutable = E.PointMutable()): EPointMutable =
+        target.set(centerX, centerY)
+
     val centerX: Float
     val centerY: Float
 }
@@ -24,16 +27,3 @@ interface CanSetCenter : HasCenter {
 }
 
 // TODO Add to Rect, Circle, Oval, Line
-interface HasBounds {
-    val left: Float
-    val top: Float
-    val right: Float
-    val bottom: Float
-    fun getBounds(target: ERectMutable = E.RectMutable()) =
-        target.setSides(top = top, left = left, right = right, bottom = bottom)
-}
-
-interface CanSetBounds : HasBounds {
-    fun setBounds(left: Number, top: Number, right: Number, bottom: Number)
-    fun setBounds(rect: ERect) = with(rect) { setBounds(left, top, right, bottom) }
-}

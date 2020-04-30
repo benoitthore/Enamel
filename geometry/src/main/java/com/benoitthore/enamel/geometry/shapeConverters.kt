@@ -3,9 +3,11 @@ package com.benoitthore.enamel.geometry
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.*
+import com.benoitthore.enamel.geometry.interfaces.set
+import com.benoitthore.enamel.geometry.interfaces.setCenter
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.EPoint
-
+import com.benoitthore.enamel.geometry.interfaces.*
 
 fun EPoint.toCircle(radius: Number, target: ECircleMutable = E.CircleMutable()): ECircleMutable {
     target.center.set(this)

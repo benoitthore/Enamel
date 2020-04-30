@@ -6,6 +6,7 @@ import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.figures.ESizeMutable
+import com.benoitthore.enamel.geometry.interfaces.set
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import kotlin.math.max
 import kotlin.math.min

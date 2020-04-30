@@ -7,6 +7,7 @@ import com.benoitthore.enamel.geometry.allocate
 import com.benoitthore.enamel.geometry.primitives.EOffset
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.interfaces.*
 
 class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? = null) :
     Iterable<ERect> by _rects {
@@ -77,7 +78,7 @@ fun List<ESize>.rectGroup(
         prev
     }
 
-    val rectGroup = allocate { ERectGroup(rects, rects.union().selfExpand(padding)) }
+    val rectGroup = allocate { ERectGroup(rects, rects.union().selfExpand(padding).getBounds()) }
     rectGroup.aligned(anchor, position)
 
     return rectGroup

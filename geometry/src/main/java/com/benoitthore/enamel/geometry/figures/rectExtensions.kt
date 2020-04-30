@@ -7,6 +7,7 @@ import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
 import com.benoitthore.enamel.geometry.alignement.rectAlignedOutside
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.EOffset
+import com.benoitthore.enamel.geometry.interfaces.*
 
 fun ERect.dividedFraction(
     fraction: Number,
