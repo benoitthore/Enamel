@@ -24,6 +24,11 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     fun RectMutable(origin: EPoint = PointMutable(), size: ESize = SizeMutable()): ERectMutable =
         RectMutable(origin.x, origin.y, size.width, size.height)
 
+    fun Rect(size: ESize = Size()): ERect = RectMutable(size)
+
+    fun RectMutable(size: ESize = SizeMutable()): ERectMutable =
+        RectMutable(width = size.width, height = size.height)
+
     //
 
     fun RectMutable(other: ERect): ERectMutable = RectMutable(other.origin, other.size)
@@ -49,7 +54,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     //
     //TODO Add non mutable function
     fun RectMutableCenter(
-        x: Number = 0f,y: Number = 0f,
+        x: Number = 0f, y: Number = 0f,
         width: Number, height: Number,
         target: ERectMutable = RectMutable()
     ): ERectMutable {
