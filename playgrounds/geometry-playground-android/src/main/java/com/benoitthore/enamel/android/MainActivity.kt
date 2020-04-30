@@ -28,7 +28,9 @@ import com.benoitthore.enamel.core.math.noise.OpenSimplexNoise
 import com.benoitthore.enamel.core.withAlpha
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
+import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.size
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.interfaces.*
 import com.benoitthore.enamel.geometry.outterCircle
@@ -66,30 +68,33 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        val view = VisualEntityView(this)
-//        setContentView(view)
-//
-//
-//        view.singleTouch {
-//            val viewFrame = E.RectMutable().setBounds(view)
-//            val rect =
-//                viewFrame.rectAlignedInside(center, size = E.SizeSquare(viewFrame.size.min / 2))
-//
-////                val shader = rect.innerCircle().apply { set(radius, radius) }.toShader(RED, YELLOW)
-//            val shader = rect.diagonalTLBR().apply { setCenter(0, 0) }.toShader(RED, YELLOW)
-//            val style = EStyle(fill = Mesh(shader = shader))
-//
-//            val entity = RectVisualEntity(style, rect)
-//            entity.setCenter(it.position)
-//
-//            view.show(entity)
-//            true
-//        }
-//
-//
+        val view = VisualEntityView(this)
+        setContentView(view)
+
+
+        view.singleTouch {
+            val viewFrame = E.RectMutable().setBounds(view)
+            val rect =
+                viewFrame.rectAlignedInside(center, size = E.SizeSquare(viewFrame.size.min / 2))
+
+//                val shader = rect.innerCircle().apply { set(radius, radius) }.toShader(RED, YELLOW)
+            val shader = rect.diagonalTLBR().apply { setCenter(0, 0) }.toShader(RED, YELLOW)
+            val style = EStyle(fill = Mesh(shader = shader))
+
+            val entity = RectVisualEntity(style, rect)
+            val entity2 = RectVisualEntity(style, E.RectMutable(size = 100 size 100))
+            entity.setCenter(it.position)
+
+            entity2.selfAlignOutside(entity, bottomRight).selfOffset(entity2.width, 0)
+
+            view.show(entity, entity2)
+            true
+        }
+
+        return
+
 //        setContentView(JolieVue(this))
-//
-//        return
+
         setContentView(R.layout.activity_main)
         findViewById<Button>(R.id.previousButton).setOnClickListener {
             currentDemo--

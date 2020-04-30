@@ -8,6 +8,7 @@ import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
+// TODO Add to Rect, Circle, Oval, Line
 interface HasBounds {
     val left: Float
     val top: Float

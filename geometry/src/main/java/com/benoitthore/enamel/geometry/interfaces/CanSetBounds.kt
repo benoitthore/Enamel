@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.geometry.interfaces
 
 import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.figures.ESize
@@ -41,7 +42,8 @@ interface CanSetBounds : HasBounds {
         }
 }
 
-fun CanSetBounds.ensureRect(): ERect = if(this is ERect) this else getBounds()
+fun CanSetBounds.ensureRect(target: ERectMutable = E.RectMutable()): ERect =
+    if (this is ERect) this else getBounds(target)
 
 fun <T : CanSetBounds> T.set(other: HasBounds): T = apply {
     this.left = other.left
@@ -86,7 +88,7 @@ fun <T : CanSetBounds> T.set(
     this.height = height.f
 }
 
-fun <T : CanSetBounds> T.setSize(size : ESize): T = apply {
+fun <T : CanSetBounds> T.setSize(size: ESize): T = apply {
     this.width = size.width.f
     this.height = size.height.f
 }
@@ -138,7 +140,7 @@ fun <T : CanSetBounds> T.selfPadding(
     bottom: Number = 0,
     left: Number = 0,
     right: Number = 0
-) : T = padding(
+): T = padding(
     top = top,
     bottom = bottom,
     left = left,
