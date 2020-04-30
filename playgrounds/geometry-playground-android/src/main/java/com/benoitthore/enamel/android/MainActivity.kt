@@ -38,6 +38,7 @@ import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.addTo
 import com.benoitthore.enamel.geometry.toCircle
 import com.benoitthore.enamel.layout.android.createContext
+import com.benoitthore.enamel.layout.android.extract.multiTouch
 import com.benoitthore.enamel.layout.android.extract.singleTouch
 import com.benoitthore.enamel.layout.android.setBounds
 import com.benoitthore.enamel.layout.android.visualentity.RectVisualEntity
@@ -71,22 +72,28 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
 
-        view.singleTouch {
-            val viewFrame = E.RectMutable().setBounds(view)
-            val rect =
-                viewFrame.rectAlignedInside(center, size = E.SizeSquare(viewFrame.size.min / 2))
+        view.multiTouch { touchList ->
+
+            view.clear()
+
+            touchList.forEach { touchEvent ->
+                val viewFrame = E.RectMutable().setBounds(view)
+                val rect =
+                    viewFrame.rectAlignedInside(center, size = E.SizeSquare(viewFrame.size.min / 2))
 
 //                val shader = rect.innerCircle().apply { set(radius, radius) }.toShader(RED, YELLOW)
-            val shader = rect.diagonalTLBR().apply { setCenter(0, 0) }.toShader(RED, YELLOW)
-            val style = EStyle(fill = Mesh(shader = shader))
+                val shader = rect.diagonalTLBR().apply { setCenter(0, 0) }.toShader(RED, YELLOW)
+                val style = EStyle(fill = Mesh(shader = shader))
 
-            val entity = RectVisualEntity(style, rect)
-            val entity2 = RectVisualEntity(style, E.RectMutable(size = 100 size 100))
-            entity.setCenter(it.position)
+                val entity = RectVisualEntity(style, rect)
+                val entity2 = RectVisualEntity(style, E.RectMutable(size = 100 size 100))
+                entity.setCenter(touchEvent.position)
 
-            entity2.selfAlignOutside(entity, bottomRight).selfOffset(entity2.width, 0)
+                entity2.selfAlignOutside(entity, bottomRight).selfOffset(entity2.width, 0)
 
-            view.show(entity, entity2)
+                view.show(entity, entity2)
+            }
+
             true
         }
 

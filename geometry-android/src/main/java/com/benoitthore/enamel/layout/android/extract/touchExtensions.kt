@@ -1,110 +1,120 @@
 package com.benoitthore.enamel.layout.android.extract
 
+import android.view.MotionEvent.*
 import android.view.MotionEvent
 import android.view.View
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
+import kotlin.math.min
 
 fun EPointMutable.set(event: MotionEvent) = apply { set(event.x, event.y) }
 
 typealias ETouchListener = (ETouchEvent) -> Boolean
 
-sealed class ETouchEvent(val position: EPointMutable) {
-    class Up(position: EPointMutable) : ETouchEvent(position)
-    class Move(position: EPointMutable, val previous: EPointMutable) :
-        ETouchEvent(position)
+private fun point() = E.PointMutable()
 
-    class Down(position: EPointMutable) : ETouchEvent(position)
-}
+sealed class ETouchEvent {
+    val position: EPointMutable = point()
+    open fun set(x: Number, y: Number, id: Int) {
+        position.set(x, y)
+    }
 
-class SingleTouchDelegate(val block: ETouchListener) : View.OnTouchListener {
 
-    private val previous = E.PointMutable()
-    private val current = E.PointMutable()
-    private val up = ETouchEvent.Up(current)
-    private val move = ETouchEvent.Move(position = current, previous = previous)
-    private val down = ETouchEvent.Down(current)
+    class Down : ETouchEvent()
 
-    override fun onTouch(v: View?, e: MotionEvent): Boolean {
-        previous.set(current)
-        current.set(e)
-
-        return when (e.action) {
-            MotionEvent.ACTION_DOWN -> {
-                block(move)
-            }
-            MotionEvent.ACTION_MOVE -> {
-                block(down)
-            }
-            else -> {
-                block(up)
-            }
+    class Move(val previous: EPointMutable = point()) : ETouchEvent() {
+        override fun set(x: Number, y: Number, id: Int) {
+            previous.set(position)
+            super.set(x, y, id)
         }
     }
+
+    class Up : ETouchEvent()
 }
+
 
 /**
  * Allows to work with EPointMutable when dealing with touch events
  */
-fun View.singleTouch(block: (ETouchEvent) -> Boolean) =
-    setOnTouchListener(SingleTouchDelegate(block))
+fun View.singleTouch(block: (ETouchEvent) -> Boolean): Unit = multiTouch { block(it.first()) }
 
+//    setOnTouchListener(SingleTouchDelegate(block))
 
+class ETouchInstanceMutable {
 
+    private val up = ETouchEvent.Up()
+    private val down = ETouchEvent.Down()
+    private val move = ETouchEvent.Move()
 
-data class ETouchInstance(
-    val position: EPointMutable = E.PointMutable(),
-    var isDown: Boolean = false,
-    var id: Int = -1
-) {
-    fun reset() {
-        position.reset()
-        isDown = false
-        id = -1
+    var event: ETouchEvent? = null
+
+    fun setUp(x: Float, y: Float, id: Int) {
+        event = up
+        event?.set(x, y, id)
     }
 
-    fun set(other: ETouchInstance) {
-        position.set(other.position)
-        isDown = other.isDown
-        id = other.id
+    fun setDown(x: Float, y: Float, id: Int) {
+        event = down
+        event?.set(x, y, id)
+    }
+
+    fun setMove(x: Float, y: Float, id: Int) {
+        event = move
+        event?.set(x, y, id)
+    }
+
+    fun reset() {
+        event = null
+    }
+
+}
+
+fun View.multiTouch(maxFingers: Int = 10, onTouch: (Iterable<ETouchEvent>) -> Boolean) {
+
+    val list = List(maxFingers) { ETouchInstanceMutable() }
+
+    // Iterator being re-used across touch events
+    val iterator = object : Iterator<ETouchEvent>, Iterable<ETouchEvent> {
+
+        private var nextIndex = 0
+
+        override fun hasNext(): Boolean = nextIndex < list.size && list[nextIndex].event != null
+
+        override fun next(): ETouchEvent = list[nextIndex++].event!!
+
+        fun reset() {
+            nextIndex = 0
+        }
+
+        override fun iterator(): Iterator<ETouchEvent> = this
+    }
+
+
+    setOnTouchListener { v, e ->
+
+        val pointerCount = min(e.pointerCount, list.size)
+
+        list.forEachIndexed { i, touchInstance ->
+            touchInstance.reset()
+            if (i < pointerCount) {
+                touchInstance.set(e, i)
+            }
+        }
+
+        iterator.reset()
+        onTouch(iterator)
     }
 }
 
-fun View.mutliTouch(maxFingers: Int = 10, onTouch: (List<ETouchInstance>) -> Boolean) {
+private fun ETouchInstanceMutable.set(e: MotionEvent, pointerIndex: Int = 0) {
+    val x = e.getX(pointerIndex)
+    val y = e.getY(pointerIndex)
+    val id = e.getPointerId(pointerIndex)
 
-    val touch = E.PointMutable()
-
-    val list = List(maxFingers) { ETouchInstance(E.PointMutable(), false, -1) }
-
-    setOnTouchListener { v, e ->
-        touch.set(e)
-
-        val pointerCount = kotlin.math.min(e.pointerCount, list.size)
-
-        list.forEach { it.reset() }
-        for (i in 0 until pointerCount) {
-            val x = e.getX(i)
-            val y = e.getY(i)
-            val id = e.getPointerId(i)
-
-            val isDown = when (val action = e.actionMasked) {
-                MotionEvent.ACTION_DOWN -> true
-                MotionEvent.ACTION_UP -> false
-                MotionEvent.ACTION_POINTER_DOWN -> true
-                MotionEvent.ACTION_POINTER_UP -> false
-                MotionEvent.ACTION_MOVE -> true
-                else -> false
-            }
-            list[i].let { eTouchEvent ->
-                eTouchEvent.id = id
-                eTouchEvent.position.set(x, y)
-                eTouchEvent.isDown = isDown
-            }
-
-        }
-
-
-        onTouch(list)
+    when (e.actionMasked) {
+        ACTION_DOWN, ACTION_POINTER_DOWN -> setDown(x, y, id)
+        ACTION_MOVE -> setMove(x, y, id)
+        else -> setUp(x, y, id)
     }
+
 }

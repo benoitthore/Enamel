@@ -20,8 +20,11 @@ class VisualEntityView @JvmOverloads constructor(
 
     fun show(vararg visualEntity: VisualEntity) = show(visualEntity.toList())
 
+    fun clear(){
+        visualEntities.clear()
+    }
+
     fun show(visualEntities: List<VisualEntity>) {
-        this.visualEntities.clear()
         this.visualEntities.addAll(visualEntities)
         invalidate()
     }
