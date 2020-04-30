@@ -123,8 +123,8 @@ fun HasBounds.pointAtAnchor(
 fun HasBounds.pointAtAnchor(anchor: EPoint, target: EPointMutable = E.PointMutable()) =
     pointAtAnchor(anchor.x, anchor.y, target)
 
-fun HasBounds.pointAtAnchorX(x: Number) = x.f + width * x.f
-fun HasBounds.pointAtAnchorY(y: Number) = y.f + height * y.f
+fun HasBounds.pointAtAnchorX(x: Number) = this.x.f + width * x.f
+fun HasBounds.pointAtAnchorY(y: Number) = this.y.f + height * y.f
 
 fun HasBounds.anchorAtPoint(
     x: Number,

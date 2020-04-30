@@ -19,15 +19,15 @@ interface CanSetBounds : HasBounds {
         get() = super.x
         set(value) {
             val xOff = value - x
-            left -= xOff
-            right -= xOff
+            left += xOff
+            right += xOff
         }
     override var y: Float
         get() = super.y
         set(value) {
             val yOff = value - y
-            top -= yOff
-            bottom -= yOff
+            top += yOff
+            bottom += yOff
         }
     override var width: Float
         get() = super.width
@@ -39,8 +39,9 @@ interface CanSetBounds : HasBounds {
         set(value) {
             bottom += value - height
         }
-
 }
+
+fun CanSetBounds.ensureRect(): ERect = if(this is ERect) this else getBounds()
 
 fun <T : CanSetBounds> T.set(other: HasBounds): T = apply {
     this.left = other.left
@@ -58,12 +59,13 @@ fun <T : CanSetBounds> T.set(
 ): T =
     set(origin?.x ?: x, origin?.y ?: y, size?.width ?: width, size?.height ?: height)
 
-fun <T : CanSetBounds> T.set(
-    origin: EPoint?,
-    width: Number = this.width,
-    height: Number = this.height
-): T =
-    set(origin?.x ?: 0, origin?.y ?: 0, width, height)
+//TOOO Find why this won't compile
+//fun <T : CanSetBounds> T.set(
+//    origin: EPoint?,
+//    width: Number = this.width,
+//    height: Number = this.height
+//): T =
+//    set(origin?.x ?: 0, origin?.y ?: 0, width, height)
 
 fun <T : CanSetBounds> T.set(
     x: Number = this.x,
@@ -122,13 +124,13 @@ fun <T : CanSetBounds> T.selfPadding(
     bottom: Number = 0,
     left: Number = 0,
     right: Number = 0
-) = padding(
+) : T = padding(
     top = top,
     bottom = bottom,
     left = left,
     right = right,
     target = this
-)
+) as T // Cast always succeeds because target is returned
 
 fun <T : CanSetBounds> T.selfExpand(padding: EOffset) = expand(padding, this)
 

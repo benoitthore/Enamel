@@ -61,8 +61,8 @@ fun ERect.divided(
     return slice to remainder
 }
 
-operator fun ERect.minus(padding: EOffset) = padding(padding)
-operator fun ERect.plus(padding: EOffset) = expand(padding)
+operator fun ERect.minus(padding: EOffset) = padding(padding).ensureRect()
+operator fun ERect.plus(padding: EOffset) = expand(padding).ensureRect()
 
 fun List<ERect>.union(target: ERectMutable = E.RectMutable()): ERectMutable {
     if (isEmpty()) {

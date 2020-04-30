@@ -66,30 +66,30 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val view = VisualEntityView(this)
-        setContentView(view)
-
-
-        view.singleTouch {
-            val viewFrame = E.RectMutable().setBounds(view)
-            val rect =
-                viewFrame.rectAlignedInside(center, size = E.SizeSquare(viewFrame.size.min / 2))
-
-//                val shader = rect.innerCircle().apply { set(radius, radius) }.toShader(RED, YELLOW)
-            val shader = rect.diagonalTLBR().apply { setCenter(0, 0) }.toShader(RED, YELLOW)
-            val style = EStyle(fill = Mesh(shader = shader))
-
-            val entity = RectVisualEntity(style, rect)
-            entity.setCenter(it.position)
-
-            view.show(entity)
-            true
-        }
-
-
+//        val view = VisualEntityView(this)
+//        setContentView(view)
+//
+//
+//        view.singleTouch {
+//            val viewFrame = E.RectMutable().setBounds(view)
+//            val rect =
+//                viewFrame.rectAlignedInside(center, size = E.SizeSquare(viewFrame.size.min / 2))
+//
+////                val shader = rect.innerCircle().apply { set(radius, radius) }.toShader(RED, YELLOW)
+//            val shader = rect.diagonalTLBR().apply { setCenter(0, 0) }.toShader(RED, YELLOW)
+//            val style = EStyle(fill = Mesh(shader = shader))
+//
+//            val entity = RectVisualEntity(style, rect)
+//            entity.setCenter(it.position)
+//
+//            view.show(entity)
+//            true
+//        }
+//
+//
 //        setContentView(JolieVue(this))
-
-        return
+//
+//        return
         setContentView(R.layout.activity_main)
         findViewById<Button>(R.id.previousButton).setOnClickListener {
             currentDemo--

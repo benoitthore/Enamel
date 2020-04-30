@@ -6,6 +6,9 @@ import android.view.View
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ERectMutable
+import com.benoitthore.enamel.geometry.interfaces.padding
+import com.benoitthore.enamel.geometry.interfaces.selfPadding
+import com.benoitthore.enamel.geometry.interfaces.set
 
 open class EFrameView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -27,7 +30,7 @@ open class EFrameView @JvmOverloads constructor(
 fun ERectMutable.setBounds(view: View): ERectMutable = apply { set(0, 0, view.width, view.height) }
 fun ERectMutable.setBoundsWithPadding(view: View): ERectMutable =
     setBounds(view)
-        .padding(
+        .selfPadding(
             left = view.paddingLeft,
             right = view.paddingRight,
             top = view.paddingTop,

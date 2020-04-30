@@ -4,6 +4,7 @@ import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.alignement.layoutAxis
 import com.benoitthore.enamel.geometry.figures.*
+import com.benoitthore.enamel.geometry.interfaces.pointAtAnchor
 
 
 class EJustifiedLayout(

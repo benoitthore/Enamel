@@ -5,6 +5,7 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ESize
+import com.benoitthore.enamel.geometry.interfaces.*
 
 class ELayoutLeaf(var color: Int = 0, var child: ELayout? = null) : ELayoutAlongAxis {
 

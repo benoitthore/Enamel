@@ -11,6 +11,7 @@ import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
 import com.benoitthore.enamel.geometry.alignement.rectAlignedOutside
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.innerCircle
+import com.benoitthore.enamel.geometry.interfaces.pointAtAnchor
 import com.benoitthore.enamel.geometry.primitives.rotations
 import com.benoitthore.enamel.layout.android.extract.draw
 import com.benoitthore.enamel.layout.android.extract.drawPointList

@@ -7,6 +7,7 @@ import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ERectGroup
 import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.figures.rectGroupWeights
+import com.benoitthore.enamel.geometry.interfaces.pointAtAnchor
 
 class EWeightLayout(
     val alignment: EAlignment,

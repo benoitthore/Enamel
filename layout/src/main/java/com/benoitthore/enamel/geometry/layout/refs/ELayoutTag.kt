@@ -3,6 +3,7 @@ package com.benoitthore.enamel.geometry.layout.refs
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ESize
+import com.benoitthore.enamel.geometry.interfaces.set
 import com.benoitthore.enamel.geometry.layout.ELayout
 
 class ELayoutTag(var tag: String) : ELayout {

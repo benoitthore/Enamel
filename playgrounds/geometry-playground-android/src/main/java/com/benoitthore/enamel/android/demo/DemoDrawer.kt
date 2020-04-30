@@ -6,16 +6,17 @@ import android.graphics.Paint
 import android.text.TextPaint
 import com.benoitthore.enamel.android.dp
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.interfaces.center
 import com.benoitthore.enamel.geometry.primitives.div
 
 
-val Demos = mutableListOf<DemoDrawer>(
+val Demos = mutableListOf(
     CircleToListOfPoint,
     RectAlignmentAnchor_Point,
     RectAlignmentAnchor_Rect,
     RectAlignmentInside,
     RectAlignmentOutside
-).filterNotNull()
+)
 
 abstract class DemoDrawer {
 

@@ -6,6 +6,7 @@ import com.benoitthore.enamel.geometry.alignement.layoutAxis
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.figures.rectGroup
+import com.benoitthore.enamel.geometry.interfaces.pointAtAnchor
 
 
 class EStackLayout(
