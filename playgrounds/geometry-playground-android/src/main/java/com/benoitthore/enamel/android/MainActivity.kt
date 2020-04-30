@@ -27,6 +27,7 @@ import com.benoitthore.enamel.core.math.map
 import com.benoitthore.enamel.core.math.noise.OpenSimplexNoise
 import com.benoitthore.enamel.core.withAlpha
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
+import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.outterCircle

@@ -171,59 +171,6 @@ interface ERect : ESVG {
         pointAtAnchor(0f, 1f, target)
 
 
-    // Alignement
-    fun rectAlignedInside(
-        alignment: EAlignment,
-        size: ESize,
-        spacing: Number = 0,
-        target: ERectMutable = E.RectMutable(this)
-    ): ERectMutable {
-        target.set(this)
-        val spacing = spacing.f
-
-        val anchor = alignment.namedPoint
-        val spacingSign = alignment.spacingSign
-
-        val position = pointAtAnchor(alignment.namedPoint, target = target.origin)
-            .offset(spacingSign.x * spacing, spacingSign.y * spacing, target = target.origin)
-
-        target.size.set(size)
-
-        return E.RectMutableAnchorPos(
-            anchor = anchor,
-            position = position,
-            size = target.size,
-            target = target
-        )
-    }
-
-
-    fun rectAlignedOutside(
-        alignment: EAlignment,
-        size: ESize,
-        spacing: Number = 0,
-        target: ERectMutable = E.RectMutable()
-    ): ERectMutable {
-        target.set(this)
-        val spacing = spacing.f
-
-        val anchor = alignment.flipped.namedPoint
-        val spacingSign = alignment.flipped.spacingSign
-
-        val position = pointAtAnchor(alignment.namedPoint, target = target.origin)
-            .offset(spacingSign.x * spacing, spacingSign.y * spacing, target = target.origin)
-
-        target.size.set(size)
-
-        return E.RectMutableAnchorPos(
-            anchor = anchor,
-            position = position,
-            size = target.size,
-            target = target
-        )
-    }
-
-
     // Changing
     fun offset(p: Tuple2, target: ERectMutable = E.RectMutable()): ERectMutable =
         offset(p.v1, p.v2, target)

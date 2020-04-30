@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.geometry.layout
 
 import com.benoitthore.enamel.geometry.alignement.EAlignment
+import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
 import com.benoitthore.enamel.geometry.figures.ERect
 import com.benoitthore.enamel.geometry.figures.ESize
 

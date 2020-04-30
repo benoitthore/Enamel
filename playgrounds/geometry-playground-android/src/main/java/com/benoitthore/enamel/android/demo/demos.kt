@@ -7,6 +7,8 @@ import com.benoitthore.enamel.core._2dec
 import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.alignement.EAlignment
+import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
+import com.benoitthore.enamel.geometry.alignement.rectAlignedOutside
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.primitives.rotations
