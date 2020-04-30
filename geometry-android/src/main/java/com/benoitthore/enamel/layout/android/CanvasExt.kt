@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.layout.android.extract
+package com.benoitthore.enamel.layout.android
 
 import android.graphics.Canvas
 import android.graphics.Paint

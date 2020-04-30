@@ -13,8 +13,8 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.interfaces.pointAtAnchor
 import com.benoitthore.enamel.geometry.primitives.rotations
-import com.benoitthore.enamel.layout.android.extract.draw
-import com.benoitthore.enamel.layout.android.extract.drawPointList
+import com.benoitthore.enamel.layout.android.draw
+import com.benoitthore.enamel.layout.android.drawPointList
 
 val Demos = mutableListOf(
     CircleToListOfPoint,

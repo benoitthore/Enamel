@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.layout.android.extract
+package com.benoitthore.enamel.layout.android
 
 import android.graphics.Path
 import android.graphics.RectF
@@ -14,7 +14,8 @@ val EAngle.Direction.pathDirection
     }
 
 
-fun Path.createContext() = PathSVGContext(this)
+fun Path.createContext() =
+    PathSVGContext(this)
 
 class PathSVGContext(val path: Path = Path()) : SVGContext {
     override fun reset() {

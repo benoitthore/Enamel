@@ -51,6 +51,8 @@ fun View.singleTouch(block: (ETouchEvent) -> Boolean) =
     setOnTouchListener(SingleTouchDelegate(block))
 
 
+
+
 data class ETouchInstance(
     val position: EPointMutable = E.PointMutable(),
     var isDown: Boolean = false,

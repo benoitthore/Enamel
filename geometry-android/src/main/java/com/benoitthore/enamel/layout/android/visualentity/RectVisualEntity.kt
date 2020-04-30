@@ -3,8 +3,7 @@ package com.benoitthore.enamel.layout.android.visualentity
 import android.graphics.Canvas
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.*
-import com.benoitthore.enamel.layout.android.extract.draw
-import com.benoitthore.enamel.layout.android.extract.translate
+import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 
 class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.Rect()) : SVGVisualEntity(),

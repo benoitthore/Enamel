@@ -33,12 +33,11 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.size
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.interfaces.*
-import com.benoitthore.enamel.geometry.outterCircle
 import com.benoitthore.enamel.geometry.primitives.rotations
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.addTo
 import com.benoitthore.enamel.geometry.toCircle
-import com.benoitthore.enamel.layout.android.extract.createContext
+import com.benoitthore.enamel.layout.android.createContext
 import com.benoitthore.enamel.layout.android.extract.singleTouch
 import com.benoitthore.enamel.layout.android.setBounds
 import com.benoitthore.enamel.layout.android.visualentity.RectVisualEntity
