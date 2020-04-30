@@ -11,18 +11,18 @@ fun EPointMutable.set(event: MotionEvent) = apply { set(event.x, event.y) }
 
 typealias ETouchListener = (ETouchEvent) -> Boolean
 
-private fun point() = E.PointMutable()
+fun View.singleTouch(block: (ETouchEvent) -> Boolean): Unit = multiTouch { block(it.first()) }
 
 sealed class ETouchEvent {
-    val position: EPointMutable = point()
+    val position: EPointMutable = E.PointMutable()
+
     open fun set(x: Number, y: Number, id: Int) {
         position.set(x, y)
     }
 
-
     class Down : ETouchEvent()
 
-    class Move(val previous: EPointMutable = point()) : ETouchEvent() {
+    class Move(val previous: EPointMutable = E.PointMutable()) : ETouchEvent() {
         override fun set(x: Number, y: Number, id: Int) {
             previous.set(position)
             super.set(x, y, id)
@@ -33,13 +33,6 @@ sealed class ETouchEvent {
 }
 
 
-/**
- * Allows to work with EPointMutable when dealing with touch events
- */
-fun View.singleTouch(block: (ETouchEvent) -> Boolean): Unit = multiTouch { block(it.first()) }
-
-//    setOnTouchListener(SingleTouchDelegate(block))
-
 class ETouchInstanceMutable {
 
     private val up = ETouchEvent.Up()
@@ -49,26 +42,29 @@ class ETouchInstanceMutable {
     var event: ETouchEvent? = null
 
     fun setUp(x: Float, y: Float, id: Int) {
+        up.set(x, y, id)
         event = up
-        event?.set(x, y, id)
     }
 
     fun setDown(x: Float, y: Float, id: Int) {
+        down.set(x, y, id)
         event = down
-        event?.set(x, y, id)
     }
 
     fun setMove(x: Float, y: Float, id: Int) {
+        move.set(x, y, id)
         event = move
-        event?.set(x, y, id)
     }
 
     fun reset() {
         event = null
     }
-
 }
 
+/**
+ * The iterable, its iterator as well as the ETouchEvent instances shouldn't be shared,
+ * as they get updated on every touch event
+ */
 fun View.multiTouch(maxFingers: Int = 10, onTouch: (Iterable<ETouchEvent>) -> Boolean) {
 
     val list = List(maxFingers) { ETouchInstanceMutable() }

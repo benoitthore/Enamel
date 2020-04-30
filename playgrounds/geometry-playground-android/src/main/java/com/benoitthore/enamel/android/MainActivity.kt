@@ -28,6 +28,7 @@ import com.benoitthore.enamel.core.math.noise.OpenSimplexNoise
 import com.benoitthore.enamel.core.withAlpha
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
+import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.size
@@ -78,8 +79,8 @@ class MainActivity : AppCompatActivity() {
 
             touchList.forEach { touchEvent ->
                 val viewFrame = E.RectMutable().setBounds(view)
-                val rect =
-                    viewFrame.rectAlignedInside(center, size = E.SizeSquare(viewFrame.size.min / 2))
+                val rect = E.RectMutable(E.SizeSquare(viewFrame.size.min / 2))
+                rect.selfAlignInside(viewFrame, center)
 
 //                val shader = rect.innerCircle().apply { set(radius, radius) }.toShader(RED, YELLOW)
                 val shader = rect.diagonalTLBR().apply { setCenter(0, 0) }.toShader(RED, YELLOW)
