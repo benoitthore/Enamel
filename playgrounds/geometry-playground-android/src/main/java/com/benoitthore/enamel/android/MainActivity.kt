@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-//        return
+        return
 
         setContentView(R.layout.activity_main)
         findViewById<Button>(R.id.previousButton).setOnClickListener {

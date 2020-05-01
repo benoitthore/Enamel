@@ -14,9 +14,6 @@ interface ESize : Tuple2 {
     override val v1: Number get() = width
     override val v2: Number get() = height
 
-    fun toMutable() = E.SizeMutable(width, height)
-    fun toImmutable() = E.Size(width, height)
-
     fun copy(
         width: Number = this.width,
         height: Number = this.height,

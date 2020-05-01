@@ -10,6 +10,7 @@ import com.benoitthore.enamel.geometry.interfaces.HasCenter
 import com.benoitthore.enamel.geometry.primitives.*
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
+import com.benoitthore.enamel.geometry.toMutable
 
 
 /*

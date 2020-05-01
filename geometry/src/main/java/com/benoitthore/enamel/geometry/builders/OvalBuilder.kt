@@ -5,8 +5,12 @@ import com.benoitthore.enamel.geometry.primitives.*
 
 interface OvalBuilder : BaseBuilder {
 
-    fun Oval(centerX: Number, centerY: Number, rx: Number, ry: Number): EOval
-            = OvalMutable(centerX, centerY, rx, ry)
+    fun Oval(centerX: Number = 0, centerY: Number= 0, rx: Number= 0, ry: Number= 0): EOval =
+        OvalMutable(centerX, centerY, rx, ry)
+
+
+    fun OvalMutable(other: EOval) = OvalMutable(other.centerX, other.centerY, other.rx, other.ry)
+    fun Oval(other: EOval): EOval = OvalMutable(other)
 
     object Angle {
         val zero = 0.degrees()

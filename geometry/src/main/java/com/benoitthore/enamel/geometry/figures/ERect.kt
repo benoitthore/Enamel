@@ -7,12 +7,13 @@ import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.interfaces.CanSetBounds
 import com.benoitthore.enamel.geometry.interfaces.HasBounds
+import com.benoitthore.enamel.geometry.interfaces.HasCenter
 import com.benoitthore.enamel.geometry.interfaces.set
 import com.benoitthore.enamel.geometry.primitives.*
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
-interface ERect : ESVG, HasBounds {
+interface ERect : ESVG, HasBounds, HasCenter {
 
     val origin: EPoint
     val size: ESize
@@ -21,10 +22,6 @@ interface ERect : ESVG, HasBounds {
         context.rect(this)
     }
 
-    fun toMutable(target: ERectMutable = E.RectMutable()) =
-        target.set(origin.toMutable(target.origin), size.toMutable())
-
-    fun toImmutable() = E.Rect(this)
     fun copy(target: ERectMutable = E.RectMutable()) =
         E.RectMutable(origin.copy(target = target.origin), size.copy(target = target.size))
 
@@ -39,6 +36,11 @@ interface ERect : ESVG, HasBounds {
         get() = origin.x
     override val right: Float
         get() = origin.x + width
+
+    override val centerX: Float
+        get() = originX + width / 2f
+    override val centerY: Float
+        get() = originY + height / 2f
 }
 
 interface ERectMutable : ERect, Resetable, CanSetBounds {

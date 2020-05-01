@@ -2,19 +2,20 @@ package com.benoitthore.enamel.layout.android.visualentity
 
 import android.graphics.Canvas
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.ERectMutable
+import com.benoitthore.enamel.geometry.figures.EOval
+import com.benoitthore.enamel.geometry.figures.EOvalMutable
 import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.toMutable
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 
-fun ERect.toVisualEntity(style: EStyle) = RectVisualEntity(style, this.toMutable())
-class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.Rect()) : SVGVisualEntity(),
-    ERectMutable by rect.toMutable() {
+fun EOval.toVisualEntity(style: EStyle) = OvalVisualEntity(style, this.toMutable())
 
-    constructor(style: EStyle, builder: ERectMutable.() -> Unit) :
-            this(style, E.RectMutable().apply(builder))
+class OvalVisualEntity(style: EStyle = EStyle(), oval: EOval = E.Oval()) : SVGVisualEntity(),
+    EOvalMutable by oval.toMutable() {
+
+    constructor(style: EStyle, builder: EOvalMutable.() -> Unit) :
+            this(style, E.OvalMutable().apply(builder))
 
     init {
         this.style = style

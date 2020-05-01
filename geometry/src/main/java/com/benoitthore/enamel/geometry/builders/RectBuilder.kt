@@ -8,6 +8,7 @@ import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.figures.ESizeMutable
 import com.benoitthore.enamel.geometry.interfaces.set
 import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.toMutable
 import kotlin.math.max
 import kotlin.math.min
 

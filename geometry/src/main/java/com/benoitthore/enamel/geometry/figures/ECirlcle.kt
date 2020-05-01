@@ -34,9 +34,6 @@ interface ECircle : ESVG, HasBounds {
     override val bottom: Float
         get() = y + radius
 
-    fun toMutable() = E.CircleMutable(center = center.toMutable(), radius = radius)
-    fun toImmutable() = E.Circle(center = center.toImmutable(), radius = radius)
-
     fun intersects(other: ECircle) =
         this.center.distanceTo(other.center) < other.radius + this.radius
 

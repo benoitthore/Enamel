@@ -100,8 +100,7 @@ interface EAngle {
     operator fun compareTo(angle: EAngleMutable): Int =
         ((rotations - angle.rotations) * 100).toInt()
 
-    fun toMutable(): EAngleMutable = E.AngleMutable(value, type)
-    fun toImmutable(): EAngle = E.Angle(value, type)
+
 
 //    operator fun Number.times(angle: EAngleMutable): EAngleMutable = angle * this
 }

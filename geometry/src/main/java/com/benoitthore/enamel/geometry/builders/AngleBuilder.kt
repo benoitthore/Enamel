@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.geometry.builders
 
 import com.benoitthore.enamel.geometry.primitives.*
+import com.benoitthore.enamel.geometry.toMutable
 
 interface AngleBuilder : BaseBuilder {
     fun Angle(value: Number = 0f, type: AngleType = AngleType.RADIAN): EAngle =

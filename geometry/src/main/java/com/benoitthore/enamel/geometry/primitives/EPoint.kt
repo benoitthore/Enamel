@@ -17,8 +17,6 @@ interface EPoint : Tuple2 {
     override val v2: Number
         get() = y
 
-    fun toMutable(target: EPointMutable = E.PointMutable()) = target.set(x, y)
-    fun toImmutable() = E.Point(x, y)
     fun copy(x: Number = this.x, y: Number = this.y, target: EPointMutable = E.PointMutable()) =
         target.set(x, y)
 

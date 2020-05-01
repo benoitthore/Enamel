@@ -31,10 +31,15 @@ interface BaseBuilder {
     fun CircleMutable(centerX: Number, centerY: Number, radius: Number = 0f): ECircleMutable =
         ECircleMutable.Impl(centerX, centerY, radius)
 
-    fun OvalMutable(centerX: Number, centerY: Number, rx: Number, ry: Number): EOvalMutable =
+    fun OvalMutable(
+        centerX: Number = 0f,
+        centerY: Number = 0f,
+        rx: Number = 0f,
+        ry: Number = 0f
+    ): EOvalMutable =
         EOvalMutable.Impl(centerX, centerY, rx.toFloat(), ry.toFloat())
 
-    fun LineMutablearFunction(slope: Number, yIntercept: Number): ELinearFunction =
+    fun LineMutablearFunction(slope: Number = 0f, yIntercept: Number = 0f): ELinearFunction =
         ELinearFunction.Impl(slope.toFloat(), yIntercept.toFloat())
 
     fun OffsetMutable(
