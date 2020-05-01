@@ -8,36 +8,44 @@ import com.benoitthore.enamel.geometry.figures.ESize
 import com.benoitthore.enamel.geometry.primitives.EOffset
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
+import com.benoitthore.enamel.geometry.primitives.plus
 
 interface CanSetBounds : HasBounds {
-    override var left: Float
-    override var top: Float
-    override var right: Float
-    override var bottom: Float
 
-    override var originX: Float
-        get() = super.originX
-        set(value) {
-            val xOff = value - originX
-            left += xOff
-            right += xOff
-        }
-    override var originY: Float
-        get() = super.originY
-        set(value) {
-            val yOff = value - originY
-            top += yOff
-            bottom += yOff
-        }
+    fun setBounds(
+        left: Number,
+        top: Number,
+        right: Number,
+        bottom: Number
+    )
+
+    fun setOriginSize(originX: Number, originY: Number, width: Number, height: Number) = setBounds(
+        left = originX,
+        top = originY,
+        right = originX.f + width.f,
+        bottom = originY.f + height.f
+    )
+
     override var width: Float
         get() = super.width
         set(value) {
-            right += value - width
+            setBounds(
+                right = right + value - width,
+                top = top,
+                left = left,
+                bottom = bottom
+            )
         }
     override var height: Float
         get() = super.height
         set(value) {
-            bottom += value - height
+            setBounds(
+                bottom = value - height,
+                top = height,
+                right = right,
+                left = left
+            )
+
         }
 }
 
@@ -45,10 +53,12 @@ fun CanSetBounds.ensureRect(target: ERectMutable = E.RectMutable()): ERect =
     if (this is ERect) this else getBounds(target)
 
 fun <T : CanSetBounds> T.set(other: HasBounds): T = apply {
-    this.left = other.left
-    this.top = other.top
-    this.right = other.right
-    this.bottom = other.bottom
+    setBounds(
+        left = other.left,
+        top = other.top,
+        right = other.right,
+        bottom = other.bottom
+    )
 }
 
 
@@ -81,10 +91,12 @@ fun <T : CanSetBounds> T.set(
     width: Number = this.width,
     height: Number = this.height
 ): T = apply {
-    this.originX = x.f
-    this.originY = y.f
-    this.width = width.f
-    this.height = height.f
+    setBounds(
+        left = x,
+        top = y,
+        bottom = y.f + height.f,
+        right = x.f + width.f
+    )
 }
 
 fun <T : CanSetBounds> T.setSize(size: ESize): T = apply {
@@ -103,8 +115,12 @@ fun <T : CanSetBounds> T.setSize(
 
 fun <T : CanSetBounds> T.setCenter(point: EPoint) = setCenter(point.x, point.y)
 fun <T : CanSetBounds> T.setCenter(x: Number, y: Number) = apply {
-    this.originX = x.f - width / 2
-    this.originY = y.f - height / 2
+    setBounds(
+        top = y.f - height / 2,
+        left = x.f - width / 2,
+        bottom = y.f + height / 2,
+        right = x.f + width / 2
+    )
 }
 
 fun <T : CanSetBounds> T.setSides(
@@ -112,12 +128,13 @@ fun <T : CanSetBounds> T.setSides(
     top: Number = this.top,
     right: Number = this.right,
     bottom: Number = this.bottom
-): T {
-    this.top = top.f
-    this.bottom = bottom.f
-    this.left = left.f
-    this.right = right.f
-    return this
+): T = apply {
+    setBounds(
+        top = top.f,
+        bottom = bottom.f,
+        left = left.f,
+        right = right.f
+    )
 }
 
 //////

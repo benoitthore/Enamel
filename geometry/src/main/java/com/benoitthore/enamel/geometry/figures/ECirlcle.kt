@@ -4,12 +4,14 @@ import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.interfaces.CanSetBounds
 import com.benoitthore.enamel.geometry.interfaces.HasBounds
 import com.benoitthore.enamel.geometry.primitives.*
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
+import kotlin.math.min
 
-interface ECircle : ESVG {
+interface ECircle : ESVG, HasBounds {
 
 
     override fun addTo(context: SVGContext) {
@@ -23,8 +25,17 @@ interface ECircle : ESVG {
     val x: Float get() = center.x
     val y: Float get() = center.y
 
+    override val left: Float
+        get() = x - radius
+    override val top: Float
+        get() = y - radius
+    override val right: Float
+        get() = x + radius
+    override val bottom: Float
+        get() = y + radius
+
     fun toMutable() = E.CircleMutable(center = center.toMutable(), radius = radius)
-    fun toImmutable() = E.circle(center = center.toImmutable(), radius = radius)
+    fun toImmutable() = E.Circle(center = center.toImmutable(), radius = radius)
 
     fun intersects(other: ECircle) =
         this.center.distanceTo(other.center) < other.radius + this.radius
@@ -160,7 +171,7 @@ interface ECircle : ESVG {
 
 }
 
-interface ECircleMutable : ECircle, Resetable {
+interface ECircleMutable : ECircle, CanSetBounds, Resetable {
     class Impl internal constructor(centerX: Number, centerY: Number, radius: Number) :
         ECircleMutable {
         init {
@@ -196,6 +207,19 @@ interface ECircleMutable : ECircle, Resetable {
 
     override val center: EPointMutable
     override var radius: Float
+
+    /**
+    position the circle on the TOP RIGHT of the given rectangle
+    sets the radius based on whichever is smaller width or height
+     */
+    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+        val w = (right.f - left.f) / 2f
+        val h = (bottom.f - top.f) / 2f
+        radius = min(w, h)
+
+        center.x = left.f + radius
+        center.y = top.f + radius
+    }
 
     fun copy(
         x: Number = this.x,
@@ -275,6 +299,27 @@ interface ECircleMutable : ECircle, Resetable {
     fun selfResized(newRadius: Number) = resized(newRadius = newRadius, target = this)
 
     fun selfResizedBy(extraRadius: Number) = resizedBy(extraRadius = extraRadius, target = this)
+
+    override var left: Float
+        get() = super.left
+        set(value) {
+
+        }
+    override var top: Float
+        get() = super.top
+        set(value) {
+
+        }
+    override var right: Float
+        get() = super.right
+        set(value) {
+
+        }
+    override var bottom: Float
+        get() = super.bottom
+        set(value) {
+
+        }
 
 
 }

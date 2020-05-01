@@ -45,6 +45,17 @@ interface ERectMutable : ERect, Resetable, CanSetBounds {
     override val origin: EPointMutable
     override val size: ESizeMutable
 
+    override var height: Float
+        get() = super<ERect>.height
+        set(value) {
+            size.height = value
+        }
+    override var width: Float
+        get() = super<ERect>.width
+        set(value) {
+            size.width = value
+        }
+
     class Impl internal constructor(x: Number, y: Number, width: Number, height: Number) :
         ERectMutable {
         init {
@@ -59,40 +70,8 @@ interface ERectMutable : ERect, Resetable, CanSetBounds {
         origin.reset(); size.reset()
     }
 
-    override var width: Float
-        get() = super<ERect>.width
-        set(value) {
-            size.width = value
-        }
-    override var height: Float
-        get() = super<ERect>.height
-        set(value) {
-            size.height = value
-        }
-
-    override var top: Float
-        get() = super.top
-        set(value) {
-            size.height -= value - top
-            origin.y = value
-        }
-    override var left: Float
-        get() = super.left
-        set(value) {
-            size.width -= value - left
-            origin.x = value
-        }
-
-    override var right: Float
-        get() = super.right
-        set(value) {
-            size.width += value - right
-        }
-
-    override var bottom: Float
-        get() = super.bottom
-        set(value) {
-            size.height += value - bottom
-        }
-
+    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+        origin.set(left, top)
+        size.set(width = right.f - left.f, height = bottom.f - top.f)
+    }
 }

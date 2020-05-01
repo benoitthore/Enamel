@@ -40,11 +40,12 @@ import com.benoitthore.enamel.geometry.toCircle
 import com.benoitthore.enamel.layout.android.createContext
 import com.benoitthore.enamel.layout.android.extract.multiTouch
 import com.benoitthore.enamel.layout.android.setBounds
-import com.benoitthore.enamel.layout.android.visualentity.RectVisualEntitoriginY
+import com.benoitthore.enamel.layout.android.visualentity.RectVisualEntity
 import com.benoitthore.enamel.layout.android.visualentity.VisualEntityView
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 import com.benoitthore.enamel.layout.android.visualentity.style.Mesh
 import com.benoitthore.enamel.layout.android.visualentity.style.toShader
+import com.benoitthore.enamel.layout.android.visualentity.toVisualEntity
 
 inline val Number.dp get() = toFloat() * Resources.getSystem().displayMetrics.density
 
@@ -79,13 +80,15 @@ class MainActivity : AppCompatActivity() {
                 val viewFrame = E.RectMutable().setBounds(view)
                 val rect = E.RectMutable(E.SizeSquare(viewFrame.size.min / 2))
                 rect.selfAlignInside(viewFrame, center)
+                val circle = rect.innerCircle()
 
 //                val shader = rect.innerCircle().apply { set(radius, radius) }.toShader(RED, YELLOW)
                 val shader = rect.diagonalTLBR().apply { setCenter(0, 0) }.toShader(RED, YELLOW)
                 val style = EStyle(fill = Mesh(shader = shader))
 
-                val entity = RectVisualEntitoriginY(style, rect)
-                val entity2 = RectVisualEntitoriginY(style, E.RectMutable(size = 100 size 100))
+                val entity = rect.toVisualEntity(style)
+                val entity2 = circle.toVisualEntity(style)
+
                 entity.setCenter(touchEvent.position)
 
                 entity2.selfAlignOutside(entity, bottomRight).selfOffset(entity2.width, 0)
@@ -96,9 +99,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        return
-
-//        setContentView(JolieVue(this))
+//        return
 
         setContentView(R.layout.activity_main)
         findViewById<Button>(R.id.previousButton).setOnClickListener {

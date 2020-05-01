@@ -101,12 +101,13 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
         right: Number,
         bottom: Number,
         target: ERectMutable = RectMutable()
-    ): ERectMutable {
-        target.top = top.f
-        target.left = left.f
-        target.right = right.f
-        target.bottom = bottom.f
-        return target
+    ): ERectMutable = target.apply {
+        setBounds(
+            top = top.f,
+            left = left.f,
+            right = right.f,
+            bottom = bottom.f
+        )
     }
 
     //

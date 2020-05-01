@@ -23,18 +23,28 @@ fun <T : CanSetBounds> T.selfAlign(
     val positionX = frame.pointAtAnchorX(alignment.namedPoint.x) + spacingSign.x * spacing
     val positionY = frame.pointAtAnchorY(alignment.namedPoint.y) + spacingSign.y * spacing
 
-    this.originX = positionX - width * anchor.x
-    this.originY = positionY - height * anchor.y
+    val left = positionX - width * anchor.x
+    val top = positionY - height * anchor.y
+    val bottom = top + height
+    val right = left + width
+
+    setBounds(
+        left = left,
+        top = top,
+        bottom = bottom,
+        right = right
+    )
+
 
     return this
 }
 
 fun <T : CanSetBounds> T.selfAlignOutside(
-    frame : HasBounds, alignment: EAlignment, spacing: Number = 0
+    frame: HasBounds, alignment: EAlignment, spacing: Number = 0
 ): T = selfAlign(frame, alignment, true, spacing)
 
 fun <T : CanSetBounds> T.selfAlignInside(
-    frame : HasBounds, alignment: EAlignment, spacing: Number = 0
+    frame: HasBounds, alignment: EAlignment, spacing: Number = 0
 ): T = selfAlign(frame, alignment, false, spacing)
 
 fun ERect.rectAlignedInside(

@@ -6,10 +6,11 @@ import com.benoitthore.enamel.android.dp
 import com.benoitthore.enamel.core._2dec
 import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.core.math.lerp
-import com.benoitthore.enamel.geometry.alignement.EAlignment
-import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
-import com.benoitthore.enamel.geometry.alignement.rectAlignedOutside
+import com.benoitthore.enamel.geometry.alignement.*
+import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.ERectMutable
+import com.benoitthore.enamel.geometry.figures.size
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.interfaces.pointAtAnchor
 import com.benoitthore.enamel.geometry.primitives.rotations
@@ -63,13 +64,13 @@ object RectAlignmentOutside : DemoDrawer() {
         animatedValues: List<Float>
     ) {
         val progress1 = EAlignment.values().toList()[animatedValues[0]]
-        val progress2 = E.msizeSquare(animatedValues[1].lerp(32.dp, 100.dp))
+        val progress2 = animatedValues[1].lerp(32.dp, 100.dp)
 
-        canvas.showProgress(progress1, progress2.width)
+        canvas.showProgress(progress1, progress2)
 
         val originalShape = canvas.halfFrame()
-        val createdShape = originalShape
-            .rectAlignedOutside(alignment = progress1, size = progress2, spacing = 16.dp)
+        val createdShape = E.CircleMutable(radius = progress2)
+            .selfAlignOutside(originalShape, alignment = progress1, spacing = 16.dp)
 
         canvas.draw(originalShape, originalPaint)
         canvas.draw(createdShape, createdPaint)
@@ -88,13 +89,14 @@ object RectAlignmentInside : DemoDrawer() {
         animatedValues: List<Float>
     ) {
         val progress1 = EAlignment.values().toList()[animatedValues[0]]
-        val progress2 = E.msizeSquare(animatedValues[1].lerp(32.dp, 100.dp))
+        val progress2 = animatedValues[1].lerp(32.dp, 100.dp)
 
-        canvas.showProgress(progress1, progress2.width)
+        canvas.showProgress(progress1, progress2)
 
         val originalShape = canvas.halfFrame()
-        val createdShape = originalShape
-            .rectAlignedInside(alignment = progress1, size = progress2)
+        val createdShape =
+            E.CircleMutable(radius = progress2)
+            .selfAlignInside(originalShape, alignment = progress1)
 
         canvas.draw(originalShape, originalPaint)
         canvas.draw(createdShape, createdPaint)

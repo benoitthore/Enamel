@@ -8,7 +8,7 @@ import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
-// TODO Add to Rect, Circle, Oval, Line
+// TODO Add to Oval, Line
 interface HasBounds {
     val left: Float
     val top: Float
@@ -20,7 +20,8 @@ interface HasBounds {
     val width: Float get() = right - left
     val height: Float get() = bottom - top
 
-    fun getBounds(target: ERectMutable = E.RectMutable()): ERect = target.set(originX, originY, width, height)
+    fun getBounds(target: ERectMutable = E.RectMutable()): ERect =
+        target.set(originX, originY, width, height)
 }
 
 
@@ -162,9 +163,7 @@ fun HasBounds.offset(
     y: Number = 0,
     target: CanSetBounds = E.RectMutable()
 ): CanSetBounds {
-    target.set(this)
-    target.originX += x.f
-    target.originY += y.f
+    target.set(x.f, y.f, width, height)
     return target
 }
 
@@ -186,11 +185,12 @@ fun HasBounds.inset(
     bottom: Number = 0,
     target: CanSetBounds = E.RectMutable()
 ): CanSetBounds {
-    target.set(this)
-    target.left += left.toFloat()
-    target.top += top.toFloat()
-    target.bottom -= bottom.toFloat()
-    target.right -= right.toFloat()
+    target.setBounds(
+        left = this.left + left.toFloat(),
+        top = this.top + top.toFloat(),
+        bottom = this.bottom - bottom.toFloat(),
+        right = this.right - right.toFloat()
+    )
     return target
 }
 
@@ -229,14 +229,12 @@ fun HasBounds.padding(
     left: Number = this.left,
     right: Number = this.right,
     target: CanSetBounds = E.RectMutable()
-): CanSetBounds {
-    target.set(this)
-    target.left += left.f
-    target.top += top.f
-    target.bottom -= bottom.f
-    target.right -= right.f
-    return target
-}
+): CanSetBounds = target.inset(
+    left = left,
+    top = top,
+    bottom = bottom,
+    right = right
+)
 
 fun HasBounds.padding(padding: EOffset, target: CanSetBounds = E.RectMutable()): CanSetBounds =
     padding(
@@ -252,10 +250,12 @@ fun HasBounds.scale(t: Tuple2, target: CanSetBounds = E.RectMutable()): CanSetBo
     scale(t.v1, t.v2, target)
 
 fun HasBounds.scale(x: Number, y: Number, target: CanSetBounds = E.RectMutable()): CanSetBounds {
-    target.originX = this.originX * x.f
-    target.originY = this.originY * y.f
-    target.width = this.width * x.f
-    target.height = this.height * y.f
+    target.setOriginSize(
+        originX = this.originX * x.f,
+        originY = this.originY * y.f,
+        width = this.width * x.f,
+        height = this.height * y.f
+    )
 
     return target
 }
@@ -292,11 +292,13 @@ fun HasBounds.scaleRelative(
     target.set(this)
 
     val factor = factor.f
-    target.originX = originX + (pointX.f - originX) * (1f - factor)
-    target.originY = originY + (pointY.f - originY) * (1f - factor)
 
-    target.width *= factor
-    target.height *= factor
+    target.setOriginSize(
+        originX = originX + (pointX.f - originX) * (1f - factor),
+        originY = originY + (pointY.f - originY) * (1f - factor),
+        width = width * factor,
+        height = height * factor
+    )
     return target
 }
 

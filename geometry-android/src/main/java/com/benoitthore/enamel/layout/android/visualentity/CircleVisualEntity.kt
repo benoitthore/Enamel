@@ -2,18 +2,20 @@ package com.benoitthore.enamel.layout.android.visualentity
 
 import android.graphics.Canvas
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.ERectMutable
+import com.benoitthore.enamel.geometry.figures.ECircle
+import com.benoitthore.enamel.geometry.figures.ECircleMutable
 import com.benoitthore.enamel.geometry.figures.ESize
+import com.benoitthore.enamel.geometry.figures.size
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 
-fun ERect.toVisualEntity(style: EStyle) = RectVisualEntity(style, this.toMutable())
-class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.Rect()) : SVGVisualEntity(),
-    ERectMutable by rect.toMutable() {
+fun ECircle.toVisualEntity(style: EStyle) = CircleVisualEntity(style, this.toMutable())
+class CircleVisualEntity(style: EStyle, circle: ECircleMutable = E.CircleMutable()) :
+    SVGVisualEntity(),
+    ECircleMutable by circle {
 
-    constructor(style: EStyle, builder: ERectMutable.() -> Unit) :
-            this(style, E.RectMutable().apply(builder))
+    constructor(style: EStyle, builder: ECircleMutable.() -> Unit) :
+            this(style, E.CircleMutable().apply(builder))
 
     init {
         this.style = style
@@ -29,6 +31,6 @@ class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.Rect()) : SVGVi
     }
 
     override val intrinsicSize: ESize
-        get() = size
-}
+        get() = radius * 2 size radius * 2
 
+}
