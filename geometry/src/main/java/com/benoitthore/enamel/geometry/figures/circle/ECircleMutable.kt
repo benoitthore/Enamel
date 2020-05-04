@@ -12,6 +12,7 @@ import kotlin.math.min
 interface ECircleMutable : ECircle,
     CanSetBounds,
     Resetable {
+
     class Impl internal constructor(centerX: Number, centerY: Number, radius: Number) :
         ECircleMutable {
         init {
@@ -42,15 +43,19 @@ interface ECircleMutable : ECircle,
             return "Circle(center=$center, radius=$radius)"
         }
 
-
     }
+
 
     override val center: EPointMutable
     override var radius: Float
 
+    override fun setCenter(x: Number, y: Number) {
+        center.set(x, y)
+    }
+
     /**
-    position the circle on the TOP RIGHT of the given rectangle
-    sets the radius based on whichever is smaller width or height
+     * In case the bounds don't define a square, the circle gets align on the top left of the
+     * given rectangle and sets the radius to be the half of whichever is smaller width or height
      */
     override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         val w = (right.f - left.f) / 2f

@@ -41,11 +41,11 @@ interface ELineMutable : ELine,
     // TODO FIX
     override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         if (isTLBR) {
-            start.set(top, left)
-            end.set(bottom, right)
+            start.set(left, top)
+            end.set(right, bottom)
         } else {
-            start.set(top, right)
-            end.set(bottom, left)
+            start.set(right, top)
+            end.set(left, bottom)
         }
     }
 

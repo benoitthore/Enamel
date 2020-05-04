@@ -20,6 +20,8 @@ interface ECircle : ESVG,
 
     val x: Float get() = center.x
     val y: Float get() = center.y
+    override val centerX: Float get() = x
+    override val centerY: Float get() = y
 
     override val left: Float
         get() = x - radius
@@ -29,6 +31,7 @@ interface ECircle : ESVG,
         get() = x + radius
     override val bottom: Float
         get() = y + radius
+
 
     fun intersects(other: ECircle) =
         this.center.distanceTo(other.center) < other.radius + this.radius

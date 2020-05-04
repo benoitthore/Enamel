@@ -149,7 +149,7 @@ fun HasBounds.offset(
     y: Number = 0,
     target: CanSetBounds = E.RectMutable()
 ): CanSetBounds {
-    target.set(x.f, y.f, width, height)
+    target.set(originX + x.f, originY + y.f, width, height)
     return target
 }
 

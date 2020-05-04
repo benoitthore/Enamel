@@ -35,6 +35,10 @@ interface ERectMutable : ERect,
         override val size: ESizeMutable = E.SizeMutable(width, height)
     }
 
+    override fun setCenter(x: Number, y: Number) {
+        E.RectMutableCenter(x, y, width, height, target = this)
+    }
+
     override fun reset() {
         origin.reset(); size.reset()
     }
