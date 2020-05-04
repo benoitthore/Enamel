@@ -97,7 +97,7 @@ fun HasBounds.innerCircle(target: ECircleMutable = E.CircleMutable()): ECircleMu
     return target
 }
 
-fun HasBounds.outterCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
+fun HasBounds.outerCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
     center(target.center) // set circles center to rect center
     target.radius = hypot(width.d, height.d).f / 2f
     return target

@@ -3,6 +3,8 @@ package com.benoitthore.enamel.geometry.interfaces.bounds
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.figures.size.ESizeMutable
 import com.benoitthore.enamel.geometry.interfaces.HasCenter
 
 interface HasBounds : HasCenter {
@@ -18,4 +20,6 @@ interface HasBounds : HasCenter {
 
     fun getBounds(target: ERectMutable = E.RectMutable()): ERect =
         target.set(originX, originY, width, height)
+
+    fun getSize(target: ESizeMutable = E.SizeMutable()): ESize = target.set(width, height)
 }

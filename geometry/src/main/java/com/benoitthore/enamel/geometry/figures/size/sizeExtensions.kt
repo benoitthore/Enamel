@@ -7,6 +7,8 @@ import com.benoitthore.enamel.geometry.primitives.times
 import kotlin.math.max
 import kotlin.math.min
 
+infix fun Number.size(height: Number) = E.SizeMutable(this, height)
+
 fun ESize.along(axis: ELayoutAxis): Float = when (axis) {
     ELayoutAxis.vertical -> height
     ELayoutAxis.horizontal -> width

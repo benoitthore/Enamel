@@ -3,7 +3,7 @@ package com.benoitthore.enamel.layout.android.visualentity
 import android.graphics.Canvas
 import android.graphics.Paint
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.primitives.ETransformation
+import com.benoitthore.enamel.geometry.primitives.ETransform
 import android.graphics.Rect
 import android.graphics.RectF
 import com.benoitthore.enamel.geometry.primitives.EAngle
@@ -65,15 +65,15 @@ inline fun Canvas.withScale(
 }
 
 inline fun Canvas.withTransformable(
-    transformable: ETransformation,
+    transformable: ETransform,
     crossinline block: Canvas.() -> Unit
 ) = withTransformation(transformable, block)
 
 inline fun Canvas.withTransformation(
-    transformation: ETransformation,
+    transform: ETransform,
     crossinline block: Canvas.() -> Unit
 ) {
-    with(transformation) {
+    with(transform) {
         withTranslate(translation) {
             withRotation(rotation, rotationPivot) {
                 withScale(scale, scalePivot) {

@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.geometry.builders
 
+import com.benoitthore.enamel.geometry.ensureMutable
 import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
 import com.benoitthore.enamel.geometry.figures.oval.EOvalMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
@@ -49,6 +50,20 @@ interface BaseBuilder {
         right = right.toFloat(),
         bottom = bottom.toFloat(),
         left = left.toFloat()
+    )
+
+    fun ETransformMutable(
+        rotation: EAngle = E.AngleMutable(),
+        rotationPivot: EPoint = E.PointMutable.half(),
+        scale: EPoint = E.PointMutable.unit(),
+        scalePivot: EPoint = E.PointMutable.half(),
+        translation: EPoint = E.PointMutable()
+    ): ETransformMutable = ETransformMutable.Impl(
+        rotation = rotation.ensureMutable(),
+        rotationPivot = rotationPivot.ensureMutable(),
+        scale = scale.ensureMutable(),
+        scalePivot = scalePivot.ensureMutable(),
+        translation = translation.ensureMutable()
     )
 
 }

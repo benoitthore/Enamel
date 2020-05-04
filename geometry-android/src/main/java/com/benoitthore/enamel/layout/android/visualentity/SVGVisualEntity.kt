@@ -1,7 +1,9 @@
 package com.benoitthore.enamel.layout.android.visualentity
 
 import android.graphics.Canvas
-import com.benoitthore.enamel.geometry.primitives.ETransformation
+import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.primitives.ETransform
+import com.benoitthore.enamel.geometry.primitives.ETransformMutable
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyleable
 import com.benoitthore.enamel.layout.android.visualentity.style.VisualEntityDrawer
@@ -13,11 +15,11 @@ abstract class SVGVisualEntity private constructor(protected val drawer: VisualE
 
     constructor() : this(VisualEntityDrawer())
 
-    override val transformation: ETransformation = ETransformation.Impl()
+    override val transform: ETransformMutable = E.ETransformMutable()
 
     override fun draw(canvas: Canvas) {
         canvas.withSave {
-            canvas.withTransformation(transformation) {
+            canvas.withTransformation(transform) {
                 onDraw(canvas)
             }
         }
