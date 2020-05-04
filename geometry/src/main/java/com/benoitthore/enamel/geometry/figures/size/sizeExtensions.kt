@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.geometry.figures
+package com.benoitthore.enamel.geometry.figures.size
 
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.alignement.isVertical

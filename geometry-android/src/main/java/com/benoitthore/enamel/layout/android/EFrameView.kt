@@ -4,11 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.ERectMutable
-import com.benoitthore.enamel.geometry.interfaces.padding
-import com.benoitthore.enamel.geometry.interfaces.selfPadding
-import com.benoitthore.enamel.geometry.interfaces.set
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.interfaces.bounds.selfPadding
+import com.benoitthore.enamel.geometry.interfaces.bounds.set
 
 open class EFrameView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0

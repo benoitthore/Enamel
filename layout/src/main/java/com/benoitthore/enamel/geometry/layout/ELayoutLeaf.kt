@@ -2,10 +2,10 @@ package com.benoitthore.enamel.geometry.layout
 
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.ERectMutable
-import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.ESize
-import com.benoitthore.enamel.geometry.interfaces.*
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.interfaces.bounds.set
 
 class ELayoutLeaf(var color: Int = 0, var child: ELayout? = null) : ELayoutAlongAxis {
 

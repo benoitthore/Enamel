@@ -2,9 +2,9 @@ package com.benoitthore.enamel.layout.android.visualentity
 
 import android.graphics.Canvas
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.EOval
-import com.benoitthore.enamel.geometry.figures.EOvalMutable
-import com.benoitthore.enamel.geometry.figures.ESize
+import com.benoitthore.enamel.geometry.figures.oval.EOval
+import com.benoitthore.enamel.geometry.figures.oval.EOvalMutable
+import com.benoitthore.enamel.geometry.figures.size.ESize
 import com.benoitthore.enamel.geometry.toMutable
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle

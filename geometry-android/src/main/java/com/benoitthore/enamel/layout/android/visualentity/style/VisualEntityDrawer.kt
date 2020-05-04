@@ -1,8 +1,6 @@
 package com.benoitthore.enamel.layout.android.visualentity.style
 
 import android.graphics.Paint
-import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.ERectMutable
 import com.benoitthore.enamel.layout.android.visualentity.setMesh
 
 class VisualEntityDrawer : EStyleable {

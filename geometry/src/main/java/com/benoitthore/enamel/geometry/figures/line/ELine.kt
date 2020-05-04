@@ -1,18 +1,14 @@
-package com.benoitthore.enamel.geometry.figures
+package com.benoitthore.enamel.geometry.figures.line
 
-import com.benoitthore.enamel.core.math.*
+import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.Allocates
-import com.benoitthore.enamel.geometry.Resetable
-import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.interfaces.CanSetBounds
-import com.benoitthore.enamel.geometry.interfaces.CanSetCenter
-import com.benoitthore.enamel.geometry.interfaces.HasBounds
+import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
 import com.benoitthore.enamel.geometry.interfaces.HasCenter
 import com.benoitthore.enamel.geometry.primitives.*
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
-import com.benoitthore.enamel.geometry.toMutable
 import kotlin.math.max
 import kotlin.math.min
 
@@ -20,7 +16,8 @@ import kotlin.math.min
 /*
 TODO Make allocation free
  */
-interface ELine : ELinearFunction, ESVG, HasCenter, HasBounds {
+interface ELine : ELinearFunction, ESVG, HasCenter,
+    HasBounds {
     val start: EPoint
     val end: EPoint
 
@@ -232,198 +229,3 @@ interface ELine : ELinearFunction, ESVG, HasCenter, HasBounds {
 
     private fun Float.opposite() = 1f - this
 }
-
-interface ELineMutable : ELine, CanSetBounds, CanSetCenter, Resetable {
-
-    class Impl internal constructor(
-        x1: Number = 0,
-        y1: Number = 0,
-        x2: Number = 0,
-        y2: Number = 0
-    ) : ELineMutable {
-        init {
-            allocateDebugMessage()
-        }
-
-        override val start: EPointMutable = E.PointMutable(x1, y1)
-        override val end: EPointMutable = E.PointMutable(x2, y2)
-    }
-
-    override val start: EPointMutable
-    override val end: EPointMutable
-
-    override fun setCenter(x: Number, y: Number) {
-        val xOffset = x.toFloat() - centerX
-        val yOffset = y.toFloat() - centerY
-        start.selfOffset(xOffset, yOffset)
-        end.selfOffset(xOffset, yOffset)
-    }
-
-    // FIX
-    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
-        if (isTLBR) {
-            start.set(top, left)
-            end.set(bottom, right)
-        } else {
-            start.set(top, right)
-            end.set(bottom, left)
-        }
-    }
-
-    fun set(start: EPoint = this.start, end: EPoint = this.end) =
-        set(start.x, start.y, end.x, end.y)
-
-    fun set(
-        x1: Number = start.x,
-        y1: Number = start.y,
-        x2: Number = end.x,
-        y2: Number = end.y
-    ) = apply {
-        start.x = x1.f
-        start.y = y1.f
-
-        end.x = x2.f
-        end.y = y2.f
-    }
-
-    fun selfOffset(xOff: Number, yOff: Number) = apply {
-        start.selfOffset(xOff, yOff)
-        end.selfOffset(xOff, yOff)
-    }
-
-    fun selfOffset(p: EPoint) = selfOffset(p.x, p.y)
-    fun selfScale(width: Number, height: Number): ELineMutable {
-        start.x *= width.f
-        end.x *= width.f
-
-        start.y *= height.f
-        end.y *= height.f
-        return this
-    }
-
-    override fun reset() {
-        start.reset()
-        end.reset()
-    }
-
-}
-
-infix fun EPoint.line(end: EPoint) = E.Line(start = this, end = end)
-infix fun EPointMutable.line(end: EPointMutable) = E.LineMutable(start = this, end = end)
-
-fun List<EPoint>.toListOfLines(): List<ELine> {
-    val ret = mutableListOf<ELine>()
-    forEachIndexed { i, curr ->
-        if (i > 1) {
-            val prev = get(i - 1)
-            ret.add(E.Line(prev, curr))
-        }
-    }
-    return ret
-}
-
-//
-
-fun EPoint.closetPointOnSegment(line: ELine) = line.closetPointOnSegment(this)
-fun ELine.closetPointOnSegment(point: EPoint) = getClosestPointOnSegment(
-    start.x, start.y,
-    end.x, end.y,
-    point.x, point.y
-)
-
-/**
- * Returns closest point on segment to point
- * @param sx1 - segment x coord 1
- * @param sy1 - segment y coord 1
- * @param sx2 - segment x coord 2
- * @param sy2 - segment y coord 2
- * @param px - point x coord
- * @param py - point y coord
- * @return closets point on segment to point
- */
-private fun getClosestPointOnSegment(
-    sx1: Float,
-    sy1: Float,
-    sx2: Float,
-    sy2: Float,
-    px: Float,
-    py: Float
-): EPoint {
-    val xDelta = sx2 - sx1
-    val yDelta = sy2 - sy1
-
-    if (xDelta == 0.0f && yDelta == 0.0f) {
-        throw IllegalArgumentException("Segment start equals segment end")
-    }
-
-    val u = ((px - sx1) * xDelta + (py - sy1) * yDelta) / (xDelta * xDelta + yDelta * yDelta)
-
-    return when {
-        u < 0 -> E.Point(sx1, sy1)
-        u > 1 -> E.Point(sx2, sy2)
-        else -> E.Point(Math.round(sx1 + u * xDelta), Math.round(sy1 + u * yDelta))
-    }
-}
-
-//
-fun EPoint.distanceTo(line: ELine) = line.distanceTo(this)
-
-fun ELine.distanceTo(point: EPoint): Float {
-    // A - the standalone point (x, y)
-    // B - start point of the line segment (x1, y1)
-    // C - end point of the line segment (x2, y2)
-    // D - the crossing point between line from A to BC
-    val A = point
-    val B = start
-    val C = end
-
-
-    val AB = A.distanceTo(B)
-    val BC = B.distanceTo(C)
-    val AC = A.distanceTo(C)
-
-    // Heron's formula
-    val s = (AB + BC + AC) / 2
-    val area = Math.sqrt((s * (s - AB) * (s - BC) * (s - AC)).toDouble()).toFloat()
-
-    // but also area == (BC * AD) / 2
-    // BC * AD == 2 * area
-    // AD == (2 * area) / BC
-    // TODO: check if BC == 0
-    return 2 * area / BC
-}
-
-
-val List<ELine>.length: Float get() = sumByDouble { it.length.toDouble() }.toFloat()
-
-
-operator fun ELine.component1() = start
-operator fun ELine.component2() = end
-
-fun List<EPoint>.pointAtFraction(fraction: Number, target: EPointMutable = E.PointMutable()) =
-    pointAtDistance(fraction.toFloat() * length, target)
-
-fun List<EPoint>.pointAtDistance(
-    distance: Number,
-    target: EPointMutable = E.PointMutable()
-): EPointMutable {
-    var last: EPoint? = null
-    val distance = distance.toFloat()
-    var remainingDistance = distance
-
-    forEach { p ->
-        last?.let { last ->
-            val distanceToNext = last.distanceTo(p)
-            if (remainingDistance - distanceToNext < 0) {
-                return last.offsetTowards(p, remainingDistance, target)
-            }
-            remainingDistance -= distanceToNext
-        }
-        last = p
-    }
-
-    return last().toMutable(target)
-}
-
-
-

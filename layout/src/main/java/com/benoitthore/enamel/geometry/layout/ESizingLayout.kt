@@ -1,6 +1,10 @@
 package com.benoitthore.enamel.geometry.layout
 
-import com.benoitthore.enamel.geometry.figures.*
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.figures.size.fillSize
+import com.benoitthore.enamel.geometry.figures.size.fitSize
+import com.benoitthore.enamel.geometry.figures.size.size
 import com.benoitthore.enamel.geometry.primitives.times
 
 class ESizingLayout(child: ELayout, var space: ELayoutSpace) : ELayout {

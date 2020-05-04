@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.builders
 
-import com.benoitthore.enamel.geometry.figures.ECircle
-import com.benoitthore.enamel.geometry.figures.ECircleMutable
+import com.benoitthore.enamel.geometry.figures.circle.ECircle
+import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
 import com.benoitthore.enamel.geometry.primitives.EPoint
 
 interface CircleBuilder : PointBuilder, BaseBuilder {

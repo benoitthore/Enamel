@@ -3,7 +3,7 @@ package com.benoitthore.enamel.geometry.primitives
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.ELineMutable
+import com.benoitthore.enamel.geometry.figures.line.ELineMutable
 
 interface ELinearFunction {
 

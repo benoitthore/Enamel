@@ -1,6 +1,8 @@
 package com.benoitthore.enamel.core.animations
 
 import com.benoitthore.enamel.core.math.*
+import kotlin.math.PI
+import kotlin.math.cos
 import kotlin.math.sin
 
 
@@ -9,7 +11,7 @@ typealias Interpolator = (Float) -> Float
 // equals 0 then equals 1 at the end
 val endInterpolator: Interpolator = { if (it > 1f - œ) 1f else 0f }
 val linearInterpolator: Interpolator = { it }
-val sinInterpolator: Interpolator = { ((sin((it - 0.5) * Math.PI) * 0.5 + 0.5)).f }
+val sinInterpolator: Interpolator = { ((sin((it - 0.5) * PI) * 0.5 + 0.5)).f }
 val bounceInterpolator: Interpolator = {
 
     fun bounce(t: Float): Float {
@@ -31,7 +33,7 @@ object EasingInterpolators {
     val cubicInOut: Interpolator = { getPowInOut(it, 3) }
     val quartInOut: Interpolator = { getPowInOut(it, 4) }
     val quintInOut: Interpolator = { getPowInOut(it, 5) }
-    val sineInOut: Interpolator = { -0.5f * (Math.cos(Math.PI * it) - 1f).f }
+    val sineInOut: Interpolator = { -0.5f * (cos(Math.PI * it) - 1f).f }
     fun accelerate(pow: Number = 2.0): Interpolator = { Math.pow(it.toDouble(), pow.toDouble()).toFloat() }
     fun deccelerate(pow: Number = 2.0): Interpolator = { 1f - Math.pow(1.0 - it, pow.toDouble()).toFloat() }
 }

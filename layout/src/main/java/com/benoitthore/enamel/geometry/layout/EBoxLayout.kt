@@ -2,8 +2,8 @@ package com.benoitthore.enamel.geometry.layout
 
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
-import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.ESize
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.size.ESize
 
 class EBoxLayout(
     child: ELayout = ELayoutLeaf.unit,

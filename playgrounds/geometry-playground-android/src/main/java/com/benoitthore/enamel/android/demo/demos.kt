@@ -7,13 +7,11 @@ import com.benoitthore.enamel.core._2dec
 import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.alignement.*
-import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.ERectMutable
-import com.benoitthore.enamel.geometry.figures.size
 import com.benoitthore.enamel.geometry.innerCircle
-import com.benoitthore.enamel.geometry.interfaces.pointAtAnchor
+import com.benoitthore.enamel.geometry.interfaces.bounds.pointAtAnchor
 import com.benoitthore.enamel.geometry.primitives.rotations
+import com.benoitthore.enamel.geometry.toListOfPoint
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.enamel.layout.android.drawPointList
 

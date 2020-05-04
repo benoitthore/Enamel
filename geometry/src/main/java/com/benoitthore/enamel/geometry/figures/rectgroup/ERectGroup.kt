@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.geometry.figures
+package com.benoitthore.enamel.geometry.figures.rectgroup
 
 import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.geometry.alignement.EAlignment
@@ -7,7 +7,12 @@ import com.benoitthore.enamel.geometry.allocate
 import com.benoitthore.enamel.geometry.primitives.EOffset
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.interfaces.*
+import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.figures.size.ESizeMutable
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.figures.rect.union
+import com.benoitthore.enamel.geometry.interfaces.bounds.*
 
 class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? = null) :
     Iterable<ERect> by _rects {
@@ -78,7 +83,12 @@ fun List<ESize>.rectGroup(
         prev
     }
 
-    val rectGroup = allocate { ERectGroup(rects, rects.union().selfExpand(padding).getBounds()) }
+    val rectGroup = allocate {
+        ERectGroup(
+            rects,
+            rects.union().selfExpand(padding).getBounds()
+        )
+    }
     rectGroup.aligned(anchor, position)
 
     return rectGroup
@@ -115,7 +125,9 @@ fun List<Number>.rectGroupWeights(
 ): ERectGroup {
 
     if (isEmpty()) {
-        return ERectGroup(emptyList())
+        return ERectGroup(
+            emptyList()
+        )
     }
 
     val spacing = spacing.toFloat()

@@ -3,10 +3,10 @@ package com.benoitthore.enamel.geometry
 import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.EPoint
-import com.benoitthore.enamel.geometry.figures.ERectMutable
-import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.ESizeMutable
-import com.benoitthore.enamel.geometry.figures.ESize
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.size.ESizeMutable
+import com.benoitthore.enamel.geometry.figures.size.ESize
 
 fun List<EPointMutable>.lerp(fraction: Number, from: List<EPoint>, to: List<EPoint>): List<EPointMutable> {
     if (size != from.size || size != size) {

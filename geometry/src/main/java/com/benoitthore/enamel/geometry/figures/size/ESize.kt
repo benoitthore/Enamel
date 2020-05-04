@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.geometry.figures
+package com.benoitthore.enamel.geometry.figures.size
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.math.d
@@ -66,7 +66,8 @@ interface ESize : Tuple2 {
 
 interface ESizeMutable : ESize, Resetable {
 
-    class Impl internal constructor(width: Number, height: Number) : ESizeMutable {
+    class Impl internal constructor(width: Number, height: Number) :
+        ESizeMutable {
         override var width: Float = width.toFloat()
         override var height: Float = height.toFloat()
     }

@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.builders
 
-import com.benoitthore.enamel.geometry.figures.ELine
-import com.benoitthore.enamel.geometry.figures.ELineMutable
+import com.benoitthore.enamel.geometry.figures.line.ELine
+import com.benoitthore.enamel.geometry.figures.line.ELineMutable
 import com.benoitthore.enamel.geometry.primitives.EPoint
 
 interface LineBuilder : PointBuilder, BaseBuilder {

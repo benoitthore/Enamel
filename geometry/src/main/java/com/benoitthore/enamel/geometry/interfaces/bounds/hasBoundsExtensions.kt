@@ -1,29 +1,15 @@
-package com.benoitthore.enamel.geometry.interfaces
+package com.benoitthore.enamel.geometry.interfaces.bounds
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.*
+import com.benoitthore.enamel.geometry.figures.circle.ECircle
+import com.benoitthore.enamel.geometry.figures.line.ELineMutable
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.size.ESize
 import com.benoitthore.enamel.geometry.primitives.EOffset
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.Tuple2
-
-// TODO Add to Oval, Line
-interface HasBounds {
-    val left: Float
-    val top: Float
-    val right: Float
-    val bottom: Float
-
-    val originX: Float get() = left
-    val originY: Float get() = top
-    val width: Float get() = right - left
-    val height: Float get() = bottom - top
-
-    fun getBounds(target: ERectMutable = E.RectMutable()): ERect =
-        target.set(originX, originY, width, height)
-}
-
 
 // contains Point
 fun HasBounds.contains(x: Number, y: Number) = contains(x, y, 0, 0)

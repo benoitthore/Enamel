@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.geometry.figures
+package com.benoitthore.enamel.geometry.figures.polygon
 
 //import com.benoitthore.enamel.core.math.Scale
 //import com.benoitthore.enamel.geometry.primitives.EPointMutable

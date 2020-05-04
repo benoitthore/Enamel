@@ -1,6 +1,6 @@
 package com.benoitthore.enamel.geometry.builders
 
-import com.benoitthore.enamel.geometry.figures.EOval
+import com.benoitthore.enamel.geometry.figures.oval.EOval
 import com.benoitthore.enamel.geometry.primitives.*
 
 interface OvalBuilder : BaseBuilder {

@@ -3,8 +3,12 @@ package com.benoitthore.enamel.geometry.layout
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.alignement.layoutAxis
-import com.benoitthore.enamel.geometry.figures.*
-import com.benoitthore.enamel.geometry.interfaces.pointAtAnchor
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rectgroup.ERectGroup
+import com.benoitthore.enamel.geometry.figures.rectgroup.rectGroupJustified
+import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.figures.size.along
+import com.benoitthore.enamel.geometry.interfaces.bounds.pointAtAnchor
 
 
 class EJustifiedLayout(

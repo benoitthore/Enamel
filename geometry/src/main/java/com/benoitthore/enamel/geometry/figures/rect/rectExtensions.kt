@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.geometry.figures
+package com.benoitthore.enamel.geometry.figures.rect
 
 import com.benoitthore.enamel.core.math.constrain
 import com.benoitthore.enamel.core.math.f
@@ -6,8 +6,11 @@ import com.benoitthore.enamel.geometry.alignement.ERectEdge
 import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
 import com.benoitthore.enamel.geometry.alignement.rectAlignedOutside
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.size.size
 import com.benoitthore.enamel.geometry.primitives.EOffset
-import com.benoitthore.enamel.geometry.interfaces.*
+import com.benoitthore.enamel.geometry.interfaces.bounds.ensureRect
+import com.benoitthore.enamel.geometry.interfaces.bounds.expand
+import com.benoitthore.enamel.geometry.interfaces.bounds.padding
 
 fun ERect.dividedFraction(
     fraction: Number,

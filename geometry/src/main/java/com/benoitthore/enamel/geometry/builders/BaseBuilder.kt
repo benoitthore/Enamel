@@ -1,9 +1,9 @@
 package com.benoitthore.enamel.geometry.builders
 
-import com.benoitthore.enamel.geometry.figures.ECircleMutable
-import com.benoitthore.enamel.geometry.figures.EOvalMutable
-import com.benoitthore.enamel.geometry.figures.ERectMutable
-import com.benoitthore.enamel.geometry.figures.ESizeMutable
+import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
+import com.benoitthore.enamel.geometry.figures.oval.EOvalMutable
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.figures.size.ESizeMutable
 import com.benoitthore.enamel.geometry.primitives.*
 
 interface BaseBuilder {

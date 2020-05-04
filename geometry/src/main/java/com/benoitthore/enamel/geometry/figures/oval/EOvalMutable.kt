@@ -1,41 +1,13 @@
-package com.benoitthore.enamel.geometry.figures
+package com.benoitthore.enamel.geometry.figures.oval
 
-import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.interfaces.*
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.interfaces.bounds.setSize
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
-import com.benoitthore.enamel.geometry.svg.ESVG
-import com.benoitthore.enamel.geometry.svg.SVGContext
-import kotlin.text.set
 
-interface EOval : ERect {
-
-    val center: EPoint
-    val rx: Float
-    val ry: Float
-
-    override val centerX: Float
-        get() = center.x
-    override val centerY: Float
-        get() = center.y
-
-    override val left: Float
-        get() = center.x - rx
-    override val top: Float
-        get() = center.y - ry
-    override val right: Float
-        get() = center.x + rx
-    override val bottom: Float
-        get() = center.y + height
-
-    override fun addTo(context: SVGContext) {
-        context.oval(this)
-    }
-}
-
-interface EOvalMutable : EOval, ERectMutable {
+interface EOvalMutable : EOval,
+    ERectMutable {
     override var ry: Float
         get() = size.height / 2f
         set(value) {

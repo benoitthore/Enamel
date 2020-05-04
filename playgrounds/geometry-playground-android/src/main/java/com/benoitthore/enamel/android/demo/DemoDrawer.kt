@@ -6,7 +6,7 @@ import android.graphics.Paint
 import android.text.TextPaint
 import com.benoitthore.enamel.android.dp
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.interfaces.center
+import com.benoitthore.enamel.geometry.interfaces.bounds.center
 import com.benoitthore.enamel.geometry.primitives.div
 
 

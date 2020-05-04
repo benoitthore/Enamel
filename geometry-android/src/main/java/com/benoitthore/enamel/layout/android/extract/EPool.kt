@@ -2,7 +2,12 @@ package com.benoitthore.enamel.layout.android.extract
 
 import com.benoitthore.enamel.core.LazyList
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.*
+import com.benoitthore.enamel.geometry.figures.circle.ECircle
+import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
+import com.benoitthore.enamel.geometry.figures.line.ELine
+import com.benoitthore.enamel.geometry.figures.line.ELineMutable
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.*
 
 class EPool<T : Any>(val size: Int, init: (Int) -> T) {

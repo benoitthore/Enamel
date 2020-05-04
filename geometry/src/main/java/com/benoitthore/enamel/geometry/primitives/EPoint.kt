@@ -5,7 +5,7 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
-import com.benoitthore.enamel.geometry.figures.ECircle
+import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.builders.E
 import kotlin.math.*
 

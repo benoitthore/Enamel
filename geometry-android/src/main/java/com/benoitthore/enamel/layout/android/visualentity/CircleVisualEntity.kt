@@ -2,10 +2,10 @@ package com.benoitthore.enamel.layout.android.visualentity
 
 import android.graphics.Canvas
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.ECircle
-import com.benoitthore.enamel.geometry.figures.ECircleMutable
-import com.benoitthore.enamel.geometry.figures.ESize
-import com.benoitthore.enamel.geometry.figures.size
+import com.benoitthore.enamel.geometry.figures.circle.ECircle
+import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
+import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.figures.size.size
 import com.benoitthore.enamel.geometry.toMutable
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle

@@ -1,9 +1,9 @@
 package com.benoitthore.enamel.geometry.layout
 
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.ESize
-import com.benoitthore.enamel.geometry.figures.minus
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.figures.rect.minus
 import com.benoitthore.enamel.geometry.primitives.EOffset
 import com.benoitthore.enamel.geometry.primitives.plus
 import com.benoitthore.enamel.geometry.primitives.sub

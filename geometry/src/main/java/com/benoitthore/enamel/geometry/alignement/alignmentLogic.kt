@@ -2,10 +2,10 @@ package com.benoitthore.enamel.geometry.alignement
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.ERectMutable
-import com.benoitthore.enamel.geometry.figures.ESize
-import com.benoitthore.enamel.geometry.interfaces.*
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.interfaces.bounds.*
 
 fun <T : CanSetBounds> T.selfAlign(
     frame: HasBounds,

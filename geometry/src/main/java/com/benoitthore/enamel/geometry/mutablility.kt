@@ -1,8 +1,15 @@
 package com.benoitthore.enamel.geometry
 
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.*
-import com.benoitthore.enamel.geometry.interfaces.set
+import com.benoitthore.enamel.geometry.figures.circle.ECircle
+import com.benoitthore.enamel.geometry.figures.line.ELine
+import com.benoitthore.enamel.geometry.figures.line.ELineMutable
+import com.benoitthore.enamel.geometry.figures.oval.EOval
+import com.benoitthore.enamel.geometry.figures.oval.EOvalMutable
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.interfaces.bounds.set
 import com.benoitthore.enamel.geometry.primitives.EAngle
 import com.benoitthore.enamel.geometry.primitives.EAngleMutable
 import com.benoitthore.enamel.geometry.primitives.EPoint

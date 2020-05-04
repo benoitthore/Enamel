@@ -5,9 +5,9 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.Region
 import android.os.Build
-import com.benoitthore.enamel.geometry.figures.ECircle
-import com.benoitthore.enamel.geometry.figures.ELine
-import com.benoitthore.enamel.geometry.figures.ERect
+import com.benoitthore.enamel.geometry.figures.circle.ECircle
+import com.benoitthore.enamel.geometry.figures.line.ELine
+import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.layout.android.visualentity.set

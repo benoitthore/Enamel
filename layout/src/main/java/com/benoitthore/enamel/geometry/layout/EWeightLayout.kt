@@ -3,11 +3,11 @@ package com.benoitthore.enamel.geometry.layout
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.alignement.layoutAxis
-import com.benoitthore.enamel.geometry.figures.ERect
-import com.benoitthore.enamel.geometry.figures.ERectGroup
-import com.benoitthore.enamel.geometry.figures.ESize
-import com.benoitthore.enamel.geometry.figures.rectGroupWeights
-import com.benoitthore.enamel.geometry.interfaces.pointAtAnchor
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rectgroup.ERectGroup
+import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.figures.rectgroup.rectGroupWeights
+import com.benoitthore.enamel.geometry.interfaces.bounds.pointAtAnchor
 
 class EWeightLayout(
     val alignment: EAlignment,

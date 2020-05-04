@@ -2,7 +2,12 @@ package com.benoitthore.enamel.geometry.layout
 
 import com.benoitthore.enamel.geometry.alignement.*
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.figures.*
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rect.divided
+import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.figures.size.along
+import com.benoitthore.enamel.geometry.figures.size.union
+import com.benoitthore.enamel.geometry.figures.size.with
 import com.benoitthore.enamel.geometry.toRect
 
 

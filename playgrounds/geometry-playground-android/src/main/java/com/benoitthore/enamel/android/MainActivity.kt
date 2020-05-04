@@ -31,11 +31,13 @@ import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.innerCircle
-import com.benoitthore.enamel.geometry.interfaces.*
+import com.benoitthore.enamel.geometry.interfaces.bounds.center
+import com.benoitthore.enamel.geometry.interfaces.bounds.diagonalTLBR
 import com.benoitthore.enamel.geometry.primitives.rotations
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.addTo
 import com.benoitthore.enamel.geometry.toCircle
+import com.benoitthore.enamel.geometry.toListOfPoint
 import com.benoitthore.enamel.layout.android.createContext
 import com.benoitthore.enamel.layout.android.extract.multiTouch
 import com.benoitthore.enamel.layout.android.setBounds
