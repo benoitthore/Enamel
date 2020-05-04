@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.android
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Canvas
@@ -16,39 +17,23 @@ import android.widget.SeekBar
 import android.widget.Space
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.withTranslation
-import androidx.core.view.doOnLayout
 import com.benoitthore.enamel.R
+
+// TODO Add these imports to the doc:
 import com.benoitthore.enamel.android.demo.*
-import com.benoitthore.enamel.android.demo.DemoDrawer
-import com.benoitthore.enamel.android.demo.DemoView
-import com.benoitthore.enamel.core.colorHSL
-import com.benoitthore.enamel.core.math.i
-import com.benoitthore.enamel.core.math.lerp
-import com.benoitthore.enamel.core.math.map
+import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.core.math.noise.OpenSimplexNoise
-import com.benoitthore.enamel.core.withAlpha
-import com.benoitthore.enamel.geometry.alignement.EAlignment.*
-import com.benoitthore.enamel.geometry.alignement.selfAlignInside
-import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
+import com.benoitthore.enamel.core.*
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.innerCircle
-import com.benoitthore.enamel.geometry.innerRect
+import com.benoitthore.enamel.geometry.*
+import com.benoitthore.enamel.geometry.clipping.*
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
-import com.benoitthore.enamel.geometry.primitives.minus
-import com.benoitthore.enamel.geometry.primitives.radians
-import com.benoitthore.enamel.geometry.primitives.rotations
-import com.benoitthore.enamel.geometry.primitives.times
-import com.benoitthore.enamel.geometry.svg.ESVG
-import com.benoitthore.enamel.geometry.svg.addTo
-import com.benoitthore.enamel.geometry.toCircle
-import com.benoitthore.enamel.geometry.toListOfPoint
-import com.benoitthore.enamel.layout.android.createContext
-import com.benoitthore.enamel.layout.android.extract.multiTouch
-import com.benoitthore.enamel.layout.android.extract.singleTouch
-import com.benoitthore.enamel.layout.android.setBounds
-import com.benoitthore.enamel.layout.android.visualentity.VisualEntityView
+import com.benoitthore.enamel.geometry.primitives.*
+import com.benoitthore.enamel.geometry.svg.*
+import com.benoitthore.enamel.layout.android.*
 import com.benoitthore.enamel.layout.android.visualentity.style.*
-import com.benoitthore.enamel.layout.android.visualentity.toVisualEntity
+import com.benoitthore.enamel.layout.android.visualentity.*
+
 
 inline val Number.dp get() = toFloat() * Resources.getSystem().displayMetrics.density
 
@@ -71,42 +56,49 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val view = VisualEntityView(this)
-        setContentView(view)
+        val debugStyle =
+            EStyle(fill = Mesh(shader = E.Circle(radius = 16.dp).toShader(RED, YELLOW)))
+        val view = object : View(this) {
+
+            init {
+//                setLayerType(LAYER_TYPE_HARDWARE,null)
+                setLayerType(LAYER_TYPE_SOFTWARE, null)
+            }
+
+            @SuppressLint("DrawAllocation")
+            override fun onDraw(canvas: Canvas) {
+
+                val bounds = getBounds()
+
+                val entity = bounds.innerCircle().selfScaleAnchor(0.75, 0.5, 0.5)
+                    .toVisualEntity(debugStyle)
+                val mask = entity.scaleAnchor(0.5, 0.5, 0.5).getBounds()
 
 
-        view.doOnLayout {
-
-            val viewFrame = E.RectMutable().setBounds(view)
-            val rect = E.RectMutable(E.SizeSquare(viewFrame.size.min / 2)).diagonalTLBR()
-//                .innerCircle()
-            rect.selfAlignInside(viewFrame, center)
-
-            val shader = rect.diagonalTLBR().apply { setOriginSize(0, 0) }
-                .toShader(RED, YELLOW, resetOrigin = true)
-
-            val mesh = Mesh(shader = shader)
-            val style = EStyle(border = EStyle.Border(mesh, 20.dp))
-
-            val entity = rect.toVisualEntity(style)
+                entity.clipOut(mask).toVisualEntity().draw(canvas)
 
 
-            view.singleTouch {
-
-//                entity.setCenter(it.position)
-                entity.transformation.translation.set(it.position - entity.getCenter())
-
-                val normalizedPosition = it.position.normalizeIn(viewFrame)
-
-                entity.transformation.rotation.set(
-                    normalizedPosition.y.rotations()
-                )
-
-                view.show(entity)
-
-                true
             }
         }
+        setContentView(view)
+//        val view = VisualEntityView(this)
+//        setContentView(view)
+//
+//
+//        view.doOnLayout {
+//            val bounds = view.getBounds()
+//            val circle = view.getBounds().innerCircle().selfScaleAnchor(0.75, 0.5, 0.5)
+//            val line = bounds.diagonalTLBR()
+//
+//
+//
+//
+//            view.show(
+//                circle.toVisualEntity(debugStyle).clipOut(line).toVisualEntity()
+////                circle.toVisualEntity(debugStyle)
+//            )
+//
+//        }
 
         return
 

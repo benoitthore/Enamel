@@ -111,6 +111,9 @@ fun <T : CanSetBounds> T.selfExpand(margin: Number) = expand(margin, margin, thi
 fun <T : CanSetBounds> T.selfExpand(p: EPoint) = expand(p.x, p.y, this)
 fun <T : CanSetBounds> T.selfExpand(x: Number = 0f, y: Number = 0f) = inset(-x.f, -y.f, this)
 
+fun <T : CanSetBounds> T.selfScale(t: Tuple2): CanSetBounds = apply { scale(t, this) }
+
+fun <T : CanSetBounds> T.selfScale(x: Number, y: Number) = apply { scale(x, y, this) }
 fun <T : CanSetBounds> T.selfPadding(padding: EOffset) = padding(padding, this)
 fun <T : CanSetBounds> T.selfPadding(
     top: Number = 0,
@@ -134,7 +137,7 @@ fun <T : CanSetBounds> T.selfScaleAnchor(
     factor: Number,
     anchorX: Number,
     anchorY: Number
-) = scaleAnchor(factor, anchorX, anchorY, this)
+) = apply { scaleAnchor(factor, anchorX, anchorY, this) }
 
 fun <T : CanSetBounds> T.selfScaleRelative(factor: Number, point: EPoint) =
     scaleRelative(factor, point, this)

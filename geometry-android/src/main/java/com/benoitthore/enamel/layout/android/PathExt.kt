@@ -5,6 +5,7 @@ import android.graphics.RectF
 import android.os.Build
 import com.benoitthore.enamel.geometry.primitives.EAngle
 import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
 val EAngle.Direction.pathDirection
@@ -18,6 +19,11 @@ fun Path.createContext() =
     PathSVGContext(this)
 
 class PathSVGContext(val path: Path = Path()) : SVGContext {
+
+    constructor(shape: ESVG) : this() {
+        shape.addTo(this)
+    }
+
     override fun reset() {
         path.reset()
     }

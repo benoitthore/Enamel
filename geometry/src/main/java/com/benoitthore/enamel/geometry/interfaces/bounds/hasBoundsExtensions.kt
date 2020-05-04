@@ -231,7 +231,6 @@ fun HasBounds.padding(padding: EOffset, target: CanSetBounds = E.RectMutable()):
         target = target
     )
 
-// TODO Make self version
 fun HasBounds.scale(t: Tuple2, target: CanSetBounds = E.RectMutable()): CanSetBounds =
     scale(t.v1, t.v2, target)
 
