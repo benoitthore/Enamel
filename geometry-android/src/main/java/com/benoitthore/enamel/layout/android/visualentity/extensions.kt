@@ -6,6 +6,8 @@ import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.ETransformation
 import android.graphics.Rect
 import android.graphics.RectF
+import com.benoitthore.enamel.geometry.primitives.EAngle
+import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.layout.android.visualentity.style.Mesh
 
 fun Rect.set(rect: ERect) = apply {
@@ -27,30 +29,63 @@ fun Paint.setMesh(mesh: Mesh) {
     mesh.shader?.let { shader = it.shader }
 }
 
+
+inline fun Canvas.withTranslate(
+    translation: EPoint,
+    crossinline block: Canvas.() -> Unit
+) = withSave {
+    translate(translation.x, translation.y)
+    block()
+}
+
+inline fun Canvas.withRotation(
+    angle: EAngle,
+    pivot: EPoint? = null,
+    crossinline block: Canvas.() -> Unit
+) = withSave {
+    if (pivot == null) {
+        rotate(angle.degrees)
+    } else {
+        rotate(angle.degrees, pivot.x, pivot.y)
+    }
+    block()
+}
+
+inline fun Canvas.withScale(
+    scale: EPoint,
+    pivot: EPoint? = null,
+    crossinline block: Canvas.() -> Unit
+) = withSave {
+    if (pivot == null) {
+        scale(scale.x, scale.y)
+    } else {
+        scale(scale.x, scale.y, pivot.x, pivot.y)
+    }
+    block()
+}
+
+inline fun Canvas.withTransformable(
+    transformable: ETransformation,
+    crossinline block: Canvas.() -> Unit
+) = withTransformation(transformable, block)
+
 inline fun Canvas.withTransformation(
     transformation: ETransformation,
     crossinline block: Canvas.() -> Unit
-) =
-    apply {
-        val save = save()
-        runCatching {
-            with(transformation) {
-                translate(translation.x, translation.y)
-                rotate(
-                    rotation.degrees,
-                    width * rotationPivot.x,
-                    height * rotationPivot.y
-                )
-                scale(scale.x, scale.y, scalePivot.x, scalePivot.y)
+) {
+    with(transformation) {
+        withTranslate(translation) {
+            withRotation(rotation, rotationPivot) {
+                withScale(scale, scalePivot) {
+                    block()
+                }
             }
-            block()
         }
-        restoreToCount(save)
     }
+}
 
 
-// Not using AndroidX to avoid conflicts
-internal inline fun Canvas.withSave(crossinline block: Canvas.() -> Unit) = apply {
+inline fun Canvas.withSave(crossinline block: Canvas.() -> Unit) = apply {
     val save = save()
     runCatching { block() }
     restoreToCount(save)
