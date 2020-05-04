@@ -31,23 +31,27 @@ inline fun Canvas.withTransformation(
     transformation: ETransformation,
     crossinline block: Canvas.() -> Unit
 ) =
-    withSave {
-        with(transformation) {
-            translate(translation.x, translation.y)
-            rotate(
-                rotation.degrees,
-                width * rotationPivot.x,
-                height * rotationPivot.y
-            )
-            scale(scale.x, scale.y, scalePivot.x, scalePivot.y)
+    apply {
+        val save = save()
+        runCatching {
+            with(transformation) {
+                translate(translation.x, translation.y)
+                rotate(
+                    rotation.degrees,
+                    width * rotationPivot.x,
+                    height * rotationPivot.y
+                )
+                scale(scale.x, scale.y, scalePivot.x, scalePivot.y)
+            }
+            block()
         }
-        block()
+        restoreToCount(save)
     }
 
 
 // Not using AndroidX to avoid conflicts
-inline fun Canvas.withSave(crossinline block: Canvas.() -> Unit) = apply {
+internal inline fun Canvas.withSave(crossinline block: Canvas.() -> Unit) = apply {
     val save = save()
-    block()
+    runCatching { block() }
     restoreToCount(save)
 }

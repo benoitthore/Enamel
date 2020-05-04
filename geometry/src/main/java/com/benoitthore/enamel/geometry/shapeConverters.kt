@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.geometry
 
+import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.builders.E
@@ -8,12 +9,14 @@ import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
 import com.benoitthore.enamel.geometry.interfaces.bounds.set
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.interfaces.bounds.center
 import com.benoitthore.enamel.geometry.primitives.EAngle
 import com.benoitthore.enamel.geometry.primitives.degrees
+import kotlin.math.hypot
 
 fun ECircle.pointAtAngle(angle: EAngle, target: EPointMutable = E.PointMutable()): EPointMutable =
     target.set(angle, radius).selfOffset(center)
@@ -88,19 +91,20 @@ fun List<EPointMutable>.toCircles(
 
 fun ESize.toRect(target: ERectMutable = E.RectMutable()) = target.set(0, 0, width, height)
 
-fun ERect.innerCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
+fun HasBounds.innerCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
     center(target.center) // set circles center to rect center
-    target.radius = size.min / 2
+    target.radius = (if (width > height) height else width) / 2f
     return target
 }
 
-fun ERect.outterCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
+fun HasBounds.outterCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
     center(target.center) // set circles center to rect center
-    target.radius = size.diagonal / 2
+    target.radius = hypot(width.d, height.d).f / 2f
     return target
 }
 
-fun ECircle.outterRect(target: ERectMutable = E.RectMutable()): ERectMutable = target.apply { getBounds(target) }
+fun ECircle.outterRect(target: ERectMutable = E.RectMutable()): ERectMutable =
+    target.apply { getBounds(target) }
 
 fun ECircle.innerRect(target: ERectMutable = E.RectMutable()): ERectMutable {
     val width = Math.sqrt((2 * radius * radius).toDouble()).f

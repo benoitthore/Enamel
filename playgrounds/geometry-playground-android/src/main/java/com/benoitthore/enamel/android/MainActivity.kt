@@ -16,6 +16,7 @@ import android.widget.SeekBar
 import android.widget.Space
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.withTranslation
+import androidx.core.view.doOnLayout
 import com.benoitthore.enamel.R
 import com.benoitthore.enamel.android.demo.*
 import com.benoitthore.enamel.android.demo.DemoDrawer
@@ -33,19 +34,20 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.innerRect
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
+import com.benoitthore.enamel.geometry.primitives.minus
+import com.benoitthore.enamel.geometry.primitives.radians
 import com.benoitthore.enamel.geometry.primitives.rotations
+import com.benoitthore.enamel.geometry.primitives.times
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.addTo
 import com.benoitthore.enamel.geometry.toCircle
 import com.benoitthore.enamel.geometry.toListOfPoint
 import com.benoitthore.enamel.layout.android.createContext
 import com.benoitthore.enamel.layout.android.extract.multiTouch
+import com.benoitthore.enamel.layout.android.extract.singleTouch
 import com.benoitthore.enamel.layout.android.setBounds
 import com.benoitthore.enamel.layout.android.visualentity.VisualEntityView
-import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
-import com.benoitthore.enamel.layout.android.visualentity.style.Mesh
-import com.benoitthore.enamel.layout.android.visualentity.style.toBorder
-import com.benoitthore.enamel.layout.android.visualentity.style.toShader
+import com.benoitthore.enamel.layout.android.visualentity.style.*
 import com.benoitthore.enamel.layout.android.visualentity.toVisualEntity
 
 inline val Number.dp get() = toFloat() * Resources.getSystem().displayMetrics.density
@@ -73,32 +75,37 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
 
-        view.multiTouch { touchList ->
+        view.doOnLayout {
 
-            view.clear()
+            val viewFrame = E.RectMutable().setBounds(view)
+            val rect = E.RectMutable(E.SizeSquare(viewFrame.size.min / 2)).diagonalTLBR()
+//                .innerCircle()
+            rect.selfAlignInside(viewFrame, center)
 
-            touchList.forEach { touchEvent ->
-                val viewFrame = E.RectMutable().setBounds(view)
-                val rect = E.RectMutable(E.SizeSquare(viewFrame.size.min / 2))
-                rect.selfAlignInside(viewFrame, center)
-                val otherShape = rect.diagonalTLBR()
+            val shader = rect.diagonalTLBR().apply { setOriginSize(0, 0) }
+                .toShader(RED, YELLOW, resetOrigin = true)
 
-                val shader = rect.diagonalTLBR().apply { setCenter(0, 0) }.toShader(RED, YELLOW)
-                val style = EStyle(fill = Mesh(shader = shader))
+            val mesh = Mesh(shader = shader)
+            val style = EStyle(border = EStyle.Border(mesh, 20.dp))
 
-                val entity = rect.toVisualEntity(style)
-                val entity2 = otherShape.toVisualEntity(
-                    style.copy(fill = null, border = style.fill?.toBorder(12.dp))
+            val entity = rect.toVisualEntity(style)
+
+
+            view.singleTouch {
+
+//                entity.setCenter(it.position)
+                entity.transformation.translation.set(it.position - entity.getCenter())
+
+                val normalizedPosition = it.position.normalizeIn(viewFrame)
+
+                entity.transformation.rotation.set(
+                    normalizedPosition.y.rotations()
                 )
 
-                entity.setCenter(touchEvent.position)
+                view.show(entity)
 
-                entity2.selfAlignOutside(entity, bottomRight).selfOffset(entity2.width, 0)
-
-                view.show(entity, entity2)
+                true
             }
-
-            true
         }
 
         return

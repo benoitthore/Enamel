@@ -4,6 +4,7 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.length
+import com.benoitthore.enamel.geometry.primitives.point
 import com.benoitthore.enamel.geometry.toMutable
 import kotlin.math.*
 
@@ -52,8 +53,8 @@ private fun getClosestPointOnSegment(
     val xDelta = sx2 - sx1
     val yDelta = sy2 - sy1
 
-    if (xDelta == 0.0f && yDelta == 0.0f) {
-        throw IllegalArgumentException("Segment start equals segment end")
+    if (xDelta == 0.0f && yDelta == 0.0f) { // sx2 == sx1 && sy2 && sy1
+        return sx1 point sx2
     }
 
     val u = ((px - sx1) * xDelta + (py - sy1) * yDelta) / (xDelta * xDelta + yDelta * yDelta)
@@ -61,7 +62,7 @@ private fun getClosestPointOnSegment(
     return when {
         u < 0 -> E.Point(sx1, sy1)
         u > 1 -> E.Point(sx2, sy2)
-        else -> E.Point(Math.round(sx1 + u * xDelta), Math.round(sy1 + u * yDelta))
+        else -> E.Point(round(sx1 + u * xDelta), round(sy1 + u * yDelta))
     }
 }
 

@@ -20,7 +20,10 @@ interface CanSetBounds : HasBounds,
         bottom: Number
     )
 
-    fun setOriginSize(originX: Number, originY: Number, width: Number, height: Number) = setBounds(
+    fun setOriginSize(
+        originX: Number = this.originX, originY: Number = this.originY,
+        width: Number = this.width, height: Number = this.height
+    ) = setBounds(
         left = originX,
         top = originY,
         right = originX.f + width.f,

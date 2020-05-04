@@ -7,6 +7,7 @@ import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.rect.ERect
 import kotlin.math.*
 
 interface EPoint : Tuple2 {
@@ -132,6 +133,13 @@ interface EPoint : Tuple2 {
         return target
     }
 
+    fun normalizeIn(frame: ERect, target: EPointMutable = E.PointMutable()): EPointMutable {
+        target.set(this)
+        target.x /= frame.size.width
+        target.y /= frame.size.height
+        return target
+    }
+
     fun limitMagnitude(max: Number, target: EPointMutable = E.PointMutable()): EPointMutable {
         val max = max.f
         target.set(this)
@@ -233,6 +241,7 @@ interface EPointMutable : EPoint, Resetable {
     fun selfInverse() = inverse(this)
 
     fun selfNormalize() = normalize(this)
+    fun selfNormalizeIn(frame: ERect) = normalizeIn(frame, this)
     fun selfLimitMagnitude(max: Number) = limitMagnitude(max, this)
     fun selfSetMagnitude(magnitude: Number) = setMagnitude(magnitude, this)
 
