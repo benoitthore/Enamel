@@ -14,6 +14,11 @@ fun EOval.toMutable(target: EOvalMutable = E.OvalMutable()): EOvalMutable =
 
 fun EOval.toImmutable(): EOval = E.Oval(this)
 
+fun ELine.toMutable(target: ELineMutable = E.LineMutable()): ELineMutable =
+    target.set(start, end)
+
+fun ELine.toImmutable(): ELine = E.Line(this)
+
 fun ERect.toMutable(target: ERectMutable = E.RectMutable()): ERectMutable =
     target.set(origin.toMutable(target.origin), size.toMutable())
 

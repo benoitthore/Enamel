@@ -30,7 +30,6 @@ import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.size
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.interfaces.*
 import com.benoitthore.enamel.geometry.primitives.rotations
@@ -40,10 +39,10 @@ import com.benoitthore.enamel.geometry.toCircle
 import com.benoitthore.enamel.layout.android.createContext
 import com.benoitthore.enamel.layout.android.extract.multiTouch
 import com.benoitthore.enamel.layout.android.setBounds
-import com.benoitthore.enamel.layout.android.visualentity.RectVisualEntity
 import com.benoitthore.enamel.layout.android.visualentity.VisualEntityView
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
 import com.benoitthore.enamel.layout.android.visualentity.style.Mesh
+import com.benoitthore.enamel.layout.android.visualentity.style.toBorder
 import com.benoitthore.enamel.layout.android.visualentity.style.toShader
 import com.benoitthore.enamel.layout.android.visualentity.toVisualEntity
 
@@ -80,14 +79,14 @@ class MainActivity : AppCompatActivity() {
                 val viewFrame = E.RectMutable().setBounds(view)
                 val rect = E.RectMutable(E.SizeSquare(viewFrame.size.min / 2))
                 rect.selfAlignInside(viewFrame, center)
-                val circle = rect.innerCircle()
+                val otherShape = rect.diagonalTLBR()
 
 //                val shader = rect.innerCircle().apply { set(radius, radius) }.toShader(RED, YELLOW)
                 val shader = rect.diagonalTLBR().apply { setCenter(0, 0) }.toShader(RED, YELLOW)
                 val style = EStyle(fill = Mesh(shader = shader))
 
                 val entity = rect.toVisualEntity(style)
-                val entity2 = circle.toVisualEntity(style)
+                val entity2 = otherShape.toVisualEntity(style.copy(fill = null, border = style.fill?.toBorder(12.dp)))
 
                 entity.setCenter(touchEvent.position)
 

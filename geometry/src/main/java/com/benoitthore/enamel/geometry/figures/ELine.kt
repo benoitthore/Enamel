@@ -5,19 +5,22 @@ import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.interfaces.CanSetBounds
 import com.benoitthore.enamel.geometry.interfaces.CanSetCenter
+import com.benoitthore.enamel.geometry.interfaces.HasBounds
 import com.benoitthore.enamel.geometry.interfaces.HasCenter
 import com.benoitthore.enamel.geometry.primitives.*
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
 import com.benoitthore.enamel.geometry.toMutable
+import kotlin.math.max
+import kotlin.math.min
 
 
 /*
 TODO Make allocation free
  */
-interface ELine : ELinearFunction, ESVG,
-    HasCenter {
+interface ELine : ELinearFunction, ESVG, HasCenter, HasBounds {
     val start: EPoint
     val end: EPoint
 
@@ -46,6 +49,18 @@ interface ELine : ELinearFunction, ESVG,
         get() = (start.x + end.x) / 2
     override val centerY: Float
         get() = (start.y + end.y) / 2
+
+    override val left: Float
+        get() = min(start.x, end.x)
+    override val top: Float
+        get() = min(start.y, end.y)
+    override val right: Float
+        get() = max(start.x, end.x)
+    override val bottom: Float
+        get() = max(start.y, end.y)
+
+    val isTLBR get() = start.x < end.x
+    val isBRTL get() = !isTLBR
 
     override fun addTo(context: SVGContext) {
         with(context) {
@@ -218,8 +233,7 @@ interface ELine : ELinearFunction, ESVG,
     private fun Float.opposite() = 1f - this
 }
 
-interface ELineMutable : ELine,
-    CanSetCenter, Resetable {
+interface ELineMutable : ELine, CanSetBounds, CanSetCenter, Resetable {
 
     class Impl internal constructor(
         x1: Number = 0,
@@ -243,6 +257,17 @@ interface ELineMutable : ELine,
         val yOffset = y.toFloat() - centerY
         start.selfOffset(xOffset, yOffset)
         end.selfOffset(xOffset, yOffset)
+    }
+
+    // FIX
+    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+        if (isTLBR) {
+            start.set(top, left)
+            end.set(bottom, right)
+        } else {
+            start.set(top, right)
+            end.set(bottom, left)
+        }
     }
 
     fun set(start: EPoint = this.start, end: EPoint = this.end) =
