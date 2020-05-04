@@ -1,11 +1,11 @@
-package com.benoitthore.enamel.layout.android.visualentity
+package com.thorebenoit.visualentity
 
 import android.graphics.Canvas
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
 import com.benoitthore.enamel.geometry.svg.ESVG
-import com.benoitthore.enamel.layout.android.visualentity.style.EStyleable
-import com.benoitthore.enamel.layout.android.visualentity.style.VisualEntityDrawer
+import com.thorebenoit.visualentity.style.*
+import com.thorebenoit.visualentity.*
 
 interface ISVGVisualEntity : VisualEntity, ESVG, EStyleable
 

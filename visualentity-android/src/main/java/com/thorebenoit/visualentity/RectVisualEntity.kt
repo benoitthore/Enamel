@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.layout.android.visualentity
+package com.thorebenoit.visualentity
 
 import android.graphics.Canvas
 import com.benoitthore.enamel.geometry.builders.E
@@ -7,7 +7,7 @@ import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.toMutable
 import com.benoitthore.enamel.layout.android.draw
-import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
+import com.thorebenoit.visualentity.style.*
 
 fun ERect.toVisualEntity(style: EStyle) = RectVisualEntity(style, this.toMutable())
 class RectVisualEntity(style: EStyle = EStyle(), rect: ERect = E.Rect()) : SVGVisualEntity(),

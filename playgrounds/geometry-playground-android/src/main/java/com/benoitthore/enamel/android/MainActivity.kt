@@ -28,14 +28,15 @@ import com.benoitthore.enamel.core.math.noise.OpenSimplexNoise
 import com.benoitthore.enamel.core.*
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.*
-import com.benoitthore.enamel.geometry.clipping.*
+import com.benoitthore.enamel.geometry.clipping.clipOut
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
 import com.benoitthore.enamel.geometry.primitives.angle.rotations
 import com.benoitthore.enamel.geometry.svg.*
 import com.benoitthore.enamel.layout.android.*
 import com.benoitthore.enamel.layout.android.extract.singleTouch
-import com.benoitthore.enamel.layout.android.visualentity.style.*
-import com.benoitthore.enamel.layout.android.visualentity.*
+
+import com.thorebenoit.visualentity.style.*
+import com.thorebenoit.visualentity.*
 
 
 inline val Number.dp get() = toFloat() * Resources.getSystem().displayMetrics.density
@@ -59,7 +60,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        return
 
         val debugStyle =
             EStyle(fill = Mesh(shader = E.Circle(radius = 16.dp).toShader(RED, YELLOW, RED)))

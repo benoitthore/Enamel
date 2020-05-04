@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.layout.android.visualentity.style
+package com.thorebenoit.visualentity.style
 
 import android.graphics.LinearGradient
 import android.graphics.RadialGradient

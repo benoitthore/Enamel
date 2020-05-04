@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.layout.android.visualentity
+package com.thorebenoit.visualentity
 
 import android.graphics.Canvas
 import com.benoitthore.enamel.geometry.builders.E
@@ -21,5 +21,4 @@ class VisualEntityGroup<T : VisualEntity>(list: List<T>) : VisualEntity,
     }
 
     override val transform: ETransformMutable = E.ETransformMutable()
-
 }

@@ -66,6 +66,7 @@ dependencies {
     implementation(project(':geometry'))
     implementation(project(':layout'))
     implementation(project(':geometry-android'))
+    implementation(project(':visualentity-android'))
 
     implementation xDependencies.core
     implementation xDependencies.coreKtx

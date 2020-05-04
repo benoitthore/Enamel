@@ -1,34 +1,17 @@
-package com.benoitthore.enamel.layout.android.visualentity
+package com.thorebenoit.visualentity
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
-import android.graphics.Rect
-import android.graphics.RectF
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.layout.android.visualentity.style.Mesh
-
-fun Rect.set(rect: ERect) = apply {
-    left = rect.left.toInt()
-    top = rect.top.toInt()
-    right = rect.right.toInt()
-    bottom = rect.bottom.toInt()
-}
-
-fun RectF.set(rect: ERect) = apply {
-    left = rect.left
-    top = rect.top
-    right = rect.right
-    bottom = rect.bottom
-}
+import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
+import com.thorebenoit.visualentity.style.Mesh
+import java.lang.Exception
 
 fun Paint.setMesh(mesh: Mesh) {
     mesh.color?.let { color = it }
     mesh.shader?.let { shader = it.shader }
 }
-
 
 inline fun Canvas.withTranslate(
     translation: EPoint,
@@ -84,9 +67,14 @@ inline fun Canvas.withTransformation(
     }
 }
 
-
 inline fun Canvas.withSave(crossinline block: Canvas.() -> Unit) = apply {
     val save = save()
-    runCatching { block() }
-    restoreToCount(save)
+    try {
+        block()
+    } catch (e: Exception) {
+
+    } finally {
+
+        restoreToCount(save)
+    }
 }

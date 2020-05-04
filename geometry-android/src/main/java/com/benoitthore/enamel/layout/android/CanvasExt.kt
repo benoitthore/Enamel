@@ -9,8 +9,12 @@ import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
-import com.benoitthore.enamel.layout.android.visualentity.set
-import com.benoitthore.enamel.layout.android.visualentity.withSave
+
+private inline fun Canvas.withSave(crossinline block: Canvas.() -> Unit) = apply {
+    val save = save()
+    runCatching { block() }
+    restoreToCount(save)
+}
 
 fun Canvas.drawPointList(points: List<EPoint>, radius: Float, paint: Paint) =
     points.forEach { draw(it, radius, paint) }

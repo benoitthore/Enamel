@@ -1,7 +1,7 @@
-package com.benoitthore.enamel.layout.android.visualentity.style
+package com.thorebenoit.visualentity.style
 
 import android.graphics.Paint
-import com.benoitthore.enamel.layout.android.visualentity.setMesh
+import com.thorebenoit.visualentity.setMesh
 
 class VisualEntityDrawer : EStyleable {
     override var style: EStyle =
@@ -28,7 +28,6 @@ class VisualEntityDrawer : EStyleable {
                 style = Paint.Style.FILL
             }
     }
-
 
     fun updateStyle() {
         with(style) {

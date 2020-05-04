@@ -1,1 +1,6 @@
-include ':core', ':geometry', ':geometry-android', ':layout', ':playgrounds:geometry-playground-android'
+include ':core'
+include ':geometry'
+include ':geometry-android'
+include ':visualentity-android'
+include ':layout'
+include ':playgrounds:geometry-playground-android'

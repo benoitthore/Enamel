@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.layout.android.visualentity.style
+package com.thorebenoit.visualentity.style
 
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable

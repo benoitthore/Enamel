@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.layout.android.visualentity
+package com.thorebenoit.visualentity
 
 import android.content.Context
 import android.graphics.Canvas

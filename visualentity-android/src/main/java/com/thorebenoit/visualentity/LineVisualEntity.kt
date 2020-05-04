@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.layout.android.visualentity
+package com.thorebenoit.visualentity
 
 import android.graphics.Canvas
 import com.benoitthore.enamel.geometry.builders.E
@@ -7,7 +7,8 @@ import com.benoitthore.enamel.geometry.figures.line.ELineMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.toMutable
 import com.benoitthore.enamel.layout.android.draw
-import com.benoitthore.enamel.layout.android.visualentity.style.EStyle
+import com.thorebenoit.visualentity.style.*
+import com.thorebenoit.visualentity.*
 
 fun ELine.toVisualEntity(style: EStyle) = LineVisualEntity(style, this.toMutable())
 
