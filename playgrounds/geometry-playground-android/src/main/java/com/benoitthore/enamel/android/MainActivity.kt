@@ -31,6 +31,7 @@ import com.benoitthore.enamel.geometry.interfaces.bounds.*
 import com.benoitthore.enamel.geometry.primitives.*
 import com.benoitthore.enamel.geometry.svg.*
 import com.benoitthore.enamel.layout.android.*
+import com.benoitthore.enamel.layout.android.extract.singleTouch
 import com.benoitthore.enamel.layout.android.visualentity.style.*
 import com.benoitthore.enamel.layout.android.visualentity.*
 
@@ -60,19 +61,29 @@ class MainActivity : AppCompatActivity() {
             EStyle(fill = Mesh(shader = E.Circle(radius = 16.dp).toShader(RED, YELLOW)))
         val view = object : View(this) {
 
+            private val p = E.PointMutable()
+
             init {
-//                setLayerType(LAYER_TYPE_HARDWARE,null)
-                setLayerType(LAYER_TYPE_SOFTWARE, null)
+                singleTouch {
+                    p.set(it.position)
+                    invalidate()
+                    true
+                }
             }
 
             @SuppressLint("DrawAllocation")
             override fun onDraw(canvas: Canvas) {
 
-                val bounds = getBounds()
+
+                val bounds = getBounds().apply { setCenter(p) }
+
+                val shader =
+                    getBounds().diagonalTLBR().toLinearGradient((0..10).map { colorHSL(it / 10f) })
+                canvas.drawBackground(Paint().also { it.shader = shader })
 
                 val entity = bounds.innerCircle().selfScaleAnchor(0.75, 0.5, 0.5)
                     .toVisualEntity(debugStyle)
-                val mask = entity.scaleAnchor(0.5, 0.5, 0.5).getBounds()
+                val mask = entity.scaleAnchor(0.5, 0.5, 0.5).getBounds().innerCircle()
 
 
                 entity.clipOut(mask).toVisualEntity().draw(canvas)

@@ -1,10 +1,8 @@
 package com.benoitthore.enamel.layout.android
 
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.RectF
-import android.graphics.Region
+import android.graphics.*
 import android.os.Build
+import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.rect.ERect
@@ -92,4 +90,8 @@ fun Canvas.clipOutPath(path: PathSVGContext): Boolean {
     } else {
         clipPath(path.path, Region.Op.DIFFERENCE)
     }
+}
+
+fun Canvas.drawBackground(paint: Paint) {
+    drawRect(0f, 0f, width.f, height.f, paint)
 }
