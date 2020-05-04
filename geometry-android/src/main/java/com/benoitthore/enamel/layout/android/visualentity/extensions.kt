@@ -3,11 +3,11 @@ package com.benoitthore.enamel.layout.android.visualentity
 import android.graphics.Canvas
 import android.graphics.Paint
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.primitives.ETransform
+import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import android.graphics.Rect
 import android.graphics.RectF
-import com.benoitthore.enamel.geometry.primitives.EAngle
-import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.primitives.angle.EAngle
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.layout.android.visualentity.style.Mesh
 
 fun Rect.set(rect: ERect) = apply {

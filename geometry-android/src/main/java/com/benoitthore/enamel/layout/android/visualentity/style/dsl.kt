@@ -1,8 +1,8 @@
 package com.benoitthore.enamel.layout.android.visualentity.style
 
-import com.benoitthore.enamel.geometry.primitives.EPoint
-import com.benoitthore.enamel.geometry.primitives.EPointMutable
-import com.benoitthore.enamel.geometry.primitives.point
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point.point
 import com.benoitthore.enamel.geometry.toMutable
 
 

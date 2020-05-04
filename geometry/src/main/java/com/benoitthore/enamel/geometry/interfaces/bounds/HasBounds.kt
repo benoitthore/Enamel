@@ -3,8 +3,8 @@ package com.benoitthore.enamel.geometry.interfaces.bounds
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
-import com.benoitthore.enamel.geometry.figures.size.ESize
-import com.benoitthore.enamel.geometry.figures.size.ESizeMutable
+import com.benoitthore.enamel.geometry.primitives.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.interfaces.HasCenter
 
 interface HasBounds : HasCenter {

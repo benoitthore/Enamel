@@ -1,8 +1,8 @@
 package com.benoitthore.enamel.geometry.figures.polygon
 
 //import com.benoitthore.enamel.core.math.Scale
-//import com.benoitthore.enamel.geometry.primitives.EPointMutable
-//import com.benoitthore.enamel.geometry.primitives.EPoint
+//import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+//import com.benoitthore.enamel.geometry.primitives.point.EPoint
 //
 //open class EPolygonType(open val points: List<EPoint>)
 //

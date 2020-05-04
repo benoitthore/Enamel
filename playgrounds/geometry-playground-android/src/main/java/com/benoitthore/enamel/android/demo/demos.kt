@@ -10,7 +10,7 @@ import com.benoitthore.enamel.geometry.alignement.*
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.interfaces.bounds.pointAtAnchor
-import com.benoitthore.enamel.geometry.primitives.rotations
+import com.benoitthore.enamel.geometry.primitives.angle.rotations
 import com.benoitthore.enamel.geometry.toListOfPoint
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.enamel.layout.android.drawPointList

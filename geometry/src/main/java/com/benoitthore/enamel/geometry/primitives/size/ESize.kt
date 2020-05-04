@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.geometry.figures.size
+package com.benoitthore.enamel.geometry.primitives.size
 
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f

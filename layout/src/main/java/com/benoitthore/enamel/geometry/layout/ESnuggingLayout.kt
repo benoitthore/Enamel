@@ -2,7 +2,7 @@ package com.benoitthore.enamel.geometry.layout
 
 import com.benoitthore.enamel.geometry.alignement.isVertical
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESize
 
 
 class ESnuggingLayout(child: ELayoutAlongAxis) : ELayout {

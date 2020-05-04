@@ -7,7 +7,7 @@ import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
-import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.layout.android.visualentity.set
 import com.benoitthore.enamel.layout.android.visualentity.withSave

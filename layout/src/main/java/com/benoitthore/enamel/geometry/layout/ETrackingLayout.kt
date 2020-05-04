@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.layout
 
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESize
 
 class ETrackingLayout(src: ELayout = ELayoutLeaf.unit, dst: ELayout = ELayoutLeaf.unit) : ELayout {
 

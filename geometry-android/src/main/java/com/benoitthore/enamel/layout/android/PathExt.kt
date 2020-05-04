@@ -3,8 +3,8 @@ package com.benoitthore.enamel.layout.android
 import android.graphics.Path
 import android.graphics.RectF
 import android.os.Build
-import com.benoitthore.enamel.geometry.primitives.EAngle
-import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.primitives.angle.EAngle
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
 

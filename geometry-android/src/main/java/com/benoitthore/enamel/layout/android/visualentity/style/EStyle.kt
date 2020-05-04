@@ -1,6 +1,6 @@
 package com.benoitthore.enamel.layout.android.visualentity.style
 
-import com.benoitthore.enamel.geometry.primitives.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
 interface EStyleable {
     var style: EStyle

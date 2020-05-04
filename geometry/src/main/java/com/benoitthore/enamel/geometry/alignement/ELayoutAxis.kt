@@ -1,6 +1,6 @@
 package com.benoitthore.enamel.geometry.alignement
 
-import com.benoitthore.enamel.geometry.primitives.EOffset
+import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 
 enum class ELayoutAxis {
     vertical, horizontal

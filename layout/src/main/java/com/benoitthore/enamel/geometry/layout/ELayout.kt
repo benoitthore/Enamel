@@ -3,7 +3,7 @@ package com.benoitthore.enamel.geometry.layout
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESize
 
 
 interface ELayout {

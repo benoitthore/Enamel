@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.geometry.figures.size
+package com.benoitthore.enamel.geometry.primitives.size
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.Resetable
@@ -6,12 +6,6 @@ import com.benoitthore.enamel.geometry.primitives.Tuple2
 
 interface ESizeMutable : ESize,
     Resetable {
-
-    class Impl internal constructor(width: Number, height: Number) :
-        ESizeMutable {
-        override var width: Float = width.toFloat()
-        override var height: Float = height.toFloat()
-    }
 
     override var width: Float
     override var height: Float

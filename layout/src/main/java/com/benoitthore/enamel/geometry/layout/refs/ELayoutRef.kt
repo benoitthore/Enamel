@@ -3,7 +3,7 @@ package com.benoitthore.enamel.geometry.layout.refs
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.interfaces.bounds.set
 import com.benoitthore.enamel.geometry.layout.ELayout
 

@@ -6,16 +6,15 @@ import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
-import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
-import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
 import com.benoitthore.enamel.geometry.interfaces.bounds.set
-import com.benoitthore.enamel.geometry.primitives.EPointMutable
-import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.interfaces.bounds.center
-import com.benoitthore.enamel.geometry.primitives.EAngle
-import com.benoitthore.enamel.geometry.primitives.degrees
+import com.benoitthore.enamel.geometry.primitives.angle.EAngle
+import com.benoitthore.enamel.geometry.primitives.angle.degrees
 import kotlin.math.hypot
 
 fun ECircle.pointAtAngle(angle: EAngle, target: EPointMutable = E.PointMutable()): EPointMutable =

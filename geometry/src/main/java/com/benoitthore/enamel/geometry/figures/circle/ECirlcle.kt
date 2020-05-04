@@ -1,9 +1,7 @@
 package com.benoitthore.enamel.geometry.figures.circle
 
 import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
-import com.benoitthore.enamel.geometry.primitives.EAngle
-import com.benoitthore.enamel.geometry.primitives.EPoint
-import com.benoitthore.enamel.geometry.primitives.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
 

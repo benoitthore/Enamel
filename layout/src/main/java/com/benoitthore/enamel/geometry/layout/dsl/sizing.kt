@@ -1,8 +1,8 @@
 package com.benoitthore.enamel.geometry.layout.dsl
 
 import com.benoitthore.enamel.geometry.alignement.EAlignment
-import com.benoitthore.enamel.geometry.figures.size.ESize
-import com.benoitthore.enamel.geometry.figures.size.size
+import com.benoitthore.enamel.geometry.primitives.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.size
 import com.benoitthore.enamel.geometry.layout.EJustifiedLayout
 import com.benoitthore.enamel.geometry.layout.ELayout
 import com.benoitthore.enamel.geometry.layout.ESizingLayout

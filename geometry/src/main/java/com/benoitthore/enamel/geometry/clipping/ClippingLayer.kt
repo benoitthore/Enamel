@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.clipping
 
 import com.benoitthore.enamel.geometry.clipping.ClippingLayer.ClippingType
-import com.benoitthore.enamel.geometry.primitives.ETransform
+import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext

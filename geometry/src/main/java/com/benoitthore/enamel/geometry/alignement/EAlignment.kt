@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.alignement
 
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
 /* UI TEST
 PlaygroundApplet.start(800, 800) {

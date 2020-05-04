@@ -5,7 +5,7 @@ import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.alignement.layoutAxis
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rectgroup.ERectGroup
-import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.figures.rectgroup.rectGroupWeights
 import com.benoitthore.enamel.geometry.interfaces.bounds.pointAtAnchor
 

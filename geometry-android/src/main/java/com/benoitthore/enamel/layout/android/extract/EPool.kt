@@ -8,7 +8,10 @@ import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.line.ELineMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
-import com.benoitthore.enamel.geometry.primitives.*
+import com.benoitthore.enamel.geometry.primitives.angle.EAngle
+import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
 class EPool<T : Any>(val size: Int, init: (Int) -> T) {
     private val list = LazyList(size, init)

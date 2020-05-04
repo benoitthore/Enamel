@@ -2,48 +2,15 @@ package com.benoitthore.enamel.geometry.figures.circle
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.Resetable
-import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.interfaces.bounds.CanSetBounds
-import com.benoitthore.enamel.geometry.primitives.EPoint
-import com.benoitthore.enamel.geometry.primitives.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import kotlin.math.min
 
 interface ECircleMutable : ECircle,
     CanSetBounds,
     Resetable {
-
-    class Impl internal constructor(centerX: Number, centerY: Number, radius: Number) :
-        ECircleMutable {
-        init {
-            allocateDebugMessage()
-        }
-
-        override val center: EPointMutable = E.PointMutable(centerX, centerY)
-        override var radius: Float = radius.toFloat()
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-
-            if (other !is Impl) return false
-
-            if (center != other.center) return false
-            if (radius != other.radius) return false
-
-            return true
-        }
-
-        override fun hashCode(): Int {
-            var result = center.hashCode()
-            result = 31 * result + radius.hashCode()
-            return result
-        }
-
-        override fun toString(): String {
-            return "Circle(center=$center, radius=$radius)"
-        }
-
-    }
 
 
     override val center: EPointMutable

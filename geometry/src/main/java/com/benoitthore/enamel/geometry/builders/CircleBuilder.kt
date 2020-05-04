@@ -2,7 +2,7 @@ package com.benoitthore.enamel.geometry.builders
 
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
-import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
 interface CircleBuilder : PointBuilder, BaseBuilder {
 

@@ -1,10 +1,10 @@
 package com.benoitthore.enamel.geometry.figures.line
 
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.primitives.EPoint
-import com.benoitthore.enamel.geometry.primitives.EPointMutable
-import com.benoitthore.enamel.geometry.primitives.length
-import com.benoitthore.enamel.geometry.primitives.point
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point.length
+import com.benoitthore.enamel.geometry.primitives.point.point
 import com.benoitthore.enamel.geometry.toMutable
 import kotlin.math.*
 

@@ -3,7 +3,7 @@ package com.benoitthore.enamel.geometry.layout.dsl
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.layout.ELayout
 import com.benoitthore.enamel.geometry.layout.EPaddingLayout
-import com.benoitthore.enamel.geometry.primitives.EOffset
+import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 
 
 fun ELayout.paddedHorizontally(value: Number) = padded(left = value, right = value)

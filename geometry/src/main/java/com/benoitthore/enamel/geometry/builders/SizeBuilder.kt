@@ -1,8 +1,8 @@
 package com.benoitthore.enamel.geometry.builders
 
 import com.benoitthore.enamel.geometry.allocate
-import com.benoitthore.enamel.geometry.figures.size.ESize
-import com.benoitthore.enamel.geometry.figures.size.ESizeMutable
+import com.benoitthore.enamel.geometry.primitives.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 
 interface SizeBuilder : BaseBuilder {
 

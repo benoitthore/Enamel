@@ -2,9 +2,8 @@ package com.benoitthore.enamel.layout.android.visualentity
 
 import android.graphics.Canvas
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.size.ESize
-import com.benoitthore.enamel.geometry.primitives.ETransform
-import com.benoitthore.enamel.geometry.primitives.ETransformMutable
+import com.benoitthore.enamel.geometry.primitives.size.ESize
+import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
 
 fun <T : VisualEntity> List<T>.toVisualEntityGroup() = VisualEntityGroup(this)
 

@@ -2,7 +2,7 @@ package com.benoitthore.enamel.geometry.layout
 
 import com.benoitthore.enamel.geometry.alignement.*
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESize
 
 class EBarLayout(child: ELayout, var side: ERectEdge) : ELayoutAlongAxis {
 

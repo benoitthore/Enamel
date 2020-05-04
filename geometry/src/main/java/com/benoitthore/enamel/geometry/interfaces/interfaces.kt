@@ -1,8 +1,8 @@
 package com.benoitthore.enamel.geometry.interfaces
 
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.primitives.EPoint
-import com.benoitthore.enamel.geometry.primitives.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
 interface HasCenter {
     fun getCenter(target: EPointMutable = E.PointMutable()): EPointMutable =

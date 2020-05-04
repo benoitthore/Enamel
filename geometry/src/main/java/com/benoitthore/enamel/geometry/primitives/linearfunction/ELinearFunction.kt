@@ -1,10 +1,14 @@
-package com.benoitthore.enamel.geometry.primitives
+package com.benoitthore.enamel.geometry.primitives.linearfunction
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.line.ELineMutable
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point.point
 
+// TODO Make Mutable
 interface ELinearFunction {
 
     class Impl internal constructor(override val slope: Float, override val yIntercept: Float) :

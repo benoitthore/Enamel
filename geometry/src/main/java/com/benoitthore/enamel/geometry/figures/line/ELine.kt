@@ -6,7 +6,14 @@ import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
 import com.benoitthore.enamel.geometry.interfaces.HasCenter
-import com.benoitthore.enamel.geometry.primitives.*
+import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
+import com.benoitthore.enamel.geometry.primitives.angle.degrees
+import com.benoitthore.enamel.geometry.primitives.angle.radians
+import com.benoitthore.enamel.geometry.primitives.linearfunction.ELinearFunction
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point._angleTo
+import com.benoitthore.enamel.geometry.primitives.point._offsetAngle
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
 import kotlin.math.max

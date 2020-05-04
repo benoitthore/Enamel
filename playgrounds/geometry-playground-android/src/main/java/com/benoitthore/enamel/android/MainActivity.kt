@@ -17,7 +17,6 @@ import android.widget.SeekBar
 import android.widget.Space
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.withRotation
-import androidx.core.graphics.withScale
 import androidx.core.graphics.withTranslation
 import androidx.core.view.doOnNextLayout
 import com.benoitthore.enamel.R
@@ -31,7 +30,7 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.*
 import com.benoitthore.enamel.geometry.clipping.*
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
-import com.benoitthore.enamel.geometry.primitives.*
+import com.benoitthore.enamel.geometry.primitives.angle.rotations
 import com.benoitthore.enamel.geometry.svg.*
 import com.benoitthore.enamel.layout.android.*
 import com.benoitthore.enamel.layout.android.extract.singleTouch
@@ -59,6 +58,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        return
 
         val debugStyle =
             EStyle(fill = Mesh(shader = E.Circle(radius = 16.dp).toShader(RED, YELLOW, RED)))

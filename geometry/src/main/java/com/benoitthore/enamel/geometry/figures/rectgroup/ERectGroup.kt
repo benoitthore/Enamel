@@ -4,11 +4,11 @@ import com.benoitthore.enamel.core.math.*
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.rectAlignedOutside
 import com.benoitthore.enamel.geometry.allocate
-import com.benoitthore.enamel.geometry.primitives.EOffset
-import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.primitives.offset.EOffset
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.size.ESize
-import com.benoitthore.enamel.geometry.figures.size.ESizeMutable
+import com.benoitthore.enamel.geometry.primitives.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.figures.rect.union

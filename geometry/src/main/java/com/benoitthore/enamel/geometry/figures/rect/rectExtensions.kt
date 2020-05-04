@@ -6,8 +6,8 @@ import com.benoitthore.enamel.geometry.alignement.ERectEdge
 import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
 import com.benoitthore.enamel.geometry.alignement.rectAlignedOutside
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.size.size
-import com.benoitthore.enamel.geometry.primitives.EOffset
+import com.benoitthore.enamel.geometry.primitives.size.size
+import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.interfaces.bounds.ensureRect
 import com.benoitthore.enamel.geometry.interfaces.bounds.expand
 import com.benoitthore.enamel.geometry.interfaces.bounds.padding
@@ -20,9 +20,9 @@ fun ERect.dividedFraction(
     val fraction = fraction.f
 
     return if (from.isVertical) {
-        divided(height * fraction, from,target=target)
+        divided(height * fraction, from, target = target)
     } else {
-        divided(width * fraction, from,target=target)
+        divided(width * fraction, from, target = target)
     }
 }
 

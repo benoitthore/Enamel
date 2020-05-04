@@ -1,8 +1,8 @@
 package com.benoitthore.enamel.geometry.builders
 
 import com.benoitthore.enamel.geometry.allocate
-import com.benoitthore.enamel.geometry.primitives.EOffset
-import com.benoitthore.enamel.geometry.primitives.EOffsetMutable
+import com.benoitthore.enamel.geometry.primitives.offset.EOffset
+import com.benoitthore.enamel.geometry.primitives.offset.EOffsetMutable
 
 interface OffsetBuilder : BaseBuilder {
 

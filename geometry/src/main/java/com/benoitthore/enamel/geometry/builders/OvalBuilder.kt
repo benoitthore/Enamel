@@ -1,11 +1,13 @@
 package com.benoitthore.enamel.geometry.builders
 
 import com.benoitthore.enamel.geometry.figures.oval.EOval
-import com.benoitthore.enamel.geometry.primitives.*
+import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
+import com.benoitthore.enamel.geometry.primitives.angle.degrees
+import com.benoitthore.enamel.geometry.primitives.angle.rotations
 
 interface OvalBuilder : BaseBuilder {
 
-    fun Oval(centerX: Number = 0, centerY: Number= 0, rx: Number= 0, ry: Number= 0): EOval =
+    fun Oval(centerX: Number = 0, centerY: Number = 0, rx: Number = 0, ry: Number = 0): EOval =
         OvalMutable(centerX, centerY, rx, ry)
 
 

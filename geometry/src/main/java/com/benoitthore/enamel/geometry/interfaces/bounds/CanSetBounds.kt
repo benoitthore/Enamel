@@ -1,14 +1,7 @@
 package com.benoitthore.enamel.geometry.interfaces.bounds
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
-import com.benoitthore.enamel.geometry.figures.size.ESize
 import com.benoitthore.enamel.geometry.interfaces.CanSetCenter
-import com.benoitthore.enamel.geometry.primitives.EOffset
-import com.benoitthore.enamel.geometry.primitives.EPoint
-import com.benoitthore.enamel.geometry.primitives.Tuple2
 
 interface CanSetBounds : HasBounds,
     CanSetCenter {

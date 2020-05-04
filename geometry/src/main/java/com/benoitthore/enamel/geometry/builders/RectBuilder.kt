@@ -4,10 +4,10 @@ import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
-import com.benoitthore.enamel.geometry.figures.size.ESize
-import com.benoitthore.enamel.geometry.figures.size.ESizeMutable
+import com.benoitthore.enamel.geometry.primitives.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.interfaces.bounds.set
-import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.toMutable
 import kotlin.math.max
 import kotlin.math.min

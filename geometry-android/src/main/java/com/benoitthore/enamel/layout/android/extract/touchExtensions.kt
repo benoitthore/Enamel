@@ -4,7 +4,7 @@ import android.view.MotionEvent.*
 import android.view.MotionEvent
 import android.view.View
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.primitives.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import kotlin.math.min
 
 fun EPointMutable.set(event: MotionEvent) = apply { set(event.x, event.y) }

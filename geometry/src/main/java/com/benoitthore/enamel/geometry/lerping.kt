@@ -1,14 +1,18 @@
 package com.benoitthore.enamel.geometry
 
 import com.benoitthore.enamel.core.math.lerp
-import com.benoitthore.enamel.geometry.primitives.EPointMutable
-import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.size.ESizeMutable
-import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
+import com.benoitthore.enamel.geometry.primitives.size.ESize
 
-fun List<EPointMutable>.lerp(fraction: Number, from: List<EPoint>, to: List<EPoint>): List<EPointMutable> {
+fun List<EPointMutable>.lerp(
+    fraction: Number,
+    from: List<EPoint>,
+    to: List<EPoint>
+): List<EPointMutable> {
     if (size != from.size || size != size) {
         throw Exception("Impossible to lerp lists with different sizes")
     }

@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.geometry.figures.size
+package com.benoitthore.enamel.geometry.primitives.size
 
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.alignement.isVertical
@@ -56,7 +56,10 @@ fun List<ESize>.union(target: ESizeMutable = E.SizeMutable()): ESizeMutable {
     return target.set(width, height)
 }
 
-fun List<ESize>.unionAlongAxis(axis: ELayoutAxis, target: ESizeMutable = E.SizeMutable()): ESizeMutable {
+fun List<ESize>.unionAlongAxis(
+    axis: ELayoutAxis,
+    target: ESizeMutable = E.SizeMutable()
+): ESizeMutable {
 
     var sum = 0f
 

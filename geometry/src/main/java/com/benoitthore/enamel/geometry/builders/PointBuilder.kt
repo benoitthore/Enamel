@@ -2,9 +2,9 @@ package com.benoitthore.enamel.geometry.builders
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.math.randomSign
-import com.benoitthore.enamel.geometry.primitives.EAngle
-import com.benoitthore.enamel.geometry.primitives.EPoint
-import com.benoitthore.enamel.geometry.primitives.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.angle.EAngle
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
 interface PointBuilder : BaseBuilder {
 

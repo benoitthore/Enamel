@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.figures.oval
 
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.primitives.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
 interface EOval : ERect {

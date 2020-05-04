@@ -1,7 +1,8 @@
 package com.benoitthore.enamel.geometry.primitives
 
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.size.ESize
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.size.ESize
 
 /**
  * This file is used to facilitate development but allocates a new Tuple every time a function is called
