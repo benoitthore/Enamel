@@ -6,6 +6,7 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.layout.android.visualentity.set
@@ -90,6 +91,15 @@ fun Canvas.clipOutPath(path: PathSVGContext): Boolean {
     } else {
         clipPath(path.path, Region.Op.DIFFERENCE)
     }
+}
+
+fun Canvas.clipRect(rect: ERectMutable) {
+    clipRect(
+        rect.left,
+        rect.top,
+        rect.right,
+        rect.bottom
+    )
 }
 
 fun Canvas.drawBackground(paint: Paint) {

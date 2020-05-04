@@ -6,10 +6,10 @@ import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.layout.android.visualentity.style.EStyleable
 import com.benoitthore.enamel.layout.android.visualentity.style.VisualEntityDrawer
 
+interface ISVGVisualEntity : VisualEntity, ESVG, EStyleable
+
 abstract class SVGVisualEntity private constructor(protected val drawer: VisualEntityDrawer) :
-    VisualEntity,
-    ESVG,
-    EStyleable by drawer {
+    ISVGVisualEntity, EStyleable by drawer {
 
     constructor() : this(VisualEntityDrawer())
 

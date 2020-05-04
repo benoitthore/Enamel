@@ -16,7 +16,10 @@ import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.Space
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.withRotation
+import androidx.core.graphics.withScale
 import androidx.core.graphics.withTranslation
+import androidx.core.view.doOnNextLayout
 import com.benoitthore.enamel.R
 
 // TODO Add these imports to the doc:
@@ -58,38 +61,56 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val debugStyle =
-            EStyle(fill = Mesh(shader = E.Circle(radius = 16.dp).toShader(RED, YELLOW)))
+            EStyle(fill = Mesh(shader = E.Circle(radius = 16.dp).toShader(RED, YELLOW, RED)))
         val view = object : View(this) {
 
-            private val p = E.PointMutable()
+            private val circleTarget = E.PointMutable()
+            private val circlePosition = E.PointMutable()
+            private var rotationProgress = 0f
 
             init {
+                doOnNextLayout {
+                    getBounds().center(circlePosition)
+                    getBounds().center(circleTarget)
+                }
                 singleTouch {
-                    p.set(it.position)
-                    invalidate()
+                    circleTarget.set(it.position)
                     true
                 }
             }
 
             @SuppressLint("DrawAllocation")
             override fun onDraw(canvas: Canvas) {
+                circlePosition.lerp(0.125, circlePosition, circleTarget)
+                rotationProgress += 1
+
+                val bounds = getBounds().apply { setCenter(circlePosition) }
+
+                val shaderBounds =  getBounds()
+                shaderBounds.setSize(shaderBounds.size.max, shaderBounds.size.max)
 
 
-                val bounds = getBounds().apply { setCenter(p) }
+                val shader = shaderBounds.diagonalTLBR()
+                        .toLinearGradient((0..10).map { colorHSL(it / 10f) })
 
-                val shader =
-                    getBounds().diagonalTLBR().toLinearGradient((0..10).map { colorHSL(it / 10f) })
-                canvas.drawBackground(Paint().also { it.shader = shader })
 
-                val entity = bounds.innerCircle().selfScaleAnchor(0.75, 0.5, 0.5)
+                canvas.withRotation(rotationProgress, width / 2f, height / 2f) {
+                    canvas.drawBackground(Paint().also { it.shader = shader })
+                }
+
+                val entity = bounds
+                    .innerCircle()
+                    .apply { radius /= 2 }
                     .toVisualEntity(debugStyle)
                 val mask = entity.scaleAnchor(0.5, 0.5, 0.5).getBounds().innerCircle()
 
 
                 entity.clipOut(mask).toVisualEntity().draw(canvas)
-
+                invalidate()
 
             }
+
+
         }
         setContentView(view)
 //        val view = VisualEntityView(this)
