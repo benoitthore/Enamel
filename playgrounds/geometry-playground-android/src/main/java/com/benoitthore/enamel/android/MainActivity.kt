@@ -33,10 +33,10 @@ import com.benoitthore.enamel.geometry.interfaces.bounds.*
 import com.benoitthore.enamel.geometry.primitives.angle.rotations
 import com.benoitthore.enamel.geometry.svg.*
 import com.benoitthore.enamel.layout.android.*
-import com.benoitthore.enamel.layout.android.extract.singleTouch
+import com.benoitthore.enamel.layout.android.singleTouch
 
-import com.thorebenoit.visualentity.style.*
-import com.thorebenoit.visualentity.*
+import com.benoitthore.visualentity.style.*
+import com.benoitthore.visualentity.*
 
 
 inline val Number.dp get() = toFloat() * Resources.getSystem().displayMetrics.density

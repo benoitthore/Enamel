@@ -5,6 +5,9 @@ import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.interfaces.bounds.CanSetBounds
+import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
+import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
 import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 
@@ -36,7 +39,11 @@ fun ESizeMutable.lerp(fraction: Number, from: ESize, to: ESize): ESizeMutable =
         height = fraction.lerp(from.height, to.height)
     )
 
-fun ERectMutable.lerp(fraction: Number, from: ERect, to: ERect): ERectMutable = apply {
-    size.lerp(fraction, from.size, to.size)
-    origin.lerp(fraction, from.origin, to.origin)
+fun <T : CanSetBounds> T.lerp(fraction: Number, from: HasBounds, to: HasBounds): CanSetBounds = apply {
+    setOriginSize(
+        originX = fraction.lerp(from.originX, to.originX),
+        originY = fraction.lerp(from.originY, to.originY),
+        width = fraction.lerp(from.width, to.width),
+        height = fraction.lerp(from.height, to.height)
+    )
 }

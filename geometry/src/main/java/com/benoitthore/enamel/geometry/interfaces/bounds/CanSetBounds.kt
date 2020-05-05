@@ -13,16 +13,6 @@ interface CanSetBounds : HasBounds,
         bottom: Number
     )
 
-    fun setOriginSize(
-        originX: Number = this.originX, originY: Number = this.originY,
-        width: Number = this.width, height: Number = this.height
-    ) = setBounds(
-        left = originX,
-        top = originY,
-        right = originX.f + width.f,
-        bottom = originY.f + height.f
-    )
-
     override var width: Float
         get() = super.width
         set(value) {

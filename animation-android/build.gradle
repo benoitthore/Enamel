@@ -19,11 +19,11 @@ apply plugin: 'kotlin-android'
 
 ext {
     bintrayRepo = 'Enamel'
-    bintrayName = 'visualentity-android'
+    bintrayName = 'animation-android'
 
     publishedGroupId = 'com.benoitthore.enamel'
     libraryName = 'Enamel'
-    artifact = 'visualentity-android'
+    artifact = 'animation-android'
 
     libraryDescription = ''
 
