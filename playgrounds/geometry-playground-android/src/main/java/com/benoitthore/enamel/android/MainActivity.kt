@@ -32,8 +32,12 @@ import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.clipping.clipOut
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.figures.rectgroup.ERectGroupImpl
+import com.benoitthore.enamel.geometry.figures.rectgroup.ERectGroupMutable
+import com.benoitthore.enamel.geometry.figures.rectgroup.rectGroup
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
 import com.benoitthore.enamel.geometry.primitives.angle.rotations
+import com.benoitthore.enamel.geometry.primitives.size.size
 import com.benoitthore.enamel.geometry.svg.*
 import com.benoitthore.enamel.layout.android.*
 import com.benoitthore.enamel.layout.android.singleTouch
@@ -66,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val view2 = object : View(this) {
-            val rect = E.RectMutable()
+            var rectGroup: ERectGroupMutable = ERectGroupImpl(emptyList())
             val frame1 = E.RectMutable()
             val frame2 = E.RectMutable()
 
@@ -81,15 +85,24 @@ class MainActivity : AppCompatActivity() {
             override fun onDraw(canvas: Canvas) {
 
                 canvas.scale(3f, 3f)
-                frame1.set(100, 100, 100, 100)
                 frame2.set(150, 300, 200, 200)
 
-                rect.setSize(50, 50)
-                rect.selfAlignInside(frame1, center)
+                rectGroup = listOf(
+                    10 size 10,
+                    100 size 100,
+                    200 size 200
+                ).rectGroup(bottomRight)
+
+                frame1.set(rectGroup)
 
 
-                if (bool)
-                    rect.selfMap(frame1, frame2)
+
+                if (bool) {
+                    rectGroup.set(frame2)
+//                    rects.forEach { rect ->
+//                        rect.selfMap(frame1, frame2)
+//                    }
+                }
 
 
                 debugPaint.strokeWidth = 2.5f
@@ -100,8 +113,10 @@ class MainActivity : AppCompatActivity() {
                 debugPaint.color = GREEN
                 canvas.draw(frame2, debugPaint)
 
-                debugPaint.color = YELLOW
-                canvas.draw(rect, debugPaint)
+                rectGroup.rects.forEach { rect ->
+                    debugPaint.color = YELLOW
+                    canvas.draw(rect.getBounds(), debugPaint)
+                }
 
                 bool = !bool
 

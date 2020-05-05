@@ -4,6 +4,7 @@ import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.rectAlignedOutside
+import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.allocate
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.union
@@ -17,9 +18,9 @@ fun List<ESize>.rectGroup(
     alignment: EAlignment,
     anchor: EPoint = E.Point.zero,
     position: EPoint = E.Point.zero,
-    padding: EOffset = E.Offset.zero,
+//    padding: EOffset = E.Offset.zero,
     spacing: Number = 0
-): ERectGroup {
+): ERectGroupMutable {
 
 
     var prev = allocate { E.RectMutable() }
@@ -34,12 +35,12 @@ fun List<ESize>.rectGroup(
         prev
     }
 
-    val rectGroup = allocate {
-        ERectGroup(
-            rects,
-            rects.union().selfExpand(padding).getBounds()
+    val rectGroup: ERectGroupMutable =
+        ERectGroupImpl(
+            rects
+//            , rects.union().selfExpand(padding).getBounds()
         )
-    }
+
     rectGroup.aligned(anchor, position)
 
     return rectGroup
@@ -52,15 +53,15 @@ fun List<ESize>.rectGroupJustified(
     anchor: EPoint = E.Point.zero,
     position: EPoint = E.Point.zero,
     padding: EOffset = E.Offset.zero
-): ERectGroup {
+): ERectGroupMutable {
     val pack = rectGroup(alignment)
-    val packedSpace = if (alignment.isHorizontal) pack.size.width else pack.size.height
-    val spacing = if (pack.count > 1) (toFit.f - packedSpace) / (pack.count - 1) else 0f
+    val packedSpace = if (alignment.isHorizontal) pack.width else pack.height
+    val spacing = if (pack.size > 1) (toFit.f - packedSpace) / (pack.size - 1) else 0f
     return rectGroup(
         alignment = alignment,
         anchor = anchor,
         position = position,
-        padding = padding,
+//        padding = padding,
         spacing = spacing
     )
 }
@@ -71,14 +72,12 @@ fun List<Number>.rectGroupWeights(
     toFit: ESize,
     anchor: EPoint = E.Point.zero,
     position: EPoint = E.Point.zero,
-    padding: EOffset = E.Offset.zero,
+//    padding: EOffset = E.Offset.zero,
     spacing: Number = 0
-): ERectGroup {
+): ERectGroupMutable {
 
     if (isEmpty()) {
-        return ERectGroup(
-            emptyList()
-        )
+        return ERectGroupImpl(emptyList())
     }
 
     val spacing = spacing.toFloat()
@@ -100,7 +99,7 @@ fun List<Number>.rectGroupWeights(
         alignment = alignment,
         anchor = anchor,
         position = position,
-        padding = padding,
+//        padding = padding,
         spacing = spacing
     )
 }

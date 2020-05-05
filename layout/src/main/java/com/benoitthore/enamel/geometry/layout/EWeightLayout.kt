@@ -23,9 +23,9 @@ class EWeightLayout(
 
     override fun arrange(frame: ERect) {
         val group = rects(frame)
-        children.zip(group)
+        children.zip(group.rects)
             .forEach { (layout, rect) ->
-                layout.arrange(rect)
+                layout.arrange(rect.getBounds()) // TODO Remove allocation
             }
     }
 

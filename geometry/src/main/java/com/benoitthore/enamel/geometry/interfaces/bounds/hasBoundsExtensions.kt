@@ -1,7 +1,6 @@
 package com.benoitthore.enamel.geometry.interfaces.bounds
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.alignement.selfAlignAtAnchor
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle

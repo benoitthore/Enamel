@@ -23,9 +23,9 @@ class EStackLayout(
         val group = children.map { it.size(toFit) }.rectGroup(alignment = alignment, spacing = spacing)
 
         return if (alignment.isVertical) {
-            toFit.copy(height = group.size.height)
+            toFit.copy(height = group.height)
         } else {
-            toFit.copy(width = group.size.width)
+            toFit.copy(width = group.width)
         }
     }
 
@@ -37,8 +37,8 @@ class EStackLayout(
             position = frame.pointAtAnchor(alignment.flipped.namedPoint),
             spacing = spacing
         )
-        children.zip(frames).forEach { (layout, rect) ->
-            layout.arrange(rect)
+        children.zip(frames.rects).forEach { (layout, rect) ->
+            layout.arrange(rect.getBounds()) // TODO Remove allocation
         }
     }
 
