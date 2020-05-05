@@ -28,7 +28,10 @@ import com.benoitthore.enamel.core.math.noise.OpenSimplexNoise
 import com.benoitthore.enamel.core.*
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.*
+import com.benoitthore.enamel.geometry.alignement.EAlignment.*
+import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.clipping.clipOut
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
 import com.benoitthore.enamel.geometry.primitives.angle.rotations
 import com.benoitthore.enamel.geometry.svg.*
@@ -54,13 +57,58 @@ fun SeekBar.onSeekChanged(block: SeekBar.(progress: Int) -> Unit) =
         }
     })
 
+val debugPaint: Paint = Paint()
+
 class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val view2 = object : View(this) {
+            val rect = E.RectMutable()
+            val frame1 = E.RectMutable()
+            val frame2 = E.RectMutable()
 
+            init {
+                setOnClickListener {
+                    bool != bool
+                    invalidate()
+                }
+            }
+
+            var bool = true
+            override fun onDraw(canvas: Canvas) {
+
+                canvas.scale(3f, 3f)
+                frame1.set(100, 100, 100, 100)
+                frame2.set(150, 300, 200, 200)
+
+                rect.setSize(50, 50)
+                rect.selfAlignInside(frame1, center)
+
+
+                if (bool)
+                    rect.selfMap(frame1, frame2)
+
+
+                debugPaint.strokeWidth = 2.5f
+                debugPaint.style = Paint.Style.STROKE
+                debugPaint.color = RED
+                canvas.draw(frame1, debugPaint)
+
+                debugPaint.color = GREEN
+                canvas.draw(frame2, debugPaint)
+
+                debugPaint.color = YELLOW
+                canvas.draw(rect, debugPaint)
+
+                bool = !bool
+
+            }
+        }
+
+        setContentView(view2)
         return
 
         val debugStyle =
@@ -89,12 +137,12 @@ class MainActivity : AppCompatActivity() {
 
                 val bounds = getBounds().apply { setCenter(circlePosition) }
 
-                val shaderBounds =  getBounds()
+                val shaderBounds = getBounds()
                 shaderBounds.setSize(shaderBounds.size.max, shaderBounds.size.max)
 
 
                 val shader = shaderBounds.diagonalTLBR()
-                        .toLinearGradient((0..10).map { colorHSL(it / 10f) })
+                    .toLinearGradient((0..10).map { colorHSL(it / 10f) })
 
 
                 canvas.withRotation(rotationProgress, width / 2f, height / 2f) {

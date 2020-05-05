@@ -1,6 +1,8 @@
 package com.benoitthore.enamel.geometry.interfaces.bounds
 
 import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.geometry.alignement.selfAlignAtAnchor
+import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELineMutable
@@ -114,14 +116,16 @@ fun HasBounds.pointAtAnchor(anchor: EPoint, target: EPointMutable = E.PointMutab
 
 fun HasBounds.pointAtAnchorX(x: Number) = this.originX.f + width * x.f
 fun HasBounds.pointAtAnchorY(y: Number) = this.originY.f + height * y.f
+fun HasBounds.anchorAtPointX(x: Number) = if (width == 0f) .5f else x.f / width
+fun HasBounds.anchorAtPointY(y: Number) = if (height == 0f) .5f else y.f / height
 
 fun HasBounds.anchorAtPoint(
     x: Number,
     y: Number,
     target: EPointMutable = E.PointMutable()
 ): EPointMutable {
-    val x = if (width == 0f) .5f else x.f / width
-    val y = if (height == 0f) .5f else y.f / height
+    val x = anchorAtPointX(x)
+    val y = anchorAtPointY(y)
     return target.set(x, y)
 }
 
@@ -232,61 +236,6 @@ fun HasBounds.padding(padding: EOffset, target: CanSetBounds = E.RectMutable()):
         target = target
     )
 
-fun HasBounds.scale(t: Tuple2, target: CanSetBounds = E.RectMutable()): CanSetBounds =
-    scale(t.v1, t.v2, target)
-
-fun HasBounds.scale(x: Number, y: Number, target: CanSetBounds = E.RectMutable()): CanSetBounds {
-    target.setOriginSize(
-        originX = this.originX * x.f,
-        originY = this.originY * y.f,
-        width = this.width * x.f,
-        height = this.height * y.f
-    )
-
-    return target
-}
-
-fun HasBounds.scaleAnchor(factor: Number, anchor: EPoint, target: CanSetBounds = E.RectMutable()) =
-    scaleAnchor(factor, anchor.x, anchor.y, target)
-
-
-fun HasBounds.scaleAnchor(
-    factor: Number,
-    anchorX: Number,
-    anchorY: Number,
-    target: CanSetBounds = E.RectMutable()
-) = scaleRelative(
-    factor,
-    pointAtAnchorX(anchorX),
-    pointAtAnchorY(anchorY),
-    target
-)
-
-
-fun HasBounds.scaleRelative(
-    factor: Number,
-    point: EPoint,
-    target: CanSetBounds = E.RectMutable()
-) = scaleRelative(factor, point.x, point.y, target)
-
-fun HasBounds.scaleRelative(
-    factor: Number,
-    pointX: Number,
-    pointY: Number,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds {
-    target.set(this)
-
-    val factor = factor.f
-
-    target.setOriginSize(
-        originX = originX + (pointX.f - originX) * (1f - factor),
-        originY = originY + (pointY.f - originY) * (1f - factor),
-        width = width * factor,
-        height = height * factor
-    )
-    return target
-}
 
 fun HasBounds.toPointList(
     target: List<EPointMutable> = listOf(
@@ -328,10 +277,36 @@ fun HasBounds.diagonalTLBR(target: ELineMutable = E.LineMutable()): ELineMutable
 fun HasBounds.map(
     fromX: Number,
     fromY: Number,
+    fromWidth: Number,
+    fromHeight: Number,
     toX: Number,
     toY: Number,
+    toWidth: Number,
+    toHeight: Number,
     target: CanSetBounds = E.RectMutable()
-): CanSetBounds = TODO()
+): CanSetBounds {
+    target.set(this)
+
+    val anchorLeft = if (width == 0f) .5f else (target.originX - fromX.f) / fromWidth.f
+    val anchorTop = if (height == 0f) .5f else (target.originY - fromY.f) / fromHeight.f
+    val anchorRight =
+        if (width == 0f) .5f else (target.originX - fromX.f + target.width) / fromWidth.f
+    val anchorBottom =
+        if (height == 0f) .5f else (target.originY - fromY.f + target.height) / fromHeight.f
+
+    val left = toX.f + toWidth.f * anchorLeft.f
+    val top = toY.f + toHeight.f * anchorTop.f
+
+    val right = toX.f + toWidth.f * anchorRight.f
+    val bottom = toY.f + toHeight.f * anchorBottom.f
+
+    return target.setSides(
+        left = left,
+        top = top,
+        bottom = bottom,
+        right = right
+    )
+}
 
 fun HasBounds.map(
     from: HasBounds,
@@ -341,8 +316,12 @@ fun HasBounds.map(
     map(
         fromX = from.originX,
         fromY = from.originY,
+        fromWidth = from.width,
+        fromHeight = from.height,
         toX = to.originX,
         toY = to.originY,
+        toWidth = to.width,
+        toHeight = to.height,
         target = target
     )
 

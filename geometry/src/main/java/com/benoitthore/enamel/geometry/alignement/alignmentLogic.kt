@@ -7,6 +7,7 @@ import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
 
+
 fun <T : CanSetBounds> T.selfAlign(
     frame: HasBounds,
     alignment: EAlignment,

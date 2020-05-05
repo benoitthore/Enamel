@@ -120,9 +120,6 @@ fun <T : CanSetBounds> T.selfExpand(margin: Number) = expand(margin, margin, thi
 fun <T : CanSetBounds> T.selfExpand(p: EPoint) = expand(p.x, p.y, this)
 fun <T : CanSetBounds> T.selfExpand(x: Number = 0f, y: Number = 0f) = inset(-x.f, -y.f, this)
 
-fun <T : CanSetBounds> T.selfScale(t: Tuple2): CanSetBounds = apply { scale(t, this) }
-
-fun <T : CanSetBounds> T.selfScale(x: Number, y: Number) = apply { scale(x, y, this) }
 fun <T : CanSetBounds> T.selfPadding(padding: EOffset) = padding(padding, this)
 fun <T : CanSetBounds> T.selfPadding(
     top: Number = 0,
@@ -152,18 +149,28 @@ fun <T : CanSetBounds> T.selfScaleRelative(factor: Number, point: EPoint) =
     scaleRelative(factor, point, this)
 
 fun <T : CanSetBounds> T.selfScaleRelative(factor: Number, pointX: Number, pointY: Number) =
-    scaleRelative(factor = factor, pointX = pointX, pointY = pointY, target = this)
+    scaleRelative(scaleFactor = factor, pointX = pointX, pointY = pointY, target = this)
 
 fun <T : CanSetBounds> T.selfMap(from: HasBounds, to: HasBounds) = apply { map(from, to, this) }
 fun <T : CanSetBounds> T.selfMap(
     fromX: Number,
     fromY: Number,
+    fromWidth: Number,
+    fromHeight: Number,
     toX: Number,
-    toY: Number
+    toY: Number,
+    toWidth: Number,
+    toHeight: Number
 ) = apply {
     map(
-        fromX = fromX, fromY = fromY,
-        toX = toX, toY = toY,
+        fromX = fromX,
+        fromY = fromY,
+        fromWidth = fromWidth,
+        fromHeight = fromHeight,
+        toX = toX,
+        toY = toY,
+        toWidth = toWidth,
+        toHeight = toHeight,
         target = this
     )
 }
