@@ -4,6 +4,7 @@ import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.alignement.layoutAxis
 import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.figures.rectgroup.ERectGroup
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.figures.rectgroup.rectGroupWeights
@@ -23,13 +24,13 @@ class EWeightLayout(
 
     override fun arrange(frame: ERect) {
         val group = rects(frame)
-        children.zip(group.rects)
+        children.zip(group)
             .forEach { (layout, rect) ->
-                layout.arrange(rect.getBounds()) // TODO Remove allocation
+                layout.arrange(rect)
             }
     }
 
-    private fun rects(frame: ERect): ERectGroup {
+    private fun rects(frame: ERect): ERectGroup<ERectMutable> {
         return weights.rectGroupWeights(
             alignment,
             toFit = frame.size,

@@ -20,7 +20,8 @@ class EStackLayout(
 
 
     override fun size(toFit: ESize): ESize {
-        val group = children.map { it.size(toFit) }.rectGroup(alignment = alignment, spacing = spacing)
+        val group =
+            children.map { it.size(toFit) }.rectGroup(alignment = alignment, spacing = spacing)
 
         return if (alignment.isVertical) {
             toFit.copy(height = group.height)
@@ -37,8 +38,8 @@ class EStackLayout(
             position = frame.pointAtAnchor(alignment.flipped.namedPoint),
             spacing = spacing
         )
-        children.zip(frames.rects).forEach { (layout, rect) ->
-            layout.arrange(rect.getBounds()) // TODO Remove allocation
+        children.zip(frames).forEach { (layout, rect) ->
+            layout.arrange(rect)
         }
     }
 

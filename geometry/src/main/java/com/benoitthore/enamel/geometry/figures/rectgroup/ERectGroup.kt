@@ -15,10 +15,8 @@ import com.benoitthore.enamel.geometry.figures.rect.union
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
 import javax.swing.text.html.CSS
 
-interface ERectGroup : HasBounds {
+interface ERectGroup<T : HasBounds> : HasBounds, List<T> {
     val frame: ERect
-    val rects: List<HasBounds>
-    val size get() = rects.size
 
     override val left: Float
         get() = frame.left
@@ -34,10 +32,9 @@ interface ERectGroup : HasBounds {
         get() = frame.centerY
 }
 
-interface ERectGroupMutable : ERectGroup, CanSetBounds {
+interface ERectGroupMutable<T : CanSetBounds> : ERectGroup<T>, CanSetBounds {
     fun updateFrame()
 
-    override val rects: List<CanSetBounds>
 
     // TODO Test
     override fun setCenter(x: Number, y: Number) {
@@ -56,7 +53,7 @@ interface ERectGroupMutable : ERectGroup, CanSetBounds {
     }
 }
 
-class ERectGroupImpl(override val rects: List<CanSetBounds>) : ERectGroupMutable {
+class ERectGroupImpl<T : CanSetBounds>(rects: List<T>) : ERectGroupMutable<T>, List<T> by rects {
 
     private val _frame = E.RectMutable()
 
@@ -68,7 +65,7 @@ class ERectGroupImpl(override val rects: List<CanSetBounds>) : ERectGroupMutable
     }
 
     override fun updateFrame() {
-        rects.union(target = _frame)
+        union(target = _frame)
     }
 
     override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
@@ -84,7 +81,7 @@ class ERectGroupImpl(override val rects: List<CanSetBounds>) : ERectGroupMutable
         val toWidth = frame.width
         val toHeight = frame.height
 
-        rects.forEach { rect ->
+        forEach { rect ->
             rect.selfMap(
                 fromX = fromX,
                 fromY = fromY,
