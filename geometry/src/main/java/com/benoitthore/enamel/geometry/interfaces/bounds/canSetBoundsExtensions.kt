@@ -153,3 +153,17 @@ fun <T : CanSetBounds> T.selfScaleRelative(factor: Number, point: EPoint) =
 
 fun <T : CanSetBounds> T.selfScaleRelative(factor: Number, pointX: Number, pointY: Number) =
     scaleRelative(factor = factor, pointX = pointX, pointY = pointY, target = this)
+
+fun <T : CanSetBounds> T.selfMap(from: HasBounds, to: HasBounds) = apply { map(from, to, this) }
+fun <T : CanSetBounds> T.selfMap(
+    fromX: Number,
+    fromY: Number,
+    toX: Number,
+    toY: Number
+) = apply {
+    map(
+        fromX = fromX, fromY = fromY,
+        toX = toX, toY = toY,
+        target = this
+    )
+}

@@ -5,6 +5,7 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELineMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
@@ -321,4 +322,61 @@ fun HasBounds.diagonalTLBR(target: ELineMutable = E.LineMutable()): ELineMutable
     topLeft(target.start)
     bottomRight(target.end)
     return target
+}
+
+
+fun HasBounds.map(
+    fromX: Number,
+    fromY: Number,
+    toX: Number,
+    toY: Number,
+    target: CanSetBounds = E.RectMutable()
+): CanSetBounds = TODO()
+
+fun HasBounds.map(
+    from: HasBounds,
+    to: HasBounds,
+    target: CanSetBounds = E.RectMutable()
+): CanSetBounds =
+    map(
+        fromX = from.originX,
+        fromY = from.originY,
+        toX = to.originX,
+        toY = to.originY,
+        target = target
+    )
+
+fun List<HasBounds>.union(target: ERectMutable = E.RectMutable()): ERectMutable {
+    if (isEmpty()) {
+        return E.RectMutable()
+    }
+
+    var left = Float.MAX_VALUE
+    var top = Float.MAX_VALUE
+    var right = Float.MIN_VALUE
+    var bottom = Float.MIN_VALUE
+    forEach {
+        if (it.left < left) {
+            left = it.left
+        }
+
+        if (it.top < top) {
+            top = it.top
+        }
+
+        if (it.right > right) {
+            right = it.right
+        }
+
+        if (it.bottom > bottom) {
+            bottom = it.bottom
+        }
+    }
+    return E.RectMutableSides(
+        top = top,
+        left = left,
+        right = right,
+        bottom = bottom,
+        target = target
+    )
 }

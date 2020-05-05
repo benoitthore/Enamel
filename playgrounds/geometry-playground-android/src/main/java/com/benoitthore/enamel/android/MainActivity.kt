@@ -61,6 +61,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
+        return
+
         val debugStyle =
             EStyle(fill = Mesh(shader = E.Circle(radius = 16.dp).toShader(RED, YELLOW, RED)))
         val view = object : View(this) {

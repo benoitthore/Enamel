@@ -13,6 +13,56 @@ import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.figures.rect.union
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
+import javax.swing.text.html.CSS
+
+interface ERectGroup2 : HasBounds {
+    val frame: ERect
+    val rects: List<HasBounds>
+
+    override val left: Float
+        get() = frame.left
+    override val top: Float
+        get() = frame.top
+    override val right: Float
+        get() = frame.right
+    override val bottom: Float
+        get() = frame.bottom
+    override val centerX: Float
+        get() = frame.centerX
+    override val centerY: Float
+        get() = frame.centerY
+}
+
+interface ERectGroupMutable : ERectGroup2, CanSetBounds {
+    fun updateFrame()
+
+    override val rects: List<CanSetBounds>
+
+    // TODO Test
+    override fun setCenter(x: Number, y: Number) {
+        val xOff = x.f - frame.centerX
+        val yOff = y.f - frame.centerY
+        offset(xOff, yOff)
+    }
+}
+
+class ERectGroupImpl(override val rects: List<CanSetBounds>) : ERectGroupMutable {
+
+    private val _frame = E.RectMutable()
+
+    override val frame: ERect
+        get() = _frame
+
+    override fun updateFrame() {
+        rects.union(target = _frame)
+    }
+
+    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+
+    }
+}
+
+
 
 class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? = null) :
     Iterable<ERect> by _rects {
@@ -25,8 +75,6 @@ class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? =
     val count get() = _rects.size
 
     private val _frame = E.RectMutable()
-//    private val _origin: EPointMutable
-//    private val _size: ESizeMutable
 
     init {
         val frameTmp = overrideFrame ?: _rects.union()
@@ -61,95 +109,3 @@ class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? =
     }
 }
 
-// Allocates because this is essentially a constructor
-fun List<ESize>.rectGroup(
-    alignment: EAlignment,
-    anchor: EPoint = E.Point.zero,
-    position: EPoint = E.Point.zero,
-    padding: EOffset = E.Offset.zero,
-    spacing: Number = 0
-): ERectGroup {
-
-
-    var prev = allocate { E.RectMutable() }
-    val rects = mapIndexed { i, size ->
-        prev = allocate {
-            prev.rectAlignedOutside(
-                alignment = alignment,
-                size = size,
-                spacing = if (prev.size == E.Size.zero) 0 else spacing
-            )
-        }
-        prev
-    }
-
-    val rectGroup = allocate {
-        ERectGroup(
-            rects,
-            rects.union().selfExpand(padding).getBounds()
-        )
-    }
-    rectGroup.aligned(anchor, position)
-
-    return rectGroup
-}
-
-
-fun List<ESize>.rectGroupJustified(
-    alignment: EAlignment,
-    toFit: Number,
-    anchor: EPoint = E.Point.zero,
-    position: EPoint = E.Point.zero,
-    padding: EOffset = E.Offset.zero
-): ERectGroup {
-    val pack = rectGroup(alignment)
-    val packedSpace = if (alignment.isHorizontal) pack.size.width else pack.size.height
-    val spacing = if (pack.count > 1) (toFit.f - packedSpace) / (pack.count - 1) else 0f
-    return rectGroup(
-        alignment = alignment,
-        anchor = anchor,
-        position = position,
-        padding = padding,
-        spacing = spacing
-    )
-}
-
-
-fun List<Number>.rectGroupWeights(
-    alignment: EAlignment,
-    toFit: ESize,
-    anchor: EPoint = E.Point.zero,
-    position: EPoint = E.Point.zero,
-    padding: EOffset = E.Offset.zero,
-    spacing: Number = 0
-): ERectGroup {
-
-    if (isEmpty()) {
-        return ERectGroup(
-            emptyList()
-        )
-    }
-
-    val spacing = spacing.toFloat()
-
-    val actualWidth =
-        if (alignment.isHorizontal) toFit.width - (spacing * (size - 1)) else toFit.width
-    val actualHeight =
-        if (alignment.isVertical) toFit.height - (spacing * (size - 1)) else toFit.height
-
-    val totalWeight = sumByDouble { it.d }.f
-
-    val sizes: List<ESizeMutable> = if (alignment.isHorizontal) {
-        map { E.SizeMutable((actualWidth) * it.toFloat() / totalWeight, toFit.height) }
-    } else {
-        map { E.SizeMutable(toFit.width, (actualHeight) * it.toFloat() / totalWeight) }
-    }
-
-    return sizes.rectGroup(
-        alignment = alignment,
-        anchor = anchor,
-        position = position,
-        padding = padding,
-        spacing = spacing
-    )
-}

@@ -6,6 +6,7 @@ import com.benoitthore.enamel.geometry.alignement.ERectEdge
 import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
 import com.benoitthore.enamel.geometry.alignement.rectAlignedOutside
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
 import com.benoitthore.enamel.geometry.primitives.size.size
 import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.interfaces.bounds.ensureRect
@@ -67,7 +68,7 @@ fun ERect.divided(
 operator fun ERect.minus(padding: EOffset) = padding(padding).ensureRect()
 operator fun ERect.plus(padding: EOffset) = expand(padding).ensureRect()
 
-fun List<ERect>.union(target: ERectMutable = E.RectMutable()): ERectMutable {
+fun List<HasBounds>.union(target: ERectMutable = E.RectMutable()): ERectMutable {
     if (isEmpty()) {
         return E.RectMutable()
     }
