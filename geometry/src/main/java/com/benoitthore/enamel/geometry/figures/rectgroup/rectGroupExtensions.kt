@@ -18,7 +18,6 @@ fun List<ESize>.rectGroup(
     alignment: EAlignment,
     anchor: EPoint = E.Point.zero,
     position: EPoint = E.Point.zero,
-//    padding: EOffset = E.Offset.zero,
     spacing: Number = 0
 ): ERectGroupMutable {
 
@@ -35,11 +34,7 @@ fun List<ESize>.rectGroup(
         prev
     }
 
-    val rectGroup: ERectGroupMutable =
-        ERectGroupImpl(
-            rects
-//            , rects.union().selfExpand(padding).getBounds()
-        )
+    val rectGroup: ERectGroupMutable = ERectGroupImpl(rects)
 
     rectGroup.aligned(anchor, position)
 
@@ -51,8 +46,7 @@ fun List<ESize>.rectGroupJustified(
     alignment: EAlignment,
     toFit: Number,
     anchor: EPoint = E.Point.zero,
-    position: EPoint = E.Point.zero,
-    padding: EOffset = E.Offset.zero
+    position: EPoint = E.Point.zero
 ): ERectGroupMutable {
     val pack = rectGroup(alignment)
     val packedSpace = if (alignment.isHorizontal) pack.width else pack.height
@@ -61,7 +55,6 @@ fun List<ESize>.rectGroupJustified(
         alignment = alignment,
         anchor = anchor,
         position = position,
-//        padding = padding,
         spacing = spacing
     )
 }
@@ -72,7 +65,6 @@ fun List<Number>.rectGroupWeights(
     toFit: ESize,
     anchor: EPoint = E.Point.zero,
     position: EPoint = E.Point.zero,
-//    padding: EOffset = E.Offset.zero,
     spacing: Number = 0
 ): ERectGroupMutable {
 

@@ -112,27 +112,30 @@ fun <T : CanSetBounds> T.selfOffset(x: Number = 0, y: Number = 0): T = apply { o
 
 fun <T : CanSetBounds> T.selfOffset(p: Tuple2): T = apply { offset(p.v1, p.v2, this) }
 
-fun <T : CanSetBounds> T.selfInset(margin: Number) = inset(margin, margin, this)
-fun <T : CanSetBounds> T.selfInset(p: EPoint) = inset(p.x, p.y, this)
-fun <T : CanSetBounds> T.selfInset(x: Number = 0, y: Number = 0) = inset(x, y, this)
+fun <T : CanSetBounds> T.selfInset(margin: Number) = apply { inset(margin, margin, this) }
+fun <T : CanSetBounds> T.selfInset(p: EPoint) = apply { inset(p.x, p.y, this) }
+fun <T : CanSetBounds> T.selfInset(x: Number = 0, y: Number = 0) = apply { inset(x, y, this) }
 
-fun <T : CanSetBounds> T.selfExpand(margin: Number) = expand(margin, margin, this)
-fun <T : CanSetBounds> T.selfExpand(p: EPoint) = expand(p.x, p.y, this)
-fun <T : CanSetBounds> T.selfExpand(x: Number = 0f, y: Number = 0f) = inset(-x.f, -y.f, this)
+fun <T : CanSetBounds> T.selfExpand(margin: Number) = apply { expand(margin, margin, this) }
+fun <T : CanSetBounds> T.selfExpand(p: EPoint) = apply { expand(p.x, p.y, this) }
+fun <T : CanSetBounds> T.selfExpand(x: Number = 0f, y: Number = 0f) =
+    apply { inset(-x.f, -y.f, this) }
 
-fun <T : CanSetBounds> T.selfPadding(padding: EOffset) = padding(padding, this)
+fun <T : CanSetBounds> T.selfPadding(padding: EOffset) = apply { padding(padding, this) }
 fun <T : CanSetBounds> T.selfPadding(
     top: Number = 0,
     bottom: Number = 0,
     left: Number = 0,
     right: Number = 0
-): T = padding(
-    top = top,
-    bottom = bottom,
-    left = left,
-    right = right,
-    target = this
-) as T // Cast always succeeds because target is returned
+): T = apply {
+    padding(
+        top = top,
+        bottom = bottom,
+        left = left,
+        right = right,
+        target = this
+    )
+}
 
 fun <T : CanSetBounds> T.selfExpand(padding: EOffset) = expand(padding, this)
 

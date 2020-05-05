@@ -91,7 +91,10 @@ class MainActivity : AppCompatActivity() {
                     10 size 10,
                     100 size 100,
                     200 size 200
-                ).rectGroup(bottomRight)
+                )
+                    .rectGroup(bottomRight)
+                .selfExpand(16.dp)
+
 
                 frame1.set(rectGroup)
 
