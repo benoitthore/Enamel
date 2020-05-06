@@ -47,6 +47,7 @@ class ETouchInstanceMutable {
     }
 
     fun setDown(x: Float, y: Float, id: Int) {
+        move.set(x, y, id)
         down.set(x, y, id)
         event = down
     }
