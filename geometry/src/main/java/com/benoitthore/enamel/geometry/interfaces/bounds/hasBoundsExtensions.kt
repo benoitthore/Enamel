@@ -113,10 +113,10 @@ fun HasBounds.pointAtAnchor(
 fun HasBounds.pointAtAnchor(anchor: EPoint, target: EPointMutable = E.PointMutable()) =
     pointAtAnchor(anchor.x, anchor.y, target)
 
-fun HasBounds.pointAtAnchorX(x: Number) = this.originX.f + width * x.f
-fun HasBounds.pointAtAnchorY(y: Number) = this.originY.f + height * y.f
-fun HasBounds.anchorAtPointX(x: Number) = if (width == 0f) .5f else x.f / width
-fun HasBounds.anchorAtPointY(y: Number) = if (height == 0f) .5f else y.f / height
+internal fun HasBounds.pointAtAnchorX(x: Number) = this.originX.f + width * x.f
+internal fun HasBounds.pointAtAnchorY(y: Number) = this.originY.f + height * y.f
+internal fun HasBounds.anchorAtPointX(x: Number) = if (width == 0f) .5f else x.f / width
+internal fun HasBounds.anchorAtPointY(y: Number) = if (height == 0f) .5f else y.f / height
 
 fun HasBounds.anchorAtPoint(
     x: Number,

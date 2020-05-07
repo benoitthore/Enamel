@@ -7,10 +7,10 @@ interface CanSetBounds : HasBounds,
     CanSetCenter {
 
     fun setBounds(
-        left: Number,
-        top: Number,
-        right: Number,
-        bottom: Number
+        left: Number = this.left,
+        top: Number = this.top,
+        right: Number = this.right,
+        bottom: Number = this.bottom
     )
 
     override var width: Float

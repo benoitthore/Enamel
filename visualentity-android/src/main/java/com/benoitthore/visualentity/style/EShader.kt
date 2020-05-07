@@ -6,7 +6,7 @@ import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
-import com.benoitthore.enamel.geometry.outterRect
+import com.benoitthore.enamel.geometry.outerRect
 import com.benoitthore.enamel.geometry.toMutable
 
 class EShader(val shader: Shader, val frame: ERect)
@@ -44,5 +44,5 @@ fun ECircle.toShader(
             setOriginSize(0, 0)
         }
     }
-        .toRadialGradient(colors, stops, shaderMode), outterRect()
+        .toRadialGradient(colors, stops, shaderMode), outerRect()
 )

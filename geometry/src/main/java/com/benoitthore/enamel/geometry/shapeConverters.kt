@@ -102,8 +102,8 @@ fun HasBounds.outerCircle(target: ECircleMutable = E.CircleMutable()): ECircleMu
     return target
 }
 
-fun ECircle.outterRect(target: ERectMutable = E.RectMutable()): ERectMutable =
-    target.apply { getBounds(target) }
+fun ECircle.outerRect(target: ERectMutable = E.RectMutable()): ERectMutable =
+    target.apply { this@outerRect.getBounds(target) }
 
 fun ECircle.innerRect(target: ERectMutable = E.RectMutable()): ERectMutable {
     val width = Math.sqrt((2 * radius * radius).toDouble()).f
