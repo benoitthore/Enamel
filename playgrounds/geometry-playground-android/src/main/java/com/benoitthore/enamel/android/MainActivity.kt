@@ -20,6 +20,7 @@ import androidx.core.graphics.withRotation
 import androidx.core.graphics.withTranslation
 import androidx.core.view.doOnNextLayout
 import com.benoitthore.enamel.R
+import com.benoitthore.enamel.android.cropping.PictureCroppingView
 
 // TODO Add these imports to the doc:
 import com.benoitthore.enamel.android.demo.*
@@ -29,9 +30,7 @@ import com.benoitthore.enamel.core.*
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.*
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
-import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.clipping.clipOut
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.figures.rectgroup.ERectGroupImpl
 import com.benoitthore.enamel.geometry.figures.rectgroup.ERectGroupMutable
 import com.benoitthore.enamel.geometry.figures.rectgroup.rectGroup
@@ -69,8 +68,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        setContentView(
+            PictureCroppingView(
+                this
+            )
+        )
+
+        return
+
         val view2 = object : View(this) {
-            var rectGroup: ERectGroupMutable = ERectGroupImpl(emptyList())
+            var rectGroup: ERectGroupMutable<*> = ERectGroupImpl(emptyList())
             val frame1 = E.RectMutable()
             val frame2 = E.RectMutable()
 
@@ -93,7 +101,7 @@ class MainActivity : AppCompatActivity() {
                     200 size 200
                 )
                     .rectGroup(bottomRight)
-                .selfExpand(16.dp)
+                .selfOffset(16.dp)
 
 
                 frame1.set(rectGroup)
@@ -116,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                 debugPaint.color = GREEN
                 canvas.draw(frame2, debugPaint)
 
-                rectGroup.rects.forEach { rect ->
+                rectGroup.forEach { rect ->
                     debugPaint.color = YELLOW
                     canvas.draw(rect.getBounds(), debugPaint)
                 }

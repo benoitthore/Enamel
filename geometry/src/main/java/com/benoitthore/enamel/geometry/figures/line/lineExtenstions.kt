@@ -14,7 +14,7 @@ infix fun EPointMutable.line(end: EPointMutable) = E.LineMutable(start = this, e
 fun List<EPoint>.toListOfLines(): List<ELine> {
     val ret = mutableListOf<ELine>()
     forEachIndexed { i, curr ->
-        if (i > 1) {
+        if (i > 0) {
             val prev = get(i - 1)
             ret.add(E.Line(prev, curr))
         }

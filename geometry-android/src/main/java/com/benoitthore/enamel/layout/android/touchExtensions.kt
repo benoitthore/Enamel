@@ -16,6 +16,10 @@ fun View.singleTouch(block: (ETouchEvent) -> Boolean): Unit = multiTouch { block
 sealed class ETouchEvent {
     val position: EPointMutable = E.PointMutable()
 
+    val isDown get() = this is Down
+    val isMove get() = this is Move
+    val isUp get() = this is Up
+
     open fun set(x: Number, y: Number, id: Int) {
         position.set(x, y)
     }

@@ -92,7 +92,7 @@ fun ESize.toRect(target: ERectMutable = E.RectMutable()) = target.set(0, 0, widt
 
 fun HasBounds.innerCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
     center(target.center) // set circles center to rect center
-    target.radius = (if (width > height) height else width) / 2f
+    target.radius = (if (width > height) height else width) / 2f // TODO Repalce that with minmax
     return target
 }
 
