@@ -1,48 +1,43 @@
 package com.benoitthore.enamel.android
 
-import android.annotation.SuppressLint
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Color.*
 import android.graphics.Paint
 import android.graphics.Path
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.Space
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.withRotation
 import androidx.core.graphics.withTranslation
-import androidx.core.view.doOnNextLayout
+import androidx.core.view.doOnLayout
+import com.benoitthore.animation.prepareAnimation
 import com.benoitthore.enamel.R
-import com.benoitthore.enamel.android.cropping.PictureCroppingView
 
 // TODO Add these imports to the doc:
 import com.benoitthore.enamel.android.demo.*
 import com.benoitthore.enamel.core.math.*
-import com.benoitthore.enamel.core.math.noise.OpenSimplexNoise
 import com.benoitthore.enamel.core.*
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.*
-import com.benoitthore.enamel.geometry.alignement.EAlignment.*
-import com.benoitthore.enamel.geometry.clipping.clipOut
-import com.benoitthore.enamel.geometry.figures.rectgroup.ERectGroupImpl
-import com.benoitthore.enamel.geometry.figures.rectgroup.ERectGroupMutable
-import com.benoitthore.enamel.geometry.figures.rectgroup.rectGroup
+import com.benoitthore.enamel.geometry.figures.line.toListOfLines
+import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
-import com.benoitthore.enamel.geometry.primitives.angle.rotations
-import com.benoitthore.enamel.geometry.primitives.size.size
-import com.benoitthore.enamel.geometry.svg.*
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.toImmutable
+import com.benoitthore.enamel.geometry.toRect
 import com.benoitthore.enamel.layout.android.*
-import com.benoitthore.enamel.layout.android.singleTouch
-
-import com.benoitthore.visualentity.style.*
-import com.benoitthore.visualentity.*
+import com.benoitthore.visualentity.withPathMeasureData
+import com.benoitthore.visualentity.withRotation
+import com.benoitthore.visualentity.withTranslation
+import com.benoitthore.enamel.geometry.svg.*
+import com.benoitthore.enamel.geometry.toListOfPoint
 
 
 inline val Number.dp get() = toFloat() * Resources.getSystem().displayMetrics.density
@@ -68,149 +63,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        setContentView(
-            PictureCroppingView(
-                this
-            )
-        )
-
-        return
-
-        val view2 = object : View(this) {
-            var rectGroup: ERectGroupMutable<*> = ERectGroupImpl(emptyList())
-            val frame1 = E.RectMutable()
-            val frame2 = E.RectMutable()
-
-            init {
-                setOnClickListener {
-                    bool != bool
-                    invalidate()
-                }
-            }
-
-            var bool = true
-            override fun onDraw(canvas: Canvas) {
-
-                canvas.scale(3f, 3f)
-                frame2.set(150, 300, 200, 200)
-
-                rectGroup = listOf(
-                    10 size 10,
-                    100 size 100,
-                    200 size 200
-                )
-                    .rectGroup(bottomRight)
-                .selfOffset(16.dp)
+        setContentView(JolieVue(this))
+    }
 
 
-                frame1.set(rectGroup)
-
-
-
-                if (bool) {
-                    rectGroup.set(frame2)
-//                    rects.forEach { rect ->
-//                        rect.selfMap(frame1, frame2)
-//                    }
-                }
-
-
-                debugPaint.strokeWidth = 2.5f
-                debugPaint.style = Paint.Style.STROKE
-                debugPaint.color = RED
-                canvas.draw(frame1, debugPaint)
-
-                debugPaint.color = GREEN
-                canvas.draw(frame2, debugPaint)
-
-                rectGroup.forEach { rect ->
-                    debugPaint.color = YELLOW
-                    canvas.draw(rect.getBounds(), debugPaint)
-                }
-
-                bool = !bool
-
-            }
-        }
-
-        setContentView(view2)
-        return
-
-        val debugStyle =
-            EStyle(fill = Mesh(shader = E.Circle(radius = 16.dp).toShader(RED, YELLOW, RED)))
-        val view = object : View(this) {
-
-            private val circleTarget = E.PointMutable()
-            private val circlePosition = E.PointMutable()
-            private var rotationProgress = 0f
-
-            init {
-                doOnNextLayout {
-                    getBounds().center(circlePosition)
-                    getBounds().center(circleTarget)
-                }
-                singleTouch {
-                    circleTarget.set(it.position)
-                    true
-                }
-            }
-
-            @SuppressLint("DrawAllocation")
-            override fun onDraw(canvas: Canvas) {
-                circlePosition.lerp(0.125, circlePosition, circleTarget)
-                rotationProgress += 1
-
-                val bounds = getBounds().apply { setCenter(circlePosition) }
-
-                val shaderBounds = getBounds()
-                shaderBounds.setSize(shaderBounds.size.max, shaderBounds.size.max)
-
-
-                val shader = shaderBounds.diagonalTLBR()
-                    .toLinearGradient((0..10).map { colorHSL(it / 10f) })
-
-
-                canvas.withRotation(rotationProgress, width / 2f, height / 2f) {
-                    canvas.drawBackground(Paint().also { it.shader = shader })
-                }
-
-                val entity = bounds
-                    .innerCircle()
-                    .apply { radius /= 2 }
-                    .toVisualEntity(debugStyle)
-                val mask = entity.scaleAnchor(0.5, 0.5, 0.5).getBounds().innerCircle()
-
-
-                entity.clipOut(mask).toVisualEntity().draw(canvas)
-                invalidate()
-
-            }
-
-
-        }
-        setContentView(view)
-//        val view = VisualEntityView(this)
-//        setContentView(view)
-//
-//
-//        view.doOnLayout {
-//            val bounds = view.getBounds()
-//            val circle = view.getBounds().innerCircle().selfScaleAnchor(0.75, 0.5, 0.5)
-//            val line = bounds.diagonalTLBR()
-//
-//
-//
-//
-//            view.show(
-//                circle.toVisualEntity(debugStyle).clipOut(line).toVisualEntity()
-////                circle.toVisualEntity(debugStyle)
-//            )
-//
-//        }
-
-        return
-
+    fun runDemo() {
         setContentView(R.layout.activity_main)
         findViewById<Button>(R.id.previousButton).setOnClickListener {
             currentDemo--
@@ -221,7 +78,6 @@ class MainActivity : AppCompatActivity() {
         demoView(RectAlignmentAnchor_Rect)
 
         currentDemo = 0
-
     }
 
     private var currentDemo = 0
@@ -269,75 +125,68 @@ class JolieVue @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    val pathContext = Path().createContext()
+
+    val pathContext = Path().createSVGContext()
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
-        color = Color.GREEN
+        color = GREEN
     }
 
     private val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         strokeWidth = 2.dp
+        color = RED
         style = Paint.Style.STROKE
     }
 
     private val shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         strokeWidth = 2.dp
-        color = Color.BLACK.withAlpha(0.25)
+        color = BLACK.withAlpha(0.25)
         style = Paint.Style.FILL_AND_STROKE
     }
 
+    private var progress = 0f
+
     init {
         setLayerType(LAYER_TYPE_SOFTWARE, null)
+
+        doOnLayout {
+
+
+        }
+
+        singleTouch {
+            if (it.isDown) {
+                points.clear()
+            }
+            points += it.position.toImmutable()
+
+            pathContext.reset()
+            (points.toListOfLines()).addTo(pathContext)
+            true
+        }
     }
 
-    private val noise = OpenSimplexNoise()
-    private var offset = 0.0
-    private val offsetIncrease = 0.03
+    private val points = mutableListOf<EPoint>()
 
+    private val rect = E.RectMutableCenter(0, 0, 100, 100)
     override fun onDraw(canvas: Canvas) {
 
-        val color = noise.eval(offset / 10f).noiseRemap()
-        val invColor = ((color * 100 + 50) % 100) / 100.0
+        val data =
+            pathContext.pathMeasure.getAbsolute(progress % pathContext.pathMeasure.getTotalDistance())
 
-        paint.color = colorHSL(invColor)
-        canvas.drawColor(colorHSL(color).withAlpha(0.5))
-        pathContext.reset()
-
-        val frame = E.RectMutable().setBounds(this)
-        val center = frame.center()
-
-        val mainCircle = frame.innerCircle()
-
-        val circleList = mainCircle.toListOfPoint(
-            distanceList = (0 until 20).map {
-                val radiusRatio =
-                    noise.eval(offset, 100 * it.toDouble()).noiseRemap().lerp(0.3, 0.6)
-                mainCircle.radius * radiusRatio
-            },
-            startAt = (offset / 10f).rotations()
-        )
-
-        circleList.flatMap {
-            listOf<ESVG>(
-                it.toCircle(10.dp),
-                E.LineMutable(center, it.selfOffsetTowards(center, 10.dp))
-            )
-        }
-            .addTo(pathContext)
-
-        canvas.withTranslation(4.dp, 4.dp) {
-            canvas.drawPath(pathContext.path, shadowPaint)
-        }
-        canvas.drawPath(pathContext.path, paint)
         canvas.drawPath(pathContext.path, strokePaint)
 
-        offset += offsetIncrease
+        canvas.withPathMeasureData(data) {
+            canvas.draw(rect, paint)
+        }
+
+        progress += width  / 60f // the width per second
         postInvalidateOnAnimation()
     }
-
-    private fun Double.noiseRemap() = map(-1, 1, 0, 1)
 }
+
+private fun Double.noiseRemap() = map(-1, 1, 0, 1)
 
 
 

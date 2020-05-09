@@ -5,6 +5,7 @@ import android.graphics.Paint
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
+import com.benoitthore.enamel.layout.android.EPathMeasure
 import com.benoitthore.visualentity.style.Mesh
 import java.lang.Exception
 
@@ -13,7 +14,16 @@ fun Paint.setMesh(mesh: Mesh) {
     mesh.shader?.let { shader = it.shader }
 }
 
-inline fun Canvas.withTranslate(
+inline fun Canvas.withPathMeasureData(
+    data: EPathMeasure.Data,
+    crossinline block: Canvas.() -> Unit
+) = withSave {
+    translate(data.position.x, data.position.y)
+    rotate(data.angle.degrees)
+    block()
+}
+
+inline fun Canvas.withTranslation(
     translation: EPoint,
     crossinline block: Canvas.() -> Unit
 ) = withSave {
@@ -57,7 +67,7 @@ inline fun Canvas.withTransformation(
     crossinline block: Canvas.() -> Unit
 ) {
     with(transform) {
-        withTranslate(translation) {
+        withTranslation(translation) {
             withRotation(rotation, rotationPivot) {
                 withScale(scale, scalePivot) {
                     block()

@@ -8,6 +8,7 @@ import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.layout.android.PathSVGContext
 import com.benoitthore.enamel.layout.android.clipOutPath
 import com.benoitthore.enamel.layout.android.clipPath
+import com.benoitthore.enamel.layout.android.createPathSVGContext
 
 fun <T : SVGVisualEntity> ClippingLayerList<T>.toVisualEntity() = ClippingVisualEntity(this)
 
@@ -27,7 +28,7 @@ class ClippingVisualEntity<T : SVGVisualEntity>(private val inputList: ClippingL
         list.clear()
 
         inputList.forEach { layer ->
-            list += layer to PathSVGContext(layer.shape)
+            list += layer to layer.shape.createPathSVGContext()
         }
     }
 
