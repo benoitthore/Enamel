@@ -14,7 +14,7 @@ import kotlin.math.min
 
 interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
 
-    fun Rect(x: Number = 0f, y: Number = 0f, width: Number = 0f, height: Number = 0f) =
+    fun Rect(x: Number = 0f, y: Number = 0f, width: Number = 0f, height: Number = 0f) : ERect =
         RectMutable(x, y, width, height)
 
     //
