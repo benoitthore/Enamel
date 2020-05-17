@@ -1,19 +1,4 @@
-# Motivation
-The Android Canvas API is a powerful tool, but sometimes it can be very hard to use. This usually result in a lot of boilerplate, which makes the code harder to read and debug.
-
-Using newer language features provided by Kotlin, this library intend to bring Android's Canvas as easy to use as possible.
-
-# General concepts
-Enamel is a set of libraries designed to facilitate the use of the Android **Canvas**. It consists of multiple modules.
-
-- Core (Kotlin): Basic mathematical functions used by other modules.
-- Geometry (Kotlin): Geometry shapes and concepts such a point, angle, rectangle, circle, etc.
-- Geometry (Android): Plug for the *Geometry* module into Android, it contains extensions on Canvas related classes such as **Canvas**, **Path**, **View**.
-- Touch (Android): Utility functions to handle touch event in an easy manner.
-- Visual Entities (Android): Provides an easy way of drawing shapes defined with the *Geometry* module, abstracting away the **Paint** class.
-- Animation (Android): Animation utilities for *Visual Entity*
-- Layout (Kotlin): Layout system designed to work in any environment.
-- Layout Canvas (Android) (coming soon): Bridge between the *Layout* module the Android SDK
+FULL DOC HERE
 
 #  Adding the dependencies
 
