@@ -3,8 +3,7 @@ package com.benoitthore.enamel.geometry.interfaces.bounds
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.interfaces.CanSetCenter
 
-interface CanSetBounds : HasBounds,
-    CanSetCenter {
+interface CanSetBounds : HasBounds, CanSetCenter {
 
     fun setBounds(
         left: Number = this.left,

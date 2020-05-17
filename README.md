@@ -1,4 +1,4 @@
-FULL DOC HERE
+[Full documentation here](docs/doc.md)
 
 #  Adding the dependencies
 

@@ -62,7 +62,8 @@ fun HasBounds.containsFull(x: Number, y: Number, radius: Number): Boolean =
         )
     }
 
-fun HasBounds.containsFull(other: ERect) = contains(other.origin, other.size)
+fun HasBounds.containsFull(other: HasBounds) =
+    contains(other.originX, other.originY, other.width, other.height)
 
 fun HasBounds.containsFull(origin: EPoint, size: ESize) =
     containsFull(origin.x, origin.y, size.width, size.height)
@@ -129,7 +130,7 @@ fun HasBounds.anchorAtPoint(
 }
 
 fun HasBounds.center(target: EPointMutable = E.PointMutable()): EPointMutable =
-    pointAtAnchor(0.5f, 0.5f, target)
+    pointAtAnchor(0.5f,0.5f, target)
 
 fun HasBounds.topLeft(target: EPointMutable = E.PointMutable()): EPointMutable =
     pointAtAnchor(0f, 0f, target)
