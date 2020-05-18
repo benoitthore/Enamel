@@ -2,16 +2,16 @@
 # Motivation
 The Android Canvas API is a powerful tool, but sometimes it can be very hard to use. This usually result in a lot of boilerplate, which makes the code harder to read and debug.
 
-Using newer language features provided by Kotlin, this library intend to bring Android's Canvas as easy to use as possible.
+Using newer language features provided by Kotlin, this library intend to make Android's Canvas as easy to use as possible.
 
 
 # Modularisation
-Enamel is a set of libraries designed to facilitate the use of the Android **Canvas**. It consists of multiple modules:
+Enamel is a set of libraries consisting of multiple modules:
 
 - Core (Kotlin): Basic mathematical functions used by other modules.
 - Geometry (Kotlin): Geometry shapes and concepts such a point, angle, rectangle, circle, etc.
 - Geometry (Android): Plug for the *Geometry* module into Android, it contains extensions on Canvas related classes such as **Canvas**, **Path**, **View**.
-- Touch (Android): Utility functions to handle touch event in an easy manner.
+- Touch (Android): Utility functions to handle touch events in an easy manner.
 - Visual Entities (Android): Draw shapes defined using the *Geometry* module, abstracting the **Paint** class.
 - Animation (Android): Animation utilities for *Visual Entity*
 - Layout (Kotlin): Layout system designed to work in any environment.
@@ -22,7 +22,13 @@ Enamel is a set of libraries designed to facilitate the use of the Android **Can
 When drawing on a Canvas, you need to position shapes relative to one another. This library helps doing it by providing a set of combined interfaces, you can see the full [list of components here](TODO).
 All Enamel object are extending a set of interfaces, EPoint, ECircle, etc. are actually interfaces. The reasoning behind using interfaces is that it's much easier to combine them. This will get clearer when we look at how to use the **HasBounds** interface.
 
-Because everything is an interface and doesn't have a direct constructor, the `E` object is provided to create almost any interface provided by this library.
+Because everything is an interface and doesn't have a direct constructor, the `E` object is provided to create almost any interface provided by this library. 
+
+Example:
+```kotlin
+E.Point(x,y)
+E.Circle(x,y,radius)
+```
 
 ## Mutability
 ### Why is mutability important?
