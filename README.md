@@ -17,6 +17,8 @@ Adding this to you gradle file:
 
 [Use Style and avoid Paints](TODO)
 
+[Handle touch events](TODO)
+
 # Quick demo
 Drawing of basic shapes and use of style:
 
