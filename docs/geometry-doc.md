@@ -5,14 +5,14 @@
 ## List
 
 ### Primitives
-Primitives are object made of raw Java types such as numbers and boolean. Enums can also be included in this layer.
+Primitives are objects made of raw Java types such as numbers and boolean. Enums can also be included in this layer.
 
 #### EPoint
 It's just a point: using an `x` and a `y` position.
 
-Functions can be applied to move it around according to another point, an angle, a distance, or any combination of these 3  
+Functions can be applied to move it around relative to another point, angle, distance, or any combination of these 3.
 #### ESize
-ESize is a holder for `width` and `height`
+ESize is a holder for `width` and `height`.
 
 #### EAngle
 Angles are composed of a value and an `AngleType`: degrees (from 0 to 360), radians (from 0 to 2π) and rotations (from 0 to 1). An EAngle having a value of 2 rotations being perfectly valid.
@@ -22,9 +22,9 @@ When it comes to dealing with angles, most libraries using geometry expect a dec
 ### Figures
 
 #### ECircle
-This class is made of an `EPoint` and radius. 
+This class is made of an `EPoint` and a radius.
 
-It also has a few handy function, for example it can split itself into a list of `EPoint` or returns its inner/outter square 
+It also has a few handy functions, for example it can split itself into a list of `EPoint` or returns its inner/outer square.
 
 #### ERect
 Probably the most important class in the entire library, the `ERect` is made of an origin `EPoint` being its top left corner and an `ESize`.
