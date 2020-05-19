@@ -8,9 +8,6 @@ Using newer language features provided by Kotlin, this library is intended to ma
 # Modularisation
 Enamel is a set of libraries consisting of multiple modules:
 
-
-//TODO:  `Plug for the *Geometry*` - is this meant to say plugin?
-
 - Core (Kotlin): Basic mathematical functions used by other modules.
 - Geometry (Kotlin): Geometric shapes and concepts - e.g. point, angle, rectangle, circle, etc.
 - Geometry (Android): Plug for the *Geometry* module into Android, it contains extensions for Canvas related classes such as **Canvas**, **Path**, **View**.

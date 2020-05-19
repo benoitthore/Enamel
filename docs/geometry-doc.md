@@ -15,7 +15,6 @@ Functions can be applied to move it around relative to another point, angle, dis
 ESize is a holder for `width` and `height`.
 
 #### EAngle
-//TODO: Would it be worth saying where the angle is countained from? e.g. the top/12 oclock or right hand side /3 oclock
 Angles are composed of a value and an `AngleType`: degrees (from 0 to 360), radians (from 0 to 2π) and rotations (from 0 to 1). An EAngle having a value of 2 rotations being perfectly valid.
 
 When it comes to dealing with angles, most libraries using geometry expect a decimal numbers which can sometimes be radians or degrees, this class abstracts this concept.

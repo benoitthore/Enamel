@@ -6,8 +6,6 @@ Every layout in the library has to implement the `ELayout` interface which force
 
 `val childLayouts: List<ELayout>` : List of child layouts. Can be empty and/or mutable
 
-//TODO: what does being given meant/size you actually need?
-
 `fun size(toFit: ESize): ESize`
 It's the equivalent of Android's `onMeasure()`, you're being given and you need to return the size you actually need.
 
@@ -15,8 +13,6 @@ In the Android framework, there is this concept of **Mode** which can be AT_MOST
 
 `fun arrange(frame: ERect)`
 This function is like the `onLayout` function of Android, you're given a frame and the layout has to arrange itself into it
-
-//TODO: It's TBC so I guess it's not super important but you could have particular layouts ignore the frame and size?
 
 **TBC**: `arrange()` and `size()` don't have an obligation to respect the parameter being passed to them, but should most of the time.
 
@@ -82,7 +78,6 @@ Mostly used for debugging and testing, it can take a color so the debugger will 
 ### ESizingLayout
 This layout is used to override the size of its child in different ways: width, height, scaling, and a few more.
 
-//TODO - It's sorta hard but it might worth coming up with a new word instead of snug. Doesn't work here
 ### ESnuggingLayout
 
 Snugs a layout on its axis, the equivalent of Android's wrap_content feature. However it can only be used on layouts that implement `ELayoutAlongAxis`:
