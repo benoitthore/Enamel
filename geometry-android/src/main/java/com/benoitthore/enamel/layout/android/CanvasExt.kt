@@ -9,12 +9,8 @@ import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
-
-private inline fun Canvas.withSave(crossinline block: Canvas.() -> Unit) = apply {
-    val save = save()
-    runCatching { block() }
-    restoreToCount(save)
-}
+import com.benoitthore.enamel.geometry.primitives.angle.EAngle
+import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 
 fun Canvas.drawPointList(points: List<EPoint>, radius: Float, paint: Paint) =
     points.forEach { draw(it, radius, paint) }
@@ -43,20 +39,11 @@ fun Canvas.draw(start: EPoint, end: EPoint, paint: Paint) {
     }
 }
 
-fun Canvas.draw(rect: ERect, paint: Paint, translate: Boolean = true) {
-    if (translate) {
+fun Canvas.draw(rect: ERect, paint: Paint) {
         withSave {
             translate(rect.origin)
             drawRect(0f, 0f, rect.width, rect.height, paint)
         }
-    } else {
-        drawRect(
-            rect.left,
-            rect.top,
-            rect.right,
-            rect.bottom, paint
-        )
-    }
 }
 
 fun Canvas.drawRectList(rects: List<ERect>, paint: Paint) = rects.forEach { draw(it, paint) }
@@ -108,4 +95,84 @@ fun Canvas.clipRect(rect: ERectMutable) {
 
 fun Canvas.drawBackground(paint: Paint) {
     drawRect(0f, 0f, width.f, height.f, paint)
+}
+
+
+fun Rect.set(rect: ERect) = apply {
+    left = rect.left.toInt()
+    top = rect.top.toInt()
+    right = rect.right.toInt()
+    bottom = rect.bottom.toInt()
+}
+
+fun RectF.set(rect: ERect) = apply {
+    left = rect.left
+    top = rect.top
+    right = rect.right
+    bottom = rect.bottom
+}
+
+inline fun Canvas.withPathMeasureData(
+    data: EPathMeasure.Data,
+    crossinline block: Canvas.() -> Unit
+) = withSave {
+    translate(data.position.x, data.position.y)
+    rotate(data.angle.degrees)
+    block()
+}
+
+inline fun Canvas.withTranslation(
+    translation: EPoint,
+    crossinline block: Canvas.() -> Unit
+) = withSave {
+    translate(translation.x, translation.y)
+    block()
+}
+
+inline fun Canvas.withRotation(
+    angle: EAngle,
+    pivot: EPoint? = null,
+    crossinline block: Canvas.() -> Unit
+) = withSave {
+    if (pivot == null) {
+        rotate(angle.degrees)
+    } else {
+        rotate(angle.degrees, pivot.x, pivot.y)
+    }
+    block()
+}
+
+inline fun Canvas.withScale(
+    scale: EPoint,
+    pivot: EPoint? = null,
+    crossinline block: Canvas.() -> Unit
+) = withSave {
+    if (pivot == null) {
+        scale(scale.x, scale.y)
+    } else {
+        scale(scale.x, scale.y, pivot.x, pivot.y)
+    }
+    block()
+}
+
+
+inline fun Canvas.withTransform(
+    transform: ETransform,
+    crossinline block: Canvas.() -> Unit
+) {
+    with(transform) {
+        withTranslation(translation) {
+            withRotation(rotation, rotationPivot) {
+                withScale(scale, scalePivot) {
+                    block()
+                }
+            }
+        }
+    }
+}
+
+inline fun Canvas.withSave(crossinline block: Canvas.() -> Unit) = apply {
+    val save = save()
+    runCatching { block() }
+    restoreToCount(save)
 }

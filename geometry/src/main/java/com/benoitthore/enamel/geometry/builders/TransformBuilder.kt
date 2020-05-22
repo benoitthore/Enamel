@@ -11,7 +11,7 @@ interface TransformBuilder : PointBuilder, BaseBuilder {
         scale: EPoint = E.PointMutable.unit(),
         scalePivot: EPoint = E.PointMutable.half(),
         translation: EPoint = E.PointMutable()
-    ): ETransform = ETransformMutable(
+    ): ETransform = TransformMutable(
         rotation = rotation,
         rotationPivot = rotationPivot,
         scale = scale,

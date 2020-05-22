@@ -25,6 +25,7 @@ TODO Make allocation free
  */
 interface ELine : ELinearFunction, ESVG, HasCenter,
     HasBounds {
+
     val start: EPoint
     val end: EPoint
 

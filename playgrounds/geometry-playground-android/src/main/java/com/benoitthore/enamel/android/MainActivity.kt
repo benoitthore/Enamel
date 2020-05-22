@@ -1,28 +1,35 @@
 package com.benoitthore.enamel.android
 
-// TODO Add these imports to the doc:
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Color.*
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnNextLayout
+import com.benoitthore.enamel.geometry.*
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
+import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.interfaces.bounds.diagonalTLBR
-import com.benoitthore.enamel.geometry.interfaces.bounds.diagonalTRBL
-import com.benoitthore.enamel.geometry.outerCircle
-import com.benoitthore.enamel.geometry.toCircle
-import com.benoitthore.enamel.geometry.toListOfPoint
-import com.benoitthore.enamel.layout.android.draw
-import com.benoitthore.enamel.layout.android.drawCircleList
-import com.benoitthore.enamel.layout.android.setBounds
+import com.benoitthore.enamel.geometry.interfaces.bounds.scaleAnchor
+import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.times
+import com.benoitthore.enamel.layout.android.*
+import com.benoitthore.visualentity.draw
+import com.benoitthore.visualentity.style.Mesh
+import com.benoitthore.visualentity.style.toShader
+import com.benoitthore.visualentity.toVisualEntity
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 inline val Number.dp get() = toFloat() * Resources.getSystem().displayMetrics.density
@@ -44,15 +51,53 @@ val debugPaint: Paint = Paint()
 
 class MainActivity : AppCompatActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(MyEnamelView(this))
+        setContentView(TestView(this))
+    }
+}
+
+class TestView @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
+    private val rect = E.Rect().toVisualEntity()
+    private val circle = E.Circle().toVisualEntity()
+
+    init {
+        doOnNextLayout {
+            putShape(E.Point.half * getBounds().size)
+            putShape(E.Point.zero)
+
+            rect.style = rect.style.copy(
+                fill = Mesh(shader = rect.diagonalTLBR().toShader(BLUE, WHITE, RED))
+            )
+            circle.style = rect.style.copy(
+                fill = Mesh(shader = (circle.innerRect().innerCircle().diagonalTLBR()).toShader(BLUE, WHITE, RED))
+            )
+        }
+
+        singleTouch {
+            putShape(it.position)
+            invalidate()
+            true
+        }
     }
 
+    private fun putShape(position: EPoint) {
+        val bounds = getBounds().toImmutable()
+        bounds.scaleAnchor(0.5, 0.5, 0.5, target = rect)
+        rect.setOriginSize(position.x, position.y)
+        rect.innerCircle(circle).selfAlignOutside(rect, EAlignment.rightCenter, 16.dp)
+    }
 
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        canvas.draw(rect)
+        canvas.draw(circle)
+    }
 }
+
 
 class MyEnamelView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0

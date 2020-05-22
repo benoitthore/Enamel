@@ -35,7 +35,6 @@ interface ERectGroup<T : HasBounds> : HasBounds, List<T> {
 interface ERectGroupMutable<T : CanSetBounds> : ERectGroup<T>, CanSetBounds {
     fun updateFrame()
 
-
     // TODO Test
     override fun setCenter(x: Number, y: Number) {
         val xOff = x.f - frame.centerX
@@ -51,94 +50,49 @@ interface ERectGroupMutable<T : CanSetBounds> : ERectGroup<T>, CanSetBounds {
 
         selfOffset(offsetX, offsetY)
     }
-}
 
-class ERectGroupImpl<T : CanSetBounds>(rects: List<T>) : ERectGroupMutable<T>, List<T> by rects {
+    class ERectGroupImpl<T : CanSetBounds>(rects: List<T>) : ERectGroupMutable<T>,
+        List<T> by rects {
 
-    private val _frame = E.RectMutable()
+        private val _frame = E.RectMutable()
 
-    override val frame: ERect
-        get() = _frame
+        override val frame: ERect
+            get() = _frame
 
-    init {
-        updateFrame()
-    }
+        init {
+            updateFrame()
+        }
 
-    override fun updateFrame() {
-        union(target = _frame)
-    }
+        override fun updateFrame() {
+            union(target = _frame)
+        }
 
-    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
-        val fromX = frame.originX
-        val fromY = frame.originY
-        val fromWidth = frame.width
-        val fromHeight = frame.height
+        override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+            val fromX = frame.originX
+            val fromY = frame.originY
+            val fromWidth = frame.width
+            val fromHeight = frame.height
 
-        _frame.setSides(left, top, right, bottom)
+            _frame.setSides(left, top, right, bottom)
 
-        val toX = frame.originX
-        val toY = frame.originY
-        val toWidth = frame.width
-        val toHeight = frame.height
+            val toX = frame.originX
+            val toY = frame.originY
+            val toWidth = frame.width
+            val toHeight = frame.height
 
-        forEach { rect ->
-            rect.selfMap(
-                fromX = fromX,
-                fromY = fromY,
-                fromWidth = fromWidth,
-                fromHeight = fromHeight,
-                toX = toX,
-                toY = toY,
-                toWidth = toWidth,
-                toHeight = toHeight
-            )
+            forEach { rect ->
+                rect.selfMap(
+                    fromX = fromX,
+                    fromY = fromY,
+                    fromWidth = fromWidth,
+                    fromHeight = fromHeight,
+                    toX = toX,
+                    toY = toY,
+                    toWidth = toWidth,
+                    toHeight = toHeight
+                )
+            }
         }
     }
 }
-
-
-//class ERectGroup(private val _rects: List<ERectMutable>, overrideFrame: ERect? = null) :
-//    Iterable<ERect> by _rects {
-//
-//    val frame: ERect get() = _frame
-//    val size: ESize get() = _frame.size
-//    val origin: EPoint get() = _frame.origin
-//    val rects: List<ERect> get() = _rects
-//
-//    val count get() = _rects.size
-//
-//    private val _frame = E.RectMutable()
-//
-//    init {
-//        val frameTmp = overrideFrame ?: _rects.union()
-//        _frame.size.set(frameTmp.size)
-//        _frame.origin.set(frameTmp.origin)
-//    }
-//
-//    fun offsetOrigin(x: Number, y: Number) {
-//        _frame.origin.selfOffset(x, y)
-//        _rects.forEach { it.selfOffset(x, y) }
-//    }
-//
-//    fun scaledAnchor(factor: Number, anchor: EPoint) {
-//        val factor = factor.f
-//        _rects.forEach { it.selfScaleAnchor(factor, anchor) }
-//        _frame.selfScaleAnchor(factor, anchor)
-//    }
-//
-//    fun scaledRelative(factor: Number, point: EPoint) {
-//        val factor = factor.f
-//        _rects.forEach { it.selfScaleRelative(factor, point) }
-//        _frame.selfScaleRelative(factor, point)
-//    }
-//
-//    fun aligned(anchor: EPoint, position: EPoint) {
-//        val pointAtAnchor = frame.pointAtAnchor(anchor)
-//
-//        val offsetX = position.x - pointAtAnchor.x
-//        val offsetY = position.y - pointAtAnchor.y
-//
-//        offsetOrigin(offsetX, offsetY)
-//    }
-//}
 

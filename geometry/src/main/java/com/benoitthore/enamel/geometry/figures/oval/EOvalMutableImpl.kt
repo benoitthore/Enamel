@@ -26,4 +26,24 @@ internal class EOvalMutableImpl(
         getCenter()
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+
+        if (other !is EOval) return false
+
+        if (rx != other.rx) return false
+        if (ry != other.ry) return false
+        if (center != other.center) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = rx.hashCode()
+        result = 31 * result + ry.hashCode()
+        result = 31 * result + _center.hashCode()
+        return result
+    }
+
+
 }

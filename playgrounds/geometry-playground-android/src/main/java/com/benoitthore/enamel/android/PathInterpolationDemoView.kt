@@ -15,7 +15,7 @@ import com.benoitthore.enamel.geometry.toImmutable
 import com.benoitthore.enamel.layout.android.createSVGContext
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.enamel.layout.android.singleTouch
-import com.benoitthore.visualentity.withPathMeasureData
+import com.benoitthore.enamel.layout.android.withPathMeasureData
 
 class PathInterpolationDemoView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0

@@ -17,7 +17,7 @@ data class EStyle(
     }
 }
 
-class Mesh(
+data class Mesh(
     var color: Int? = null,
     val shader: EShader? = null
 )
