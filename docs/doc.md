@@ -10,7 +10,7 @@ Enamel is a set of libraries consisting of multiple modules:
 
 - Core (Kotlin): Basic mathematical functions used by other modules.
 - Geometry (Kotlin): Geometric shapes and concepts - e.g. point, angle, rectangle, circle, etc.
-- Geometry (Android): Plug for the *Geometry* module into Android, it contains extensions for Canvas related classes such as **Canvas**, **Path**, **View**.
+- Geometry (Android): Plugin for the *Geometry* module into Android, it contains extensions for Canvas related classes such as **Canvas**, **Path**, **View**.
 - Touch (Android): Utility functions to handle touch events easily.
 - Visual Entities (Android): Draw shapes defined using the *Geometry* module, abstracting the **Paint** class.
 - Animation (Android): Animation utilities for *Visual Entity*
@@ -19,7 +19,7 @@ Enamel is a set of libraries consisting of multiple modules:
 
 # Geometry
 ## Architecture
-When drawing on a Canvas, you need to position shapes relative to one another. This library helps this positioning by providing a set of combined interfaces, you can see the full [list of components here](TODO).
+When drawing on a Canvas, you need to position shapes relative to one another. This library helps this positioning by providing a set of combined interfaces, you can see the full [list of components here](geometry-doc.md).
 All Enamel objects extend a set of interfaces; EPoint, ECircle, etc. are actually interfaces. The reasoning behind using interfaces is that it's much easier to combine them. This will get clearer when we look at how to use the **HasBounds** interface.
 
 Because everything is an interface and doesn't have a direct constructor, the `E` object is provided to create almost any interface provided by this library. 
@@ -71,7 +71,7 @@ Earlier we saw that geometry objects extend a set of interfaces, the most common
 
 Through a set of extension functions, and following the "self/non-self" pattern previously mentioned, this interface is particularly useful to move objects around
 
-You can find the full list of functions [here](TODO)
+You can find the full list of functions [here - TODO]()
 
 # EAngle
 
