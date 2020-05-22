@@ -11,13 +11,13 @@ Adding this to you gradle file:
 # Documentation
 [Generic documentation](docs/doc.md)
 
-[List of Enamel objects](TODO)
+[List of Enamel objects - TODO]()
 
-[CanSetBounds/HasBounds extensions](TODO)
+[CanSetBounds/HasBounds extensions - TODO]()
 
-[Use Style and avoid Paints](TODO)
+[Use Style and avoid Paints - TODO]()
 
-[Handle touch events](TODO)
+[Handle touch events - TODO]()
 
 # Quick demo
 Drawing of basic shapes and use of style:
