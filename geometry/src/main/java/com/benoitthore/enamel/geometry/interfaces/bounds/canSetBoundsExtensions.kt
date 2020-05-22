@@ -9,6 +9,8 @@ import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
+fun CanSetBounds.toRect(target: ERectMutable = E.RectMutable()): ERectMutable = target.set(this)
+
 fun <T : CanSetBounds> T.setOriginSize(
     originX: Number = this.originX, originY: Number = this.originY,
     width: Number = this.width, height: Number = this.height

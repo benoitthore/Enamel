@@ -13,6 +13,8 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
+fun HasBounds.toRect(target: ERectMutable = E.RectMutable()): ERect = target.set(this)
+
 // contains Point
 fun HasBounds.contains(x: Number, y: Number) = contains(x, y, 0, 0)
 
@@ -130,7 +132,7 @@ fun HasBounds.anchorAtPoint(
 }
 
 fun HasBounds.center(target: EPointMutable = E.PointMutable()): EPointMutable =
-    pointAtAnchor(0.5f,0.5f, target)
+    pointAtAnchor(0.5f, 0.5f, target)
 
 fun HasBounds.topLeft(target: EPointMutable = E.PointMutable()): EPointMutable =
     pointAtAnchor(0f, 0f, target)

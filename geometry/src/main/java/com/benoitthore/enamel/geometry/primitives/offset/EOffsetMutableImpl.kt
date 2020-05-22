@@ -14,9 +14,7 @@ internal class EOffsetMutableImpl(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as EOffsetMutableImpl
+        if (other !is EOffset) return false
 
         if (top != other.top) return false
         if (right != other.right) return false
