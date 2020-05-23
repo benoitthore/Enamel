@@ -5,8 +5,7 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
-interface ECircle : ESVG,
-    HasBounds {
+interface ECircle : ESVG, HasBounds {
 
     override fun addTo(context: SVGContext) {
         context.oval(x - radius, y - radius, x + radius, y + radius)

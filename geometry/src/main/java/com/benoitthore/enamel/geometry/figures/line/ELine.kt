@@ -64,7 +64,7 @@ interface ELine : ELinearFunction, ESVG, HasCenter,
     override val bottom: Float
         get() = max(start.y, end.y)
 
-    val isTLBR get() = start.x < end.x
+    val isTLBR get() = (start.x < end.x && start.y < end.y) || (end.x < start.x && end.y < start.y)
     val isBRTL get() = !isTLBR
 
     override fun addTo(context: SVGContext) {

@@ -289,12 +289,12 @@ fun HasBounds.map(
 ): CanSetBounds {
     target.set(this)
 
-    val anchorLeft = if (width == 0f) .5f else (target.originX - fromX.f) / fromWidth.f
-    val anchorTop = if (height == 0f) .5f else (target.originY - fromY.f) / fromHeight.f
+    val anchorLeft = if (fromWidth == 0f) .5f else (target.originX - fromX.f) / fromWidth.f
+    val anchorTop = if (fromHeight == 0f) .5f else (target.originY - fromY.f) / fromHeight.f
     val anchorRight =
-        if (width == 0f) .5f else (target.originX - fromX.f + target.width) / fromWidth.f
+        if (fromWidth == 0f) .5f else (target.originX - fromX.f + target.width) / fromWidth.f
     val anchorBottom =
-        if (height == 0f) .5f else (target.originY - fromY.f + target.height) / fromHeight.f
+        if (fromHeight == 0f) .5f else (target.originY - fromY.f + target.height) / fromHeight.f
 
     val left = toX.f + toWidth.f * anchorLeft.f
     val top = toY.f + toHeight.f * anchorTop.f

@@ -20,6 +20,6 @@ interface VisualEntityGroup<T : VisualEntity> : ERectGroup<T> {
     }
 }
 
-fun <T : VisualEntity> List<T>.toVisualEntityGroup() =
-    ERectGroupMutable.ERectGroupImpl(this)
+fun <T : VisualEntity> List<T>.toVisualEntityGroup() : VisualEntityGroup<T> =
+    VisualEntityGroup.Companion.VisualEntityGroupImpl(ERectGroupMutable.ERectGroupImpl(this))
 

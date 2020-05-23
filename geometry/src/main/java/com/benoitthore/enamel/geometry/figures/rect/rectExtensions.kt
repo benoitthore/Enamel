@@ -70,7 +70,7 @@ operator fun ERect.plus(padding: EOffset) = expand(padding).ensureRect()
 
 fun List<HasBounds>.union(target: ERectMutable = E.RectMutable()): ERectMutable {
     if (isEmpty()) {
-        return E.RectMutable()
+        return target
     }
 
     var left = Float.MAX_VALUE

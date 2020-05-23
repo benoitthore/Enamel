@@ -33,13 +33,24 @@ interface ERectGroup<T : HasBounds> : HasBounds, List<T> {
 }
 
 interface ERectGroupMutable<T : CanSetBounds> : ERectGroup<T>, CanSetBounds {
+
+    /**
+     * Needs be called by the user whenever a change happens in one of the children,
+     * before calling any other function as they will use the previous state
+     *
+     * NOTE: Ideally, the ERectGroupMutable could:
+     * - listen for changes in its children
+     * - set a flag when one changes
+     * - call updateFrame() and set the flag to false whenever a get/set is called on one of the
+     *      primary fields: left top right bottom
+     *
+     */
     fun updateFrame()
 
-    // TODO Test
     override fun setCenter(x: Number, y: Number) {
         val xOff = x.f - frame.centerX
         val yOff = y.f - frame.centerY
-        offset(xOff, yOff)
+        selfOffset(xOff, yOff)
     }
 
     fun aligned(anchor: EPoint, position: EPoint) {
@@ -92,6 +103,7 @@ interface ERectGroupMutable<T : CanSetBounds> : ERectGroup<T>, CanSetBounds {
                     toHeight = toHeight
                 )
             }
+            updateFrame()
         }
     }
 }

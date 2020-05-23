@@ -32,5 +32,9 @@ internal class ELineMutableImpl internal constructor(
         return result
     }
 
+    override fun toString(): String {
+        return "Line(start=$start, end=$end)"
+    }
+
 
 }

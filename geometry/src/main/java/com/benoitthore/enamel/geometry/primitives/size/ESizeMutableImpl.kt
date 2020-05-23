@@ -21,5 +21,9 @@ internal class ESizeMutableImpl internal constructor(width: Number, height: Numb
         return result
     }
 
+    override fun toString(): String {
+        return "ESize(width=$width, height=$height)"
+    }
+
 
 }

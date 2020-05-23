@@ -16,6 +16,7 @@ internal class ERectMutableImpl internal constructor(
         allocateDebugMessage()
     }
 
+
     override val origin: EPointMutable = E.PointMutable(x, y)
     override val size: ESizeMutable = E.SizeMutable(width, height)
     override fun equals(other: Any?): Boolean {
@@ -32,6 +33,10 @@ internal class ERectMutableImpl internal constructor(
         var result = origin.hashCode()
         result = 31 * result + size.hashCode()
         return result
+    }
+
+    override fun toString(): String {
+        return "Rect(origin=$origin, size=$size)"
     }
 
 }

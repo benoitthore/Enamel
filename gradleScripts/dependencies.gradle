@@ -5,7 +5,7 @@ ext {
     okHttpVersion = '3.9.1'
     espressoVersion = '2.2.2'
     ankoVersion = '0.10.8'
-    retrofitVersion = '2.4.0'
+    retrofitVersion = '2.7.1'
     robolectricVersion = '3.5.1'
     mockitoVersion = '2.8.9'
     constraintLayout = '1.1.3'

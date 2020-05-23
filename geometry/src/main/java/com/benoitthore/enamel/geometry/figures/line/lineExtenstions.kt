@@ -11,12 +11,12 @@ import kotlin.math.*
 infix fun EPoint.line(end: EPoint) = E.Line(start = this, end = end)
 infix fun EPointMutable.line(end: EPointMutable) = E.LineMutable(start = this, end = end)
 
-fun List<EPoint>.toListOfLines(): List<ELine> {
-    val ret = mutableListOf<ELine>()
+fun List<EPoint>.toListOfLines(): List<ELineMutable> {
+    val ret = mutableListOf<ELineMutable>()
     forEachIndexed { i, curr ->
         if (i > 0) {
             val prev = get(i - 1)
-            ret.add(E.Line(prev, curr))
+            ret.add(E.LineMutable(prev, curr))
         }
     }
     return ret

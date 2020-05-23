@@ -12,7 +12,7 @@ internal class EPointMutableImpl internal constructor(x: Number, y: Number) :
     }
 
     override fun toString(): String {
-        return "point($x ; $y)"
+        return "Point($x ; $y)"
     }
 
     override fun equals(other: Any?): Boolean =

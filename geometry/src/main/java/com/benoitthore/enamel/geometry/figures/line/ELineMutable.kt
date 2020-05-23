@@ -22,7 +22,6 @@ interface ELineMutable : ELine,
         end.selfOffset(xOffset, yOffset)
     }
 
-    // TODO FIX
     override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         if (isTLBR) {
             start.set(left, top)

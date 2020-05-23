@@ -7,7 +7,9 @@ import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.interfaces.HasCenter
 
-interface HasBounds : HasCenter {
+interface EShape // add to geometry as mentioned on Trello
+
+interface HasBounds : HasCenter, EShape {
     val left: Float
     val top: Float
     val right: Float
