@@ -20,7 +20,6 @@ fun PApplet.drawVE(visualEntity: ProcessingVisualEntity) {
 
         visualEntity.style.fill?.color?.let { color ->
             if (color > 0xFFFFFF) TODO("Alpha not supported")
-            val color = 0xFF_00_00
 //          val a = (color shr 24 and 0xff).toFloat()
             val r = (color shr 16 and 0xff).toFloat()
             val g = (color shr 8 and 0xff).toFloat()
@@ -33,7 +32,6 @@ fun PApplet.drawVE(visualEntity: ProcessingVisualEntity) {
 
             border.mesh.color?.let { color ->
                 if (color > 0xFFFFFF) TODO("Alpha not supported")
-                val color = 0xFF_00_00
 //          val a = (color shr 24 and 0xff).toFloat()
                 val r = (color shr 16 and 0xff).toFloat()
                 val g = (color shr 8 and 0xff).toFloat()
@@ -41,6 +39,7 @@ fun PApplet.drawVE(visualEntity: ProcessingVisualEntity) {
 
                 stroke(r, g, b, 255f)
             }
+            visualEntity.style.border?.width?.let { strokeWeight(it) }
         }
 
         //TODO Shaders

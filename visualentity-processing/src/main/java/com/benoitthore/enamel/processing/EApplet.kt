@@ -25,7 +25,10 @@ class ESketch : PApplet() {
     private val rect: ERectVisualEntity by lazy {
         E.Rect(size = width / 2 size height / 2).toVisualEntity(
             style {
-                fillColor = 0xFF_0000
+                fillColor = 0x0096AE
+                borderWidth = 5f
+                borderColor = 0xff_ff_ff
+                borderWidth = 10
             }
         )
     }
@@ -37,11 +40,9 @@ class ESketch : PApplet() {
     override fun draw() {
         background(0)
 
-        rect.selfAlignInside(getBounds(),EAlignment.values().random())
+        rect.setCenter(mousePosition())
 
         drawVE(rect)
-
-        Thread.sleep(1000)
     }
 }
 

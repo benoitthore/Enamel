@@ -6,9 +6,11 @@ import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.oval.EOval
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import processing.core.PApplet
 import processing.core.PConstants
 
+fun PApplet.mousePosition(target: EPointMutable = E.PointMutable()) = target.set(mouseX, mouseY)
 fun PApplet.getBounds(target: ERectMutable = E.RectMutable()) = target.apply {
     target.setBounds(0, 0, this@getBounds.width, this@getBounds.height)
 }
