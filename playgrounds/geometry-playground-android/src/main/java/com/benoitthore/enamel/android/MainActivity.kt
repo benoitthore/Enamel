@@ -63,7 +63,7 @@ class TestView @JvmOverloads constructor(
 
     init {
         doOnNextLayout {
-            putShape(E.Point.half * getBounds().size)
+            putShape(E.Point.half * getViewBounds().size)
             putShape(E.Point.zero)
 
             rect.style = rect.style.copy(
@@ -82,7 +82,7 @@ class TestView @JvmOverloads constructor(
     }
 
     private fun putShape(position: EPoint) {
-        val bounds = getBounds().toImmutable()
+        val bounds = getViewBounds().toImmutable()
         bounds.scaleAnchor(0.5, 0.5, 0.5, target = rect)
         rect.setOriginSize(position.x, position.y)
         rect.innerCircle(circle).selfAlignOutside(rect, EAlignment.rightCenter, 16.dp)

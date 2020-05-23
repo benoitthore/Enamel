@@ -1,68 +1,54 @@
 package com.benoitthore.visualentity.style
 
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.circle.ECircle
-import com.benoitthore.enamel.geometry.figures.line.ELine
-import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
-import com.benoitthore.enamel.geometry.outerRect
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
-import com.benoitthore.enamel.geometry.primitives.point.point
-import com.benoitthore.enamel.geometry.toMutable
 
 
-fun EMesh.toBorder(width: Number) = EStyle.Border(this, width.toFloat())
+inline fun style(crossinline block: StyleBuilder.() -> Unit): EStyle =
+    StyleBuilder().apply(block).build()
 
-fun EMesh.toShadow(n: Number) = toShadow(n point n)
-fun EMesh.toShadow(xOff: Number, yOff: Number) = toShadow(xOff point yOff)
-fun EMesh.toShadow(offset: EPoint) = toShadow(offset.toMutable())
-fun EMesh.toShadow(offset: EPointMutable) = EStyle.Shadow(this, offset)
+class StyleBuilder {
 
+    var fillColor: Int? = null
+    var fillShader: EShader? = null
+    var borderColor: Int? = null
+    var borderShader: EShader? = null
+    var borderWidth: Number = 1f
 
-fun ELine.toShader(vararg colors: Int, resetOrigin: Boolean = true) =
-    toShader(colors.toList(), resetOrigin = resetOrigin)
+    var shadowPositionY: Float
+        get() = shadowPosition.y
+        set(value) {
+            _shadowPosition.y = value.toFloat()
+        }
 
-fun ECircle.toShader(vararg colors: Int, resetOrigin: Boolean = true) =
-    toShader(colors.toList(), resetOrigin = resetOrigin)
+    val shadowPosition: EPoint get() = _shadowPosition
 
-fun ELine.toShader(
-    colors: List<Int>,
-    stops: List<Float>? = null,
-    shaderMode: EShader.ShaderTileMode = EShader.ShaderTileMode.CLAMP,
-    resetOrigin: Boolean = true
-) =
-    EShader(
-        shaderType = EShader.ShaderType.Linear(
-            toMutable().apply {
-                if (resetOrigin) {
-                    setOriginSize(0, 0)
-                }
-            }
-        ),
-        shaderMode = shaderMode,
-        colors = colors,
-        stops = stops,
-        //
-        // TODO Change to RectCorners when function is implemented
-        frame = E.RectMutableCorners(start, end)
+    private var _shadowPosition: EPointMutable = E.PointMutable()
+
+    fun build(): EStyle = EStyle(
+        fill = buildFillMesh(),
+        border = buildBorder(),
+        shadow = buildShadow()
     )
 
-fun ECircle.toShader(
-    colors: List<Int>,
-    stops: List<Float>? = null,
-    shaderMode: EShader.ShaderTileMode = EShader.ShaderTileMode.CLAMP,
-    resetOrigin: Boolean = true
-) =
-    EShader(
-        shaderType = EShader.ShaderType.Radial(
-            toMutable().apply {
-                if (resetOrigin) {
-                    setOriginSize(0, 0)
-                }
-            }
-        ),
-        shaderMode = shaderMode,
-        colors = colors,
-        stops = stops,
-        frame = outerRect()
-    )
+
+    private fun buildFillMesh(): EMesh? =
+        if (fillColor == null && fillShader == null) {
+            null
+        } else {
+            EMesh(color = fillColor, shader = fillShader)
+        }
+
+    private fun buildBorder(): EStyle.Border? =
+        if (borderColor == null && borderShader == null) {
+            null
+        } else {
+            EStyle.Border(
+                mesh = EMesh(color = borderColor, shader = borderShader),
+                width = borderWidth.toFloat()
+            )
+        }
+
+    private fun buildShadow(): EStyle.Shadow? = null //TODO
+}

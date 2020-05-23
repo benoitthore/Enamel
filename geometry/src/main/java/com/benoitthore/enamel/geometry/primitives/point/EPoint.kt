@@ -24,8 +24,8 @@ interface EPoint : Tuple2 {
     fun copy(x: Number = this.x, y: Number = this.y, target: EPointMutable = E.PointMutable()) =
         target.set(x, y)
 
-    val magnitude: Number
-        get() = hypot(x.d, y.d)
+    val magnitude: Float
+        get() = hypot(x.d, y.d).toFloat()
 
     fun heading(target: EAngleMutable = E.AngleMutable()) =
         target.set(atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)

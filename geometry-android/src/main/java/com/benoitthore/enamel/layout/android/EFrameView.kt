@@ -25,7 +25,7 @@ open class EFrameView @JvmOverloads constructor(
     }
 }
 
-fun View.getBounds(target: ERectMutable = E.RectMutable()) = target.setBounds(this)
+fun View.getViewBounds(target: ERectMutable = E.RectMutable()) = target.setBounds(this)
 
 // Use these functions if you don't want to extend EFrameView
 fun ERectMutable.setBounds(view: View): ERectMutable = apply { set(0, 0, view.width, view.height) }

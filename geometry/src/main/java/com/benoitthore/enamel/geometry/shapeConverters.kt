@@ -72,7 +72,7 @@ fun ECircle.toListOfPoint(
         MutableList(numberOfPoint) { E.PointMutable() }, startAt
     )
 
-fun EPoint.toCircle(radius: Number, target: ECircleMutable = E.CircleMutable()): ECircleMutable {
+fun EPoint.toCircle(radius: Number = 0f, target: ECircleMutable = E.CircleMutable()): ECircleMutable {
     target.center.set(this)
     target.radius = radius.f
     return target
