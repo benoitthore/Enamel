@@ -7,17 +7,17 @@ interface EStyleable {
 }
 
 data class EStyle(
-    val fill: Mesh? = null,
+    val fill: EMesh? = null,
     val border: Border? = null,
     val shadow: Shadow? = null
 ) {
-    data class Shadow(val mesh: Mesh, val position: EPointMutable)
-    data class Border(val mesh: Mesh, var width: Float) {
-        constructor(color: Int, width: Float) : this(Mesh(color = color), width)
+    data class Shadow(val mesh: EMesh, val position: EPointMutable)
+    data class Border(val mesh: EMesh, var width: Float) {
+        constructor(color: Int, width: Float) : this(EMesh(color = color), width)
     }
 }
 
-data class Mesh(
+data class EMesh(
     var color: Int? = null,
     val shader: EShader? = null
 )

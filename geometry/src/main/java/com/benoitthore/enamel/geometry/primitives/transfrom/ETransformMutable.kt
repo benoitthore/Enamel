@@ -9,5 +9,4 @@ interface ETransformMutable : ETransform {
     override val scale: EPointMutable
     override val scalePivot: EPointMutable
     override val translation: EPointMutable
-
 }

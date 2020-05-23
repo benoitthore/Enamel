@@ -24,12 +24,9 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.times
 import com.benoitthore.enamel.layout.android.*
 import com.benoitthore.visualentity.draw
-import com.benoitthore.visualentity.style.Mesh
+import com.benoitthore.visualentity.style.EMesh
 import com.benoitthore.visualentity.style.toShader
 import com.benoitthore.visualentity.toVisualEntity
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 inline val Number.dp get() = toFloat() * Resources.getSystem().displayMetrics.density
@@ -70,10 +67,10 @@ class TestView @JvmOverloads constructor(
             putShape(E.Point.zero)
 
             rect.style = rect.style.copy(
-                fill = Mesh(shader = rect.diagonalTLBR().toShader(BLUE, WHITE, RED))
+                fill = EMesh(shader = rect.diagonalTLBR().toShader(BLUE, WHITE, RED))
             )
             circle.style = rect.style.copy(
-                fill = Mesh(shader = (circle.innerRect().innerCircle().diagonalTLBR()).toShader(BLUE, WHITE, RED))
+                fill = EMesh(shader = (circle.innerRect().innerCircle().diagonalTLBR()).toShader(BLUE, WHITE, RED))
             )
         }
 

@@ -10,6 +10,9 @@ interface EOval : ERect {
     val rx: Float
     val ry: Float
 
+    val x: Float get() = centerX
+    val y: Float get() = centerY
+
     override val centerX: Float
         get() = center.x
     override val centerY: Float

@@ -42,6 +42,9 @@ dependencies {
 
     implementation(project(':core'))
     implementation(project(':geometry'))
+    implementation(project(':visualentity'))
+    implementation('org.processing:core:3.3.6')
+
 
     // JUnit
     testImplementation junit.junit
@@ -75,11 +78,6 @@ compileTestKotlin {
         jvmTarget = "1.8"
     }
 }
-
-
-
-
-
 
 
 /////

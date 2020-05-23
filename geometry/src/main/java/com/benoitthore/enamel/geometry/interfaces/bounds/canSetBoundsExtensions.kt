@@ -21,6 +21,17 @@ fun <T : CanSetBounds> T.setOriginSize(
     bottom = originY.f + height.f
 )
 
+fun <T : CanSetBounds> T.setOrigin(
+    originX: Number = this.originX, originY: Number = this.originY
+) = setBounds(
+    left = originX,
+    top = originY,
+    right = originX.f + width.f,
+    bottom = originY.f + height.f
+)
+
+fun <T : CanSetBounds> T.setOrigin(origin: EPoint) = setOrigin(origin.x, origin.y)
+
 fun CanSetBounds.ensureRect(target: ERectMutable = E.RectMutable()): ERect =
     if (this is ERect) this else getBounds(target)
 
