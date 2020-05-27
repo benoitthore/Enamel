@@ -1,9 +1,8 @@
 package com.benoitthore.enamel.geometry.interfaces.bounds
 
-import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.interfaces.CanSetCenter
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
-interface CanSetBounds : HasBounds, CanSetCenter {
+interface CanSetBounds : HasBounds {
 
     fun setBounds(
         left: Number = this.left,
@@ -33,4 +32,7 @@ interface CanSetBounds : HasBounds, CanSetCenter {
             )
 
         }
+
+    fun setCenter(x: Number, y: Number)
+    fun setCenter(center: EPoint) = setCenter(center.x, center.y)
 }

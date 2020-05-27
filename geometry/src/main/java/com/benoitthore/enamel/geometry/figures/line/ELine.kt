@@ -5,7 +5,6 @@ import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
-import com.benoitthore.enamel.geometry.interfaces.HasCenter
 import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
 import com.benoitthore.enamel.geometry.primitives.angle.degrees
 import com.benoitthore.enamel.geometry.primitives.angle.radians
@@ -23,8 +22,7 @@ import kotlin.math.min
 /*
 TODO Make allocation free
  */
-interface ELine : ELinearFunction, ESVG, HasCenter,
-    HasBounds {
+interface ELine : ELinearFunction, ESVG, HasBounds {
 
     val start: EPoint
     val end: EPoint

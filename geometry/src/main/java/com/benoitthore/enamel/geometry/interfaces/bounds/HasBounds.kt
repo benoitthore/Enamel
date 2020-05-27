@@ -5,11 +5,11 @@ import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
-import com.benoitthore.enamel.geometry.interfaces.HasCenter
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
 interface EShape // add to geometry as mentioned on Trello
 
-interface HasBounds : HasCenter, EShape {
+interface HasBounds : EShape {
     val left: Float
     val top: Float
     val right: Float
@@ -24,4 +24,10 @@ interface HasBounds : HasCenter, EShape {
         target.set(originX, originY, width, height)
 
     fun getSize(target: ESizeMutable = E.SizeMutable()): ESize = target.set(width, height)
+
+    fun getCenter(target: EPointMutable = E.PointMutable()): EPointMutable =
+        target.set(centerX, centerY)
+
+    val centerX: Float
+    val centerY: Float
 }

@@ -3,14 +3,10 @@ package com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.interfaces.bounds.CanSetBounds
-import com.benoitthore.enamel.geometry.interfaces.CanSetCenter
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
-interface ELineMutable : ELine,
-    CanSetBounds,
-    CanSetCenter,
-    Resetable {
+interface ELineMutable : ELine, CanSetBounds, Resetable {
 
     override val start: EPointMutable
     override val end: EPointMutable
