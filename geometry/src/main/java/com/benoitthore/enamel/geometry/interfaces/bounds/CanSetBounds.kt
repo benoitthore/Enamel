@@ -2,7 +2,7 @@ package com.benoitthore.enamel.geometry.interfaces.bounds
 
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
-interface CanSetBounds : HasBounds {
+interface CanSetBounds<M : EShape<M, I>, I : EShapeMutable<M, I>> : HasBounds<M, I> {
 
     fun setBounds(
         left: Number = this.left,

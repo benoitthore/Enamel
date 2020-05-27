@@ -7,9 +7,17 @@ import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
-interface EShape // add to geometry as mentioned on Trello
+/*
+<M : EShape<M, I>, I : EShapeMutable<M, I>>
+ */
+interface EShape<M : EShape<M, I>, I : EShapeMutable<M, I>> {
+    fun toMutable(): M
+    fun toImmutable(): I
+}
 
-interface HasBounds : EShape {
+interface EShapeMutable<M : EShape<M, I>, I : EShapeMutable<M, I>> : EShape<M, I>
+
+interface HasBounds<M : EShape<M, I>, I : EShapeMutable<M, I>> : EShape<M,I> {
     val left: Float
     val top: Float
     val right: Float

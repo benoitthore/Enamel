@@ -7,7 +7,7 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
-interface ERect : ESVG, HasBounds {
+interface ERect : ESVG, HasBounds<ERect,ERectMutable> {
 
     val origin: EPoint
     val size: ESize
