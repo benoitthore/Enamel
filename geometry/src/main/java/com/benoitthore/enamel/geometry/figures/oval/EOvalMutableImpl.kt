@@ -11,8 +11,7 @@ internal class EOvalMutableImpl(
     cy: Number,
     override var rx: Float,
     override var ry: Float
-) :
-    EOvalMutable, ERectMutable by E.RectMutable() {
+) : EOvalMutable {
 
     init {
         setCenter(cx, cy)
@@ -43,6 +42,22 @@ internal class EOvalMutableImpl(
         result = 31 * result + ry.hashCode()
         result = 31 * result + _center.hashCode()
         return result
+    }
+
+    override fun toMutable(): EOval {
+        TODO("Not yet implemented")
+    }
+
+    override fun toImmutable(): EOvalMutable {
+        TODO("Not yet implemented")
+    }
+
+    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+        TODO("Not yet implemented")
+    }
+
+    override fun setCenter(x: Number, y: Number) {
+        TODO("Not yet implemented")
     }
 
 

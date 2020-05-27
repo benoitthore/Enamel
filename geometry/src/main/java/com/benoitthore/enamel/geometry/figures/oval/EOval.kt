@@ -1,10 +1,13 @@
 package com.benoitthore.enamel.geometry.figures.oval
 
 import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
-interface EOval : ERect {
+interface EOval : ESVG, HasBounds<EOval, EOvalMutable> {
 
     val center: EPoint
     val rx: Float

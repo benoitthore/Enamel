@@ -1,18 +1,21 @@
 package com.benoitthore.enamel.geometry.figures.oval
 
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.Resetable
+import com.benoitthore.enamel.geometry.interfaces.bounds.CanSetBounds
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShapeMutable
 
-interface EOvalMutable : EOval, ERectMutable {
+interface EOvalMutable : EOval, Resetable,
+    CanSetBounds<EOval, EOvalMutable>, EShapeMutable<EOval,EOvalMutable> {
 
     override var ry: Float
-        get() = size.height / 2f
+        get() = TODO()
         set(value) {
-            size.height = value / 2f
+            TODO()
         }
     override var rx: Float
-        get() = size.width / 2f
+        get() = TODO()
         set(value) {
-            size.width = value / 2f
+            TODO()
         }
 
     override fun reset() {
