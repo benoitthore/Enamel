@@ -54,7 +54,7 @@ fun List<ESize>.rectGroupJustified(
     toFit: Number,
     anchor: EPoint = E.Point.zero,
     position: EPoint = E.Point.zero
-): ERectGroupMutable<ERectMutable> {
+): ERectGroupMutable<*,*,*> {
     val pack = rectGroup(alignment)
     val packedSpace = if (alignment.isHorizontal) pack.width else pack.height
     val spacing = if (pack.size > 1) (toFit.f - packedSpace) / (pack.size - 1) else 0f

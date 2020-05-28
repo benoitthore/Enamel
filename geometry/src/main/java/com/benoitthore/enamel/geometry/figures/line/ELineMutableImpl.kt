@@ -3,6 +3,8 @@ package com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+import kotlin.math.max
+import kotlin.math.min
 
 internal class ELineMutableImpl internal constructor(
     x1: Number = 0,
@@ -13,6 +15,17 @@ internal class ELineMutableImpl internal constructor(
     init {
         allocateDebugMessage()
     }
+
+    override val left: Float
+        get() = min(start.x, end.x)
+    override val top: Float
+        get() = min(start.y, end.y)
+    override val right: Float
+        get() = max(start.x, end.x)
+    override val bottom: Float
+        get() = max(start.y, end.y)
+
+
 
     override val start: EPointMutable = E.PointMutable(x1, y1)
     override val end: EPointMutable = E.PointMutable(x2, y2)
@@ -36,5 +49,22 @@ internal class ELineMutableImpl internal constructor(
         return "Line(start=$start, end=$end)"
     }
 
+    override fun toMutable(): ELine {
+        TODO("Not yet implemented")
+    }
+
+    override fun toImmutable(): ELineMutable {
+        TODO("Not yet implemented")
+    }
+
+    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+        if (isTLBR) {
+            start.set(left, top)
+            end.set(right, bottom)
+        } else {
+            start.set(right, top)
+            end.set(left, bottom)
+        }
+    }
 
 }

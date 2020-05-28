@@ -16,4 +16,11 @@ interface CircleBuilder : PointBuilder, BaseBuilder {
 
     fun Circle(center: EPoint = Point(), radius: Number = 0f): ECircle =
         CircleMutable(center, radius)
+
+
+    fun CircleMutable(other: ECircle): ECircleMutable =
+        CircleMutable(other.center.x, other.center.y, other.radius)
+
+    fun Circle(other: ECircle): ECircle =
+        CircleMutable(other.center, other.radius)
 }

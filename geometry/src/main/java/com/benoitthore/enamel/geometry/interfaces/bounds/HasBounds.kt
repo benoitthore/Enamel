@@ -3,6 +3,7 @@ package com.benoitthore.enamel.geometry.interfaces.bounds
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
@@ -10,14 +11,19 @@ import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 /*
 <M : EShape<M, I>, I : EShapeMutable<M, I>>
  */
-interface EShape<M : EShape<M, I>, I : EShapeMutable<M, I>> {
+interface EShape<I, M> where I : EShape<I, M>, M : EShapeMutable<I, M> {
     fun toMutable(): M
     fun toImmutable(): I
 }
 
-interface EShapeMutable<M : EShape<M, I>, I : EShapeMutable<M, I>> : EShape<M, I>
+interface EShapeMutable<I, M> : EShape<I, M> where I : EShape<I, M>, M : EShapeMutable<I, M>
 
-interface HasBounds<M : EShape<M, I>, I : EShapeMutable<M, I>> : EShape<M,I> {
+/**
+left,top,right,bottom must be implemented in a class, not an interface
+
+ */
+//interface HasBounds<M : EShape<M, I>, I : EShapeMutable<M, I>> : EShape<M, I> {
+interface HasBounds<I, M> : EShapeMutable<I, M> where I : EShape<I, M>, M : EShapeMutable<I, M> {
     val left: Float
     val top: Float
     val right: Float
@@ -28,6 +34,10 @@ interface HasBounds<M : EShape<M, I>, I : EShapeMutable<M, I>> : EShape<M,I> {
     val width: Float get() = right - left
     val height: Float get() = bottom - top
 
+    val centerX: Float get() = originX + width / 2
+    val centerY: Float get() = originY + height / 2
+    val center: EPoint get() = E.Point(centerX, centerY)
+
     fun getBounds(target: ERectMutable = E.RectMutable()): ERect =
         target.set(originX, originY, width, height)
 
@@ -36,6 +46,5 @@ interface HasBounds<M : EShape<M, I>, I : EShapeMutable<M, I>> : EShape<M,I> {
     fun getCenter(target: EPointMutable = E.PointMutable()): EPointMutable =
         target.set(centerX, centerY)
 
-    val centerX: Float
-    val centerY: Float
+
 }

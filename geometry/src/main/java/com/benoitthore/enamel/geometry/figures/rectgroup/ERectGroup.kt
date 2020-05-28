@@ -15,24 +15,17 @@ import com.benoitthore.enamel.geometry.figures.rect.union
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
 import javax.swing.text.html.CSS
 
-interface ERectGroup<T : HasBounds> : HasBounds, List<T> {
+/**
+ * TODO
+ * Okay that's too much, let's find a better way
+ */
+interface ERectGroup<T, I, M> : HasBounds<I, M>,
+    List<T> where  T : HasBounds<I, M>, I : EShape<I, M>, M : EShapeMutable<I, M> {
     val frame: ERect
-
-    override val left: Float
-        get() = frame.left
-    override val top: Float
-        get() = frame.top
-    override val right: Float
-        get() = frame.right
-    override val bottom: Float
-        get() = frame.bottom
-    override val centerX: Float
-        get() = frame.centerX
-    override val centerY: Float
-        get() = frame.centerY
 }
 
-interface ERectGroupMutable<T : CanSetBounds> : ERectGroup<T>, CanSetBounds {
+interface ERectGroupMutable<T, I, M> : ERectGroup<T, I, M>, CanSetBounds<I, M>,
+    List<T> where  T : HasBounds<I, M>, I : EShape<I, M>, M : EShapeMutable<I, M> {
 
     /**
      * Needs be called by the user whenever a change happens in one of the children,
@@ -47,23 +40,8 @@ interface ERectGroupMutable<T : CanSetBounds> : ERectGroup<T>, CanSetBounds {
      */
     fun updateFrame()
 
-    override fun setCenter(x: Number, y: Number) {
-        val xOff = x.f - frame.centerX
-        val yOff = y.f - frame.centerY
-        selfOffset(xOff, yOff)
-    }
-
-    fun aligned(anchor: EPoint, position: EPoint) {
-        val pointAtAnchor = frame.pointAtAnchor(anchor)
-
-        val offsetX = position.x - pointAtAnchor.x
-        val offsetY = position.y - pointAtAnchor.y
-
-        selfOffset(offsetX, offsetY)
-    }
-
-    class ERectGroupImpl<T : CanSetBounds>(rects: List<T>) : ERectGroupMutable<T>,
-        List<T> by rects {
+    class ERectGroupImpl<T, I, M>(rects: List<T>) : ERectGroupMutable<T, I, M>, List<T> by rects
+            where T : HasBounds<I, M>, I : EShape<I, M>, M : EShapeMutable<I, M> {
 
         private val _frame = E.RectMutable()
 
@@ -74,9 +52,32 @@ interface ERectGroupMutable<T : CanSetBounds> : ERectGroup<T>, CanSetBounds {
             updateFrame()
         }
 
+        override fun toMutable(): M = TODO()
+
+        override fun toImmutable(): I = TODO()
+
         override fun updateFrame() {
             union(target = _frame)
         }
+
+        override val left: Float
+            get() = frame.left
+        override val top: Float
+            get() = frame.top
+        override val right: Float
+            get() = frame.right
+        override val bottom: Float
+            get() = frame.bottom
+        override var centerX: Float
+            get() = frame.centerX
+            set(value) {
+                TODO()
+            }
+        override var centerY: Float
+            get() = frame.centerY
+            set(value) {
+                TODO()
+            }
 
         override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
             val fromX = frame.originX
@@ -105,6 +106,10 @@ interface ERectGroupMutable<T : CanSetBounds> : ERectGroup<T>, CanSetBounds {
             }
             updateFrame()
         }
+
+
     }
+
+
 }
 

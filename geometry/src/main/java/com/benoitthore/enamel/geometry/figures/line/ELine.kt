@@ -15,14 +15,12 @@ import com.benoitthore.enamel.geometry.primitives.point._angleTo
 import com.benoitthore.enamel.geometry.primitives.point._offsetAngle
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
-import kotlin.math.max
-import kotlin.math.min
 
 
 /*
 TODO Make allocation free
  */
-interface ELine : ELinearFunction, ESVG, HasBounds {
+interface ELine : ELinearFunction, ESVG,  HasBounds<ELine,ELineMutable> {
 
     val start: EPoint
     val end: EPoint
@@ -47,20 +45,6 @@ interface ELine : ELinearFunction, ESVG, HasBounds {
 
     override val yIntercept: Float
         get() = start.y - a * start.x
-
-    override val centerX: Float
-        get() = (start.x + end.x) / 2
-    override val centerY: Float
-        get() = (start.y + end.y) / 2
-
-    override val left: Float
-        get() = min(start.x, end.x)
-    override val top: Float
-        get() = min(start.y, end.y)
-    override val right: Float
-        get() = max(start.x, end.x)
-    override val bottom: Float
-        get() = max(start.y, end.y)
 
     val isTLBR get() = (start.x < end.x && start.y < end.y) || (end.x < start.x && end.y < start.y)
     val isBRTL get() = !isTLBR
@@ -104,11 +88,9 @@ interface ELine : ELinearFunction, ESVG, HasBounds {
 
     fun isParallel(other: ELineMutable) = angleRadians == angleRadians
 
-    fun center(target: EPointMutable) = pointAt(0.5f, target = target)
-
     fun rotate(
         offsetAngle: EAngleMutable,
-        around: EPoint = center(E.PointMutable()),
+        around: EPoint = getCenter(E.PointMutable()),
         target: ELineMutable
     ): ELineMutable {
         start.rotateAround(offsetAngle, around, target = target.start)
@@ -116,7 +98,7 @@ interface ELine : ELinearFunction, ESVG, HasBounds {
         return target
     }
 
-    fun expanded(distance: Number, from: Number = 0f, target: ELineMutable): ELineMutable {
+    fun expand(distance: Number, from: Number = 0f, target: ELineMutable): ELineMutable {
         val from = from.toFloat()
         pointAt(from, target = target.start)
         extrapolateFrom(distance, from.opposite(), target = target.end)

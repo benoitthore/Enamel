@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.geometry.figures.rect
 
+import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
@@ -10,10 +11,30 @@ internal class ERectMutableImpl internal constructor(
     y: Number,
     width: Number,
     height: Number
-) :
-    ERectMutable {
+) : ERectMutable {
+
     init {
         allocateDebugMessage()
+    }
+
+    override val top: Float
+        get() = origin.y
+    override val bottom: Float
+        get() = top + height
+
+    override val left: Float
+        get() = origin.x
+    override val right: Float
+        get() = origin.x + width
+
+
+    override fun toMutable(): ERect = E.Rect(this)
+
+    override fun toImmutable(): ERectMutable = E.RectMutable(this)
+
+    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+        origin.set(x = left, y = top)
+        size.set(width = right.f - left.f, height = bottom.f - top.f)
     }
 
 

@@ -8,8 +8,8 @@ import com.benoitthore.enamel.geometry.interfaces.bounds.CanSetBounds
 import com.benoitthore.enamel.geometry.interfaces.bounds.EShapeMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
-interface ERectMutable : ERect, Resetable,
-    CanSetBounds<ERect, ERectMutable>, EShapeMutable<ERect,ERectMutable> {
+interface ERectMutable : ERect, CanSetBounds<ERect, ERectMutable>, EShapeMutable<ERect,ERectMutable> {
+
     override val origin: EPointMutable
     override val size: ESizeMutable
 
@@ -28,12 +28,5 @@ interface ERectMutable : ERect, Resetable,
         E.RectMutableCenter(x, y, width, height, target = this)
     }
 
-    override fun reset() {
-        origin.reset(); size.reset()
-    }
 
-    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
-        origin.set(left, top)
-        size.set(width = right.f - left.f, height = bottom.f - top.f)
-    }
 }
