@@ -13,19 +13,19 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
-fun HasBounds.toRect(target: ERectMutable = E.RectMutable()): ERect = target.set(this)
+fun HasBounds<*, *>.toRect(target: ERectMutable = E.RectMutable()): ERect = target.set(this)
 
 // contains Point
-fun HasBounds.contains(x: Number, y: Number) = contains(x, y, 0, 0)
+fun HasBounds<*, *>.contains(x: Number, y: Number) = contains(x, y, 0, 0)
 
-fun HasBounds.contains(p: EPoint) = contains(p.x, p.y)
+fun HasBounds<*, *>.contains(p: EPoint) = contains(p.x, p.y)
 
 // contains Circle: When dealing with circles, use x and y as center
-fun HasBounds.contains(p: EPoint, radius: Number): Boolean = contains(p.x, p.y, radius)
+fun HasBounds<*, *>.contains(p: EPoint, radius: Number): Boolean = contains(p.x, p.y, radius)
 
-fun HasBounds.contains(c: ECircle): Boolean = contains(c.center, c.radius)
+fun HasBounds<*, *>.contains(c: ECircle): Boolean = contains(c.center, c.radius)
 
-fun HasBounds.contains(x: Number, y: Number, radius: Number): Boolean =
+fun HasBounds<*, *>.contains(x: Number, y: Number, radius: Number): Boolean =
     radius.f.let { radius ->
         contains(
             x.f - radius,
@@ -36,12 +36,12 @@ fun HasBounds.contains(x: Number, y: Number, radius: Number): Boolean =
     }
 
 // contains Rect
-fun HasBounds.contains(other: ERect) = contains(other.origin, other.size)
+fun HasBounds<*, *>.contains(other: ERect) = contains(other.origin, other.size)
 
-fun HasBounds.contains(origin: EPoint, size: ESize) =
+fun HasBounds<*, *>.contains(origin: EPoint, size: ESize) =
     contains(origin.x, origin.y, size.width, size.height)
 
-fun HasBounds.contains(x: Number, y: Number, width: Number, height: Number): Boolean {
+fun HasBounds<*, *>.contains(x: Number, y: Number, width: Number, height: Number): Boolean {
     val x = x.f
     val y = y.f
     val width = width.f
@@ -49,12 +49,13 @@ fun HasBounds.contains(x: Number, y: Number, width: Number, height: Number): Boo
     return x >= left && x + width < right && y >= top && y + height < bottom
 }
 
-fun HasBounds.containsFull(p: EPoint, radius: Number): Boolean = containsFull(p.x, p.y, radius)
+fun HasBounds<*, *>.containsFull(p: EPoint, radius: Number): Boolean =
+    containsFull(p.x, p.y, radius)
 
-fun HasBounds.containsFull(c: ECircle): Boolean = containsFull(c.center, c.radius)
+fun HasBounds<*, *>.containsFull(c: ECircle): Boolean = containsFull(c.center, c.radius)
 
 // TODO The functions considers the circle to be a square which doesn't work on the edges
-fun HasBounds.containsFull(x: Number, y: Number, radius: Number): Boolean =
+fun HasBounds<*, *>.containsFull(x: Number, y: Number, radius: Number): Boolean =
     radius.f.let { radius ->
         containsFull(
             x.f - radius,
@@ -64,13 +65,13 @@ fun HasBounds.containsFull(x: Number, y: Number, radius: Number): Boolean =
         )
     }
 
-fun HasBounds.containsFull(other: HasBounds) =
+fun HasBounds<*, *>.containsFull(other: HasBounds<*, *>) =
     contains(other.originX, other.originY, other.width, other.height)
 
-fun HasBounds.containsFull(origin: EPoint, size: ESize) =
+fun HasBounds<*, *>.containsFull(origin: EPoint, size: ESize) =
     containsFull(origin.x, origin.y, size.width, size.height)
 
-fun HasBounds.containsFull(x: Number, y: Number, width: Number, height: Number): Boolean {
+fun HasBounds<*, *>.containsFull(x: Number, y: Number, width: Number, height: Number): Boolean {
     val x = x.f
     val y = y.f
     val width = width.f
@@ -81,14 +82,14 @@ fun HasBounds.containsFull(x: Number, y: Number, width: Number, height: Number):
 
 
 //intersects
-fun HasBounds.intersects(other: ERect) = intersects(
+fun HasBounds<*, *>.intersects(other: ERect) = intersects(
     top = other.top,
     left = other.left,
     right = other.right,
     bottom = other.bottom
 )
 
-fun HasBounds.intersects(
+fun HasBounds<*, *>.intersects(
     left: Number, top: Number, right: Number,
     bottom: Number
 ): Boolean {
@@ -106,22 +107,22 @@ fun HasBounds.intersects(
 
 
 // Points
-fun HasBounds.pointAtAnchor(
+fun HasBounds<*, *>.pointAtAnchor(
     x: Number,
     y: Number,
     target: EPointMutable = E.PointMutable()
 ): EPointMutable =
     target.set(x = pointAtAnchorX(x), y = pointAtAnchorY(y))
 
-fun HasBounds.pointAtAnchor(anchor: EPoint, target: EPointMutable = E.PointMutable()) =
+fun HasBounds<*, *>.pointAtAnchor(anchor: EPoint, target: EPointMutable = E.PointMutable()) =
     pointAtAnchor(anchor.x, anchor.y, target)
 
-internal fun HasBounds.pointAtAnchorX(x: Number) = this.originX.f + width * x.f
-internal fun HasBounds.pointAtAnchorY(y: Number) = this.originY.f + height * y.f
-internal fun HasBounds.anchorAtPointX(x: Number) = if (width == 0f) .5f else x.f / width
-internal fun HasBounds.anchorAtPointY(y: Number) = if (height == 0f) .5f else y.f / height
+internal fun HasBounds<*, *>.pointAtAnchorX(x: Number) = this.originX.f + width * x.f
+internal fun HasBounds<*, *>.pointAtAnchorY(y: Number) = this.originY.f + height * y.f
+internal fun HasBounds<*, *>.anchorAtPointX(x: Number) = if (width == 0f) .5f else x.f / width
+internal fun HasBounds<*, *>.anchorAtPointY(y: Number) = if (height == 0f) .5f else y.f / height
 
-fun HasBounds.anchorAtPoint(
+fun HasBounds<*, *>.anchorAtPoint(
     x: Number,
     y: Number,
     target: EPointMutable = E.PointMutable()
@@ -131,115 +132,24 @@ fun HasBounds.anchorAtPoint(
     return target.set(x, y)
 }
 
-fun HasBounds.center(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun HasBounds<*, *>.center(target: EPointMutable = E.PointMutable()): EPointMutable =
     pointAtAnchor(0.5f, 0.5f, target)
 
-fun HasBounds.topLeft(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun HasBounds<*, *>.topLeft(target: EPointMutable = E.PointMutable()): EPointMutable =
     pointAtAnchor(0f, 0f, target)
 
-fun HasBounds.topRight(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun HasBounds<*, *>.topRight(target: EPointMutable = E.PointMutable()): EPointMutable =
     pointAtAnchor(1f, 0.0f, target)
 
-fun HasBounds.bottomRight(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun HasBounds<*, *>.bottomRight(target: EPointMutable = E.PointMutable()): EPointMutable =
     pointAtAnchor(1f, 1f, target)
 
-fun HasBounds.bottomLeft(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun HasBounds<*, *>.bottomLeft(target: EPointMutable = E.PointMutable()): EPointMutable =
     pointAtAnchor(0f, 1f, target)
 
 
-// Changing
-fun HasBounds.offset(p: Tuple2, target: CanSetBounds = E.RectMutable()): CanSetBounds =
-    offset(p.v1, p.v2, target)
-
-fun HasBounds.offset(
-    x: Number = 0,
-    y: Number = 0,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds {
-    target.set(originX + x.f, originY + y.f, width, height)
-    return target
-}
-
-// TODO Expand/Inset/Padding -> align
-fun HasBounds.inset(margin: Number, target: CanSetBounds = E.RectMutable()) =
-    inset(margin, margin, target)
-
-fun HasBounds.inset(p: Tuple2, target: CanSetBounds = E.RectMutable()) = inset(p.v1, p.v2, target)
-fun HasBounds.inset(
-    x: Number = 0,
-    y: Number = 0,
-    target: CanSetBounds = E.RectMutable()
-) = inset(left = x, top = y, right = x, bottom = y, target = target)
-
-fun HasBounds.inset(
-    left: Number = 0,
-    top: Number = 0,
-    right: Number = 0,
-    bottom: Number = 0,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds {
-    target.setBounds(
-        left = this.left + left.toFloat(),
-        top = this.top + top.toFloat(),
-        bottom = this.bottom - bottom.toFloat(),
-        right = this.right - right.toFloat()
-    )
-    return target
-}
-
-fun HasBounds.expand(margin: Number, target: CanSetBounds = E.RectMutable()) =
-    expand(margin, margin, target)
-
-fun HasBounds.expand(p: Tuple2, target: CanSetBounds = E.RectMutable()) = expand(p.v1, p.v2, target)
-fun HasBounds.expand(x: Number = 0f, y: Number = 0f, target: CanSetBounds = E.RectMutable()) =
-    inset(-x.f, -y.f, target)
-
-fun HasBounds.expand(
-    left: Number = 0,
-    top: Number = 0,
-    right: Number = 0,
-    bottom: Number = 0,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds = inset(
-    left = -left.toFloat(),
-    top = -top.toFloat(),
-    right = -right.toFloat(),
-    bottom = -bottom.toFloat(),
-    target = target
-)
-
-fun HasBounds.expand(padding: EOffset, target: CanSetBounds = E.RectMutable()) = expand(
-    left = padding.left,
-    top = padding.top,
-    right = padding.right,
-    bottom = padding.bottom,
-    target = target
-)
-
-fun HasBounds.padding(
-    top: Number = this.top,
-    bottom: Number = this.bottom,
-    left: Number = this.left,
-    right: Number = this.right,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds = target.inset(
-    left = left,
-    top = top,
-    bottom = bottom,
-    right = right
-)
-
-fun HasBounds.padding(padding: EOffset, target: CanSetBounds = E.RectMutable()): CanSetBounds =
-    padding(
-        left = padding.left,
-        top = padding.top,
-        bottom = padding.bottom,
-        right = padding.right,
-        target = target
-    )
-
-
-fun HasBounds.toPointList(
+// TODO Move
+fun ERect.toPointList(
     target: List<EPointMutable> = listOf(
         E.PointMutable(),
         E.PointMutable(),
@@ -260,7 +170,7 @@ fun HasBounds.toPointList(
 /***
  * @return the diagonal going from top right to bottom left
  */
-fun HasBounds.diagonalTRBL(target: ELineMutable = E.LineMutable()): ELineMutable {
+fun HasBounds<*, *>.diagonalTRBL(target: ELineMutable = E.LineMutable()): ELineMutable {
     topRight(target.start)
     bottomLeft(target.end)
     return target
@@ -269,14 +179,14 @@ fun HasBounds.diagonalTRBL(target: ELineMutable = E.LineMutable()): ELineMutable
 /***
  * @return the diagonal going from top left to bottom right
  */
-fun HasBounds.diagonalTLBR(target: ELineMutable = E.LineMutable()): ELineMutable {
+fun HasBounds<*, *>.diagonalTLBR(target: ELineMutable = E.LineMutable()): ELineMutable {
     topLeft(target.start)
     bottomRight(target.end)
     return target
 }
 
 
-fun HasBounds.map(
+fun <I, M> HasBounds<I, M>.map(
     fromX: Number,
     fromY: Number,
     fromWidth: Number,
@@ -285,8 +195,8 @@ fun HasBounds.map(
     toY: Number,
     toWidth: Number,
     toHeight: Number,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds {
+    target: CanSetBounds<I, M> = toMutable()
+): CanSetBounds<I,M> where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
     target.set(this)
 
     val anchorLeft = if (fromWidth == 0f) .5f else (target.originX - fromX.f) / fromWidth.f
@@ -310,24 +220,7 @@ fun HasBounds.map(
     )
 }
 
-fun HasBounds.map(
-    from: HasBounds,
-    to: HasBounds,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds =
-    map(
-        fromX = from.originX,
-        fromY = from.originY,
-        fromWidth = from.width,
-        fromHeight = from.height,
-        toX = to.originX,
-        toY = to.originY,
-        toWidth = to.width,
-        toHeight = to.height,
-        target = target
-    )
-
-fun List<HasBounds>.union(target: ERectMutable = E.RectMutable()): ERectMutable {
+fun List<HasBounds<*, *>>.union(target: ERectMutable = E.RectMutable()): ERectMutable {
     if (isEmpty()) {
         return E.RectMutable()
     }
@@ -361,3 +254,131 @@ fun List<HasBounds>.union(target: ERectMutable = E.RectMutable()): ERectMutable 
         target = target
     )
 }
+
+
+// Changing
+fun <I, M> HasBounds<I, M>.offset(
+    p: Tuple2, target: CanSetBounds<I, M> = toMutable()
+): CanSetBounds<I, M> where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
+    return offset(p.v1, p.v2, target)
+}
+
+fun <I, M> HasBounds<I, M>.offset(
+    x: Number = 0,
+    y: Number = 0,
+    target: CanSetBounds<I, M> = toMutable()
+): CanSetBounds<I, M> where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
+    target.set(originX + x.f, originY + y.f, width, height)
+    return target
+}
+
+// TODO Expand/Inset/Padding -> align
+fun <I, M> HasBounds<I, M>.inset(margin: Number, target: CanSetBounds<I, M> = toMutable())
+        where I : HasBounds<I, M>, M : CanSetBounds<I, M> = inset(margin, margin, target)
+
+fun <I, M> HasBounds<I, M>.inset(p: Tuple2, target: CanSetBounds<I, M> = toMutable())
+        where I : HasBounds<I, M>, M : CanSetBounds<I, M> = inset(p.v1, p.v2, target)
+
+fun <I, M> HasBounds<I, M>.inset(
+    x: Number = 0,
+    y: Number = 0,
+    target: CanSetBounds<I, M> = toMutable()
+) where I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+    inset(left = x, top = y, right = x, bottom = y, target = target)
+
+fun <I, M> HasBounds<I, M>.inset(
+    left: Number = 0,
+    top: Number = 0,
+    right: Number = 0,
+    bottom: Number = 0,
+    target: CanSetBounds<I, M> = toMutable()
+): CanSetBounds<I, M> where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
+    target.setBounds(
+        left = this.left + left.toFloat(),
+        top = this.top + top.toFloat(),
+        bottom = this.bottom - bottom.toFloat(),
+        right = this.right - right.toFloat()
+    )
+    return target
+}
+
+fun <I, M> HasBounds<I, M>.expand(margin: Number, target: CanSetBounds<I, M> = toMutable())
+        where I : HasBounds<I, M>, M : CanSetBounds<I, M> = expand(margin, margin, target)
+
+fun <I, M> HasBounds<I, M>.expand(p: Tuple2, target: CanSetBounds<I, M> = toMutable())
+        where I : HasBounds<I, M>, M : CanSetBounds<I, M> = expand(p.v1, p.v2, target)
+
+fun <I, M> HasBounds<I, M>.expand(
+    x: Number = 0f,
+    y: Number = 0f,
+    target: CanSetBounds<I, M> = toMutable()
+)
+        where I : HasBounds<I, M>, M : CanSetBounds<I, M> = inset(-x.f, -y.f, target)
+
+fun <I, M> HasBounds<I, M>.expand(
+    left: Number = 0,
+    top: Number = 0,
+    right: Number = 0,
+    bottom: Number = 0,
+    target: CanSetBounds<I, M> = toMutable()
+) where I : HasBounds<I, M>, M : CanSetBounds<I, M> = inset(
+    left = -left.toFloat(),
+    top = -top.toFloat(),
+    right = -right.toFloat(),
+    bottom = -bottom.toFloat(),
+    target = target
+)
+
+fun <I, M> HasBounds<I, M>.expand(padding: EOffset, target: CanSetBounds<I, M> = toMutable())
+        where I : HasBounds<I, M>, M : CanSetBounds<I, M> = expand(
+    left = padding.left,
+    top = padding.top,
+    right = padding.right,
+    bottom = padding.bottom,
+    target = target
+)
+
+fun <I, M> HasBounds<I, M>.padding(
+    top: Number = this.top,
+    bottom: Number = this.bottom,
+    left: Number = this.left,
+    right: Number = this.right,
+    target: CanSetBounds<I, M> = toMutable()
+)
+        where I : HasBounds<I, M>, M : CanSetBounds<I, M> = inset(
+    left = left,
+    top = top,
+    bottom = bottom,
+    right = right,
+    target = target
+)
+
+fun <I, M> HasBounds<I, M>.padding(
+    padding: EOffset,
+    target: CanSetBounds<I, M> = toMutable()
+)
+        where I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+    padding(
+        left = padding.left,
+        top = padding.top,
+        bottom = padding.bottom,
+        right = padding.right,
+        target = target
+    )
+
+
+fun <I, M> HasBounds<I, M>.map(
+    from: HasBounds<*, *>,
+    to: HasBounds<*, *>,
+    target: CanSetBounds<I, M> = toMutable()
+) where I : HasBounds<I, M>, M : CanSetBounds<I, M> = map(
+    fromX = from.originX,
+    fromY = from.originY,
+    fromWidth = from.width,
+    fromHeight = from.height,
+    toX = to.originX,
+    toY = to.originY,
+    toWidth = to.width,
+    toHeight = to.height,
+    target = target
+)

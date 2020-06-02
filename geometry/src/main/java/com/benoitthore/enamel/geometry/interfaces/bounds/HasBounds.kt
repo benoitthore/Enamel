@@ -23,7 +23,7 @@ left,top,right,bottom must be implemented in a class, not an interface
 
  */
 //interface HasBounds<M : EShape<M, I>, I : EShapeMutable<M, I>> : EShape<M, I> {
-interface HasBounds<I, M> : EShapeMutable<I, M> where I : EShape<I, M>, M : EShapeMutable<I, M> {
+interface HasBounds<I, M> : EShapeMutable<I, M> where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
     val left: Float
     val top: Float
     val right: Float

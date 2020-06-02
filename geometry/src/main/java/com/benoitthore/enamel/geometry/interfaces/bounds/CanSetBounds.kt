@@ -5,7 +5,7 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
 /** setBounds must be implemented in a class, not an interface
  */
-interface CanSetBounds<M : EShape<M, I>, I : EShapeMutable<M, I>> : HasBounds<M, I>, Resetable {
+interface CanSetBounds<M : HasBounds<M, I>, I : CanSetBounds<M, I>> : HasBounds<M, I>, Resetable {
 
     fun setBounds(
         left: Number = this.left,
