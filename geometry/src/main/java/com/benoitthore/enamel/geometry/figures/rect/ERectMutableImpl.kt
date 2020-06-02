@@ -28,9 +28,9 @@ internal class ERectMutableImpl internal constructor(
         get() = origin.x + width
 
 
-    override fun toMutable(): ERect = E.Rect(this)
+    override fun toMutable(): ERectMutable = E.RectMutable(this)
 
-    override fun toImmutable(): ERectMutable = E.RectMutable(this)
+    override fun toImmutable(): ERect = E.Rect(this)
 
     override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         origin.set(x = left, y = top)

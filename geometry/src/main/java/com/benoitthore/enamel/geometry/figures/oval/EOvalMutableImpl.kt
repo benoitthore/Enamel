@@ -40,14 +40,12 @@ internal class EOvalMutableImpl(
     }
 
 
-    override fun toMutable(): EOval = E.Oval(this)
-
-    override fun toImmutable(): EOvalMutable = E.OvalMutable(this)
+    override fun toMutable(): EOvalMutable = E.OvalMutable(this)
+    override fun toImmutable(): EOval = E.Oval(this)
 
     override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
-
+        TODO()
     }
-
 
 
     override fun equals(other: Any?): Boolean {

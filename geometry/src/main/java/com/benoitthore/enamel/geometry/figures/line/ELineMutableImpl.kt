@@ -49,11 +49,11 @@ internal class ELineMutableImpl internal constructor(
         return "Line(start=$start, end=$end)"
     }
 
-    override fun toMutable(): ELine {
+    override fun toMutable(): ELineMutable {
         TODO("Not yet implemented")
     }
 
-    override fun toImmutable(): ELineMutable {
+    override fun toImmutable(): ELine {
         TODO("Not yet implemented")
     }
 

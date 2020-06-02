@@ -20,12 +20,12 @@ import javax.swing.text.html.CSS
  * Okay that's too much, let's find a better way
  */
 interface ERectGroup<T, I, M> : HasBounds<I, M>,
-    List<T> where  T : HasBounds<I, M>, I : EShape<I, M>, M : EShapeMutable<I, M> {
+    List<T> where  T : HasBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> {
     val frame: ERect
 }
 
 interface ERectGroupMutable<T, I, M> : ERectGroup<T, I, M>, CanSetBounds<I, M>,
-    List<T> where  T : HasBounds<I, M>, I : EShape<I, M>, M : EShapeMutable<I, M> {
+    List<T> where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> {
 
     /**
      * Needs be called by the user whenever a change happens in one of the children,
@@ -41,7 +41,7 @@ interface ERectGroupMutable<T, I, M> : ERectGroup<T, I, M>, CanSetBounds<I, M>,
     fun updateFrame()
 
     class ERectGroupImpl<T, I, M>(rects: List<T>) : ERectGroupMutable<T, I, M>, List<T> by rects
-            where T : HasBounds<I, M>, I : EShape<I, M>, M : EShapeMutable<I, M> {
+            where T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> {
 
         private val _frame = E.RectMutable()
 

@@ -8,9 +8,6 @@ import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
-/*
-<M : EShape<M, I>, I : EShapeMutable<M, I>>
- */
 interface EShape<I, M> where I : EShape<I, M>, M : EShapeMutable<I, M> {
     fun toMutable(): M
     fun toImmutable(): I
@@ -18,11 +15,13 @@ interface EShape<I, M> where I : EShape<I, M>, M : EShapeMutable<I, M> {
 
 interface EShapeMutable<I, M> : EShape<I, M> where I : EShape<I, M>, M : EShapeMutable<I, M>
 
+fun <I, M> EShape<I, M>.ensureMutable(): EShapeMutable<I, M>
+        where I : EShape<I, M>, M : EShapeMutable<I, M> =
+    if (this is EShapeMutable) this else toMutable()
+
 /**
 left,top,right,bottom must be implemented in a class, not an interface
-
  */
-//interface HasBounds<M : EShape<M, I>, I : EShapeMutable<M, I>> : EShape<M, I> {
 interface HasBounds<I, M> : EShapeMutable<I, M> where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
     val left: Float
     val top: Float

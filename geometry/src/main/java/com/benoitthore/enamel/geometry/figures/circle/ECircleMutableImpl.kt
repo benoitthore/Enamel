@@ -31,9 +31,9 @@ internal class ECircleMutableImpl internal constructor(
 
     override val center: EPoint get() = _center
 
-    override fun toMutable(): ECircle  = E.Circle(this)
+    override fun toMutable(): ECircleMutable  = E.CircleMutable(this)
 
-    override fun toImmutable(): ECircleMutable = E.CircleMutable(this)
+    override fun toImmutable(): ECircle = E.Circle(this)
 
     /**
      * In case the bounds don't define a square, the circle gets align on the top left of the
