@@ -14,9 +14,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.doOnNextLayout
 import com.benoitthore.enamel.geometry.*
 import com.benoitthore.enamel.geometry.alignement.EAlignment
+import com.benoitthore.enamel.geometry.alignement.selfAlign
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.interfaces.bounds.diagonalTLBR
 import com.benoitthore.enamel.geometry.interfaces.bounds.scaleAnchor
 import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
@@ -26,6 +28,7 @@ import com.benoitthore.enamel.layout.android.*
 import com.benoitthore.visualentity.draw
 import com.benoitthore.visualentity.style.EMesh
 import com.benoitthore.visualentity.style.toShader
+import com.benoitthore.visualentity.toAndroid
 import com.benoitthore.visualentity.toVisualEntity
 
 
@@ -58,8 +61,8 @@ class MainActivity : AppCompatActivity() {
 class TestView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
-    private val rect = E.Rect().toVisualEntity()
-    private val circle = E.Circle().toVisualEntity()
+    private val rect = E.RectMutable().toVisualEntity().toAndroid()
+    private val circle = E.CircleMutable().toVisualEntity().apply { println(radius++) }.toAndroid()
 
     init {
         doOnNextLayout {
