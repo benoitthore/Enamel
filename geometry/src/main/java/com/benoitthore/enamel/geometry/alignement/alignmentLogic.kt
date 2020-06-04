@@ -8,12 +8,12 @@ import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
 
 
-fun <T : CanSetBounds> T.selfAlign(
-    frame: HasBounds,
+fun <I, M> M.selfAlign(
+    frame: HasBounds<I, M>,
     alignment: EAlignment,
     isOutside: Boolean,
     spacing: Number = 0
-): T {
+): M where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
     val anchorSpacingAlignment = if (isOutside) alignment.flipped else alignment
 
     val spacing = spacing.f
@@ -40,13 +40,13 @@ fun <T : CanSetBounds> T.selfAlign(
     return this
 }
 
-fun <T : CanSetBounds> T.selfAlignOutside(
-    frame: HasBounds, alignment: EAlignment, spacing: Number = 0
-): T = selfAlign(frame, alignment, true, spacing)
+fun <I, M> M.selfAlignOutside(
+    frame: HasBounds<I,M>, alignment: EAlignment, spacing: Number = 0
+): M where I : HasBounds<I, M>, M : CanSetBounds<I, M> = selfAlign(frame, alignment, true, spacing)
 
-fun <T : CanSetBounds> T.selfAlignInside(
-    frame: HasBounds, alignment: EAlignment, spacing: Number = 0
-): T = selfAlign(frame, alignment, false, spacing)
+fun <I, M> M.selfAlignInside(
+    frame: HasBounds<I,M>, alignment: EAlignment, spacing: Number = 0
+): M where I : HasBounds<I, M>, M : CanSetBounds<I, M> = selfAlign(frame, alignment, false, spacing)
 
 fun ERect.rectAlignedInside(
     alignment: EAlignment,

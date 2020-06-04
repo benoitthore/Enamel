@@ -1,12 +1,12 @@
 package com.benoitthore.enamel.geometry.builders
 
-import com.benoitthore.enamel.geometry.ensureMutable
 import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
 import com.benoitthore.enamel.geometry.figures.circle.ECircleMutableImpl
 import com.benoitthore.enamel.geometry.figures.oval.EOvalMutable
 import com.benoitthore.enamel.geometry.figures.oval.EOvalMutableImpl
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutableImpl
+import com.benoitthore.enamel.geometry.interfaces.bounds.ensureMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESizeMutableImpl
 import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle

@@ -27,11 +27,10 @@ internal class ECircleMutableImpl internal constructor(
     override val bottom: Float
         get() = TODO("Not yet implemented")
 
-    private val _center: EPointMutable = E.PointMutable(centerX, centerY)
 
-    override val center: EPoint get() = _center
+    override val center: EPointMutable = E.PointMutable(centerX, centerY)
 
-    override fun toMutable(): ECircleMutable  = E.CircleMutable(this)
+    override fun toMutable(): ECircleMutable = E.CircleMutable(this)
 
     override fun toImmutable(): ECircle = E.Circle(this)
 
@@ -44,8 +43,8 @@ internal class ECircleMutableImpl internal constructor(
         val h = (bottom.f - top.f) / 2f
         radius = min(w, h)
 
-        _center.x = left.f + radius
-        _center.y = top.f + radius
+        center.x = left.f + radius
+        center.y = top.f + radius
     }
 
     override fun equals(other: Any?): Boolean {

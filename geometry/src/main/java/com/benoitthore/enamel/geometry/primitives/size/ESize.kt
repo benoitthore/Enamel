@@ -3,13 +3,14 @@ package com.benoitthore.enamel.geometry.primitives.size
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import kotlin.math.abs
 import kotlin.math.hypot
 import kotlin.math.max
 import kotlin.math.min
 
-interface ESize : Tuple2 {
+interface ESize : Tuple2, EShape<ESize,ESizeMutable> {
     val width: Float
     val height: Float
 

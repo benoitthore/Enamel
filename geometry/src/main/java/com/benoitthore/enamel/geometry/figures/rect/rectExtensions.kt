@@ -68,7 +68,7 @@ fun ERect.divided(
 operator fun ERect.minus(padding: EOffset) = padding(padding).ensureRect()
 operator fun ERect.plus(padding: EOffset) = expand(padding).ensureRect()
 
-fun List<HasBounds>.union(target: ERectMutable = E.RectMutable()): ERectMutable {
+fun List<HasBounds<*,*>>.union(target: ERectMutable = E.RectMutable()): ERectMutable {
     if (isEmpty()) {
         return target
     }

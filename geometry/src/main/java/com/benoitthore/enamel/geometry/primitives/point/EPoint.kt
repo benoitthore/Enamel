@@ -6,6 +6,7 @@ import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
@@ -13,7 +14,7 @@ import com.benoitthore.enamel.geometry.primitives.angle.radians
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle.*
 import kotlin.math.*
 
-interface EPoint : Tuple2 {
+interface EPoint : Tuple2, EShape<EPoint,EPointMutable> {
     val x: Float
     val y: Float
     override val v1: Number

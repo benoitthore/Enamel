@@ -15,9 +15,9 @@ interface EShape<I, M> where I : EShape<I, M>, M : EShapeMutable<I, M> {
 
 interface EShapeMutable<I, M> : EShape<I, M> where I : EShape<I, M>, M : EShapeMutable<I, M>
 
-fun <I, M> EShape<I, M>.ensureMutable(): EShapeMutable<I, M>
-        where I : EShape<I, M>, M : EShapeMutable<I, M> =
-    if (this is EShapeMutable) this else toMutable()
+fun <T, I, M> EShape<I, M>.ensureMutable(): T
+        where  T : EShapeMutable<I, M>, I : EShape<I, M>, M : EShapeMutable<I, M> =
+    if (this is EShapeMutable) this as T else toMutable() as T
 
 /**
 left,top,right,bottom must be implemented in a class, not an interface

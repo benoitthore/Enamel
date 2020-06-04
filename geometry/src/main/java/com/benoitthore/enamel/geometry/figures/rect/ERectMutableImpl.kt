@@ -1,6 +1,8 @@
 package com.benoitthore.enamel.geometry.figures.rect
 
 import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.geometry.alignement.EAlignment
+import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable

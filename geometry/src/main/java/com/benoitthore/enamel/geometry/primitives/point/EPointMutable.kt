@@ -3,11 +3,11 @@ package com.benoitthore.enamel.geometry.primitives.point
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShapeMutable
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 
-interface EPointMutable : EPoint,
-    Resetable {
+interface EPointMutable : EPoint, EShapeMutable<EPoint, EPointMutable>, Resetable {
 
     override var x: Float
     override var y: Float

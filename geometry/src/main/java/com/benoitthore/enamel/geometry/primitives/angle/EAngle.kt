@@ -3,6 +3,7 @@ package com.benoitthore.enamel.geometry.primitives.angle
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
@@ -10,7 +11,7 @@ import com.benoitthore.enamel.geometry.primitives.angle.EAngle.*
 
 private val π = Math.PI.f
 
-interface EAngle {
+interface EAngle :EShape<EAngle,EAngleMutable> {
 
     enum class AngleType {
         DEGREE, RADIAN, ROTATION

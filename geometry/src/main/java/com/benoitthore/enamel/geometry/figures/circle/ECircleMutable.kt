@@ -14,6 +14,8 @@ interface ECircleMutable : ECircle, CanSetBounds<ECircle, ECircleMutable>, EShap
 
     override var radius: Float
 
+    override val center: EPointMutable
+
     fun set(other: ECircle) = set(other.center.x, other.center.y, other.radius)
     fun set(center: EPoint = this.center, radius: Number = this.radius) =
         set(center.x, center.y, radius)

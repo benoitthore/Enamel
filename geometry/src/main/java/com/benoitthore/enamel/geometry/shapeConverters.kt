@@ -90,13 +90,13 @@ fun List<EPointMutable>.toCircles(
 
 fun ESize.toRect(target: ERectMutable = E.RectMutable()) = target.set(0, 0, width, height)
 
-fun HasBounds.innerCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
+fun HasBounds<*,*>.innerCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
     center(target.center) // set circles center to rect center
     target.radius = (if (width > height) height else width) / 2f // TODO Repalce that with minmax
     return target
 }
 
-fun HasBounds.outerCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
+fun HasBounds<*,*>.outerCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
     center(target.center) // set circles center to rect center
     target.radius = hypot(width.d, height.d).f / 2f
     return target

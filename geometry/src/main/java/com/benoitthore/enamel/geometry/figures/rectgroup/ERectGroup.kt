@@ -15,10 +15,6 @@ import com.benoitthore.enamel.geometry.figures.rect.union
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
 import javax.swing.text.html.CSS
 
-/**
- * TODO
- * Okay that's too much, let's find a better way
- */
 interface ERectGroup<T, I, M> : HasBounds<I, M>,
     List<T> where  T : HasBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> {
     val frame: ERect
@@ -39,6 +35,9 @@ interface ERectGroupMutable<T, I, M> : ERectGroup<T, I, M>, CanSetBounds<I, M>,
      *
      */
     fun updateFrame()
+    fun aligned(anchor: EPoint, position: EPoint) {
+        TODO()
+    }
 
     class ERectGroupImpl<T, I, M>(rects: List<T>) : ERectGroupMutable<T, I, M>, List<T> by rects
             where T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> {

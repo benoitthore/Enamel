@@ -2,10 +2,11 @@ package com.benoitthore.enamel.geometry.primitives.size
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.Resetable
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShapeMutable
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
-interface ESizeMutable : ESize,
-    Resetable {
+interface ESizeMutable : ESize, EShapeMutable<ESize, ESizeMutable>, Resetable {
 
     override var width: Float
     override var height: Float

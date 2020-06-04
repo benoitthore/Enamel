@@ -11,6 +11,14 @@ internal class EPointMutableImpl internal constructor(x: Number, y: Number) :
         allocateDebugMessage()
     }
 
+    override fun toMutable(): EPointMutable {
+        TODO("Not yet implemented")
+    }
+
+    override fun toImmutable(): EPoint {
+        TODO("Not yet implemented")
+    }
+
     override fun toString(): String {
         return "Point($x ; $y)"
     }

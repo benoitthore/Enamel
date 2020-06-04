@@ -2,10 +2,11 @@ package com.benoitthore.enamel.geometry.primitives.angle
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.Resetable
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShapeMutable
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle.*
 
-interface EAngleMutable : EAngle,
-    Resetable {
+interface EAngleMutable : EAngle, EShapeMutable<EAngle, EAngleMutable>, Resetable {
 
     override var value: Float
     override var type: AngleType

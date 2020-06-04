@@ -1,9 +1,18 @@
 package com.benoitthore.enamel.geometry.primitives.size
 
+import com.benoitthore.enamel.geometry.builders.E
+
 internal class ESizeMutableImpl internal constructor(width: Number, height: Number) :
     ESizeMutable {
     override var width: Float = width.toFloat()
     override var height: Float = height.toFloat()
+
+    override fun toMutable(): ESizeMutable  = E.SizeMutable()
+
+    override fun toImmutable(): ESize {
+        TODO("Not yet implemented")
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
 

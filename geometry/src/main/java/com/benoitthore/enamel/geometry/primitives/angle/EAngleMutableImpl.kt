@@ -7,6 +7,13 @@ internal class EAngleMutableImpl internal constructor(value: Number, override va
     EAngleMutable {
     override var value: Float = value.toFloat()
 
+    override fun toMutable(): EAngleMutable {
+        TODO("Not yet implemented")
+    }
+
+    override fun toImmutable(): EAngle {
+        TODO("Not yet implemented")
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

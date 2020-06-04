@@ -6,12 +6,13 @@ import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
 
-fun HasBounds.scaleRelative(
+fun <I, M> HasBounds<I, M>.scaleRelative(
     scaleFactor: Number,
     pointX: Number,
     pointY: Number,
-    target: CanSetBounds = E.RectMutable()
-) = scaleRelative2D(
+    target: CanSetBounds<I, M> = toMutable()
+)
+        where  I : HasBounds<I, M>, M : CanSetBounds<I, M> = scaleRelative2D(
     scaleFactorX = scaleFactor,
     scaleFactorY = scaleFactor,
     pointX = pointX,
@@ -19,13 +20,14 @@ fun HasBounds.scaleRelative(
     target = target
 )
 
-fun HasBounds.scaleRelative2D(
+fun <I, M> HasBounds<I, M>.scaleRelative2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     pointX: Number,
     pointY: Number,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds {
+    target: CanSetBounds<I, M> = toMutable()
+): CanSetBounds<I, M>
+        where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
     target.set(this)
 
     val scaleFactorX = scaleFactorX.f
@@ -43,20 +45,21 @@ fun HasBounds.scaleRelative2D(
 //// //// //// //// //// //// //// ////
 //// //// //// //// //// //// //// ////
 
-fun HasBounds.scaleAnchor(
+fun <I, M> HasBounds<I, M>.scaleAnchor(
     scaleFactor: Number,
     anchor: EPoint,
-    target: CanSetBounds = E.RectMutable()
-) =
+    target: CanSetBounds<I, M> = toMutable()
+)
+        where I : HasBounds<I, M>, M : CanSetBounds<I, M> =
     scaleAnchor(scaleFactor, anchor.x, anchor.y, target)
 
 
-fun HasBounds.scaleAnchor2D(
+fun <I, M> HasBounds<I, M>.scaleAnchor2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     anchor: EPoint,
-    target: CanSetBounds = E.RectMutable()
-) =
+    target: CanSetBounds<I, M> = toMutable()
+) where I : HasBounds<I, M>, M : CanSetBounds<I, M> =
     scaleAnchor2D(
         scaleFactorX = scaleFactorX,
         scaleFactorY = scaleFactorY,
@@ -66,25 +69,25 @@ fun HasBounds.scaleAnchor2D(
     )
 
 
-fun HasBounds.scaleAnchor(
+fun <I, M> HasBounds<I, M>.scaleAnchor(
     scaleFactor: Number,
     anchorX: Number,
     anchorY: Number,
-    target: CanSetBounds = E.RectMutable()
-) = scaleRelative(
+    target: CanSetBounds<I, M> = toMutable()
+) where I : HasBounds<I, M>, M : CanSetBounds<I, M> = scaleRelative(
     scaleFactor = scaleFactor,
     pointX = pointAtAnchorX(anchorX),
     pointY = pointAtAnchorY(anchorY),
     target = target
 )
 
-fun HasBounds.scaleAnchor2D(
+fun <I, M> HasBounds<I, M>.scaleAnchor2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     anchorX: Number,
     anchorY: Number,
-    target: CanSetBounds = E.RectMutable()
-) = scaleRelative2D(
+    target: CanSetBounds<I, M> = toMutable()
+) where I : HasBounds<I, M>, M : CanSetBounds<I, M> = scaleRelative2D(
     scaleFactorX = scaleFactorX,
     scaleFactorY = scaleFactorY,
     pointX = pointAtAnchorX(anchorX),
@@ -93,23 +96,23 @@ fun HasBounds.scaleAnchor2D(
 )
 
 
-fun HasBounds.scaleRelative(
+fun <I, M> HasBounds<I, M>.scaleRelative(
     scaleFactor: Number,
     point: EPoint,
-    target: CanSetBounds = E.RectMutable()
-) = scaleRelative(
+    target: CanSetBounds<I, M> = toMutable()
+) where I : HasBounds<I, M>, M : CanSetBounds<I, M> = scaleRelative(
     scaleFactor = scaleFactor,
     pointX = point.x,
     pointY = point.y,
     target = target
 )
 
-fun HasBounds.scaleRelative2D(
+fun <I, M> HasBounds<I, M>.scaleRelative2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     point: EPoint,
-    target: CanSetBounds = E.RectMutable()
-) = scaleRelative2D(
+    target: CanSetBounds<I, M> = toMutable()
+) where I : HasBounds<I, M>, M : CanSetBounds<I, M> = scaleRelative2D(
     scaleFactorX = scaleFactorX,
     scaleFactorY = scaleFactorY,
     pointX = point.x,

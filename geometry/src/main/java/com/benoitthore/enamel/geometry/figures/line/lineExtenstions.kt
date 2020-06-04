@@ -5,7 +5,6 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point.length
 import com.benoitthore.enamel.geometry.primitives.point.point
-import com.benoitthore.enamel.geometry.toMutable
 import kotlin.math.*
 
 infix fun EPoint.line(end: EPoint) = E.Line(start = this, end = end)
@@ -120,7 +119,7 @@ fun List<EPoint>.pointAtDistance(
         last = p
     }
 
-    return last().toMutable(target)
+    return target.set(last())
 }
 
 

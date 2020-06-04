@@ -196,7 +196,7 @@ fun <I, M> HasBounds<I, M>.map(
     toWidth: Number,
     toHeight: Number,
     target: CanSetBounds<I, M> = toMutable()
-): CanSetBounds<I,M> where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
+): CanSetBounds<I, M> where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
     target.set(this)
 
     val anchorLeft = if (fromWidth == 0f) .5f else (target.originX - fromX.f) / fromWidth.f
