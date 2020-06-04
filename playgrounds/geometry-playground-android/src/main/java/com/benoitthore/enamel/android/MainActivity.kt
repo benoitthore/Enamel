@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 class TestView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
-    private val rect = E.RectMutable().toVisualEntity().toAndroid()
+//    private val rect = E.RectMutable().toVisualEntity().toAndroid()
     private val circle = E.CircleMutable().toVisualEntity().apply { println(radius++) }.toAndroid()
 
     init {
@@ -69,12 +69,12 @@ class TestView @JvmOverloads constructor(
             putShape(E.Point.half * getViewBounds().size)
             putShape(E.Point.zero)
 
-            rect.style = rect.style.copy(
-                fill = EMesh(shader = rect.diagonalTLBR().toShader(BLUE, WHITE, RED))
-            )
-            circle.style = rect.style.copy(
-                fill = EMesh(shader = (circle.innerRect().innerCircle().diagonalTLBR()).toShader(BLUE, WHITE, RED))
-            )
+//            rect.style = rect.style.copy(
+//                fill = EMesh(shader = rect.diagonalTLBR().toShader(BLUE, WHITE, RED))
+//            )
+//            circle.style = rect.style.copy(
+//                fill = EMesh(shader = (circle.innerRect().innerCircle().diagonalTLBR()).toShader(BLUE, WHITE, RED))
+//            )
         }
 
         singleTouch {
@@ -86,14 +86,14 @@ class TestView @JvmOverloads constructor(
 
     private fun putShape(position: EPoint) {
         val bounds = getViewBounds().toImmutable()
-        bounds.scaleAnchor(0.5, 0.5, 0.5, target = rect)
-        rect.setOriginSize(position.x, position.y)
-        rect.innerCircle(circle).selfAlignOutside(rect, EAlignment.rightCenter, 16.dp)
+//        bounds.scaleAnchor(0.5, 0.5, 0.5, target = rect)
+//        rect.setOriginSize(position.x, position.y)
+//        rect.innerCircle(circle).selfAlignOutside(rect, EAlignment.rightCenter, 16.dp)
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.draw(rect)
+//        canvas.draw(rect)
         canvas.draw(circle)
     }
 }

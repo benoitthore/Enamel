@@ -17,14 +17,15 @@ inline fun prepareAnimation(
         init()
     }
 
-fun <T : CanSetBounds> T.animateTo(
-    other: HasBounds,
+fun <T : CanSetBounds<*,*>> T.animateTo(
+    other: HasBounds<*,*>,
     duration: Long = 1000L,
     init: ValueAnimator.() -> Unit = {}
 ) {
     val from = getBounds()
     val to = other.getBounds()
     prepareAnimation(duration, init) { progress ->
-        lerp(progress, from = from, to = to)
+        TODO()
+//        lerp(progress, from = from, to = to)
     }.start()
 }

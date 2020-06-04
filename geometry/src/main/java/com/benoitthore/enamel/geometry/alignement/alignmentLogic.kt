@@ -41,11 +41,11 @@ fun <I, M> M.selfAlign(
 }
 
 fun <I, M> M.selfAlignOutside(
-    frame: HasBounds<I,M>, alignment: EAlignment, spacing: Number = 0
+    frame: HasBounds<*,*>, alignment: EAlignment, spacing: Number = 0
 ): M where I : HasBounds<I, M>, M : CanSetBounds<I, M> = selfAlign(frame, alignment, true, spacing)
 
 fun <I, M> M.selfAlignInside(
-    frame: HasBounds<I,M>, alignment: EAlignment, spacing: Number = 0
+    frame: HasBounds<*,*>, alignment: EAlignment, spacing: Number = 0
 ): M where I : HasBounds<I, M>, M : CanSetBounds<I, M> = selfAlign(frame, alignment, false, spacing)
 
 fun ERect.rectAlignedInside(

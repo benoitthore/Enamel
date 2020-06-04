@@ -9,6 +9,7 @@ import com.benoitthore.enamel.geometry.figures.rectgroup.ERectGroup
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.figures.rectgroup.rectGroupWeights
 import com.benoitthore.enamel.geometry.interfaces.bounds.pointAtAnchor
+import com.benoitthore.enamel.geometry.interfaces.bounds.toRect
 
 class EWeightLayout(
     val alignment: EAlignment,
@@ -26,11 +27,11 @@ class EWeightLayout(
         val group = rects(frame)
         children.zip(group)
             .forEach { (layout, rect) ->
-                layout.arrange(rect)
+                layout.arrange(rect.toRect()) // TODO Get rid off that
             }
     }
 
-    private fun rects(frame: ERect): ERectGroup<ERectMutable> {
+    private fun rects(frame: ERect): ERectGroup<*,*,*> {
         return weights.rectGroupWeights(
             alignment,
             toFit = frame.size,
