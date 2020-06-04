@@ -8,7 +8,6 @@ import com.benoitthore.enamel.geometry.outerRect
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point.point
-import com.benoitthore.enamel.geometry.toMutable
 
 
 fun EMesh.toBorder(width: Number) = EStyle.Border(this, width.toFloat())
