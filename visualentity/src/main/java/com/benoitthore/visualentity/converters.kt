@@ -1,22 +1,33 @@
 package com.benoitthore.visualentity
 
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.*
 import com.benoitthore.enamel.geometry.figures.circle.*
 import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
+import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
 import com.benoitthore.visualentity.style.EStyle
 
 // Circle
-class CircleVisualEntity(circle: ECircle, style: EStyle) :
-    ECircle by circle,
-    VisualEntityImpl<ECircle, ECircleMutable>(circle, style) {
-    override fun toMutable(): CircleVisualEntityMutable = super.toMutable().toVisualEntity(style)
-
-    override fun toImmutable(): CircleVisualEntity = super.toImmutable().toVisualEntity(style)
+internal class CircleVisualEntityMutableImpl(
+    private val circle: ECircleMutable,
+    override var style: EStyle
+) :
+    CircleVisualEntityMutable, ECircleMutable by circle {
+    override fun toMutable(): CircleVisualEntityMutable = circle.toMutable().toVisualEntity(style)
+    override fun toImmutable(): CircleVisualEntity = circle.toImmutable().toVisualEntity(style)
+    override val transform: ETransformMutable = E.TransformMutable()
 }
 
-class CircleVisualEntityMutable(circle: ECircleMutable, style: EStyle) :
-    ECircleMutable by circle,
-    VisualEntityMutableImpl<ECircle, ECircleMutable>(circle, style)
+interface CircleVisualEntity : ECircle, VisualEntity<ECircle, ECircleMutable> {
+    override fun toMutable(): CircleVisualEntityMutable
+    override fun toImmutable(): CircleVisualEntity
+}
 
-fun ECircle.toVisualEntity(style: EStyle = EStyle()) = CircleVisualEntity(this, style)
-fun ECircleMutable.toVisualEntity(style: EStyle = EStyle()) = CircleVisualEntityMutable(this, style)
+interface CircleVisualEntityMutable : CircleVisualEntity, ECircleMutable,
+    VisualEntityMutable<ECircle, ECircleMutable>
+
+fun ECircle.toVisualEntity(style: EStyle = EStyle()): CircleVisualEntity =
+    toMutable().toVisualEntity(style)
+
+fun ECircleMutable.toVisualEntity(style: EStyle = EStyle()): CircleVisualEntityMutable =
+    CircleVisualEntityMutableImpl(this, style)
