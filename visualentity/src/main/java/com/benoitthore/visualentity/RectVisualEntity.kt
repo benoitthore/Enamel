@@ -12,7 +12,7 @@ internal class RectVisualEntityMutableImpl(
 ) :
     RectVisualEntityMutable, ERectMutable by rect {
     override fun toMutable(): RectVisualEntityMutable = rect.toMutable().toVisualEntity(style)
-    override fun toImmutable(): RectVisualEntity = rect.toImmutable().toVisualEntity(style)
+    override fun toImmutable(): RectVisualEntity = toMutable()
     override val transform: ETransformMutable = E.TransformMutable()
 }
 

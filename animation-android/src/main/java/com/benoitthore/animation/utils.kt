@@ -25,7 +25,7 @@ fun <T : CanSetBounds<*,*>> T.animateTo(
     val from = getBounds()
     val to = other.getBounds()
     prepareAnimation(duration, init) { progress ->
-        TODO()
+        TODO("Not yet implemented")
 //        lerp(progress, from = from, to = to)
     }.start()
 }

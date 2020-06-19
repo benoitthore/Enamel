@@ -39,7 +39,7 @@ interface ERectGroupMutable<T, I, M> : ERectGroup<T, I, M>, CanSetBounds<I, M>,
         TODO()
     }
 
-    class ERectGroupImpl<T, I, M>(rects: List<T>) : ERectGroupMutable<T, I, M>, List<T> by rects
+    class ERectGroupImpl<T, I, M>(private val rects: List<T>) : ERectGroupMutable<T, I, M>, List<T> by rects
             where T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> {
 
         private val _frame = E.RectMutable()
@@ -70,12 +70,12 @@ interface ERectGroupMutable<T, I, M> : ERectGroup<T, I, M>, CanSetBounds<I, M>,
         override var centerX: Float
             get() = frame.centerX
             set(value) {
-                TODO()
+                TODO("Not yet implemented")
             }
         override var centerY: Float
             get() = frame.centerY
             set(value) {
-                TODO()
+                TODO("Not yet implemented")
             }
 
         override var width: Float

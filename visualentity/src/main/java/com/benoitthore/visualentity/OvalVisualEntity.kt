@@ -12,7 +12,7 @@ internal class OvalVisualEntityMutableImpl(
 ) :
     OvalVisualEntityMutable, EOvalMutable by oval {
     override fun toMutable(): OvalVisualEntityMutable = oval.toMutable().toVisualEntity(style)
-    override fun toImmutable(): OvalVisualEntity = oval.toImmutable().toVisualEntity(style)
+    override fun toImmutable(): OvalVisualEntity = toMutable()
     override val transform: ETransformMutable = E.TransformMutable()
 }
 

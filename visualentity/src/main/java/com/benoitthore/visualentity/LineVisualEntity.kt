@@ -12,7 +12,7 @@ internal class LineVisualEntityMutableImpl(
 ) :
     LineVisualEntityMutable, ELineMutable by line {
     override fun toMutable(): LineVisualEntityMutable = line.toMutable().toVisualEntity(style)
-    override fun toImmutable(): LineVisualEntity = line.toImmutable().toVisualEntity(style)
+    override fun toImmutable(): LineVisualEntity = toMutable()
     override val transform: ETransformMutable = E.TransformMutable()
 }
 

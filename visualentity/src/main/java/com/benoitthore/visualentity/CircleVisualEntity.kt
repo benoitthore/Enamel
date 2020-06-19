@@ -12,7 +12,7 @@ internal class CircleVisualEntityMutableImpl(
 ) :
     CircleVisualEntityMutable, ECircleMutable by circle {
     override fun toMutable(): CircleVisualEntityMutable = circle.toMutable().toVisualEntity(style)
-    override fun toImmutable(): CircleVisualEntity = circle.toImmutable().toVisualEntity(style)
+    override fun toImmutable(): CircleVisualEntity = toMutable()
     override val transform: ETransformMutable = E.TransformMutable()
 }
 

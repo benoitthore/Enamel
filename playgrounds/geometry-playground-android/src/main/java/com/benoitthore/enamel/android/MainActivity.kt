@@ -17,7 +17,6 @@ import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.circle.set
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.times
 import com.benoitthore.enamel.layout.android.*
@@ -61,29 +60,32 @@ class MainActivity : AppCompatActivity() {
 class TestView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
-    private val style1 = style { fillColor = Color.BLUE }
-    private val style2 = style { borderColor = Color.RED; borderWidth = 4.dp }
+    private val style1 = E.style { fillColor = Color.BLUE }
+    private val style2 = E.style { borderColor = Color.RED; borderWidth = 4.dp }
     private val circle =
         E.CircleMutable()
             .toVisualEntity(style1)
-            .apply { radius = 100f }
+            .apply { radius = 64.dp }
             .toAndroid()
-    private val line =
-        E.LineMutable()
+    private val other =
+        E.RectMutable(width = circle.radius, height = circle.radius)
             .toVisualEntity(style2)
-            .apply { end.set(circle.radius * 2, circle.radius * 2) }
+//            .apply { end.set(circle.radius * 2, circle.radius * 2) }
             .toAndroid()
+
+    private var alignement = EAlignment.values().random()
 
     init {
         doOnNextLayout {
             putShape(E.Point.half * getViewBounds().size)
         }
 
-        singleTouch {
-            if (it.isDown) {
+        singleTouch { touch ->
+            if (touch.isDown) {
+                alignement = EAlignment.values().random()
                 circle.style = circle.style.copy(fill = EMesh(randomColor()))
             }
-            putShape(it.position)
+            putShape(touch.position)
             true
         }
     }
@@ -91,14 +93,14 @@ class TestView @JvmOverloads constructor(
     private fun putShape(position: EPoint) {
         val bounds = getViewBounds().toImmutable()
         circle.setCenter(position)
-        line.selfAlignOutside(circle, EAlignment.values().random())
+        other.selfAlignOutside(circle, alignement, other.width)
         invalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.draw(circle.toImmutable())
-        canvas.draw(line.toImmutable())
+        canvas.draw(other.toImmutable())
     }
 }
 
