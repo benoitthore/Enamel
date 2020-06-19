@@ -11,14 +11,20 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.doOnNextLayout
+import com.benoitthore.enamel.core.randomColor
 import com.benoitthore.enamel.geometry.*
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
+import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.circle.set
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.times
 import com.benoitthore.enamel.layout.android.*
 import com.benoitthore.visualentity.android.draw
+import com.benoitthore.visualentity.android.toAndroid
+import com.benoitthore.visualentity.style.EMesh
+import com.benoitthore.visualentity.style.style
 import com.benoitthore.visualentity.toVisualEntity
 
 
@@ -37,7 +43,7 @@ fun SeekBar.onSeekChanged(block: SeekBar.(progress: Int) -> Unit) =
         }
     })
 
-val debugPaint: Paint = Paint()
+//val debugPaint: Paint = Paint()
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,47 +54,51 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-fun main(){
-
-    println("1")
-}
+//fun main() {
+//    println("1")
+//}
 
 class TestView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
-    //    private val rect = E.RectMutable().toVisualEntity().toAndroid()
-    private val circle = E.CircleMutable().toVisualEntity().apply { println(radius++) }.toAndroid()
+    private val style1 = style { fillColor = Color.BLUE }
+    private val style2 = style { borderColor = Color.RED; borderWidth = 4.dp }
+    private val circle =
+        E.CircleMutable()
+            .toVisualEntity(style1)
+            .apply { radius = 100f }
+            .toAndroid()
+    private val line =
+        E.LineMutable()
+            .toVisualEntity(style2)
+            .apply { end.set(circle.radius * 2, circle.radius * 2) }
+            .toAndroid()
 
     init {
         doOnNextLayout {
             putShape(E.Point.half * getViewBounds().size)
-            putShape(E.Point.zero)
-//            rect.style = rect.style.copy(
-//                fill = EMesh(shader = rect.diagonalTLBR().toShader(BLUE, WHITE, RED))
-//            )
-//            circle.style = rect.style.copy(
-//                fill = EMesh(shader = (circle.innerRect().innerCircle().diagonalTLBR()).toShader(BLUE, WHITE, RED))
-//            )
         }
 
         singleTouch {
+            if (it.isDown) {
+                circle.style = circle.style.copy(fill = EMesh(randomColor()))
+            }
             putShape(it.position)
-            invalidate()
             true
         }
     }
 
     private fun putShape(position: EPoint) {
         val bounds = getViewBounds().toImmutable()
-//        bounds.scaleAnchor(0.5, 0.5, 0.5, target = rect)
-//        rect.setOriginSize(position.x, position.y)
-//        rect.innerCircle(circle).selfAlignOutside(rect, EAlignment.rightCenter, 16.dp)
+        circle.setCenter(position)
+        line.selfAlignOutside(circle, EAlignment.values().random())
+        invalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-//        canvas.draw(rect)
         canvas.draw(circle.toImmutable())
+        canvas.draw(line.toImmutable())
     }
 }
 

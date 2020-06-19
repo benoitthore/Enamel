@@ -15,7 +15,7 @@ fun LineVisualEntity.toAndroid(): LineVisualEntityAndroid =
 fun LineVisualEntityMutable.toAndroid(): LineVisualEntityMutableAndroid {
     return LineVisualEntityMutableAndroidImpl(
         this,
-        VisualEntityDrawer { canvas, paint ->
+        VisualEntityDrawer(style) { canvas, paint ->
             canvas.draw(
                 this,
                 paint

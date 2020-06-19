@@ -16,7 +16,7 @@ fun CircleVisualEntity.toAndroid(): CircleVisualEntityAndroid =
 fun CircleVisualEntityMutable.toAndroid(): CircleVisualEntityMutableAndroid {
     return CircleVisualEntityMutableAndroidImpl(
         this,
-        VisualEntityDrawer { canvas, paint ->
+        VisualEntityDrawer(style) { canvas, paint ->
             canvas.draw(
                 this,
                 paint

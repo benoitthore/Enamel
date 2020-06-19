@@ -1,5 +1,6 @@
 package com.benoitthore.enamel.geometry.interfaces.bounds
 
+import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
@@ -19,7 +20,14 @@ interface CanSetBounds<I, M> : HasBounds<I, M>,
     override var width: Float
     override var height: Float
     fun setCenter(x: Number, y: Number) {
-        TODO()
+        val xOff = x.f - centerX
+        val yOff = y.f - centerY
+        setBounds(
+            left = left + xOff,
+            top = top + yOff,
+            right = right + xOff,
+            bottom = bottom + yOff
+        )
     }
 
     override fun reset() {

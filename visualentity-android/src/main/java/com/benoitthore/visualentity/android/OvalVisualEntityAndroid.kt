@@ -15,7 +15,7 @@ fun OvalVisualEntity.toAndroid(): OvalVisualEntityAndroid =
 fun OvalVisualEntityMutable.toAndroid(): OvalVisualEntityMutableAndroid {
     return OvalVisualEntityMutableAndroidImpl(
         this,
-        VisualEntityDrawer { canvas, paint ->
+        VisualEntityDrawer(style) { canvas, paint ->
             canvas.draw(
                 this,
                 paint
