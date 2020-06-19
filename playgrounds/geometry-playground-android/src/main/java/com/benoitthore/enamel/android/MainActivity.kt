@@ -52,6 +52,11 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+fun main(){
+
+    println("1")
+}
+
 class TestView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
@@ -87,7 +92,7 @@ class TestView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 //        canvas.draw(rect)
-        canvas.draw(circle)
+        canvas.draw(circle.toImmutable())
     }
 }
 

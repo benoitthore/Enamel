@@ -13,14 +13,14 @@ fun CanSetBounds<*, *>.toRect(target: ERectMutable = E.RectMutable()): ERectMuta
     target.setBounds(this)
 
 fun <T, I, M> T.setOriginSize(
-    originX: Number = this.originX, originY: Number = this.originY,
+    x: Number = this.originX, y: Number = this.originY,
     width: Number = this.width, height: Number = this.height
 ) where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = apply {
     setBounds(
-        left = originX,
-        top = originY,
-        right = originX.f + width.f,
-        bottom = originY.f + height.f
+        left = x,
+        top = y,
+        right = x.f + width.f,
+        bottom = y.f + height.f
     )
 }
 

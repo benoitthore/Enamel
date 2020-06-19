@@ -32,8 +32,8 @@ fun <I, M> HasBounds<I, M>.scaleRelative2D(
     val scaleFactorY = scaleFactorY.f
 
     target.setOriginSize(
-        originX = originX + (pointX.f - originX) * (1f - scaleFactorX),
-        originY = originY + (pointY.f - originY) * (1f - scaleFactorY),
+        x = originX + (pointX.f - originX) * (1f - scaleFactorX),
+        y = originY + (pointY.f - originY) * (1f - scaleFactorY),
         width = width * scaleFactorX,
         height = height * scaleFactorY
     )

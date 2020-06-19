@@ -3,6 +3,7 @@ package com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
@@ -12,9 +13,13 @@ internal class ELineMutableImpl internal constructor(
     x2: Number = 0,
     y2: Number = 0
 ) : ELineMutable {
+
     init {
         allocateDebugMessage()
     }
+
+    override val start: EPointMutable = E.PointMutable(x1, y1)
+    override val end: EPointMutable = E.PointMutable(x2, y2)
 
     override val left: Float
         get() = min(start.x, end.x)
@@ -24,11 +29,40 @@ internal class ELineMutableImpl internal constructor(
         get() = max(start.x, end.x)
     override val bottom: Float
         get() = max(start.y, end.y)
+    override var width: Float
+        get() = right - left
+        set(value) {
+            TODO("Not yet implemented")
+        }
+    override var height: Float
+        get() = bottom - top
+        set(value) {
+            TODO("Not yet implemented")
+        }
+    override var centerX: Float
+        get() = left + width / 2f
+        set(value) {
+            TODO("Not yet implemented")
+        }
+    override var centerY: Float
+        get() = top + height / 2f
+        set(value) {
+            TODO("Not yet implemented")
+        }
 
+    override fun toMutable(): ELineMutable = E.LineMutable(this)
+    override fun toImmutable(): ELine = toMutable()
 
+    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+        if (isTLBR) {
+            start.set(left, top)
+            end.set(right, bottom)
+        } else {
+            start.set(right, top)
+            end.set(left, bottom)
+        }
+    }
 
-    override val start: EPointMutable = E.PointMutable(x1, y1)
-    override val end: EPointMutable = E.PointMutable(x2, y2)
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is ELine) return false
@@ -49,22 +83,5 @@ internal class ELineMutableImpl internal constructor(
         return "Line(start=$start, end=$end)"
     }
 
-    override fun toMutable(): ELineMutable {
-        TODO("Not yet implemented")
-    }
-
-    override fun toImmutable(): ELine {
-        TODO("Not yet implemented")
-    }
-
-    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
-        if (isTLBR) {
-            start.set(left, top)
-            end.set(right, bottom)
-        } else {
-            start.set(right, top)
-            end.set(left, bottom)
-        }
-    }
 
 }

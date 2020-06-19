@@ -13,31 +13,29 @@ interface ELineMutable : ELine, CanSetBounds<ELine, ELineMutable>,
 
     override val start: EPointMutable
     override val end: EPointMutable
-
-    fun set(start: EPoint = this.start, end: EPoint = this.end) =
-        set(start.x, start.y, end.x, end.y)
-
-    fun set(
-        x1: Number = start.x,
-        y1: Number = start.y,
-        x2: Number = end.x,
-        y2: Number = end.y
-    ) = apply {
-        start.x = x1.f
-        start.y = y1.f
-
-        end.x = x2.f
-        end.y = y2.f
-    }
-
-
-    fun selfRotate(
-        offsetAngle: EAngleMutable,
-        around: EPoint = getCenter(E.PointMutable()),
-        target: ELineMutable
-    ) = rotate(offsetAngle, around, this)
-
-    fun selfExpand(distance: Number, from: Number = 0f) = expand(distance, from, this)
-
-
 }
+
+fun <T : ELineMutable> T.set(start: EPoint = this.start, end: EPoint = this.end) =
+    set(start.x, start.y, end.x, end.y)
+
+fun <T : ELineMutable> T.set(
+    x1: Number = start.x,
+    y1: Number = start.y,
+    x2: Number = end.x,
+    y2: Number = end.y
+) = apply {
+    start.x = x1.f
+    start.y = y1.f
+
+    end.x = x2.f
+    end.y = y2.f
+}
+
+fun <T : ELineMutable> T.selfRotate(
+    offsetAngle: EAngleMutable,
+    around: EPoint = getCenter(E.PointMutable()),
+    target: ELineMutable
+) = apply { rotate(offsetAngle, around, this) }
+
+fun <T : ELineMutable> T.selfExpand(distance: Number, from: Number = 0f) =
+    expand(distance, from, this)

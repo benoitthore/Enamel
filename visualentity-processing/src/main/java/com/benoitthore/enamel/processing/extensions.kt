@@ -31,13 +31,13 @@ fun PApplet.draw(line: ELine) {
 
 fun PApplet.draw(circle: ECircle) {
     with(circle) {
-        ellipse(x, y, radius * 2, radius * 2)
+        ellipse(centerX, centerY, radius * 2, radius * 2)
     }
 }
 
 fun PApplet.draw(oval: EOval) {
     with(oval) {
-        ellipse(y, x, rx, ry)
+        ellipse(centerY, centerX, rx, ry)
     }
 }
 

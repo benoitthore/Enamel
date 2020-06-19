@@ -40,8 +40,8 @@ fun ESizeMutable.lerp(fraction: Number, from: ESize, to: ESize): ESizeMutable =
 fun <T, I, M> T.lerp(fraction: Number, from: HasBounds<*, *>, to: HasBounds<*, *>)
         where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = apply {
     setOriginSize(
-        originX = fraction.lerp(from.originX, to.originX),
-        originY = fraction.lerp(from.originY, to.originY),
+        x = fraction.lerp(from.originX, to.originX),
+        y = fraction.lerp(from.originY, to.originY),
         width = fraction.lerp(from.width, to.width),
         height = fraction.lerp(from.height, to.height)
     )

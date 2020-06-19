@@ -26,7 +26,10 @@ fun CircleVisualEntityMutable.toAndroid(): CircleVisualEntityMutableAndroid {
 }
 
 interface CircleVisualEntityAndroid : AndroidVisualEntity<ECircle, ECircleMutable>,
-    CircleVisualEntity
+    CircleVisualEntity{
+    override fun toMutable(): CircleVisualEntityMutableAndroid
+    override fun toImmutable(): CircleVisualEntityAndroid
+}
 
 interface CircleVisualEntityMutableAndroid : CircleVisualEntityAndroid, CircleVisualEntityMutable,
     AndroidVisualEntityMutable<ECircle, ECircleMutable>, ECircleMutable
