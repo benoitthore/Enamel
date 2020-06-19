@@ -5,6 +5,7 @@ import android.os.Build
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
+import com.benoitthore.enamel.geometry.figures.oval.EOval
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
@@ -17,6 +18,18 @@ fun Canvas.drawPointList(points: List<EPoint>, radius: Float, paint: Paint) =
 
 fun Canvas.draw(circle: ECircle, paint: Paint) {
     draw(circle.center, circle.radius, paint)
+}
+
+fun Canvas.draw(oval: EOval, paint: Paint) {
+    withSave {
+        with(oval) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                drawOval(left, top, right, bottom, paint)
+            } else {
+                drawOval(RectF(left, top, right, bottom), paint)
+            }
+        }
+    }
 }
 
 fun Canvas.draw(p: EPoint, radius: Float, paint: Paint) {
@@ -40,10 +53,10 @@ fun Canvas.draw(start: EPoint, end: EPoint, paint: Paint) {
 }
 
 fun Canvas.draw(rect: ERect, paint: Paint) {
-        withSave {
-            translate(rect.origin)
-            drawRect(0f, 0f, rect.width, rect.height, paint)
-        }
+    withSave {
+        translate(rect.origin)
+        drawRect(0f, 0f, rect.width, rect.height, paint)
+    }
 }
 
 fun Canvas.drawRectList(rects: List<ERect>, paint: Paint) = rects.forEach { draw(it, paint) }

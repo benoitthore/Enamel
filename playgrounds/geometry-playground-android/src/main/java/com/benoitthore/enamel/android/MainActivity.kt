@@ -15,14 +15,10 @@ import com.benoitthore.enamel.geometry.*
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.circle.set
-import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.primitives.point.point
 import com.benoitthore.enamel.geometry.primitives.times
 import com.benoitthore.enamel.layout.android.*
-import com.benoitthore.visualentity.draw
-import com.benoitthore.visualentity.toAndroid
+import com.benoitthore.visualentity.android.draw
 import com.benoitthore.visualentity.toVisualEntity
 
 

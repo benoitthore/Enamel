@@ -1,13 +1,12 @@
-package com.benoitthore.visualentity
+package com.benoitthore.visualentity.android
 
 import android.graphics.Canvas
-import android.graphics.Paint
-import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.interfaces.bounds.CanSetBounds
 import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
-import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.enamel.layout.android.withTransform
+import com.benoitthore.visualentity.VisualEntity
+import com.benoitthore.visualentity.VisualEntityMutable
+import com.benoitthore.visualentity.android.utils.VisualEntityDrawer
 
 interface AndroidVisualEntity<I, M> :
     VisualEntity<I, M> where I : HasBounds<I, M>, M : CanSetBounds<I, M> {

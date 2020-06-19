@@ -78,6 +78,17 @@ interface ERectGroupMutable<T, I, M> : ERectGroup<T, I, M>, CanSetBounds<I, M>,
                 TODO()
             }
 
+        override var width: Float
+            get() = frame.width
+            set(value) {
+                TODO("Not yet implemented")
+            }
+        override var height: Float
+            get() = frame.height
+            set(value) {
+                TODO("Not yet implemented")
+            }
+
         override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
             val fromX = frame.originX
             val fromY = frame.originY
@@ -105,8 +116,6 @@ interface ERectGroupMutable<T, I, M> : ERectGroup<T, I, M>, CanSetBounds<I, M>,
             }
             updateFrame()
         }
-
-
     }
 
 

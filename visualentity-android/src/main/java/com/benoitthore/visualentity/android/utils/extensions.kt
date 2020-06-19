@@ -1,4 +1,4 @@
-package com.benoitthore.visualentity
+package com.benoitthore.visualentity.android.utils
 
 import android.graphics.*
 import com.benoitthore.visualentity.style.EShader

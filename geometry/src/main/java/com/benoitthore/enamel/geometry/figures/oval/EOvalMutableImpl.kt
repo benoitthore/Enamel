@@ -18,12 +18,37 @@ internal class EOvalMutableImpl(
     override val bottom: Float
         get() = TODO("Not yet implemented")
 
+    override var width: Float
+        get() = TODO("Not yet implemented")
+        set(value) {
+            TODO("Not yet implemented")
+        }
+    override var height: Float
+        get() = TODO("Not yet implemented")
+        set(value) {
+            TODO("Not yet implemented")
+        }
+    override var centerX: Float
+        get() = TODO("Not yet implemented")
+        set(value) {
+            TODO("Not yet implemented")
+        }
+    override var centerY: Float
+        get() = TODO("Not yet implemented")
+        set(value) {
+            TODO("Not yet implemented")
+        }
+
     override var ry: Float
         get() = TODO("Not yet implemented")
-        set(value) {}
+        set(value) {
+            TODO("Not yet implemented")
+        }
     override var rx: Float
         get() = TODO("Not yet implemented")
-        set(value) {}
+        set(value) {
+            TODO("Not yet implemented")
+        }
 
     init {
         val cx = cx.toFloat()
