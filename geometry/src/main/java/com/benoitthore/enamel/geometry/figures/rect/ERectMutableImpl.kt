@@ -19,35 +19,29 @@ internal class ERectMutableImpl internal constructor(
         allocateDebugMessage()
     }
 
+    override val origin: EPointMutable = E.PointMutable(x, y)
+    override val size: ESizeMutable = E.SizeMutable(width, height)
+
     override val top: Float
         get() = origin.y
     override val bottom: Float
         get() = top + height
     override var centerX: Float
-        get() = TODO("Not yet implemented")
-        set(value) {}
+        get() = left + width / 2f
+        set(value) {
+            TODO("Not yet implemented")
+        }
     override var centerY: Float
-        get() = TODO("Not yet implemented")
-        set(value) {}
+        get() = top + height / 2f
+        set(value) {
+            TODO("Not yet implemented")
+        }
 
     override val left: Float
         get() = origin.x
     override val right: Float
         get() = origin.x + width
 
-
-    override fun toMutable(): ERectMutable = E.RectMutable(this)
-
-    override fun toImmutable(): ERect = E.Rect(this)
-
-    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
-        origin.set(x = left, y = top)
-        size.set(width = right.f - left.f, height = bottom.f - top.f)
-    }
-
-
-    override val origin: EPointMutable = E.PointMutable(x, y)
-    override val size: ESizeMutable = E.SizeMutable(width, height)
     override var height: Float
         get() = size.height
         set(value) {
@@ -58,6 +52,15 @@ internal class ERectMutableImpl internal constructor(
         set(value) {
             size.width = value
         }
+
+    override fun toMutable(): ERectMutable = E.RectMutable(this)
+
+    override fun toImmutable(): ERect = E.Rect(this)
+
+    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+        origin.set(x = left, y = top)
+        size.set(width = right.f - left.f, height = bottom.f - top.f)
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -78,5 +81,4 @@ internal class ERectMutableImpl internal constructor(
     override fun toString(): String {
         return "Rect(origin=$origin, size=$size)"
     }
-
 }
