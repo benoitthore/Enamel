@@ -1,7 +1,6 @@
 package com.benoitthore.enamel.geometry.interfaces.bounds
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELineMutable
@@ -13,7 +12,7 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
-fun HasBounds<*, *>.toRect(target: ERectMutable = E.RectMutable()): ERect = target.set(this)
+fun HasBounds<*, *>.toRect(target: ERectMutable = E.RectMutable()): ERect = target.setBounds(this)
 
 // contains Point
 fun HasBounds<*, *>.contains(x: Number, y: Number) = contains(x, y, 0, 0)
@@ -197,7 +196,7 @@ fun <I, M> HasBounds<I, M>.map(
     toHeight: Number,
     target: CanSetBounds<I, M> = toMutable()
 ): CanSetBounds<I, M> where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
-    target.set(this)
+    target.setBounds(this)
 
     val anchorLeft = if (fromWidth == 0f) .5f else (target.originX - fromX.f) / fromWidth.f
     val anchorTop = if (fromHeight == 0f) .5f else (target.originY - fromY.f) / fromHeight.f
@@ -268,7 +267,7 @@ fun <I, M> HasBounds<I, M>.offset(
     y: Number = 0,
     target: CanSetBounds<I, M> = toMutable()
 ): CanSetBounds<I, M> where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
-    target.set(originX + x.f, originY + y.f, width, height)
+    target.setOriginSize(originX + x.f, originY + y.f, width, height)
     return target
 }
 

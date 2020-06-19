@@ -19,13 +19,34 @@ internal class ECircleMutableImpl internal constructor(
 
     override var radius: Float = radius.toFloat()
     override val left: Float
-        get() = TODO("Not yet implemented")
+        get() = centerX - radius
     override val top: Float
-        get() = TODO("Not yet implemented")
+        get() = centerY - radius
     override val right: Float
-        get() = TODO("Not yet implemented")
+        get() = centerX + radius
     override val bottom: Float
-        get() = TODO("Not yet implemented")
+        get() = centerY + radius
+
+    override var width: Float
+        get() = radius * 2
+        set(value) {
+            TODO()
+        }
+    override var height: Float
+        get() = radius * 2
+        set(value) {
+            TODO()
+        }
+    override var centerX: Float
+        get() = center.x
+        set(value) {
+            center.x = value
+        }
+    override var centerY: Float
+        get() = center.y
+        set(value) {
+            center.y = value
+        }
 
 
     override val center: EPointMutable = E.PointMutable(centerX, centerY)

@@ -34,7 +34,7 @@ fun ELine.toShader(
         shaderType = EShader.ShaderType.Linear(
             toMutable().apply {
                 if (resetOrigin) {
-                    setOriginSize(0, 0)
+                    this.setOriginSize(0, 0)
                 }
             }
         ),
@@ -56,7 +56,7 @@ fun ECircle.toShader(
         shaderType = EShader.ShaderType.Radial(
             toMutable().apply {
                 if (resetOrigin) {
-                    setOriginSize(0, 0)
+                    this.setOriginSize(0, 0)
                 }
             }
         ),

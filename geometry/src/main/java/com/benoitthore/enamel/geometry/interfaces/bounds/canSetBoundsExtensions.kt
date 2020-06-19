@@ -10,17 +10,19 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
 fun CanSetBounds<*, *>.toRect(target: ERectMutable = E.RectMutable()): ERectMutable =
-    target.set(this)
+    target.setBounds(this)
 
 fun <T, I, M> T.setOriginSize(
     originX: Number = this.originX, originY: Number = this.originY,
     width: Number = this.width, height: Number = this.height
-) where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = setBounds(
-    left = originX,
-    top = originY,
-    right = originX.f + width.f,
-    bottom = originY.f + height.f
-)
+) where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = apply {
+    setBounds(
+        left = originX,
+        top = originY,
+        right = originX.f + width.f,
+        bottom = originY.f + height.f
+    )
+}
 
 fun <T, I, M> T.setOrigin(
     originX: Number = this.originX, originY: Number = this.originY
@@ -40,7 +42,7 @@ fun CanSetBounds<*, *>.ensureRect(target: ERectMutable = E.RectMutable()): ERect
 // TODO once refactoring is done:
 // TODO Rename to setBounds
 // TODO Rename interface method to _setBounds
-fun <T, I, M> T.set(other: HasBounds<*, *>): T
+fun <T, I, M> T.setBounds(other: HasBounds<*, *>): T
         where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = apply {
     setBounds(
         left = other.left,
@@ -51,18 +53,23 @@ fun <T, I, M> T.set(other: HasBounds<*, *>): T
 }
 
 
-fun <T, I, M> T.set(other: ERect): T
+fun <T, I, M> T.setBounds(other: ERect): T
         where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
-    set(other.origin, other.size)
+    setOriginSize(other.origin, other.size)
 
-fun <T, I, M> T.set(
+fun <T, I, M> T.setOriginSize(
     origin: EPoint?,
     size: ESize?
 ): T
         where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
-    set(origin?.x ?: originX, origin?.y ?: originY, size?.width ?: width, size?.height ?: height)
+    setOriginSize(
+        origin?.x ?: originX,
+        origin?.y ?: originY,
+        size?.width ?: width,
+        size?.height ?: height
+    )
 
-//TOOO Find why this won't compile
+//TOOO Find why this won't compile, if it still doesn't...
 //fun <T, I, M> T.set(
 //    origin: EPoint?,
 //    width: Number = this.width,
@@ -70,27 +77,13 @@ fun <T, I, M> T.set(
 //): T =
 //    set(origin?.x ?: 0, origin?.y ?: 0, width, height)
 
-fun <T, I, M> T.set(
+fun <T, I, M> T.setBounds(
     x: Number = this.originX,
     y: Number = this.originY,
     size: ESize? = null
 ): T where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
-    set(x, y, size?.width ?: width, size?.height ?: height)
+    setOriginSize(x, y, size?.width ?: width, size?.height ?: height)
 
-fun <T, I, M> T.set(
-    x: Number = this.originX,
-    y: Number = this.originY,
-    width: Number = this.width,
-    height: Number = this.height
-): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = apply {
-    setBounds(
-        left = x,
-        top = y,
-        bottom = y.f + height.f,
-        right = x.f + width.f
-    )
-}
 
 fun <T, I, M> T.setSize(size: ESize): T
         where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = apply {

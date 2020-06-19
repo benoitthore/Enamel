@@ -7,7 +7,7 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.interfaces.bounds.selfPadding
-import com.benoitthore.enamel.geometry.interfaces.bounds.set
+import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
 
 open class EFrameView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -28,7 +28,7 @@ open class EFrameView @JvmOverloads constructor(
 fun View.getViewBounds(target: ERectMutable = E.RectMutable()) = target.setBounds(this)
 
 // Use these functions if you don't want to extend EFrameView
-fun ERectMutable.setBounds(view: View): ERectMutable = apply { set(0, 0, view.width, view.height) }
+fun ERectMutable.setBounds(view: View): ERectMutable = apply { setOriginSize(0, 0, view.width, view.height) }
 fun ERectMutable.setBoundsWithPadding(view: View): ERectMutable =
     setBounds(view)
         .selfPadding(

@@ -6,7 +6,8 @@ import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
-import com.benoitthore.enamel.geometry.interfaces.bounds.set
+import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
+import com.benoitthore.enamel.geometry.interfaces.bounds.setBounds
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import kotlin.math.max
 import kotlin.math.min
@@ -64,7 +65,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
         val x = x.f - width / 2
         val y = y.f - height / 2
 
-        return target.set(x = x, y = y, width = width, height = height)
+        return target.setOriginSize(x = x, y = y, width = width, height = height)
     }
 
     //
@@ -117,7 +118,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
         position: EPoint,
         size: ESizeMutable,
         target: ERectMutable = RectMutable()
-    ) = target.set(
+    ) = target.setBounds(
         x = position.x - size.width * anchor.x,
         y = position.y - size.height * anchor.y,
         size = size

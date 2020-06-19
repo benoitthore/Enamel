@@ -1,8 +1,6 @@
 package com.benoitthore.enamel.geometry.interfaces.bounds
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
 
@@ -28,7 +26,7 @@ fun <I, M> HasBounds<I, M>.scaleRelative2D(
     target: CanSetBounds<I, M> = toMutable()
 ): CanSetBounds<I, M>
         where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
-    target.set(this)
+    target.setBounds(this)
 
     val scaleFactorX = scaleFactorX.f
     val scaleFactorY = scaleFactorY.f

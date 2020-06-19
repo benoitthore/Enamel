@@ -24,6 +24,7 @@ fun CircleVisualEntityMutable.toAndroid(): CircleVisualEntityMutableAndroid {
         )
     })
 }
+
 interface CircleVisualEntityAndroid : AndroidVisualEntity<ECircle, ECircleMutable>,
     CircleVisualEntity
 

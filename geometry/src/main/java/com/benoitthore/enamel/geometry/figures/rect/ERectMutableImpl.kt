@@ -23,6 +23,12 @@ internal class ERectMutableImpl internal constructor(
         get() = origin.y
     override val bottom: Float
         get() = top + height
+    override var centerX: Float
+        get() = TODO("Not yet implemented")
+        set(value) {}
+    override var centerY: Float
+        get() = TODO("Not yet implemented")
+        set(value) {}
 
     override val left: Float
         get() = origin.x
@@ -42,6 +48,17 @@ internal class ERectMutableImpl internal constructor(
 
     override val origin: EPointMutable = E.PointMutable(x, y)
     override val size: ESizeMutable = E.SizeMutable(width, height)
+    override var height: Float
+        get() = size.height
+        set(value) {
+            size.height = value
+        }
+    override var width: Float
+        get() = size.width
+        set(value) {
+            size.width = value
+        }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is ERect) return false

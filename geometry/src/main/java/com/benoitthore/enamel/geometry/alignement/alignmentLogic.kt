@@ -9,7 +9,7 @@ import com.benoitthore.enamel.geometry.interfaces.bounds.*
 
 
 fun <I, M> M.selfAlign(
-    frame: HasBounds<I, M>,
+    frame: HasBounds<*, *>,
     alignment: EAlignment,
     isOutside: Boolean,
     spacing: Number = 0

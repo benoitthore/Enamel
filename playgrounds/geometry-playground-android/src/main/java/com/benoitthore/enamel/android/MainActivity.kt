@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Color.*
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.AttributeSet
@@ -14,20 +13,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.doOnNextLayout
 import com.benoitthore.enamel.geometry.*
 import com.benoitthore.enamel.geometry.alignement.EAlignment
-import com.benoitthore.enamel.geometry.alignement.selfAlign
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
-import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.circle.ECircle
-import com.benoitthore.enamel.geometry.interfaces.bounds.diagonalTLBR
-import com.benoitthore.enamel.geometry.interfaces.bounds.scaleAnchor
+import com.benoitthore.enamel.geometry.figures.circle.set
 import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.point
 import com.benoitthore.enamel.geometry.primitives.times
 import com.benoitthore.enamel.layout.android.*
 import com.benoitthore.visualentity.draw
-import com.benoitthore.visualentity.style.EMesh
-import com.benoitthore.visualentity.style.toShader
 import com.benoitthore.visualentity.toAndroid
 import com.benoitthore.visualentity.toVisualEntity
 
@@ -61,14 +55,13 @@ class MainActivity : AppCompatActivity() {
 class TestView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
-//    private val rect = E.RectMutable().toVisualEntity().toAndroid()
+    //    private val rect = E.RectMutable().toVisualEntity().toAndroid()
     private val circle = E.CircleMutable().toVisualEntity().apply { println(radius++) }.toAndroid()
 
     init {
         doOnNextLayout {
             putShape(E.Point.half * getViewBounds().size)
             putShape(E.Point.zero)
-
 //            rect.style = rect.style.copy(
 //                fill = EMesh(shader = rect.diagonalTLBR().toShader(BLUE, WHITE, RED))
 //            )

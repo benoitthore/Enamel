@@ -5,13 +5,13 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
-interface ECircle : ESVG, HasBounds<ECircle,ECircleMutable> {
+interface ECircle : ESVG, HasBounds<ECircle, ECircleMutable> {
+
+    val radius: Float
 
     override fun addTo(context: SVGContext) {
         context.oval(centerX - radius, centerY - radius, centerX + radius, centerY + radius)
     }
-
-    val radius: Float
 
     fun intersects(other: ECircle) =
         this.center.distanceTo(other.center) < other.radius + this.radius

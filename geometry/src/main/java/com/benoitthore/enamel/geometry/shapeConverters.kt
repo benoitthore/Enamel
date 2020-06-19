@@ -9,7 +9,7 @@ import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
-import com.benoitthore.enamel.geometry.interfaces.bounds.set
+import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.interfaces.bounds.center
@@ -88,7 +88,7 @@ fun List<EPointMutable>.toCircles(
     return target
 }
 
-fun ESize.toRect(target: ERectMutable = E.RectMutable()) = target.set(0, 0, width, height)
+fun ESize.toRect(target: ERectMutable = E.RectMutable()) = target.setOriginSize(0, 0, width, height)
 
 fun HasBounds<*,*>.innerCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
     center(target.center) // set circles center to rect center

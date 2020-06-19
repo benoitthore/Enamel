@@ -3,9 +3,8 @@ package com.benoitthore.enamel.geometry.interfaces.bounds
 import com.benoitthore.enamel.geometry.Resetable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
-/** setBounds must be implemented in a class, not an interface
- */
-interface CanSetBounds<I, M> : HasBounds<I,M>, Resetable where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
+interface CanSetBounds<I, M> : HasBounds<I, M>,
+    Resetable where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
 
     fun setBounds(
         left: Number = this.left,
@@ -15,59 +14,12 @@ interface CanSetBounds<I, M> : HasBounds<I,M>, Resetable where I : HasBounds<I, 
     )
 
     override var centerX: Float
-        get() = super.centerX
-        set(value) {
-            TODO("Untested code")
-            val offset = centerX + value
-            setBounds(
-                left = left - offset,
-                right = right - offset
-            )
-        }
     override var centerY: Float
-        get() = super.centerY
-        set(value) {
-            TODO("Untested code")
-            val offset = centerY + value
-            setBounds(
-                top = top - offset,
-                bottom = bottom - offset
-            )
-        }
-
 
     override var width: Float
-        get() = super.width
-        set(value) {
-            setBounds(
-                right = right + value - width,
-                top = top,
-                left = left,
-                bottom = bottom
-            )
-        }
     override var height: Float
-        get() = super.height
-        set(value) {
-            setBounds(
-                bottom = value - height,
-                top = height,
-                right = right,
-                left = left
-            )
-
-        }
-
     fun setCenter(x: Number, y: Number) {
-        val xOffset = centerX + x.toFloat()
-        val yOffset = centerY + y.toFloat()
-        setBounds(
-            left = left - xOffset,
-            right = right - xOffset,
-            top = top - yOffset,
-            bottom = bottom - yOffset
-        )
-        TODO("Untested code")
+        TODO()
     }
 
     override fun reset() {

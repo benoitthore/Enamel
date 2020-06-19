@@ -19,9 +19,6 @@ fun <T, I, M> EShape<I, M>.ensureMutable(): T
         where  T : EShapeMutable<I, M>, I : EShape<I, M>, M : EShapeMutable<I, M> =
     if (this is EShapeMutable) this as T else toMutable() as T
 
-/**
-left,top,right,bottom must be implemented in a class, not an interface
- */
 interface HasBounds<I, M> : EShapeMutable<I, M> where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
     val left: Float
     val top: Float
@@ -38,7 +35,7 @@ interface HasBounds<I, M> : EShapeMutable<I, M> where I : HasBounds<I, M>, M : C
     val center: EPoint get() = E.Point(centerX, centerY)
 
     fun getBounds(target: ERectMutable = E.RectMutable()): ERect =
-        target.set(originX, originY, width, height)
+        target.setOriginSize(originX, originY, width, height)
 
     fun getSize(target: ESizeMutable = E.SizeMutable()): ESize = target.set(width, height)
 

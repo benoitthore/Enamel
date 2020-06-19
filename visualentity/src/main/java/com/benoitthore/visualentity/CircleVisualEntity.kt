@@ -1,13 +1,11 @@
 package com.benoitthore.visualentity
 
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.rect.*
-import com.benoitthore.enamel.geometry.figures.circle.*
-import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
+import com.benoitthore.enamel.geometry.figures.circle.ECircle
+import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
 import com.benoitthore.visualentity.style.EStyle
 
-// Circle
 internal class CircleVisualEntityMutableImpl(
     private val circle: ECircleMutable,
     override var style: EStyle

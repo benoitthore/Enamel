@@ -3,8 +3,6 @@ package com.benoitthore.enamel.geometry
 import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
-import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.interfaces.bounds.CanSetBounds
 import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
 import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize

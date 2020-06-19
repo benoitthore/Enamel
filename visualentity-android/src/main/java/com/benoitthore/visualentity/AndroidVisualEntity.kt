@@ -9,7 +9,6 @@ import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.enamel.layout.android.withTransform
 
-
 interface AndroidVisualEntity<I, M> :
     VisualEntity<I, M> where I : HasBounds<I, M>, M : CanSetBounds<I, M> {
     val drawer: VisualEntityDrawer

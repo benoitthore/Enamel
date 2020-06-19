@@ -14,19 +14,6 @@ interface ERectMutable : ERect, CanSetBounds<ERect, ERectMutable>, EShapeMutable
     override val size: ESizeMutable
 
     override var height: Float
-        get() = super<ERect>.height
-        set(value) {
-            size.height = value
-        }
     override var width: Float
-        get() = super<ERect>.width
-        set(value) {
-            size.width = value
-        }
-
-    override fun setCenter(x: Number, y: Number) {
-        E.RectMutableCenter(x, y, width, height, target = this)
-    }
-
 
 }
