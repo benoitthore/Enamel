@@ -49,4 +49,8 @@ internal class RectVisualEntityMutableAndroidImpl(
         rect.toMutable().toVisualEntity(style).toAndroid()
 
     override fun toImmutable(): RectVisualEntityAndroid = toMutable()
+
+    override fun reset() {
+        rect.reset()
+    }
 }

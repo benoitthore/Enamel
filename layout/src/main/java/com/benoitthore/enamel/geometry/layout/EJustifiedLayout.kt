@@ -24,13 +24,13 @@ class EJustifiedLayout(
 
     override fun arrange(frame: ERect) {
         val group = rects(frame)
-        children.zip(group)
+        children.zip(group.rects)
             .forEach { (layout, rect) ->
                 layout.arrange(rect.toRect()) // TODO Get rid off that
             }
     }
 
-    private fun rects(frame: ERect): ERectGroup<*, *, *> {
+    private fun rects(frame: ERect): ERectGroup {
         val toFit = alignment.layoutAxis?.let { frame.size.along(it) } ?: frame.size.min
 
         return sizes(frame.size).rectGroupJustified(

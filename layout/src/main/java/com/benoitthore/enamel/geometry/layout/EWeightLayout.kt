@@ -25,13 +25,13 @@ class EWeightLayout(
 
     override fun arrange(frame: ERect) {
         val group = rects(frame)
-        children.zip(group)
+        children.zip(group.rects)
             .forEach { (layout, rect) ->
                 layout.arrange(rect.toRect()) // TODO Get rid off that
             }
     }
 
-    private fun rects(frame: ERect): ERectGroup<*,*,*> {
+    private fun rects(frame: ERect): ERectGroup {
         return weights.rectGroupWeights(
             alignment,
             toFit = frame.size,

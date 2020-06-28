@@ -15,14 +15,14 @@ import com.benoitthore.enamel.geometry.figures.rect.union
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
 import javax.swing.text.html.CSS
 
-interface ERectGroup<T, I, M> : HasBounds<I, M>,
-    List<T> where  T : HasBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> {
+interface ERectGroup : HasBounds<ERectGroup, ERectGroupMutable> {
     val frame: ERect
+    val rects : List<ERect>
 }
 
-interface ERectGroupMutable<T, I, M> : ERectGroup<T, I, M>, CanSetBounds<I, M>,
-    List<T> where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> {
+interface ERectGroupMutable : ERectGroup, CanSetBounds<ERectGroup, ERectGroupMutable> {
 
+    override val rects : List<ERect>
     /**
      * Needs be called by the user whenever a change happens in one of the children,
      * before calling any other function as they will use the previous state
@@ -39,8 +39,7 @@ interface ERectGroupMutable<T, I, M> : ERectGroup<T, I, M>, CanSetBounds<I, M>,
         TODO()
     }
 
-    class ERectGroupImpl<T, I, M>(private val rects: List<T>) : ERectGroupMutable<T, I, M>, List<T> by rects
-            where T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> {
+    class ERectGroupImpl(override val rects: List<ERectMutable>) : ERectGroupMutable {
 
         private val _frame = E.RectMutable()
 
@@ -51,12 +50,12 @@ interface ERectGroupMutable<T, I, M> : ERectGroup<T, I, M>, CanSetBounds<I, M>,
             updateFrame()
         }
 
-        override fun toMutable(): M = TODO()
+        override fun toMutable(): ERectGroupMutable = rects.toMutableList().toRectGroupMutable()
 
-        override fun toImmutable(): I = TODO()
+        override fun toImmutable(): ERectGroup = toMutable()
 
         override fun updateFrame() {
-            union(target = _frame)
+            rects.union(target = _frame)
         }
 
         override val left: Float
@@ -70,13 +69,14 @@ interface ERectGroupMutable<T, I, M> : ERectGroup<T, I, M>, CanSetBounds<I, M>,
         override var centerX: Float
             get() = frame.centerX
             set(value) {
-                TODO("Not yet implemented")
+                TODO()
             }
         override var centerY: Float
             get() = frame.centerY
             set(value) {
-                TODO("Not yet implemented")
+                TODO()
             }
+
 
         override var width: Float
             get() = frame.width
@@ -102,7 +102,7 @@ interface ERectGroupMutable<T, I, M> : ERectGroup<T, I, M>, CanSetBounds<I, M>,
             val toWidth = frame.width
             val toHeight = frame.height
 
-            forEach { rect ->
+            rects.forEach { rect ->
                 rect.selfMap(
                     fromX = fromX,
                     fromY = fromY,

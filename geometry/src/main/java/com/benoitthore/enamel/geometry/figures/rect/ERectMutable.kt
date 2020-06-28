@@ -8,8 +8,8 @@ import com.benoitthore.enamel.geometry.interfaces.bounds.CanSetBounds
 import com.benoitthore.enamel.geometry.interfaces.bounds.EShapeMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
-interface ERectMutable : ERect, CanSetBounds<ERect, ERectMutable>, EShapeMutable<ERect,ERectMutable> {
-
+interface ERectMutable : ERect, Resetable,
+    CanSetBounds<ERect, ERectMutable>, EShapeMutable<ERect,ERectMutable> {
     override val origin: EPointMutable
     override val size: ESizeMutable
 
