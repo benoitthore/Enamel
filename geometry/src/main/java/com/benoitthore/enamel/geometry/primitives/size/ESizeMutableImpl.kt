@@ -7,11 +7,9 @@ internal class ESizeMutableImpl internal constructor(width: Number, height: Numb
     override var width: Float = width.toFloat()
     override var height: Float = height.toFloat()
 
-    override fun toMutable(): ESizeMutable  = E.SizeMutable()
+    override fun toMutable(): ESizeMutable = E.SizeMutable()
 
-    override fun toImmutable(): ESize {
-        TODO("Not yet implemented")
-    }
+    override fun toImmutable(): ESize = toMutable()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
