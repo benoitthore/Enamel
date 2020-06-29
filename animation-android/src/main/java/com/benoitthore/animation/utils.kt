@@ -17,15 +17,15 @@ inline fun prepareAnimation(
         init()
     }
 
-fun <T : CanSetBounds<*,*>> T.animateTo(
-    other: HasBounds<*,*>,
-    duration: Long = 1000L,
-    init: ValueAnimator.() -> Unit = {}
-) {
-    val from = getBounds()
-    val to = other.getBounds()
-    prepareAnimation(duration, init) { progress ->
-        TODO("Not yet implemented")
-//        lerp(progress, from = from, to = to)
-    }.start()
-}
+//fun <T : CanSetBounds<*,*>> T.animateTo(
+//    other: HasBounds<*,*>,
+//    duration: Long = 1000L,
+//    init: ValueAnimator.() -> Unit = {}
+//) {
+//    val from = getBounds()
+//    val to = other.getBounds()
+//    prepareAnimation(duration, init) { progress ->
+//        // TODO
+////        lerp(progress, from = from, to = to)
+//    }.start()
+//}

@@ -31,7 +31,6 @@ fun List<ESize>.rectGroup(
     spacing: Number = 0
 ): ERectGroupMutable {
 
-
     var prev = allocate { E.RectMutable() }
     val rects = mapIndexed { i, size ->
         prev = allocate {
@@ -46,7 +45,6 @@ fun List<ESize>.rectGroup(
 
     val rectGroup = ERectGroupMutable.ERectGroupImpl(rects)
 
-//    TODO()
     rectGroup.aligned(anchor, position)
 
     return rectGroup

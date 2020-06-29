@@ -29,12 +29,14 @@ internal class ERectMutableImpl internal constructor(
     override var centerX: Float
         get() = left + width / 2f
         set(value) {
-            TODO("Not yet implemented")
+            val shift = value - centerX
+            origin.x += shift
         }
     override var centerY: Float
         get() = top + height / 2f
         set(value) {
-            TODO("Not yet implemented")
+            val shift = value - centerY
+            origin.y += shift
         }
 
     override val left: Float

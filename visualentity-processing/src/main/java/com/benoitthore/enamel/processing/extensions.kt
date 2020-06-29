@@ -10,6 +10,7 @@ import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import processing.core.PApplet
 import processing.core.PConstants
 
+
 fun PApplet.mousePosition(target: EPointMutable = E.PointMutable()) = target.set(mouseX, mouseY)
 fun PApplet.getViewBounds(target: ERectMutable = E.RectMutable()) =
     target.apply { setBounds(0, 0, this@getViewBounds.width, this@getViewBounds.height) }
@@ -37,7 +38,7 @@ fun PApplet.draw(circle: ECircle) {
 
 fun PApplet.draw(oval: EOval) {
     with(oval) {
-        ellipse(centerY, centerX, rx, ry)
+        ellipse(centerY, centerX, rx * 2, ry * 2)
     }
 }
 

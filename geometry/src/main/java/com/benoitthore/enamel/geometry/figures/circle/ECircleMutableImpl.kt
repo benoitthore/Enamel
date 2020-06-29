@@ -30,12 +30,12 @@ internal class ECircleMutableImpl internal constructor(
     override var width: Float
         get() = radius * 2
         set(value) {
-            TODO()
+            radius = value / 2f
         }
     override var height: Float
         get() = radius * 2
         set(value) {
-            TODO()
+            radius = value / 2f
         }
     override var centerX: Float
         get() = center.x

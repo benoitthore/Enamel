@@ -6,6 +6,7 @@ import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
+import com.benoitthore.enamel.geometry.figures.oval.EOvalMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
@@ -99,6 +100,17 @@ fun HasBounds<*,*>.innerCircle(target: ECircleMutable = E.CircleMutable()): ECir
 fun HasBounds<*,*>.outerCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
     center(target.center) // set circles center to rect center
     target.radius = hypot(width.d, height.d).f / 2f
+    return target
+}
+
+
+fun HasBounds<*,*>.innerOval(target: EOvalMutable = E.OvalMutable()): EOvalMutable {
+    target.setBounds(left,top,right,bottom)
+    return target
+}
+
+fun HasBounds<*,*>.outerOval(target: EOvalMutable = E.OvalMutable()): EOvalMutable {
+    TODO()
     return target
 }
 

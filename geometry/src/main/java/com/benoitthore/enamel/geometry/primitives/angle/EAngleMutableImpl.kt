@@ -1,19 +1,16 @@
 package com.benoitthore.enamel.geometry.primitives.angle
 
 import com.benoitthore.enamel.core.math.i
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle.*
 
 internal class EAngleMutableImpl internal constructor(value: Number, override var type: AngleType) :
     EAngleMutable {
     override var value: Float = value.toFloat()
 
-    override fun toMutable(): EAngleMutable {
-        TODO("Not yet implemented")
-    }
+    override fun toMutable(): EAngleMutable = E.AngleMutable(value, type)
 
-    override fun toImmutable(): EAngle {
-        TODO("Not yet implemented")
-    }
+    override fun toImmutable(): EAngle = toMutable()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

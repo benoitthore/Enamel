@@ -9,69 +9,44 @@ internal class EOvalMutableImpl(
     ry: Number
 ) : EOvalMutable {
 
-    override val left: Float
-        get() = TODO("Not yet implemented")
-    override val top: Float
-        get() = TODO("Not yet implemented")
-    override val right: Float
-        get() = TODO("Not yet implemented")
-    override val bottom: Float
-        get() = TODO("Not yet implemented")
-
     override var width: Float
-        get() = TODO("Not yet implemented")
+        get() = rx * 2
         set(value) {
-            TODO("Not yet implemented")
+            rx = value / 2f
         }
     override var height: Float
-        get() = TODO("Not yet implemented")
+        get() = ry * 2
         set(value) {
-            TODO("Not yet implemented")
+            ry = value / 2f
         }
-    override var centerX: Float
-        get() = TODO("Not yet implemented")
-        set(value) {
-            TODO("Not yet implemented")
-        }
-    override var centerY: Float
-        get() = TODO("Not yet implemented")
-        set(value) {
-            TODO("Not yet implemented")
-        }
+    override var centerX: Float = cx.toFloat()
+    override var centerY: Float = cy.toFloat()
+    override var ry: Float = rx.toFloat()
+    override var rx: Float = ry.toFloat()
 
-    override var ry: Float
-        get() = TODO("Not yet implemented")
-        set(value) {
-            TODO("Not yet implemented")
-        }
-    override var rx: Float
-        get() = TODO("Not yet implemented")
-        set(value) {
-            TODO("Not yet implemented")
-        }
-
-    init {
-        val cx = cx.toFloat()
-        val cy = cy.toFloat()
-        val rx = rx.toFloat()
-        val ry = ry.toFloat()
-        TODO()
-//        setBounds(
-//            left = cx - rx,
-//            top = cy - ry,
-//            right = cx + rx,
-//            bottom = cy + ry
-//        )
-    }
-
+    override val left: Float
+        get() = centerX - rx
+    override val top: Float
+        get() = centerY - ry
+    override val right: Float
+        get() = centerX + rx
+    override val bottom: Float
+        get() = centerY + ry
 
     override fun toMutable(): EOvalMutable = E.OvalMutable(this)
     override fun toImmutable(): EOval = E.Oval(this)
 
     override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
-        TODO()
-    }
+        val left = left.toFloat()
+        val top = top.toFloat()
+        val right = right.toFloat()
+        val bottom = bottom.toFloat()
 
+        rx = (right - left) / 2f
+        ry = (bottom - top) / 2f
+        centerX = left + rx
+        centerY = top + ry
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -94,6 +69,4 @@ internal class EOvalMutableImpl(
     override fun toString(): String {
         return "EOval(center=$center,rx=$rx, ry=$ry)"
     }
-
-
 }
