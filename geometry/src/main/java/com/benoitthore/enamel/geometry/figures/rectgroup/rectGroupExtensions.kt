@@ -18,11 +18,9 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 
-fun List<ERect>.toRectGroupMutable(): ERectGroupMutable =
+fun List<ERect>.toRectGroup(): ERectGroupMutable =
     ERectGroupMutable.ERectGroupImpl(map { it.toMutable() })
 
-fun List<ERectMutable>.toRectGroupImmutable(): ERectGroupMutable =
-    ERectGroupMutable.ERectGroupImpl(this)
 
 fun List<ESize>.rectGroup(
     alignment: EAlignment,

@@ -29,25 +29,42 @@ internal class ELineMutableImpl internal constructor(
         get() = max(start.x, end.x)
     override val bottom: Float
         get() = max(start.y, end.y)
+
     override var width: Float
         get() = right - left
         set(value) {
-            TODO("Not yet implemented")
+            val delta = height + value
+            setBounds(
+                left = left + delta / 2f,
+                right = right - delta / 2f,
+                top = top,
+                bottom = bottom
+            )
         }
     override var height: Float
         get() = bottom - top
         set(value) {
-            TODO("Not yet implemented")
+            val delta = height + value
+            setBounds(
+                left = left,
+                right = right,
+                top = top + delta / 2f,
+                bottom = bottom - delta / 2f
+            )
         }
     override var centerX: Float
         get() = left + width / 2f
         set(value) {
-            TODO("Not yet implemented")
+            val shift = value - centerX
+            start.x += shift
+            end.x += shift
         }
     override var centerY: Float
         get() = top + height / 2f
         set(value) {
-            TODO("Not yet implemented")
+            val shift = value - centerY
+            start.y += shift
+            end.y += shift
         }
 
     override fun toMutable(): ELineMutable = E.LineMutable(this)
@@ -82,6 +99,4 @@ internal class ELineMutableImpl internal constructor(
     override fun toString(): String {
         return "Line(start=$start, end=$end)"
     }
-
-
 }

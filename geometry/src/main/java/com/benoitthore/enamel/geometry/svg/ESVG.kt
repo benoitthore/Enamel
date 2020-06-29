@@ -48,7 +48,7 @@ interface SVGContext {
         center: EPoint,
         radius: Number,
         startAngle: EAngle,
-        endAngle: EAngle,
+        sweepAngle: EAngle,
         direction: EAngle.Direction = EAngle.Direction.CCW
     )
 

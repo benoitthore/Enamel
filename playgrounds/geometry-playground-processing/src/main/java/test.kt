@@ -1,8 +1,9 @@
+import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.innerCircle
-import com.benoitthore.enamel.geometry.innerOval
+import com.benoitthore.enamel.geometry.figures.rectgroup.toRectGroup
 import com.benoitthore.enamel.processing.draw
 import com.benoitthore.enamel.processing.getViewBounds
 import processing.core.PApplet
@@ -24,13 +25,16 @@ class TestApplet : PApplet() {
         strokeWeight(2f)
         stroke(0)
 
-        val frame = getViewBounds()
+        val rect = E.RectMutable(0, 0, 50, 50)
+        val rect2 = E.RectMutable(50, 50, 100, 100)
 
-        val rect = E.RectMutable(0, 0, 100, 200).selfAlignInside(frame,EAlignment.center)
+        listOf(rect, rect2).toRectGroup().selfAlignInside(getViewBounds(), EAlignment.center)
+            .apply {
 
-        draw(rect)
-        draw(rect.innerOval())
+                width *= (mouseX.f / this@TestApplet.width).lerp(0.5, 2)
+                height *= (mouseY.f / this@TestApplet.height).lerp(0.5, 2)
+                rects.forEach { draw(it) }
+            }
 
-        noLoop()
     }
 }

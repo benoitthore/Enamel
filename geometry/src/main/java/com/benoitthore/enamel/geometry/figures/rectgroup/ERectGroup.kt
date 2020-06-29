@@ -1,28 +1,21 @@
 package com.benoitthore.enamel.geometry.figures.rectgroup
 
-import com.benoitthore.enamel.core.math.*
-import com.benoitthore.enamel.geometry.alignement.EAlignment
-import com.benoitthore.enamel.geometry.alignement.rectAlignedOutside
-import com.benoitthore.enamel.geometry.allocate
-import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.primitives.size.ESize
-import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.figures.rect.union
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
-import javax.swing.text.html.CSS
 
 interface ERectGroup : HasBounds<ERectGroup, ERectGroupMutable> {
     val frame: ERect
-    val rects : List<ERect>
+    val rects: List<ERect>
 }
 
 interface ERectGroupMutable : ERectGroup, CanSetBounds<ERectGroup, ERectGroupMutable> {
 
-    override val rects : List<ERect>
+    override val rects: List<ERect>
+
     /**
      * Needs be called by the user whenever a change happens in one of the children,
      * before calling any other function as they will use the previous state
@@ -50,7 +43,7 @@ interface ERectGroupMutable : ERectGroup, CanSetBounds<ERectGroup, ERectGroupMut
             updateFrame()
         }
 
-        override fun toMutable(): ERectGroupMutable = rects.toMutableList().toRectGroupMutable()
+        override fun toMutable(): ERectGroupMutable = rects.toMutableList().toRectGroup()
 
         override fun toImmutable(): ERectGroup = toMutable()
 
@@ -69,24 +62,48 @@ interface ERectGroupMutable : ERectGroup, CanSetBounds<ERectGroup, ERectGroupMut
         override var centerX: Float
             get() = frame.centerX
             set(value) {
-                TODO()
+                val shift = centerX - value
+                setBounds(
+                    left = left - shift,
+                    right = right - shift,
+                    top = top,
+                    bottom = bottom
+                )
             }
         override var centerY: Float
             get() = frame.centerY
             set(value) {
-                TODO()
+                val shift = centerX - value
+                setBounds(
+                    top = top - shift,
+                    bottom = bottom - shift,
+                    left = left,
+                    right = right
+                )
             }
 
 
         override var width: Float
             get() = frame.width
             set(value) {
-                TODO("Not yet implemented")
+                val shift = width - value
+                setBounds(
+                    left = left + shift,
+                    right = right - shift,
+                    top = top,
+                    bottom = bottom
+                )
             }
         override var height: Float
             get() = frame.height
             set(value) {
-                TODO("Not yet implemented")
+                val shift = height - value
+                setBounds(
+                    top = top + shift,
+                    bottom = bottom - shift,
+                    left = left,
+                    right = right
+                )
             }
 
         override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
