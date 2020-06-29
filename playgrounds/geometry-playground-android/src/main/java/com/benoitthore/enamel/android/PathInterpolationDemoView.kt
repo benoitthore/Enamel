@@ -30,7 +30,8 @@ class PathInterpolationDemoView @JvmOverloads constructor(
 
     private val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG)
         .apply {
-        strokeWidth = 2.dp
+            TODO()
+//        strokeWidth = 2.dp
         color = Color.RED
         style = Paint.Style.STROKE
     }
