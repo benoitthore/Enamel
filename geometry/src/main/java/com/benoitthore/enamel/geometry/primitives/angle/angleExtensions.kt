@@ -4,19 +4,19 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle.*
 
-fun Number.degrees(target: EAngle = E.AngleMutable()): EAngle =
+fun Number.degrees(target: EAngle = E.Angle()): EAngle =
     target.set(
         this.f,
         AngleType.DEGREE
     )
 
-fun Number.radians(target: EAngle = E.AngleMutable()): EAngle =
+fun Number.radians(target: EAngle = E.Angle()): EAngle =
     target.set(
         this.f,
         AngleType.RADIAN
     )
 
-fun Number.rotations(target: EAngle = E.AngleMutable()): EAngle =
+fun Number.rotations(target: EAngle = E.Angle()): EAngle =
     target.set(
         this.f,
         AngleType.ROTATION

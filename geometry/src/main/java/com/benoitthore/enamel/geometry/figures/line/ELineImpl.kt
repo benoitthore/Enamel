@@ -2,7 +2,7 @@ package com.benoitthore.enamel.geometry.figures.line
 
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import kotlin.math.max
 import kotlin.math.min
 
@@ -17,8 +17,8 @@ internal class ELineImpl internal constructor(
         allocateDebugMessage()
     }
 
-    override val start: EPointMutable = E.PointMutable(x1, y1)
-    override val end: EPointMutable = E.PointMutable(x2, y2)
+    override val start: EPoint = E.Point(x1, y1)
+    override val end: EPoint = E.Point(x2, y2)
 
     override var left: Float
         get() = min(start.x, end.x)
@@ -99,6 +99,10 @@ internal class ELineImpl internal constructor(
         }
     }
 
+    override fun copy(): ELine {
+        TODO("Not yet implemented")
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is ELine) return false
@@ -118,4 +122,6 @@ internal class ELineImpl internal constructor(
     override fun toString(): String {
         return "Line(start=$start, end=$end)"
     }
+
+
 }

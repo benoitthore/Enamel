@@ -2,15 +2,20 @@ package com.benoitthore.enamel.geometry.primitives.offset
 
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 
-internal class EOffsetMutableImpl(
+internal class EOffsetImpl(
     override var top: Float,
     override var right: Float,
     override var bottom: Float,
     override var left: Float
-) : EOffsetMutable {
+) : EOffset {
     init {
         allocateDebugMessage()
     }
+    override fun copy(): EOffset {
+        TODO("Not yet implemented")
+    }
+
+
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -35,5 +40,6 @@ internal class EOffsetMutableImpl(
     override fun toString(): String {
         return "EOffset(top=$top, right=$right, bottom=$bottom, left=$left)"
     }
+
 
 }

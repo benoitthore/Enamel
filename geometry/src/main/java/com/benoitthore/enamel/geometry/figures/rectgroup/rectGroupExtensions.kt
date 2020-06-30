@@ -17,18 +17,18 @@ fun <T: EShape<T>> List<T>.toRectGroup(): ERectGroup<T> =
 
 fun List<ESize>.rectGroup(
     alignment: EAlignment,
-    anchor: EPoint = E.Point.zero,
-    position: EPoint = E.Point.zero,
+    anchor: EPoint = E.Point.zero(),
+    position: EPoint = E.Point.zero(),
     spacing: Number = 0
 ): ERectGroup<ERect> {
 
-    var prev = allocate { E.RectMutable() }
+    var prev = allocate { E.Rect() }
     val rects = mapIndexed { i, size ->
         prev = allocate {
             prev.rectAlignedOutside(
                 alignment = alignment,
                 size = size,
-                spacing = if (prev.size == E.Size.zero) 0 else spacing
+                spacing = if (prev.size == E.Size.zero()) 0 else spacing
             )
         }
         prev
@@ -45,8 +45,8 @@ fun List<ESize>.rectGroup(
 fun List<ESize>.rectGroupJustified(
     alignment: EAlignment,
     toFit: Number,
-    anchor: EPoint = E.Point.zero,
-    position: EPoint = E.Point.zero
+    anchor: EPoint = E.Point.zero(),
+    position: EPoint = E.Point.zero()
 ): ERectGroup<ERect> {
     val pack = rectGroup(alignment)
     val packedSpace = if (alignment.isHorizontal) pack.width else pack.height
@@ -63,8 +63,8 @@ fun List<ESize>.rectGroupJustified(
 fun List<Number>.rectGroupWeights(
     alignment: EAlignment,
     toFit: ESize,
-    anchor: EPoint = E.Point.zero,
-    position: EPoint = E.Point.zero,
+    anchor: EPoint = E.Point.zero(),
+    position: EPoint = E.Point.zero(),
     spacing: Number = 0
 ): ERectGroup<ERect> {
 
@@ -82,9 +82,9 @@ fun List<Number>.rectGroupWeights(
     val totalWeight = sumByDouble { it.d }.f
 
     val sizes: List<ESize> = if (alignment.isHorizontal) {
-        map { E.SizeMutable((actualWidth) * it.toFloat() / totalWeight, toFit.height) }
+        map { E.Size((actualWidth) * it.toFloat() / totalWeight, toFit.height) }
     } else {
-        map { E.SizeMutable(toFit.width, (actualHeight) * it.toFloat() / totalWeight) }
+        map { E.Size(toFit.width, (actualHeight) * it.toFloat() / totalWeight) }
     }
 
     return sizes.rectGroup(

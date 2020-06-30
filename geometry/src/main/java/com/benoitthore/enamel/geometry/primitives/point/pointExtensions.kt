@@ -15,8 +15,8 @@ internal fun EPoint._angleTo(x: Number, y: Number): Double =
 internal fun EPoint._offsetAngle(
     angleRadians: Number,
     distance: Number,
-    target: EPointMutable = E.PointMutable()
-): EPointMutable {
+    target: EPoint = E.Point()
+): EPoint {
     val fromX = x
     val fromY = y
     target._set(angleRadians, distance)
@@ -24,7 +24,7 @@ internal fun EPoint._offsetAngle(
 }
 
 // Used to set angle without having to allocate one
-internal fun EPointMutable._set(angle: Number, magnitude: Number) =
+internal fun EPoint._set(angle: Number, magnitude: Number) =
     set(cos(angle.toFloat()) * magnitude.f, sin(angle.toFloat()) * magnitude.f)
 
 
@@ -36,8 +36,8 @@ internal fun EPointMutable._set(angle: Number, magnitude: Number) =
 /////////////////////////
 /////////////////////////
 
-infix fun Number.point(other: Number): EPointMutable =
-    E.PointMutable(this, other)
+infix fun Number.point(other: Number): EPoint =
+    E.Point(this, other)
 
 
 val List<EPoint>.length: Float

@@ -6,11 +6,11 @@ import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 
 interface TransformBuilder : PointBuilder, BaseBuilder {
     fun ETransform(
-        rotation: EAngle = E.AngleMutable(),
-        rotationPivot: EPoint = E.PointMutable.half(),
-        scale: EPoint = E.PointMutable.unit(),
-        scalePivot: EPoint = E.PointMutable.half(),
-        translation: EPoint = E.PointMutable()
+        rotation: EAngle = E.Angle(),
+        rotationPivot: EPoint = E.Point.half(),
+        scale: EPoint = E.Point.unit(),
+        scalePivot: EPoint = E.Point.half(),
+        translation: EPoint = E.Point()
     ): ETransform = TransformMutable(
         rotation = rotation,
         rotationPivot = rotationPivot,

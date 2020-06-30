@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.geometry.figures.oval
 
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.line.ELine
 
 internal class EOvalImpl(
     cx: Number,
@@ -50,6 +51,10 @@ internal class EOvalImpl(
     override var originY: Float
         get() = TODO("Not yet implemented")
         set(value) {}
+
+    override fun copy(): EOval {
+        TODO("Not yet implemented")
+    }
 
     override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         val left = left.toFloat()

@@ -8,10 +8,9 @@ import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
-fun EShape<*>.toRect(target: ERect = E.RectMutable()): ERect = target.setBounds(this)
+fun EShape<*>.toRect(target: ERect = E.Rect()): ERect = target.setBounds(this)
 
 // contains Point
 fun EShape<*>.contains(x: Number, y: Number) = contains(x, y, 0, 0)
@@ -108,11 +107,11 @@ fun EShape<*>.intersects(
 fun EShape<*>.pointAtAnchor(
     x: Number,
     y: Number,
-    target: EPointMutable = E.PointMutable()
-): EPointMutable =
+    target: EPoint = E.Point()
+): EPoint =
     target.set(x = pointAtAnchorX(x), y = pointAtAnchorY(y))
 
-fun EShape<*>.pointAtAnchor(anchor: EPoint, target: EPointMutable = E.PointMutable()) =
+fun EShape<*>.pointAtAnchor(anchor: EPoint, target: EPoint = E.Point()) =
     pointAtAnchor(anchor.x, anchor.y, target)
 
 internal fun EShape<*>.pointAtAnchorX(x: Number) = this.originX.f + width * x.f
@@ -123,38 +122,38 @@ internal fun EShape<*>.anchorAtPointY(y: Number) = if (height == 0f) .5f else y.
 fun EShape<*>.anchorAtPoint(
     x: Number,
     y: Number,
-    target: EPointMutable = E.PointMutable()
-): EPointMutable {
+    target: EPoint = E.Point()
+): EPoint {
     val x = anchorAtPointX(x)
     val y = anchorAtPointY(y)
     return target.set(x, y)
 }
 
-fun EShape<*>.center(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun EShape<*>.center(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(0.5f, 0.5f, target)
 
-fun EShape<*>.topLeft(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun EShape<*>.topLeft(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(0f, 0f, target)
 
-fun EShape<*>.topRight(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun EShape<*>.topRight(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(1f, 0.0f, target)
 
-fun EShape<*>.bottomRight(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun EShape<*>.bottomRight(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(1f, 1f, target)
 
-fun EShape<*>.bottomLeft(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun EShape<*>.bottomLeft(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(0f, 1f, target)
 
 
 // TODO Move
 fun ERect.toPointList(
-    target: List<EPointMutable> = listOf(
-        E.PointMutable(),
-        E.PointMutable(),
-        E.PointMutable(),
-        E.PointMutable()
+    target: List<EPoint> = listOf(
+        E.Point(),
+        E.Point(),
+        E.Point(),
+        E.Point()
     )
-): List<EPointMutable> {
+): List<EPoint> {
     require(target.size == 4) {
         "Needs 4 points in target"
     }
@@ -168,7 +167,7 @@ fun ERect.toPointList(
 /***
  * @return the diagonal going from top right to bottom left
  */
-fun EShape<*>.diagonalTRBL(target: ELine = E.LineMutable()): ELine {
+fun EShape<*>.diagonalTRBL(target: ELine = E.Line()): ELine {
     topRight(target.start)
     bottomLeft(target.end)
     return target
@@ -177,7 +176,7 @@ fun EShape<*>.diagonalTRBL(target: ELine = E.LineMutable()): ELine {
 /***
  * @return the diagonal going from top left to bottom right
  */
-fun EShape<*>.diagonalTLBR(target: ELine = E.LineMutable()): ELine {
+fun EShape<*>.diagonalTLBR(target: ELine = E.Line()): ELine {
     topLeft(target.start)
     bottomRight(target.end)
     return target
@@ -218,9 +217,9 @@ fun <T : EShape<T>> T.map(
     )
 }
 
-fun List<EShape<*>>.union(target: ERect = E.RectMutable()): ERect {
+fun List<EShape<*>>.union(target: ERect = E.Rect()): ERect {
     if (isEmpty()) {
-        return E.RectMutable()
+        return E.Rect()
     }
 
     var left = Float.MAX_VALUE
@@ -244,7 +243,7 @@ fun List<EShape<*>>.union(target: ERect = E.RectMutable()): ERect {
             bottom = it.bottom
         }
     }
-    return E.RectMutableSides(
+    return E.RectSides(
         top = top,
         left = left,
         right = right,

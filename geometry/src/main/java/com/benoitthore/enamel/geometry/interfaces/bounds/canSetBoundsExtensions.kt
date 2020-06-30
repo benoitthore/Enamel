@@ -32,7 +32,7 @@ fun <T : EShape<T>> T.setOrigin(
 fun <T : EShape<T>> T.setOrigin(origin: EPoint) =
     setOrigin(origin.x, origin.y)
 
-fun <T : EShape<T>> T.ensureRect(target: ERect = E.RectMutable()): ERect =
+fun <T : EShape<T>> T.ensureRect(target: ERect = E.Rect()): ERect =
     if (this is ERect) this else getBounds(target)
 
 // TODO once refactoring is done:

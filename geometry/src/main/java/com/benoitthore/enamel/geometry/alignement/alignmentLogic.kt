@@ -51,13 +51,13 @@ fun ERect.rectAlignedInside(
     alignment: EAlignment,
     size: ESize,
     spacing: Number = 0,
-    target: ERect = E.RectMutable()
+    target: ERect = E.Rect()
 ): ERect = target.setSize(size).selfAlignInside(this, alignment, spacing)
 
 fun ERect.rectAlignedOutside(
     alignment: EAlignment,
     size: ESize,
     spacing: Number = 0,
-    target: ERect = E.RectMutable()
+    target: ERect = E.Rect()
 ): ERect = target.setSize(size).selfAlignOutside(this, alignment, spacing)
 

@@ -1,17 +1,16 @@
 package com.benoitthore.enamel.geometry
 
 import com.benoitthore.enamel.core.math.lerp
-import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 
-fun List<EPointMutable>.lerp(
+fun List<EPoint>.lerp(
     fraction: Number,
     from: List<EPoint>,
     to: List<EPoint>
-): List<EPointMutable> {
+): List<EPoint> {
     if (size != from.size || size != size) {
         throw Exception("Impossible to lerp lists with different sizes")
     }
@@ -23,7 +22,7 @@ fun List<EPointMutable>.lerp(
     return this
 }
 
-fun EPointMutable.lerp(fraction: Number, from: EPoint, to: EPoint): EPointMutable =
+fun EPoint.lerp(fraction: Number, from: EPoint, to: EPoint): EPoint =
     set(
         x = fraction.lerp(from.x, to.x),
         y = fraction.lerp(from.y, to.y)

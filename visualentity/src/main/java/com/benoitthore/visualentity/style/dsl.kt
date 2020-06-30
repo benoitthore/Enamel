@@ -3,7 +3,6 @@ package com.benoitthore.visualentity.style
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.builders.IE
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
 /**
  * This doesn't need to be an extension function, but we're trying to avoid polluting the global namespace
@@ -27,7 +26,7 @@ class StyleBuilder {
 
     val shadowPosition: EPoint get() = _shadowPosition
 
-    private var _shadowPosition: EPointMutable = E.PointMutable()
+    private var _shadowPosition: EPoint = E.PointMutable()
 
     fun build(): EStyle = EStyle(
         fill = buildFillMesh(),

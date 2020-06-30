@@ -5,12 +5,12 @@ import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.oval.EOval
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import processing.core.PApplet
 import processing.core.PConstants
 
 
-fun PApplet.mousePosition(target: EPointMutable = E.PointMutable()) = target.set(mouseX, mouseY)
+fun PApplet.mousePosition(target: EPoint = E.PointMutable()) = target.set(mouseX, mouseY)
 fun PApplet.getViewBounds(target: ERect = E.RectMutable()) =
     target.apply { setBounds(0, 0, this@getViewBounds.width, this@getViewBounds.height) }
 

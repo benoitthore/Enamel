@@ -7,7 +7,7 @@ import com.benoitthore.enamel.geometry.primitives.times
 import kotlin.math.max
 import kotlin.math.min
 
-infix fun Number.size(height: Number) = E.SizeMutable(this, height)
+infix fun Number.size(height: Number) = E.Size(this, height)
 
 fun ESize.along(axis: ELayoutAxis): Float = when (axis) {
     ELayoutAxis.vertical -> height
@@ -40,7 +40,7 @@ fun ESize.scaleToFit(size: ESize): Float {
     return min(b.width / a.width, b.height / a.height) // TODO what if Infinite
 }
 
-fun List<ESize>.union(target: ESize = E.SizeMutable()): ESize {
+fun List<ESize>.union(target: ESize = E.Size()): ESize {
     var width = Float.MIN_VALUE
     var height = Float.MIN_VALUE
 
@@ -58,7 +58,7 @@ fun List<ESize>.union(target: ESize = E.SizeMutable()): ESize {
 
 fun List<ESize>.unionAlongAxis(
     axis: ELayoutAxis,
-    target: ESize = E.SizeMutable()
+    target: ESize = E.Size()
 ): ESize {
 
     var sum = 0f

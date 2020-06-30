@@ -73,12 +73,12 @@ interface EAngle : Copyable<EAngle> {
 
     operator fun unaryMinus(): EAngle = inverse()
 
-    fun inverse(target: EAngle = E.AngleMutable()): EAngle {
+    fun inverse(target: EAngle = E.Angle()): EAngle {
         val opposite = value.degrees(target)
         return opposite.set(-value, type)
     }
 
-    fun offset(other: EAngle, target: EAngle = E.AngleMutable()) = target.apply {
+    fun offset(other: EAngle, target: EAngle = E.Angle()) = target.apply {
         val increment = when (type) {
 
             AngleType.DEGREE -> other.degrees
@@ -90,25 +90,25 @@ interface EAngle : Copyable<EAngle> {
     }
 
     operator fun plus(other: EAngle): EAngle =
-        E.AngleMutable(
+        E.Angle(
             radians + other.radians,
             AngleType.RADIAN
         )
 
     operator fun minus(other: EAngle): EAngle =
-        E.AngleMutable(
+        E.Angle(
             radians - other.radians,
             AngleType.RADIAN
         )
 
     operator fun times(n: Number): EAngle =
-        E.AngleMutable(
+        E.Angle(
             radians * n.f,
             AngleType.RADIAN
         )
 
     operator fun div(n: Number): EAngle =
-        E.AngleMutable(
+        E.Angle(
             radians / n.f,
             AngleType.RADIAN
         )

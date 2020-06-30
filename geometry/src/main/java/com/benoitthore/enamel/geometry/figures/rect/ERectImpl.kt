@@ -3,7 +3,8 @@ package com.benoitthore.enamel.geometry.figures.rect
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+import com.benoitthore.enamel.geometry.figures.line.ELine
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 
 internal class ERectImpl internal constructor(
@@ -17,8 +18,8 @@ internal class ERectImpl internal constructor(
         allocateDebugMessage()
     }
 
-    override val origin: EPointMutable = E.PointMutable(x, y)
-    override val size: ESize = E.SizeMutable(width, height)
+    override val origin: EPoint = E.Point(x, y)
+    override val size: ESize = E.Size(width, height)
 
     override var top: Float
         get() = origin.y
@@ -72,6 +73,11 @@ internal class ERectImpl internal constructor(
         set(value) {
             size.width = value
         }
+
+
+    override fun copy(): ERect {
+        TODO("Not yet implemented")
+    }
 
     override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         origin.set(x = left, y = top)

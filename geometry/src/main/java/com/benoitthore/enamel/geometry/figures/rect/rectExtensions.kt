@@ -15,7 +15,7 @@ import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 fun ERect.dividedFraction(
     fraction: Number,
     from: ERectEdge,
-    target: Pair<ERect, ERect> = E.RectMutable() to E.RectMutable()
+    target: Pair<ERect, ERect> = E.Rect() to E.Rect()
 ): Pair<ERect, ERect> {
     val fraction = fraction.f
 
@@ -29,7 +29,7 @@ fun ERect.dividedFraction(
 fun ERect.divided(
     distance: Number,
     from: ERectEdge,
-    target: Pair<ERect, ERect> = E.RectMutable() to E.RectMutable()
+    target: Pair<ERect, ERect> = E.Rect() to E.Rect()
 ): Pair<ERect, ERect> {
     val distance = distance.f
 
@@ -67,7 +67,7 @@ fun ERect.divided(
 operator fun ERect.minus(padding: EOffset) :ERect = TODO()// padding(padding).ensureRect()
 operator fun ERect.plus(padding: EOffset) = expand(padding).ensureRect()
 
-fun List<EShape<*>>.union(target: ERect = E.RectMutable()): ERect {
+fun List<EShape<*>>.union(target: ERect = E.Rect()): ERect {
     if (isEmpty()) {
         return target
     }
@@ -93,7 +93,7 @@ fun List<EShape<*>>.union(target: ERect = E.RectMutable()): ERect {
             bottom = it.bottom
         }
     }
-    return E.RectMutableSides(
+    return E.RectSides(
         top = top,
         left = left,
         right = right,
