@@ -2,18 +2,15 @@ package com.benoitthore.visualentity.android
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
-import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
+import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.visualentity.*
 import com.benoitthore.visualentity.android.utils.VisualEntityDrawer
 import com.benoitthore.visualentity.style.EStyleable
 
 
-fun CircleVisualEntity.toAndroid(): CircleVisualEntityAndroid =
-    toMutable().toAndroid()
-
-fun CircleVisualEntityMutable.toAndroid(): CircleVisualEntityMutableAndroid {
-    return CircleVisualEntityMutableAndroidImpl(
+fun CircleVisualEntity.toAndroid(): CircleVisualEntityAndroid {
+    return CircleVisualEntityAndroidImpl(
         this,
         VisualEntityDrawer(style) { canvas, paint ->
             canvas.draw(
@@ -23,30 +20,20 @@ fun CircleVisualEntityMutable.toAndroid(): CircleVisualEntityMutableAndroid {
         })
 }
 
-interface CircleVisualEntityAndroid : AndroidVisualEntity<ECircle, ECircle>,
+interface CircleVisualEntityAndroid : AndroidVisualEntity<ECircle>,
     CircleVisualEntity {
-    override fun toMutable(): CircleVisualEntityMutableAndroid
-    override fun toImmutable(): CircleVisualEntityAndroid
+    override fun copy(): CircleVisualEntityAndroid
 }
 
-interface CircleVisualEntityMutableAndroid : CircleVisualEntityAndroid,
-    CircleVisualEntityMutable,
-    AndroidVisualEntityMutable<ECircle, ECircle>,
-    ECircle
 
-
-internal class CircleVisualEntityMutableAndroidImpl(
+internal class CircleVisualEntityAndroidImpl(
     private val circle: ECircle,
     override val drawer: VisualEntityDrawer
 ) :
-    CircleVisualEntityMutableAndroid,
+    CircleVisualEntityAndroid,
     ECircle by circle,
     EStyleable by drawer {
 
-    override val transform: ETransformMutable = E.TransformMutable()
-
-    override fun toMutable(): CircleVisualEntityMutableAndroid =
-        circle.toMutable().toVisualEntity(style).toAndroid()
-
-    override fun toImmutable(): CircleVisualEntityAndroid = toMutable()
+    override val transform: ETransform = E.TransformMutable()
+    override fun copy(): CircleVisualEntityAndroid  = circle.copy().toVisualEntity(style).toAndroid()
 }

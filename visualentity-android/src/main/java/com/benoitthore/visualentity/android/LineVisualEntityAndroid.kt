@@ -2,18 +2,15 @@ package com.benoitthore.visualentity.android
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.line.ELine
-import com.benoitthore.enamel.geometry.figures.line.ELine
-import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
+import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.visualentity.*
 import com.benoitthore.visualentity.android.utils.VisualEntityDrawer
 import com.benoitthore.visualentity.style.EStyleable
 
-fun LineVisualEntity.toAndroid(): LineVisualEntityAndroid =
-    toMutable().toAndroid()
 
-fun LineVisualEntityMutable.toAndroid(): LineVisualEntityMutableAndroid {
-    return LineVisualEntityMutableAndroidImpl(
+fun LineVisualEntity.toAndroid(): LineVisualEntityAndroid {
+    return LineVisualEntityAndroidImpl(
         this,
         VisualEntityDrawer(style) { canvas, paint ->
             canvas.draw(
@@ -23,30 +20,20 @@ fun LineVisualEntityMutable.toAndroid(): LineVisualEntityMutableAndroid {
         })
 }
 
-interface LineVisualEntityAndroid : AndroidVisualEntity<ELine, ELine>,
+interface LineVisualEntityAndroid : AndroidVisualEntity<ELine>,
     LineVisualEntity {
-    override fun toMutable(): LineVisualEntityMutableAndroid
-    override fun toImmutable(): LineVisualEntityAndroid
+    override fun copy(): LineVisualEntityAndroid
 }
 
-interface LineVisualEntityMutableAndroid : LineVisualEntityAndroid,
-    LineVisualEntityMutable,
-    AndroidVisualEntityMutable<ELine, ELine>,
-    ELine
 
-
-internal class LineVisualEntityMutableAndroidImpl(
+internal class LineVisualEntityAndroidImpl(
     private val line: ELine,
     override val drawer: VisualEntityDrawer
 ) :
-    LineVisualEntityMutableAndroid,
+    LineVisualEntityAndroid,
     ELine by line,
     EStyleable by drawer {
 
-    override val transform: ETransformMutable = E.TransformMutable()
-
-    override fun toMutable(): LineVisualEntityMutableAndroid =
-        line.toMutable().toVisualEntity(style).toAndroid()
-
-    override fun toImmutable(): LineVisualEntityAndroid = toMutable()
+    override val transform: ETransform = E.TransformMutable()
+    override fun copy(): LineVisualEntityAndroid  = line.copy().toVisualEntity(style).toAndroid()
 }
