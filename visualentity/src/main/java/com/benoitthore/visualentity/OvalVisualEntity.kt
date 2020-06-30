@@ -2,29 +2,22 @@ package com.benoitthore.visualentity
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.oval.EOval
-import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
+import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.visualentity.style.EStyle
 
-internal class OvalVisualEntityMutableImpl(
+
+internal class OvalVisualEntityImpl(
     private val oval: EOval,
     override var style: EStyle
 ) :
-    OvalVisualEntityMutable, EOval by oval {
-    override fun toMutable(): OvalVisualEntityMutable = oval.toMutable().toVisualEntity(style)
-    override fun toImmutable(): OvalVisualEntity = toMutable()
-    override val transform: ETransformMutable = E.TransformMutable()
+    OvalVisualEntity, EOval by oval {
+    override fun copy(): OvalVisualEntity = oval.copy().toVisualEntity(style)
+    override val transform: ETransform = E.TransformMutable()
 }
 
-interface OvalVisualEntity : EOval, VisualEntity<EOval, EOval> {
-    override fun toMutable(): OvalVisualEntityMutable
-    override fun toImmutable(): OvalVisualEntity
+interface OvalVisualEntity : EOval, VisualEntity<EOval> {
+    override fun copy(): OvalVisualEntity
 }
-
-interface OvalVisualEntityMutable : OvalVisualEntity, EOval,
-    VisualEntityMutable<EOval, EOval>
 
 fun EOval.toVisualEntity(style: EStyle = EStyle()): OvalVisualEntity =
-    toMutable().toVisualEntity(style)
-
-fun EOval.toVisualEntity(style: EStyle = EStyle()): OvalVisualEntityMutable =
-    OvalVisualEntityMutableImpl(this, style)
+    OvalVisualEntityImpl(this, style)

@@ -2,30 +2,21 @@ package com.benoitthore.visualentity
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.line.ELine
-import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
+import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.visualentity.style.EStyle
 
-internal class LineVisualEntityMutableImpl(
+internal class LineVisualEntityImpl(
     private val line: ELine,
     override var style: EStyle
 ) :
-    LineVisualEntityMutable, ELine by line {
-    override fun toMutable(): LineVisualEntityMutable = line.toMutable().toVisualEntity(style)
-    override fun toImmutable(): LineVisualEntity = toMutable()
-    override val transform: ETransformMutable = E.TransformMutable()
+    LineVisualEntity, ELine by line {
+    override fun copy(): LineVisualEntity = line.copy().toVisualEntity(style)
+    override val transform: ETransform = E.TransformMutable()
 }
 
-interface LineVisualEntity : ELine, VisualEntity<ELine, ELine> {
-    override fun toMutable(): LineVisualEntityMutable
-    override fun toImmutable(): LineVisualEntity
+interface LineVisualEntity : ELine, VisualEntity<ELine> {
+    override fun copy(): LineVisualEntity
 }
-
-interface LineVisualEntityMutable : LineVisualEntity,
-    ELine,
-    VisualEntityMutable<ELine, ELine>
 
 fun ELine.toVisualEntity(style: EStyle = EStyle()): LineVisualEntity =
-    toMutable().toVisualEntity(style)
-
-fun ELine.toVisualEntity(style: EStyle = EStyle()): LineVisualEntityMutable =
-    LineVisualEntityMutableImpl(this, style)
+    LineVisualEntityImpl(this, style)

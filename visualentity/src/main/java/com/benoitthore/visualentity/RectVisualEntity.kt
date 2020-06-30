@@ -2,29 +2,21 @@ package com.benoitthore.visualentity
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
+import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.visualentity.style.EStyle
 
-internal class RectVisualEntityMutableImpl(
+internal class RectVisualEntityImpl(
     private val rect: ERect,
     override var style: EStyle
 ) :
-    RectVisualEntityMutable, ERect by rect {
-    override fun toMutable(): RectVisualEntityMutable = rect.toMutable().toVisualEntity(style)
-    override fun toImmutable(): RectVisualEntity = toMutable()
-    override val transform: ETransformMutable = E.TransformMutable()
+    RectVisualEntity, ERect by rect {
+    override fun copy(): RectVisualEntity = rect.copy().toVisualEntity(style)
+    override val transform: ETransform = E.TransformMutable()
 }
 
-interface RectVisualEntity : ERect, VisualEntity<ERect, ERect> {
-    override fun toMutable(): RectVisualEntityMutable
-    override fun toImmutable(): RectVisualEntity
+interface RectVisualEntity : ERect, VisualEntity<ERect> {
+    override fun copy(): RectVisualEntity
 }
-
-interface RectVisualEntityMutable : RectVisualEntity, ERect,
-    VisualEntityMutable<ERect, ERect>
 
 fun ERect.toVisualEntity(style: EStyle = EStyle()): RectVisualEntity =
-    toMutable().toVisualEntity(style)
-
-fun ERect.toVisualEntity(style: EStyle = EStyle()): RectVisualEntityMutable =
-    RectVisualEntityMutableImpl(this, style)
+    RectVisualEntityImpl(this, style)
