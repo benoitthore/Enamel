@@ -3,18 +3,30 @@ package com.benoitthore.enamel.geometry.figures.rectgroup
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
-import com.benoitthore.enamel.geometry.figures.rect.union
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
+import com.benoitthore.enamel.geometry.svg.SVGContext
 
-interface ERectGroup : HasBounds<ERectGroup, ERectGroupMutable> {
+interface ERectGroup<T : EShape<*>> : EShape<ERectGroup<T>> {
     val frame: ERect
-    val rects: List<ERect>
-}
+    val rects: List<T>
 
-interface ERectGroupMutable : ERectGroup, CanSetBounds<ERectGroup, ERectGroupMutable> {
 
-    override val rects: List<ERect>
+    override var originX: Float
+        get() = TODO("Not yet implemented")
+        set(value) {
+            TODO("Not yet implemented")
+        }
+
+    override var originY: Float
+        get() = TODO("Not yet implemented")
+        set(value) {
+            TODO("Not yet implemented")
+        }
+
+    override fun addTo(context: SVGContext) {
+        rects.forEach { it.addTo(context) }
+    }
+
 
     /**
      * Needs be called by the user whenever a change happens in one of the children,
@@ -32,9 +44,13 @@ interface ERectGroupMutable : ERectGroup, CanSetBounds<ERectGroup, ERectGroupMut
         TODO()
     }
 
-    class ERectGroupImpl(override val rects: List<ERectMutable>) : ERectGroupMutable {
+    class ERectGroupImpl<T : EShape<*>>(override val rects: List<T>) : ERectGroup<T> {
 
         private val _frame = E.RectMutable()
+
+        override fun copy(): ERectGroup<T> {
+            TODO("Not yet implemented")
+        }
 
         override val frame: ERect
             get() = _frame
@@ -43,22 +59,31 @@ interface ERectGroupMutable : ERectGroup, CanSetBounds<ERectGroup, ERectGroupMut
             updateFrame()
         }
 
-        override fun toMutable(): ERectGroupMutable = rects.toMutableList().toRectGroup()
-
-        override fun toImmutable(): ERectGroup = toMutable()
 
         override fun updateFrame() {
             rects.union(target = _frame)
         }
 
-        override val left: Float
+        override var left: Float
             get() = frame.left
-        override val top: Float
+            set(value) {
+                TODO()
+            }
+        override var top: Float
             get() = frame.top
-        override val right: Float
+            set(value) {
+                TODO()
+            }
+        override var right: Float
             get() = frame.right
-        override val bottom: Float
+            set(value) {
+                TODO()
+            }
+        override var bottom: Float
             get() = frame.bottom
+            set(value) {
+                TODO()
+            }
         override var centerX: Float
             get() = frame.centerX
             set(value) {
@@ -120,19 +145,21 @@ interface ERectGroupMutable : ERectGroup, CanSetBounds<ERectGroup, ERectGroupMut
             val toHeight = frame.height
 
             rects.forEach { rect ->
-                rect.selfMap(
-                    fromX = fromX,
-                    fromY = fromY,
-                    fromWidth = fromWidth,
-                    fromHeight = fromHeight,
-                    toX = toX,
-                    toY = toY,
-                    toWidth = toWidth,
-                    toHeight = toHeight
-                )
+                TODO()
+//                rect.selfMap<EShape<*>>(
+//                    fromX = fromX,
+//                    fromY = fromY,
+//                    fromWidth = fromWidth,
+//                    fromHeight = fromHeight,
+//                    toX = toX,
+//                    toY = toY,
+//                    toWidth = toWidth,
+//                    toHeight = toHeight
+//                )
             }
             updateFrame()
         }
+
     }
 
 

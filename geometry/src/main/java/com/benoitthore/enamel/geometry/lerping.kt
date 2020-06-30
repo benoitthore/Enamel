@@ -3,10 +3,8 @@ package com.benoitthore.enamel.geometry
 import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.interfaces.bounds.CanSetBounds
-import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
-import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 
 fun List<EPointMutable>.lerp(
@@ -31,14 +29,13 @@ fun EPointMutable.lerp(fraction: Number, from: EPoint, to: EPoint): EPointMutabl
         y = fraction.lerp(from.y, to.y)
     )
 
-fun ESizeMutable.lerp(fraction: Number, from: ESize, to: ESize): ESizeMutable =
+fun ESize.lerp(fraction: Number, from: ESize, to: ESize): ESize =
     set(
         width = fraction.lerp(from.width, to.width),
         height = fraction.lerp(from.height, to.height)
     )
 
-fun <T, I, M> T.lerp(fraction: Number, from: HasBounds<*, *>, to: HasBounds<*, *>)
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = apply {
+fun <T : EShape<T>> T.lerp(fraction: Number, from: EShape<*>, to: EShape<*>) = apply {
     setOriginSize(
         x = fraction.lerp(from.originX, to.originX),
         y = fraction.lerp(from.originY, to.originY),

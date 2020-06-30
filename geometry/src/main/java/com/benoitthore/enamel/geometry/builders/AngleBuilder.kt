@@ -9,7 +9,7 @@ interface AngleBuilder : BaseBuilder {
         value: Number = 0f, type:
         AngleType = AngleType.RADIAN
     ): EAngle =
-        AngleMutable(value, type).toMutable()
+        AngleMutable(value, type).copy()
 
     object Angle {
         val zero = 0.degrees()
@@ -17,7 +17,7 @@ interface AngleBuilder : BaseBuilder {
     }
 
     object MutableAngle {
-        fun zero(target: EAngleMutable) = 0.degrees(target)
-        fun unit(target: EAngleMutable) = 1.rotations(target)
+        fun zero(target: EAngle) = 0.degrees(target)
+        fun unit(target: EAngle) = 1.rotations(target)
     }
 }

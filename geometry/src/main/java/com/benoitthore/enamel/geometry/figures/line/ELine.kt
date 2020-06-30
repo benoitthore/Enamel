@@ -1,11 +1,15 @@
+@file:JvmName("ELineKt")
+
 package com.benoitthore.enamel.geometry.figures.line
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
-import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
+import com.benoitthore.enamel.geometry.interfaces.bounds.CanSetBounds
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShapeMutable
+import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.angle.degrees
 import com.benoitthore.enamel.geometry.primitives.angle.radians
 import com.benoitthore.enamel.geometry.primitives.linearfunction.ELinearFunction
@@ -13,22 +17,18 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point._angleTo
 import com.benoitthore.enamel.geometry.primitives.point._offsetAngle
-import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
+interface ELine : EShape, ELinearFunction {
 
-/*
-TODO Make allocation free
- */
-interface ELine : ELinearFunction, ESVG,  HasBounds<ELine,ELineMutable> {
+    val start: EPointMutable
+    val end: EPointMutable
 
-    val start: EPoint
-    val end: EPoint
 
     val length
         get() = start.distanceTo(end).f
 
-    fun angle(target: EAngleMutable) = angleRadians.radians(target = target)
+    fun angle(target: EAngle) = angleRadians.radians(target = target)
     val x1
         get() = start.x
     val x2
@@ -86,19 +86,19 @@ interface ELine : ELinearFunction, ESVG,  HasBounds<ELine,ELineMutable> {
         return froPointMutable._offsetAngle(angleRadians, totalDistance, target = froPointMutable)
     }
 
-    fun isParallel(other: ELineMutable) = angleRadians == angleRadians
+    fun isParallel(other: ELine) = angleRadians == angleRadians
 
     fun rotate(
-        offsetAngle: EAngleMutable,
+        offsetAngle: EAngle,
         around: EPoint = getCenter(E.PointMutable()),
-        target: ELineMutable
-    ): ELineMutable {
+        target: ELine
+    ): ELine {
         start.rotateAround(offsetAngle, around, target = target.start)
         end.rotateAround(offsetAngle, around, target = target.end)
         return target
     }
 
-    fun expand(distance: Number, from: Number = 0f, target: ELineMutable): ELineMutable {
+    fun expand(distance: Number, from: Number = 0f, target: ELine): ELine {
         val from = from.toFloat()
         pointAt(from, target = target.start)
         extrapolateFrom(distance, from.opposite(), target = target.end)
@@ -154,7 +154,7 @@ interface ELine : ELinearFunction, ESVG,  HasBounds<ELine,ELineMutable> {
         towards: Float,
         leftLength: Number,
         rightLength: Number,
-        target: ELineMutable
+        target: ELine
     ): ELine {
         perpendicularPointLeft(
             distanceFroLineMutable = leftLength,
@@ -176,7 +176,7 @@ interface ELine : ELinearFunction, ESVG,  HasBounds<ELine,ELineMutable> {
         distance: Number,
         towards: Float,
         length: Number,
-        target: ELineMutable
+        target: ELine
     ) =
         perpendicular(
             distance = distance,
@@ -188,7 +188,7 @@ interface ELine : ELinearFunction, ESVG,  HasBounds<ELine,ELineMutable> {
 
     fun perpendicular(
         at: Number, leftLength: Number, rightLength: Number,
-        target: ELineMutable
+        target: ELine
     ): ELine {
         val offset = length * at.toFloat()
         return perpendicular(
@@ -200,14 +200,14 @@ interface ELine : ELinearFunction, ESVG,  HasBounds<ELine,ELineMutable> {
         )
     }
 
-    fun perpendicular(at: Number, length: Number, target: ELineMutable) = perpendicular(
+    fun perpendicular(at: Number, length: Number, target: ELine) = perpendicular(
         at = at,
         leftLength = length.f / 2f,
         rightLength = length.f / 2f,
         target = target
     )
 
-    fun parallel(distance: Number, target: ELineMutable): ELine {
+    fun parallel(distance: Number, target: ELine): ELine {
 
         TODO()
 
@@ -217,3 +217,28 @@ interface ELine : ELinearFunction, ESVG,  HasBounds<ELine,ELineMutable> {
 
     private fun Float.opposite() = 1f - this
 }
+
+fun <T : ELine> T.set(start: EPoint = this.start, end: EPoint = this.end) =
+    set(start.x, start.y, end.x, end.y)
+
+fun <T : ELine> T.set(
+    x1: Number = start.x,
+    y1: Number = start.y,
+    x2: Number = end.x,
+    y2: Number = end.y
+) = apply {
+    start.x = x1.f
+    start.y = y1.f
+
+    end.x = x2.f
+    end.y = y2.f
+}
+
+fun <T : ELine> T.selfRotate(
+    offsetAngle: EAngle,
+    around: EPoint = getCenter(E.PointMutable()),
+    target: ELine
+) = apply { rotate(offsetAngle, around, this) }
+
+fun <T : ELine> T.selfExpand(distance: Number, from: Number = 0f) =
+    expand(distance, from, this)

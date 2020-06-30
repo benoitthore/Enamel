@@ -2,7 +2,6 @@ package com.benoitthore.enamel.geometry.builders
 
 import com.benoitthore.enamel.geometry.allocate
 import com.benoitthore.enamel.geometry.primitives.size.ESize
-import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 
 interface SizeBuilder : BaseBuilder {
 
@@ -29,7 +28,7 @@ interface SizeBuilder : BaseBuilder {
         fun random(
             minSize: Number,
             maxSize: Number,
-            target: ESizeMutable = E.SizeMutable()
+            target: ESize = E.SizeMutable()
         ): ESize =
             _SizeMutable.random(minSize, maxSize, minSize, maxSize, target)
 
@@ -38,13 +37,13 @@ interface SizeBuilder : BaseBuilder {
             maxWidth: Number = 1,
             minHeight: Number = 0,
             maxHeight: Number = 1,
-            target: ESizeMutable = E.SizeMutable()
+            target: ESize = E.SizeMutable()
         ): ESize = _SizeMutable.random(minWidth, maxWidth, minHeight, maxHeight, target)
     }
 
     object _SizeMutable {
-        fun zero(target: ESizeMutable = E.SizeMutable()) = target.set(0, 0)
-        fun greatestSize(target: ESizeMutable = E.SizeMutable()) =
+        fun zero(target: ESize = E.SizeMutable()) = target.set(0, 0)
+        fun greatestSize(target: ESize = E.SizeMutable()) =
             target.set(Float.MAX_VALUE, Float.MAX_VALUE)
 
         fun square(size: Number) = E.SizeMutable(size, size)
@@ -52,8 +51,8 @@ interface SizeBuilder : BaseBuilder {
         fun random(
             minSize: Number,
             maxSize: Number,
-            target: ESizeMutable = E.SizeMutable()
-        ): ESizeMutable =
+            target: ESize = E.SizeMutable()
+        ): ESize =
             random(minSize, maxSize, minSize, maxSize, target)
 
         fun random(
@@ -61,8 +60,8 @@ interface SizeBuilder : BaseBuilder {
             maxWidth: Number = 1,
             minHeight: Number = 0,
             maxHeight: Number = 1,
-            target: ESizeMutable = E.SizeMutable()
-        ): ESizeMutable = target.set(
+            target: ESize = E.SizeMutable()
+        ): ESize = target.set(
             com.benoitthore.enamel.core.math.random(minWidth, maxWidth),
             com.benoitthore.enamel.core.math.random(minHeight, maxHeight)
         )

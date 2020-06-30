@@ -3,13 +3,10 @@ package com.benoitthore.enamel.geometry
 import com.benoitthore.enamel.core.LazyList
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
-import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
 import com.benoitthore.enamel.geometry.figures.line.ELine
-import com.benoitthore.enamel.geometry.figures.line.ELineMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
-import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
+import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
@@ -62,19 +59,19 @@ fun AnglePool(size: Int = 50) =
 
 // TODO Make this an interface
 class GeometryPool(
-    val rect: EPool<ERectMutable> = RectPool(
+    val rect: EPool<ERect> = RectPool(
         50
     ),
     val point: EPool<EPointMutable> = PointPool(
         50
     ),
-    val circle: EPool<ECircleMutable> = CirclePool(
+    val circle: EPool<ECircle> = CirclePool(
         50
     ),
-    val line: EPool<ELineMutable> = LinePool(
+    val line: EPool<ELine> = LinePool(
         50
     ),
-    val angle: EPool<EAngleMutable> = AnglePool(
+    val angle: EPool<EAngle> = AnglePool(
         50
     )
 ) {
@@ -111,18 +108,18 @@ class GeometryPool(
 
     val invokeMap: Map<Class<*>, () -> Any> = mapOf(
         ELine::class.java to { line() },
-        ELineMutable::class.java to { line() },
+        ELine::class.java to { line() },
 
-        ERectMutable::class.java to { rect() },
+        ERect::class.java to { rect() },
         ERect::class.java to { rect() },
 
         EPointMutable::class.java to { point() },
         EPoint::class.java to { point() },
 
-        ECircleMutable::class.java to { circle() },
+        ECircle::class.java to { circle() },
         ECircle::class.java to { circle() },
 
-        EAngleMutable::class.java to { angle() },
+        EAngle::class.java to { angle() },
         EAngle::class.java to { angle() }
 
 

@@ -3,11 +3,7 @@ package com.benoitthore.enamel.geometry.builders
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
-import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
-import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
-import com.benoitthore.enamel.geometry.interfaces.bounds.setBounds
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import kotlin.math.max
 import kotlin.math.min
@@ -22,17 +18,17 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     fun Rect(origin: EPoint = Point(), size: ESize = Size()): ERect =
         RectMutable(origin.toMutable(), size.toMutable())
 
-    fun RectMutable(origin: EPoint = PointMutable(), size: ESize = SizeMutable()): ERectMutable =
+    fun RectMutable(origin: EPoint = PointMutable(), size: ESize = SizeMutable()): ERect =
         RectMutable(origin.x, origin.y, size.width, size.height)
 
     fun Rect(size: ESize = Size()): ERect = RectMutable(size)
 
-    fun RectMutable(size: ESize = SizeMutable()): ERectMutable =
+    fun RectMutable(size: ESize = SizeMutable()): ERect =
         RectMutable(width = size.width, height = size.height)
 
     //
 
-    fun RectMutable(other: ERect): ERectMutable = RectMutable(other.origin, other.size)
+    fun RectMutable(other: ERect): ERect = RectMutable(other.origin, other.size)
     fun Rect(other: ERect): ERect = RectMutable(other)
 
     //
@@ -40,7 +36,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     fun RectMutableCenter(
         center: EPoint,
         size: ESize,
-        target: ERectMutable = RectMutable()
+        target: ERect = RectMutable()
     ) = RectMutableCenter(center.x, center.y, size.width, size.height, target)
 
     //
@@ -49,7 +45,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
         center: EPoint,
         width: Number,
         height: Number,
-        target: ERectMutable = RectMutable()
+        target: ERect = RectMutable()
     ) = RectMutableCenter(center.x, center.y, width, height, target)
 
     //
@@ -57,8 +53,8 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     fun RectMutableCenter(
         x: Number = 0f, y: Number = 0f,
         width: Number, height: Number,
-        target: ERectMutable = RectMutable()
-    ): ERectMutable {
+        target: ERect = RectMutable()
+    ): ERect {
 
         val width = width.f
         val height = height.f
@@ -73,7 +69,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     fun RectMutableCorners(
         corner1: EPoint,
         corner2: EPoint,
-        target: ERectMutable = RectMutable()
+        target: ERect = RectMutable()
     ) = RectMutableCorners(corner1.x, corner1.y, corner2.x, corner2.y, target)
 
     //
@@ -83,8 +79,8 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
         corner1Y: Number = 0,
         corner2X: Number = 0,
         corner2Y: Number = 0,
-        target: ERectMutable = RectMutable()
-    ): ERectMutable {
+        target: ERect = RectMutable()
+    ): ERect {
         return RectMutableSides(
             top = min(corner1Y.d, corner2Y.d),
             bottom = max(corner1Y.d, corner2Y.d),
@@ -101,8 +97,8 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
         top: Number,
         right: Number,
         bottom: Number,
-        target: ERectMutable = RectMutable()
-    ): ERectMutable = target.apply {
+        target: ERect = RectMutable()
+    ): ERect = target.apply {
         setBounds(
             top = top.f,
             left = left.f,
@@ -116,8 +112,8 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     fun RectMutableAnchorPos(
         anchor: EPoint,
         position: EPoint,
-        size: ESizeMutable,
-        target: ERectMutable = RectMutable()
+        size: ESize,
+        target: ERect = RectMutable()
     ) = target.setBounds(
         x = position.x - size.width * anchor.x,
         y = position.y - size.height * anchor.y,

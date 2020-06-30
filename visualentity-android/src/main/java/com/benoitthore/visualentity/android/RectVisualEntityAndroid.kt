@@ -2,7 +2,6 @@ package com.benoitthore.visualentity.android
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.visualentity.*
@@ -24,7 +23,7 @@ fun RectVisualEntityMutable.toAndroid(): RectVisualEntityMutableAndroid {
         })
 }
 
-interface RectVisualEntityAndroid : AndroidVisualEntity<ERect, ERectMutable>,
+interface RectVisualEntityAndroid : AndroidVisualEntity<ERect, ERect>,
     RectVisualEntity {
     override fun toMutable(): RectVisualEntityMutableAndroid
     override fun toImmutable(): RectVisualEntityAndroid
@@ -32,15 +31,16 @@ interface RectVisualEntityAndroid : AndroidVisualEntity<ERect, ERectMutable>,
 
 interface RectVisualEntityMutableAndroid : RectVisualEntityAndroid,
     RectVisualEntityMutable,
-    AndroidVisualEntityMutable<ERect, ERectMutable>, ERectMutable
+    AndroidVisualEntityMutable<ERect, ERect>,
+    ERect
 
 
 internal class RectVisualEntityMutableAndroidImpl(
-    private val rect: ERectMutable,
+    private val rect: ERect,
     override val drawer: VisualEntityDrawer
 ) :
     RectVisualEntityMutableAndroid,
-    ERectMutable by rect,
+    ERect by rect,
     EStyleable by drawer {
 
     override val transform: ETransformMutable = E.TransformMutable()

@@ -3,6 +3,7 @@ package com.benoitthore.enamel.geometry.primitives.angle
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.interfaces.bounds.Copyable
 import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import kotlin.math.cos
 import kotlin.math.sin
@@ -11,8 +12,7 @@ import com.benoitthore.enamel.geometry.primitives.angle.EAngle.*
 
 private val π = Math.PI.f
 
-interface EAngle :EShape<EAngle,EAngleMutable> {
-
+interface EAngle : Copyable<EAngle> {
     enum class AngleType {
         DEGREE, RADIAN, ROTATION
     }
@@ -22,8 +22,23 @@ interface EAngle :EShape<EAngle,EAngleMutable> {
         CCW //CounterClockWise
     }
 
-    val value: Float
-    val type: AngleType
+    var value: Float
+    var type: AngleType
+
+    fun set(other: EAngle) = set(
+        other.value,
+        other.type
+    )
+
+    fun set(value: Number, type: AngleType): EAngle {
+        this.value = value.f
+        this.type = type
+        return this
+    }
+
+    fun selfInverse() = inverse(this)
+    fun selfOffset(angle: EAngle) = offset(angle, this)
+
 
     // The use of by lazy would create 3 new objects so it's better to calculate on initialisation
     val radians
@@ -56,14 +71,14 @@ interface EAngle :EShape<EAngle,EAngleMutable> {
         get() = tan(radians.d).f
 
 
-    operator fun unaryMinus(): EAngleMutable = inverse()
+    operator fun unaryMinus(): EAngle = inverse()
 
-    fun inverse(target: EAngleMutable = E.AngleMutable()): EAngleMutable {
+    fun inverse(target: EAngle = E.AngleMutable()): EAngle {
         val opposite = value.degrees(target)
         return opposite.set(-value, type)
     }
 
-    fun offset(other: EAngle, target: EAngleMutable = E.AngleMutable()) = target.apply {
+    fun offset(other: EAngle, target: EAngle = E.AngleMutable()) = target.apply {
         val increment = when (type) {
 
             AngleType.DEGREE -> other.degrees
@@ -74,31 +89,31 @@ interface EAngle :EShape<EAngle,EAngleMutable> {
         value += increment
     }
 
-    operator fun plus(other: EAngleMutable): EAngleMutable =
+    operator fun plus(other: EAngle): EAngle =
         E.AngleMutable(
             radians + other.radians,
             AngleType.RADIAN
         )
 
-    operator fun minus(other: EAngleMutable): EAngleMutable =
+    operator fun minus(other: EAngle): EAngle =
         E.AngleMutable(
             radians - other.radians,
             AngleType.RADIAN
         )
 
-    operator fun times(n: Number): EAngleMutable =
+    operator fun times(n: Number): EAngle =
         E.AngleMutable(
             radians * n.f,
             AngleType.RADIAN
         )
 
-    operator fun div(n: Number): EAngleMutable =
+    operator fun div(n: Number): EAngle =
         E.AngleMutable(
             radians / n.f,
             AngleType.RADIAN
         )
 
-    operator fun compareTo(angle: EAngleMutable): Int =
+    operator fun compareTo(angle: EAngle): Int =
         ((rotations - angle.rotations) * 100).toInt()
 
 

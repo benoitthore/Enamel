@@ -1,31 +1,53 @@
 package com.benoitthore.enamel.geometry.figures.rect
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.alignement.EAlignment
-import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
-import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
+import com.benoitthore.enamel.geometry.primitives.size.ESize
 
-internal class ERectMutableImpl internal constructor(
+internal class ERectImpl internal constructor(
     x: Number,
     y: Number,
     width: Number,
     height: Number
-) : ERectMutable {
+) : ERect {
 
     init {
         allocateDebugMessage()
     }
 
     override val origin: EPointMutable = E.PointMutable(x, y)
-    override val size: ESizeMutable = E.SizeMutable(width, height)
+    override val size: ESize = E.SizeMutable(width, height)
 
-    override val top: Float
+    override var top: Float
         get() = origin.y
-    override val bottom: Float
+        set(value) {
+            TODO()
+        }
+    override var bottom: Float
         get() = top + height
+        set(value) {
+            TODO()
+        }
+    override var originX: Float
+        get() = TODO("Not yet implemented")
+        set(value) {}
+    override var originY: Float
+        get() = TODO("Not yet implemented")
+        set(value) {}
+    override var left: Float
+        get() = origin.x
+        set(value) {
+            TODO()
+        }
+    override var right: Float
+        get() = origin.x + width
+        set(value) {
+            TODO()
+        }
+
+
     override var centerX: Float
         get() = left + width / 2f
         set(value) {
@@ -39,10 +61,6 @@ internal class ERectMutableImpl internal constructor(
             origin.y += shift
         }
 
-    override val left: Float
-        get() = origin.x
-    override val right: Float
-        get() = origin.x + width
 
     override var height: Float
         get() = size.height
@@ -54,10 +72,6 @@ internal class ERectMutableImpl internal constructor(
         set(value) {
             size.width = value
         }
-
-    override fun toMutable(): ERectMutable = E.RectMutable(this)
-
-    override fun toImmutable(): ERect = E.Rect(this)
 
     override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         origin.set(x = left, y = top)

@@ -2,7 +2,6 @@ package com.benoitthore.visualentity.android
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.oval.EOval
-import com.benoitthore.enamel.geometry.figures.oval.EOvalMutable
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.visualentity.*
@@ -23,7 +22,7 @@ fun OvalVisualEntityMutable.toAndroid(): OvalVisualEntityMutableAndroid {
         })
 }
 
-interface OvalVisualEntityAndroid : AndroidVisualEntity<EOval, EOvalMutable>,
+interface OvalVisualEntityAndroid : AndroidVisualEntity<EOval, EOval>,
     OvalVisualEntity {
     override fun toMutable(): OvalVisualEntityMutableAndroid
     override fun toImmutable(): OvalVisualEntityAndroid
@@ -31,15 +30,16 @@ interface OvalVisualEntityAndroid : AndroidVisualEntity<EOval, EOvalMutable>,
 
 interface OvalVisualEntityMutableAndroid : OvalVisualEntityAndroid,
     OvalVisualEntityMutable,
-    AndroidVisualEntityMutable<EOval, EOvalMutable>, EOvalMutable
+    AndroidVisualEntityMutable<EOval, EOval>,
+    EOval
 
 
 internal class OvalVisualEntityMutableAndroidImpl(
-    private val oval: EOvalMutable,
+    private val oval: EOval,
     override val drawer: VisualEntityDrawer
 ) :
     OvalVisualEntityMutableAndroid,
-    EOvalMutable by oval,
+    EOval by oval,
     EStyleable by drawer {
 
     override val transform: ETransformMutable = E.TransformMutable()

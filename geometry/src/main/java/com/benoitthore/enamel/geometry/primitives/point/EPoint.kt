@@ -9,7 +9,7 @@ import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
-import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
+import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.angle.radians
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle.*
 import kotlin.math.*
@@ -28,14 +28,14 @@ interface EPoint : Tuple2, EShape<EPoint,EPointMutable> {
     val magnitude: Float
         get() = hypot(x.d, y.d).toFloat()
 
-    fun heading(target: EAngleMutable = E.AngleMutable()) =
+    fun heading(target: EAngle = E.AngleMutable()) =
         target.set(atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
 
-    fun angleTo(x: Number, y: Number, target: EAngleMutable = E.AngleMutable()): EAngleMutable =
+    fun angleTo(x: Number, y: Number, target: EAngle = E.AngleMutable()): EAngle =
         _angleTo(x, y).radians(target)
 
 
-    fun angleTo(point: EPoint, target: EAngleMutable = E.AngleMutable()): EAngleMutable =
+    fun angleTo(point: EPoint, target: EAngle = E.AngleMutable()): EAngle =
         angleTo(point.x, point.y, target)
 
     fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)

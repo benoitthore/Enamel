@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.builders
 
 import com.benoitthore.enamel.geometry.figures.oval.EOval
-import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
+import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.angle.degrees
 import com.benoitthore.enamel.geometry.primitives.angle.rotations
 
@@ -20,7 +20,7 @@ interface OvalBuilder : BaseBuilder {
     }
 
     object MutableAngle {
-        fun zero(target: EAngleMutable) = 0.degrees(target)
-        fun unit(target: EAngleMutable) = 1.rotations(target)
+        fun zero(target: EAngle) = 0.degrees(target)
+        fun unit(target: EAngle) = 1.rotations(target)
     }
 }

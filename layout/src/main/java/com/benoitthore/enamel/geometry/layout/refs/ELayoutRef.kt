@@ -1,10 +1,8 @@
 package com.benoitthore.enamel.geometry.layout.refs
 
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.size.ESize
-import com.benoitthore.enamel.geometry.interfaces.bounds.setBounds
 import com.benoitthore.enamel.geometry.layout.ELayout
 
 import java.util.*
@@ -20,7 +18,7 @@ class ELayoutRef<V : Any>(
 
     var isInMeasureMode = false
 
-    private var _frame: ERectMutable = E.RectMutable()
+    private var _frame: ERect = E.RectMutable()
     val frame: ERect get() = _frame
 
     override fun size(toFit: ESize): ESize {

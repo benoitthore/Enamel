@@ -2,12 +2,12 @@ package com.benoitthore.enamel.geometry.figures.oval
 
 import com.benoitthore.enamel.geometry.builders.E
 
-internal class EOvalMutableImpl(
+internal class EOvalImpl(
     cx: Number,
     cy: Number,
     rx: Number,
     ry: Number
-) : EOvalMutable {
+) : EOval {
 
     override var width: Float
         get() = rx * 2
@@ -24,17 +24,32 @@ internal class EOvalMutableImpl(
     override var ry: Float = rx.toFloat()
     override var rx: Float = ry.toFloat()
 
-    override val left: Float
+    override var left: Float
         get() = centerX - rx
-    override val top: Float
+        set(value) {
+            TODO()
+        }
+    override var top: Float
         get() = centerY - ry
-    override val right: Float
+        set(value) {
+            TODO()
+        }
+    override var right: Float
         get() = centerX + rx
-    override val bottom: Float
+        set(value) {
+            TODO()
+        }
+    override var bottom: Float
         get() = centerY + ry
-
-    override fun toMutable(): EOvalMutable = E.OvalMutable(this)
-    override fun toImmutable(): EOval = E.Oval(this)
+        set(value) {
+            TODO()
+        }
+    override var originX: Float
+        get() = TODO("Not yet implemented")
+        set(value) {}
+    override var originY: Float
+        get() = TODO("Not yet implemented")
+        set(value) {}
 
     override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         val left = left.toFloat()
@@ -55,7 +70,8 @@ internal class EOvalMutableImpl(
 
         if (rx != other.rx) return false
         if (ry != other.ry) return false
-        if (center != other.center) return false
+        if (centerX != other.centerX) return false
+        if (centerY != other.centerY) return false
 
         return true
     }
@@ -67,6 +83,6 @@ internal class EOvalMutableImpl(
     }
 
     override fun toString(): String {
-        return "EOval(center=$center,rx=$rx, ry=$ry)"
+        return "EOval(centerX=$centerX,centerY=$centerY,,rx=$rx, ry=$ry)"
     }
 }

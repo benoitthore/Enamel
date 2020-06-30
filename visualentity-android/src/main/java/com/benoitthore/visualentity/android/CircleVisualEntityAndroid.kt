@@ -2,7 +2,6 @@ package com.benoitthore.visualentity.android
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
-import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.visualentity.*
@@ -24,7 +23,7 @@ fun CircleVisualEntityMutable.toAndroid(): CircleVisualEntityMutableAndroid {
         })
 }
 
-interface CircleVisualEntityAndroid : AndroidVisualEntity<ECircle, ECircleMutable>,
+interface CircleVisualEntityAndroid : AndroidVisualEntity<ECircle, ECircle>,
     CircleVisualEntity {
     override fun toMutable(): CircleVisualEntityMutableAndroid
     override fun toImmutable(): CircleVisualEntityAndroid
@@ -32,15 +31,16 @@ interface CircleVisualEntityAndroid : AndroidVisualEntity<ECircle, ECircleMutabl
 
 interface CircleVisualEntityMutableAndroid : CircleVisualEntityAndroid,
     CircleVisualEntityMutable,
-    AndroidVisualEntityMutable<ECircle, ECircleMutable>, ECircleMutable
+    AndroidVisualEntityMutable<ECircle, ECircle>,
+    ECircle
 
 
 internal class CircleVisualEntityMutableAndroidImpl(
-    private val circle: ECircleMutable,
+    private val circle: ECircle,
     override val drawer: VisualEntityDrawer
 ) :
     CircleVisualEntityMutableAndroid,
-    ECircleMutable by circle,
+    ECircle by circle,
     EStyleable by drawer {
 
     override val transform: ETransformMutable = E.TransformMutable()

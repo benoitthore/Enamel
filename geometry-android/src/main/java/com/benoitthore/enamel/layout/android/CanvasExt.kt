@@ -7,7 +7,6 @@ import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.oval.EOval
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
@@ -97,7 +96,7 @@ fun Canvas.clipOutPath(path: PathSVGContext): Boolean {
     }
 }
 
-fun Canvas.clipRect(rect: ERectMutable) {
+fun Canvas.clipRect(rect: ERect) {
     clipRect(
         rect.left,
         rect.top,

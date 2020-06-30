@@ -3,29 +3,42 @@ package com.benoitthore.enamel.geometry.figures.circle
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import kotlin.math.min
 
-internal class ECircleMutableImpl internal constructor(
+internal class ECircleImpl internal constructor(
     centerX: Number,
     centerY: Number,
     radius: Number
-) : ECircleMutable {
+) : ECircle {
 
     init {
         allocateDebugMessage()
     }
 
     override var radius: Float = radius.toFloat()
-    override val left: Float
+    override var left: Float
         get() = centerX - radius
-    override val top: Float
+        set(value) = TODO()
+    override var top: Float
         get() = centerY - radius
-    override val right: Float
+        set(value) = TODO()
+    override var right: Float
         get() = centerX + radius
-    override val bottom: Float
+        set(value) = TODO()
+    override var bottom: Float
         get() = centerY + radius
+        set(value) = TODO()
+    override var originX: Float
+        get() = TODO("Not yet implemented")
+        set(value) {
+            TODO("Not yet implemented")
+        }
+    override var originY: Float
+        get() = TODO("Not yet implemented")
+        set(value) {
+            TODO("Not yet implemented")
+        }
 
     override var width: Float
         get() = radius * 2
@@ -51,10 +64,6 @@ internal class ECircleMutableImpl internal constructor(
 
     override val center: EPointMutable = E.PointMutable(centerX, centerY)
 
-    override fun toMutable(): ECircleMutable = E.CircleMutable(this)
-
-    override fun toImmutable(): ECircle = E.Circle(this)
-
     /**
      * In case the bounds don't define a square, the circle gets align on the top left of the
      * given rectangle and sets the radius to be the half of whichever is smaller width or height
@@ -71,7 +80,7 @@ internal class ECircleMutableImpl internal constructor(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
 
-        if (other !is ECircleMutableImpl) return false
+        if (other !is ECircleImpl) return false
 
         if (center != other.center) return false
         if (radius != other.radius) return false

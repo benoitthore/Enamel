@@ -3,19 +3,15 @@ package com.benoitthore.enamel.geometry.interfaces.bounds
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
-fun CanSetBounds<*, *>.toRect(target: ERectMutable = E.RectMutable()): ERectMutable =
-    target.setBounds(this)
-
-fun <T, I, M> T.setOriginSize(
+fun <T : EShape<T>> T.setOriginSize(
     x: Number = this.originX, y: Number = this.originY,
     width: Number = this.width, height: Number = this.height
-) where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = apply {
+) = apply {
     setBounds(
         left = x,
         top = y,
@@ -24,26 +20,25 @@ fun <T, I, M> T.setOriginSize(
     )
 }
 
-fun <T, I, M> T.setOrigin(
+fun <T : EShape<T>> T.setOrigin(
     originX: Number = this.originX, originY: Number = this.originY
-) where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = setBounds(
+) = setBounds(
     left = originX,
     top = originY,
     right = originX.f + width.f,
     bottom = originY.f + height.f
 )
 
-fun <T, I, M> T.setOrigin(origin: EPoint) where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.setOrigin(origin: EPoint) =
     setOrigin(origin.x, origin.y)
 
-fun CanSetBounds<*, *>.ensureRect(target: ERectMutable = E.RectMutable()): ERect =
+fun <T : EShape<T>> T.ensureRect(target: ERect = E.RectMutable()): ERect =
     if (this is ERect) this else getBounds(target)
 
 // TODO once refactoring is done:
 // TODO Rename to setBounds
 // TODO Rename interface method to _setBounds
-fun <T, I, M> T.setBounds(other: HasBounds<*, *>): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = apply {
+fun <T : EShape<T>> T.setBounds(other: EShape<*>): T = apply {
     setBounds(
         left = other.left,
         top = other.top,
@@ -53,15 +48,13 @@ fun <T, I, M> T.setBounds(other: HasBounds<*, *>): T
 }
 
 
-fun <T, I, M> T.setBounds(other: ERect): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.setBounds(other: ERect): T =
     setOriginSize(other.origin, other.size)
 
-fun <T, I, M> T.setOriginSize(
+fun <T : EShape<T>> T.setOriginSize(
     origin: EPoint?,
     size: ESize?
-): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+): T =
     setOriginSize(
         origin?.x ?: originX,
         origin?.y ?: originY,
@@ -70,45 +63,42 @@ fun <T, I, M> T.setOriginSize(
     )
 
 //TOOO Find why this won't compile, if it still doesn't...
-//fun <T, I, M> T.set(
+//fun <T: EShape> T.set(
 //    origin: EPoint?,
 //    width: Number = this.width,
 //    height: Number = this.height
 //): T =
 //    set(origin?.x ?: 0, origin?.y ?: 0, width, height)
 
-fun <T, I, M> T.setBounds(
+fun <T : EShape<T>> T.setBounds(
     x: Number = this.originX,
     y: Number = this.originY,
     size: ESize? = null
-): T where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+): T =
     setOriginSize(x, y, size?.width ?: width, size?.height ?: height)
 
 
-fun <T, I, M> T.setSize(size: ESize): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = apply {
+fun <T : EShape<T>> T.setSize(size: ESize): T = apply {
     this.width = size.width.f
     this.height = size.height.f
 }
 
 
-fun <T, I, M> T.setSize(
+fun <T : EShape<T>> T.setSize(
     width: Number = this.width,
     height: Number = this.height
-): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = apply {
+): T = apply {
     this.width = width.f
     this.height = height.f
 }
 
-fun <T, I, M> T.setCenter(point: EPoint)
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.setCenter(point: EPoint) =
     setCenter(point.x, point.y)
 
-fun <T, I, M> T.setCenter(
+fun <T : EShape<T>> T.setCenter(
     x: Number,
     y: Number
-): T where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = apply {
+): T = apply {
     setBounds(
         top = y.f - height / 2,
         left = x.f - width / 2,
@@ -117,13 +107,12 @@ fun <T, I, M> T.setCenter(
     )
 }
 
-fun <T, I, M> T.setSides(
+fun <T : EShape<T>> T.setSides(
     left: Number = this.left,
     top: Number = this.top,
     right: Number = this.right,
     bottom: Number = this.bottom
-): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = apply {
+): T = apply {
     setBounds(
         top = top.f,
         bottom = bottom.f,
@@ -133,49 +122,39 @@ fun <T, I, M> T.setSides(
 }
 
 //////
-fun <T, I, M> T.selfOffset(x: Number = 0, y: Number = 0): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.selfOffset(x: Number = 0, y: Number = 0): T =
     apply { offset(x, y, this) }
 
-fun <T, I, M> T.selfOffset(p: Tuple2): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.selfOffset(p: Tuple2): T =
     apply { offset(p.v1, p.v2, this) }
 
-fun <T, I, M> T.selfInset(margin: Number): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.selfInset(margin: Number): T =
     apply { inset(margin, margin, this) }
 
-fun <T, I, M> T.selfInset(p: EPoint): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.selfInset(p: EPoint): T =
     apply { inset(p.x, p.y, this) }
 
-fun <T, I, M> T.selfInset(x: Number = 0, y: Number = 0): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.selfInset(x: Number = 0, y: Number = 0): T =
     apply { inset(x, y, this) }
 
-fun <T, I, M> T.selfExpand(margin: Number): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.selfExpand(margin: Number): T =
     apply { expand(margin, margin, this) }
 
-fun <T, I, M> T.selfExpand(p: EPoint): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.selfExpand(p: EPoint): T =
     apply { expand(p.x, p.y, this) }
 
-fun <T, I, M> T.selfExpand(x: Number = 0f, y: Number = 0f): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.selfExpand(x: Number = 0f, y: Number = 0f): T =
     apply { inset(-x.f, -y.f, this) }
 
-fun <T, I, M> T.selfPadding(padding: EOffset): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.selfPadding(padding: EOffset): T =
     apply { padding(padding, this) }
 
-fun <T, I, M> T.selfPadding(
+fun <T : EShape<T>> T.selfPadding(
     top: Number = 0,
     bottom: Number = 0,
     left: Number = 0,
     right: Number = 0
-): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> = apply {
+): T = apply {
     padding(
         top = top,
         bottom = bottom,
@@ -185,42 +164,40 @@ fun <T, I, M> T.selfPadding(
     )
 }
 
-fun <T, I, M> T.selfExpand(padding: EOffset): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.selfExpand(padding: EOffset): T =
     apply { expand(padding, this) }
 
-fun <T, I, M> T.selfScaleAnchor(factor: Number, anchor: EPoint): T
-        where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.selfScaleAnchor(factor: Number, anchor: EPoint): T =
     apply { scaleAnchor(factor, anchor, this) }
 
-fun <T, I, M> T.selfScaleAnchor(
+fun <T : EShape<T>> T.selfScaleAnchor(
     factor: Number,
     anchorX: Number,
     anchorY: Number
-) where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+) =
     apply { scaleAnchor(factor, anchorX, anchorY, this) }
 
-fun <T, I, M> T.selfScaleRelative(
+fun <T : EShape<T>> T.selfScaleRelative(
     factor: Number,
     point: EPoint
-) where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+) =
 
     scaleRelative(factor, point, this)
 
-fun <T, I, M> T.selfScaleRelative(
+fun <T : EShape<T>> T.selfScaleRelative(
     factor: Number,
     pointX: Number,
     pointY: Number
-) where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+) =
     scaleRelative(scaleFactor = factor, pointX = pointX, pointY = pointY, target = this)
 
-fun <T, I, M> T.selfMap(
-    from: HasBounds<*, *>,
-    to: HasBounds<*, *>
-): T where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+fun <T : EShape<T>> T.selfMap(
+    from: EShape<*>,
+    to: EShape<*>
+): T =
     apply { map(from, to, this) }
 
-fun <T, I, M> T.selfMap(
+fun <T : EShape<T>> T.selfMap(
     fromX: Number,
     fromY: Number,
     fromWidth: Number,
@@ -229,7 +206,7 @@ fun <T, I, M> T.selfMap(
     toY: Number,
     toWidth: Number,
     toHeight: Number
-): T where  T : CanSetBounds<I, M>, I : HasBounds<I, M>, M : CanSetBounds<I, M> =
+): T =
     apply {
         map(
             fromX = fromX,

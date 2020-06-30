@@ -7,7 +7,7 @@ import com.benoitthore.enamel.geometry.interfaces.bounds.EShapeMutable
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 
-interface EPointMutable : EPoint, EShapeMutable<EPoint, EPointMutable>, Resetable {
+interface EPointMutable : EPoint, <EPoint, EPointMutable>, Resetable {
 
     override var x: Float
     override var y: Float

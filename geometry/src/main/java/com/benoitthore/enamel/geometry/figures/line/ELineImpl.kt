@@ -3,16 +3,15 @@ package com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
-import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-internal class ELineMutableImpl internal constructor(
+internal class ELineImpl internal constructor(
     x1: Number = 0,
     y1: Number = 0,
     x2: Number = 0,
     y2: Number = 0
-) : ELineMutable {
+) : ELine {
 
     init {
         allocateDebugMessage()
@@ -21,14 +20,36 @@ internal class ELineMutableImpl internal constructor(
     override val start: EPointMutable = E.PointMutable(x1, y1)
     override val end: EPointMutable = E.PointMutable(x2, y2)
 
-    override val left: Float
+    override var left: Float
         get() = min(start.x, end.x)
-    override val top: Float
+        set(value) {
+            TODO()
+        }
+    override var top: Float
         get() = min(start.y, end.y)
-    override val right: Float
+        set(value) {
+            TODO()
+        }
+    override var right: Float
         get() = max(start.x, end.x)
-    override val bottom: Float
+        set(value) {
+            TODO()
+        }
+    override var bottom: Float
+        set(value) {
+            TODO()
+        }
         get() = max(start.y, end.y)
+    override var originX: Float
+        get() = TODO("Not yet implemented")
+        set(value) {
+            TODO("Not yet implemented")
+        }
+    override var originY: Float
+        get() = TODO("Not yet implemented")
+        set(value) {
+            TODO("Not yet implemented")
+        }
 
     override var width: Float
         get() = right - left
@@ -67,8 +88,6 @@ internal class ELineMutableImpl internal constructor(
             end.y += shift
         }
 
-    override fun toMutable(): ELineMutable = E.LineMutable(this)
-    override fun toImmutable(): ELine = toMutable()
 
     override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         if (isTLBR) {

@@ -2,7 +2,7 @@ package com.benoitthore.visualentity.android
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.line.ELine
-import com.benoitthore.enamel.geometry.figures.line.ELineMutable
+import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.visualentity.*
@@ -23,7 +23,7 @@ fun LineVisualEntityMutable.toAndroid(): LineVisualEntityMutableAndroid {
         })
 }
 
-interface LineVisualEntityAndroid : AndroidVisualEntity<ELine, ELineMutable>,
+interface LineVisualEntityAndroid : AndroidVisualEntity<ELine, ELine>,
     LineVisualEntity {
     override fun toMutable(): LineVisualEntityMutableAndroid
     override fun toImmutable(): LineVisualEntityAndroid
@@ -31,15 +31,16 @@ interface LineVisualEntityAndroid : AndroidVisualEntity<ELine, ELineMutable>,
 
 interface LineVisualEntityMutableAndroid : LineVisualEntityAndroid,
     LineVisualEntityMutable,
-    AndroidVisualEntityMutable<ELine, ELineMutable>, ELineMutable
+    AndroidVisualEntityMutable<ELine, ELine>,
+    ELine
 
 
 internal class LineVisualEntityMutableAndroidImpl(
-    private val line: ELineMutable,
+    private val line: ELine,
     override val drawer: VisualEntityDrawer
 ) :
     LineVisualEntityMutableAndroid,
-    ELineMutable by line,
+    ELine by line,
     EStyleable by drawer {
 
     override val transform: ETransformMutable = E.TransformMutable()

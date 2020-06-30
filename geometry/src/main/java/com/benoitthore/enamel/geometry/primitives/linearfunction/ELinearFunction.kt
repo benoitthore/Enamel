@@ -3,7 +3,7 @@ package com.benoitthore.enamel.geometry.primitives.linearfunction
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.line.ELineMutable
+import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.line.set
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
@@ -51,7 +51,7 @@ interface ELinearFunction {
         return x point y
     }
 
-    fun toLine(length: Number, target: ELineMutable = E.LineMutable()): ELineMutable {
+    fun toLine(length: Number, target: ELine = E.LineMutable()): ELine {
         val x1 = 0f
         val x2 = length
         // TODO Make length work properly using pyth theorem

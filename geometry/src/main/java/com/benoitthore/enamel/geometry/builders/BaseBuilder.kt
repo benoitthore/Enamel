@@ -1,17 +1,15 @@
 package com.benoitthore.enamel.geometry.builders
 
-import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
-import com.benoitthore.enamel.geometry.figures.circle.ECircleMutableImpl
-import com.benoitthore.enamel.geometry.figures.oval.EOvalMutable
-import com.benoitthore.enamel.geometry.figures.oval.EOvalMutableImpl
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutableImpl
-import com.benoitthore.enamel.geometry.interfaces.bounds.ensureMutable
-import com.benoitthore.enamel.geometry.primitives.size.ESizeMutableImpl
-import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
+import com.benoitthore.enamel.geometry.figures.circle.ECircle
+import com.benoitthore.enamel.geometry.figures.circle.ECircleImpl
+import com.benoitthore.enamel.geometry.figures.oval.EOval
+import com.benoitthore.enamel.geometry.figures.oval.EOvalImpl
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rect.ERectImpl
+import com.benoitthore.enamel.geometry.primitives.size.ESizeImpl
+import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
-import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
-import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutableImpl
+import com.benoitthore.enamel.geometry.primitives.angle.EAngleImpl
 import com.benoitthore.enamel.geometry.primitives.linearfunction.ELinearFunction
 import com.benoitthore.enamel.geometry.primitives.offset.EOffsetMutable
 import com.benoitthore.enamel.geometry.primitives.offset.EOffsetMutableImpl
@@ -27,8 +25,8 @@ interface BaseBuilder {
     fun PointMutable(x: Number = 0, y: Number = 0): EPointMutable =
         EPointMutableImpl(x, y)
 
-    fun AngleMutable(value: Number = 0f, type: AngleType = AngleType.RADIAN): EAngleMutable =
-        EAngleMutableImpl(
+    fun AngleMutable(value: Number = 0f, type: AngleType = AngleType.RADIAN): EAngle =
+        EAngleImpl(
             value,
             type
         )
@@ -38,19 +36,19 @@ interface BaseBuilder {
         y: Number = 0f,
         width: Number = 0f,
         height: Number = 0f
-    ): ERectMutable =
-        ERectMutableImpl(
+    ): ERect =
+        ERectImpl(
             x,
             y,
             width,
             height
         )
 
-    fun SizeMutable(width: Number = 0, height: Number = 0): ESizeMutable =
-        ESizeMutableImpl(width, height)
+    fun SizeMutable(width: Number = 0, height: Number = 0): ESize =
+        ESizeImpl(width, height)
 
-    fun CircleMutable(centerX: Number, centerY: Number, radius: Number = 0f): ECircleMutable =
-        ECircleMutableImpl(
+    fun CircleMutable(centerX: Number, centerY: Number, radius: Number = 0f): ECircle =
+        ECircleImpl(
             centerX,
             centerY,
             radius
@@ -61,8 +59,8 @@ interface BaseBuilder {
         centerY: Number = 0f,
         rx: Number = 0f,
         ry: Number = 0f
-    ): EOvalMutable =
-        EOvalMutableImpl(
+    ): EOval =
+        EOvalImpl(
             centerX,
             centerY,
             rx.toFloat(),
@@ -90,11 +88,11 @@ interface BaseBuilder {
         translation: EPoint = E.PointMutable()
     ): ETransformMutable =
         ETransformMutableImpl(
-            rotation = rotation.ensureMutable(),
-            rotationPivot = rotationPivot.ensureMutable(),
-            scale = scale.ensureMutable(),
-            scalePivot = scalePivot.ensureMutable(),
-            translation = translation.ensureMutable()
+            rotation = rotation,
+            rotationPivot = rotationPivot,
+            scale = scale,
+            scalePivot = scalePivot,
+            translation = translation
         )
 
 }
