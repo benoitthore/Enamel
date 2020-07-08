@@ -1,8 +1,11 @@
-package com.benoitthore.visualentity.android.utils
+package com.benoitthore.enamel.visualentity.android.utils
 
+import android.content.res.Resources
 import android.graphics.*
 import com.benoitthore.visualentity.style.EShader
 import com.benoitthore.visualentity.style.EMesh
+
+val Number.dp get() = Resources.getSystem().displayMetrics.density * toFloat()
 
 internal fun Paint.setMesh(mesh: EMesh?) {
     reset()

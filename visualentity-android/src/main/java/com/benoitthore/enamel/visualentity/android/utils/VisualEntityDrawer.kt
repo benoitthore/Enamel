@@ -1,4 +1,4 @@
-package com.benoitthore.visualentity.android.utils
+package com.benoitthore.enamel.visualentity.android.utils
 
 import android.graphics.Canvas
 import android.graphics.Paint

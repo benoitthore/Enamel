@@ -14,9 +14,9 @@ class StyleBuilder {
 
     var fillColor: Int? = null
     var fillShader: EShader? = null
-    var borderColor: Int? = null
-    var borderShader: EShader? = null
-    var borderWidth: Number = 1f
+    var strokeColor: Int? = null
+    var strokeShader: EShader? = null
+    var strokeWidth: Number = 1f
 
     var shadowPositionY: Float
         get() = shadowPosition.y
@@ -43,12 +43,12 @@ class StyleBuilder {
         }
 
     private fun buildBorder(): EStyle.Border? =
-        if (borderColor == null && borderShader == null) {
+        if (strokeColor == null && strokeShader == null) {
             null
         } else {
             EStyle.Border(
-                mesh = EMesh(color = borderColor, shader = borderShader),
-                width = borderWidth.toFloat()
+                mesh = EMesh(color = strokeColor, shader = strokeShader),
+                width = strokeWidth.toFloat()
             )
         }
 

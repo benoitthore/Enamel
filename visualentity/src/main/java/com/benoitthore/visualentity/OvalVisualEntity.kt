@@ -4,6 +4,8 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.oval.EOval
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.visualentity.style.EStyle
+import com.benoitthore.visualentity.style.StyleBuilder
+import com.benoitthore.visualentity.style.style
 
 
 internal class OvalVisualEntityImpl(
@@ -21,3 +23,9 @@ interface OvalVisualEntity : EOval, VisualEntity<EOval> {
 
 fun EOval.toVisualEntity(style: EStyle = EStyle()): OvalVisualEntity =
     OvalVisualEntityImpl(this, style)
+
+fun EOval.toVisualEntity(styleDef: () -> EStyle = { EStyle() }): OvalVisualEntity =
+    OvalVisualEntityImpl(this, styleDef())
+
+fun EOval.toVisualEntity(block: StyleBuilder.() -> Unit): OvalVisualEntity =
+    OvalVisualEntityImpl(this, E.style(block))

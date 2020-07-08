@@ -14,6 +14,7 @@ import com.benoitthore.enamel.R
 import com.benoitthore.enamel.android.demos.BaseDemoFragment
 import com.benoitthore.enamel.databinding.ActivityMainBinding
 import com.benoitthore.enamel.databinding.DemoItemBinding
+import com.benoitthore.enamel.android.demos.views.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,10 +26,10 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.mainRecyclerView.adapter = DemoAdapter(
-            listOf(DemoItem.Item1, DemoItem.Item2)
+            DemoItem.values().toList()
         ) { item ->
 
-            while(supportFragmentManager.backStackEntryCount > 0){
+            while (supportFragmentManager.backStackEntryCount > 0) {
                 supportFragmentManager.popBackStackImmediate()
             }
             val fragment = BaseDemoFragment.newInstance(item)
@@ -45,8 +46,9 @@ class MainActivity : AppCompatActivity() {
 }
 
 enum class DemoItem(private val buildView: (Context) -> View) {
-    Item1({ TextView(it).apply { text = "12312312341321321312312312" } }),
-    Item2({ View(it).apply { setBackgroundColor(RED) } });
+    Item0({ MyProgressBar(it) });
+//    Item1({ TextView(it).apply { text = "12312312341321321312312312" } }),
+//    Item2({ View(it).apply { setBackgroundColor(RED) } });
 
     operator fun invoke(context: Context): View = buildView(context)
 }

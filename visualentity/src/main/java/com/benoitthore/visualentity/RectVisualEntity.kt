@@ -4,6 +4,8 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.visualentity.style.EStyle
+import com.benoitthore.visualentity.style.StyleBuilder
+import com.benoitthore.visualentity.style.style
 
 internal class RectVisualEntityImpl(
     private val rect: ERect,
@@ -20,3 +22,9 @@ interface RectVisualEntity : ERect, VisualEntity<ERect> {
 
 fun ERect.toVisualEntity(style: EStyle = EStyle()): RectVisualEntity =
     RectVisualEntityImpl(this, style)
+
+fun ERect.toVisualEntity(styleDef: () -> EStyle = { EStyle() }): RectVisualEntity =
+    RectVisualEntityImpl(this, styleDef())
+
+fun ERect.toVisualEntity(block: StyleBuilder.() -> Unit): RectVisualEntity =
+    RectVisualEntityImpl(this, E.style(block))

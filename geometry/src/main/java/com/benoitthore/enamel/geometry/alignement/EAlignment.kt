@@ -93,10 +93,10 @@ enum class EAlignment {
             bottomRight -> NamedPoint.bottomRight
             center -> NamedPoint.center
             leftTop -> NamedPoint.topLeft
-            leftCenter -> NamedPoint.middleLeft
+            leftCenter -> NamedPoint.centerLeft
             leftBottom -> NamedPoint.bottomLeft
             rightTop -> NamedPoint.topRight
-            rightCenter -> NamedPoint.middleRight
+            rightCenter -> NamedPoint.centerRight
             rightBottom -> NamedPoint.bottomRight
         }
 

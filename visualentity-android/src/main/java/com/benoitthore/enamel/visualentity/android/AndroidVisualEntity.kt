@@ -1,10 +1,10 @@
-package com.benoitthore.visualentity.android
+package com.benoitthore.enamel.visualentity.android
 
 import android.graphics.Canvas
 import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import com.benoitthore.enamel.layout.android.withTransform
 import com.benoitthore.visualentity.VisualEntity
-import com.benoitthore.visualentity.android.utils.VisualEntityDrawer
+import com.benoitthore.enamel.visualentity.android.utils.VisualEntityDrawer
 
 interface AndroidVisualEntity<T : EShape<T>> : VisualEntity<T>  {
     val drawer: VisualEntityDrawer
