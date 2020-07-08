@@ -44,7 +44,7 @@ class PathInterpolationDemoView @JvmOverloads constructor(
             if (it.isDown) {
                 points.clear()
             }
-            points += it.position.toImmutable()
+            points += it.position.copy()
 
             pathContext.reset()
             (points.toListOfLines()).addTo(pathContext)
@@ -54,7 +54,7 @@ class PathInterpolationDemoView @JvmOverloads constructor(
 
     private val points = mutableListOf<EPoint>()
 
-    private val rect = E.RectMutableCenter(0, 0, 100, 100)
+    private val rect = E.RectCenter(0, 0, 100, 100)
     override fun onDraw(canvas: Canvas) {
 
         val data =

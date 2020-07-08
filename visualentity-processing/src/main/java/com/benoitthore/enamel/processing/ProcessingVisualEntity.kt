@@ -1,6 +1,6 @@
 //package com.benoitthore.enamel.processing
 //
-//import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
+//import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 //import com.benoitthore.visualentity.VisualEntity
 //import com.benoitthore.visualentity.style.EShader
 //import processing.core.PApplet
@@ -53,7 +53,7 @@
 //}
 //
 //
-//inline fun PApplet.withTransform(transform: ETransformMutable, crossinline block: () -> Unit) {
+//inline fun PApplet.withTransform(transform: ETransform, crossinline block: () -> Unit) {
 //    pushMatrix()
 //    with(transform) {
 //        translate(translation.x, translation.y)

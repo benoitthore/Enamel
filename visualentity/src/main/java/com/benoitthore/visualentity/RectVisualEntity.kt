@@ -11,7 +11,7 @@ internal class RectVisualEntityImpl(
 ) :
     RectVisualEntity, ERect by rect {
     override fun copy(): RectVisualEntity = rect.copy().toVisualEntity(style)
-    override val transform: ETransform = E.TransformMutable()
+    override val transform: ETransform = E.Transform()
 }
 
 interface RectVisualEntity : ERect, VisualEntity<ERect> {

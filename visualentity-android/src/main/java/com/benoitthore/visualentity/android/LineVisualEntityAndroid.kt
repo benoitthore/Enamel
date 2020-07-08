@@ -34,6 +34,6 @@ internal class LineVisualEntityAndroidImpl(
     ELine by line,
     EStyleable by drawer {
 
-    override val transform: ETransform = E.TransformMutable()
+    override val transform: ETransform = E.Transform()
     override fun copy(): LineVisualEntityAndroid  = line.copy().toVisualEntity(style).toAndroid()
 }

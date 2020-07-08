@@ -9,7 +9,7 @@ import com.benoitthore.enamel.geometry.primitives.plus
 import com.benoitthore.enamel.geometry.primitives.sub
 
 
-class EPaddingLayout(child: ELayout = ELayoutLeaf.unit, var padding: EOffset = E.Offset.zero) : ELayout {
+class EPaddingLayout(child: ELayout = ELayoutLeaf.unit, var padding: EOffset = E.Offset.zero()) : ELayout {
 
     var child: ELayout = child
         set(value) {

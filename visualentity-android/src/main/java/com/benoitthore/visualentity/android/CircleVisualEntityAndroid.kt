@@ -34,6 +34,6 @@ internal class CircleVisualEntityAndroidImpl(
     ECircle by circle,
     EStyleable by drawer {
 
-    override val transform: ETransform = E.TransformMutable()
+    override val transform: ETransform = E.Transform()
     override fun copy(): CircleVisualEntityAndroid  = circle.copy().toVisualEntity(style).toAndroid()
 }

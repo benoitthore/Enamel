@@ -10,8 +10,8 @@ import processing.core.PApplet
 import processing.core.PConstants
 
 
-fun PApplet.mousePosition(target: EPoint = E.PointMutable()) = target.set(mouseX, mouseY)
-fun PApplet.getViewBounds(target: ERect = E.RectMutable()) =
+fun PApplet.mousePosition(target: EPoint = E.Point()) = target.set(mouseX, mouseY)
+fun PApplet.getViewBounds(target: ERect = E.Rect()) =
     target.apply { setBounds(0, 0, this@getViewBounds.width, this@getViewBounds.height) }
 
 fun ERect.setBounds(applet: PApplet) = apply { applet.getViewBounds(this) }

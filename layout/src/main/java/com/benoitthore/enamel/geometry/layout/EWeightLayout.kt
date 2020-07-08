@@ -7,6 +7,7 @@ import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rectgroup.ERectGroup
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.figures.rectgroup.rectGroupWeights
+import com.benoitthore.enamel.geometry.interfaces.bounds.pointAtAnchor
 import com.benoitthore.enamel.geometry.interfaces.bounds.toRect
 
 class EWeightLayout(
@@ -29,7 +30,7 @@ class EWeightLayout(
             }
     }
 
-    private fun rects(frame: ERect): ERectGroup {
+    private fun rects(frame: ERect): ERectGroup<ERect> {
         return weights.rectGroupWeights(
             alignment,
             toFit = frame.size,

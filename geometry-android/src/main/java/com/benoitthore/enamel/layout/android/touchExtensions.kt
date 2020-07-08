@@ -14,7 +14,7 @@ typealias ETouchListener = (ETouchEvent) -> Boolean
 fun View.singleTouch(block: (ETouchEvent) -> Boolean): Unit = multiTouch { block(it.first()) }
 
 sealed class ETouchEvent {
-    val position: EPoint = E.PointMutable()
+    val position: EPoint = E.Point()
 
     val isDown get() = this is Down
     val isMove get() = this is Move
@@ -26,7 +26,7 @@ sealed class ETouchEvent {
 
     class Down : ETouchEvent()
 
-    class Move(val previous: EPoint = E.PointMutable()) : ETouchEvent() {
+    class Move(val previous: EPoint = E.Point()) : ETouchEvent() {
         override fun set(x: Number, y: Number, id: Int) {
             previous.set(position)
             super.set(x, y, id)
@@ -37,7 +37,7 @@ sealed class ETouchEvent {
 }
 
 
-class ETouchInstanceMutable {
+class ETouchInstance {
 
     private val up = ETouchEvent.Up()
     private val down = ETouchEvent.Down()
@@ -72,7 +72,7 @@ class ETouchInstanceMutable {
  */
 fun View.multiTouch(maxFingers: Int = 10, onTouch: (Iterable<ETouchEvent>) -> Boolean) {
 
-    val list = List(maxFingers) { ETouchInstanceMutable() }
+    val list = List(maxFingers) { ETouchInstance() }
 
     // Iterator being re-used across touch events
     val iterator = object : Iterator<ETouchEvent>, Iterable<ETouchEvent> {
@@ -107,7 +107,7 @@ fun View.multiTouch(maxFingers: Int = 10, onTouch: (Iterable<ETouchEvent>) -> Bo
     }
 }
 
-private fun ETouchInstanceMutable.set(e: MotionEvent, pointerIndex: Int = 0) {
+private fun ETouchInstance.set(e: MotionEvent, pointerIndex: Int = 0) {
     val x = e.getX(pointerIndex)
     val y = e.getY(pointerIndex)
     val id = e.getPointerId(pointerIndex)

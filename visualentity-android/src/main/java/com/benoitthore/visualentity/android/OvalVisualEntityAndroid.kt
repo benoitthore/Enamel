@@ -34,6 +34,6 @@ internal class OvalVisualEntityAndroidImpl(
     EOval by oval,
     EStyleable by drawer {
 
-    override val transform: ETransform = E.TransformMutable()
+    override val transform: ETransform = E.Transform()
     override fun copy(): OvalVisualEntityAndroid  = oval.copy().toVisualEntity(style).toAndroid()
 }

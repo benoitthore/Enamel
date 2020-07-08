@@ -34,6 +34,6 @@ internal class RectVisualEntityAndroidImpl(
     ERect by rect,
     EStyleable by drawer {
 
-    override val transform: ETransform = E.TransformMutable()
+    override val transform: ETransform = E.Transform()
     override fun copy(): RectVisualEntityAndroid  = rect.copy().toVisualEntity(style).toAndroid()
 }

@@ -12,7 +12,7 @@ internal class OvalVisualEntityImpl(
 ) :
     OvalVisualEntity, EOval by oval {
     override fun copy(): OvalVisualEntity = oval.copy().toVisualEntity(style)
-    override val transform: ETransform = E.TransformMutable()
+    override val transform: ETransform = E.Transform()
 }
 
 interface OvalVisualEntity : EOval, VisualEntity<EOval> {

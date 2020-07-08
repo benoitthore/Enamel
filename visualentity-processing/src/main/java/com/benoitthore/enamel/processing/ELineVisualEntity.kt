@@ -3,14 +3,14 @@
 //import com.benoitthore.enamel.geometry.builders.E
 //import com.benoitthore.enamel.geometry.figures.line.ELine
 //import com.benoitthore.enamel.geometry.figures.line.ELineMutable
-//import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformMutable
+//import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 //import com.benoitthore.enamel.geometry.toMutable
 //import com.benoitthore.visualentity.style.EStyle
 //import com.benoitthore.visualentity.style.EStyleable
 //import processing.core.PApplet
 //
 //
-//fun ELine.toVisualEntity(style: EStyle = EStyle()) = ELineVisualEntity(toMutable()).apply {
+//fun ELine.toVisualEntity(style: EStyle = EStyle()) = ELineVisualEntity(to()).apply {
 //    this.style = style
 //}
 //
@@ -23,7 +23,7 @@
 //    ProcessingVisualEntity,
 //    EStyleable by drawer,
 //    ELineMutable by shape {
-//    override val transform: ETransformMutable = E.TransformMutable()
+//    override val transform: ETransform = E.Transform()
 //}
 //
 //

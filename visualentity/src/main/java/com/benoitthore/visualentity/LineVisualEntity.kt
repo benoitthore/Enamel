@@ -11,7 +11,7 @@ internal class LineVisualEntityImpl(
 ) :
     LineVisualEntity, ELine by line {
     override fun copy(): LineVisualEntity = line.copy().toVisualEntity(style)
-    override val transform: ETransform = E.TransformMutable()
+    override val transform: ETransform = E.Transform()
 }
 
 interface LineVisualEntity : ELine, VisualEntity<ELine> {

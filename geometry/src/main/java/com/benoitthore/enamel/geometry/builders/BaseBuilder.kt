@@ -79,7 +79,7 @@ interface BaseBuilder {
             left = left.toFloat()
         )
 
-    fun TransformMutable(
+    fun Transform(
         rotation: EAngle = E.Angle(),
         rotationPivot: EPoint = E.Point.half(),
         scale: EPoint = E.Point.unit(),

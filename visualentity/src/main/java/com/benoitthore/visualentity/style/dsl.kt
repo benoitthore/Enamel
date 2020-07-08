@@ -26,7 +26,7 @@ class StyleBuilder {
 
     val shadowPosition: EPoint get() = _shadowPosition
 
-    private var _shadowPosition: EPoint = E.PointMutable()
+    private var _shadowPosition: EPoint = E.Point()
 
     fun build(): EStyle = EStyle(
         fill = buildFillMesh(),

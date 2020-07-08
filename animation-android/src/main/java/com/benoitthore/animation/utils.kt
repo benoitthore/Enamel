@@ -2,8 +2,6 @@ package com.benoitthore.animation
 
 import android.animation.ValueAnimator
 import android.content.res.Resources
-import com.benoitthore.enamel.geometry.interfaces.bounds.CanSetBounds
-import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
 import com.benoitthore.enamel.geometry.lerp
 
 inline fun prepareAnimation(

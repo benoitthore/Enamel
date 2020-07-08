@@ -39,7 +39,7 @@ class EFlowLayout(
         var rowWidth = 0f
         val cols = mutableListOf<ELayout>()
         val row = mutableListOf<ELayout>()
-        val rowSize = E.SizeMutable()
+        val rowSize = E.Size()
         val limit = if (childAlignment.isVertical) rect.height else rect.width
 
         children.forEachIndexed { i, child ->

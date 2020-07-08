@@ -25,8 +25,8 @@ class TestApplet : PApplet() {
         strokeWeight(2f)
         stroke(0)
 
-        val rect = E.RectMutable(0, 0, 50, 50)
-        val rect2 = E.RectMutable(50, 50, 100, 100)
+        val rect = E.Rect(0, 0, 50, 50)
+        val rect2 = E.Rect(50, 50, 100, 100)
 
         listOf(rect, rect2).toRectGroup().selfAlignInside(getViewBounds(), EAlignment.center)
             .apply {
