@@ -1,38 +1,32 @@
 package com.benoitthore.enamel.geometry.figures.rectgroup
 
-import com.benoitthore.enamel.core.math.*
-import com.benoitthore.enamel.geometry.alignement.EAlignment
-import com.benoitthore.enamel.geometry.alignement.rectAlignedOutside
-import com.benoitthore.enamel.geometry.allocate
-import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.primitives.size.ESize
-import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
-import com.benoitthore.enamel.geometry.figures.rect.union
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
-import javax.swing.text.html.CSS
+import com.benoitthore.enamel.geometry.svg.SVGContext
 
-interface ERectGroup<T : HasBounds> : HasBounds, List<T> {
+interface ERectGroup<T : EShape<*>> : EShape<ERectGroup<T>> {
     val frame: ERect
+    val rects: List<T>
 
-    override val left: Float
-        get() = frame.left
-    override val top: Float
-        get() = frame.top
-    override val right: Float
-        get() = frame.right
-    override val bottom: Float
-        get() = frame.bottom
-    override val centerX: Float
-        get() = frame.centerX
-    override val centerY: Float
-        get() = frame.centerY
-}
 
-interface ERectGroupMutable<T : CanSetBounds> : ERectGroup<T>, CanSetBounds {
+    override var originX: Float
+        get() = TODO("Not yet implemented")
+        set(value) {
+            TODO("Not yet implemented")
+        }
+
+    override var originY: Float
+        get() = TODO("Not yet implemented")
+        set(value) {
+            TODO("Not yet implemented")
+        }
+
+    override fun addTo(context: SVGContext) {
+        rects.forEach { it.addTo(context) }
+    }
+
 
     /**
      * Needs be called by the user whenever a change happens in one of the children,
@@ -46,26 +40,17 @@ interface ERectGroupMutable<T : CanSetBounds> : ERectGroup<T>, CanSetBounds {
      *
      */
     fun updateFrame()
-
-    override fun setCenter(x: Number, y: Number) {
-        val xOff = x.f - frame.centerX
-        val yOff = y.f - frame.centerY
-        selfOffset(xOff, yOff)
-    }
-
     fun aligned(anchor: EPoint, position: EPoint) {
-        val pointAtAnchor = frame.pointAtAnchor(anchor)
-
-        val offsetX = position.x - pointAtAnchor.x
-        val offsetY = position.y - pointAtAnchor.y
-
-        selfOffset(offsetX, offsetY)
+        TODO()
     }
 
-    class ERectGroupImpl<T : CanSetBounds>(rects: List<T>) : ERectGroupMutable<T>,
-        List<T> by rects {
+    class ERectGroupImpl<T : EShape<*>>(override val rects: List<T>) : ERectGroup<T> {
 
-        private val _frame = E.RectMutable()
+        private val _frame = E.Rect()
+
+        override fun copy(): ERectGroup<T> {
+            TODO("Not yet implemented")
+        }
 
         override val frame: ERect
             get() = _frame
@@ -74,9 +59,77 @@ interface ERectGroupMutable<T : CanSetBounds> : ERectGroup<T>, CanSetBounds {
             updateFrame()
         }
 
+
         override fun updateFrame() {
-            union(target = _frame)
+            rects.union(target = _frame)
         }
+
+        override var left: Float
+            get() = frame.left
+            set(value) {
+                TODO()
+            }
+        override var top: Float
+            get() = frame.top
+            set(value) {
+                TODO()
+            }
+        override var right: Float
+            get() = frame.right
+            set(value) {
+                TODO()
+            }
+        override var bottom: Float
+            get() = frame.bottom
+            set(value) {
+                TODO()
+            }
+        override var centerX: Float
+            get() = frame.centerX
+            set(value) {
+                val shift = centerX - value
+                setBounds(
+                    left = left - shift,
+                    right = right - shift,
+                    top = top,
+                    bottom = bottom
+                )
+            }
+        override var centerY: Float
+            get() = frame.centerY
+            set(value) {
+                val shift = centerX - value
+                setBounds(
+                    top = top - shift,
+                    bottom = bottom - shift,
+                    left = left,
+                    right = right
+                )
+            }
+
+
+        override var width: Float
+            get() = frame.width
+            set(value) {
+                val shift = width - value
+                setBounds(
+                    left = left + shift,
+                    right = right - shift,
+                    top = top,
+                    bottom = bottom
+                )
+            }
+        override var height: Float
+            get() = frame.height
+            set(value) {
+                val shift = height - value
+                setBounds(
+                    top = top + shift,
+                    bottom = bottom - shift,
+                    left = left,
+                    right = right
+                )
+            }
 
         override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
             val fromX = frame.originX
@@ -91,20 +144,24 @@ interface ERectGroupMutable<T : CanSetBounds> : ERectGroup<T>, CanSetBounds {
             val toWidth = frame.width
             val toHeight = frame.height
 
-            forEach { rect ->
-                rect.selfMap(
-                    fromX = fromX,
-                    fromY = fromY,
-                    fromWidth = fromWidth,
-                    fromHeight = fromHeight,
-                    toX = toX,
-                    toY = toY,
-                    toWidth = toWidth,
-                    toHeight = toHeight
-                )
+            rects.forEach { rect ->
+                TODO()
+//                rect.selfMap<EShape<*>>(
+//                    fromX = fromX,
+//                    fromY = fromY,
+//                    fromWidth = fromWidth,
+//                    fromHeight = fromHeight,
+//                    toX = toX,
+//                    toY = toY,
+//                    toWidth = toWidth,
+//                    toHeight = toHeight
+//                )
             }
             updateFrame()
         }
+
     }
+
+
 }
 

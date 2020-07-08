@@ -1,4 +1,4 @@
-package com.benoitthore.visualentity
+package com.benoitthore.visualentity.android.utils
 
 import android.graphics.*
 import com.benoitthore.visualentity.style.EShader
@@ -12,8 +12,8 @@ internal fun Paint.setMesh(mesh: EMesh?) {
 
 fun EShader.toAndroid(): Shader = when (val shaderType = shaderType) {
     is EShader.ShaderType.Radial -> RadialGradient(
-        shaderType.circle.x,
-        shaderType.circle.y,
+        shaderType.circle.centerX,
+        shaderType.circle.centerY,
         shaderType.circle.radius,
         colors.toIntArray(),
         stops?.toFloatArray(),

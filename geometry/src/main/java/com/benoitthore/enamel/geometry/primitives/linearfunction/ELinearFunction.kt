@@ -3,9 +3,9 @@ package com.benoitthore.enamel.geometry.primitives.linearfunction
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.line.ELineMutable
+import com.benoitthore.enamel.geometry.figures.line.ELine
+import com.benoitthore.enamel.geometry.figures.line.set
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point.point
 
 // TODO Make Mutable
@@ -27,7 +27,7 @@ interface ELinearFunction {
     operator fun get(x: Number) = get(x.f)
     operator fun get(x: Float) = a * x + b
 
-    fun getIntersection(other: ELinearFunction): EPointMutable? {
+    fun getIntersection(other: ELinearFunction): EPoint? {
         // a1 * x + b1 = a2 * x + b2
         val a1 = this.a
         val b1 = this.b
@@ -44,13 +44,13 @@ interface ELinearFunction {
         return x point y
     }
 
-    fun projectedPoint(from: EPoint): EPointMutable {
+    fun projectedPoint(from: EPoint): EPoint {
         val x = from.x
         val y = this[x]
         return x point y
     }
 
-    fun toLine(length: Number, target: ELineMutable = E.LineMutable()): ELineMutable {
+    fun toLine(length: Number, target: ELine = E.Line()): ELine {
         val x1 = 0f
         val x2 = length
         // TODO Make length work properly using pyth theorem

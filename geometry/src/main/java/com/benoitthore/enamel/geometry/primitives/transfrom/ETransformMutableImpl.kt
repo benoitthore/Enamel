@@ -1,13 +1,13 @@
 package com.benoitthore.enamel.geometry.primitives.transfrom
 
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
-import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.angle.EAngle
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
-internal class ETransformMutableImpl(
-    override val rotation: EAngleMutable = E.AngleMutable(),
-    override val rotationPivot: EPointMutable = E.PointMutable.half(),
-    override val scale: EPointMutable = E.PointMutable.unit(),
-    override val scalePivot: EPointMutable = E.PointMutable.half(),
-    override val translation: EPointMutable = E.PointMutable()
-) : ETransformMutable
+internal class ETransformImpl(
+    override val rotation: EAngle = E.Angle(),
+    override val rotationPivot: EPoint = E.Point.half(),
+    override val scale: EPoint = E.Point.unit(),
+    override val scalePivot: EPoint = E.Point.half(),
+    override val translation: EPoint = E.Point()
+) : ETransform

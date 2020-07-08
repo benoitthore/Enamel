@@ -6,17 +6,16 @@ import com.benoitthore.enamel.geometry.alignement.ERectEdge
 import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
 import com.benoitthore.enamel.geometry.alignement.rectAlignedOutside
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
-import com.benoitthore.enamel.geometry.primitives.size.size
-import com.benoitthore.enamel.geometry.primitives.offset.EOffset
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import com.benoitthore.enamel.geometry.interfaces.bounds.ensureRect
 import com.benoitthore.enamel.geometry.interfaces.bounds.expand
-import com.benoitthore.enamel.geometry.interfaces.bounds.padding
+import com.benoitthore.enamel.geometry.primitives.size.size
+import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 
 fun ERect.dividedFraction(
     fraction: Number,
     from: ERectEdge,
-    target: Pair<ERectMutable, ERectMutable> = E.RectMutable() to E.RectMutable()
+    target: Pair<ERect, ERect> = E.Rect() to E.Rect()
 ): Pair<ERect, ERect> {
     val fraction = fraction.f
 
@@ -30,8 +29,8 @@ fun ERect.dividedFraction(
 fun ERect.divided(
     distance: Number,
     from: ERectEdge,
-    target: Pair<ERectMutable, ERectMutable> = E.RectMutable() to E.RectMutable()
-): Pair<ERectMutable, ERectMutable> {
+    target: Pair<ERect, ERect> = E.Rect() to E.Rect()
+): Pair<ERect, ERect> {
     val distance = distance.f
 
     var sliceHeight: Float
@@ -65,10 +64,10 @@ fun ERect.divided(
     return slice to remainder
 }
 
-operator fun ERect.minus(padding: EOffset) = padding(padding).ensureRect()
+operator fun ERect.minus(padding: EOffset) :ERect = TODO()// padding(padding).ensureRect()
 operator fun ERect.plus(padding: EOffset) = expand(padding).ensureRect()
 
-fun List<HasBounds>.union(target: ERectMutable = E.RectMutable()): ERectMutable {
+fun List<EShape<*>>.union(target: ERect = E.Rect()): ERect {
     if (isEmpty()) {
         return target
     }
@@ -94,7 +93,7 @@ fun List<HasBounds>.union(target: ERectMutable = E.RectMutable()): ERectMutable 
             bottom = it.bottom
         }
     }
-    return E.RectMutableSides(
+    return E.RectSides(
         top = top,
         left = left,
         right = right,

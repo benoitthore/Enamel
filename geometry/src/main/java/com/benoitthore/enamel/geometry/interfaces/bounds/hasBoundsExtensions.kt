@@ -1,31 +1,28 @@
 package com.benoitthore.enamel.geometry.interfaces.bounds
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
-import com.benoitthore.enamel.geometry.figures.line.ELineMutable
+import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
-fun HasBounds.toRect(target: ERectMutable = E.RectMutable()): ERect = target.set(this)
+fun EShape<*>.toRect(target: ERect = E.Rect()): ERect = target.setBounds(this)
 
 // contains Point
-fun HasBounds.contains(x: Number, y: Number) = contains(x, y, 0, 0)
+fun EShape<*>.contains(x: Number, y: Number) = contains(x, y, 0, 0)
 
-fun HasBounds.contains(p: EPoint) = contains(p.x, p.y)
+fun EShape<*>.contains(p: EPoint) = contains(p.x, p.y)
 
 // contains Circle: When dealing with circles, use x and y as center
-fun HasBounds.contains(p: EPoint, radius: Number): Boolean = contains(p.x, p.y, radius)
+fun EShape<*>.contains(p: EPoint, radius: Number): Boolean = contains(p.x, p.y, radius)
 
-fun HasBounds.contains(c: ECircle): Boolean = contains(c.center, c.radius)
+fun EShape<*>.contains(c: ECircle): Boolean = contains(c.center, c.radius)
 
-fun HasBounds.contains(x: Number, y: Number, radius: Number): Boolean =
+fun EShape<*>.contains(x: Number, y: Number, radius: Number): Boolean =
     radius.f.let { radius ->
         contains(
             x.f - radius,
@@ -36,12 +33,12 @@ fun HasBounds.contains(x: Number, y: Number, radius: Number): Boolean =
     }
 
 // contains Rect
-fun HasBounds.contains(other: ERect) = contains(other.origin, other.size)
+fun EShape<*>.contains(other: ERect) = contains(other.origin, other.size)
 
-fun HasBounds.contains(origin: EPoint, size: ESize) =
+fun EShape<*>.contains(origin: EPoint, size: ESize) =
     contains(origin.x, origin.y, size.width, size.height)
 
-fun HasBounds.contains(x: Number, y: Number, width: Number, height: Number): Boolean {
+fun EShape<*>.contains(x: Number, y: Number, width: Number, height: Number): Boolean {
     val x = x.f
     val y = y.f
     val width = width.f
@@ -49,12 +46,13 @@ fun HasBounds.contains(x: Number, y: Number, width: Number, height: Number): Boo
     return x >= left && x + width < right && y >= top && y + height < bottom
 }
 
-fun HasBounds.containsFull(p: EPoint, radius: Number): Boolean = containsFull(p.x, p.y, radius)
+fun EShape<*>.containsFull(p: EPoint, radius: Number): Boolean =
+    containsFull(p.x, p.y, radius)
 
-fun HasBounds.containsFull(c: ECircle): Boolean = containsFull(c.center, c.radius)
+fun EShape<*>.containsFull(c: ECircle): Boolean = containsFull(c.center, c.radius)
 
 // TODO The functions considers the circle to be a square which doesn't work on the edges
-fun HasBounds.containsFull(x: Number, y: Number, radius: Number): Boolean =
+fun EShape<*>.containsFull(x: Number, y: Number, radius: Number): Boolean =
     radius.f.let { radius ->
         containsFull(
             x.f - radius,
@@ -64,13 +62,13 @@ fun HasBounds.containsFull(x: Number, y: Number, radius: Number): Boolean =
         )
     }
 
-fun HasBounds.containsFull(other: HasBounds) =
+fun EShape<*>.containsFull(other: EShape<*>) =
     contains(other.originX, other.originY, other.width, other.height)
 
-fun HasBounds.containsFull(origin: EPoint, size: ESize) =
+fun EShape<*>.containsFull(origin: EPoint, size: ESize) =
     containsFull(origin.x, origin.y, size.width, size.height)
 
-fun HasBounds.containsFull(x: Number, y: Number, width: Number, height: Number): Boolean {
+fun EShape<*>.containsFull(x: Number, y: Number, width: Number, height: Number): Boolean {
     val x = x.f
     val y = y.f
     val width = width.f
@@ -81,14 +79,14 @@ fun HasBounds.containsFull(x: Number, y: Number, width: Number, height: Number):
 
 
 //intersects
-fun HasBounds.intersects(other: ERect) = intersects(
+fun EShape<*>.intersects(other: ERect) = intersects(
     top = other.top,
     left = other.left,
     right = other.right,
     bottom = other.bottom
 )
 
-fun HasBounds.intersects(
+fun EShape<*>.intersects(
     left: Number, top: Number, right: Number,
     bottom: Number
 ): Boolean {
@@ -106,147 +104,56 @@ fun HasBounds.intersects(
 
 
 // Points
-fun HasBounds.pointAtAnchor(
+fun EShape<*>.pointAtAnchor(
     x: Number,
     y: Number,
-    target: EPointMutable = E.PointMutable()
-): EPointMutable =
+    target: EPoint = E.Point()
+): EPoint =
     target.set(x = pointAtAnchorX(x), y = pointAtAnchorY(y))
 
-fun HasBounds.pointAtAnchor(anchor: EPoint, target: EPointMutable = E.PointMutable()) =
+fun EShape<*>.pointAtAnchor(anchor: EPoint, target: EPoint = E.Point()) =
     pointAtAnchor(anchor.x, anchor.y, target)
 
-internal fun HasBounds.pointAtAnchorX(x: Number) = this.originX.f + width * x.f
-internal fun HasBounds.pointAtAnchorY(y: Number) = this.originY.f + height * y.f
-internal fun HasBounds.anchorAtPointX(x: Number) = if (width == 0f) .5f else x.f / width
-internal fun HasBounds.anchorAtPointY(y: Number) = if (height == 0f) .5f else y.f / height
+internal fun EShape<*>.pointAtAnchorX(x: Number) = this.originX.f + width * x.f
+internal fun EShape<*>.pointAtAnchorY(y: Number) = this.originY.f + height * y.f
+internal fun EShape<*>.anchorAtPointX(x: Number) = if (width == 0f) .5f else x.f / width
+internal fun EShape<*>.anchorAtPointY(y: Number) = if (height == 0f) .5f else y.f / height
 
-fun HasBounds.anchorAtPoint(
+fun EShape<*>.anchorAtPoint(
     x: Number,
     y: Number,
-    target: EPointMutable = E.PointMutable()
-): EPointMutable {
+    target: EPoint = E.Point()
+): EPoint {
     val x = anchorAtPointX(x)
     val y = anchorAtPointY(y)
     return target.set(x, y)
 }
 
-fun HasBounds.center(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun EShape<*>.center(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(0.5f, 0.5f, target)
 
-fun HasBounds.topLeft(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun EShape<*>.topLeft(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(0f, 0f, target)
 
-fun HasBounds.topRight(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun EShape<*>.topRight(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(1f, 0.0f, target)
 
-fun HasBounds.bottomRight(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun EShape<*>.bottomRight(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(1f, 1f, target)
 
-fun HasBounds.bottomLeft(target: EPointMutable = E.PointMutable()): EPointMutable =
+fun EShape<*>.bottomLeft(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(0f, 1f, target)
 
 
-// Changing
-fun HasBounds.offset(p: Tuple2, target: CanSetBounds = E.RectMutable()): CanSetBounds =
-    offset(p.v1, p.v2, target)
-
-fun HasBounds.offset(
-    x: Number = 0,
-    y: Number = 0,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds {
-    target.set(originX + x.f, originY + y.f, width, height)
-    return target
-}
-
-// TODO Expand/Inset/Padding -> align
-fun HasBounds.inset(margin: Number, target: CanSetBounds = E.RectMutable()) =
-    inset(margin, margin, target)
-
-fun HasBounds.inset(p: Tuple2, target: CanSetBounds = E.RectMutable()) = inset(p.v1, p.v2, target)
-fun HasBounds.inset(
-    x: Number = 0,
-    y: Number = 0,
-    target: CanSetBounds = E.RectMutable()
-) = inset(left = x, top = y, right = x, bottom = y, target = target)
-
-fun HasBounds.inset(
-    left: Number = 0,
-    top: Number = 0,
-    right: Number = 0,
-    bottom: Number = 0,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds {
-    target.setBounds(
-        left = this.left + left.toFloat(),
-        top = this.top + top.toFloat(),
-        bottom = this.bottom - bottom.toFloat(),
-        right = this.right - right.toFloat()
+// TODO Move
+fun ERect.toPointList(
+    target: List<EPoint> = listOf(
+        E.Point(),
+        E.Point(),
+        E.Point(),
+        E.Point()
     )
-    return target
-}
-
-fun HasBounds.expand(margin: Number, target: CanSetBounds = E.RectMutable()) =
-    expand(margin, margin, target)
-
-fun HasBounds.expand(p: Tuple2, target: CanSetBounds = E.RectMutable()) = expand(p.v1, p.v2, target)
-fun HasBounds.expand(x: Number = 0f, y: Number = 0f, target: CanSetBounds = E.RectMutable()) =
-    inset(-x.f, -y.f, target)
-
-fun HasBounds.expand(
-    left: Number = 0,
-    top: Number = 0,
-    right: Number = 0,
-    bottom: Number = 0,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds = inset(
-    left = -left.toFloat(),
-    top = -top.toFloat(),
-    right = -right.toFloat(),
-    bottom = -bottom.toFloat(),
-    target = target
-)
-
-fun HasBounds.expand(padding: EOffset, target: CanSetBounds = E.RectMutable()) = expand(
-    left = padding.left,
-    top = padding.top,
-    right = padding.right,
-    bottom = padding.bottom,
-    target = target
-)
-
-fun HasBounds.padding(
-    top: Number = this.top,
-    bottom: Number = this.bottom,
-    left: Number = this.left,
-    right: Number = this.right,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds = target.inset(
-    left = left,
-    top = top,
-    bottom = bottom,
-    right = right
-)
-
-fun HasBounds.padding(padding: EOffset, target: CanSetBounds = E.RectMutable()): CanSetBounds =
-    padding(
-        left = padding.left,
-        top = padding.top,
-        bottom = padding.bottom,
-        right = padding.right,
-        target = target
-    )
-
-
-fun HasBounds.toPointList(
-    target: List<EPointMutable> = listOf(
-        E.PointMutable(),
-        E.PointMutable(),
-        E.PointMutable(),
-        E.PointMutable()
-    )
-): List<EPointMutable> {
+): List<EPoint> {
     require(target.size == 4) {
         "Needs 4 points in target"
     }
@@ -260,7 +167,7 @@ fun HasBounds.toPointList(
 /***
  * @return the diagonal going from top right to bottom left
  */
-fun HasBounds.diagonalTRBL(target: ELineMutable = E.LineMutable()): ELineMutable {
+fun EShape<*>.diagonalTRBL(target: ELine = E.Line()): ELine {
     topRight(target.start)
     bottomLeft(target.end)
     return target
@@ -269,14 +176,14 @@ fun HasBounds.diagonalTRBL(target: ELineMutable = E.LineMutable()): ELineMutable
 /***
  * @return the diagonal going from top left to bottom right
  */
-fun HasBounds.diagonalTLBR(target: ELineMutable = E.LineMutable()): ELineMutable {
+fun EShape<*>.diagonalTLBR(target: ELine = E.Line()): ELine {
     topLeft(target.start)
     bottomRight(target.end)
     return target
 }
 
 
-fun HasBounds.map(
+fun <T : EShape<T>> T.map(
     fromX: Number,
     fromY: Number,
     fromWidth: Number,
@@ -285,9 +192,9 @@ fun HasBounds.map(
     toY: Number,
     toWidth: Number,
     toHeight: Number,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds {
-    target.set(this)
+    target: T = copy()
+): T {
+    target.setBounds(this)
 
     val anchorLeft = if (fromWidth == 0f) .5f else (target.originX - fromX.f) / fromWidth.f
     val anchorTop = if (fromHeight == 0f) .5f else (target.originY - fromY.f) / fromHeight.f
@@ -310,26 +217,9 @@ fun HasBounds.map(
     )
 }
 
-fun HasBounds.map(
-    from: HasBounds,
-    to: HasBounds,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds =
-    map(
-        fromX = from.originX,
-        fromY = from.originY,
-        fromWidth = from.width,
-        fromHeight = from.height,
-        toX = to.originX,
-        toY = to.originY,
-        toWidth = to.width,
-        toHeight = to.height,
-        target = target
-    )
-
-fun List<HasBounds>.union(target: ERectMutable = E.RectMutable()): ERectMutable {
+fun List<EShape<*>>.union(target: ERect = E.Rect()): ERect {
     if (isEmpty()) {
-        return E.RectMutable()
+        return E.Rect()
     }
 
     var left = Float.MAX_VALUE
@@ -353,7 +243,7 @@ fun List<HasBounds>.union(target: ERectMutable = E.RectMutable()): ERectMutable 
             bottom = it.bottom
         }
     }
-    return E.RectMutableSides(
+    return E.RectSides(
         top = top,
         left = left,
         right = right,
@@ -361,3 +251,123 @@ fun List<HasBounds>.union(target: ERectMutable = E.RectMutable()): ERectMutable 
         target = target
     )
 }
+
+
+// Changing
+fun <T : EShape<T>> T.offset(
+    p: Tuple2, target: T = copy()
+): T {
+    return offset(p.v1, p.v2, target)
+}
+
+fun <T : EShape<T>> T.offset(
+    x: Number = 0,
+    y: Number = 0,
+    target: T = copy()
+): T {
+    target.setOriginSize(originX + x.f, originY + y.f, width, height)
+    return target
+}
+
+// TODO Expand/Inset/Padding -> align
+fun <T : EShape<T>> T.inset(margin: Number, target: T = copy()) = inset(margin, margin, target)
+
+fun <T : EShape<T>> T.inset(p: Tuple2, target: T = copy()) = inset(p.v1, p.v2, target)
+
+fun <T : EShape<T>> T.inset(
+    x: Number = 0,
+    y: Number = 0,
+    target: T = copy()
+) =
+    inset(left = x, top = y, right = x, bottom = y, target = target)
+
+fun <T : EShape<T>> T.inset(
+    left: Number = 0,
+    top: Number = 0,
+    right: Number = 0,
+    bottom: Number = 0,
+    target: T = copy()
+): T {
+    target.setBounds(
+        left = this.left + left.toFloat(),
+        top = this.top + top.toFloat(),
+        bottom = this.bottom - bottom.toFloat(),
+        right = this.right - right.toFloat()
+    )
+    return target
+}
+
+fun <T : EShape<T>> T.expand(margin: Number, target: T = copy()) = expand(margin, margin, target)
+
+fun <T : EShape<T>> T.expand(p: Tuple2, target: T = copy()) = expand(p.v1, p.v2, target)
+
+fun <T : EShape<T>> T.expand(
+    x: Number = 0f,
+    y: Number = 0f,
+    target: T = copy()
+) = inset(-x.f, -y.f, target)
+
+fun <T : EShape<T>> T.expand(
+    left: Number = 0,
+    top: Number = 0,
+    right: Number = 0,
+    bottom: Number = 0,
+    target: T = copy()
+) = inset(
+    left = -left.toFloat(),
+    top = -top.toFloat(),
+    right = -right.toFloat(),
+    bottom = -bottom.toFloat(),
+    target = target
+)
+
+fun <T : EShape<T>> T.expand(padding: EOffset, target: T = copy()) = expand(
+    left = padding.left,
+    top = padding.top,
+    right = padding.right,
+    bottom = padding.bottom,
+    target = target
+)
+
+fun <T : EShape<T>> T.padding(
+    top: Number = this.top,
+    bottom: Number = this.bottom,
+    left: Number = this.left,
+    right: Number = this.right,
+    target: T = copy()
+) = inset(
+    left = left,
+    top = top,
+    bottom = bottom,
+    right = right,
+    target = target
+)
+
+fun <T : EShape<T>> T.padding(
+    padding: EOffset,
+    target: T = copy()
+) =
+    padding(
+        left = padding.left,
+        top = padding.top,
+        bottom = padding.bottom,
+        right = padding.right,
+        target = target
+    )
+
+
+fun <T : EShape<T>> T.map(
+    from: EShape<*>,
+    to: EShape<*>,
+    target: T = copy()
+) = map(
+    fromX = from.originX,
+    fromY = from.originY,
+    fromWidth = from.width,
+    fromHeight = from.height,
+    toX = to.originX,
+    toY = to.originY,
+    toWidth = to.width,
+    toHeight = to.height,
+    target = target
+)

@@ -5,19 +5,16 @@ import android.util.AttributeSet
 import android.view.View
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
-import com.benoitthore.enamel.geometry.interfaces.bounds.selfPadding
-import com.benoitthore.enamel.geometry.interfaces.bounds.set
 
 open class EFrameView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
     val frame: ERect get() = _frame
-    private var _frame: ERectMutable = E.RectMutable()
+    private var _frame: ERect = E.RectMutable()
 
     val paddedFrame: ERect get() = _paddedFrame
-    private var _paddedFrame: ERectMutable = E.RectMutable()
+    private var _paddedFrame: ERect = E.RectMutable()
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         _frame.setBounds(this)
@@ -25,11 +22,11 @@ open class EFrameView @JvmOverloads constructor(
     }
 }
 
-fun View.getViewBounds(target: ERectMutable = E.RectMutable()) = target.setBounds(this)
+fun View.getViewBounds(target: ERect = E.RectMutable()) = target.setBounds(this)
 
 // Use these functions if you don't want to extend EFrameView
-fun ERectMutable.setBounds(view: View): ERectMutable = apply { set(0, 0, view.width, view.height) }
-fun ERectMutable.setBoundsWithPadding(view: View): ERectMutable =
+fun ERect.setBounds(view: View): ERect = apply { setOriginSize(0, 0, view.width, view.height) }
+fun ERect.setBoundsWithPadding(view: View): ERect =
     setBounds(view)
         .selfPadding(
             left = view.paddingLeft,

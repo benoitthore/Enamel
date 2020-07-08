@@ -5,35 +5,34 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
-import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.figures.oval.EOval
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import com.benoitthore.enamel.geometry.primitives.size.ESize
-import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
-import com.benoitthore.enamel.geometry.interfaces.bounds.set
-import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.interfaces.bounds.center
+import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.angle.degrees
 import kotlin.math.hypot
 
-fun ECircle.pointAtAngle(angle: EAngle, target: EPointMutable = E.PointMutable()): EPointMutable =
+fun ECircle.pointAtAngle(angle: EAngle, target: EPoint = E.Point()): EPoint =
     target.set(angle, radius).selfOffset(center)
 
 fun ECircle.toListOfPoint(
-    list: MutableList<EPointMutable>,
+    list: MutableList<EPoint>,
     startAt: EAngle? = null,
     distanceList: List<Number>? = null
-): List<EPointMutable> {
+): List<EPoint> {
     if (list.isEmpty()) { // Don't divide by zero
         return list
     }
 
     val degreesPerStep = 360f / list.size
     val extra = startAt?.degrees?.i ?: 0
-    val froAngleMutable = 0f + extra
+    val froAngle = 0f + extra
 
-    var currAngle = froAngleMutable
+    var currAngle = froAngle
     var i = 0
     while (i < list.size) {
         val angle = currAngle.degrees()
@@ -61,7 +60,7 @@ fun ECircle.toListOfPoint(
     startAt: EAngle? = null
 ) =
     toListOfPoint(
-        MutableList(distanceList.size) { E.PointMutable() }, startAt, distanceList
+        MutableList(distanceList.size) { E.Point() }, startAt, distanceList
     )
 
 fun ECircle.toListOfPoint(
@@ -69,43 +68,54 @@ fun ECircle.toListOfPoint(
     startAt: EAngle? = null
 ) =
     toListOfPoint(
-        MutableList(numberOfPoint) { E.PointMutable() }, startAt
+        MutableList(numberOfPoint) { E.Point() }, startAt
     )
 
-fun EPoint.toCircle(radius: Number = 0f, target: ECircleMutable = E.CircleMutable()): ECircleMutable {
+fun EPoint.toCircle(radius: Number = 0f, target: ECircle = E.Circle()): ECircle {
     target.center.set(this)
     target.radius = radius.f
     return target
 }
 
-fun List<EPointMutable>.toCircles(
+fun List<EPoint>.toCircles(
     radius: Number,
-    target: List<ECircleMutable> = MutableList(size) { E.CircleMutable() }
-): List<ECircleMutable> {
+    target: List<ECircle> = MutableList(size) { E.Circle() }
+): List<ECircle> {
     forEachIndexed { i, p ->
         p.toCircle(radius, target[i])
     }
     return target
 }
 
-fun ESize.toRect(target: ERectMutable = E.RectMutable()) = target.set(0, 0, width, height)
+fun ESize.toRect(target: ERect = E.Rect()) = target.setOriginSize(0, 0, width, height)
 
-fun HasBounds.innerCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
+fun EShape<*>.innerCircle(target: ECircle = E.Circle()): ECircle {
     center(target.center) // set circles center to rect center
     target.radius = (if (width > height) height else width) / 2f // TODO Repalce that with minmax
     return target
 }
 
-fun HasBounds.outerCircle(target: ECircleMutable = E.CircleMutable()): ECircleMutable {
+fun EShape<*>.outerCircle(target: ECircle = E.Circle()): ECircle {
     center(target.center) // set circles center to rect center
     target.radius = hypot(width.d, height.d).f / 2f
     return target
 }
 
-fun ECircle.outerRect(target: ERectMutable = E.RectMutable()): ERectMutable =
+
+fun EShape<*>.innerOval(target: EOval = E.Oval()): EOval {
+    target.setBounds(left,top,right,bottom)
+    return target
+}
+
+fun EShape<*>.outerOval(target: EOval = E.Oval()): EOval {
+    TODO()
+    return target
+}
+
+fun ECircle.outerRect(target: ERect = E.Rect()): ERect =
     target.apply { this@outerRect.getBounds(target) }
 
-fun ECircle.innerRect(target: ERectMutable = E.RectMutable()): ERectMutable {
+fun ECircle.innerRect(target: ERect = E.Rect()): ERect {
     val width = Math.sqrt((2 * radius * radius).toDouble()).f
     target.width = width
     target.height = width

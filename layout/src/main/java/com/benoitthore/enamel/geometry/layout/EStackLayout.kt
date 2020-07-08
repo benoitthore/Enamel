@@ -38,7 +38,7 @@ class EStackLayout(
             position = frame.pointAtAnchor(alignment.flipped.namedPoint),
             spacing = spacing
         )
-        children.zip(frames).forEach { (layout, rect) ->
+        children.zip(frames.rects).forEach { (layout, rect) ->
             layout.arrange(rect)
         }
     }

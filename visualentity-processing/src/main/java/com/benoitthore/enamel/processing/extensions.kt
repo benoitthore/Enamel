@@ -5,16 +5,16 @@ import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.oval.EOval
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
-import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import processing.core.PApplet
 import processing.core.PConstants
 
-fun PApplet.mousePosition(target: EPointMutable = E.PointMutable()) = target.set(mouseX, mouseY)
-fun PApplet.getViewBounds(target: ERectMutable = E.RectMutable()) =
+
+fun PApplet.mousePosition(target: EPoint = E.PointMutable()) = target.set(mouseX, mouseY)
+fun PApplet.getViewBounds(target: ERect = E.RectMutable()) =
     target.apply { setBounds(0, 0, this@getViewBounds.width, this@getViewBounds.height) }
 
-fun ERectMutable.setBounds(applet: PApplet) = apply { applet.getViewBounds(this) }
+fun ERect.setBounds(applet: PApplet) = apply { applet.getViewBounds(this) }
 
 fun PApplet.draw(rect: ERect) {
     with(rect) {
@@ -31,13 +31,13 @@ fun PApplet.draw(line: ELine) {
 
 fun PApplet.draw(circle: ECircle) {
     with(circle) {
-        ellipse(x, y, radius * 2, radius * 2)
+        ellipse(centerX, centerY, radius * 2, radius * 2)
     }
 }
 
 fun PApplet.draw(oval: EOval) {
     with(oval) {
-        ellipse(y, x, rx, ry)
+        ellipse(centerY, centerX, rx * 2, ry * 2)
     }
 }
 

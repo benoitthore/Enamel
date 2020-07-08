@@ -1,9 +1,11 @@
 package com.benoitthore.enamel.geometry.primitives.point
 
 import com.benoitthore.enamel.geometry.allocateDebugMessage
+import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.line.ELine
 
-internal class EPointMutableImpl internal constructor(x: Number, y: Number) :
-    EPointMutable {
+internal class EPointImpl internal constructor(x: Number, y: Number) :
+    EPoint {
     override var x: Float = x.toFloat()
     override var y: Float = y.toFloat()
 
@@ -11,6 +13,9 @@ internal class EPointMutableImpl internal constructor(x: Number, y: Number) :
         allocateDebugMessage()
     }
 
+    override fun copy(): EPoint {
+        TODO("Not yet implemented")
+    }
     override fun toString(): String {
         return "Point($x ; $y)"
     }

@@ -1,34 +1,14 @@
 package com.benoitthore.enamel.geometry.figures.oval
 
-import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.Resetable
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
-interface EOval : ERect {
-
-    val center: EPoint
-    val rx: Float
-    val ry: Float
-
-    val x: Float get() = centerX
-    val y: Float get() = centerY
-
-    override val centerX: Float
-        get() = center.x
-    override val centerY: Float
-        get() = center.y
-
-    override val left: Float
-        get() = center.x - rx
-    override val top: Float
-        get() = center.y - ry
-    override val right: Float
-        get() = center.x + rx
-    override val bottom: Float
-        get() = center.y + height
+interface EOval : EShape<EOval> {
+    var ry: Float
+    var rx: Float
 
     override fun addTo(context: SVGContext) {
         context.oval(this)
     }
 }
-

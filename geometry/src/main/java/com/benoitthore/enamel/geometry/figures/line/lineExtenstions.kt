@@ -2,21 +2,18 @@ package com.benoitthore.enamel.geometry.figures.line
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point.length
 import com.benoitthore.enamel.geometry.primitives.point.point
-import com.benoitthore.enamel.geometry.toMutable
 import kotlin.math.*
 
 infix fun EPoint.line(end: EPoint) = E.Line(start = this, end = end)
-infix fun EPointMutable.line(end: EPointMutable) = E.LineMutable(start = this, end = end)
 
-fun List<EPoint>.toListOfLines(): List<ELineMutable> {
-    val ret = mutableListOf<ELineMutable>()
+fun List<EPoint>.toListOfLines(): List<ELine> {
+    val ret = mutableListOf<ELine>()
     forEachIndexed { i, curr ->
         if (i > 0) {
             val prev = get(i - 1)
-            ret.add(E.LineMutable(prev, curr))
+            ret.add(E.Line(prev, curr))
         }
     }
     return ret
@@ -98,13 +95,13 @@ val List<ELine>.length: Float get() = sumByDouble { it.length.toDouble() }.toFlo
 operator fun ELine.component1() = start
 operator fun ELine.component2() = end
 
-fun List<EPoint>.pointAtFraction(fraction: Number, target: EPointMutable = E.PointMutable()) =
+fun List<EPoint>.pointAtFraction(fraction: Number, target: EPoint = E.Point()) =
     pointAtDistance(fraction.toFloat() * length, target)
 
 fun List<EPoint>.pointAtDistance(
     distance: Number,
-    target: EPointMutable = E.PointMutable()
-): EPointMutable {
+    target: EPoint = E.Point()
+): EPoint {
     var last: EPoint? = null
     val distance = distance.toFloat()
     var remainingDistance = distance
@@ -120,7 +117,7 @@ fun List<EPoint>.pointAtDistance(
         last = p
     }
 
-    return last().toMutable(target)
+    return target.set(last())
 }
 
 

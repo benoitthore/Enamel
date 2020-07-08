@@ -1,17 +1,15 @@
 package com.benoitthore.enamel.geometry.interfaces.bounds
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
 
-fun HasBounds.scaleRelative(
+fun <T : EShape<T>> T.scaleRelative(
     scaleFactor: Number,
     pointX: Number,
     pointY: Number,
-    target: CanSetBounds = E.RectMutable()
-) = scaleRelative2D(
+    target: T = copy()
+): T = scaleRelative2D(
     scaleFactorX = scaleFactor,
     scaleFactorY = scaleFactor,
     pointX = pointX,
@@ -19,21 +17,21 @@ fun HasBounds.scaleRelative(
     target = target
 )
 
-fun HasBounds.scaleRelative2D(
+fun <T : EShape<T>> T.scaleRelative2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     pointX: Number,
     pointY: Number,
-    target: CanSetBounds = E.RectMutable()
-): CanSetBounds {
-    target.set(this)
+    target: T = copy()
+): T {
+    target.setBounds(this)
 
     val scaleFactorX = scaleFactorX.f
     val scaleFactorY = scaleFactorY.f
 
     target.setOriginSize(
-        originX = originX + (pointX.f - originX) * (1f - scaleFactorX),
-        originY = originY + (pointY.f - originY) * (1f - scaleFactorY),
+        x = originX + (pointX.f - originX) * (1f - scaleFactorX),
+        y = originY + (pointY.f - originY) * (1f - scaleFactorY),
         width = width * scaleFactorX,
         height = height * scaleFactorY
     )
@@ -43,19 +41,19 @@ fun HasBounds.scaleRelative2D(
 //// //// //// //// //// //// //// ////
 //// //// //// //// //// //// //// ////
 
-fun HasBounds.scaleAnchor(
+fun <T : EShape<T>> T.scaleAnchor(
     scaleFactor: Number,
     anchor: EPoint,
-    target: CanSetBounds = E.RectMutable()
+    target: T = copy()
 ) =
     scaleAnchor(scaleFactor, anchor.x, anchor.y, target)
 
 
-fun HasBounds.scaleAnchor2D(
+fun <T : EShape<T>> T.scaleAnchor2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     anchor: EPoint,
-    target: CanSetBounds = E.RectMutable()
+    target: T = copy()
 ) =
     scaleAnchor2D(
         scaleFactorX = scaleFactorX,
@@ -66,11 +64,11 @@ fun HasBounds.scaleAnchor2D(
     )
 
 
-fun HasBounds.scaleAnchor(
+fun <T : EShape<T>> T.scaleAnchor(
     scaleFactor: Number,
     anchorX: Number,
     anchorY: Number,
-    target: CanSetBounds = E.RectMutable()
+    target: T = copy()
 ) = scaleRelative(
     scaleFactor = scaleFactor,
     pointX = pointAtAnchorX(anchorX),
@@ -78,12 +76,12 @@ fun HasBounds.scaleAnchor(
     target = target
 )
 
-fun HasBounds.scaleAnchor2D(
+fun <T : EShape<T>> T.scaleAnchor2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     anchorX: Number,
     anchorY: Number,
-    target: CanSetBounds = E.RectMutable()
+    target: T = copy()
 ) = scaleRelative2D(
     scaleFactorX = scaleFactorX,
     scaleFactorY = scaleFactorY,
@@ -93,10 +91,10 @@ fun HasBounds.scaleAnchor2D(
 )
 
 
-fun HasBounds.scaleRelative(
+fun <T : EShape<T>> T.scaleRelative(
     scaleFactor: Number,
     point: EPoint,
-    target: CanSetBounds = E.RectMutable()
+    target: T = copy()
 ) = scaleRelative(
     scaleFactor = scaleFactor,
     pointX = point.x,
@@ -104,11 +102,11 @@ fun HasBounds.scaleRelative(
     target = target
 )
 
-fun HasBounds.scaleRelative2D(
+fun <T : EShape<T>> T.scaleRelative2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     point: EPoint,
-    target: CanSetBounds = E.RectMutable()
+    target: T = copy()
 ) = scaleRelative2D(
     scaleFactorX = scaleFactorX,
     scaleFactorY = scaleFactorY,

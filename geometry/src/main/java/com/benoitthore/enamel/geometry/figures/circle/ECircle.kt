@@ -1,34 +1,18 @@
 package com.benoitthore.enamel.geometry.figures.circle
 
-import com.benoitthore.enamel.geometry.interfaces.bounds.HasBounds
+import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
-interface ECircle : ESVG, HasBounds {
+interface ECircle : EShape<ECircle> {
+    var radius: Float
+    val center: EPoint
 
     override fun addTo(context: SVGContext) {
-        context.oval(x - radius, y - radius, x + radius, y + radius)
+        context.oval(centerX - radius, centerY - radius, centerX + radius, centerY + radius)
     }
-
-    val center: EPoint
-    val radius: Float
-
-
-    val x: Float get() = center.x
-    val y: Float get() = center.y
-    override val centerX: Float get() = x
-    override val centerY: Float get() = y
-
-    override val left: Float
-        get() = x - radius
-    override val top: Float
-        get() = y - radius
-    override val right: Float
-        get() = x + radius
-    override val bottom: Float
-        get() = y + radius
-
 
     fun intersects(other: ECircle) =
         this.center.distanceTo(other.center) < other.radius + this.radius
@@ -44,6 +28,19 @@ interface ECircle : ESVG, HasBounds {
 
     fun contains(x: Number, y: Number): Boolean = center.distanceTo(x, y) < radius
     fun contains(point: EPoint) = contains(point.x, point.y)
-
 }
 
+fun <T : ECircle> T.set(other: ECircle) = set(other.center.x, other.center.y, other.radius)
+fun <T : ECircle> T.set(center: EPoint = this.center, radius: Number = this.radius) =
+    set(center.x, center.y, radius)
+
+fun <T : ECircle> T.set(
+    x: Number = centerX,
+    y: Number = centerY,
+    radius: Number = this.radius
+): T {
+    this.centerX = x.f
+    this.centerY = y.f
+    this.radius = radius.f
+    return this
+}

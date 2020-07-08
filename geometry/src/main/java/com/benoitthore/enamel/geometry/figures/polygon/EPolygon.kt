@@ -1,16 +1,16 @@
 package com.benoitthore.enamel.geometry.figures.polygon
 
 //import com.benoitthore.enamel.core.math.Scale
-//import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
+//import com.benoitthore.enamel.geometry.primitives.point.EPoint
 //import com.benoitthore.enamel.geometry.primitives.point.EPoint
 //
 //open class EPolygonType(open val points: List<EPoint>)
 //
-//class EPolygon(override val points: List<EPointMutable>) : EPolygonType(points)
+//class EPolygon(override val points: List<EPoint>) : EPolygonType(points)
 //
-//fun <P : EPointMutable> List<P>.fit(rect: ERect): List<P> = fit(rect.size).apply { forEach { it.selfOffset(rect.origin) } }
+//fun <P : EPoint> List<P>.fit(rect: ERect): List<P> = fit(rect.size).apply { forEach { it.selfOffset(rect.origin) } }
 //
-//fun <P : EPointMutable> List<P>.fit(size: ESize): List<P> {
+//fun <P : EPoint> List<P>.fit(size: ESize): List<P> {
 //
 //    if (isEmpty()) {
 //        return this
@@ -41,4 +41,4 @@ package com.benoitthore.enamel.geometry.figures.polygon
 //}
 //
 //fun List<EPoint>.toPolygon() = EPolygonType(this)
-//fun List<EPointMutable>.toPolygon() = EPolygon(this)
+//fun List<EPoint>.toPolygon() = EPolygon(this)

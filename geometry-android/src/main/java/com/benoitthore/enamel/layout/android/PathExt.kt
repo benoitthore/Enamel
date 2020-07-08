@@ -84,7 +84,7 @@ interface PathSVGContext : SVGContext {
         center: EPoint,
         radius: Number,
         startAngle: EAngle,
-        endAngle: EAngle,
+        sweepAngle: EAngle,
         direction: EAngle.Direction
     ) {
         TODO("Not yet implemented")

@@ -6,18 +6,14 @@ import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
 import com.benoitthore.enamel.geometry.outerRect
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point.point
-import com.benoitthore.enamel.geometry.toMutable
 
 
 fun EMesh.toBorder(width: Number) = EStyle.Border(this, width.toFloat())
 
 fun EMesh.toShadow(n: Number) = toShadow(n point n)
 fun EMesh.toShadow(xOff: Number, yOff: Number) = toShadow(xOff point yOff)
-fun EMesh.toShadow(offset: EPoint) = toShadow(offset.toMutable())
-fun EMesh.toShadow(offset: EPointMutable) = EStyle.Shadow(this, offset)
-
+fun EMesh.toShadow(offset: EPoint) = EStyle.Shadow(this, offset)
 
 fun ELine.toShader(vararg colors: Int, resetOrigin: Boolean = true) =
     toShader(colors.toList(), resetOrigin = resetOrigin)
@@ -33,9 +29,9 @@ fun ELine.toShader(
 ) =
     EShader(
         shaderType = EShader.ShaderType.Linear(
-            toMutable().apply {
+            copy().apply {
                 if (resetOrigin) {
-                    setOriginSize(0, 0)
+                    this.setOriginSize(0, 0)
                 }
             }
         ),
@@ -44,7 +40,7 @@ fun ELine.toShader(
         stops = stops,
         //
         // TODO Change to RectCorners when function is implemented
-        frame = E.RectMutableCorners(start, end)
+        frame = E.RectCorners(start, end)
     )
 
 fun ECircle.toShader(
@@ -55,9 +51,9 @@ fun ECircle.toShader(
 ) =
     EShader(
         shaderType = EShader.ShaderType.Radial(
-            toMutable().apply {
+            copy().apply {
                 if (resetOrigin) {
-                    setOriginSize(0, 0)
+                    this.setOriginSize(0, 0)
                 }
             }
         ),

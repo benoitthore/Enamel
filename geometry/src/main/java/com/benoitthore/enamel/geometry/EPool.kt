@@ -3,15 +3,10 @@ package com.benoitthore.enamel.geometry
 import com.benoitthore.enamel.core.LazyList
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
-import com.benoitthore.enamel.geometry.figures.circle.ECircleMutable
 import com.benoitthore.enamel.geometry.figures.line.ELine
-import com.benoitthore.enamel.geometry.figures.line.ELineMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
-import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
 class EPool<T : Any>(val size: Int, init: (Int) -> T) {
     private val list = LazyList(size, init)
@@ -48,33 +43,33 @@ class EPool<T : Any>(val size: Int, init: (Int) -> T) {
 }
 
 fun RectPool(size: Int = 50) =
-    EPool(size) { E.RectMutable() }
+    EPool(size) { E.Rect() }
 fun PointPool(size: Int = 50) =
-    EPool(size) { E.PointMutable() }
+    EPool(size) { E.Point() }
 
 fun CirclePool(size: Int = 50) =
-    EPool(size) { E.CircleMutable() }
+    EPool(size) { E.Circle() }
 
 fun LinePool(size: Int = 50) =
-    EPool(size) { E.LineMutable() }
+    EPool(size) { E.Line() }
 fun AnglePool(size: Int = 50) =
-    EPool(size) { E.AngleMutable() }
+    EPool(size) { E.Angle() }
 
 // TODO Make this an interface
 class GeometryPool(
-    val rect: EPool<ERectMutable> = RectPool(
+    val rect: EPool<ERect> = RectPool(
         50
     ),
-    val point: EPool<EPointMutable> = PointPool(
+    val point: EPool<EPoint> = PointPool(
         50
     ),
-    val circle: EPool<ECircleMutable> = CirclePool(
+    val circle: EPool<ECircle> = CirclePool(
         50
     ),
-    val line: EPool<ELineMutable> = LinePool(
+    val line: EPool<ELine> = LinePool(
         50
     ),
-    val angle: EPool<EAngleMutable> = AnglePool(
+    val angle: EPool<EAngle> = AnglePool(
         50
     )
 ) {
@@ -111,18 +106,18 @@ class GeometryPool(
 
     val invokeMap: Map<Class<*>, () -> Any> = mapOf(
         ELine::class.java to { line() },
-        ELineMutable::class.java to { line() },
+        ELine::class.java to { line() },
 
-        ERectMutable::class.java to { rect() },
+        ERect::class.java to { rect() },
         ERect::class.java to { rect() },
 
-        EPointMutable::class.java to { point() },
+        EPoint::class.java to { point() },
         EPoint::class.java to { point() },
 
-        ECircleMutable::class.java to { circle() },
+        ECircle::class.java to { circle() },
         ECircle::class.java to { circle() },
 
-        EAngleMutable::class.java to { angle() },
+        EAngle::class.java to { angle() },
         EAngle::class.java to { angle() }
 
 

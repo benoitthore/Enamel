@@ -11,7 +11,6 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.line.toListOfLines
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.svg.addTo
-import com.benoitthore.enamel.geometry.toImmutable
 import com.benoitthore.enamel.layout.android.createSVGContext
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.enamel.layout.android.singleTouch
@@ -31,7 +30,8 @@ class PathInterpolationDemoView @JvmOverloads constructor(
 
     private val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG)
         .apply {
-        strokeWidth = 2.dp
+            TODO()
+//        strokeWidth = 2.dp
         color = Color.RED
         style = Paint.Style.STROKE
     }
