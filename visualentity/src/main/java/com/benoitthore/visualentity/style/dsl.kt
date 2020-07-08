@@ -2,6 +2,7 @@ package com.benoitthore.visualentity.style
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.builders.IE
+import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
 /**
@@ -9,6 +10,12 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
  */
 inline fun IE.style(crossinline block: StyleBuilder.() -> Unit): EStyle =
     StyleBuilder().apply(block).build()
+
+/**
+ * This doesn't need to be an extension function, but we're trying to avoid polluting the global namespace
+ */
+inline fun <T : EShape<T>> IE.style(shape: T, crossinline block: StyleBuilder.(T) -> Unit): EStyle =
+    StyleBuilder().apply { block(shape) }.build()
 
 class StyleBuilder {
 

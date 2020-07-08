@@ -1,7 +1,8 @@
 package com.benoitthore.enamel.geometry.layout
 
 import com.benoitthore.enamel.geometry.alignement.EAlignment
-import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
+import com.benoitthore.enamel.geometry.alignement.alignedInside
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 
@@ -29,10 +30,8 @@ class EBoxLayout(
     }
 
     override fun arrange(frame: ERect) {
-        val usingFrame = frame.rectAlignedInside(
-            alignment = alignment,
-            size = child.size(frame.size)
-        )
+
+        val usingFrame = E.Rect(child.size(frame.size)).alignedInside(frame, alignment)
         child.arrange(usingFrame)
     }
 

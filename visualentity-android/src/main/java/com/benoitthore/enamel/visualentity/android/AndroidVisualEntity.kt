@@ -2,14 +2,22 @@ package com.benoitthore.enamel.visualentity.android
 
 import android.graphics.Canvas
 import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
+import com.benoitthore.enamel.layout.android.withSave
 import com.benoitthore.enamel.layout.android.withTransform
 import com.benoitthore.visualentity.VisualEntity
 import com.benoitthore.enamel.visualentity.android.utils.VisualEntityDrawer
 
-interface AndroidVisualEntity<T : EShape<T>> : VisualEntity<T>  {
+interface AndroidVisualEntity<T : EShape<T>> : VisualEntity<T> {
     val drawer: VisualEntityDrawer
 }
 
+
+fun Canvas.drawFromCenter(block: Canvas.() -> Unit) {
+    withSave {
+        translate(width / 2f, height / 2f)
+        block()
+    }
+}
 
 fun Canvas.draw(visualEntity: AndroidVisualEntity<*>) {
     val canvas = this
@@ -27,3 +35,4 @@ fun Canvas.draw(visualEntity: AndroidVisualEntity<*>) {
         }
     }
 }
+

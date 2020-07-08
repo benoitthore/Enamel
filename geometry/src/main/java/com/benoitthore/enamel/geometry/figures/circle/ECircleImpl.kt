@@ -61,6 +61,11 @@ internal class ECircleImpl internal constructor(
             center.y = value
         }
 
+    override fun set(other: ECircle): ECircle {
+        center.set(other.center)
+        radius = other.radius
+        return this
+    }
 
     override val center: EPoint = E.Point(centerX, centerY)
 

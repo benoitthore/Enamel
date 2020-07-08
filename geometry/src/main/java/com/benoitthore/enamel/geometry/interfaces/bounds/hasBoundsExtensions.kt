@@ -13,16 +13,16 @@ import com.benoitthore.enamel.geometry.primitives.Tuple2
 fun EShape<*>.toRect(target: ERect = E.Rect()): ERect = target.setBounds(this)
 
 // contains Point
-fun EShape<*>.contains(x: Number, y: Number) = contains(x, y, 0, 0)
+fun ERect.contains(x: Number, y: Number) = contains(x, y, 0, 0)
 
-fun EShape<*>.contains(p: EPoint) = contains(p.x, p.y)
+fun ERect.contains(p: EPoint) = contains(p.x, p.y)
 
 // contains Circle: When dealing with circles, use x and y as center
-fun EShape<*>.contains(p: EPoint, radius: Number): Boolean = contains(p.x, p.y, radius)
+fun ERect.contains(p: EPoint, radius: Number): Boolean = contains(p.x, p.y, radius)
 
-fun EShape<*>.contains(c: ECircle): Boolean = contains(c.center, c.radius)
+fun ERect.contains(c: ECircle): Boolean = contains(c.center, c.radius)
 
-fun EShape<*>.contains(x: Number, y: Number, radius: Number): Boolean =
+fun ERect.contains(x: Number, y: Number, radius: Number): Boolean =
     radius.f.let { radius ->
         contains(
             x.f - radius,
@@ -33,12 +33,12 @@ fun EShape<*>.contains(x: Number, y: Number, radius: Number): Boolean =
     }
 
 // contains Rect
-fun EShape<*>.contains(other: ERect) = contains(other.origin, other.size)
+fun ERect.contains(other: ERect) = contains(other.origin, other.size)
 
-fun EShape<*>.contains(origin: EPoint, size: ESize) =
+fun ERect.contains(origin: EPoint, size: ESize) =
     contains(origin.x, origin.y, size.width, size.height)
 
-fun EShape<*>.contains(x: Number, y: Number, width: Number, height: Number): Boolean {
+fun ERect.contains(x: Number, y: Number, width: Number, height: Number): Boolean {
     val x = x.f
     val y = y.f
     val width = width.f
@@ -46,13 +46,13 @@ fun EShape<*>.contains(x: Number, y: Number, width: Number, height: Number): Boo
     return x >= left && x + width < right && y >= top && y + height < bottom
 }
 
-fun EShape<*>.containsFull(p: EPoint, radius: Number): Boolean =
+fun ERect.containsFull(p: EPoint, radius: Number): Boolean =
     containsFull(p.x, p.y, radius)
 
-fun EShape<*>.containsFull(c: ECircle): Boolean = containsFull(c.center, c.radius)
+fun ERect.containsFull(c: ECircle): Boolean = containsFull(c.center, c.radius)
 
 // TODO The functions considers the circle to be a square which doesn't work on the edges
-fun EShape<*>.containsFull(x: Number, y: Number, radius: Number): Boolean =
+fun ERect.containsFull(x: Number, y: Number, radius: Number): Boolean =
     radius.f.let { radius ->
         containsFull(
             x.f - radius,
@@ -62,13 +62,13 @@ fun EShape<*>.containsFull(x: Number, y: Number, radius: Number): Boolean =
         )
     }
 
-fun EShape<*>.containsFull(other: EShape<*>) =
+fun ERect.containsFull(other: EShape<*>) =
     contains(other.originX, other.originY, other.width, other.height)
 
-fun EShape<*>.containsFull(origin: EPoint, size: ESize) =
+fun ERect.containsFull(origin: EPoint, size: ESize) =
     containsFull(origin.x, origin.y, size.width, size.height)
 
-fun EShape<*>.containsFull(x: Number, y: Number, width: Number, height: Number): Boolean {
+fun ERect.containsFull(x: Number, y: Number, width: Number, height: Number): Boolean {
     val x = x.f
     val y = y.f
     val width = width.f
@@ -79,14 +79,14 @@ fun EShape<*>.containsFull(x: Number, y: Number, width: Number, height: Number):
 
 
 //intersects
-fun EShape<*>.intersects(other: ERect) = intersects(
+fun ERect.intersects(other: ERect) = intersects(
     top = other.top,
     left = other.left,
     right = other.right,
     bottom = other.bottom
 )
 
-fun EShape<*>.intersects(
+fun ERect.intersects(
     left: Number, top: Number, right: Number,
     bottom: Number
 ): Boolean {

@@ -75,14 +75,17 @@ internal class ERectImpl internal constructor(
         }
 
 
-    override fun copy(): ERect {
-        TODO("Not yet implemented")
+    override fun copy(): ERect = E.Rect(this)
+    override fun set(other: ERect): ERect = apply {
+        size.set(other.size)
+        origin.set(other.origin)
     }
 
     override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         origin.set(x = left, y = top)
         size.set(width = right.f - left.f, height = bottom.f - top.f)
     }
+
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

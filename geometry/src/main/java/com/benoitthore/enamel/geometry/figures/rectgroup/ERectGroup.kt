@@ -160,6 +160,10 @@ interface ERectGroup<T : EShape<*>> : EShape<ERectGroup<T>> {
             updateFrame()
         }
 
+        override fun set(other: ERectGroup<T>): ERectGroup<T> {
+            TODO("Not yet implemented")
+        }
+
     }
 
 

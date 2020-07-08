@@ -99,6 +99,11 @@ internal class ELineImpl internal constructor(
         }
     }
 
+    override fun set(other: ELine): ELine = apply {
+        start.set(other.start)
+        end.set(other.end)
+    }
+
     override fun copy(): ELine {
         TODO("Not yet implemented")
     }

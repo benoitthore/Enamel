@@ -1,7 +1,10 @@
 package com.benoitthore.enamel.geometry.figures.oval
 
+import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.line.ELine
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.size.ESize
 
 internal class EOvalImpl(
     cx: Number,
@@ -20,10 +23,8 @@ internal class EOvalImpl(
         set(value) {
             ry = value / 2f
         }
-    override var centerX: Float = cx.toFloat()
-    override var centerY: Float = cy.toFloat()
-    override var ry: Float = rx.toFloat()
-    override var rx: Float = ry.toFloat()
+    override val size: ESize = E.Size(rx.f * 2f, ry.f * 2f)
+    override val center: EPoint = E.Point(cx, cy)
 
     override var left: Float
         get() = centerX - rx
@@ -52,9 +53,12 @@ internal class EOvalImpl(
         get() = TODO("Not yet implemented")
         set(value) {}
 
-    override fun copy(): EOval {
+    override fun copy(): EOval = E.Oval(this)
+
+    override fun set(other: EOval): EOval {
         TODO("Not yet implemented")
     }
+
 
     override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         val left = left.toFloat()
@@ -67,6 +71,7 @@ internal class EOvalImpl(
         centerX = left + rx
         centerY = top + ry
     }
+
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

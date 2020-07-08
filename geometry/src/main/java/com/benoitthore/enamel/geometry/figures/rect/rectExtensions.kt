@@ -3,12 +3,14 @@ package com.benoitthore.enamel.geometry.figures.rect
 import com.benoitthore.enamel.core.math.constrain
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.alignement.ERectEdge
-import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
-import com.benoitthore.enamel.geometry.alignement.rectAlignedOutside
+import com.benoitthore.enamel.geometry.alignement.alignedInside
+import com.benoitthore.enamel.geometry.alignement.alignedOutside
+import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import com.benoitthore.enamel.geometry.interfaces.bounds.ensureRect
 import com.benoitthore.enamel.geometry.interfaces.bounds.expand
+import com.benoitthore.enamel.geometry.interfaces.bounds.setSize
 import com.benoitthore.enamel.geometry.primitives.size.size
 import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 
@@ -56,15 +58,23 @@ fun ERect.divided(
     remainderWidth = remainderWidth.constrain(0, width)
 
 
-    val slice =
-        rectAlignedInside(from.alignement, sliceWidth size sliceHeight, target = target.first)
-    val remainderSize = E.Size(remainderWidth, remainderHeight)
-    val remainder =
-        slice.rectAlignedOutside(from.alignement.flipped, remainderSize, target = target.second)
+    /* OLD CODE
+     val slice =
+         alignedInside(from.alignement, sliceWidth size sliceHeight, target = target.first)
+     val remainderSize = E.Size(remainderWidth, remainderHeight)
+     val remainder =
+         slice.alignedOutside(from.alignement.flipped, remainderSize, target = target.second)
+
+     */
+    val slice = target.first.selfAlignInside(this, from.alignement).setSize(sliceWidth, sliceHeight)
+    val remainder = target.second.selfAlignInside(slice, from.alignement.flipped)
+        .setSize(remainderWidth, remainderHeight)
+
+    TODO("Check if this works")
     return slice to remainder
 }
 
-operator fun ERect.minus(padding: EOffset) :ERect = TODO()// padding(padding).ensureRect()
+operator fun ERect.minus(padding: EOffset): ERect = TODO()// padding(padding).ensureRect()
 operator fun ERect.plus(padding: EOffset) = expand(padding).ensureRect()
 
 fun List<EShape<*>>.union(target: ERect = E.Rect()): ERect {

@@ -24,7 +24,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     fun Rect(other: ERect): ERect = Rect(other.origin, other.size)
 
     //
-    //TODO Add non mutable function
+    
     fun RectCenter(
         center: EPoint,
         size: ESize,
@@ -32,7 +32,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     ) = RectCenter(center.x, center.y, size.width, size.height, target)
 
     //
-    //TODO Add non mutable function
+    
     fun RectCenter(
         center: EPoint,
         width: Number,
@@ -41,7 +41,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     ) = RectCenter(center.x, center.y, width, height, target)
 
     //
-    //TODO Add non mutable function
+    
     fun RectCenter(
         x: Number = 0f, y: Number = 0f,
         width: Number, height: Number,
@@ -57,7 +57,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     }
 
     //
-    //TODO Add non mutable function
+    
     fun RectCorners(
         corner1: EPoint,
         corner2: EPoint,
@@ -65,7 +65,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     ) = RectCorners(corner1.x, corner1.y, corner2.x, corner2.y, target)
 
     //
-    //TODO Add non mutable function
+    
     fun RectCorners(
         corner1X: Number = 0,
         corner1Y: Number = 0,
@@ -83,7 +83,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     }
 
     //
-    //TODO Add non mutable function
+    
     fun RectSides(
         left: Number,
         top: Number,
@@ -99,8 +99,6 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
         )
     }
 
-    //
-    //TODO Add non mutable function
     fun RectAnchorPos(
         anchor: EPoint,
         position: EPoint,

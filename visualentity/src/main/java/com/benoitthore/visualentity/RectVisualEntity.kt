@@ -8,23 +8,14 @@ import com.benoitthore.visualentity.style.StyleBuilder
 import com.benoitthore.visualentity.style.style
 
 internal class RectVisualEntityImpl(
-    private val rect: ERect,
+    private val Rect: ERect,
     override var style: EStyle
 ) :
-    RectVisualEntity, ERect by rect {
-    override fun copy(): RectVisualEntity = rect.copy().toVisualEntity(style)
+    RectVisualEntity, ERect by Rect {
+    override fun copy(): RectVisualEntity = Rect.copy().toVisualEntity(style)
     override val transform: ETransform = E.Transform()
 }
 
 interface RectVisualEntity : ERect, VisualEntity<ERect> {
     override fun copy(): RectVisualEntity
 }
-
-fun ERect.toVisualEntity(style: EStyle = EStyle()): RectVisualEntity =
-    RectVisualEntityImpl(this, style)
-
-fun ERect.toVisualEntity(styleDef: () -> EStyle = { EStyle() }): RectVisualEntity =
-    RectVisualEntityImpl(this, styleDef())
-
-fun ERect.toVisualEntity(block: StyleBuilder.() -> Unit): RectVisualEntity =
-    RectVisualEntityImpl(this, E.style(block))

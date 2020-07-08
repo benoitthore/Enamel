@@ -1,24 +1,71 @@
 # Enamel
+If you're tired of Canvas code being too verbose, here's the solution you're looking for
 
-Enamel is a set of libraries used to facilitate drawing, focusing on Android even though not some modules are Kotlin/JVM.
+# Examples
+TODO add gifs
 
-#  Adding the dependencies
+# Concepts
+## Shapes
+Enamel currently features 4 basic shapes you can play with. More to come!
+- Rectangle
+- Circle
+- Oval
+- Line
 
-Adding this to you gradle file:
+## E
+All the shapes are actually interfaces, thus they have no constructors.
 
-`TODO`
+That's where the `E` object comes into play. It allows to easily create `EShape` instances
 
-# Documentation
-[Generic documentation](docs/doc.md)
+## Style
+Abstracting the `Paint` class, allowing the use of stroke and fill colours at the same time:
 
-[List of Enamel objects - TODO]()
+```
 
-[CanSetBounds/HasBounds extensions - TODO]()
+    val circleVE = E.Circle(radius = 10.dp).toVisualEntity { circle ->
+        strokeColor = Color.RED
+        strokeWidth = 2.dp
+        fillShader = circle
+            .diagonalTLBR() // creates a line from top left to bottom right
+            .toShader(Color.RED, Color.YELLOW) // converts it to a linear gradient with these colours
+    }.toAndroid()
 
-[Use Style and avoid Paints - TODO]()
+    canvas.drawFromCenter {
+        draw(circleVE)
+    }
 
-[Handle touch events - TODO]()
+```
+**TODO Add image**
 
-# Quick demo
+Here we're creating a circle with a radius of 10, we give it a red stroke of 2dp.
 
-TODO
+Next, we create a diagonal ELine inside this circle and convert it to a `LinearGradient`
+
+*This project aiming to be multiplatform, `toAndroid()` is required to actually create the paints*
+
+##  Moving things around
+
+### Copy
+Before moving a shape, you might want to make a copy of it. `EShape<T>` has a function that returns a copy of itself `fun copy() : T`
+So we have the following `interface ECircle : EShape<ECircle>`. Keep this in mind if you want to add custom shapes, it needs to be copyable.
+
+### Alignment
+Any shape can be aligned relative to any other shape. When moving a shape, you can either create a copy at that new location or modify one to avoid memory allocation
+
+```
+val rect = E.Rect(x = 0, y = 0, width = 100.dp, height = 100.dp)
+val circle = E.Circle(radius = 10.dp)
+
+// Creates a new circle at the top left of the rectangle, inside the rectangle
+val newCircleOutside = circle.alignedOutside(rect, EAlignment.topLeft)
+// Creates a new circle at the top left of the rectangle, outside the rectangle
+val newCircleInside = circle.alignedOutside(rect, EAlignment.topLeft)
+
+// Move the circle at the top left of the rectangle, inside the rectangle
+circle.selfAlignInside(rect, EAlignment.topLeft)
+
+// Move the circle at the top left of the rectangle, outside the rectangle
+circle.selfAlignOutside(rect, EAlignment.topLeft)
+```
+
+**TODO add alignments images**

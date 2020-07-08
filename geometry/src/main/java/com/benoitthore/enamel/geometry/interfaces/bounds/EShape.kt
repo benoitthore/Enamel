@@ -77,4 +77,6 @@ interface EShape<T> : ESVG, Copyable<T> where T : EShape<T> {
 
     fun setOrigin(origin: EPoint) = setOrigin(origin.x, origin.y)
 
+    fun set(other: T) : T
+
 }

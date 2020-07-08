@@ -3,11 +3,13 @@ package com.benoitthore.enamel.geometry.figures.rectgroup
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.alignement.EAlignment
-import com.benoitthore.enamel.geometry.alignement.rectAlignedOutside
+import com.benoitthore.enamel.geometry.alignement.alignedOutside
+import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
 import com.benoitthore.enamel.geometry.allocate
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
+import com.benoitthore.enamel.geometry.interfaces.bounds.setSize
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 
@@ -25,11 +27,20 @@ fun List<ESize>.rectGroup(
     var prev = allocate { E.Rect() }
     val rects = mapIndexed { i, size ->
         prev = allocate {
-            prev.rectAlignedOutside(
+
+//            prev.alignedOutside(
+//                alignment = alignment,
+//                size = size,
+//                spacing = if (prev.size == E.Size.zero()) 0 else spacing
+//            )
+
+            TODO("Check if this works")
+            E.Rect(size).selfAlignOutside(
+                frame = prev,
                 alignment = alignment,
-                size = size,
                 spacing = if (prev.size == E.Size.zero()) 0 else spacing
-            )
+            ).setSize(size)
+
         }
         prev
     }

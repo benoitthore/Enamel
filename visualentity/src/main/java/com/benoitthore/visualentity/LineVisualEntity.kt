@@ -4,8 +4,6 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.visualentity.style.EStyle
-import com.benoitthore.visualentity.style.StyleBuilder
-import com.benoitthore.visualentity.style.style
 
 internal class LineVisualEntityImpl(
     private val line: ELine,
@@ -20,8 +18,3 @@ interface LineVisualEntity : ELine, VisualEntity<ELine> {
     override fun copy(): LineVisualEntity
 }
 
-fun ELine.toVisualEntity(style: EStyle = EStyle()): LineVisualEntity =
-    LineVisualEntityImpl(this, style)
-
-fun ELine.toVisualEntity(block: StyleBuilder.() -> Unit): LineVisualEntity =
-    LineVisualEntityImpl(this, E.style(block))
