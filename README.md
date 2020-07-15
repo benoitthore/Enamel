@@ -1,10 +1,11 @@
 # Enamel
-If you're tired of Canvas code being too verbose, here's the solution you're looking for
+If you're tired of Canvas code being too verbose, this is the solution you're looking for.
 
 # Examples
-TODO add gifs
+**TODO add gifs**
 
 # Concepts
+
 ## Shapes
 Enamel currently features 4 basic shapes you can play with. More to come!
 - Rectangle
