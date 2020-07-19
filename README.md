@@ -18,7 +18,7 @@ All the shapes are actually interfaces, thus they have no constructors.
 
 That's where the `E` object comes into play. It allows to easily create `EShape` instances
 
-## Style
+## Style
 Abstracting the `Paint` class, allowing the use of stroke and fill colours at the same time:
 
 ```
