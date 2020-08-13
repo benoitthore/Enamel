@@ -129,19 +129,19 @@ fun EShape<*>.anchorAtPoint(
     return target.set(x, y)
 }
 
-fun EShape<*>.center(target: EPoint = E.Point()): EPoint =
+fun EShape<*>.getCenter(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(0.5f, 0.5f, target)
 
-fun EShape<*>.topLeft(target: EPoint = E.Point()): EPoint =
+fun EShape<*>.getTopLeft(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(0f, 0f, target)
 
-fun EShape<*>.topRight(target: EPoint = E.Point()): EPoint =
+fun EShape<*>.getTopRight(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(1f, 0.0f, target)
 
-fun EShape<*>.bottomRight(target: EPoint = E.Point()): EPoint =
+fun EShape<*>.getBottomRight(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(1f, 1f, target)
 
-fun EShape<*>.bottomLeft(target: EPoint = E.Point()): EPoint =
+fun EShape<*>.getBottomLeft(target: EPoint = E.Point()): EPoint =
     pointAtAnchor(0f, 1f, target)
 
 
@@ -168,8 +168,8 @@ fun ERect.toPointList(
  * @return the diagonal going from top right to bottom left
  */
 fun EShape<*>.diagonalTRBL(target: ELine = E.Line()): ELine {
-    topRight(target.start)
-    bottomLeft(target.end)
+    getTopRight(target.start)
+    getBottomLeft(target.end)
     return target
 }
 
@@ -177,8 +177,8 @@ fun EShape<*>.diagonalTRBL(target: ELine = E.Line()): ELine {
  * @return the diagonal going from top left to bottom right
  */
 fun EShape<*>.diagonalTLBR(target: ELine = E.Line()): ELine {
-    topLeft(target.start)
-    bottomRight(target.end)
+    getTopLeft(target.start)
+    getBottomRight(target.end)
     return target
 }
 
@@ -261,8 +261,8 @@ fun <T : EShape<T>> T.offset(
 }
 
 fun <T : EShape<T>> T.offset(
-    x: Number = 0,
-    y: Number = 0,
+    x: Number,
+    y: Number,
     target: T = copy()
 ): T {
     target.setOriginSize(originX + x.f, originY + y.f, width, height)
@@ -275,8 +275,8 @@ fun <T : EShape<T>> T.inset(margin: Number, target: T = copy()) = inset(margin, 
 fun <T : EShape<T>> T.inset(p: Tuple2, target: T = copy()) = inset(p.v1, p.v2, target)
 
 fun <T : EShape<T>> T.inset(
-    x: Number = 0,
-    y: Number = 0,
+    x: Number,
+    y: Number,
     target: T = copy()
 ) =
     inset(left = x, top = y, right = x, bottom = y, target = target)

@@ -24,7 +24,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     fun Rect(other: ERect): ERect = Rect(other.origin, other.size)
 
     //
-    
+
     fun RectCenter(
         center: EPoint,
         size: ESize,
@@ -32,7 +32,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     ) = RectCenter(center.x, center.y, size.width, size.height, target)
 
     //
-    
+
     fun RectCenter(
         center: EPoint,
         width: Number,
@@ -41,7 +41,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     ) = RectCenter(center.x, center.y, width, height, target)
 
     //
-    
+
     fun RectCenter(
         x: Number = 0f, y: Number = 0f,
         width: Number, height: Number,
@@ -57,7 +57,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     }
 
     //
-    
+
     fun RectCorners(
         corner1: EPoint,
         corner2: EPoint,
@@ -65,7 +65,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     ) = RectCorners(corner1.x, corner1.y, corner2.x, corner2.y, target)
 
     //
-    
+
     fun RectCorners(
         corner1X: Number = 0,
         corner1Y: Number = 0,
@@ -83,7 +83,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     }
 
     //
-    
+
     fun RectSides(
         left: Number,
         top: Number,
@@ -104,19 +104,19 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
         position: EPoint,
         size: ESize,
         target: ERect = Rect()
-    ): ERect = TODO()
-//        target.setBounds(
-//        x = position.x - size.width * anchor.x,
-//        y = position.y - size.height * anchor.y,
-//        size = size
-//    )
+    ): ERect =
+        target.apply {
+            setOriginSize(
+                x = position.x - size.width * anchor.x,
+                y = position.y - size.height * anchor.y,
+                width = size.width,
+                height = size.height
+            )
+        }
 
     val Rect get() = _Rect
 
     object _Rect {
-        val zero = E.Rect()
+        fun Square(size: Int) = E.Rect(width = size, height = size)
     }
-
-
 }
-

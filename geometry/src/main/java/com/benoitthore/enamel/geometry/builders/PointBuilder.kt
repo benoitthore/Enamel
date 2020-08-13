@@ -19,18 +19,18 @@ interface PointBuilder : BaseBuilder {
     val Point get() = _Point
 
     object _Point {
-        fun zero(target: EPoint = E.Point()) = target.set(0f, 0f)
-        fun half(target: EPoint = E.Point()) = target.set(0.5f, 0.5f)
-        fun unit(target: EPoint = E.Point()) = target.set(1f, 1f)
+        fun Zero(target: EPoint = E.Point()) = target.set(0f, 0f)
+        fun Half(target: EPoint = E.Point()) = target.set(0.5f, 0.5f)
+        fun Unit(target: EPoint = E.Point()) = target.set(1f, 1f)
 
 
-        fun random(magnitude: Number = 1f, target: EPoint = E.Point()) =
+        fun Random(magnitude: Number = 1f, target: EPoint = E.Point()) =
             target.set(
                 x = randomSign() * com.benoitthore.enamel.core.math.random() * magnitude.f,
                 y = randomSign() * com.benoitthore.enamel.core.math.random() * magnitude.f
             ).selfLimitMagnitude(magnitude)
 
-        fun random(
+        fun Random(
             minX: Number = 0f,
             minY: Number = 0f,
             maxX: Number = 1f,

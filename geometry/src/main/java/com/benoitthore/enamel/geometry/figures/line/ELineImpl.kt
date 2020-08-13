@@ -24,6 +24,9 @@ internal class ELineImpl internal constructor(
         get() = min(start.x, end.x)
         set(value) {
             TODO()
+//            if(isTLBR){
+//                start.x =
+//            }
         }
     override var top: Float
         get() = min(start.y, end.y)

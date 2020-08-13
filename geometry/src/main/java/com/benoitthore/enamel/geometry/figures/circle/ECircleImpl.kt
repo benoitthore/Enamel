@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.geometry.figures.circle
 
 import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.core.print
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
@@ -19,25 +20,33 @@ internal class ECircleImpl internal constructor(
     override var radius: Float = radius.toFloat()
     override var left: Float
         get() = centerX - radius
-        set(value) = TODO()
+        set(value) {
+            radius += (left - value) / 2f
+        }
     override var top: Float
         get() = centerY - radius
-        set(value) = TODO()
+        set(value) {
+            radius += (top - value) / 2f
+        }
     override var right: Float
         get() = centerX + radius
-        set(value) = TODO()
+        set(value) {
+            radius -= (right - value) / 2f
+        }
     override var bottom: Float
         get() = centerY + radius
-        set(value) = TODO()
-    override var originX: Float
-        get() = TODO("Not yet implemented")
         set(value) {
-            TODO("Not yet implemented")
+            radius -= (bottom - value) / 2f
+        }
+    override var originX: Float
+        get() = left
+        set(value) {
+            left = value
         }
     override var originY: Float
-        get() = TODO("Not yet implemented")
+        get() = left
         set(value) {
-            TODO("Not yet implemented")
+            left = value
         }
 
     override var width: Float
@@ -82,9 +91,7 @@ internal class ECircleImpl internal constructor(
         center.y = top.f + radius
     }
 
-    override fun copy(): ECircle {
-        TODO("Not yet implemented")
-    }
+    override fun copy(): ECircle = E.Circle(this)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

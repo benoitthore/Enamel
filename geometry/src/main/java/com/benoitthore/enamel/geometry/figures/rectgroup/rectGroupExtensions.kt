@@ -3,7 +3,6 @@ package com.benoitthore.enamel.geometry.figures.rectgroup
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.alignement.EAlignment
-import com.benoitthore.enamel.geometry.alignement.alignedOutside
 import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
 import com.benoitthore.enamel.geometry.allocate
 import com.benoitthore.enamel.geometry.builders.E
@@ -19,8 +18,8 @@ fun <T: EShape<T>> List<T>.toRectGroup(): ERectGroup<T> =
 
 fun List<ESize>.rectGroup(
     alignment: EAlignment,
-    anchor: EPoint = E.Point.zero(),
-    position: EPoint = E.Point.zero(),
+    anchor: EPoint = E.Point.Zero(),
+    position: EPoint = E.Point.Zero(),
     spacing: Number = 0
 ): ERectGroup<ERect> {
 
@@ -38,7 +37,7 @@ fun List<ESize>.rectGroup(
             E.Rect(size).selfAlignOutside(
                 frame = prev,
                 alignment = alignment,
-                spacing = if (prev.size == E.Size.zero()) 0 else spacing
+                spacing = if (prev.size == E.Size.Zero()) 0 else spacing
             ).setSize(size)
 
         }
@@ -56,8 +55,8 @@ fun List<ESize>.rectGroup(
 fun List<ESize>.rectGroupJustified(
     alignment: EAlignment,
     toFit: Number,
-    anchor: EPoint = E.Point.zero(),
-    position: EPoint = E.Point.zero()
+    anchor: EPoint = E.Point.Zero(),
+    position: EPoint = E.Point.Zero()
 ): ERectGroup<ERect> {
     val pack = rectGroup(alignment)
     val packedSpace = if (alignment.isHorizontal) pack.width else pack.height
@@ -74,8 +73,8 @@ fun List<ESize>.rectGroupJustified(
 fun List<Number>.rectGroupWeights(
     alignment: EAlignment,
     toFit: ESize,
-    anchor: EPoint = E.Point.zero(),
-    position: EPoint = E.Point.zero(),
+    anchor: EPoint = E.Point.Zero(),
+    position: EPoint = E.Point.Zero(),
     spacing: Number = 0
 ): ERectGroup<ERect> {
 

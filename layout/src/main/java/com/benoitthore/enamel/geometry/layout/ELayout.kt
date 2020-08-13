@@ -19,6 +19,6 @@ interface ELayoutAlongAxis : ELayout {
     val layoutAxis: ELayoutAxis
 }
 
-val ELayout.unconstrainedSize get() = size(E.Size.greatestSize())
+val ELayout.unconstrainedSize get() = size(E.Size.GreatestSize())
 
 

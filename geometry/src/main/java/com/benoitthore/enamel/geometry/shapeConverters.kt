@@ -10,7 +10,6 @@ import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.interfaces.bounds.center
 import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.angle.degrees
@@ -90,13 +89,13 @@ fun List<EPoint>.toCircles(
 fun ESize.toRect(target: ERect = E.Rect()) = target.setOriginSize(0, 0, width, height)
 
 fun EShape<*>.innerCircle(target: ECircle = E.Circle()): ECircle {
-    center(target.center) // set circles center to rect center
+    getCenter(target.center) // set circles center to rect center
     target.radius = (if (width > height) height else width) / 2f // TODO Repalce that with minmax
     return target
 }
 
 fun EShape<*>.outerCircle(target: ECircle = E.Circle()): ECircle {
-    center(target.center) // set circles center to rect center
+    getCenter(target.center) // set circles center to rect center
     target.radius = hypot(width.d, height.d).f / 2f
     return target
 }

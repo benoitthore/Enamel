@@ -1,6 +1,5 @@
 package com.benoitthore.enamel.geometry.builders
 
-import com.benoitthore.enamel.geometry.allocate
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 
 interface SizeBuilder : BaseBuilder {
@@ -16,20 +15,20 @@ interface SizeBuilder : BaseBuilder {
     val Size get() = _Size
 
     object _Size {
-        fun zero(target: ESize = E.Size()) = target.set(0, 0)
-        fun greatestSize(target: ESize = E.Size()) =
+        fun Zero(target: ESize = E.Size()) = target.set(0, 0)
+        fun GreatestSize(target: ESize = E.Size()) =
             target.set(Float.MAX_VALUE, Float.MAX_VALUE)
 
-        fun square(size: Number) = E.Size(size, size)
+        fun Square(size: Number) = E.Size(size, size)
 
-        fun random(
+        fun Random(
             minSize: Number,
             maxSize: Number,
             target: ESize = E.Size()
         ): ESize =
-            random(minSize, maxSize, minSize, maxSize, target)
+            Random(minSize, maxSize, minSize, maxSize, target)
 
-        fun random(
+        fun Random(
             minWidth: Number = 0,
             maxWidth: Number = 1,
             minHeight: Number = 0,

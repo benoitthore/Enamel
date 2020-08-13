@@ -24,31 +24,40 @@ internal class ERectImpl internal constructor(
     override var top: Float
         get() = origin.y
         set(value) {
-            TODO()
+            val dH = top - value
+            origin.y = value
+            height += dH
         }
     override var bottom: Float
         get() = top + height
         set(value) {
-            TODO()
+            height = value - top
         }
-    override var originX: Float
-        get() = TODO("Not yet implemented")
-        set(value) {}
-    override var originY: Float
-        get() = TODO("Not yet implemented")
-        set(value) {}
+
     override var left: Float
         get() = origin.x
         set(value) {
-            TODO()
+            val dW = left - value
+            origin.x= value
+            width += dW
         }
     override var right: Float
         get() = origin.x + width
         set(value) {
-            TODO()
+            width = value - left
         }
 
 
+    override var originX: Float
+        get() = left
+        set(value) {
+            left = value
+        }
+    override var originY: Float
+        get() = top
+        set(value) {
+            top = value
+        }
     override var centerX: Float
         get() = left + width / 2f
         set(value) {

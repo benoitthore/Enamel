@@ -8,29 +8,6 @@ import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
-fun <T : EShape<T>> T.setOriginSize(
-    x: Number = this.originX, y: Number = this.originY,
-    width: Number = this.width, height: Number = this.height
-) = apply {
-    setBounds(
-        left = x,
-        top = y,
-        right = x.f + width.f,
-        bottom = y.f + height.f
-    )
-}
-
-fun <T : EShape<T>> T.setOrigin(
-    originX: Number = this.originX, originY: Number = this.originY
-) = setBounds(
-    left = originX,
-    top = originY,
-    right = originX.f + width.f,
-    bottom = originY.f + height.f
-)
-
-fun <T : EShape<T>> T.setOrigin(origin: EPoint) =
-    setOrigin(origin.x, origin.y)
 
 fun <T : EShape<T>> T.ensureRect(target: ERect = E.Rect()): ERect =
     if (this is ERect) this else getBounds(target)
@@ -69,6 +46,67 @@ fun <T : EShape<T>> T.setOriginSize(
 //    height: Number = this.height
 //): T =
 //    set(origin?.x ?: 0, origin?.y ?: 0, width, height)
+
+
+fun <T : EShape<T>> T.setTopLeft(point: EPoint): T = apply {
+    setBounds(
+        left = point.x,
+        top = point.y,
+        bottom = point.y + height,
+        right = point.x + width
+    )
+}
+
+fun <T : EShape<T>> T.setTopRight(point: EPoint): T = apply {
+    setBounds(
+        top = point.y,
+        right = point.x,
+        bottom = point.y + height,
+        left = point.x - width
+    )
+}
+
+fun <T : EShape<T>> T.setBottomRight(point: EPoint): T = apply {
+    setBounds(
+        right = point.x,
+        bottom = point.y,
+        top = point.y - height,
+        left = point.x - width
+    )
+}
+
+fun <T : EShape<T>> T.setBottomLeft(point: EPoint): T = apply {
+    setBounds(
+        left = point.x,
+        bottom = point.y,
+        top = point.y - height,
+        right = point.x + width
+    )
+}
+
+fun <T : EShape<T>> T.setOriginSize(
+    x: Number = this.originX, y: Number = this.originY,
+    width: Number = this.width, height: Number = this.height
+) = apply {
+    setBounds(
+        left = x,
+        top = y,
+        right = x.f + width.f,
+        bottom = y.f + height.f
+    )
+}
+
+fun <T : EShape<T>> T.setOrigin(
+    originX: Number = this.originX, originY: Number = this.originY
+) = setBounds(
+    left = originX,
+    top = originY,
+    right = originX.f + width.f,
+    bottom = originY.f + height.f
+)
+
+fun <T : EShape<T>> T.setOrigin(origin: EPoint) =
+    setOrigin(origin.x, origin.y)
 
 fun <T : EShape<T>> T.setBounds(
     x: Number = this.originX,
@@ -122,7 +160,7 @@ fun <T : EShape<T>> T.setSides(
 }
 
 //////
-fun <T : EShape<T>> T.selfOffset(x: Number = 0, y: Number = 0): T =
+fun <T : EShape<T>> T.selfOffset(x: Number, y: Number): T =
     apply { offset(x, y, this) }
 
 fun <T : EShape<T>> T.selfOffset(p: Tuple2): T =
@@ -143,7 +181,7 @@ fun <T : EShape<T>> T.selfExpand(margin: Number): T =
 fun <T : EShape<T>> T.selfExpand(p: EPoint): T =
     apply { expand(p.x, p.y, this) }
 
-fun <T : EShape<T>> T.selfExpand(x: Number = 0f, y: Number = 0f): T =
+fun <T : EShape<T>> T.selfExpand(x: Number, y: Number): T =
     apply { inset(-x.f, -y.f, this) }
 
 fun <T : EShape<T>> T.selfPadding(padding: EOffset): T =

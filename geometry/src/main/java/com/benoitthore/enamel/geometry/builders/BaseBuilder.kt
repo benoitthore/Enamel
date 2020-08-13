@@ -81,9 +81,9 @@ interface BaseBuilder {
 
     fun Transform(
         rotation: EAngle = E.Angle(),
-        rotationPivot: EPoint = E.Point.half(),
-        scale: EPoint = E.Point.unit(),
-        scalePivot: EPoint = E.Point.half(),
+        rotationPivot: EPoint = E.Point.Half(),
+        scale: EPoint = E.Point.Unit(),
+        scalePivot: EPoint = E.Point.Half(),
         translation: EPoint = E.Point()
     ): ETransform =
         ETransformImpl(

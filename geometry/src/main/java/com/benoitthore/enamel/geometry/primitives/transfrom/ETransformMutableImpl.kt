@@ -6,8 +6,8 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
 internal class ETransformImpl(
     override val rotation: EAngle = E.Angle(),
-    override val rotationPivot: EPoint = E.Point.half(),
-    override val scale: EPoint = E.Point.unit(),
-    override val scalePivot: EPoint = E.Point.half(),
+    override val rotationPivot: EPoint = E.Point.Half(),
+    override val scale: EPoint = E.Point.Unit(),
+    override val scalePivot: EPoint = E.Point.Half(),
     override val translation: EPoint = E.Point()
 ) : ETransform

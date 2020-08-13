@@ -26,6 +26,8 @@ dependencies {
 
     implementation squareup.retrofit
     implementation squareup.jacksonConvertor
+    implementation coroutines.core
+
     implementation jackson.core
     implementation jackson.kotlin
     implementation "org.koin:koin-core:2.1.5"

@@ -50,6 +50,18 @@ Next, we create a diagonal ELine inside this circle and convert it to a `LinearG
 Before moving a shape, you might want to make a copy of it. `EShape<T>` has a function that returns a copy of itself `fun copy() : T`
 So we have the following `interface ECircle : EShape<ECircle>`. Keep this in mind if you want to add custom shapes, it needs to be copyable.
 
+### Self/Set functions and mutability
+
+Any function that starts with the word `self` or `set` will mutate the object. Any other function won't  - **TODO: Update code to reflect this**
+
+Example:
+
+```kotlin
+    val square = E.Rect.Square(100)
+    square.offset(10,10) // returns a new rectangle
+    square.selfOffset(10,10) // updates the current rectangle
+```
+
 ### Alignment
 Any shape can be aligned relative to any other shape. When moving a shape, you can either create a copy at that new location or modify one to avoid memory allocation
 
