@@ -17,13 +17,34 @@ import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.size.size
 import processing.core.PApplet
 
-fun PApplet.drawGradient(frame: ERect, colors: List<Int>, rotation: EAngle = 0.degrees()) {
+fun PApplet.radialGradient(frame: ECircle, colors: List<Int>, resolution: Int = 1) {
+    pushPop {
+        strokeWeight(1f)
+        val scale = ColorScale(colors)
+        val nbCircles = frame.width.toInt() / resolution
+        val circle = frame.copy()
+        (nbCircles downTo 0).forEach { i ->
+            val progress = 1f - (i / nbCircles.f)
+            val color = scale[progress]
+            fill(color.red.f, color.green.f, color.blue.f)
+            stroke(color.red.f, color.green.f, color.blue.f)
+            circle.radius = i.toFloat()
+            draw(circle)
+        }
+    }
+}
+
+fun PApplet.linearGradient(
+    frame: ERect,
+    colors: List<Int>,
+    resolution: Int = 1,
+    rotation: EAngle = 0.degrees()
+) {
     pushPop {
         rotate(rotation, frame.getCenter())
         translate(frame.origin)
 
         strokeWeight(1f)
-        val resolution = 5
         val nbLines = frame.width.toInt() / resolution
 
         val rect = E.Rect(origin = 0 point 0, size = resolution size frame.height)

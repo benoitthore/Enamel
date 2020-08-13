@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.core
 
 import com.benoitthore.enamel.core.math.*
+import kotlin.math.pow
 
 
 fun colorFromGray(gray: Int): Int {
@@ -119,13 +120,13 @@ fun ARGB_evaluate(fraction: Float, startValue: Int, endValue: Int): Int {
     var endB = (endInt and 0xff) / 255.0f
 
     // convert from sRGB to linear
-    startR = Math.pow(startR.toDouble(), 2.2).toFloat()
-    startG = Math.pow(startG.toDouble(), 2.2).toFloat()
-    startB = Math.pow(startB.toDouble(), 2.2).toFloat()
+    startR = startR.toDouble().pow(2.2).toFloat()
+    startG = startG.toDouble().pow(2.2).toFloat()
+    startB = startB.toDouble().pow(2.2).toFloat()
 
-    endR = Math.pow(endR.toDouble(), 2.2).toFloat()
-    endG = Math.pow(endG.toDouble(), 2.2).toFloat()
-    endB = Math.pow(endB.toDouble(), 2.2).toFloat()
+    endR = endR.toDouble().pow(2.2).toFloat()
+    endG = endG.toDouble().pow(2.2).toFloat()
+    endB = endB.toDouble().pow(2.2).toFloat()
 
     // compute the interpolated color in linear space
     var a = startA + fraction * (endA - startA)
@@ -135,15 +136,14 @@ fun ARGB_evaluate(fraction: Float, startValue: Int, endValue: Int): Int {
 
     // convert back to sRGB in the [0..255] range
     a *= 255.0f
-    r = Math.pow(r.toDouble(), 1.0 / 2.2).toFloat() * 255.0f
-    g = Math.pow(g.toDouble(), 1.0 / 2.2).toFloat() * 255.0f
-    b = Math.pow(b.toDouble(), 1.0 / 2.2).toFloat() * 255.0f
+    r = r.toDouble().pow(1.0 / 2.2).toFloat() * 255.0f
+    g = g.toDouble().pow(1.0 / 2.2).toFloat() * 255.0f
+    b = b.toDouble().pow(1.0 / 2.2).toFloat() * 255.0f
 
     return Math.round(a) shl 24 or (Math.round(r) shl 16) or (Math.round(g) shl 8) or Math.round(b)
 }
 
 class ColorScale(val colors: List<Int>) {
-
     operator fun get(fraction: Number): Int {
         val fraction = fraction.constrain(0, 1)
 
