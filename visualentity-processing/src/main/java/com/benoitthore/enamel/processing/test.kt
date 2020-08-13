@@ -7,6 +7,7 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
 import com.benoitthore.enamel.geometry.primitives.div
+import com.benoitthore.enamel.geometry.toCircle
 import com.benoitthore.enamel.geometry.toRect
 
 fun main() {
@@ -31,10 +32,8 @@ class TmpApplet : KotlinPApplet() {
         val square = E.Rect.Square(100)
         square.selfOffset(10, 10)
         background(0)
-        fill(255)
+        stroke(255)
         val p = mousePosition()
-        shape.right = p.x
-
 
         draw(shape)
     }

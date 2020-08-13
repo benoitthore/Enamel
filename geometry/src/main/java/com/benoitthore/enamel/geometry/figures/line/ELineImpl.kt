@@ -20,38 +20,56 @@ internal class ELineImpl internal constructor(
     override val start: EPoint = E.Point(x1, y1)
     override val end: EPoint = E.Point(x2, y2)
 
+    /* TODO Handle vertical/horizontal
+        Reproduce issue by doing -> someLine.left = mousePosition().x
+     */
     override var left: Float
         get() = min(start.x, end.x)
         set(value) {
-            TODO()
-//            if(isTLBR){
-//                start.x =
-//            }
+            if (isTLBR) {
+                start.x = value
+            } else {
+                end.x = value
+            }
         }
+
     override var top: Float
         get() = min(start.y, end.y)
         set(value) {
-            TODO()
+            if (isTLBR) {
+                start.y = value
+            } else {
+                end.y = value
+            }
         }
     override var right: Float
         get() = max(start.x, end.x)
         set(value) {
-            TODO()
+            if (isTLBR) {
+                end.x = value
+            } else {
+                start.x = value
+            }
         }
     override var bottom: Float
-        set(value) {
-            TODO()
-        }
         get() = max(start.y, end.y)
-    override var originX: Float
-        get() = TODO("Not yet implemented")
         set(value) {
-            TODO("Not yet implemented")
+            if (isTLBR) {
+                end.y = value
+            } else {
+                start.y = value
+            }
+        }
+
+    override var originX: Float
+        get() = left
+        set(value) {
+            left = value
         }
     override var originY: Float
-        get() = TODO("Not yet implemented")
+        get() = top
         set(value) {
-            TODO("Not yet implemented")
+            top = value
         }
 
     override var width: Float

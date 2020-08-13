@@ -43,6 +43,7 @@ interface ELine : EShape<ELine>, ELinearFunction {
     override val yIntercept: Float
         get() = start.y - a * start.x
 
+
     val isTLBR get() = (start.x < end.x && start.y < end.y) || (end.x < start.x && end.y < start.y)
     val isBRTL get() = !isTLBR
 
