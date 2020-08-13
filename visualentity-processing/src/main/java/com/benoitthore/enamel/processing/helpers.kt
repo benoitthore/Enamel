@@ -1,11 +1,46 @@
 package com.benoitthore.enamel.processing
 
+import com.benoitthore.enamel.core.ColorScale
+import com.benoitthore.enamel.core.blue
+import com.benoitthore.enamel.core.green
+import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.core.red
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.oval.EOval
 import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.primitives.angle.EAngle
+import com.benoitthore.enamel.geometry.primitives.angle.degrees
+import com.benoitthore.enamel.geometry.primitives.point.point
 import com.benoitthore.enamel.geometry.primitives.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.size
 import processing.core.PApplet
+
+fun PApplet.drawGradient(frame: ERect, colors: List<Int>, rotation: EAngle = 0.degrees()) {
+    pushPop {
+        rotate(rotation, frame.getCenter())
+        translate(frame.origin)
+
+        strokeWeight(1f)
+        val resolution = 5
+        val nbLines = frame.width.toInt() / resolution
+
+        val rect = E.Rect(origin = 0 point 0, size = resolution size frame.height)
+        val scale = ColorScale(colors)
+
+        for (i in 0 until nbLines) {
+            rect.originX = i.f * resolution
+
+            val progress = i / nbLines.f
+            val color = scale[progress]
+            fill(color.red.f, color.green.f, color.blue.f)
+            stroke(color.red.f, color.green.f, color.blue.f)
+
+            draw(rect)
+        }
+    }
+}
 
 inline fun <reified T : PApplet> runApplet(vararg args: String) {
     PApplet.main(T::class.java, *args)

@@ -51,12 +51,12 @@ internal class ERectImpl internal constructor(
     override var originX: Float
         get() = left
         set(value) {
-            left = value
+            origin.x = value
         }
     override var originY: Float
         get() = top
         set(value) {
-            top = value
+            origin.y = value
         }
     override var centerX: Float
         get() = left + width / 2f
