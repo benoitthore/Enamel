@@ -70,28 +70,28 @@ interface ERectGroup<T : EShape<*>> : EShape<ERectGroup<T>> {
         override var left: Float
             get() = frame.left
             set(value) {
-                setBounds(left = value)
+                _setBounds(left = value)
             }
         override var top: Float
             get() = frame.top
             set(value) {
-                setBounds(top = value)
+                _setBounds(top = value)
             }
         override var right: Float
             get() = frame.right
             set(value) {
-                setBounds(right = value)
+                _setBounds(right = value)
             }
         override var bottom: Float
             get() = frame.bottom
             set(value) {
-                setBounds(bottom = value)
+                _setBounds(bottom = value)
             }
         override var centerX: Float
             get() = frame.centerX
             set(value) {
                 val shift = centerX - value
-                setBounds(
+                _setBounds(
                     left = left - shift,
                     right = right - shift,
                     top = top,
@@ -102,7 +102,7 @@ interface ERectGroup<T : EShape<*>> : EShape<ERectGroup<T>> {
             get() = frame.centerY
             set(value) {
                 val shift = centerX - value
-                setBounds(
+                _setBounds(
                     top = top - shift,
                     bottom = bottom - shift,
                     left = left,
@@ -115,7 +115,7 @@ interface ERectGroup<T : EShape<*>> : EShape<ERectGroup<T>> {
             get() = frame.width
             set(value) {
                 val shift = width - value
-                setBounds(
+                _setBounds(
                     left = left + shift,
                     right = right - shift,
                     top = top,
@@ -126,7 +126,7 @@ interface ERectGroup<T : EShape<*>> : EShape<ERectGroup<T>> {
             get() = frame.height
             set(value) {
                 val shift = height - value
-                setBounds(
+                _setBounds(
                     top = top + shift,
                     bottom = bottom - shift,
                     left = left,
@@ -134,7 +134,7 @@ interface ERectGroup<T : EShape<*>> : EShape<ERectGroup<T>> {
                 )
             }
 
-        override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+        override fun _setBounds(left: Number, top: Number, right: Number, bottom: Number) {
             val fromX = frame.originX
             val fromY = frame.originY
             val fromWidth = frame.width

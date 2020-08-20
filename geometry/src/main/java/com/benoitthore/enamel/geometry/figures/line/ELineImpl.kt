@@ -76,7 +76,7 @@ internal class ELineImpl internal constructor(
         get() = right - left
         set(value) {
             val delta = height + value
-            setBounds(
+            _setBounds(
                 left = left + delta / 2f,
                 right = right - delta / 2f,
                 top = top,
@@ -87,7 +87,7 @@ internal class ELineImpl internal constructor(
         get() = bottom - top
         set(value) {
             val delta = height + value
-            setBounds(
+            _setBounds(
                 left = left,
                 right = right,
                 top = top + delta / 2f,
@@ -110,7 +110,7 @@ internal class ELineImpl internal constructor(
         }
 
 
-    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+    override fun _setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         if (isTLBR) {
             start.set(left, top)
             end.set(right, bottom)

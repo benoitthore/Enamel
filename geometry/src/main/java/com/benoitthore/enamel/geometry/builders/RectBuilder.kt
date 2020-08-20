@@ -91,7 +91,7 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
         bottom: Number,
         target: ERect = Rect()
     ): ERect = target.apply {
-        setBounds(
+        _setBounds(
             top = top.f,
             left = left.f,
             right = right.f,

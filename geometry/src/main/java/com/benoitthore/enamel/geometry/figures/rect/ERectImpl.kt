@@ -90,7 +90,7 @@ internal class ERectImpl internal constructor(
         origin.set(other.origin)
     }
 
-    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+    override fun _setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         origin.set(x = left, y = top)
         size.set(width = right.f - left.f, height = bottom.f - top.f)
     }

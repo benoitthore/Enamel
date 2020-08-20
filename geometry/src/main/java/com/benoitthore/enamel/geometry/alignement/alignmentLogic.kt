@@ -28,7 +28,7 @@ fun <T : EShape<T>> T.selfAlign(
     val bottom = top + height
     val right = left + width
 
-    setBounds(
+    _setBounds(
         left = left,
         top = top,
         bottom = bottom,

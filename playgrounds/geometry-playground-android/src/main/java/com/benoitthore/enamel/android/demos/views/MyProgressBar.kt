@@ -11,10 +11,12 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.line.set
 import com.benoitthore.enamel.geometry.interfaces.bounds.diagonalTLBR
 import com.benoitthore.enamel.geometry.interfaces.bounds.pointAtAnchor
+import com.benoitthore.enamel.geometry.interfaces.bounds.setBounds
 import com.benoitthore.enamel.geometry.primitives.point.point
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.layout.android.getViewBounds
 import com.benoitthore.enamel.layout.android.singleTouch
+import com.benoitthore.enamel.visualentity.android.LineVisualEntityAndroid
 import com.benoitthore.enamel.visualentity.android.draw
 import com.benoitthore.enamel.visualentity.android.drawFromCenter
 import com.benoitthore.enamel.visualentity.android.toAndroid
@@ -35,12 +37,13 @@ class MyProgressBar @JvmOverloads constructor(
             strokeWidth = 1.dp
         }.toAndroid()
 
-    private val line = E.Line().toVisualEntity { strokeColor = RED }.toAndroid()
+    private val line  : LineVisualEntityAndroid = E.Line().toVisualEntity { strokeColor = RED }.toAndroid()
 
     init {
         singleTouch {
 //            progressCircle.centerX = it.position.x.coerceIn(line.start.x, line.end.x)
 //            progressCircle.centerY = line.start.y
+            line.setBounds(getViewBounds())
             line.projectedPoint(it.position,target = progressCircle.center)
             invalidate()
             true

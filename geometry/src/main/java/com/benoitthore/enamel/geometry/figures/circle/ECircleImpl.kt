@@ -82,7 +82,7 @@ internal class ECircleImpl internal constructor(
      * In case the bounds don't define a square, the circle gets align on the top left of the
      * given rectangle and sets the radius to be the half of whichever is smaller width or height
      */
-    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+    override fun _setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         val w = (right.f - left.f) / 2f
         val h = (bottom.f - top.f) / 2f
         radius = min(w, h)

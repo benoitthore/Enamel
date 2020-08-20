@@ -288,7 +288,7 @@ fun <T : EShape<T>> T.inset(
     bottom: Number = 0,
     target: T = copy()
 ): T {
-    target.setBounds(
+    target._setBounds(
         left = this.left + left.toFloat(),
         top = this.top + top.toFloat(),
         bottom = this.bottom - bottom.toFloat(),

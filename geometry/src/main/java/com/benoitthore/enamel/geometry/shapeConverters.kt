@@ -102,7 +102,7 @@ fun EShape<*>.outerCircle(target: ECircle = E.Circle()): ECircle {
 
 
 fun EShape<*>.innerOval(target: EOval = E.Oval()): EOval {
-    target.setBounds(
+    target._setBounds(
         left = left,
         top = top,
         right = right,
@@ -123,6 +123,6 @@ fun ECircle.innerRect(target: ERect = E.Rect()): ERect {
     val width = Math.sqrt((2 * radius * radius).toDouble()).f
     target.width = width
     target.height = width
-    target.setCenter(center)
+    target._setCenter(center)
     return target
 }

@@ -44,7 +44,7 @@ fun PApplet.getViewSize(target: ESize = E.Size()) = target.apply {
 fun PApplet.getViewCenter(point: EPoint=E.Point()) = point.set(width / 2f, height / 2f)
 
 fun PApplet.getViewBounds(target: ERect = E.Rect()) =
-    target.apply { setBounds(0, 0, this@getViewBounds.width, this@getViewBounds.height) }
+    target.apply { _setBounds(0, 0, this@getViewBounds.width, this@getViewBounds.height) }
 
 fun ERect.setBounds(applet: PApplet) = apply { applet.getViewBounds(target = this) }
 

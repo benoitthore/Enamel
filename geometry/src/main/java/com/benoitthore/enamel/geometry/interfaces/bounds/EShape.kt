@@ -44,17 +44,17 @@ interface EShape<T> : ESVG, Copyable<T> where T : EShape<T> {
         target.set(centerX, centerY)
 
 
-    fun setBounds(
+    fun _setBounds(
         left: Number = this.left,
         top: Number = this.top,
         right: Number = this.right,
         bottom: Number = this.bottom
     )
 
-    fun setCenter(x: Number, y: Number) {
+    fun _setCenter(x: Number, y: Number) {
         val xOff = x.f - centerX
         val yOff = y.f - centerY
-        setBounds(
+        _setBounds(
             left = left + xOff,
             top = top + yOff,
             right = right + xOff,
@@ -62,12 +62,12 @@ interface EShape<T> : ESVG, Copyable<T> where T : EShape<T> {
         )
     }
 
-    fun setCenter(center: EPoint) = setCenter(center.x, center.y)
+    fun _setCenter(center: EPoint) = _setCenter(center.x, center.y)
 
-    fun setOrigin(x: Number, y: Number) {
+    fun _setOrigin(x: Number, y: Number) {
         val xOff = x.f - originX
         val yOff = y.f - originY
-        setBounds(
+        _setBounds(
             left = left + xOff,
             top = top + yOff,
             right = right + xOff,
@@ -75,7 +75,7 @@ interface EShape<T> : ESVG, Copyable<T> where T : EShape<T> {
         )
     }
 
-    fun setOrigin(origin: EPoint) = setOrigin(origin.x, origin.y)
+    fun _setOrigin(origin: EPoint) = _setOrigin(origin.x, origin.y)
 
     fun set(other: T) : T
 

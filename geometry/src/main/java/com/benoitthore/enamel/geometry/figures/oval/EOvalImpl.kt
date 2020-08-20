@@ -65,7 +65,7 @@ internal class EOvalImpl(
     }
 
 
-    override fun setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+    override fun _setBounds(left: Number, top: Number, right: Number, bottom: Number) {
         val left = left.toFloat()
         val top = top.toFloat()
         val right = right.toFloat()
