@@ -46,7 +46,7 @@ interface BaseBuilder {
     fun Size(width: Number = 0, height: Number = 0): ESize =
         ESizeImpl(width, height)
 
-    fun Circle(centerX: Number, centerY: Number, radius: Number = 0f): ECircle =
+    fun Circle(centerX: Number = 0f, centerY: Number = 0f, radius: Number = 0f): ECircle =
         ECircleImpl(
             centerX,
             centerY,

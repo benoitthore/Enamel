@@ -7,10 +7,14 @@ import com.benoitthore.visualentity.style.EMesh
 
 val Number.dp get() = Resources.getSystem().displayMetrics.density * toFloat()
 
-internal fun Paint.setMesh(mesh: EMesh?) {
+internal fun Paint.setMesh(mesh: EMesh?, stroke : Boolean = false) {
     reset()
     mesh?.color?.let { color = it }
     mesh?.shader?.toAndroid()?.let { shader = it }
+    isAntiAlias = true
+    if(stroke){
+        style = Paint.Style.STROKE
+    }
 }
 
 fun EShader.toAndroid(): Shader = when (val shaderType = shaderType) {

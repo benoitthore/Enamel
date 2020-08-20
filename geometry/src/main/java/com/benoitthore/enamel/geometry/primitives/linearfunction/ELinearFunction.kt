@@ -44,10 +44,10 @@ interface ELinearFunction {
         return x point y
     }
 
-    fun projectedPoint(from: EPoint): EPoint {
+    fun projectedPoint(from: EPoint,target : EPoint = E.Point()): EPoint {
         val x = from.x
         val y = this[x]
-        return x point y
+        return target.set(x,y)
     }
 
     fun toLine(length: Number, target: ELine = E.Line()): ELine {

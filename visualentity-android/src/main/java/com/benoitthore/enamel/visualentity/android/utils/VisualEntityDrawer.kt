@@ -15,24 +15,9 @@ class VisualEntityDrawer(style: EStyle, val draw: (Canvas, Paint) -> Unit) : ESt
             updateStyle(oldStyle = field, newStyle = value)
             field = value
         }
-    val fillPaint: Paint by lazy {
-        Paint(Paint.ANTI_ALIAS_FLAG)
-            .apply {
-                this@apply.style = Paint.Style.FILL
-            }
-    }
-    val borderPaint: Paint by lazy {
-        Paint(Paint.ANTI_ALIAS_FLAG)
-            .apply {
-                this@apply.style = Paint.Style.STROKE
-            }
-    }
-    val shadowPaint: Paint by lazy {
-        Paint(Paint.ANTI_ALIAS_FLAG)
-            .apply {
-                this@apply.style = Paint.Style.FILL
-            }
-    }
+    val fillPaint: Paint by lazy { Paint(Paint.ANTI_ALIAS_FLAG) }
+    val borderPaint: Paint by lazy { Paint(Paint.ANTI_ALIAS_FLAG) }
+    val shadowPaint: Paint by lazy { Paint(Paint.ANTI_ALIAS_FLAG) }
 
     init {
         updateStyle(null, style)
@@ -44,10 +29,12 @@ class VisualEntityDrawer(style: EStyle, val draw: (Canvas, Paint) -> Unit) : ESt
         }
 
         if (oldStyle?.border == null || oldStyle.border != newStyle.border) {
-            borderPaint.setMesh(newStyle.border?.mesh)
+            borderPaint.setMesh(newStyle.border?.mesh, stroke = true)
         }
         borderPaint.strokeWidth = newStyle.border?.width ?: 0f
 
-        // TODO Shadow
+        if (newStyle.shadow != null) {
+            TODO("Shadows not supported yet")
+        }
     }
 }

@@ -17,13 +17,13 @@ class BaseDemoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val item = (requireArguments().getSerializable(KEY_ITEM) as? DemoItem)
+        val item = (arguments?.getSerializable(KEY_ITEM) as? DemoItem)
             ?: throw IllegalArgumentException("Invalid argument $KEY_ITEM, needs to be of type ${DemoItem::class}")
 
         val view = item(requireContext())
 
         return FrameLayout(requireContext()).apply {
-            setOnClickListener{} // Avoids click through
+            setOnClickListener {} // Avoids click through
             setBackgroundColor(Color.WHITE)
             addView(view)
         }

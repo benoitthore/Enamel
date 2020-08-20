@@ -15,17 +15,17 @@ fun EMesh.toShadow(n: Number) = toShadow(n point n)
 fun EMesh.toShadow(xOff: Number, yOff: Number) = toShadow(xOff point yOff)
 fun EMesh.toShadow(offset: EPoint) = EStyle.Shadow(this, offset)
 
-fun ELine.toShader(vararg colors: Int, resetOrigin: Boolean = true) =
+fun ELine.toShader(vararg colors: Int, resetOrigin: Boolean = false) =
     toShader(colors.toList(), resetOrigin = resetOrigin)
 
-fun ECircle.toShader(vararg colors: Int, resetOrigin: Boolean = true) =
+fun ECircle.toShader(vararg colors: Int, resetOrigin: Boolean = false) =
     toShader(colors.toList(), resetOrigin = resetOrigin)
 
 fun ELine.toShader(
     colors: List<Int>,
     stops: List<Float>? = null,
     shaderMode: EShader.ShaderTileMode = EShader.ShaderTileMode.CLAMP,
-    resetOrigin: Boolean = true
+    resetOrigin: Boolean = false
 ) =
     EShader(
         shaderType = EShader.ShaderType.Linear(
@@ -45,7 +45,7 @@ fun ECircle.toShader(
     colors: List<Int>,
     stops: List<Float>? = null,
     shaderMode: EShader.ShaderTileMode = EShader.ShaderTileMode.CLAMP,
-    resetOrigin: Boolean = true
+    resetOrigin: Boolean = false
 ) =
     EShader(
         shaderType = EShader.ShaderType.Radial(
