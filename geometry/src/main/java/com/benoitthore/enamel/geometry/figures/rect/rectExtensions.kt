@@ -3,15 +3,11 @@ package com.benoitthore.enamel.geometry.figures.rect
 import com.benoitthore.enamel.core.math.constrain
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.alignement.ERectEdge
-import com.benoitthore.enamel.geometry.alignement.alignedInside
-import com.benoitthore.enamel.geometry.alignement.alignedOutside
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
-import com.benoitthore.enamel.geometry.interfaces.bounds.ensureRect
 import com.benoitthore.enamel.geometry.interfaces.bounds.expand
 import com.benoitthore.enamel.geometry.interfaces.bounds.setSize
-import com.benoitthore.enamel.geometry.primitives.size.size
 import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 
 fun ERect.dividedFraction(
@@ -75,7 +71,7 @@ fun ERect.divided(
 }
 
 operator fun ERect.minus(padding: EOffset): ERect = TODO()// padding(padding).ensureRect()
-operator fun ERect.plus(padding: EOffset) = expand(padding).ensureRect()
+operator fun ERect.plus(padding: EOffset) = expand(padding)
 
 fun List<EShape<*>>.union(target: ERect = E.Rect()): ERect {
     if (isEmpty()) {

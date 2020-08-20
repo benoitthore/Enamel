@@ -38,8 +38,6 @@ fun ELine.toShader(
         shaderMode = shaderMode,
         colors = colors,
         stops = stops,
-        //
-        // TODO Change to RectCorners when function is implemented
         frame = E.RectCorners(start, end)
     )
 

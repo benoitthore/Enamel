@@ -13,12 +13,12 @@ interface EOval : EShape<EOval> {
     var rx: Float
         get() = size.width / 2f
         set(value) {
-            size.width = value
+            size.width = value * 2
         }
     var ry: Float
         get() = size.height / 2f
         set(value) {
-            size.height = value
+            size.height = value * 2
         }
     override var centerY: Float
         get() = center.y

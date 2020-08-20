@@ -8,14 +8,10 @@ import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
-
-fun <T : EShape<T>> T.ensureRect(target: ERect = E.Rect()): ERect =
-    if (this is ERect) this else getBounds(target)
-
 // TODO once refactoring is done:
 // TODO Rename to setBounds
 // TODO Rename interface method to _setBounds
-fun <T : EShape<T>> T.setBounds(other: EShape<*>): T = apply {
+fun <T : EShape<*>> T.setBounds(other: EShape<*>): T = apply {
     setBounds(
         left = other.left,
         top = other.top,
@@ -25,10 +21,10 @@ fun <T : EShape<T>> T.setBounds(other: EShape<*>): T = apply {
 }
 
 
-fun <T : EShape<T>> T.setBounds(other: ERect): T =
+fun <T : EShape<*>> T.setBounds(other: ERect): T =
     setOriginSize(other.origin, other.size)
 
-fun <T : EShape<T>> T.setOriginSize(
+fun <T : EShape<*>> T.setOriginSize(
     origin: EPoint?,
     size: ESize?
 ): T =
@@ -39,16 +35,7 @@ fun <T : EShape<T>> T.setOriginSize(
         size?.height ?: height
     )
 
-//TOOO Find why this won't compile, if it still doesn't...
-//fun <T: EShape> T.set(
-//    origin: EPoint?,
-//    width: Number = this.width,
-//    height: Number = this.height
-//): T =
-//    set(origin?.x ?: 0, origin?.y ?: 0, width, height)
-
-
-fun <T : EShape<T>> T.setTopLeft(point: EPoint): T = apply {
+fun <T : EShape<*>> T.setTopLeft(point: EPoint): T = apply {
     setBounds(
         left = point.x,
         top = point.y,
@@ -57,7 +44,7 @@ fun <T : EShape<T>> T.setTopLeft(point: EPoint): T = apply {
     )
 }
 
-fun <T : EShape<T>> T.setTopRight(point: EPoint): T = apply {
+fun <T : EShape<*>> T.setTopRight(point: EPoint): T = apply {
     setBounds(
         top = point.y,
         right = point.x,
@@ -66,7 +53,7 @@ fun <T : EShape<T>> T.setTopRight(point: EPoint): T = apply {
     )
 }
 
-fun <T : EShape<T>> T.setBottomRight(point: EPoint): T = apply {
+fun <T : EShape<*>> T.setBottomRight(point: EPoint): T = apply {
     setBounds(
         right = point.x,
         bottom = point.y,
@@ -75,7 +62,7 @@ fun <T : EShape<T>> T.setBottomRight(point: EPoint): T = apply {
     )
 }
 
-fun <T : EShape<T>> T.setBottomLeft(point: EPoint): T = apply {
+fun <T : EShape<*>> T.setBottomLeft(point: EPoint): T = apply {
     setBounds(
         left = point.x,
         bottom = point.y,
@@ -84,7 +71,7 @@ fun <T : EShape<T>> T.setBottomLeft(point: EPoint): T = apply {
     )
 }
 
-fun <T : EShape<T>> T.setOriginSize(
+fun <T : EShape<*>> T.setOriginSize(
     x: Number = this.originX, y: Number = this.originY,
     width: Number = this.width, height: Number = this.height
 ) = apply {
@@ -96,7 +83,7 @@ fun <T : EShape<T>> T.setOriginSize(
     )
 }
 
-fun <T : EShape<T>> T.setOrigin(
+fun <T : EShape<*>> T.setOrigin(
     originX: Number = this.originX, originY: Number = this.originY
 ) = setBounds(
     left = originX,
@@ -105,10 +92,10 @@ fun <T : EShape<T>> T.setOrigin(
     bottom = originY.f + height.f
 )
 
-fun <T : EShape<T>> T.setOrigin(origin: EPoint) =
+fun <T : EShape<*>> T.setOrigin(origin: EPoint) =
     setOrigin(origin.x, origin.y)
 
-fun <T : EShape<T>> T.setBounds(
+fun <T : EShape<*>> T.setBounds(
     x: Number = this.originX,
     y: Number = this.originY,
     size: ESize? = null
@@ -116,13 +103,13 @@ fun <T : EShape<T>> T.setBounds(
     setOriginSize(x, y, size?.width ?: width, size?.height ?: height)
 
 
-fun <T : EShape<T>> T.setSize(size: ESize): T = apply {
+fun <T : EShape<*>> T.setSize(size: ESize): T = apply {
     this.width = size.width.f
     this.height = size.height.f
 }
 
 
-fun <T : EShape<T>> T.setSize(
+fun <T : EShape<*>> T.setSize(
     width: Number = this.width,
     height: Number = this.height
 ): T = apply {
@@ -130,10 +117,10 @@ fun <T : EShape<T>> T.setSize(
     this.height = height.f
 }
 
-fun <T : EShape<T>> T.setCenter(point: EPoint) =
+fun <T : EShape<*>> T.setCenter(point: EPoint) =
     setCenter(point.x, point.y)
 
-fun <T : EShape<T>> T.setCenter(
+fun <T : EShape<*>> T.setCenter(
     x: Number,
     y: Number
 ): T = apply {
@@ -145,7 +132,7 @@ fun <T : EShape<T>> T.setCenter(
     )
 }
 
-fun <T : EShape<T>> T.setSides(
+fun <T : EShape<*>> T.setSides(
     left: Number = this.left,
     top: Number = this.top,
     right: Number = this.right,

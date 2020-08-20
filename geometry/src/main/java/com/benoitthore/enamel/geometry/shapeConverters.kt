@@ -102,7 +102,12 @@ fun EShape<*>.outerCircle(target: ECircle = E.Circle()): ECircle {
 
 
 fun EShape<*>.innerOval(target: EOval = E.Oval()): EOval {
-    target.setBounds(left,top,right,bottom)
+    target.setBounds(
+        left = left,
+        top = top,
+        right = right,
+        bottom = bottom
+    )
     return target
 }
 

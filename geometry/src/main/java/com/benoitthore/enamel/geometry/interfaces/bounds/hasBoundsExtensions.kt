@@ -330,10 +330,10 @@ fun <T : EShape<T>> T.expand(padding: EOffset, target: T = copy()) = expand(
 )
 
 fun <T : EShape<T>> T.padding(
-    top: Number = this.top,
-    bottom: Number = this.bottom,
-    left: Number = this.left,
-    right: Number = this.right,
+    top: Number = 0f,
+    bottom: Number = 0f,
+    left: Number = 0f,
+    right: Number = 0f,
     target: T = copy()
 ) = inset(
     left = left,

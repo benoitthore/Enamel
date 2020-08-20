@@ -1,26 +1,29 @@
 package com.benoitthore.enamel.geometry.figures.rectgroup
 
+import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
 import com.benoitthore.enamel.geometry.svg.SVGContext
+import java.lang.IllegalArgumentException
 
+// TODO Rename to EShapeGroup
 interface ERectGroup<T : EShape<*>> : EShape<ERectGroup<T>> {
     val frame: ERect
     val rects: List<T>
 
 
     override var originX: Float
-        get() = TODO("Not yet implemented")
+        get() = frame.originX
         set(value) {
-            TODO("Not yet implemented")
+            frame.originX = value
         }
 
     override var originY: Float
-        get() = TODO("Not yet implemented")
+        get() = frame.originY
         set(value) {
-            TODO("Not yet implemented")
+            frame.originY = value
         }
 
     override fun addTo(context: SVGContext) {
@@ -67,22 +70,22 @@ interface ERectGroup<T : EShape<*>> : EShape<ERectGroup<T>> {
         override var left: Float
             get() = frame.left
             set(value) {
-                TODO()
+                setBounds(left = value)
             }
         override var top: Float
             get() = frame.top
             set(value) {
-                TODO()
+                setBounds(top = value)
             }
         override var right: Float
             get() = frame.right
             set(value) {
-                TODO()
+                setBounds(right = value)
             }
         override var bottom: Float
             get() = frame.bottom
             set(value) {
-                TODO()
+                setBounds(bottom = value)
             }
         override var centerX: Float
             get() = frame.centerX
@@ -145,23 +148,39 @@ interface ERectGroup<T : EShape<*>> : EShape<ERectGroup<T>> {
             val toHeight = frame.height
 
             rects.forEach { rect ->
-                TODO()
-//                rect.selfMap<EShape<*>>(
-//                    fromX = fromX,
-//                    fromY = fromY,
-//                    fromWidth = fromWidth,
-//                    fromHeight = fromHeight,
-//                    toX = toX,
-//                    toY = toY,
-//                    toWidth = toWidth,
-//                    toHeight = toHeight
-//                )
+                val anchorLeft =
+                    if (fromWidth == 0f) .5f else (rect.originX - fromX.f) / fromWidth.f
+                val anchorTop =
+                    if (fromHeight == 0f) .5f else (rect.originY - fromY.f) / fromHeight.f
+                val anchorRight =
+                    if (fromWidth == 0f) .5f else (rect.originX - fromX.f + rect.width) / fromWidth.f
+                val anchorBottom =
+                    if (fromHeight == 0f) .5f else (rect.originY - fromY.f + rect.height) / fromHeight.f
+
+                val left = toX.f + toWidth.f * anchorLeft.f
+                val top = toY.f + toHeight.f * anchorTop.f
+
+                val right = toX.f + toWidth.f * anchorRight.f
+                val bottom = toY.f + toHeight.f * anchorBottom.f
+
+                rect.setSides(
+                    left = left,
+                    top = top,
+                    bottom = bottom,
+                    right = right
+                )
             }
             updateFrame()
         }
 
         override fun set(other: ERectGroup<T>): ERectGroup<T> {
-            TODO("Not yet implemented")
+            if (other.rects.size != this.rects.size) {
+                throw IllegalArgumentException("${other.rects.size} shapes given, ${rects.size} expected")
+            }
+            other.rects.forEachIndexed { i, otherRect ->
+                rects[i].setBounds(otherRect)
+            }
+            return this
         }
 
     }

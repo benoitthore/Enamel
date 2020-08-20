@@ -41,6 +41,8 @@ fun PApplet.getViewSize(target: ESize = E.Size()) = target.apply {
     height = pixelHeight.f
 }
 
+fun PApplet.getViewCenter(point: EPoint=E.Point()) = point.set(width / 2f, height / 2f)
+
 fun PApplet.getViewBounds(target: ERect = E.Rect()) =
     target.apply { setBounds(0, 0, this@getViewBounds.width, this@getViewBounds.height) }
 
@@ -67,7 +69,7 @@ fun PApplet.draw(oval: EOval) {
     pushPop {
         with(oval) {
             ellipseMode(PConstants.CENTER)
-            ellipse(centerY, centerX, rx * 2, ry * 2)
+            ellipse(centerX, centerY, rx * 2, ry * 2)
         }
     }
 }

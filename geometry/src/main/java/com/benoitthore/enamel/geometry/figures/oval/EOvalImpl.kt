@@ -29,34 +29,39 @@ internal class EOvalImpl(
     override var left: Float
         get() = centerX - rx
         set(value) {
-            TODO()
+            center.x = value + rx
         }
     override var top: Float
         get() = centerY - ry
         set(value) {
-            TODO()
+            center.y = value + ry
         }
     override var right: Float
         get() = centerX + rx
         set(value) {
-            TODO()
+            center.x = value - rx
         }
     override var bottom: Float
         get() = centerY + ry
         set(value) {
-            TODO()
+            center.y = value - ry
         }
     override var originX: Float
-        get() = TODO("Not yet implemented")
-        set(value) {}
+        get() = left
+        set(value) {
+            left = value
+        }
     override var originY: Float
-        get() = TODO("Not yet implemented")
-        set(value) {}
+        get() = top
+        set(value) {
+            top = value
+        }
 
     override fun copy(): EOval = E.Oval(this)
 
-    override fun set(other: EOval): EOval {
-        TODO("Not yet implemented")
+    override fun set(other: EOval): EOval = apply {
+        center.set(other.center)
+        size.set(other.size)
     }
 
 
