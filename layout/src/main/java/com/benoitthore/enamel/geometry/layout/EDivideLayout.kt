@@ -8,7 +8,7 @@ import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.size.along
 import com.benoitthore.enamel.geometry.primitives.size.union
 import com.benoitthore.enamel.geometry.primitives.size.with
-import com.benoitthore.enamel.geometry.toRect
+import com.benoitthore.enamel.geometry.functions.toRect
 
 
 class EDivideLayout(

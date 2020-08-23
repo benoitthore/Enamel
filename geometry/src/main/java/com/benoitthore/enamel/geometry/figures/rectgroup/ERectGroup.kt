@@ -4,12 +4,15 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.interfaces.bounds.*
+import com.benoitthore.enamel.geometry.functions.EShape
+import com.benoitthore.enamel.geometry.functions.setBounds
+import com.benoitthore.enamel.geometry.functions.setSides
+import com.benoitthore.enamel.geometry.functions.union
 import com.benoitthore.enamel.geometry.svg.SVGContext
-import java.lang.IllegalArgumentException
 
 // TODO Rename to EShapeGroup
-interface ERectGroup<T : EShape<*>> : EShape<ERectGroup<T>> {
+interface ERectGroup<T : EShape<*>> :
+    EShape<ERectGroup<T>> {
     val frame: ERect
     val rects: List<T>
 

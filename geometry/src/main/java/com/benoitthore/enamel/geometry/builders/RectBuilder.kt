@@ -3,7 +3,7 @@ package com.benoitthore.enamel.geometry.builders
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
+import com.benoitthore.enamel.geometry.functions.setOriginSize
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import kotlin.math.max

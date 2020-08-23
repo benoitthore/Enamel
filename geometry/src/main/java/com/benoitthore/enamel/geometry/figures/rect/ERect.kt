@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.figures.rect
 
 import com.benoitthore.enamel.geometry.primitives.size.ESize
-import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
+import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.svg.SVGContext
 

@@ -5,14 +5,15 @@ import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.oval.EOval
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
+import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformable
 import com.benoitthore.visualentity.style.EStyle
 import com.benoitthore.visualentity.style.EStyleable
 import com.benoitthore.visualentity.style.StyleBuilder
 import com.benoitthore.visualentity.style.style
 
-interface VisualEntity<T : EShape<T>> : ETransformable, EShape<T>, EStyleable
+interface VisualEntity<T : EShape<T>> : ETransformable,
+    EShape<T>, EStyleable
 
 fun ERect.toVisualEntity(style: EStyle = EStyle()): RectVisualEntity =
     RectVisualEntityImpl(this, style)

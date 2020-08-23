@@ -1,9 +1,10 @@
 package com.benoitthore.enamel.geometry.primitives.offset
 
-import com.benoitthore.enamel.geometry.interfaces.bounds.Copyable
+import com.benoitthore.enamel.geometry.functions.Copyable
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
-interface EOffset : Tuple2, Copyable<EOffset> {
+interface EOffset : Tuple2,
+    Copyable<EOffset> {
 
     var top: Float
     var right: Float

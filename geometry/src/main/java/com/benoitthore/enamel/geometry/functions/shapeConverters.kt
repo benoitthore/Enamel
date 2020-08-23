@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.geometry
+package com.benoitthore.enamel.geometry.functions
 
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
@@ -7,10 +7,8 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.oval.EOval
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.angle.degrees
 import kotlin.math.hypot
@@ -23,7 +21,7 @@ fun ECircle.toListOfPoint(
     startAt: EAngle? = null,
     distanceList: List<Number>? = null
 ): List<EPoint> {
-    if (list.isEmpty()) { // Don't divide by zero
+    if (list.isEmpty()) {
         return list
     }
 

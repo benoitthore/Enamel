@@ -3,8 +3,11 @@ package com.benoitthore.enamel.geometry.alignement
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.primitives.size.ESize
-import com.benoitthore.enamel.geometry.interfaces.bounds.*
+import com.benoitthore.enamel.geometry.functions.pointAtAnchorX
+import com.benoitthore.enamel.geometry.functions.pointAtAnchorY
+import com.benoitthore.enamel.geometry.functions.setSize
 
 
 fun <T : EShape<T>> T.selfAlign(

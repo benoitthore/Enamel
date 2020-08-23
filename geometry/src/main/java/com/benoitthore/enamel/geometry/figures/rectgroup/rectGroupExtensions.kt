@@ -7,8 +7,8 @@ import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
 import com.benoitthore.enamel.geometry.allocate
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
-import com.benoitthore.enamel.geometry.interfaces.bounds.setSize
+import com.benoitthore.enamel.geometry.functions.EShape
+import com.benoitthore.enamel.geometry.functions.setSize
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 

@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.visualentity.android
 
 import android.graphics.Canvas
-import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
+import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.layout.android.withSave
 import com.benoitthore.enamel.layout.android.withTransform
 import com.benoitthore.visualentity.VisualEntity

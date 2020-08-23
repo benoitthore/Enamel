@@ -1,9 +1,8 @@
 package com.benoitthore.enamel.geometry.figures.circle
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
+import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.svg.ESVG
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
 interface ECircle : EShape<ECircle> {

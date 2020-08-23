@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.geometry.interfaces.bounds
+package com.benoitthore.enamel.geometry.functions
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
@@ -17,7 +17,8 @@ interface Copyable<T> where T : Copyable<T> {
     fun copy(): T
 }
 
-interface EShape<T> : ESVG, Copyable<T> where T : EShape<T> {
+interface EShape<T> : ESVG,
+    Copyable<T> where T : EShape<T> {
 
     var left: Float
     var top: Float

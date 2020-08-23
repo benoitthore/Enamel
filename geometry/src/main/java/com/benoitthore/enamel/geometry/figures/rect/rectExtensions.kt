@@ -5,9 +5,9 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.alignement.ERectEdge
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
-import com.benoitthore.enamel.geometry.interfaces.bounds.expand
-import com.benoitthore.enamel.geometry.interfaces.bounds.setSize
+import com.benoitthore.enamel.geometry.functions.EShape
+import com.benoitthore.enamel.geometry.functions.expand
+import com.benoitthore.enamel.geometry.functions.setSize
 import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 
 fun ERect.dividedFraction(

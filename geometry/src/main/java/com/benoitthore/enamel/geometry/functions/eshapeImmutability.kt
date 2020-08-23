@@ -1,4 +1,4 @@
-package com.benoitthore.enamel.geometry.interfaces.bounds
+package com.benoitthore.enamel.geometry.functions
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.alignement.NamedPoint

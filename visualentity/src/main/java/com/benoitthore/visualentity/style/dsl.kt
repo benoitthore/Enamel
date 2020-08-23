@@ -2,7 +2,7 @@ package com.benoitthore.visualentity.style
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.builders.IE
-import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
+import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
 /**

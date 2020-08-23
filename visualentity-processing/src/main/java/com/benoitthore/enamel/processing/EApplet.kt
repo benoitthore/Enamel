@@ -1,13 +1,13 @@
 //package com.benoitthore.enamel.processing
 //
 //import com.benoitthore.enamel.geometry.builders.E
-//import com.benoitthore.enamel.geometry.innerCircle
+//import com.benoitthore.enamel.geometry.interfaces.innerCircle
 //import com.benoitthore.enamel.geometry.interfaces.bounds.center
 //import com.benoitthore.enamel.geometry.lerp
 //import com.benoitthore.enamel.geometry.primitives.div
 //import com.benoitthore.enamel.geometry.primitives.minus
 //import com.benoitthore.enamel.geometry.primitives.size.size
-//import com.benoitthore.enamel.geometry.toCircle
+//import com.benoitthore.enamel.geometry.interfaces.toCircle
 //import com.benoitthore.visualentity.style.style
 //import processing.core.PApplet
 //

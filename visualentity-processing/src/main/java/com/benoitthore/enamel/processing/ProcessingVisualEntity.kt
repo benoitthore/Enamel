@@ -1,9 +1,8 @@
 package com.benoitthore.enamel.processing
 
-import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
+import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.visualentity.VisualEntity
-import com.benoitthore.visualentity.style.EShader
 import processing.core.PApplet
 
 interface ProcessingVisualEntity<T : EShape<T>> : VisualEntity<T> {

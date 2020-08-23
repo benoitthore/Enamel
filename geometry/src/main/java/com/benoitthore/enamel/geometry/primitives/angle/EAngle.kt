@@ -3,12 +3,10 @@ package com.benoitthore.enamel.geometry.primitives.angle
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.interfaces.bounds.Copyable
-import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
+import com.benoitthore.enamel.geometry.functions.Copyable
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
-import com.benoitthore.enamel.geometry.primitives.angle.EAngle.*
 
 private val π = Math.PI.f
 

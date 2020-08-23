@@ -1,7 +1,6 @@
-package com.benoitthore.enamel.geometry.interfaces.bounds
+package com.benoitthore.enamel.geometry.functions
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.primitives.point.EPoint

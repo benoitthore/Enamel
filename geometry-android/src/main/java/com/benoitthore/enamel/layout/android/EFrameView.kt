@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.interfaces.bounds.selfPadding
-import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
+import com.benoitthore.enamel.geometry.functions.selfPadding
+import com.benoitthore.enamel.geometry.functions.setOriginSize
 
 open class EFrameView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0

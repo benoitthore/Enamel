@@ -3,7 +3,7 @@ package com.benoitthore.enamel.geometry.layout
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.interfaces.bounds.setBounds
+import com.benoitthore.enamel.geometry.functions.setBounds
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 
 class ELayoutLeaf(var color: Int = 0, var child: ELayout? = null) : ELayoutAlongAxis {

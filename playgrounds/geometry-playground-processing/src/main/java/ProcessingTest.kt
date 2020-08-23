@@ -4,10 +4,7 @@ import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rectgroup.toRectGroup
-import com.benoitthore.enamel.geometry.innerOval
-import com.benoitthore.enamel.geometry.interfaces.bounds.padding
-import com.benoitthore.enamel.geometry.interfaces.bounds.selfPadding
-import com.benoitthore.enamel.geometry.primitives.div
+import com.benoitthore.enamel.geometry.functions.innerOval
 import com.benoitthore.enamel.processing.*
 import processing.core.PApplet
 

@@ -1,22 +1,17 @@
 package com.benoitthore.enamel.processing
 
-import com.benoitthore.enamel.core.*
 import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
-import com.benoitthore.enamel.geometry.alignement.NamedPoint
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.line.ELine
-import com.benoitthore.enamel.geometry.innerCircle
-import com.benoitthore.enamel.geometry.innerRect
-import com.benoitthore.enamel.geometry.interfaces.bounds.*
-import com.benoitthore.enamel.geometry.primitives.angle.rotations
+import com.benoitthore.enamel.geometry.functions.innerCircle
+import com.benoitthore.enamel.geometry.functions.diagonalTLBR
+import com.benoitthore.enamel.geometry.functions.setOrigin
 import com.benoitthore.enamel.geometry.primitives.div
 import com.benoitthore.enamel.geometry.primitives.minus
 import com.benoitthore.enamel.geometry.primitives.point.point
 import com.benoitthore.enamel.geometry.primitives.times
-import com.benoitthore.enamel.geometry.toCircle
-import com.benoitthore.enamel.geometry.toRect
+import com.benoitthore.enamel.geometry.functions.toRect
 import com.benoitthore.visualentity.toVisualEntity
 
 fun main() {
@@ -51,10 +46,7 @@ class TmpApplet : KotlinPApplet() {
     val circle by lazy { rect.innerCircle() }
     val line by lazy { rect.diagonalTLBR() }
 
-    // TODO After
-    // TODO Move extension functions to EShape interface (should prevent the casting issue)
     // TODO Sort out functions
-    // TODO Implement this "as T" everywhere
     // TODO Make list of function and behaviour at the same time
 
     var i = 0f

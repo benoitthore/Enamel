@@ -2,8 +2,8 @@ package com.benoitthore.enamel.geometry
 
 import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.interfaces.bounds.EShape
-import com.benoitthore.enamel.geometry.interfaces.bounds.setOriginSize
+import com.benoitthore.enamel.geometry.functions.EShape
+import com.benoitthore.enamel.geometry.functions.setOriginSize
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 
 fun List<EPoint>.lerp(

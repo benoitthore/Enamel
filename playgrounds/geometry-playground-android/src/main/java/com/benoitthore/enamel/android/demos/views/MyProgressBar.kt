@@ -9,11 +9,9 @@ import android.view.View
 import com.benoitthore.enamel.geometry.alignement.*
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.line.set
-import com.benoitthore.enamel.geometry.interfaces.bounds.diagonalTLBR
-import com.benoitthore.enamel.geometry.interfaces.bounds.pointAtAnchor
-import com.benoitthore.enamel.geometry.interfaces.bounds.setBounds
-import com.benoitthore.enamel.geometry.primitives.point.point
-import com.benoitthore.enamel.geometry.primitives.size.ESize
+import com.benoitthore.enamel.geometry.functions.diagonalTLBR
+import com.benoitthore.enamel.geometry.functions.pointAtAnchor
+import com.benoitthore.enamel.geometry.functions.setBounds
 import com.benoitthore.enamel.layout.android.getViewBounds
 import com.benoitthore.enamel.layout.android.singleTouch
 import com.benoitthore.enamel.visualentity.android.LineVisualEntityAndroid
@@ -21,7 +19,6 @@ import com.benoitthore.enamel.visualentity.android.draw
 import com.benoitthore.enamel.visualentity.android.drawFromCenter
 import com.benoitthore.enamel.visualentity.android.toAndroid
 import com.benoitthore.enamel.visualentity.android.utils.dp
-import com.benoitthore.visualentity.style.style
 import com.benoitthore.visualentity.style.toShader
 import com.benoitthore.visualentity.toVisualEntity
 
