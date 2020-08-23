@@ -44,9 +44,9 @@ internal class ECircleImpl internal constructor(
             left = value
         }
     override var originY: Float
-        get() = left
+        get() = top
         set(value) {
-            left = value
+            top = value
         }
 
     override var width: Float

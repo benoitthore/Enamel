@@ -34,8 +34,11 @@ object EasingInterpolators {
     val quartInOut: Interpolator = { getPowInOut(it, 4) }
     val quintInOut: Interpolator = { getPowInOut(it, 5) }
     val sineInOut: Interpolator = { -0.5f * (cos(Math.PI * it) - 1f).f }
-    fun accelerate(pow: Number = 2.0): Interpolator = { Math.pow(it.toDouble(), pow.toDouble()).toFloat() }
-    fun deccelerate(pow: Number = 2.0): Interpolator = { 1f - Math.pow(1.0 - it, pow.toDouble()).toFloat() }
+    fun accelerate(pow: Number = 2.0): Interpolator =
+        { Math.pow(it.toDouble(), pow.toDouble()).toFloat() }
+
+    fun deccelerate(pow: Number = 2.0): Interpolator =
+        { 1f - Math.pow(1.0 - it, pow.toDouble()).toFloat() }
 }
 
 private fun getPowInOut(elapsedTimeRate: Float, pow: Number): Float {

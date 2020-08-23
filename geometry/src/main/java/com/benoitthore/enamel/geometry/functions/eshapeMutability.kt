@@ -15,7 +15,6 @@ fun <T : EShape<*>> T.setBounds(other: EShape<*>): T = apply {
     )
 }
 
-
 fun <T : EShape<*>> T.setOriginSize(
     origin: EPoint?,
     size: ESize?

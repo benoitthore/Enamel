@@ -21,7 +21,7 @@ import com.benoitthore.enamel.geometry.primitives.angle.EAngle.*
 
 interface BaseBuilder {
 
-    fun Point(x: Number = 0, y: Number = 0): EPoint =
+    fun Point(x: Number, y: Number): EPoint =
         EPointImpl(x, y)
 
     fun Angle(value: Number = 0f, type: AngleType = AngleType.RADIAN): EAngle =

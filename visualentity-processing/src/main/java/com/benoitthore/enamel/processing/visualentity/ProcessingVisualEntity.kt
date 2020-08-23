@@ -11,6 +11,15 @@ interface ProcessingVisualEntity<T : EShape<T>> : VisualEntity<T> {
 }
 
 
+fun PApplet.drawVE(vararg visualEntity: ProcessingVisualEntity<*>) {
+    visualEntity.forEach { drawVE(it) }
+}
+
+fun PApplet.drawVE(visualEntities: List<ProcessingVisualEntity<*>>) {
+    visualEntities.forEach { drawVE(it) }
+}
+
+
 fun PApplet.drawVE(visualEntity: ProcessingVisualEntity<*>) {
     val papplet = this
     withTransform(visualEntity.transform) {

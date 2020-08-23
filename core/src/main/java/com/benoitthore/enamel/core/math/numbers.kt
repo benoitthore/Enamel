@@ -1,5 +1,7 @@
 package com.benoitthore.enamel.core.math
 
+import com.benoitthore.enamel.core.animations.Interpolator
+import com.benoitthore.enamel.core.animations.linearInterpolator
 import java.util.*
 import kotlin.math.abs
 
@@ -26,10 +28,16 @@ fun random(max: Number): Float = random(min = 0f, max = max)
 fun random(min: Number, max: Number): Float =
     RANDOM.nextFloat().lerp(min, max)
 
-inline fun Number.interpolate(from: Number, to: Number, interpolator: (Number) -> Number): Float =
+inline fun Number.interpolate(
+    from: Number,
+    to: Number,
+    interpolator: Interpolator
+): Float =
     from.f + interpolator(this.f).f * (to.f - from.f)
 
-fun Number.lerp(from: Number, to: Number): Float = interpolate(from, to) { it }
+fun Number.lerp(from: Number, to: Number, interpolator: Interpolator = linearInterpolator): Float =
+    interpolate(from, to, interpolator)
+
 fun Number.map(start1: Number, stop1: Number, start2: Number, stop2: Number) = Scale.map(
     this,
     start1 = start1,

@@ -1,8 +1,6 @@
 package com.benoitthore.animation
 
 import android.animation.ValueAnimator
-import android.content.res.Resources
-import com.benoitthore.enamel.geometry.lerp
 
 inline fun prepareAnimation(
     duration: Long = 1000L,

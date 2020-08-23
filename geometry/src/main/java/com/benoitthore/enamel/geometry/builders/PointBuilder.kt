@@ -7,6 +7,8 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
 interface PointBuilder : BaseBuilder {
 
+    fun Point(n: Number = 1f): EPoint = Point(n, n)
+
     fun Point(other: EPoint) =
         Point(other.x, other.y)
 

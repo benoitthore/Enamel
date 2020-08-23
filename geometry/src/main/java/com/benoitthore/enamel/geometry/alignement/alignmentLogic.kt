@@ -3,19 +3,19 @@ package com.benoitthore.enamel.geometry.alignement
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.functions.EShape
-import com.benoitthore.enamel.geometry.primitives.size.ESize
+import com.benoitthore.enamel.geometry.functions.*
 import com.benoitthore.enamel.geometry.functions.pointAtAnchorX
 import com.benoitthore.enamel.geometry.functions.pointAtAnchorY
-import com.benoitthore.enamel.geometry.functions.setSize
+import com.benoitthore.enamel.geometry.primitives.size.ESize
+import java.lang.Exception
 
 
-fun <T : EShape<T>> T.selfAlign(
+fun <T : EShape<*>> T.selfAlign(
     frame: EShape<*>,
     alignment: EAlignment,
     isOutside: Boolean,
     spacing: Number = 0
-): T {
+) =  apply {
     val anchorSpacingAlignment = if (isOutside) alignment.flipped else alignment
 
     val spacing = spacing.f
@@ -37,33 +37,30 @@ fun <T : EShape<T>> T.selfAlign(
         bottom = bottom,
         right = right
     )
-
-
-    return this
 }
 
-fun <T : EShape<T>> T.alignedInside(
+fun <T : EShape<*>> T.alignedInside(
     frame: EShape<*>,
     alignment: EAlignment,
     spacing: Number = 0,
-    target: T = copy()
-): T = target.set(this).selfAlignInside(frame, alignment, spacing)
+    target: T = copy() as T
+) = target.setBounds(this).selfAlignInside(frame, alignment, spacing)
 
-fun <T : EShape<T>> T.alignedOutside(
+fun <T : EShape<*>> T.alignedOutside(
     frame: EShape<*>,
     alignment: EAlignment,
     spacing: Number = 0,
-    target: T = copy()
-): T = target.set(this).selfAlignOutside(frame, alignment, spacing)
+    target: T = copy() as T
+) = target.setBounds(this).selfAlignOutside(frame, alignment, spacing)
 
 
-fun <T : EShape<T>> T.selfAlignOutside(
+fun <T : EShape<*>> T.selfAlignOutside(
     frame: EShape<*>, alignment: EAlignment, spacing: Number = 0
-): T = selfAlign(frame, alignment, true, spacing)
+) = selfAlign(frame, alignment, true, spacing)
 
-fun <T : EShape<T>> T.selfAlignInside(
+fun <T : EShape<*>> T.selfAlignInside(
     frame: EShape<*>, alignment: EAlignment, spacing: Number = 0
-): T = selfAlign(frame, alignment, false, spacing)
+) = selfAlign(frame, alignment, false, spacing)
 
 fun ERect.rectAlignedInside(
     alignment: EAlignment,
