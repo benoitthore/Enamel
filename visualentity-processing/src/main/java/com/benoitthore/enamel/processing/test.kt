@@ -4,14 +4,13 @@ import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.functions.innerCircle
-import com.benoitthore.enamel.geometry.functions.diagonalTLBR
-import com.benoitthore.enamel.geometry.functions.setOrigin
+import com.benoitthore.enamel.geometry.functions.*
 import com.benoitthore.enamel.geometry.primitives.div
 import com.benoitthore.enamel.geometry.primitives.minus
 import com.benoitthore.enamel.geometry.primitives.point.point
 import com.benoitthore.enamel.geometry.primitives.times
-import com.benoitthore.enamel.geometry.functions.toRect
+import com.benoitthore.enamel.processing.visualentity.drawVE
+import com.benoitthore.enamel.processing.visualentity.toProcessing
 import com.benoitthore.visualentity.toVisualEntity
 
 fun main() {
@@ -38,7 +37,7 @@ class TmpApplet : KotlinPApplet() {
     val rect by lazy {
         getViewBounds().toVisualEntity {
             fillColor = 0xFF_00_00
-            strokeWidth = 20
+            strokeWidth = 3
             strokeColor = 0x0096AE
         }
             .toProcessing()
@@ -55,6 +54,16 @@ class TmpApplet : KotlinPApplet() {
         stroke(255)
         strokeWeight(2f)
         noFill()
+
+
+        drawVE(
+            circle.toVisualEntity(rect.style).toProcessing()
+        )
+        drawVE(
+            (line.scaleAnchor(0.5)).toVisualEntity(rect.style).toProcessing()
+        )
+        return
+
 
         val colors = listOf(0xFF_00_00, 0xF18E33, 0x438eff)
 

@@ -1,8 +1,10 @@
-package com.benoitthore.enamel.processing
+package com.benoitthore.enamel.processing.visualentity
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
+import com.benoitthore.enamel.processing.VisualEntityDrawer
+import com.benoitthore.enamel.processing.pushPop
 import com.benoitthore.visualentity.*
 import com.benoitthore.visualentity.style.EStyleable
 import processing.core.PConstants

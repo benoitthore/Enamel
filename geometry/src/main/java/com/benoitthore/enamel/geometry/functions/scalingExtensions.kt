@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.geometry.functions
 
 import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.geometry.alignement.NamedPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
 
@@ -43,7 +44,7 @@ fun <T : EShape<*>> T.scaleRelative2D(
 
 fun <T : EShape<*>> T.scaleAnchor(
     scaleFactor: Number,
-    anchor: EPoint,
+    anchor: EPoint = NamedPoint.center,
     target: T = copy() as T
 ) =
     scaleAnchor(scaleFactor, anchor.x, anchor.y, target)

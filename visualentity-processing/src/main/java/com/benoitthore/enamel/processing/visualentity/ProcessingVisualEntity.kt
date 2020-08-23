@@ -1,7 +1,8 @@
-package com.benoitthore.enamel.processing
+package com.benoitthore.enamel.processing.visualentity
 
 import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
+import com.benoitthore.enamel.processing.VisualEntityDrawer
 import com.benoitthore.visualentity.VisualEntity
 import processing.core.PApplet
 

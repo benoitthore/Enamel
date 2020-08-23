@@ -1,0 +1,46 @@
+package com.benoitthore.enamel.processing.visualentity
+
+import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.circle.ECircle
+import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
+import com.benoitthore.enamel.processing.VisualEntityDrawer
+import com.benoitthore.enamel.processing.pushPop
+import com.benoitthore.visualentity.*
+import com.benoitthore.visualentity.style.EStyleable
+import processing.core.PConstants
+
+
+fun CircleVisualEntity.toProcessing(): CircleVisualEntityProcessing {
+    val copy = copy()
+    return CircleVisualEntityProcessingImpl(
+        copy,
+        VisualEntityDrawer(
+            style
+        ) { applet ->
+            applet.pushPop {
+                copy.apply {
+                    ellipseMode(PConstants.CENTER)
+                    ellipse(centerX, centerY, radius, radius)
+                }
+            }
+        })
+}
+
+interface CircleVisualEntityProcessing : ProcessingVisualEntity<ECircle>,
+    CircleVisualEntity {
+    override fun copy(): CircleVisualEntityProcessing
+}
+
+
+internal class CircleVisualEntityProcessingImpl(
+    private val Circle: ECircle,
+    override val drawer: VisualEntityDrawer
+) :
+    CircleVisualEntityProcessing,
+    ECircle by Circle,
+    EStyleable by drawer {
+
+    override val transform: ETransform = E.Transform()
+    override fun copy(): CircleVisualEntityProcessing =
+        Circle.copy().toVisualEntity(style).toProcessing()
+}
