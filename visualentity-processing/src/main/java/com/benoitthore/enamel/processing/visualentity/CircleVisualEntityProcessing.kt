@@ -8,9 +8,9 @@ import com.benoitthore.enamel.processing.pushPop
 import com.benoitthore.visualentity.*
 import com.benoitthore.visualentity.style.EStyleable
 import processing.core.PConstants
+import java.lang.Exception
 
-
-fun CircleVisualEntity.toProcessing(): CircleVisualEntityProcessing {
+fun ECircleVisualEntity.toProcessing(): CircleVisualEntityProcessing {
     val copy = copy()
     return CircleVisualEntityProcessingImpl(
         copy,
@@ -20,14 +20,14 @@ fun CircleVisualEntity.toProcessing(): CircleVisualEntityProcessing {
             applet.pushPop {
                 copy.apply {
                     ellipseMode(PConstants.CENTER)
-                    ellipse(centerX, centerY, radius, radius)
+                    ellipse(centerX, centerY, radius * 2, radius * 2)
                 }
             }
         })
 }
 
 interface CircleVisualEntityProcessing : ProcessingVisualEntity<ECircle>,
-    CircleVisualEntity {
+    ECircleVisualEntity {
     override fun copy(): CircleVisualEntityProcessing
 }
 

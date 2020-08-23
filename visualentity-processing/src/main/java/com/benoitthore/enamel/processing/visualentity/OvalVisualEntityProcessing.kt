@@ -10,7 +10,7 @@ import com.benoitthore.visualentity.style.EStyleable
 import processing.core.PConstants
 
 
-fun OvalVisualEntity.toProcessing(): OvalVisualEntityProcessing {
+fun EOvalVisualEntity.toProcessing(): OvalVisualEntityProcessing {
     val copy = copy()
     return OvalVisualEntityProcessingImpl(
         copy,
@@ -20,14 +20,14 @@ fun OvalVisualEntity.toProcessing(): OvalVisualEntityProcessing {
             applet.pushPop {
                 copy.apply {
                     ellipseMode(PConstants.CENTER)
-                    ellipse(centerX, centerY, rx, ry)
+                    ellipse(centerX, centerY, rx * 2, ry * 2)
                 }
             }
         })
 }
 
 interface OvalVisualEntityProcessing : ProcessingVisualEntity<EOval>,
-    OvalVisualEntity {
+    EOvalVisualEntity {
     override fun copy(): OvalVisualEntityProcessing
 }
 

@@ -6,7 +6,7 @@ import java.nio.charset.Charset
 inline fun <T> Iterable<T>.contains(predicate: (T) -> Boolean) = any(predicate)
 
 
-fun <T : Any> T.asList(): List<T> = listOf(this)
+fun <T> T.asList(): List<T> = listOf(this)
 
 fun List<Byte>.toStringFromBytes() = toByteArray().toStringFromBytes()
 fun ByteArray.toStringFromBytes() = toString(Charset.defaultCharset())

@@ -9,7 +9,7 @@ import com.benoitthore.enamel.visualentity.android.utils.VisualEntityDrawer
 import com.benoitthore.visualentity.style.EStyleable
 
 
-fun OvalVisualEntity.toAndroid(): OvalVisualEntityAndroid {
+fun EOvalVisualEntity.toAndroid(): OvalVisualEntityAndroid {
     val copy = copy()
     return OvalVisualEntityAndroidImpl(
         copy,
@@ -24,7 +24,7 @@ fun OvalVisualEntity.toAndroid(): OvalVisualEntityAndroid {
 }
 
 interface OvalVisualEntityAndroid : AndroidVisualEntity<EOval>,
-    OvalVisualEntity {
+    EOvalVisualEntity {
     override fun copy(): OvalVisualEntityAndroid
 }
 

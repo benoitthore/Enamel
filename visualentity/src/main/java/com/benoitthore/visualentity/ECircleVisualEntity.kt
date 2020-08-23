@@ -9,13 +9,13 @@ internal class CircleVisualEntityImpl(
     private val circle: ECircle,
     override var style: EStyle
 ) :
-    CircleVisualEntity, ECircle by circle {
-    override fun copy(): CircleVisualEntity = circle.copy().toVisualEntity(style)
+    ECircleVisualEntity, ECircle by circle {
+    override fun copy(): ECircleVisualEntity = circle.copy().toVisualEntity(style)
     override val transform: ETransform = E.Transform()
 }
 
-interface CircleVisualEntity : ECircle, VisualEntity<ECircle> {
-    override fun copy(): CircleVisualEntity
+interface ECircleVisualEntity : ECircle, VisualEntity<ECircle> {
+    override fun copy(): ECircleVisualEntity
 }
 
 

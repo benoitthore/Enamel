@@ -7,12 +7,11 @@ import com.benoitthore.enamel.processing.VisualEntityDrawer
 import com.benoitthore.enamel.processing.pushPop
 import com.benoitthore.visualentity.*
 import com.benoitthore.visualentity.style.EStyleable
-import processing.core.PConstants
 
 
-fun LineVisualEntity.toProcessing(): LineVisualEntityProcessing {
+fun ELineVisualEntity.toProcessing(): ELineVisualEntityProcessing {
     val copy = copy()
-    return LineVisualEntityProcessingImpl(
+    return ELineVisualEntityProcessingImpl(
         copy,
         VisualEntityDrawer(
             style
@@ -25,21 +24,21 @@ fun LineVisualEntity.toProcessing(): LineVisualEntityProcessing {
         })
 }
 
-interface LineVisualEntityProcessing : ProcessingVisualEntity<ELine>,
-    LineVisualEntity {
-    override fun copy(): LineVisualEntityProcessing
+interface ELineVisualEntityProcessing : ProcessingVisualEntity<ELine>,
+    ELineVisualEntity {
+    override fun copy(): ELineVisualEntityProcessing
 }
 
 
-internal class LineVisualEntityProcessingImpl(
+internal class ELineVisualEntityProcessingImpl(
     private val line: ELine,
     override val drawer: VisualEntityDrawer
 ) :
-    LineVisualEntityProcessing,
+    ELineVisualEntityProcessing,
     ELine by line,
     EStyleable by drawer {
 
     override val transform: ETransform = E.Transform()
-    override fun copy(): LineVisualEntityProcessing =
+    override fun copy(): ELineVisualEntityProcessing =
         line.copy().toVisualEntity(style).toProcessing()
 }

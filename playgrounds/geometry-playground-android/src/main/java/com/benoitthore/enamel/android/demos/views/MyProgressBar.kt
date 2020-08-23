@@ -14,7 +14,7 @@ import com.benoitthore.enamel.geometry.functions.pointAtAnchor
 import com.benoitthore.enamel.geometry.functions.setBounds
 import com.benoitthore.enamel.layout.android.getViewBounds
 import com.benoitthore.enamel.layout.android.singleTouch
-import com.benoitthore.enamel.visualentity.android.LineVisualEntityAndroid
+import com.benoitthore.enamel.visualentity.android.ELineVisualEntityAndroid
 import com.benoitthore.enamel.visualentity.android.draw
 import com.benoitthore.enamel.visualentity.android.drawFromCenter
 import com.benoitthore.enamel.visualentity.android.toAndroid
@@ -34,7 +34,7 @@ class MyProgressBar @JvmOverloads constructor(
             strokeWidth = 1.dp
         }.toAndroid()
 
-    private val line  : LineVisualEntityAndroid = E.Line().toVisualEntity { strokeColor = RED }.toAndroid()
+    private val line  : ELineVisualEntityAndroid = E.Line().toVisualEntity { strokeColor = RED }.toAndroid()
 
     init {
         singleTouch {

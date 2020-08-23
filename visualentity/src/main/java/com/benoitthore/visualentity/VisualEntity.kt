@@ -15,26 +15,26 @@ import com.benoitthore.visualentity.style.style
 interface VisualEntity<T : EShape<T>> : ETransformable,
     EShape<T>, EStyleable
 
-fun ERect.toVisualEntity(style: EStyle = EStyle()): RectVisualEntity =
+fun ERect.toVisualEntity(style: EStyle = EStyle()): ERectVisualEntity =
     RectVisualEntityImpl(this, style)
 
-fun ERect.toVisualEntity(block: StyleBuilder.(ERect) -> Unit): RectVisualEntity =
+fun ERect.toVisualEntity(block: StyleBuilder.(ERect) -> Unit): ERectVisualEntity =
     RectVisualEntityImpl(this, E.style(this, block))
 
-fun EOval.toVisualEntity(style: EStyle = EStyle()): OvalVisualEntity =
+fun EOval.toVisualEntity(style: EStyle = EStyle()): EOvalVisualEntity =
     OvalVisualEntityImpl(this, style)
 
-fun EOval.toVisualEntity(block: StyleBuilder.(EOval) -> Unit): OvalVisualEntity =
+fun EOval.toVisualEntity(block: StyleBuilder.(EOval) -> Unit): EOvalVisualEntity =
     OvalVisualEntityImpl(this, E.style(this, block))
 
-fun ELine.toVisualEntity(style: EStyle = EStyle()): LineVisualEntity =
-    LineVisualEntityImpl(this, style)
+fun ELine.toVisualEntity(style: EStyle = EStyle()): ELineVisualEntity =
+    ELineVisualEntityImpl(this, style)
 
-fun ELine.toVisualEntity(block: StyleBuilder.(ELine) -> Unit): LineVisualEntity =
-    LineVisualEntityImpl(this, E.style(this, block))
+fun ELine.toVisualEntity(block: StyleBuilder.(ELine) -> Unit): ELineVisualEntity =
+    ELineVisualEntityImpl(this, E.style(this, block))
 
-fun ECircle.toVisualEntity(style: EStyle = EStyle()): CircleVisualEntity =
+fun ECircle.toVisualEntity(style: EStyle = EStyle()): ECircleVisualEntity =
     CircleVisualEntityImpl(this, style)
 
-fun ECircle.toVisualEntity(block: StyleBuilder.(ECircle) -> Unit): CircleVisualEntity =
+fun ECircle.toVisualEntity(block: StyleBuilder.(ECircle) -> Unit): ECircleVisualEntity =
     CircleVisualEntityImpl(this, E.style(this, block))

@@ -9,11 +9,11 @@ internal class OvalVisualEntityImpl(
     private val Oval: EOval,
     override var style: EStyle
 ) :
-    OvalVisualEntity, EOval by Oval {
-    override fun copy(): OvalVisualEntity = Oval.copy().toVisualEntity(style)
+    EOvalVisualEntity, EOval by Oval {
+    override fun copy(): EOvalVisualEntity = Oval.copy().toVisualEntity(style)
     override val transform: ETransform = E.Transform()
 }
 
-interface OvalVisualEntity : EOval, VisualEntity<EOval> {
-    override fun copy(): OvalVisualEntity
+interface EOvalVisualEntity : EOval, VisualEntity<EOval> {
+    override fun copy(): EOvalVisualEntity
 }

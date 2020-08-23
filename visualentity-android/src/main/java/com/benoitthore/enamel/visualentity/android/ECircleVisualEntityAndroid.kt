@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.visualentity.android
 
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.line.ELine
+import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.enamel.layout.android.draw
 import com.benoitthore.visualentity.*
@@ -9,9 +9,9 @@ import com.benoitthore.enamel.visualentity.android.utils.VisualEntityDrawer
 import com.benoitthore.visualentity.style.EStyleable
 
 
-fun LineVisualEntity.toAndroid(): LineVisualEntityAndroid {
+fun ECircleVisualEntity.toAndroid(): ECircleVisualEntityAndroid {
     val copy = copy()
-    return LineVisualEntityAndroidImpl(
+    return ECircleVisualEntityAndroidImpl(
         copy,
         VisualEntityDrawer(
             style
@@ -23,20 +23,20 @@ fun LineVisualEntity.toAndroid(): LineVisualEntityAndroid {
         })
 }
 
-interface LineVisualEntityAndroid : AndroidVisualEntity<ELine>,
-    LineVisualEntity {
-    override fun copy(): LineVisualEntityAndroid
+interface ECircleVisualEntityAndroid : AndroidVisualEntity<ECircle>,
+    ECircleVisualEntity {
+    override fun copy(): ECircleVisualEntityAndroid
 }
 
 
-internal class LineVisualEntityAndroidImpl(
-    private val line: ELine,
+internal class ECircleVisualEntityAndroidImpl(
+    private val circle: ECircle,
     override val drawer: VisualEntityDrawer
 ) :
-    LineVisualEntityAndroid,
-    ELine by line,
+    ECircleVisualEntityAndroid,
+    ECircle by circle,
     EStyleable by drawer {
 
     override val transform: ETransform = E.Transform()
-    override fun copy(): LineVisualEntityAndroid = line.copy().toVisualEntity(style).toAndroid()
+    override fun copy(): ECircleVisualEntityAndroid = circle.copy().toVisualEntity(style).toAndroid()
 }

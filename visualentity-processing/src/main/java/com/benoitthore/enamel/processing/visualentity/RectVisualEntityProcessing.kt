@@ -10,7 +10,7 @@ import com.benoitthore.visualentity.style.EStyleable
 import processing.core.PConstants
 
 
-fun RectVisualEntity.toProcessing(): RectVisualEntityProcessing {
+fun ERectVisualEntity.toProcessing(): RectVisualEntityProcessing {
     val copy = copy()
     return RectVisualEntityProcessingImpl(
         copy,
@@ -27,7 +27,7 @@ fun RectVisualEntity.toProcessing(): RectVisualEntityProcessing {
 }
 
 interface RectVisualEntityProcessing : ProcessingVisualEntity<ERect>,
-    RectVisualEntity {
+    ERectVisualEntity {
     override fun copy(): RectVisualEntityProcessing
 }
 
