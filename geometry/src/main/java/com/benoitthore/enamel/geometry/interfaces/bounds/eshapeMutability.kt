@@ -77,13 +77,13 @@ fun <T : EShape<*>> T.setOriginSize(
 }
 
 fun <T : EShape<*>> T.setOrigin(
-    originX: Number = this.originX, originY: Number = this.originY
+    x: Number = this.originX, y: Number = this.originY
 ) = apply {
     _setBounds(
-        left = originX,
-        top = originY,
-        right = originX.f + width.f,
-        bottom = originY.f + height.f
+        left = x,
+        top = y,
+        right = x.f + width.f,
+        bottom = y.f + height.f
     )
 }
 

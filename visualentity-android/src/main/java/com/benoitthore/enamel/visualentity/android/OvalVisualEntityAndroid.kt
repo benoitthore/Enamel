@@ -10,13 +10,14 @@ import com.benoitthore.visualentity.style.EStyleable
 
 
 fun OvalVisualEntity.toAndroid(): OvalVisualEntityAndroid {
+    val copy = copy()
     return OvalVisualEntityAndroidImpl(
-        copy(),
+        copy,
         VisualEntityDrawer(
             style
         ) { canvas, paint ->
             canvas.draw(
-                this,
+                copy,
                 paint
             )
         })

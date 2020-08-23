@@ -285,10 +285,6 @@ fun <T : EShape<*>> T.inset(
     top: Number = 0,
     right: Number = 0,
     bottom: Number = 0,
-    // TODO Sort out functions
-    // TODO Implement this "as T" everywhere
-    // TODO Make list of function and behaviour at the same time
-    
     target: T = copy() as T
 ): T {
     target._setBounds(

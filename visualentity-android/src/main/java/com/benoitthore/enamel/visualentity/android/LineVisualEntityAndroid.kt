@@ -10,13 +10,14 @@ import com.benoitthore.visualentity.style.EStyleable
 
 
 fun LineVisualEntity.toAndroid(): LineVisualEntityAndroid {
+    val copy = copy()
     return LineVisualEntityAndroidImpl(
-        copy(),
+        copy,
         VisualEntityDrawer(
             style
         ) { canvas, paint ->
             canvas.draw(
-                this,
+                copy,
                 paint
             )
         })

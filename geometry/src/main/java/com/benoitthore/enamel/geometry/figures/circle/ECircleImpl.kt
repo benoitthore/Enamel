@@ -19,22 +19,22 @@ internal class ECircleImpl internal constructor(
 
     override var radius: Float = radius.toFloat()
     override var left: Float
-        get() = centerX - radius
+        get() = center.x - radius
         set(value) {
             radius += (left - value) / 2f
         }
     override var top: Float
-        get() = centerY - radius
+        get() = center.y - radius
         set(value) {
             radius += (top - value) / 2f
         }
     override var right: Float
-        get() = centerX + radius
+        get() = center.x + radius
         set(value) {
             radius -= (right - value) / 2f
         }
     override var bottom: Float
-        get() = centerY + radius
+        get() = center.y + radius
         set(value) {
             radius -= (bottom - value) / 2f
         }

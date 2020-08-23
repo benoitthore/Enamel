@@ -10,13 +10,14 @@ import com.benoitthore.visualentity.style.EStyleable
 
 
 fun CircleVisualEntity.toAndroid(): CircleVisualEntityAndroid {
+    val copy = copy()
     return CircleVisualEntityAndroidImpl(
-        copy(),
+        copy,
         VisualEntityDrawer(
             style
         ) { canvas, paint ->
             canvas.draw(
-                this,
+                copy,
                 paint
             )
         })
