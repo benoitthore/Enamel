@@ -7,9 +7,6 @@ import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
-// TODO once refactoring is done:
-// TODO Rename to setBounds
-// TODO Rename interface method to _setBounds
 fun <T : EShape<*>> T.setBounds(other: EShape<*>): T = apply {
     _setBounds(
         left = other.left,
@@ -19,9 +16,6 @@ fun <T : EShape<*>> T.setBounds(other: EShape<*>): T = apply {
     )
 }
 
-
-fun <T : EShape<*>> T.setBounds(other: ERect): T =
-    setOriginSize(other.origin, other.size)
 
 fun <T : EShape<*>> T.setOriginSize(
     origin: EPoint?,
@@ -148,34 +142,34 @@ fun <T : EShape<*>> T.setSides(
 }
 
 //////
-fun <T : EShape<T>> T.selfOffset(x: Number, y: Number): T =
+fun <T : EShape<*>> T.selfOffset(x: Number, y: Number): T =
     apply { offset(x, y, this) }
 
-fun <T : EShape<T>> T.selfOffset(p: Tuple2): T =
+fun <T : EShape<*>> T.selfOffset(p: Tuple2): T =
     apply { offset(p.v1, p.v2, this) }
 
-fun <T : EShape<T>> T.selfInset(margin: Number): T =
+fun <T : EShape<*>> T.selfInset(margin: Number): T =
     apply { inset(margin, margin, this) }
 
-fun <T : EShape<T>> T.selfInset(p: EPoint): T =
+fun <T : EShape<*>> T.selfInset(p: EPoint): T =
     apply { inset(p.x, p.y, this) }
 
-fun <T : EShape<T>> T.selfInset(x: Number = 0, y: Number = 0): T =
+fun <T : EShape<*>> T.selfInset(x: Number = 0, y: Number = 0): T =
     apply { inset(x, y, this) }
 
-fun <T : EShape<T>> T.selfExpand(margin: Number): T =
+fun <T : EShape<*>> T.selfExpand(margin: Number): T =
     apply { expand(margin, margin, this) }
 
-fun <T : EShape<T>> T.selfExpand(p: EPoint): T =
+fun <T : EShape<*>> T.selfExpand(p: EPoint): T =
     apply { expand(p.x, p.y, this) }
 
-fun <T : EShape<T>> T.selfExpand(x: Number, y: Number): T =
+fun <T : EShape<*>> T.selfExpand(x: Number, y: Number): T =
     apply { inset(-x.f, -y.f, this) }
 
-fun <T : EShape<T>> T.selfPadding(padding: EOffset): T =
+fun <T : EShape<*>> T.selfPadding(padding: EOffset): T =
     apply { padding(padding, this) }
 
-fun <T : EShape<T>> T.selfPadding(
+fun <T : EShape<*>> T.selfPadding(
     top: Number = 0,
     bottom: Number = 0,
     left: Number = 0,
@@ -190,40 +184,40 @@ fun <T : EShape<T>> T.selfPadding(
     )
 }
 
-fun <T : EShape<T>> T.selfExpand(padding: EOffset): T =
+fun <T : EShape<*>> T.selfExpand(padding: EOffset): T =
     apply { expand(padding, this) }
 
-fun <T : EShape<T>> T.selfScaleAnchor(factor: Number, anchor: EPoint): T =
+fun <T : EShape<*>> T.selfScaleAnchor(factor: Number, anchor: EPoint): T =
     apply { scaleAnchor(factor, anchor, this) }
 
-fun <T : EShape<T>> T.selfScaleAnchor(
+fun <T : EShape<*>> T.selfScaleAnchor(
     factor: Number,
     anchorX: Number,
     anchorY: Number
 ) =
     apply { scaleAnchor(factor, anchorX, anchorY, this) }
 
-fun <T : EShape<T>> T.selfScaleRelative(
+fun <T : EShape<*>> T.selfScaleRelative(
     factor: Number,
     point: EPoint
 ) =
 
     scaleRelative(factor, point, this)
 
-fun <T : EShape<T>> T.selfScaleRelative(
+fun <T : EShape<*>> T.selfScaleRelative(
     factor: Number,
     pointX: Number,
     pointY: Number
 ) =
     scaleRelative(scaleFactor = factor, pointX = pointX, pointY = pointY, target = this)
 
-fun <T : EShape<T>> T.selfMap(
+fun <T : EShape<*>> T.selfMap(
     from: EShape<*>,
     to: EShape<*>
 ): T =
     apply { map(from, to, this) }
 
-fun <T : EShape<T>> T.selfMap(
+fun <T : EShape<*>> T.selfMap(
     fromX: Number,
     fromY: Number,
     fromWidth: Number,

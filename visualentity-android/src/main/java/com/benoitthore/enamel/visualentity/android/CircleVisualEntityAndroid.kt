@@ -11,7 +11,7 @@ import com.benoitthore.visualentity.style.EStyleable
 
 fun CircleVisualEntity.toAndroid(): CircleVisualEntityAndroid {
     return CircleVisualEntityAndroidImpl(
-        this,
+        copy(),
         VisualEntityDrawer(
             style
         ) { canvas, paint ->

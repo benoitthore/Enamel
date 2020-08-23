@@ -174,8 +174,8 @@ interface ERectGroup<T : EShape<*>> : EShape<ERectGroup<T>> {
         }
 
         override fun set(other: ERectGroup<T>): ERectGroup<T> {
-            if (other.rects.size != this.rects.size) {
-                throw IllegalArgumentException("${other.rects.size} shapes given, ${rects.size} expected")
+            require(other.rects.size != this.rects.size) {
+                "${other.rects.size} shapes given, ${rects.size} expected"
             }
             other.rects.forEachIndexed { i, otherRect ->
                 rects[i].setBounds(otherRect)

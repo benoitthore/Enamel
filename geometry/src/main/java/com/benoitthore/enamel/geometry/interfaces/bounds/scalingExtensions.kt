@@ -4,11 +4,11 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
 
-fun <T : EShape<T>> T.scaleRelative(
+fun <T : EShape<*>> T.scaleRelative(
     scaleFactor: Number,
     pointX: Number,
     pointY: Number,
-    target: T = copy()
+    target: T = copy() as T
 ): T = scaleRelative2D(
     scaleFactorX = scaleFactor,
     scaleFactorY = scaleFactor,
@@ -17,12 +17,12 @@ fun <T : EShape<T>> T.scaleRelative(
     target = target
 )
 
-fun <T : EShape<T>> T.scaleRelative2D(
+fun <T : EShape<*>> T.scaleRelative2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     pointX: Number,
     pointY: Number,
-    target: T = copy()
+    target: T = copy() as T
 ): T {
     target.setBounds(this)
 
@@ -41,19 +41,19 @@ fun <T : EShape<T>> T.scaleRelative2D(
 //// //// //// //// //// //// //// ////
 //// //// //// //// //// //// //// ////
 
-fun <T : EShape<T>> T.scaleAnchor(
+fun <T : EShape<*>> T.scaleAnchor(
     scaleFactor: Number,
     anchor: EPoint,
-    target: T = copy()
+    target: T = copy() as T
 ) =
     scaleAnchor(scaleFactor, anchor.x, anchor.y, target)
 
 
-fun <T : EShape<T>> T.scaleAnchor2D(
+fun <T : EShape<*>> T.scaleAnchor2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     anchor: EPoint,
-    target: T = copy()
+    target: T = copy() as T
 ) =
     scaleAnchor2D(
         scaleFactorX = scaleFactorX,
@@ -64,11 +64,11 @@ fun <T : EShape<T>> T.scaleAnchor2D(
     )
 
 
-fun <T : EShape<T>> T.scaleAnchor(
+fun <T : EShape<*>> T.scaleAnchor(
     scaleFactor: Number,
     anchorX: Number,
     anchorY: Number,
-    target: T = copy()
+    target: T = copy() as T
 ) = scaleRelative(
     scaleFactor = scaleFactor,
     pointX = pointAtAnchorX(anchorX),
@@ -76,12 +76,12 @@ fun <T : EShape<T>> T.scaleAnchor(
     target = target
 )
 
-fun <T : EShape<T>> T.scaleAnchor2D(
+fun <T : EShape<*>> T.scaleAnchor2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     anchorX: Number,
     anchorY: Number,
-    target: T = copy()
+    target: T = copy() as T
 ) = scaleRelative2D(
     scaleFactorX = scaleFactorX,
     scaleFactorY = scaleFactorY,
@@ -91,10 +91,10 @@ fun <T : EShape<T>> T.scaleAnchor2D(
 )
 
 
-fun <T : EShape<T>> T.scaleRelative(
+fun <T : EShape<*>> T.scaleRelative(
     scaleFactor: Number,
     point: EPoint,
-    target: T = copy()
+    target: T = copy() as T
 ) = scaleRelative(
     scaleFactor = scaleFactor,
     pointX = point.x,
@@ -102,11 +102,11 @@ fun <T : EShape<T>> T.scaleRelative(
     target = target
 )
 
-fun <T : EShape<T>> T.scaleRelative2D(
+fun <T : EShape<*>> T.scaleRelative2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     point: EPoint,
-    target: T = copy()
+    target: T = copy() as T
 ) = scaleRelative2D(
     scaleFactorX = scaleFactorX,
     scaleFactorY = scaleFactorY,

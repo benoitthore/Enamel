@@ -11,7 +11,7 @@ import com.benoitthore.visualentity.style.EStyleable
 
 fun RectVisualEntity.toAndroid(): RectVisualEntityAndroid {
     return RectVisualEntityAndroidImpl(
-        this,
+        copy(),
         VisualEntityDrawer(
             style
         ) { canvas, paint ->

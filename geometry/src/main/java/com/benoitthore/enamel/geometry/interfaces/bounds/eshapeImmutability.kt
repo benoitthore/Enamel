@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.geometry.interfaces.bounds
 
 import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.geometry.alignement.NamedPoint
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
@@ -51,7 +52,6 @@ fun ERect.containsFull(p: EPoint, radius: Number): Boolean =
 
 fun ERect.containsFull(c: ECircle): Boolean = containsFull(c.center, c.radius)
 
-// TODO The functions considers the circle to be a square which doesn't work on the edges
 fun ERect.containsFull(x: Number, y: Number, radius: Number): Boolean =
     radius.f.let { radius ->
         containsFull(
@@ -130,19 +130,19 @@ fun EShape<*>.anchorAtPoint(
 }
 
 fun EShape<*>.getCenter(target: EPoint = E.Point()): EPoint =
-    pointAtAnchor(0.5f, 0.5f, target)
+    pointAtAnchor(NamedPoint.center, target)
 
 fun EShape<*>.getTopLeft(target: EPoint = E.Point()): EPoint =
-    pointAtAnchor(0f, 0f, target)
+    pointAtAnchor(NamedPoint.topLeft, target)
 
 fun EShape<*>.getTopRight(target: EPoint = E.Point()): EPoint =
-    pointAtAnchor(1f, 0.0f, target)
+    pointAtAnchor(NamedPoint.topRight, target)
 
 fun EShape<*>.getBottomRight(target: EPoint = E.Point()): EPoint =
-    pointAtAnchor(1f, 1f, target)
+    pointAtAnchor(NamedPoint.bottomRight, target)
 
 fun EShape<*>.getBottomLeft(target: EPoint = E.Point()): EPoint =
-    pointAtAnchor(0f, 1f, target)
+    pointAtAnchor(NamedPoint.bottomLeft, target)
 
 
 // TODO Move
@@ -154,7 +154,7 @@ fun ERect.toPointList(
         E.Point()
     )
 ): List<EPoint> {
-    require(target.size == 4) {
+    require(target.size > 4) {
         "Needs 4 points in target"
     }
     target[0].set(top, left)
@@ -183,7 +183,7 @@ fun EShape<*>.diagonalTLBR(target: ELine = E.Line()): ELine {
 }
 
 
-fun <T : EShape<T>> T.map(
+fun <T : EShape<*>> T.map(
     fromX: Number,
     fromY: Number,
     fromWidth: Number,
@@ -192,7 +192,7 @@ fun <T : EShape<T>> T.map(
     toY: Number,
     toWidth: Number,
     toHeight: Number,
-    target: T = copy()
+    target: T = copy() as T
 ): T {
     target.setBounds(this)
 
@@ -254,39 +254,42 @@ fun List<EShape<*>>.union(target: ERect = E.Rect()): ERect {
 
 
 // Changing
-fun <T : EShape<T>> T.offset(
-    p: Tuple2, target: T = copy()
+fun <T : EShape<*>> T.offset(
+    p: Tuple2, target: T = copy() as T
 ): T {
     return offset(p.v1, p.v2, target)
 }
 
-fun <T : EShape<T>> T.offset(
+fun <T : EShape<*>> T.offset(
     x: Number,
     y: Number,
-    target: T = copy()
+    target: T = copy() as T
 ): T {
     target.setOriginSize(originX + x.f, originY + y.f, width, height)
     return target
 }
 
-// TODO Expand/Inset/Padding -> align
-fun <T : EShape<T>> T.inset(margin: Number, target: T = copy()) = inset(margin, margin, target)
+fun <T : EShape<*>> T.inset(margin: Number, target: T = copy() as T) = inset(margin, margin, target)
 
-fun <T : EShape<T>> T.inset(p: Tuple2, target: T = copy()) = inset(p.v1, p.v2, target)
+fun <T : EShape<*>> T.inset(p: Tuple2, target: T = copy() as T) = inset(p.v1, p.v2, target)
 
-fun <T : EShape<T>> T.inset(
+fun <T : EShape<*>> T.inset(
     x: Number,
     y: Number,
-    target: T = copy()
+    target: T = copy() as T
 ) =
     inset(left = x, top = y, right = x, bottom = y, target = target)
 
-fun <T : EShape<T>> T.inset(
+fun <T : EShape<*>> T.inset(
     left: Number = 0,
     top: Number = 0,
     right: Number = 0,
     bottom: Number = 0,
-    target: T = copy()
+    // TODO Sort out functions
+    // TODO Implement this "as T" everywhere
+    // TODO Make list of function and behaviour at the same time
+    
+    target: T = copy() as T
 ): T {
     target._setBounds(
         left = this.left + left.toFloat(),
@@ -297,22 +300,22 @@ fun <T : EShape<T>> T.inset(
     return target
 }
 
-fun <T : EShape<T>> T.expand(margin: Number, target: T = copy()) = expand(margin, margin, target)
+fun <T : EShape<*>> T.expand(margin: Number, target: T = copy() as T) = expand(margin, margin, target)
 
-fun <T : EShape<T>> T.expand(p: Tuple2, target: T = copy()) = expand(p.v1, p.v2, target)
+fun <T : EShape<*>> T.expand(p: Tuple2, target: T = copy() as T) = expand(p.v1, p.v2, target)
 
-fun <T : EShape<T>> T.expand(
+fun <T : EShape<*>> T.expand(
     x: Number = 0f,
     y: Number = 0f,
-    target: T = copy()
+    target: T = copy() as T
 ) = inset(-x.f, -y.f, target)
 
-fun <T : EShape<T>> T.expand(
+fun <T : EShape<*>> T.expand(
     left: Number = 0,
     top: Number = 0,
     right: Number = 0,
     bottom: Number = 0,
-    target: T = copy()
+    target: T = copy() as T
 ) = inset(
     left = -left.toFloat(),
     top = -top.toFloat(),
@@ -321,7 +324,7 @@ fun <T : EShape<T>> T.expand(
     target = target
 )
 
-fun <T : EShape<T>> T.expand(padding: EOffset, target: T = copy()) = expand(
+fun <T : EShape<*>> T.expand(padding: EOffset, target: T = copy() as T) = expand(
     left = padding.left,
     top = padding.top,
     right = padding.right,
@@ -329,12 +332,12 @@ fun <T : EShape<T>> T.expand(padding: EOffset, target: T = copy()) = expand(
     target = target
 )
 
-fun <T : EShape<T>> T.padding(
+fun <T : EShape<*>> T.padding(
     top: Number = 0f,
     bottom: Number = 0f,
     left: Number = 0f,
     right: Number = 0f,
-    target: T = copy()
+    target: T = copy() as T
 ) = inset(
     left = left,
     top = top,
@@ -343,9 +346,9 @@ fun <T : EShape<T>> T.padding(
     target = target
 )
 
-fun <T : EShape<T>> T.padding(
+fun <T : EShape<*>> T.padding(
     padding: EOffset,
-    target: T = copy()
+    target: T = copy() as T
 ) =
     padding(
         left = padding.left,
@@ -356,10 +359,10 @@ fun <T : EShape<T>> T.padding(
     )
 
 
-fun <T : EShape<T>> T.map(
+fun <T : EShape<*>> T.map(
     from: EShape<*>,
     to: EShape<*>,
-    target: T = copy()
+    target: T = copy() as T
 ) = map(
     fromX = from.originX,
     fromY = from.originY,

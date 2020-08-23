@@ -11,7 +11,7 @@ import com.benoitthore.visualentity.style.EStyleable
 
 fun OvalVisualEntity.toAndroid(): OvalVisualEntityAndroid {
     return OvalVisualEntityAndroidImpl(
-        this,
+        copy(),
         VisualEntityDrawer(
             style
         ) { canvas, paint ->

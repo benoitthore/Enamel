@@ -11,7 +11,7 @@ import com.benoitthore.visualentity.style.EStyleable
 
 fun LineVisualEntity.toAndroid(): LineVisualEntityAndroid {
     return LineVisualEntityAndroidImpl(
-        this,
+        copy(),
         VisualEntityDrawer(
             style
         ) { canvas, paint ->

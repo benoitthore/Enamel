@@ -6,11 +6,13 @@ import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.alignement.NamedPoint
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.innerCircle
 import com.benoitthore.enamel.geometry.interfaces.bounds.*
 import com.benoitthore.enamel.geometry.primitives.angle.rotations
 import com.benoitthore.enamel.geometry.primitives.div
 import com.benoitthore.enamel.geometry.toRect
+import com.benoitthore.visualentity.toVisualEntity
 
 fun main() {
     runApplet<TmpApplet>()
@@ -36,12 +38,24 @@ class TmpApplet : KotlinPApplet() {
     var scaleFactor = 0.5f
     override fun draw() {
         background(0)
+        stroke(255)
+        strokeWeight(2f)
+        noFill()
 
         val colors = listOf(0xFF_00_00, 0xF18E33, 0x438eff)
 
-        val rect = getViewBounds().selfScaleAnchor(scaleFactor, NamedPoint.center)
+        val rect = getViewBounds()//.selfScaleAnchor(scaleFactor, NamedPoint.center)
         val circle = rect.innerCircle()
-        radialGradient(circle, colors)
+        val line = rect.diagonalTLBR()
+
+        listOf(rect, line, circle).forEach {
+             it.selfInset(10)
+        }
+        draw(rect)
+        draw(circle)
+        draw(line)
+
+
 
         noLoop()
 
