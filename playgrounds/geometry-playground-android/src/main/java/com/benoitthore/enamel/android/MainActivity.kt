@@ -1,26 +1,56 @@
 package com.benoitthore.enamel.android
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Color.*
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.*
-import android.widget.*
-import android.graphics.Color.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.benoitthore.enamel.R
 import com.benoitthore.enamel.android.demos.BaseDemoFragment
 import com.benoitthore.enamel.databinding.ActivityMainBinding
 import com.benoitthore.enamel.databinding.DemoItemBinding
 import com.benoitthore.enamel.android.demos.views.*
+import com.benoitthore.enamel.core.withAlpha
+import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.functions.scale
+import com.benoitthore.enamel.geometry.functions.toRect
+import com.benoitthore.enamel.layout.android.getViewBounds
+import com.benoitthore.visualentity.DemoDrawer
+import com.benoitthore.enamel.visualentity.android.draw
+import com.benoitthore.enamel.visualentity.android.toAndroid
+import com.benoitthore.enamel.visualentity.android.utils.dp
+import com.benoitthore.visualentity.style.style
+import com.benoitthore.visualentity.toVisualEntity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity() : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setContentView(object : View(this) {
+            val drawer = DemoDrawer { toAndroid() }
+
+            override fun onDraw(canvas: Canvas) {
+                canvas.drawColor(BLACK)
+
+                drawer.getDrawables(getViewBounds()).forEach {
+                    it.style = it.style.copy(
+                        border = it.style.border?.copy(
+                            width = it.style.border?.width?.dp ?: 0f
+                        )
+                    )
+                    canvas.draw(it)
+                }
+                invalidate()
+            }
+        })
+        return
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 

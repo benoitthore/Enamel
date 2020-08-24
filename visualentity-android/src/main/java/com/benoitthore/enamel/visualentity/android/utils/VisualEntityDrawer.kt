@@ -5,7 +5,7 @@ import android.graphics.Paint
 import com.benoitthore.visualentity.style.EStyle
 import com.benoitthore.visualentity.style.EStyleable
 
-class VisualEntityDrawer(style: EStyle, val draw: (Canvas, Paint) -> Unit) : EStyleable {
+class VisualEntityDrawer(style: EStyle, internal val draw: (Canvas, Paint) -> Unit) : EStyleable {
 
     /**
      * Update only the necessary fields, since setMesh can allocate a gradient

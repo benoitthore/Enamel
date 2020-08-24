@@ -19,7 +19,6 @@ fun PApplet.drawVE(visualEntities: List<ProcessingVisualEntity<*>>) {
     visualEntities.forEach { drawVE(it) }
 }
 
-
 fun PApplet.drawVE(visualEntity: ProcessingVisualEntity<*>) {
     val papplet = this
     withTransform(visualEntity.transform) {
@@ -29,25 +28,23 @@ fun PApplet.drawVE(visualEntity: ProcessingVisualEntity<*>) {
         noFill()
 
         visualEntity.style.fill?.color?.let { color ->
-            if (color > 0xFFFFFF) TODO("Alpha not supported")
-//          val a = (color shr 24 and 0xff).toFloat()
+            val a = (color shr 24 and 0xff).toFloat()
             val r = (color shr 16 and 0xff).toFloat()
             val g = (color shr 8 and 0xff).toFloat()
             val b = (color and 0xff).toFloat()
 
-            fill(r, g, b, 255f)
+            fill(r, g, b, a)
         }
 
         visualEntity.style.border?.let { border ->
 
             border.mesh.color?.let { color ->
-                if (color > 0xFFFFFF) TODO("Alpha not supported")
-//          val a = (color shr 24 and 0xff).toFloat()
+                val a = (color shr 24 and 0xff).toFloat()
                 val r = (color shr 16 and 0xff).toFloat()
                 val g = (color shr 8 and 0xff).toFloat()
                 val b = (color and 0xff).toFloat()
 
-                stroke(r, g, b, 255f)
+                stroke(r, g, b, a)
             }
             visualEntity.style.border?.width?.let { strokeWeight(it) }
         }
