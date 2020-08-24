@@ -9,8 +9,7 @@ interface SizeBuilder : BaseBuilder {
 
     //
 
-    fun msizeSquare(n: Number) = Size(n, n)
-    fun SizeSquare(n: Number): ESize = msizeSquare(n)
+    fun SizeSquare(n: Number) = Size(n, n)
 
     val Size get() = _Size
 

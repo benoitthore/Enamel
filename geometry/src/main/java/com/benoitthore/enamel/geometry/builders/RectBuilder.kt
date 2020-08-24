@@ -117,6 +117,6 @@ interface RectBuilder : SizeBuilder, PointBuilder, BaseBuilder {
     val Rect get() = _Rect
 
     object _Rect {
-        fun Square(size: Int) = E.Rect(width = size, height = size)
+        fun Square(size: Number) = E.Rect(width = size, height = size)
     }
 }

@@ -32,38 +32,13 @@ class TmpApplet : KotlinPApplet() {
         surface.setResizable(true)
     }
 
-    val runner = DemoRunner(Demos[0])
+    val runner = DemoRunner(Demos[1])
 
 
     var progress = 0f
     override fun draw() {
         background(0)
         stroke(255)
-
-
-//        if (progress > 1f) {
-//            progress = 0f
-//        }
-//
-//
-//        val origin = getViewBounds().scaleAnchor(0.25, NamedPoint.topLeft).innerCircle()
-//            .toVisualEntity { strokeColor = 0xff0000 ; strokeWidth = 5 }.toProcessing()
-//
-//        origin.setOriginSize(0,0,125,125)
-//        val dest = getViewBounds().scaleAnchor(0.25, NamedPoint.bottomRight).innerCircle()
-//            .toVisualEntity { strokeColor = 0x00ff00 ; strokeWidth = 5 }.toProcessing()
-//
-//
-//        val ve = origin
-//            .innerCircle()
-//            .selfLerp(progress, origin, dest)
-//            .toVisualEntity { fillColor = 0xffffff }.toProcessing()
-//        drawVE(ve
-//            , origin, dest
-//        )
-//        progress += 0.02f
-//
-//        return
 
         val progressBar = E.Rect(
             height = (this.height * 0.005f).coerceAtLeast(1f),

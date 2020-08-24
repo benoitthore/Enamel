@@ -2,14 +2,14 @@ package com.benoitthore.enamel.processing.demo
 
 import com.benoitthore.enamel.geometry.alignement.EAlignment.*
 import com.benoitthore.enamel.geometry.alignement.NamedPoint
-import com.benoitthore.enamel.geometry.alignement.selfAlign
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.circle.ECircle
+import com.benoitthore.enamel.geometry.figures.line.line
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.functions.*
-import com.benoitthore.enamel.geometry.selfLerp
-import com.benoitthore.visualentity.ECircleVisualEntity
-import com.benoitthore.visualentity.ERectVisualEntity
+import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.visualentity.ELineVisualEntity
 import com.benoitthore.visualentity.VisualEntity
 import com.benoitthore.visualentity.style.style
 import com.benoitthore.visualentity.toVisualEntity
@@ -32,51 +32,48 @@ interface EDemo {
 }
 
 
-private val followerStyle = E.style { strokeColor = 0xFF0000 }
+private val followerStyle = E.style { strokeColor = 0xFFFF00 }
 private val rectStyle = E.style { strokeColor = 0x0000FF }
+private val debugStyle = E.style { strokeColor = 0xff0000 }
+private val crossStyle = E.style { strokeColor = 0xff0000  ; strokeWidth = 2f}
 
 private fun ERect.createRect() = scaleAnchor(0.5).toRect().toVisualEntity(rectStyle)
 private fun ERect.createFollower() =
-    scaleAnchor(0.25, NamedPoint.topLeft).innerCircle().toVisualEntity(followerStyle)
+    E.Circle().setOriginSize(size = E.SizeSquare(size.min / 4)).toVisualEntity(followerStyle)
 
-data class DemoAgents(
-    val staticShape: ERectVisualEntity,
-    val mover: ECircleVisualEntity,
-    val target: ECircleVisualEntity,
-    val origin: ECircleVisualEntity
-)
+private fun ERect.createCross(at: EPoint): List<ELineVisualEntity> {
+    val frame = E.Rect.Square(size.min * 0.05)
+    val l1 =
+        frame.toLine(topCenter, bottomCenter)
+    val l2 =
+        frame.toLine(leftCenter, rightCenter)
 
-private fun createDemoAgents(frame: ERect) = DemoAgents(
-    staticShape = frame.createRect().toVisualEntity { strokeColor = 0x0000FF }
-        .selfAlignInside(frame, center),
-    mover = frame.createFollower(),
-    target = frame.createFollower().toVisualEntity { strokeColor = 0x00ff00 },
-    origin = frame.createFollower().toVisualEntity { strokeColor = 0x00ff00 }
-)
+    return listOf(l1, l2)
+        .map {
+            it.setCenter(at)
+        }
+        .map { it.toVisualEntity(crossStyle) }
+}
+
 
 val Demos = listOf(
-    createDemoFunction("TEST") { frame, progress ->
-        val (staticShape, mover, target, origin) = createDemoAgents(frame)
-
-
-        target.selfAlignInside(staticShape, center)
-
-        mover.selfLerp(progress, from = mover, to = target)
-
-        listOf(target, origin, staticShape, mover)
-    },
-    createDemoFunction("setBounds with Other EShape") { frame, progress ->
+    createDemoFunction("setBounds with other EShape") { frame, progress ->
         val rect = frame.createRect()
         val follower = frame.createFollower()
-        val target = frame.createFollower().toVisualEntity { strokeColor = 0x00ff00 }
-        val origin = frame.createFollower().toVisualEntity { strokeColor = 0x00ff00 }
 
-        rect.selfAlignInside(frame, center)
+        follower.setBounds(rect)
 
-        target.selfAlignInside(rect, center)
+        listOf(rect, follower)
+    },
+    createDemoFunction("setOrigin center") { frame, progress ->
 
-        follower.selfLerp(progress, from = follower, to = target)
+        val rect = frame.createRect()
+        val follower = frame.createFollower()
 
-        listOf(target, origin, rect, follower)
+        val center = rect.getCenter()
+        val cross = frame.createCross(at = center)
+        follower.setOrigin(center)
+
+        listOf(rect, follower) + cross
     }
 )

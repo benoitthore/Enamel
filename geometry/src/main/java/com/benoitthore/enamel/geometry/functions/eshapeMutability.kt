@@ -16,8 +16,8 @@ fun <T : EShape<*>> T.setBounds(other: EShape<*>): T = apply {
 }
 
 fun <T : EShape<*>> T.setOriginSize(
-    origin: EPoint?,
-    size: ESize?
+    origin: EPoint? = null,
+    size: ESize? = null
 ): T =
     setOriginSize(
         origin?.x ?: originX,
@@ -110,8 +110,9 @@ fun <T : EShape<*>> T.setSize(
     this.height = height.f
 }
 
-fun <T : EShape<*>> T.setCenter(point: EPoint) =
+fun <T : EShape<*>> T.setCenter(point: EPoint) = apply {
     _setCenter(point.x, point.y)
+}
 
 fun <T : EShape<*>> T.setCenter(
     x: Number,

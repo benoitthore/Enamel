@@ -3,8 +3,12 @@ package com.benoitthore.enamel.geometry.functions
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.math.i
+import com.benoitthore.enamel.geometry.alignement.EAlignment
+import com.benoitthore.enamel.geometry.alignement.NamedPoint
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
+import com.benoitthore.enamel.geometry.figures.line.ELine
+import com.benoitthore.enamel.geometry.figures.line.line
 import com.benoitthore.enamel.geometry.figures.oval.EOval
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.size.ESize
@@ -12,6 +16,26 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.angle.degrees
 import kotlin.math.hypot
+
+
+fun <T : EShape<*>> T.toLine(from: EAlignment, to: EAlignment) =
+    toLine(from.namedPoint, to.namedPoint)
+
+/**
+ * Input treated as anchor (0,0 top left - 1,1 bottom right)
+ */
+fun <T : EShape<*>> T.toLine(from: EPoint, to: EPoint) = toLine(from.x, from.y, to.x, to.y)
+
+/**
+ * Input treated as anchor (0,0 top left - 1,1 bottom right)
+ */
+fun <T : EShape<*>> T.toLine(
+    fromX: Number,
+    fromY: Number,
+    toX: Number,
+    toY: Number
+): ELine = pointAtAnchor(fromX, fromY) line pointAtAnchor(toX, toY)
+
 
 fun ECircle.pointAtAngle(angle: EAngle, target: EPoint = E.Point()): EPoint =
     target.set(angle, radius).selfOffset(center)
