@@ -25,41 +25,42 @@ private val spacingSignLeft = E.Point(1, 0)
 private val spacingSignRight = E.Point(-1, 0)
 private val spacingSignCenter = E.Point(0, 0)
 
-enum class EAlignment {
-    topLeft,
-    topCenter,
-    topRight,
-    rightTop,
-    rightCenter,
-    rightBottom,
-    bottomRight,
-    bottomCenter,
-    bottomLeft,
-    leftBottom,
-    leftCenter,
-    leftTop,
-    center,
+enum class EAlignment(
+    val namedPoint: EPoint,
+    val spacingSign: EPoint
+) {
+    topCenter(NamedPoint.topCenter, spacingSignTop),
+    topLeft(NamedPoint.topLeft, spacingSignTop),
+    topRight(NamedPoint.topRight, spacingSignTop),
+    bottomLeft(NamedPoint.bottomLeft, spacingSignBottom),
+    bottomCenter(NamedPoint.bottomCenter, spacingSignBottom),
+    bottomRight(NamedPoint.bottomRight, spacingSignBottom),
+    center(NamedPoint.center, spacingSignCenter),
+    leftTop(NamedPoint.topLeft, spacingSignLeft),
+    leftCenter(NamedPoint.centerLeft, spacingSignLeft),
+    leftBottom(NamedPoint.bottomLeft, spacingSignLeft),
+    rightTop(NamedPoint.topRight, spacingSignRight),
+    rightCenter(NamedPoint.centerRight, spacingSignRight),
+    rightBottom(NamedPoint.bottomRight, spacingSignRight),
     ;
 
-    companion object {
 
-        val all = listOf(
-            topLeft,
-            topCenter,
-            topRight,
-            bottomLeft,
-            bottomCenter,
-            bottomRight,
-            center,
-            leftTop,
-            leftCenter,
-            leftBottom,
-            rightTop,
-            rightCenter,
-            rightBottom
-        )
-    }
-
+    val flipped: EAlignment
+        get() = when (this) {
+            topLeft -> bottomLeft
+            topCenter -> bottomCenter
+            topRight -> bottomRight
+            bottomLeft -> topLeft
+            bottomCenter -> topCenter
+            bottomRight -> topRight
+            center -> center
+            leftTop -> rightTop
+            leftCenter -> rightCenter
+            leftBottom -> rightBottom
+            rightTop -> leftTop
+            rightCenter -> leftCenter
+            rightBottom -> leftBottom
+        }
     val isTop: Boolean
         get() =
             this == topLeft || this == topCenter || this == topRight ||
@@ -83,22 +84,6 @@ enum class EAlignment {
 
     val isCenter: Boolean get() = this == center
 
-    val namedPoint: EPoint
-        get() = when (this) {
-            topCenter -> NamedPoint.topCenter
-            topLeft -> NamedPoint.topLeft
-            topRight -> NamedPoint.topRight
-            bottomLeft -> NamedPoint.bottomLeft
-            bottomCenter -> NamedPoint.bottomCenter
-            bottomRight -> NamedPoint.bottomRight
-            center -> NamedPoint.center
-            leftTop -> NamedPoint.topLeft
-            leftCenter -> NamedPoint.centerLeft
-            leftBottom -> NamedPoint.bottomLeft
-            rightTop -> NamedPoint.topRight
-            rightCenter -> NamedPoint.centerRight
-            rightBottom -> NamedPoint.bottomRight
-        }
 
     val isVertical: Boolean
         get() = when (this) {
@@ -117,37 +102,4 @@ enum class EAlignment {
     val isHorizontal: Boolean
         get() = this == center || !isVertical
 
-    val spacingSign: EPoint
-        get() = when (this) {
-            topLeft -> spacingSignTop
-            topCenter -> spacingSignTop
-            topRight -> spacingSignTop
-            bottomLeft -> spacingSignBottom
-            bottomCenter -> spacingSignBottom
-            bottomRight -> spacingSignBottom
-            center -> spacingSignCenter
-            leftTop -> spacingSignLeft
-            leftCenter -> spacingSignLeft
-            leftBottom -> spacingSignLeft
-            rightTop -> spacingSignRight
-            rightCenter -> spacingSignRight
-            rightBottom -> spacingSignRight
-        }
-
-    val flipped: EAlignment
-        get() = when (this) {
-            topLeft -> bottomLeft
-            topCenter -> bottomCenter
-            topRight -> bottomRight
-            bottomLeft -> topLeft
-            bottomCenter -> topCenter
-            bottomRight -> topRight
-            center -> center
-            leftTop -> rightTop
-            leftCenter -> rightCenter
-            leftBottom -> rightBottom
-            rightTop -> leftTop
-            rightCenter -> leftCenter
-            rightBottom -> leftBottom
-        }
 }
