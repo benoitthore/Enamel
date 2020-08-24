@@ -186,15 +186,15 @@ fun <T : EShape<*>> T.selfPadding(
 fun <T : EShape<*>> T.selfExpand(padding: EOffset): T =
     apply { expand(padding, this) }
 
-fun <T : EShape<*>> T.selfScaleAnchor(factor: Number, anchor: EPoint): T =
-    apply { scaleAnchor(factor, anchor, this) }
+fun <T : EShape<*>> T.selfScale(factor: Number, anchor: EPoint): T =
+    apply { scale(factor, anchor, this) }
 
-fun <T : EShape<*>> T.selfScaleAnchor(
+fun <T : EShape<*>> T.selfScale(
     factor: Number,
     anchorX: Number,
     anchorY: Number
 ) =
-    apply { scaleAnchor(factor, anchorX, anchorY, this) }
+    apply { scale(factor, anchorX, anchorY, this) }
 
 fun <T : EShape<*>> T.selfScaleRelative(
     factor: Number,

@@ -42,52 +42,52 @@ fun <T : EShape<*>> T.scaleRelative2D(
 //// //// //// //// //// //// //// ////
 //// //// //// //// //// //// //// ////
 
-fun <T : EShape<*>> T.scaleAnchor(
+fun <T : EShape<*>> T.scale(
     scaleFactor: Number,
-    anchor: EPoint = NamedPoint.center,
+    pivot: EPoint = NamedPoint.center,
     target: T = copy() as T
 ) =
-    scaleAnchor(scaleFactor, anchor.x, anchor.y, target)
+    scale(scaleFactor, pivot.x, pivot.y, target)
 
 
-fun <T : EShape<*>> T.scaleAnchor2D(
+fun <T : EShape<*>> T.scale2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
-    anchor: EPoint,
+    pivot: EPoint,
     target: T = copy() as T
 ) =
-    scaleAnchor2D(
+    scale2D(
         scaleFactorX = scaleFactorX,
         scaleFactorY = scaleFactorY,
-        anchorX = anchor.x,
-        anchorY = anchor.y,
+        pivotX = pivot.x,
+        pivotY = pivot.y,
         target = target
     )
 
 
-fun <T : EShape<*>> T.scaleAnchor(
+fun <T : EShape<*>> T.scale(
     scaleFactor: Number,
-    anchorX: Number,
-    anchorY: Number,
+    pivotX: Number,
+    pivotY: Number,
     target: T = copy() as T
 ) = scaleRelative(
     scaleFactor = scaleFactor,
-    pointX = pointAtAnchorX(anchorX),
-    pointY = pointAtAnchorY(anchorY),
+    pointX = pointAtAnchorX(pivotX),
+    pointY = pointAtAnchorY(pivotY),
     target = target
 )
 
-fun <T : EShape<*>> T.scaleAnchor2D(
+fun <T : EShape<*>> T.scale2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
-    anchorX: Number,
-    anchorY: Number,
+    pivotX: Number,
+    pivotY: Number,
     target: T = copy() as T
 ) = scaleRelative2D(
     scaleFactorX = scaleFactorX,
     scaleFactorY = scaleFactorY,
-    pointX = pointAtAnchorX(anchorX),
-    pointY = pointAtAnchorY(anchorY),
+    pointX = pointAtAnchorX(pivotX),
+    pointY = pointAtAnchorY(pivotY),
     target = target
 )
 

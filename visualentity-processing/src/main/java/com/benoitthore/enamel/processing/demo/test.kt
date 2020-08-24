@@ -5,7 +5,7 @@ import com.benoitthore.enamel.geometry.alignement.NamedPoint
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.functions.innerCircle
 import com.benoitthore.enamel.geometry.functions.inset
-import com.benoitthore.enamel.geometry.functions.scaleAnchor
+import com.benoitthore.enamel.geometry.functions.scale
 import com.benoitthore.enamel.geometry.functions.setOriginSize
 import com.benoitthore.enamel.geometry.selfLerp
 import com.benoitthore.enamel.processing.KotlinPApplet

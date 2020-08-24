@@ -37,7 +37,7 @@ private val rectStyle = E.style { strokeColor = 0x0000FF }
 private val debugStyle = E.style { strokeColor = 0xff0000 }
 private val crossStyle = E.style { strokeColor = 0xff0000  ; strokeWidth = 2f}
 
-private fun ERect.createRect() = scaleAnchor(0.5).toRect().toVisualEntity(rectStyle)
+private fun ERect.createRect() = scale(0.5).toRect().toVisualEntity(rectStyle)
 private fun ERect.createFollower() =
     E.Circle().setOriginSize(size = E.SizeSquare(size.min / 4)).toVisualEntity(followerStyle)
 
