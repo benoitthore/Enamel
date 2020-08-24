@@ -16,26 +16,16 @@ import com.benoitthore.visualentity.toVisualEntity
 
 typealias EDemoFunction = (frame: ERect, progress: Float) -> List<VisualEntity<*>>
 
-fun createDemoFunction(name: String, function: EDemoFunction): EDemo = object :
-    EDemo {
-    override val name: String get() = name
-
-    override fun get(frame: ERect, progress: Float): List<VisualEntity<*>> =
-        function.invoke(frame, progress)
-}
-
-
-interface EDemo {
-    val name: String
-    val animationSpeed: Long? get() = null
-    fun get(frame: ERect, progress: Float): List<VisualEntity<*>>
-}
-
+data class EDemo(
+    val name: String,
+    val animationSpeed: Long? = null,
+    val get: (frame: ERect, progress: Float) -> List<VisualEntity<*>>
+)
 
 private val followerStyle = E.style { strokeColor = 0xFFFF00 }
 private val rectStyle = E.style { strokeColor = 0x0000FF }
 private val debugStyle = E.style { strokeColor = 0xff0000 }
-private val crossStyle = E.style { strokeColor = 0xff0000  ; strokeWidth = 2f}
+private val crossStyle = E.style { strokeColor = 0xff0000; strokeWidth = 2f }
 
 private fun ERect.createRect() = scale(0.5).toRect().toVisualEntity(rectStyle)
 private fun ERect.createFollower() =
@@ -57,7 +47,7 @@ private fun ERect.createCross(at: EPoint): List<ELineVisualEntity> {
 
 
 val Demos = listOf(
-    createDemoFunction("setBounds with other EShape") { frame, progress ->
+    EDemo("setBounds with other EShape") { frame, progress ->
         val rect = frame.createRect()
         val follower = frame.createFollower()
 
@@ -65,7 +55,7 @@ val Demos = listOf(
 
         listOf(rect, follower)
     },
-    createDemoFunction("setOrigin center") { frame, progress ->
+    EDemo("setOrigin center") { frame, progress ->
 
         val rect = frame.createRect()
         val follower = frame.createFollower()

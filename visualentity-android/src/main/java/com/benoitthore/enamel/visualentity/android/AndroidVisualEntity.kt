@@ -12,7 +12,7 @@ interface AndroidVisualEntity<T : EShape<T>> : VisualEntity<T> {
 }
 
 
-fun Canvas.drawFromCenter(block: Canvas.() -> Unit) {
+inline fun Canvas.drawFromCenter(crossinline block: Canvas.() -> Unit) {
     withSave {
         translate(width / 2f, height / 2f)
         block()

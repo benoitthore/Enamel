@@ -3,7 +3,7 @@ package com.benoitthore.enamel.processing.visualentity
 import com.benoitthore.visualentity.*
 import java.lang.Exception
 
-fun VisualEntity<*>.toProcessingGeneric(): ProcessingVisualEntity<*> =
+fun VisualEntity<*>.toProcessing(): ProcessingVisualEntity<*> =
     when (this) {
         is ECircleVisualEntity -> toProcessing()
         is ERectVisualEntity -> toProcessing()
