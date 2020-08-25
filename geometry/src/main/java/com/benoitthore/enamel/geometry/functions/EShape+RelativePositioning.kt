@@ -8,8 +8,7 @@ import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.point.point
 
 
-
-fun <T : EShape<*>> T.selfOffset(x: Number, y: Number): T =
+fun <T : EShape<*>> T.selfOffset(x: Number = 0, y: Number = 0): T =
     apply { offset(x, y, this) }
 
 fun <T : EShape<*>> T.selfOffset(p: Tuple2): T =

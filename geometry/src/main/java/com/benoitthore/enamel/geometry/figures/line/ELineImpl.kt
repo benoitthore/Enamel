@@ -75,7 +75,7 @@ internal class ELineImpl internal constructor(
     override var width: Float
         get() = right - left
         set(value) {
-            val delta = height + value
+            val delta = width + value
             _setBounds(
                 left = left + delta / 2f,
                 right = right - delta / 2f,

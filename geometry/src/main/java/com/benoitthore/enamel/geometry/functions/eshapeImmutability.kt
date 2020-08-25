@@ -209,7 +209,7 @@ fun <T : EShape<*>> T.map(
     val right = toX.f + toWidth.f * anchorRight.f
     val bottom = toY.f + toHeight.f * anchorBottom.f
 
-    return target.setSides(
+    return target.setBounds(
         left = left,
         top = top,
         bottom = bottom,

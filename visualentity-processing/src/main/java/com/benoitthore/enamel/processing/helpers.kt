@@ -15,6 +15,9 @@ import com.benoitthore.enamel.geometry.primitives.angle.degrees
 import com.benoitthore.enamel.geometry.primitives.point.point
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.size.size
+import com.benoitthore.enamel.processing.visualentity.ProcessingVisualEntity
+import com.benoitthore.enamel.processing.visualentity.drawVE
+import com.benoitthore.visualentity.VisualEntity
 import processing.core.PApplet
 
 fun PApplet.radialGradient(frame: ECircle, colors: List<Int>, resolution: Int = 1) {
@@ -140,5 +143,9 @@ open class KotlinPApplet : PApplet() {
 
     fun <T : ELine> T.draw() = apply {
         draw(this)
+    }
+
+    fun <T : ProcessingVisualEntity<*>> T.drawVE() = apply {
+        drawVE(this)
     }
 }

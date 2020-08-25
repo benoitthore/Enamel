@@ -7,6 +7,20 @@ import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.point.point
 
+fun <T : EShape<*>> T.setBounds(
+    left: Number = this.left,
+    top: Number = this.top,
+    right: Number = this.right,
+    bottom: Number = this.bottom
+): T = apply {
+    _setBounds(
+        left = left,
+        top = top,
+        right = right,
+        bottom = bottom
+    )
+}
+
 /**
  * Set the shape's bounds to be equal to the other shapes bounds
  * @return the shape that the function was called on
@@ -99,10 +113,6 @@ fun <T : EShape<*>> T.setBounds(
  */
 fun <T : EShape<*>> T.setSize(size: ESize): T = setSize(size.width, size.height)
 
-// TODO make sure this comment is valid for every shape, if not, change the behaviour to resize from center
-//  it is important that when updating width/height, the shape's center doesn't change
-
-// TODO Once done, setSize() so it calls setBounds and resizes from center
 /**
  * Set the shape's size to the specified value, keeping its center at the same location
  * @return the shape that the function was called on

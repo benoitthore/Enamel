@@ -6,7 +6,6 @@ import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.functions.setBounds
-import com.benoitthore.enamel.geometry.functions.setSides
 import com.benoitthore.enamel.geometry.functions.union
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
@@ -143,7 +142,7 @@ interface ERectGroup<T : EShape<*>> :
             val fromWidth = frame.width
             val fromHeight = frame.height
 
-            _frame.setSides(left, top, right, bottom)
+            _frame.setBounds(left, top, right, bottom)
 
             val toX = frame.originX
             val toY = frame.originY
@@ -166,7 +165,7 @@ interface ERectGroup<T : EShape<*>> :
                 val right = toX.f + toWidth.f * anchorRight.f
                 val bottom = toY.f + toHeight.f * anchorBottom.f
 
-                rect.setSides(
+                rect.setBounds(
                     left = left,
                     top = top,
                     bottom = bottom,
