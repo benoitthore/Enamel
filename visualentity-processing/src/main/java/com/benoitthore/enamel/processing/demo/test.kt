@@ -6,6 +6,7 @@ import com.benoitthore.enamel.processing.runApplet
 import com.benoitthore.enamel.processing.visualentity.drawVE
 import com.benoitthore.enamel.processing.visualentity.toProcessing
 import com.benoitthore.visualentity.DemoDrawer
+import com.benoitthore.visualentity.DemoRunner
 
 fun main() {
     runApplet<TmpApplet>()
@@ -22,7 +23,9 @@ class TmpApplet : KotlinPApplet() {
         surface.setResizable(true)
     }
 
-    val drawer = DemoDrawer { toProcessing() }
+    val INDEX = 0
+
+    val drawer = DemoDrawer(DemoRunner(com.benoitthore.visualentity.Demos[INDEX])) { toProcessing() }
 
     override fun draw() {
         background(0)

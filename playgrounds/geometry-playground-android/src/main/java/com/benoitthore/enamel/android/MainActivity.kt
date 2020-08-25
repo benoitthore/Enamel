@@ -4,10 +4,14 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Color.*
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.TextPaint
 import android.view.LayoutInflater
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.TypefaceCompatUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.benoitthore.enamel.R
 import com.benoitthore.enamel.android.demos.BaseDemoFragment

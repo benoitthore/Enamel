@@ -1,7 +1,6 @@
 package com.benoitthore.enamel.geometry.figures.circle
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.core.print
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
@@ -79,16 +78,23 @@ internal class ECircleImpl internal constructor(
     override val center: EPoint = E.Point(centerX, centerY)
 
     /**
-     * In case the bounds don't define a square, the circle gets align on the top left of the
+     * In case the bounds don't define a square, the circle gets align on the center of the
      * given rectangle and sets the radius to be the half of whichever is smaller width or height
      */
     override fun _setBounds(left: Number, top: Number, right: Number, bottom: Number) {
-        val w = (right.f - left.f) / 2f
-        val h = (bottom.f - top.f) / 2f
-        radius = min(w, h)
 
-        center.x = left.f + radius
-        center.y = top.f + radius
+        val left = left.f
+        val top = top.f
+        val right = right.f
+        val bottom = bottom.f
+
+        val width = (right - left) / 2f
+        val height = (bottom - top) / 2f
+        radius = min(width, height)
+
+
+        center.x = (right + left) / 2f
+        center.y = (bottom + top) / 2f
     }
 
     override fun copy(): ECircle = E.Circle(this)

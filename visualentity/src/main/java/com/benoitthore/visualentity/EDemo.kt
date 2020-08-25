@@ -61,7 +61,7 @@ private fun ERect.createCross(at: EPoint): List<ELineVisualEntity> {
 }
 
 class DemoDrawer<T : VisualEntity<*>>(
-    private val runner: DemoRunner = DemoRunner(Demos[1]),
+    private val runner: DemoRunner,
     private val toDrawable: VisualEntity<*>.() -> T
 ) {
     fun getDrawables(frame: ERect): List<T> {
@@ -77,10 +77,7 @@ class DemoDrawer<T : VisualEntity<*>>(
 
         val visualEntities = runner.step(frame)
 
-        return (visualEntities + progressBar).map {
-            val ve = it.toRect().toVisualEntity(it.style)
-            toDrawable(ve)
-        }
+        return (visualEntities + progressBar).map(toDrawable)
     }
 }
 
@@ -101,7 +98,8 @@ val Demos = listOf(
 
         val center = rect.getCenter()
         val cross = frame.createCross(at = center)
-        follower.setOrigin(center + 50 )
+
+        follower.setOrigin(center)
 
         listOf(rect, follower) + cross
     }
