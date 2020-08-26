@@ -8,101 +8,119 @@ import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.point.point
 
 
-fun <T : EShape<*>> T.selfOffset(x: Number = 0, y: Number = 0): T =
-    apply { offset(x, y, this) }
-
-fun <T : EShape<*>> T.selfOffset(p: Tuple2): T =
-    apply { offset(p.v1, p.v2, this) }
-
-fun <T : EShape<*>> T.selfInset(margin: Number): T =
-    apply { inset(margin, margin, this) }
-
-fun <T : EShape<*>> T.selfInset(p: EPoint): T =
-    apply { inset(p.x, p.y, this) }
-
-fun <T : EShape<*>> T.selfInset(x: Number = 0, y: Number = 0): T =
-    apply { inset(x, y, this) }
-
-fun <T : EShape<*>> T.selfExpand(margin: Number): T =
-    apply { expand(margin, margin, this) }
-
-fun <T : EShape<*>> T.selfExpand(p: EPoint): T =
-    apply { expand(p.x, p.y, this) }
-
-fun <T : EShape<*>> T.selfExpand(x: Number, y: Number): T =
-    apply { inset(-x.f, -y.f, this) }
-
-fun <T : EShape<*>> T.selfPadding(padding: EOffset): T =
-    apply { padding(padding, this) }
-
-fun <T : EShape<*>> T.selfPadding(
-    top: Number = 0,
-    bottom: Number = 0,
-    left: Number = 0,
-    right: Number = 0
-): T = apply {
-    padding(
-        top = top,
-        bottom = bottom,
-        left = left,
-        right = right,
-        target = this
-    )
+fun <T : EShape<*>> T.offset(
+    p: Tuple2, target: T = copy()
+): T {
+    return offset(p.v1, p.v2, target)
 }
 
-fun <T : EShape<*>> T.selfExpand(padding: EOffset): T =
-    apply { expand(padding, this) }
+fun <T : EShape<*>> T.offset(
+    x: Number,
+    y: Number,
+    target: T = copy()
+): T {
+    target.setOriginSize(originX + x.f, originY + y.f, width, height)
+    return target
+}
 
-fun <T : EShape<*>> T.selfScale(factor: Number, anchor: EPoint): T =
-    apply { scale(factor, anchor, this) }
+fun <T : EShape<*>> T.inset(margin: Number, target: T = copy()) = inset(margin, margin, target)
 
-fun <T : EShape<*>> T.selfScale(
-    factor: Number,
-    anchorX: Number,
-    anchorY: Number
+fun <T : EShape<*>> T.inset(p: Tuple2, target: T = copy()) = inset(p.v1, p.v2, target)
+
+fun <T : EShape<*>> T.inset(
+    x: Number,
+    y: Number,
+    target: T = copy()
 ) =
-    apply { scale(factor, anchorX, anchorY, this) }
+    inset(left = x, top = y, right = x, bottom = y, target = target)
 
-fun <T : EShape<*>> T.selfScaleRelative(
-    factor: Number,
-    point: EPoint
+fun <T : EShape<*>> T.inset(
+    left: Number = 0,
+    top: Number = 0,
+    right: Number = 0,
+    bottom: Number = 0,
+    target: T = copy()
+): T {
+    target._setBounds(
+        left = this.left + left.toFloat(),
+        top = this.top + top.toFloat(),
+        bottom = this.bottom - bottom.toFloat(),
+        right = this.right - right.toFloat()
+    )
+    return target
+}
+
+fun <T : EShape<*>> T.expand(margin: Number, target: T = copy()) = expand(margin, margin, target)
+
+fun <T : EShape<*>> T.expand(p: Tuple2, target: T = copy()) = expand(p.v1, p.v2, target)
+
+fun <T : EShape<*>> T.expand(
+    x: Number = 0f,
+    y: Number = 0f,
+    target: T = copy()
+) = inset(-x.f, -y.f, target)
+
+fun <T : EShape<*>> T.expand(
+    left: Number = 0,
+    top: Number = 0,
+    right: Number = 0,
+    bottom: Number = 0,
+    target: T = copy()
+) = inset(
+    left = -left.toFloat(),
+    top = -top.toFloat(),
+    right = -right.toFloat(),
+    bottom = -bottom.toFloat(),
+    target = target
+)
+
+fun <T : EShape<*>> T.expand(padding: EOffset, target: T = copy()) = expand(
+    left = padding.left,
+    top = padding.top,
+    right = padding.right,
+    bottom = padding.bottom,
+    target = target
+)
+
+fun <T : EShape<*>> T.padding(
+    top: Number = 0f,
+    bottom: Number = 0f,
+    left: Number = 0f,
+    right: Number = 0f,
+    target: T = copy()
+) = inset(
+    left = left,
+    top = top,
+    bottom = bottom,
+    right = right,
+    target = target
+)
+
+fun <T : EShape<*>> T.padding(
+    padding: EOffset,
+    target: T = copy()
 ) =
+    padding(
+        left = padding.left,
+        top = padding.top,
+        bottom = padding.bottom,
+        right = padding.right,
+        target = target
+    )
 
-    scaleRelative(factor, point, this)
 
-fun <T : EShape<*>> T.selfScaleRelative(
-    factor: Number,
-    pointX: Number,
-    pointY: Number
-) =
-    scaleRelative(scaleFactor = factor, pointX = pointX, pointY = pointY, target = this)
-
-fun <T : EShape<*>> T.selfMap(
+fun <T : EShape<*>> T.map(
     from: EShape<*>,
-    to: EShape<*>
-): T =
-    apply { map(from, to, this) }
-
-fun <T : EShape<*>> T.selfMap(
-    fromX: Number,
-    fromY: Number,
-    fromWidth: Number,
-    fromHeight: Number,
-    toX: Number,
-    toY: Number,
-    toWidth: Number,
-    toHeight: Number
-): T =
-    apply {
-        map(
-            fromX = fromX,
-            fromY = fromY,
-            fromWidth = fromWidth,
-            fromHeight = fromHeight,
-            toX = toX,
-            toY = toY,
-            toWidth = toWidth,
-            toHeight = toHeight,
-            target = this
-        )
-    }
+    to: EShape<*>,
+    target: T = copy()
+) = map(
+    fromX = from.originX,
+    fromY = from.originY,
+    fromWidth = from.width,
+    fromHeight = from.height,
+    toX = to.originX,
+    toY = to.originY,
+    toWidth = to.width,
+    toHeight = to.height,
+    target = target
+)

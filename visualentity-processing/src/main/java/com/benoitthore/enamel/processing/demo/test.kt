@@ -1,6 +1,7 @@
 package com.benoitthore.enamel.processing.demo
 
 import com.benoitthore.enamel.core.math.i
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.functions.*
 import com.benoitthore.enamel.geometry.primitives.div
 import com.benoitthore.enamel.processing.KotlinPApplet
@@ -12,6 +13,7 @@ import com.benoitthore.enamel.processing.visualentity.toProcessing
 import com.benoitthore.visualentity.DemoDrawer
 import com.benoitthore.visualentity.DemoRunner
 import com.benoitthore.visualentity.generic.toVisualEntity
+import com.benoitthore.visualentity.style.style
 
 fun main() {
     runApplet<TmpApplet>()
@@ -37,6 +39,7 @@ class TmpApplet : KotlinPApplet() {
     var i = 0
 
     init {
+
         Thread{
             while (true){
                 Thread.sleep(1000L)
@@ -59,7 +62,7 @@ class TmpApplet : KotlinPApplet() {
                 }
             }
             .apply {
-                setSize(getSize() / 2f)
+                setSize(getSize() / 3f)
             }
             .setCenter(mousePosition())
             .toVisualEntity { strokeWidth = 10f; strokeColor = 0xFF_ffffff.i }
@@ -67,7 +70,18 @@ class TmpApplet : KotlinPApplet() {
 
             .drawVE()
             .also {
-                it.copy().selfOffset(y = it.height).drawVE()
+                val lowerShape = it.copy().selfOffset(y = it.height).drawVE().toRect()
+
+                val style = it.style.copy(border = it.style.border?.copy(width = 1f))
+
+                val rect = it.toRect()
+                rect
+                    .toVisualEntity(style)
+                    .toProcessing()
+                    .drawVE()
+
+                lowerShape.toVisualEntity(style).toProcessing().drawVE()
+
             }
 
         return
