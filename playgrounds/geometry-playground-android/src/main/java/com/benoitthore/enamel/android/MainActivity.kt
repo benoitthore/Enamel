@@ -2,34 +2,24 @@ package com.benoitthore.enamel.android
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Color.*
-import android.graphics.Paint
-import android.graphics.Typeface
 import android.os.Bundle
-import android.text.TextPaint
 import android.view.LayoutInflater
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.TypefaceCompatUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.benoitthore.enamel.R
 import com.benoitthore.enamel.android.demos.BaseDemoFragment
 import com.benoitthore.enamel.databinding.ActivityMainBinding
 import com.benoitthore.enamel.databinding.DemoItemBinding
 import com.benoitthore.enamel.android.demos.views.*
-import com.benoitthore.enamel.core.withAlpha
-import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.functions.scale
-import com.benoitthore.enamel.geometry.functions.toRect
 import com.benoitthore.enamel.layout.android.getViewBounds
 import com.benoitthore.visualentity.DemoDrawer
 import com.benoitthore.enamel.visualentity.android.draw
 import com.benoitthore.enamel.visualentity.android.toAndroid
 import com.benoitthore.enamel.visualentity.android.utils.dp
-import com.benoitthore.visualentity.style.style
-import com.benoitthore.visualentity.toVisualEntity
+import com.benoitthore.visualentity.DemoRunner
+import com.benoitthore.visualentity.Demos
 
 class MainActivity() : AppCompatActivity() {
 
@@ -38,7 +28,7 @@ class MainActivity() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(object : View(this) {
-            val drawer = DemoDrawer { toAndroid() }
+            val drawer = DemoDrawer(DemoRunner(Demos[0])) { toAndroid() }
 
             override fun onDraw(canvas: Canvas) {
                 canvas.drawColor(BLACK)

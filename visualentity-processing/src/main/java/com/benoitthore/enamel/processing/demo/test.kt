@@ -11,7 +11,7 @@ import com.benoitthore.enamel.processing.visualentity.drawVE
 import com.benoitthore.enamel.processing.visualentity.toProcessing
 import com.benoitthore.visualentity.DemoDrawer
 import com.benoitthore.visualentity.DemoRunner
-import com.benoitthore.visualentity.toVisualEntity
+import com.benoitthore.visualentity.generic.toVisualEntity
 
 fun main() {
     runApplet<TmpApplet>()
@@ -30,25 +30,47 @@ class TmpApplet : KotlinPApplet() {
 
     val INDEX = 0
 
+
     val drawer =
         DemoDrawer(DemoRunner(com.benoitthore.visualentity.Demos[INDEX])) { toProcessing() }
 
+    var i = 0
+
+    init {
+        Thread{
+            while (true){
+                Thread.sleep(1000L)
+                i++
+            }
+        }.start()
+    }
     override fun draw() {
         background(0)
 
         getViewBounds()
-            .innerOval()
+
+            .run {
+                when (i % 4) {
+                    0 -> innerCircle()
+                    1 -> innerOval()
+                    2 -> diagonalTLBR()
+                    3 -> toRect()
+                    else -> TODO()
+                }
+            }
             .apply {
                 setSize(getSize() / 2f)
             }
             .setCenter(mousePosition())
-
-
             .toVisualEntity { strokeWidth = 10f; strokeColor = 0xFF_ffffff.i }
             .toProcessing()
 
             .drawVE()
             .also {
+                // TODO Fix copy() : T function in ProcessingVisualEntity
+                //      or add this limitation to the README and code comments
+                //      with the solution of using it.offset() instead of copy().selfOffset()
+//                it.offset(y = it.height).drawVE()
                 it.copy().selfOffset(y = it.height).drawVE()
             }
 

@@ -10,11 +10,14 @@ import com.benoitthore.enamel.geometry.svg.ESVG
 interface Copyable<T> where T : Copyable<T> {
     /**
      * This function should be overridden when extending any Copyable class/interface
+     * for the copy() function to work
      *
      * @return an exact copy of the current object
      */
-    fun copy(): T
+    fun _copy(): T
 }
+
+fun <T : Copyable<*>> T.copy() = _copy()
 
 interface EShape<T> : ESVG,
     Copyable<T> where T : EShape<T> {
@@ -103,6 +106,6 @@ interface EShape<T> : ESVG,
     /**
      * Copy the other's value into this shape
      */
-    fun set(other: T) : T
+    fun set(other: T): T
 
 }
