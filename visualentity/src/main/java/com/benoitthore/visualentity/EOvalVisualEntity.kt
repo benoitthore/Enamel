@@ -2,6 +2,7 @@ package com.benoitthore.visualentity
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.oval.EOval
+import com.benoitthore.enamel.geometry.functions.copy
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.visualentity.style.EStyle
 
@@ -10,10 +11,10 @@ internal class OvalVisualEntityImpl(
     override var style: EStyle
 ) :
     EOvalVisualEntity, EOval by Oval {
-    override fun copy(): EOvalVisualEntity = Oval.copy().toVisualEntity(style)
+    override fun _copy(): EOvalVisualEntity = Oval.copy().toVisualEntity(style)
     override val transform: ETransform = E.Transform()
 }
 
 interface EOvalVisualEntity : EOval, VisualEntity<EOval> {
-    override fun copy(): EOvalVisualEntity
+    override fun _copy(): EOvalVisualEntity
 }

@@ -43,14 +43,14 @@ fun <T : EShape<*>> T.alignedInside(
     frame: EShape<*>,
     alignment: EAlignment,
     spacing: Number = 0,
-    target: T = copy() as T
+    target: T = copy()
 ) = target.setBounds(this).selfAlignInside(frame, alignment, spacing)
 
 fun <T : EShape<*>> T.alignedOutside(
     frame: EShape<*>,
     alignment: EAlignment,
     spacing: Number = 0,
-    target: T = copy() as T
+    target: T = copy()
 ) = target.setBounds(this).selfAlignOutside(frame, alignment, spacing)
 
 

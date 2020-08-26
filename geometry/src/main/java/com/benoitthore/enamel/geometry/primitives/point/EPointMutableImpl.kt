@@ -13,7 +13,7 @@ internal class EPointImpl internal constructor(x: Number, y: Number) :
         allocateDebugMessage()
     }
 
-    override fun copy(): EPoint {
+    override fun _copy(): EPoint {
         TODO("Not yet implemented")
     }
     override fun toString(): String {

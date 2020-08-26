@@ -25,7 +25,7 @@ fun ECircleVisualEntity.toAndroid(): ECircleVisualEntityAndroid {
 
 interface ECircleVisualEntityAndroid : AndroidVisualEntity<ECircle>,
     ECircleVisualEntity {
-    override fun copy(): ECircleVisualEntityAndroid
+    override fun _copy(): ECircleVisualEntityAndroid
 }
 
 
@@ -38,5 +38,5 @@ internal class ECircleVisualEntityAndroidImpl(
     EStyleable by drawer {
 
     override val transform: ETransform = E.Transform()
-    override fun copy(): ECircleVisualEntityAndroid = circle.copy().toVisualEntity(style).toAndroid()
+    override fun _copy(): ECircleVisualEntityAndroid = circle.copy().toVisualEntity(style).toAndroid()
 }

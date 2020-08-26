@@ -3,6 +3,7 @@ package com.benoitthore.visualentity.style
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
+import com.benoitthore.enamel.geometry.functions.copy
 import com.benoitthore.enamel.geometry.functions.setOriginSize
 import com.benoitthore.enamel.geometry.functions.outerRect
 import com.benoitthore.enamel.geometry.primitives.point.EPoint

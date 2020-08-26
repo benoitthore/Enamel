@@ -25,7 +25,7 @@ fun EOvalVisualEntity.toAndroid(): OvalVisualEntityAndroid {
 
 interface OvalVisualEntityAndroid : AndroidVisualEntity<EOval>,
     EOvalVisualEntity {
-    override fun copy(): OvalVisualEntityAndroid
+    override fun _copy(): OvalVisualEntityAndroid
 }
 
 
@@ -38,5 +38,5 @@ internal class OvalVisualEntityAndroidImpl(
     EStyleable by drawer {
 
     override val transform: ETransform = E.Transform()
-    override fun copy(): OvalVisualEntityAndroid = oval.copy().toVisualEntity(style).toAndroid()
+    override fun _copy(): OvalVisualEntityAndroid = oval.copy().toVisualEntity(style).toAndroid()
 }

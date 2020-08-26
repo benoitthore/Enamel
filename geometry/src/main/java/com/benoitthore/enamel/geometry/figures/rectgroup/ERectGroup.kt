@@ -53,7 +53,7 @@ interface ERectGroup<T : EShape<*>> :
 
         private val _frame = E.Rect()
 
-        override fun copy(): ERectGroup<T> {
+        override fun _copy(): ERectGroup<T> {
             TODO("Not yet implemented")
         }
 

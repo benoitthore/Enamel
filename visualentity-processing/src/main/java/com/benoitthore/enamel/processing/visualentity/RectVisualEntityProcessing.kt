@@ -2,6 +2,7 @@ package com.benoitthore.enamel.processing.visualentity
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.functions.copy
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.enamel.processing.VisualEntityDrawer
 import com.benoitthore.enamel.processing.pushPop
@@ -28,7 +29,7 @@ fun ERectVisualEntity.toProcessing(): RectVisualEntityProcessing {
 
 interface RectVisualEntityProcessing : ProcessingVisualEntity<ERect>,
     ERectVisualEntity {
-    override fun copy(): RectVisualEntityProcessing
+    override fun _copy(): RectVisualEntityProcessing
 }
 
 
@@ -41,6 +42,6 @@ internal class RectVisualEntityProcessingImpl(
     EStyleable by drawer {
 
     override val transform: ETransform = E.Transform()
-    override fun copy(): RectVisualEntityProcessing =
+    override fun _copy(): RectVisualEntityProcessing =
         rect.copy().toVisualEntity(style).toProcessing()
 }

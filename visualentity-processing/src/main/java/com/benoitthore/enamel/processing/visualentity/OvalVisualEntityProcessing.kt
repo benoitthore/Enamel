@@ -2,6 +2,7 @@ package com.benoitthore.enamel.processing.visualentity
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.oval.EOval
+import com.benoitthore.enamel.geometry.functions.copy
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.enamel.processing.VisualEntityDrawer
 import com.benoitthore.enamel.processing.pushPop
@@ -28,7 +29,7 @@ fun EOvalVisualEntity.toProcessing(): OvalVisualEntityProcessing {
 
 interface OvalVisualEntityProcessing : ProcessingVisualEntity<EOval>,
     EOvalVisualEntity {
-    override fun copy(): OvalVisualEntityProcessing
+    override fun _copy(): OvalVisualEntityProcessing
 }
 
 
@@ -41,6 +42,6 @@ internal class OvalVisualEntityProcessingImpl(
     EStyleable by drawer {
 
     override val transform: ETransform = E.Transform()
-    override fun copy(): OvalVisualEntityProcessing =
+    override fun _copy(): OvalVisualEntityProcessing =
         Oval.copy().toVisualEntity(style).toProcessing()
 }

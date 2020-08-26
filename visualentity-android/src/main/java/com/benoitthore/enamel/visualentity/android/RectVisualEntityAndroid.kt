@@ -25,7 +25,7 @@ fun ERectVisualEntity.toAndroid(): RectVisualEntityAndroid {
 
 interface RectVisualEntityAndroid : AndroidVisualEntity<ERect>,
     ERectVisualEntity {
-    override fun copy(): RectVisualEntityAndroid
+    override fun _copy(): RectVisualEntityAndroid
 }
 
 
@@ -38,5 +38,5 @@ internal class RectVisualEntityAndroidImpl(
     EStyleable by drawer {
 
     override val transform: ETransform = E.Transform()
-    override fun copy(): RectVisualEntityAndroid = rect.copy().toVisualEntity(style).toAndroid()
+    override fun _copy(): RectVisualEntityAndroid = rect.copy().toVisualEntity(style).toAndroid()
 }

@@ -4,7 +4,7 @@ internal class ESizeImpl internal constructor(width: Number, height: Number) : E
     override var width: Float = width.toFloat()
     override var height: Float = height.toFloat()
 
-    override fun copy(): ESize {
+    override fun _copy(): ESize {
         TODO("Not yet implemented")
     }
 

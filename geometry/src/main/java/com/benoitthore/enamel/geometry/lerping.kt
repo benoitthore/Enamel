@@ -5,6 +5,7 @@ import com.benoitthore.enamel.core.animations.linearInterpolator
 import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.functions.EShape
+import com.benoitthore.enamel.geometry.functions.copy
 import com.benoitthore.enamel.geometry.functions.setOriginSize
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 
@@ -58,7 +59,7 @@ fun <T : EShape<*>> T.lerp(
     fraction: Number,
     from: EShape<*>,
     to: EShape<*>,
-    target: T = copy() as T,
+    target: T = copy(),
     interpolator: Interpolator = linearInterpolator
 ) = target.apply {
     val x = fraction.lerp(from.originX, to.originX, interpolator)

@@ -57,7 +57,7 @@ internal class EOvalImpl(
             top = value
         }
 
-    override fun copy(): EOval = E.Oval(this)
+    override fun _copy(): EOval = E.Oval(this)
 
     override fun set(other: EOval): EOval = apply {
         center.set(other.center)

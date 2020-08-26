@@ -17,7 +17,7 @@ interface Copyable<T> where T : Copyable<T> {
     fun _copy(): T
 }
 
-fun <T : Copyable<*>> T.copy() = _copy()
+fun <T : Copyable<*>> T.copy() = _copy() as? T ?: throw Exception("${this::class.java} _copy() returns ${_copy()::class.java}")
 
 interface EShape<T> : ESVG,
     Copyable<T> where T : EShape<T> {

@@ -11,7 +11,7 @@ internal class EOffsetImpl(
     init {
         allocateDebugMessage()
     }
-    override fun copy(): EOffset {
+    override fun _copy(): EOffset {
         TODO("Not yet implemented")
     }
 

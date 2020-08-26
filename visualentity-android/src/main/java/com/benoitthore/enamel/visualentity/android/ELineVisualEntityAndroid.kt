@@ -25,7 +25,7 @@ fun ELineVisualEntity.toAndroid(): ELineVisualEntityAndroid {
 
 interface ELineVisualEntityAndroid : AndroidVisualEntity<ELine>,
     ELineVisualEntity {
-    override fun copy(): ELineVisualEntityAndroid
+    override fun _copy(): ELineVisualEntityAndroid
 }
 
 
@@ -38,5 +38,5 @@ internal class ELineVisualEntityAndroidImpl(
     EStyleable by drawer {
 
     override val transform: ETransform = E.Transform()
-    override fun copy(): ELineVisualEntityAndroid = line.copy().toVisualEntity(style).toAndroid()
+    override fun _copy(): ELineVisualEntityAndroid = line.copy().toVisualEntity(style).toAndroid()
 }

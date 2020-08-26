@@ -2,6 +2,7 @@ package com.benoitthore.enamel.processing.visualentity
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
+import com.benoitthore.enamel.geometry.functions.copy
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.enamel.processing.VisualEntityDrawer
 import com.benoitthore.enamel.processing.pushPop
@@ -28,7 +29,7 @@ fun ECircleVisualEntity.toProcessing(): CircleVisualEntityProcessing {
 
 interface CircleVisualEntityProcessing : ProcessingVisualEntity<ECircle>,
     ECircleVisualEntity {
-    override fun copy(): CircleVisualEntityProcessing
+    override fun _copy(): CircleVisualEntityProcessing
 }
 
 
@@ -41,6 +42,6 @@ internal class CircleVisualEntityProcessingImpl(
     EStyleable by drawer {
 
     override val transform: ETransform = E.Transform()
-    override fun copy(): CircleVisualEntityProcessing =
+    override fun _copy(): CircleVisualEntityProcessing =
         Circle.copy().toVisualEntity(style).toProcessing()
 }

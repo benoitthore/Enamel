@@ -67,10 +67,6 @@ class TmpApplet : KotlinPApplet() {
 
             .drawVE()
             .also {
-                // TODO Fix copy() : T function in ProcessingVisualEntity
-                //      or add this limitation to the README and code comments
-                //      with the solution of using it.offset() instead of copy().selfOffset()
-//                it.offset(y = it.height).drawVE()
                 it.copy().selfOffset(y = it.height).drawVE()
             }
 
