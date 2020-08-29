@@ -27,6 +27,8 @@ interface ECircle : EShape<ECircle> {
 
     fun contains(x: Number, y: Number): Boolean = center.distanceTo(x, y) < radius
     fun contains(point: EPoint) = contains(point.x, point.y)
+
+    fun contains(other: ECircle): Boolean = TODO()
 }
 
 fun <T : ECircle> T.set(other: ECircle) = set(other.center.x, other.center.y, other.radius)
