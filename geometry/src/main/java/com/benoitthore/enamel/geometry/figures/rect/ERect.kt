@@ -35,10 +35,11 @@ fun ERect.contains(origin: EPoint, size: ESize) =
 fun ERect.contains(x: Number, y: Number, width: Number, height: Number): Boolean {
     val x = x.f
     val y = y.f
-    val width = width.f
-    val height = height.f
-    return x + width >= left && x + width < right
-            && y + height >= top && y + height < bottom
+    return !(x < left
+            || x + width.toFloat() > right
+            || y < top
+            || y + height.toFloat() > bottom
+            )
 }
 
 fun ERect.contains(p: EPoint, radius: Number): Boolean =
