@@ -19,7 +19,7 @@ inline fun <T : EShape<T>> IE.style(shape: T, crossinline block: StyleBuilder.(T
 
 class StyleBuilder {
 
-    var fillColor: Int? = null
+    var fillColor: Number? = null
     var fillShader: EShader? = null
     var strokeColor: Int? = null
     var strokeShader: EShader? = null
@@ -46,7 +46,7 @@ class StyleBuilder {
         if (fillColor == null && fillShader == null) {
             null
         } else {
-            EMesh(color = fillColor, shader = fillShader)
+            EMesh(color = fillColor?.toInt(), shader = fillShader)
         }
 
     private fun buildBorder(): EStyle.Border? =
