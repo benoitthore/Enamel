@@ -11,7 +11,7 @@ import com.benoitthore.visualentity.style.StyleBuilder
 import java.lang.Exception
 import com.benoitthore.visualentity.toVisualEntity
 
-fun EShape<*>._toVisualEntity(block: StyleBuilder.(EShape<*>) -> Unit): VisualEntity<*> =
+fun EShape._toVisualEntity(block: StyleBuilder.(EShape) -> Unit): VisualEntity =
     when (this) {
         is ECircle -> toVisualEntity { block(it) }
         is ERect -> toVisualEntity { block(it) }
@@ -20,7 +20,7 @@ fun EShape<*>._toVisualEntity(block: StyleBuilder.(EShape<*>) -> Unit): VisualEn
         else -> throw Exception("Invalid $this")
     }
 
-fun EShape<*>._toVisualEntity(style: EStyle): VisualEntity<*> =
+fun EShape._toVisualEntity(style: EStyle): VisualEntity =
     when (this) {
         is ECircle -> toVisualEntity(style)
         is ERect -> toVisualEntity(style)

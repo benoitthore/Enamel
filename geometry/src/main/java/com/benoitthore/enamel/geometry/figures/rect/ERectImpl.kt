@@ -84,7 +84,6 @@ internal class ERectImpl internal constructor(
         }
 
 
-    override fun _copy(): ERect = E.Rect(this)
     override fun set(other: ERect): ERect = apply {
         size.set(other.size)
         origin.set(other.origin)

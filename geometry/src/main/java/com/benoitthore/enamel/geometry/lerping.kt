@@ -47,18 +47,18 @@ fun ESize.selfLerp(
         height = fraction.lerp(from.height, to.height, interpolator)
     )
 
-fun <T : EShape<*>> T.selfLerp(
+fun <T : EShape> T.selfLerp(
     fraction: Number,
-    from: EShape<*>,
-    to: EShape<*>,
+    from: EShape,
+    to: EShape,
     interpolator: Interpolator = linearInterpolator
 ) =
     lerp(fraction, from, to, this, interpolator)
 
-fun <T : EShape<*>> T.lerp(
+fun <T : EShape> T.lerp(
     fraction: Number,
-    from: EShape<*>,
-    to: EShape<*>,
+    from: EShape,
+    to: EShape,
     target: T = copy(),
     interpolator: Interpolator = linearInterpolator
 ) = target.apply {

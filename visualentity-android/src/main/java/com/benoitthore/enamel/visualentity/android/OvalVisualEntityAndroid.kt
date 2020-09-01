@@ -10,7 +10,7 @@ import com.benoitthore.visualentity.style.EStyleable
 
 
 fun EOvalVisualEntity.toAndroid(): OvalVisualEntityAndroid {
-    val copy = copy()
+    val copy = _copy()
     return OvalVisualEntityAndroidImpl(
         copy,
         VisualEntityDrawer(
@@ -38,5 +38,5 @@ internal class OvalVisualEntityAndroidImpl(
     EStyleable by drawer {
 
     override val transform: ETransform = E.Transform()
-    override fun _copy(): OvalVisualEntityAndroid = oval.copy().toVisualEntity(style).toAndroid()
+    override fun _copy(): OvalVisualEntityAndroid = oval._copy().toVisualEntity(style).toAndroid()
 }

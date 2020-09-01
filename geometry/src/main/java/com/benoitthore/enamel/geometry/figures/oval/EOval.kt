@@ -1,13 +1,21 @@
 package com.benoitthore.enamel.geometry.figures.oval
 
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
-interface EOval : EShape<EOval> {
+interface EOval : EShape {
     val size: ESize
     val center: EPoint
+
+
+    override fun _copy(): EOval = E.Oval(this)
+    fun set(other : EOval) : EOval
+
+
+
 
     var rx: Float
         get() = size.width / 2f

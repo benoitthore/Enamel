@@ -3,6 +3,7 @@ package com.benoitthore.enamel.geometry.figures.rectgroup
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.functions.setBounds
@@ -10,10 +11,13 @@ import com.benoitthore.enamel.geometry.functions.union
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
 // TODO Rename to EShapeGroup
-interface ERectGroup<T : EShape<*>> :
-    EShape<ERectGroup<T>> {
+interface ERectGroup<T : EShape> : EShape {
     val frame: ERect
     val rects: List<T>
+
+
+    override fun _copy() = rects.toRectGroup()
+    fun set(other : ERectGroup<T>) : ERectGroup<T>
 
 
     override var originX: Float
@@ -49,13 +53,10 @@ interface ERectGroup<T : EShape<*>> :
         TODO()
     }
 
-    class ERectGroupImpl<T : EShape<*>>(override val rects: List<T>) : ERectGroup<T> {
+    class ERectGroupImpl<T : EShape>(override val rects: List<T>) : ERectGroup<T> {
 
         private val _frame = E.Rect()
 
-        override fun _copy(): ERectGroup<T> {
-            TODO("Not yet implemented")
-        }
 
         override val frame: ERect
             get() = _frame

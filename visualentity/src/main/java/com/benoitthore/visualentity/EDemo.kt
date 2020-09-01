@@ -18,7 +18,7 @@ class DemoRunner(val demo: EDemo, val interpolator: Interpolator = sinInterpolat
     var progress = 0f
         private set
 
-    fun step(frame: ERect): List<VisualEntity<*>> {
+    fun step(frame: ERect): List<VisualEntity> {
         if (progress > 1f) {
             progress = 0f
         }
@@ -28,12 +28,12 @@ class DemoRunner(val demo: EDemo, val interpolator: Interpolator = sinInterpolat
 
     }
 }
-typealias EDemoFunction = (frame: ERect, progress: Float) -> List<VisualEntity<*>>
+typealias EDemoFunction = (frame: ERect, progress: Float) -> List<VisualEntity>
 
 data class EDemo(
     val name: String,
     val animationSpeed: Long? = null,
-    val get: (frame: ERect, progress: Float) -> List<VisualEntity<*>>
+    val get: (frame: ERect, progress: Float) -> List<VisualEntity>
 )
 
 private val followerStyle = E.style { strokeColor = 0xFFFFFF00.i }
@@ -60,9 +60,9 @@ private fun ERect.createCross(at: EPoint): List<ELineVisualEntity> {
         .map { it.toVisualEntity(crossStyle) }
 }
 
-class DemoDrawer<T : VisualEntity<*>>(
+class DemoDrawer<T : VisualEntity>(
     private val runner: DemoRunner,
-    private val toDrawable: VisualEntity<*>.() -> T
+    private val toDrawable: VisualEntity.() -> T
 ) {
     fun getDrawables(frame: ERect): List<T> {
 

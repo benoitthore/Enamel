@@ -5,7 +5,7 @@ import com.benoitthore.enamel.geometry.alignement.NamedPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 
 
-fun <T : EShape<*>> T.scaleRelative(
+fun <T : EShape> T.scaleRelative(
     scaleFactor: Number,
     pointX: Number,
     pointY: Number,
@@ -18,7 +18,7 @@ fun <T : EShape<*>> T.scaleRelative(
     target = target
 )
 
-fun <T : EShape<*>> T.scaleRelative2D(
+fun <T : EShape> T.scaleRelative2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     pointX: Number,
@@ -42,7 +42,7 @@ fun <T : EShape<*>> T.scaleRelative2D(
 //// //// //// //// //// //// //// ////
 //// //// //// //// //// //// //// ////
 
-fun <T : EShape<*>> T.scale(
+fun <T : EShape> T.scale(
     scaleFactor: Number,
     pivot: EPoint = NamedPoint.center,
     target: T = copy()
@@ -50,7 +50,7 @@ fun <T : EShape<*>> T.scale(
     scale(scaleFactor, pivot.x, pivot.y, target)
 
 
-fun <T : EShape<*>> T.scale2D(
+fun <T : EShape> T.scale2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     pivot: EPoint,
@@ -65,7 +65,7 @@ fun <T : EShape<*>> T.scale2D(
     )
 
 
-fun <T : EShape<*>> T.scale(
+fun <T : EShape> T.scale(
     scaleFactor: Number,
     pivotX: Number,
     pivotY: Number,
@@ -77,7 +77,7 @@ fun <T : EShape<*>> T.scale(
     target = target
 )
 
-fun <T : EShape<*>> T.scale2D(
+fun <T : EShape> T.scale2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     pivotX: Number,
@@ -92,7 +92,7 @@ fun <T : EShape<*>> T.scale2D(
 )
 
 
-fun <T : EShape<*>> T.scaleRelative(
+fun <T : EShape> T.scaleRelative(
     scaleFactor: Number,
     point: EPoint,
     target: T = copy()
@@ -103,7 +103,7 @@ fun <T : EShape<*>> T.scaleRelative(
     target = target
 )
 
-fun <T : EShape<*>> T.scaleRelative2D(
+fun <T : EShape> T.scaleRelative2D(
     scaleFactorX: Number,
     scaleFactorY: Number,
     point: EPoint,

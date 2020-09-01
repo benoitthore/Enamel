@@ -6,20 +6,20 @@ import com.benoitthore.enamel.processing.VisualEntityDrawer
 import com.benoitthore.visualentity.VisualEntity
 import processing.core.PApplet
 
-interface ProcessingVisualEntity<T : EShape<T>> : VisualEntity<T> {
+interface ProcessingVisualEntity : VisualEntity {
     val drawer: VisualEntityDrawer
 }
 
 
-fun PApplet.drawVE(vararg visualEntity: ProcessingVisualEntity<*>) {
+fun PApplet.drawVE(vararg visualEntity: ProcessingVisualEntity) {
     visualEntity.forEach { drawVE(it) }
 }
 
-fun PApplet.drawVE(visualEntities: List<ProcessingVisualEntity<*>>) {
+fun PApplet.drawVE(visualEntities: List<ProcessingVisualEntity>) {
     visualEntities.forEach { drawVE(it) }
 }
 
-fun PApplet.drawVE(visualEntity: ProcessingVisualEntity<*>) {
+fun PApplet.drawVE(visualEntity: ProcessingVisualEntity) {
     val papplet = this
     withTransform(visualEntity.transform) {
         pushStyle()

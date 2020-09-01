@@ -8,7 +8,6 @@ import com.benoitthore.enamel.geometry.figures.line.set
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.point
 
-// TODO Make Mutable
 interface ELinearFunction {
 
     class Impl internal constructor(override val slope: Float, override val yIntercept: Float) :

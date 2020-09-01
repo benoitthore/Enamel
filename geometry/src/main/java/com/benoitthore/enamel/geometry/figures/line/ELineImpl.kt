@@ -125,8 +125,6 @@ internal class ELineImpl internal constructor(
         end.set(other.end)
     }
 
-    override fun _copy(): ELine = E.Line(this)
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is ELine) return false

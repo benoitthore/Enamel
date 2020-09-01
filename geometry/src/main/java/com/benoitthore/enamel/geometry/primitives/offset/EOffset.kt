@@ -1,10 +1,9 @@
 package com.benoitthore.enamel.geometry.primitives.offset
 
-import com.benoitthore.enamel.geometry.functions.Copyable
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
-interface EOffset : Tuple2,
-    Copyable<EOffset> {
+interface EOffset : Tuple2 {
 
     var top: Float
     var right: Float
@@ -16,6 +15,8 @@ interface EOffset : Tuple2,
 
     val horizontal get() = left + right
     val vertical get() = top + bottom
+
+    fun copy(): EOffset = E.Offset(this)
 
     fun set(
         top: Number = this.top,

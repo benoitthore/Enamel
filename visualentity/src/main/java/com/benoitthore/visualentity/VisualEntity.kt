@@ -12,8 +12,7 @@ import com.benoitthore.visualentity.style.EStyleable
 import com.benoitthore.visualentity.style.StyleBuilder
 import com.benoitthore.visualentity.style.style
 
-interface VisualEntity<T : EShape<T>> : ETransformable,
-    EShape<T>, EStyleable
+interface VisualEntity : ETransformable, EShape, EStyleable
 
 fun ERect.toVisualEntity(style: EStyle): ERectVisualEntity =
     RectVisualEntityImpl(this, style)

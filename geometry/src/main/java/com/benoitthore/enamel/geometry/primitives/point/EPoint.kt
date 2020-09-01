@@ -6,7 +6,6 @@ import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.functions.Copyable
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle.AngleType
@@ -15,8 +14,7 @@ import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.hypot
 
-interface EPoint : Tuple2,
-    Copyable<EPoint> {
+interface EPoint : Tuple2 {
     var x: Float
     var y: Float
 
@@ -24,6 +22,8 @@ interface EPoint : Tuple2,
         get() = x
     override val v2: Number
         get() = y
+
+    fun copy(): EPoint = E.Point(this)
 
     fun copy(x: Number = this.x, y: Number = this.y, target: EPoint = E.Point()) =
         target.set(x, y)

@@ -1,20 +1,17 @@
 package com.benoitthore.enamel.geometry.functions
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.offset.EOffset
-import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
-import com.benoitthore.enamel.geometry.primitives.point.point
 
 
-fun <T : EShape<*>> T.offset(
+fun <T : EShape> T.offset(
     p: Tuple2, target: T = copy()
 ): T {
     return offset(p.v1, p.v2, target)
 }
 
-fun <T : EShape<*>> T.offset(
+fun <T : EShape> T.offset(
     x: Number,
     y: Number,
     target: T = copy()
@@ -23,18 +20,18 @@ fun <T : EShape<*>> T.offset(
     return target
 }
 
-fun <T : EShape<*>> T.inset(margin: Number, target: T = copy()) = inset(margin, margin, target)
+fun <T : EShape> T.inset(margin: Number, target: T = copy()) = inset(margin, margin, target)
 
-fun <T : EShape<*>> T.inset(p: Tuple2, target: T = copy()) = inset(p.v1, p.v2, target)
+fun <T : EShape> T.inset(p: Tuple2, target: T = copy()) = inset(p.v1, p.v2, target)
 
-fun <T : EShape<*>> T.inset(
+fun <T : EShape> T.inset(
     x: Number,
     y: Number,
     target: T = copy()
 ) =
     inset(left = x, top = y, right = x, bottom = y, target = target)
 
-fun <T : EShape<*>> T.inset(
+fun <T : EShape> T.inset(
     left: Number = 0,
     top: Number = 0,
     right: Number = 0,
@@ -50,17 +47,17 @@ fun <T : EShape<*>> T.inset(
     return target
 }
 
-fun <T : EShape<*>> T.expand(margin: Number, target: T = copy()) = expand(margin, margin, target)
+fun <T : EShape> T.expand(margin: Number, target: T = copy()) = expand(margin, margin, target)
 
-fun <T : EShape<*>> T.expand(p: Tuple2, target: T = copy()) = expand(p.v1, p.v2, target)
+fun <T : EShape> T.expand(p: Tuple2, target: T = copy()) = expand(p.v1, p.v2, target)
 
-fun <T : EShape<*>> T.expand(
+fun <T : EShape> T.expand(
     x: Number = 0f,
     y: Number = 0f,
     target: T = copy()
 ) = inset(-x.f, -y.f, target)
 
-fun <T : EShape<*>> T.expand(
+fun <T : EShape> T.expand(
     left: Number = 0,
     top: Number = 0,
     right: Number = 0,
@@ -74,7 +71,7 @@ fun <T : EShape<*>> T.expand(
     target = target
 )
 
-fun <T : EShape<*>> T.expand(padding: EOffset, target: T = copy()) = expand(
+fun <T : EShape> T.expand(padding: EOffset, target: T = copy()) = expand(
     left = padding.left,
     top = padding.top,
     right = padding.right,
@@ -82,7 +79,7 @@ fun <T : EShape<*>> T.expand(padding: EOffset, target: T = copy()) = expand(
     target = target
 )
 
-fun <T : EShape<*>> T.padding(
+fun <T : EShape> T.padding(
     top: Number = 0f,
     bottom: Number = 0f,
     left: Number = 0f,
@@ -96,7 +93,7 @@ fun <T : EShape<*>> T.padding(
     target = target
 )
 
-fun <T : EShape<*>> T.padding(
+fun <T : EShape> T.padding(
     padding: EOffset,
     target: T = copy()
 ) =
@@ -109,9 +106,9 @@ fun <T : EShape<*>> T.padding(
     )
 
 
-fun <T : EShape<*>> T.map(
-    from: EShape<*>,
-    to: EShape<*>,
+fun <T : EShape> T.map(
+    from: EShape,
+    to: EShape,
     target: T = copy()
 ) = map(
     fromX = from.originX,

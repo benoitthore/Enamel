@@ -3,15 +3,13 @@ package com.benoitthore.enamel.geometry.primitives.size
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.functions.Copyable
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import kotlin.math.abs
 import kotlin.math.hypot
 import kotlin.math.max
 import kotlin.math.min
 
-interface ESize : Tuple2,
-    Copyable<ESize> {
+interface ESize : Tuple2 {
     var width: Float
     var height: Float
 
@@ -22,8 +20,7 @@ interface ESize : Tuple2,
         width: Number = this.width,
         height: Number = this.height,
         target: ESize = E.Size()
-    ) =
-        target.set(width, height)
+    ) = target.set(width, height)
 
     val min get() = min(width, height)
     val max get() = max(width, height)

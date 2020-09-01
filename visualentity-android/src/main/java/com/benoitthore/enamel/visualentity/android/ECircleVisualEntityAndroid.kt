@@ -10,7 +10,7 @@ import com.benoitthore.visualentity.style.EStyleable
 
 
 fun ECircleVisualEntity.toAndroid(): ECircleVisualEntityAndroid {
-    val copy = copy()
+    val copy = _copy()
     return ECircleVisualEntityAndroidImpl(
         copy,
         VisualEntityDrawer(
@@ -38,5 +38,5 @@ internal class ECircleVisualEntityAndroidImpl(
     EStyleable by drawer {
 
     override val transform: ETransform = E.Transform()
-    override fun _copy(): ECircleVisualEntityAndroid = circle.copy().toVisualEntity(style).toAndroid()
+    override fun _copy(): ECircleVisualEntityAndroid = circle._copy().toVisualEntity(style).toAndroid()
 }

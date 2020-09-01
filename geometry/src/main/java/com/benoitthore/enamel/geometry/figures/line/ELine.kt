@@ -6,6 +6,7 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.angle.degrees
@@ -16,10 +17,13 @@ import com.benoitthore.enamel.geometry.primitives.point._angleTo
 import com.benoitthore.enamel.geometry.primitives.point._offsetAngle
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
-interface ELine : EShape<ELine>, ELinearFunction {
+interface ELine : EShape, ELinearFunction {
 
     val start: EPoint
     val end: EPoint
+
+    override fun _copy(): ELine = E.Line(this)
+    fun set(other : ELine) : ELine
 
 
     val length

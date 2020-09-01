@@ -97,8 +97,6 @@ internal class ECircleImpl internal constructor(
         center.y = (bottom + top) / 2f
     }
 
-    override fun _copy(): ECircle = E.Circle(this)
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
 

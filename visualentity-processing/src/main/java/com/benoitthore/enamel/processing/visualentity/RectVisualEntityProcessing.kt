@@ -2,7 +2,6 @@ package com.benoitthore.enamel.processing.visualentity
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.functions.copy
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.enamel.processing.VisualEntityDrawer
 import com.benoitthore.enamel.processing.pushPop
@@ -12,7 +11,7 @@ import processing.core.PConstants
 
 
 fun ERectVisualEntity.toProcessing(): RectVisualEntityProcessing {
-    val copy = copy()
+    val copy = _copy()
     return RectVisualEntityProcessingImpl(
         copy,
         VisualEntityDrawer(
@@ -27,7 +26,7 @@ fun ERectVisualEntity.toProcessing(): RectVisualEntityProcessing {
         })
 }
 
-interface RectVisualEntityProcessing : ProcessingVisualEntity<ERect>,
+interface RectVisualEntityProcessing : ProcessingVisualEntity,
     ERectVisualEntity {
     override fun _copy(): RectVisualEntityProcessing
 }
@@ -43,5 +42,5 @@ internal class RectVisualEntityProcessingImpl(
 
     override val transform: ETransform = E.Transform()
     override fun _copy(): RectVisualEntityProcessing =
-        rect.copy().toVisualEntity(style).toProcessing()
+        rect._copy().toVisualEntity(style).toProcessing()
 }

@@ -1,13 +1,17 @@
 package com.benoitthore.enamel.geometry.figures.circle
 
 import com.benoitthore.enamel.core.math.f
+import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
-interface ECircle : EShape<ECircle> {
+interface ECircle : EShape {
     var radius: Float
     val center: EPoint
+
+    override fun _copy(): ECircle = E.Circle(this)
+    fun set(other : ECircle) : ECircle
 
     override fun addTo(context: SVGContext) {
         context.oval(centerX - radius, centerY - radius, centerX + radius, centerY + radius)

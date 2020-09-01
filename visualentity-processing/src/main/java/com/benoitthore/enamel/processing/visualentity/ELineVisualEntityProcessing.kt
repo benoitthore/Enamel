@@ -2,7 +2,6 @@ package com.benoitthore.enamel.processing.visualentity
 
 import com.benoitthore.enamel.geometry.builders.E
 import com.benoitthore.enamel.geometry.figures.line.ELine
-import com.benoitthore.enamel.geometry.functions.copy
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.enamel.processing.VisualEntityDrawer
 import com.benoitthore.enamel.processing.pushPop
@@ -11,7 +10,7 @@ import com.benoitthore.visualentity.style.EStyleable
 
 
 fun ELineVisualEntity.toProcessing(): ELineVisualEntityProcessing {
-    val copy = copy()
+    val copy = _copy()
     return ELineVisualEntityProcessingImpl(
         copy,
         VisualEntityDrawer(
@@ -25,7 +24,7 @@ fun ELineVisualEntity.toProcessing(): ELineVisualEntityProcessing {
         })
 }
 
-interface ELineVisualEntityProcessing : ProcessingVisualEntity<ELine>,
+interface ELineVisualEntityProcessing : ProcessingVisualEntity,
     ELineVisualEntity {
     override fun _copy(): ELineVisualEntityProcessing
 }
@@ -41,5 +40,5 @@ internal class ELineVisualEntityProcessingImpl(
 
     override val transform: ETransform = E.Transform()
     override fun _copy(): ELineVisualEntityProcessing =
-        line.copy().toVisualEntity(style).toProcessing()
+        line._copy().toVisualEntity(style).toProcessing()
 }

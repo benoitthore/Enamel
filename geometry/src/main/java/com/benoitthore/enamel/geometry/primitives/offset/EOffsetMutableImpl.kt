@@ -11,12 +11,6 @@ internal class EOffsetImpl(
     init {
         allocateDebugMessage()
     }
-    override fun _copy(): EOffset {
-        TODO("Not yet implemented")
-    }
-
-
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is EOffset) return false

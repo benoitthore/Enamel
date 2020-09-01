@@ -10,7 +10,7 @@ import com.benoitthore.visualentity.style.EStyleable
 
 
 fun ELineVisualEntity.toAndroid(): ELineVisualEntityAndroid {
-    val copy = copy()
+    val copy = _copy()
     return ELineVisualEntityAndroidImpl(
         copy,
         VisualEntityDrawer(
@@ -38,5 +38,5 @@ internal class ELineVisualEntityAndroidImpl(
     EStyleable by drawer {
 
     override val transform: ETransform = E.Transform()
-    override fun _copy(): ELineVisualEntityAndroid = line.copy().toVisualEntity(style).toAndroid()
+    override fun _copy(): ELineVisualEntityAndroid = line._copy().toVisualEntity(style).toAndroid()
 }

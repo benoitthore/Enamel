@@ -73,7 +73,7 @@ fun ERect.divided(
 operator fun ERect.minus(padding: EOffset): ERect = TODO()// padding(padding).ensureRect()
 operator fun ERect.plus(padding: EOffset) = expand(padding)
 
-fun List<EShape<*>>.union(target: ERect = E.Rect()): ERect {
+fun List<ERect>.union(target: ERect = E.Rect()): ERect {
     if (isEmpty()) {
         return target
     }

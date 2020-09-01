@@ -18,18 +18,18 @@ import com.benoitthore.enamel.geometry.primitives.angle.degrees
 import kotlin.math.hypot
 
 
-fun <T : EShape<*>> T.toLine(from: EAlignment, to: EAlignment) =
+fun <T : EShape> T.toLine(from: EAlignment, to: EAlignment) =
     toLine(from.namedPoint, to.namedPoint)
 
 /**
  * Input treated as anchor (0,0 top left - 1,1 bottom right)
  */
-fun <T : EShape<*>> T.toLine(from: EPoint, to: EPoint) = toLine(from.x, from.y, to.x, to.y)
+fun <T : EShape> T.toLine(from: EPoint, to: EPoint) = toLine(from.x, from.y, to.x, to.y)
 
 /**
  * Input treated as anchor (0,0 top left - 1,1 bottom right)
  */
-fun <T : EShape<*>> T.toLine(
+fun <T : EShape> T.toLine(
     fromX: Number,
     fromY: Number,
     toX: Number,
@@ -110,20 +110,20 @@ fun List<EPoint>.toCircles(
 
 fun ESize.toRect(target: ERect = E.Rect()) = target.setOriginSize(0, 0, width, height)
 
-fun EShape<*>.innerCircle(target: ECircle = E.Circle()): ECircle {
+fun EShape.innerCircle(target: ECircle = E.Circle()): ECircle {
     getCenter(target.center) // set circles center to rect center
     target.radius = (if (width > height) height else width) / 2f // TODO Repalce that with minmax
     return target
 }
 
-fun EShape<*>.outerCircle(target: ECircle = E.Circle()): ECircle {
+fun EShape.outerCircle(target: ECircle = E.Circle()): ECircle {
     getCenter(target.center) // set circles center to rect center
     target.radius = hypot(width.d, height.d).f / 2f
     return target
 }
 
 
-fun EShape<*>.innerOval(target: EOval = E.Oval()): EOval {
+fun EShape.innerOval(target: EOval = E.Oval()): EOval {
     target._setBounds(
         left = left,
         top = top,
@@ -133,7 +133,7 @@ fun EShape<*>.innerOval(target: EOval = E.Oval()): EOval {
     return target
 }
 
-fun EShape<*>.outerOval(target: EOval = E.Oval()): EOval {
+fun EShape.outerOval(target: EOval = E.Oval()): EOval {
     TODO()
     return target
 }

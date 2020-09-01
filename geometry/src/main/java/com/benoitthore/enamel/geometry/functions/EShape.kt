@@ -7,20 +7,12 @@ import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.svg.ESVG
 
-interface Copyable<T> where T : Copyable<T> {
-    /**
-     * This function should be overridden when extending any Copyable class/interface
-     * for the copy() function to work
-     *
-     * @return an exact copy of the current object
-     */
-    fun _copy(): T
-}
 
-fun <T : Copyable<*>> T.copy() = _copy() as? T ?: throw Exception("${this::class.java} _copy() returns ${_copy()::class.java}")
+fun <T : EShape> T.copy() = _copy() as? T ?: throw Exception("${this::class.java} _copy() returns ${_copy()::class.java}")
 
-interface EShape<T> : ESVG,
-    Copyable<T> where T : EShape<T> {
+interface EShape : ESVG {
+
+    fun _copy() : EShape
 
     var left: Float
     var top: Float
@@ -102,10 +94,4 @@ interface EShape<T> : ESVG,
      * Use setOrigin extensions instead
      */
     fun _setOrigin(origin: EPoint) = _setOrigin(origin.x, origin.y)
-
-    /**
-     * Copy the other's value into this shape
-     */
-    fun set(other: T): T
-
 }

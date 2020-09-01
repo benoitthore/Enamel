@@ -12,7 +12,7 @@ import com.benoitthore.enamel.geometry.functions.setSize
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 
-fun <T: EShape<T>> List<T>.toRectGroup(): ERectGroup<T> =
+fun <T: EShape> List<T>.toRectGroup(): ERectGroup<T> =
     ERectGroup.ERectGroupImpl(this)
 
 

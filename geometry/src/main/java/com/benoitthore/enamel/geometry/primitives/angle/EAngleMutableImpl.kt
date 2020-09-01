@@ -8,8 +8,6 @@ internal class EAngleImpl internal constructor(value: Number, override var type:
     EAngle {
     override var value: Float = value.toFloat()
 
-    override fun _copy(): EAngle = E.Angle(value, type)
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
 

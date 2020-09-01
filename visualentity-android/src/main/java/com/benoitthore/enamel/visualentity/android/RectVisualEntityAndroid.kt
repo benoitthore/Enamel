@@ -10,9 +10,9 @@ import com.benoitthore.visualentity.style.EStyleable
 
 
 fun ERectVisualEntity.toAndroid(): RectVisualEntityAndroid {
-    val copy = copy()
+    val copy = _copy()
     return RectVisualEntityAndroidImpl(
-        copy(),
+        _copy(),
         VisualEntityDrawer(
             style
         ) { canvas, paint ->
@@ -38,5 +38,5 @@ internal class RectVisualEntityAndroidImpl(
     EStyleable by drawer {
 
     override val transform: ETransform = E.Transform()
-    override fun _copy(): RectVisualEntityAndroid = rect.copy().toVisualEntity(style).toAndroid()
+    override fun _copy(): RectVisualEntityAndroid = rect._copy().toVisualEntity(style).toAndroid()
 }

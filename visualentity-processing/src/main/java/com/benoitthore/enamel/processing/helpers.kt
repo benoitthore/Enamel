@@ -10,7 +10,6 @@ import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.oval.EOval
 import com.benoitthore.enamel.geometry.figures.rect.ERect
-import com.benoitthore.enamel.geometry.functions.copy
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.angle.degrees
 import com.benoitthore.enamel.geometry.primitives.point.point
@@ -18,7 +17,6 @@ import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.size.size
 import com.benoitthore.enamel.processing.visualentity.ProcessingVisualEntity
 import com.benoitthore.enamel.processing.visualentity.drawVE
-import com.benoitthore.visualentity.VisualEntity
 import processing.core.PApplet
 
 fun PApplet.radialGradient(frame: ECircle, colors: List<Int>, resolution: Int = 1) {
@@ -26,7 +24,7 @@ fun PApplet.radialGradient(frame: ECircle, colors: List<Int>, resolution: Int = 
         strokeWeight(1f)
         val scale = ColorScale(colors)
         val nbCircles = frame.width.toInt() / resolution
-        val circle = frame.copy()
+        val circle = frame._copy()
         (nbCircles downTo 0).forEach { i ->
             val progress = 1f - (i / nbCircles.f)
             val color = scale[progress]
@@ -146,7 +144,7 @@ open class KotlinPApplet : PApplet() {
         draw(this)
     }
 
-    fun <T : ProcessingVisualEntity<*>> T.drawVE() = apply {
+    fun <T : ProcessingVisualEntity> T.drawVE() = apply {
         drawVE(this)
     }
 }

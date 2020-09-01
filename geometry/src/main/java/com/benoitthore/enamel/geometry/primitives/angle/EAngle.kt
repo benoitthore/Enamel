@@ -3,14 +3,13 @@ package com.benoitthore.enamel.geometry.primitives.angle
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.E
-import com.benoitthore.enamel.geometry.functions.Copyable
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
 
 private val π = Math.PI.f
 
-interface EAngle : Copyable<EAngle> {
+interface EAngle {
     enum class AngleType {
         DEGREE, RADIAN, ROTATION
     }
@@ -22,6 +21,8 @@ interface EAngle : Copyable<EAngle> {
 
     var value: Float
     var type: AngleType
+
+    fun copy(): EAngle = E.Angle(value, type)
 
     fun set(other: EAngle) = set(
         other.value,
