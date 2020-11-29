@@ -19,25 +19,10 @@ interface EAngle {
         CCW //CounterClockWise
     }
 
-    var value: Float
-    var type: AngleType
+    val value: Float
+    val type: AngleType
 
     fun copy(): EAngle = Angle(value, type)
-
-    fun set(other: EAngle) = set(
-        other.value,
-        other.type
-    )
-
-    fun set(value: Number, type: AngleType): EAngle {
-        this.value = value.f
-        this.type = type
-        return this
-    }
-
-    fun selfInverse() = inverse(this)
-    fun selfOffset(angle: EAngle) = offset(angle, this)
-
 
     // The use of by lazy would create 3 new objects so it's better to calculate on initialisation
     val radians
@@ -72,12 +57,12 @@ interface EAngle {
 
     operator fun unaryMinus(): EAngle = inverse()
 
-    fun inverse(target: EAngle = Angle()): EAngle {
+    fun inverse(target: EAngleMutable = MutableAngle()): EAngle {
         val opposite = value.degrees(target)
         return opposite.set(-value, type)
     }
 
-    fun offset(other: EAngle, target: EAngle = Angle()) = target.apply {
+    fun offset(other: EAngle, target: EAngleMutable = MutableAngle()) = target.apply {
         val increment = when (type) {
 
             AngleType.DEGREE -> other.degrees
@@ -114,6 +99,26 @@ interface EAngle {
 
     operator fun compareTo(angle: EAngle): Int =
         ((rotations - angle.rotations) * 100).toInt()
+}
 
+interface EAngleMutable : EAngle {
+    override var value: Float
+    override var type: EAngle.AngleType
+
+    override fun copy(): EAngle  = MutableAngle(this)
+
+    fun set(other: EAngle) = set(
+        other.value,
+        other.type
+    )
+
+    fun set(value: Number, type: EAngle.AngleType): EAngleMutable {
+        this.value = value.f
+        this.type = type
+        return this
+    }
+
+    fun selfInverse() = inverse(this)
+    fun selfOffset(angle: EAngle) = offset(angle, this)
 
 }

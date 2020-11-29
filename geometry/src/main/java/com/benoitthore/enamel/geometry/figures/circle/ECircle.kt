@@ -3,15 +3,16 @@ package com.benoitthore.enamel.geometry.figures.circle
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.functions.EShape
+import com.benoitthore.enamel.geometry.functions.EShapeMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
 interface ECircle : EShape {
-    var radius: Float
+    val radius: Float
     val center: EPoint
 
     override fun _copy(): ECircle = Circle(this)
-    fun set(other : ECircle) : ECircle
 
     override fun addTo(context: SVGContext) {
         context.oval(centerX - radius, centerY - radius, centerX + radius, centerY + radius)
@@ -35,17 +36,27 @@ interface ECircle : EShape {
     fun contains(other: ECircle): Boolean = TODO()
 }
 
-fun <T : ECircle> T.set(other: ECircle) = set(other.center.x, other.center.y, other.radius)
-fun <T : ECircle> T.set(center: EPoint = this.center, radius: Number = this.radius) =
-    set(center.x, center.y, radius)
+interface ECircleMutable : ECircle, EShapeMutable {
+    override var radius: Float
+    override val center: EPointMutable
 
-fun <T : ECircle> T.set(
-    x: Number = centerX,
-    y: Number = centerY,
-    radius: Number = this.radius
-): T {
-    this.centerX = x.f
-    this.centerY = y.f
-    this.radius = radius.f
-    return this
+    override fun _copy(): ECircleMutable = MutableCircle(this)
+
+    fun set(other: ECircle) = set(other.center.x, other.center.y, other.radius)
+    fun set(center: EPoint = this.center, radius: Number = this.radius) =
+        set(center.x, center.y, radius)
+
+    fun set(
+        x: Number = centerX,
+        y: Number = centerY,
+        radius: Number = this.radius
+    ): ECircleMutable {
+        this.centerX = x.f
+        this.centerY = y.f
+        this.radius = radius.f
+        return this
+    }
+
+
 }
+

@@ -5,7 +5,7 @@ import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.line.ELine
 
 internal class EPointImpl internal constructor(x: Number, y: Number) :
-    EPoint {
+    EPointMutable {
     override var x: Float = x.toFloat()
     override var y: Float = y.toFloat()
 

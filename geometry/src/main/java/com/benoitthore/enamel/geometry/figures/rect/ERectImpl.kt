@@ -5,21 +5,23 @@ import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 
 internal class ERectImpl internal constructor(
     x: Number,
     y: Number,
     width: Number,
     height: Number
-) : ERect {
+) : ERectMutable {
 
     init {
         allocateDebugMessage()
     }
 
-    override val origin: EPoint = Point(x, y)
-    override val size: ESize = Size(width, height)
+    override val origin: EPointMutable = MutablePoint(x, y)
+    override val size: ESizeMutable = MutableSize(width, height)
 
     override var top: Float
         get() = origin.y
@@ -38,7 +40,7 @@ internal class ERectImpl internal constructor(
         get() = origin.x
         set(value) {
             val dW = left - value
-            origin.x= value
+            origin.x = value
             width += dW
         }
     override var right: Float

@@ -6,16 +6,10 @@ import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.line.set
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point.point
 
 interface ELinearFunction {
-
-    class Impl internal constructor(override val slope: Float, override val yIntercept: Float) :
-        ELinearFunction {
-        init {
-            allocateDebugMessage()
-        }
-    }
 
     val slope: Float
     val yIntercept: Float
@@ -43,10 +37,10 @@ interface ELinearFunction {
         return x point y
     }
 
-    fun projectedPoint(from: EPoint,target : EPoint = Point()): EPoint {
+    fun projectedPoint(from: EPoint, target: EPointMutable = MutablePoint()): EPoint {
         val x = from.x
         val y = this[x]
-        return target.set(x,y)
+        return target.set(x, y)
     }
 
     fun toLine(length: Number, target: ELine = Line()): ELine {
@@ -54,5 +48,29 @@ interface ELinearFunction {
         val x2 = length
         // TODO Make length work properly using pyth theorem
         return target.set(x1, this[x1], x2, this[x2])
+    }
+}
+
+interface ELinearFunctionMutable {
+
+    var slope: Float
+    var yIntercept: Float
+
+    var a
+        get() = slope
+        set(value) {
+            slope = value
+        }
+    var b
+        get() = yIntercept
+        set(value) {
+            yIntercept = value
+        }
+}
+
+internal class ELinearFunctionImpl(override var slope: Float, override var yIntercept: Float) :
+    ELinearFunctionMutable {
+    init {
+        allocateDebugMessage()
     }
 }

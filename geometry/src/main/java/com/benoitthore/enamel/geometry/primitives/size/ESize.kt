@@ -10,16 +10,17 @@ import kotlin.math.max
 import kotlin.math.min
 
 interface ESize : Tuple2 {
-    var width: Float
-    var height: Float
-
+    
+    val width: Float
+    val height: Float
+    
     override val v1: Number get() = width
     override val v2: Number get() = height
 
     fun copy(
         width: Number = this.width,
         height: Number = this.height,
-        target: ESize = Size()
+        target: ESizeMutable = MutableSize()
     ) = target.set(width, height)
 
     val min get() = min(width, height)
@@ -28,44 +29,48 @@ interface ESize : Tuple2 {
     val area get() = width * height
     val hasArea get() = area > 0
 
-    fun abs(target: ESize = Size()) = target.set(abs(width), abs(height))
+    fun abs(target: ESizeMutable = MutableSize()) = target.set(abs(width), abs(height))
 
-    fun inset(x: Number, y: Number, target: ESize = Size()) =
+    fun inset(x: Number, y: Number, target: ESizeMutable = MutableSize()) =
         target.set(width - x.f, height - y.f)
 
-    fun inset(other: Tuple2, target: ESize = Size()) =
+    fun inset(other: Tuple2, target: ESizeMutable = MutableSize()) =
         inset(other.v1, other.v2, target)
 
-    fun inset(n: Number, target: ESize = Size()) = inset(n, n, target)
+    fun inset(n: Number, target: ESizeMutable = MutableSize()) = inset(n, n, target)
 
-    fun expand(x: Number, y: Number, target: ESize = Size()) =
+    fun expand(x: Number, y: Number, target: ESizeMutable = MutableSize()) =
         inset(-x.f, -y.f, target)
 
-    fun expand(other: Tuple2, target: ESize = Size()) =
+    fun expand(other: Tuple2, target: ESizeMutable = MutableSize()) =
         expand(other.v1, other.v2, target)
 
-    fun expand(n: Number, target: ESize = Size()) = expand(n, n, target)
+    fun expand(n: Number, target: ESizeMutable = MutableSize()) = expand(n, n, target)
 
-    fun scale(x: Number, y: Number, target: ESize = Size()) =
+    fun scale(x: Number, y: Number, target: ESizeMutable = MutableSize()) =
         target.set(width * x.f, height * y.f)
 
-    fun scale(other: Tuple2, target: ESize = Size()) =
+    fun scale(other: Tuple2, target: ESizeMutable = MutableSize()) =
         scale(other.v1, other.v2, target)
 
-    fun scale(n: Number, target: ESize = Size()) = scale(n, n, target)
+    fun scale(n: Number, target: ESizeMutable = MutableSize()) = scale(n, n, target)
 
-    fun dividedBy(x: Number, y: Number, target: ESize = Size()) =
+    fun dividedBy(x: Number, y: Number, target: ESizeMutable = MutableSize()) =
         target.set(width / x.f, height / y.f)
 
-    fun dividedBy(other: Tuple2, target: ESize = Size()) =
+    fun dividedBy(other: Tuple2, target: ESizeMutable = MutableSize()) =
         dividedBy(other.v1, other.v2, target)
 
-    fun dividedBy(n: Number, target: ESize = Size()) = dividedBy(n, n, target)
+    fun dividedBy(n: Number, target: ESizeMutable = MutableSize()) = dividedBy(n, n, target)
 
 
-    //////////
+}
 
-    fun set(width: Number, height: Number): ESize {
+interface ESizeMutable : ESize{
+    override var width: Float
+    override var height: Float
+
+    fun set(width: Number, height: Number): ESizeMutable {
         this.width = width.f
         this.height = height.f
         return this
@@ -89,7 +94,4 @@ interface ESize : Tuple2 {
     fun selfDiv(x: Number, y: Number) = scale(x, y, this)
     fun selfDiv(other: Tuple2) = scale(other, this)
     fun selfDiv(n: Number) = scale(n, this)
-
-
 }
-

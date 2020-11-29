@@ -5,7 +5,7 @@ import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle.*
 
 internal class EAngleImpl internal constructor(value: Number, override var type: AngleType) :
-    EAngle {
+    EAngleMutable {
     override var value: Float = value.toFloat()
 
     override fun equals(other: Any?): Boolean {

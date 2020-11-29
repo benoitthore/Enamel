@@ -4,14 +4,16 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 
 internal class EOvalImpl(
     cx: Number,
     cy: Number,
     rx: Number,
     ry: Number
-) : EOval {
+) : EOvalMutable {
 
     override var width: Float
         get() = rx * 2
@@ -23,8 +25,8 @@ internal class EOvalImpl(
         set(value) {
             ry = value / 2f
         }
-    override val size: ESize = Size(rx.f * 2f, ry.f * 2f)
-    override val center: EPoint = Point(cx, cy)
+    override val size: ESizeMutable = MutableSize(rx.f * 2f, ry.f * 2f)
+    override val center: EPointMutable = MutablePoint(cx, cy)
 
     override var left: Float
         get() = centerX - rx

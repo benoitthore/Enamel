@@ -1,6 +1,6 @@
 package com.benoitthore.enamel.geometry.primitives.size
 
-internal class ESizeImpl internal constructor(width: Number, height: Number) : ESize {
+internal class ESizeImpl(width: Number, height: Number) : ESizeMutable {
     override var width: Float = width.toFloat()
     override var height: Float = height.toFloat()
 

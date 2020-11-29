@@ -4,13 +4,14 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import kotlin.math.min
 
 internal class ECircleImpl internal constructor(
     centerX: Number,
     centerY: Number,
     radius: Number
-) : ECircle {
+) : ECircleMutable {
 
     init {
         allocateDebugMessage()
@@ -69,13 +70,7 @@ internal class ECircleImpl internal constructor(
             center.y = value
         }
 
-    override fun set(other: ECircle): ECircle {
-        center.set(other.center)
-        radius = other.radius
-        return this
-    }
-
-    override val center: EPoint = Point(centerX, centerY)
+    override val center: EPointMutable = MutablePoint(centerX, centerY)
 
     /**
      * In case the bounds don't define a square, the circle gets align on the center of the

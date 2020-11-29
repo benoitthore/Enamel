@@ -8,11 +8,13 @@ import com.benoitthore.enamel.geometry.Allocates
 import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.functions.EShape
+import com.benoitthore.enamel.geometry.functions.EShapeMutable
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.angle.degrees
 import com.benoitthore.enamel.geometry.primitives.angle.radians
 import com.benoitthore.enamel.geometry.primitives.linearfunction.ELinearFunction
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point._angleTo
 import com.benoitthore.enamel.geometry.primitives.point._offsetAngle
 import com.benoitthore.enamel.geometry.svg.SVGContext
@@ -23,7 +25,7 @@ interface ELine : EShape, ELinearFunction {
     val end: EPoint
 
     override fun _copy(): ELine = Line(this)
-    fun set(other : ELine) : ELine
+    fun set(other: ELine): ELine
 
 
     val length
@@ -58,27 +60,35 @@ interface ELine : EShape, ELinearFunction {
         }
     }
 
-    fun pointAt(at: Float, target: EPoint): EPoint =
+    fun pointAt(at: Float, target: EPointMutable = MutablePoint()): EPointMutable =
         start.offsetTowards(end, length * at, target = target)
 
     @Allocates
-    fun pointFrom(distance: Number, from: Float, target: EPoint): EPoint {
-        val opposite = pointAt(from.opposite(), target = Point())
-        return target.set(opposite.offsetFrom(pointAt(from, target = Point()), distance))
+    fun pointFrom(
+        distance: Number,
+        from: Float,
+        target: EPointMutable = MutablePoint()
+    ): EPointMutable {
+        val opposite = pointAt(from.opposite(), target = MutablePoint())
+        return target.set(opposite.offsetFrom(pointAt(from, target = MutablePoint()), distance))
     }
 
     @Allocates
-    fun pointTowards(distance: Number, towards: Float, target: EPoint) =
+    fun pointTowards(distance: Number, towards: Float, target: EPointMutable = MutablePoint()) =
         target.set(
-            pointAt(towards.opposite(), target = Point()).offsetTowards(
+            pointAt(towards.opposite(), target = MutablePoint()).offsetTowards(
                 pointAt(
                     towards,
-                    target = Point()
+                    target = MutablePoint()
                 ), distance
             )
         )
 
-    fun extrapolateFrom(distance: Number, from: Number, target: EPoint): EPoint {
+    fun extrapolateFrom(
+        distance: Number,
+        from: Number,
+        target: EPointMutable = MutablePoint()
+    ): EPoint {
         val from = from.toFloat()
 
         val froPoint = pointAt(from.opposite(), target = target)
@@ -92,44 +102,64 @@ interface ELine : EShape, ELinearFunction {
 
     fun rotate(
         offsetAngle: EAngle,
-        around: EPoint = getCenter(Point()),
-        target: ELine
+        around: EPoint,
+        target: ELineMutable = MutableLine()
+    ): ELine = rotate(offsetAngle, around.x, around.y, target)
+
+    fun rotate(
+        offsetAngle: EAngle,
+        aroundX: Number = centerX,
+        aroundY: Number = centerY,
+        target: ELineMutable = MutableLine()
     ): ELine {
-        start.rotateAround(offsetAngle, around, target = target.start)
-        end.rotateAround(offsetAngle, around, target = target.end)
+        start.rotateAround(offsetAngle, aroundX, aroundY, target = target.start)
+        end.rotateAround(offsetAngle, aroundX, aroundY, target = target.end)
         return target
     }
 
-    fun expand(distance: Number, from: Number = 0f, target: ELine): ELine {
+    fun expand(distance: Number, from: Number = 0f, target: ELineMutable = MutableLine()): ELine {
         val from = from.toFloat()
         pointAt(from, target = target.start)
         extrapolateFrom(distance, from.opposite(), target = target.end)
         return target
     }
 
-    fun toListOfPoints(number: Int): List<EPoint> {
-        return when (number) {
-            0 -> emptyList()
-            1 -> listOf(start)
-            2 -> listOf(start, end)
+    fun toListOfPoints(list: MutableList<EPointMutable>): List<EPointMutable> {
+        when (list.size) {
+            0 -> {
+            }
+            1 -> list[0].set(start)
+            2 -> {
+                list[0].set(start)
+                list[1].set(end)
+            }
             else -> {
                 val distance = length.i
-                val step = (distance / (number - 1)).i
-                (0..distance step step).map { currentDistance ->
-                    start.offsetTowards(end, currentDistance)
+                val step = (distance / (list.size - 1)).i
+                var currentDistance = 0f
+                list.forEachIndexed { index, point ->
+
+                    start.offsetTowards(end, currentDistance, target = point)
+                    currentDistance += step
                 }
+                TODO("TEST")
             }
         }
+        return list
     }
+
+    fun toListOfPoints(number: Int): List<EPointMutable> = toListOfPoints(
+        MutableList(number) { MutablePoint() }
+    )
 
     @Allocates
     fun perpendicularPointLeft(
         distanceFroLine: Number,
         distanceTowardsEndPoint: Number,
         towards: Float,
-        target: EPoint
-    ): EPoint {
-        val x = pointTowards(distanceTowardsEndPoint, towards, target = Point())
+        target: EPointMutable = MutablePoint()
+    ): EPointMutable {
+        val x = pointTowards(distanceTowardsEndPoint, towards, target = MutablePoint())
         return target.set(
             x.offsetAngle(
                 angle = angle(Angle()) - 90.degrees(),
@@ -142,7 +172,7 @@ interface ELine : EShape, ELinearFunction {
         distanceFroLine: Number,
         distanceTowardsEndPoint: Number,
         towards: Float,
-        target: EPoint
+        target: EPointMutable = MutablePoint()
     ) =
         perpendicularPointLeft(
             -distanceFroLine.f,
@@ -156,7 +186,7 @@ interface ELine : EShape, ELinearFunction {
         towards: Float,
         leftLength: Number,
         rightLength: Number,
-        target: ELine
+        target: ELineMutable = MutableLine()
     ): ELine {
         perpendicularPointLeft(
             distanceFroLine = leftLength,
@@ -178,7 +208,7 @@ interface ELine : EShape, ELinearFunction {
         distance: Number,
         towards: Float,
         length: Number,
-        target: ELine
+        target: ELineMutable = MutableLine()
     ) =
         perpendicular(
             distance = distance,
@@ -190,7 +220,7 @@ interface ELine : EShape, ELinearFunction {
 
     fun perpendicular(
         at: Number, leftLength: Number, rightLength: Number,
-        target: ELine
+        target: ELineMutable = MutableLine()
     ): ELine {
         val offset = length * at.toFloat()
         return perpendicular(
@@ -202,17 +232,19 @@ interface ELine : EShape, ELinearFunction {
         )
     }
 
-    fun perpendicular(at: Number, length: Number, target: ELine) = perpendicular(
+    fun perpendicular(
+        at: Number,
+        length: Number,
+        target: ELineMutable = MutableLine()
+    ) = perpendicular(
         at = at,
         leftLength = length.f / 2f,
         rightLength = length.f / 2f,
         target = target
     )
 
-    fun parallel(distance: Number, target: ELine): ELine {
-
+    fun parallel(distance: Number, target: ELineMutable = MutableLine()): ELine {
         TODO()
-
         return target
     }
 
@@ -220,27 +252,42 @@ interface ELine : EShape, ELinearFunction {
     private fun Float.opposite() = 1f - this
 }
 
-fun <T : ELine> T.set(start: EPoint = this.start, end: EPoint = this.end) =
-    set(start.x, start.y, end.x, end.y)
+interface ELineMutable : ELine, EShapeMutable {
+    override val start: EPointMutable
+    override val end: EPointMutable
 
-fun <T : ELine> T.set(
-    x1: Number = start.x,
-    y1: Number = start.y,
-    x2: Number = end.x,
-    y2: Number = end.y
-) = apply {
-    start.x = x1.f
-    start.y = y1.f
+    override fun _copy(): ELineMutable = MutableLine(this)
 
-    end.x = x2.f
-    end.y = y2.f
+    fun set(start: EPoint = this.start, end: EPoint = this.end) =
+        set(start.x, start.y, end.x, end.y)
+
+    fun set(
+        x1: Number = start.x,
+        y1: Number = start.y,
+        x2: Number = end.x,
+        y2: Number = end.y
+    ) = apply {
+        start.x = x1.f
+        start.y = y1.f
+
+        end.x = x2.f
+        end.y = y2.f
+    }
+
+    fun selfRotate(
+        offsetAngle: EAngle,
+        aroundX: Number = centerX,
+        aroundY: Number = centerY,
+        target: ELine
+    ) = apply { rotate(offsetAngle, centerX, centerY, this) }
+
+    fun selfRotate(
+        offsetAngle: EAngle,
+        around: EPoint,
+        target: ELine
+    ) = apply { rotate(offsetAngle, around, this) }
+
+    fun selfExpand(distance: Number, from: Number = 0f) =
+        expand(distance, from, this)
+
 }
-
-fun <T : ELine> T.selfRotate(
-    offsetAngle: EAngle,
-    around: EPoint = getCenter(Point()),
-    target: ELine
-) = apply { rotate(offsetAngle, around, this) }
-
-fun <T : ELine> T.selfExpand(distance: Number, from: Number = 0f) =
-    expand(distance, from, this)
