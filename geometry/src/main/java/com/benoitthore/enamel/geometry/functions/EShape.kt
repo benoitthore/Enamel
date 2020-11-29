@@ -10,17 +10,12 @@ import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.svg.ESVG
 
+// TODO : make it compile
+interface EShape<I, M> : ESVG where M : EShape<I, M>, I : EShape<I, M> {
 
-fun <T : EShape> T.copy() =
-    _copy() as? T ?: throw Exception("${this::class.java}._copy() returns ${_copy()::class.java}")
-
-fun <T : EShape, R> T.copyMutable() where R : T, R : EShapeMutable =
-    _toMutable() as? T ?: throw Exception("${this::class.java}._copy() returns ${_copy()::class.java}")
-
-interface EShape : ESVG {
-
-    fun _copy(): EShape
-    fun _toMutable(): EShape
+    fun copy(): EShape<I, M>
+    fun toMutable(): M
+    fun toImmutable(): I
 
     val left: Float
     val top: Float
@@ -55,7 +50,8 @@ interface EShape : ESVG {
 
 }
 
-interface EShapeMutable : EShape {
+interface EShapeMutable<I, M> : EShape<I, M> where M : EShape<I, M>, I : EShape<I, M> {
+
     override var left: Float
     override var top: Float
     override var right: Float
