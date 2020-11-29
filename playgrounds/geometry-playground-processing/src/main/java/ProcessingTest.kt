@@ -2,7 +2,7 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.Rect
 import com.benoitthore.enamel.geometry.figures.rectgroup.toRectGroup
 import com.benoitthore.enamel.geometry.functions.innerOval
 import com.benoitthore.enamel.processing.*
@@ -25,13 +25,13 @@ class TestApplet : PApplet() {
         strokeWeight(2f)
         stroke(0)
 
-//        val rect = E.RectCenter(getViewCenter(), getViewSize()).padding(top = 100)
+//        val rect = RectCenter(getViewCenter(), getViewSize()).padding(top = 100)
 //        val oval = rect.innerOval()
 //        draw(rect)
 //        draw(oval)
 
-        val rect = E.Rect(0, 0, 50, 50)
-        val rect2 = E.Rect(50, 50, 100, 100)
+        val rect = Rect(0, 0, 50, 50)
+        val rect2 = Rect(50, 50, 100, 100)
         val applet = this
 
         listOf(rect, rect2).toRectGroup()
