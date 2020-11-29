@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.primitives.angle
 
 import com.benoitthore.enamel.core.math.i
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle.*
 
 internal class EAngleImpl internal constructor(value: Number, override var type: AngleType) :

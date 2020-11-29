@@ -25,12 +25,12 @@ fun Point(angle: EAngle, magnitude: Number) =
 val Point get() = _Point
 
 object _Point {
-    fun Zero(target: EPoint = E.Point()) = target.set(0f, 0f)
-    fun Half(target: EPoint = E.Point()) = target.set(0.5f, 0.5f)
-    fun Unit(target: EPoint = E.Point()) = target.set(1f, 1f)
+    fun Zero(target: EPoint = Point()) = target.set(0f, 0f)
+    fun Half(target: EPoint = Point()) = target.set(0.5f, 0.5f)
+    fun Unit(target: EPoint = Point()) = target.set(1f, 1f)
 
 
-    fun Random(magnitude: Number = 1f, target: EPoint = E.Point()) =
+    fun Random(magnitude: Number = 1f, target: EPoint = Point()) =
         target.set(
             x = randomSign() * com.benoitthore.enamel.core.math.random() * magnitude.f,
             y = randomSign() * com.benoitthore.enamel.core.math.random() * magnitude.f
@@ -41,7 +41,7 @@ object _Point {
         minY: Number = 0f,
         maxX: Number = 1f,
         maxY: Number = 1f,
-        target: EPoint = E.Point()
+        target: EPoint = Point()
     ) = target.set(
         x = com.benoitthore.enamel.core.math.random(minX, maxX),
         y = com.benoitthore.enamel.core.math.random(minY, maxY)

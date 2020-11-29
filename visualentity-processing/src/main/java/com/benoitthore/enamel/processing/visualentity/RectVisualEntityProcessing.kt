@@ -1,6 +1,6 @@
 package com.benoitthore.enamel.processing.visualentity
 
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.enamel.processing.VisualEntityDrawer
@@ -40,7 +40,7 @@ internal class RectVisualEntityProcessingImpl(
     ERect by rect,
     EStyleable by drawer {
 
-    override val transform: ETransform = E.Transform()
+    override val transform: ETransform = Transform()
     override fun _copy(): RectVisualEntityProcessing =
         rect._copy().toVisualEntity(style).toProcessing()
 }

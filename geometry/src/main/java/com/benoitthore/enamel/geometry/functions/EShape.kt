@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.functions
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
@@ -30,18 +30,18 @@ interface EShape : ESVG {
     /**
      * @return the bounds of the shape
      */
-    fun getBounds(target: ERect = E.Rect()): ERect =
+    fun getBounds(target: ERect = Rect()): ERect =
         target.setOriginSize(originX, originY, width, height)
 
     /**
      * @return the size of the shape
      */
-    fun getSize(target: ESize = E.Size()): ESize = target.set(width, height)
+    fun getSize(target: ESize = Size()): ESize = target.set(width, height)
 
     /**
      * @return the center of the shape
      */
-    fun getCenter(target: EPoint = E.Point()): EPoint =
+    fun getCenter(target: EPoint = Point()): EPoint =
         target.set(centerX, centerY)
 
 

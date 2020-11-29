@@ -1,6 +1,6 @@
 package com.benoitthore.enamel.geometry.layout.refs
 
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.functions.setBounds
@@ -10,7 +10,7 @@ class ELayoutTag(var tag: String) : ELayout {
     override val children: List<ELayout> get() = emptyList()
 
     val frame: ERect get() = _frame
-    private val _frame = E.Rect()
+    private val _frame = Rect()
 
     override fun size(toFit: ESize): ESize = toFit
 

@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.figures.oval
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.size.ESize
@@ -23,8 +23,8 @@ internal class EOvalImpl(
         set(value) {
             ry = value / 2f
         }
-    override val size: ESize = E.Size(rx.f * 2f, ry.f * 2f)
-    override val center: EPoint = E.Point(cx, cy)
+    override val size: ESize = Size(rx.f * 2f, ry.f * 2f)
+    override val center: EPoint = Point(cx, cy)
 
     override var left: Float
         get() = centerX - rx

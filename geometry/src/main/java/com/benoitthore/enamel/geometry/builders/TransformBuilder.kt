@@ -7,11 +7,11 @@ import com.benoitthore.enamel.geometry.primitives.transfrom.ETransformImpl
 
 
 fun Transform(
-    rotation: EAngle = E.Angle(),
-    rotationPivot: EPoint = E.Point.Half(),
-    scale: EPoint = E.Point.Unit(),
-    scalePivot: EPoint = E.Point.Half(),
-    translation: EPoint = E.Point()
+    rotation: EAngle = Angle(),
+    rotationPivot: EPoint = Point.Half(),
+    scale: EPoint = Point.Unit(),
+    scalePivot: EPoint = Point.Half(),
+    translation: EPoint = Point()
 ): ETransform =
     ETransformImpl(
         rotation = rotation,
@@ -23,11 +23,11 @@ fun Transform(
 
 
 fun ETransform(
-    rotation: EAngle = E.Angle(),
-    rotationPivot: EPoint = E.Point.Half(),
-    scale: EPoint = E.Point.Unit(),
-    scalePivot: EPoint = E.Point.Half(),
-    translation: EPoint = E.Point()
+    rotation: EAngle = Angle(),
+    rotationPivot: EPoint = Point.Half(),
+    scale: EPoint = Point.Unit(),
+    scalePivot: EPoint = Point.Half(),
+    translation: EPoint = Point()
 ): ETransform = Transform(
     rotation = rotation,
     rotationPivot = rotationPivot,

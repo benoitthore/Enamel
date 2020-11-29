@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry
 
 import com.benoitthore.enamel.core.LazyList
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.rect.ERect
@@ -43,17 +43,17 @@ class EPool<T : Any>(val size: Int, init: (Int) -> T) {
 }
 
 fun RectPool(size: Int = 50) =
-    EPool(size) { E.Rect() }
+    EPool(size) { Rect() }
 fun PointPool(size: Int = 50) =
-    EPool(size) { E.Point() }
+    EPool(size) { Point() }
 
 fun CirclePool(size: Int = 50) =
-    EPool(size) { E.Circle() }
+    EPool(size) { Circle() }
 
 fun LinePool(size: Int = 50) =
-    EPool(size) { E.Line() }
+    EPool(size) { Line() }
 fun AnglePool(size: Int = 50) =
-    EPool(size) { E.Angle() }
+    EPool(size) { Angle() }
 
 class GeometryPool(
     val rect: EPool<ERect> = RectPool(

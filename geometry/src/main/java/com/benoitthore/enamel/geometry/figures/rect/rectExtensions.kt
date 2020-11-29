@@ -4,7 +4,7 @@ import com.benoitthore.enamel.core.math.constrain
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.alignement.ERectEdge
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.functions.expand
 import com.benoitthore.enamel.geometry.functions.setSize
@@ -13,7 +13,7 @@ import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 fun ERect.dividedFraction(
     fraction: Number,
     from: ERectEdge,
-    target: Pair<ERect, ERect> = E.Rect() to E.Rect()
+    target: Pair<ERect, ERect> = Rect() to Rect()
 ): Pair<ERect, ERect> {
     val fraction = fraction.f
 
@@ -27,7 +27,7 @@ fun ERect.dividedFraction(
 fun ERect.divided(
     distance: Number,
     from: ERectEdge,
-    target: Pair<ERect, ERect> = E.Rect() to E.Rect()
+    target: Pair<ERect, ERect> = Rect() to Rect()
 ): Pair<ERect, ERect> {
     val distance = distance.f
 
@@ -57,7 +57,7 @@ fun ERect.divided(
     /* OLD CODE
      val slice =
          alignedInside(from.alignement, sliceWidth size sliceHeight, target = target.first)
-     val remainderSize = E.Size(remainderWidth, remainderHeight)
+     val remainderSize = Size(remainderWidth, remainderHeight)
      val remainder =
          slice.alignedOutside(from.alignement.flipped, remainderSize, target = target.second)
 
@@ -73,7 +73,7 @@ fun ERect.divided(
 operator fun ERect.minus(padding: EOffset): ERect = TODO()// padding(padding).ensureRect()
 operator fun ERect.plus(padding: EOffset) = expand(padding)
 
-fun List<ERect>.union(target: ERect = E.Rect()): ERect {
+fun List<ERect>.union(target: ERect = Rect()): ERect {
     if (isEmpty()) {
         return target
     }
@@ -99,7 +99,7 @@ fun List<ERect>.union(target: ERect = E.Rect()): ERect {
             bottom = it.bottom
         }
     }
-    return E.RectSides(
+    return RectSides(
         top = top,
         left = left,
         right = right,

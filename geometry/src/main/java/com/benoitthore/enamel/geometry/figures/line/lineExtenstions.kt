@@ -1,19 +1,19 @@
 package com.benoitthore.enamel.geometry.figures.line
 
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.length
 import com.benoitthore.enamel.geometry.primitives.point.point
 import kotlin.math.*
 
-infix fun EPoint.line(end: EPoint) = E.Line(start = this, end = end)
+infix fun EPoint.line(end: EPoint) = Line(start = this, end = end)
 
 fun List<EPoint>.toListOfLines(): List<ELine> {
     val ret = mutableListOf<ELine>()
     forEachIndexed { i, curr ->
         if (i > 0) {
             val prev = get(i - 1)
-            ret.add(E.Line(prev, curr))
+            ret.add(Line(prev, curr))
         }
     }
     return ret
@@ -57,9 +57,9 @@ private fun getClosestPointOnSegment(
     val u = ((px - sx1) * xDelta + (py - sy1) * yDelta) / (xDelta * xDelta + yDelta * yDelta)
 
     return when {
-        u < 0 -> E.Point(sx1, sy1)
-        u > 1 -> E.Point(sx2, sy2)
-        else -> E.Point(round(sx1 + u * xDelta), round(sy1 + u * yDelta))
+        u < 0 -> Point(sx1, sy1)
+        u > 1 -> Point(sx2, sy2)
+        else -> Point(round(sx1 + u * xDelta), round(sy1 + u * yDelta))
     }
 }
 
@@ -95,12 +95,12 @@ val List<ELine>.length: Float get() = sumByDouble { it.length.toDouble() }.toFlo
 operator fun ELine.component1() = start
 operator fun ELine.component2() = end
 
-fun List<EPoint>.pointAtFraction(fraction: Number, target: EPoint = E.Point()) =
+fun List<EPoint>.pointAtFraction(fraction: Number, target: EPoint = Point()) =
     pointAtDistance(fraction.toFloat() * length, target)
 
 fun List<EPoint>.pointAtDistance(
     distance: Number,
-    target: EPoint = E.Point()
+    target: EPoint = Point()
 ): EPoint {
     var last: EPoint? = null
     val distance = distance.toFloat()

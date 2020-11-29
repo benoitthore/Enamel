@@ -5,7 +5,7 @@ import com.benoitthore.enamel.core.blue
 import com.benoitthore.enamel.core.green
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.red
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.oval.EOval
@@ -49,7 +49,7 @@ fun PApplet.linearGradient(
         strokeWeight(1f)
         val nbLines = frame.width.toInt() / resolution
 
-        val rect = E.Rect(origin = 0 point 0, size = resolution size frame.height)
+        val rect = Rect(origin = 0 point 0, size = resolution size frame.height)
         val scale = ColorScale(colors)
 
         for (i in 0 until nbLines) {
@@ -70,7 +70,7 @@ inline fun <reified T : PApplet> runApplet(vararg args: String) {
 }
 
 // TODO Fix this
-//fun testPApplet(size: ESize = E.Size(800, 800), onDraw: KotlinPApplet.() -> Unit) {
+//fun testPApplet(size: ESize = Size(800, 800), onDraw: KotlinPApplet.() -> Unit) {
 //    val applet = TestApplet.create()
 //    applet.size = size
 //    applet.onDraw = onDraw

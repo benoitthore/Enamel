@@ -3,7 +3,7 @@ package com.benoitthore.enamel.layout.android
 import android.view.MotionEvent.*
 import android.view.MotionEvent
 import android.view.View
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import kotlin.math.min
 
@@ -14,7 +14,7 @@ typealias ETouchListener = (ETouchEvent) -> Boolean
 fun View.singleTouch(block: (ETouchEvent) -> Boolean): Unit = multiTouch { block(it.first()) }
 
 sealed class ETouchEvent {
-    val position: EPoint = E.Point()
+    val position: EPoint = Point()
 
     val isDown get() = this is Down
     val isMove get() = this is Move
@@ -26,7 +26,7 @@ sealed class ETouchEvent {
 
     class Down : ETouchEvent()
 
-    class Move(val previous: EPoint = E.Point()) : ETouchEvent() {
+    class Move(val previous: EPoint = Point()) : ETouchEvent() {
         override fun set(x: Number, y: Number, id: Int) {
             previous.set(position)
             super.set(x, y, id)

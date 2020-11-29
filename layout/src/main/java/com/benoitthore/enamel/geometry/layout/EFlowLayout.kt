@@ -3,7 +3,7 @@ package com.benoitthore.enamel.geometry.layout
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.EAlignment.bottomLeft
 import com.benoitthore.enamel.geometry.alignement.EAlignment.rightCenter
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.layout.dsl.snugged
@@ -29,7 +29,7 @@ class EFlowLayout(
     val lineAlignment: EAlignment = bottomLeft
 ) : ELayout {
     override fun size(toFit: ESize): ESize =
-        measurableArrange(rect = E.Rect(size = toFit), shouldArrange = false)
+        measurableArrange(rect = Rect(size = toFit), shouldArrange = false)
 
     override fun arrange(frame: ERect) {
         measurableArrange(frame)
@@ -39,7 +39,7 @@ class EFlowLayout(
         var rowWidth = 0f
         val cols = mutableListOf<ELayout>()
         val row = mutableListOf<ELayout>()
-        val rowSize = E.Size()
+        val rowSize = Size()
         val limit = if (childAlignment.isVertical) rect.height else rect.width
 
         children.forEachIndexed { i, child ->

@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.layout
 
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 
@@ -19,6 +19,6 @@ interface ELayoutAlongAxis : ELayout {
     val layoutAxis: ELayoutAxis
 }
 
-val ELayout.unconstrainedSize get() = size(E.Size.GreatestSize())
+val ELayout.unconstrainedSize get() = size(Size.GreatestSize())
 
 

@@ -2,7 +2,7 @@ package com.benoitthore.enamel.geometry.figures.rectgroup
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.functions.EShape
@@ -55,7 +55,7 @@ interface ERectGroup<T : EShape> : EShape {
 
     class ERectGroupImpl<T : EShape>(override val rects: List<T>) : ERectGroup<T> {
 
-        private val _frame = E.Rect()
+        private val _frame = Rect()
 
 
         override val frame: ERect

@@ -1,22 +1,22 @@
 package com.benoitthore.enamel.geometry.alignement
 
 import com.benoitthore.enamel.geometry.allocate
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 
 
 class NamedPoint {
     companion object {
-        val topLeft = allocate { E.Point(x = 0, y = 0) }
-        val topCenter = allocate { E.Point(x = 0.5, y = 0) }
-        val topRight = allocate { E.Point(x = 1, y = 0) }
+        val topLeft = allocate { Point(x = 0, y = 0) }
+        val topCenter = allocate { Point(x = 0.5, y = 0) }
+        val topRight = allocate { Point(x = 1, y = 0) }
 
-        val centerLeft = allocate { E.Point(x = 0, y = 0.5) }
-        val center = allocate { E.Point(x = 0.5, y = 0.5) }
-        val centerRight = allocate { E.Point(x = 1, y = 0.5) }
+        val centerLeft = allocate { Point(x = 0, y = 0.5) }
+        val center = allocate { Point(x = 0.5, y = 0.5) }
+        val centerRight = allocate { Point(x = 1, y = 0.5) }
 
-        val bottomLeft = allocate { E.Point(x = 0, y = 1) }
-        val bottomCenter = allocate { E.Point(x = 0.5, y = 1) }
-        val bottomRight = allocate { E.Point(x = 1, y = 1) }
+        val bottomLeft = allocate { Point(x = 0, y = 1) }
+        val bottomCenter = allocate { Point(x = 0.5, y = 1) }
+        val bottomRight = allocate { Point(x = 1, y = 1) }
 
         val vertices = listOf(topLeft, topRight, bottomRight, bottomLeft)
         val all = listOf(

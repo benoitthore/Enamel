@@ -129,5 +129,5 @@ fun RectAnchorPos(
 val Rect get() = _Rect
 
 object _Rect {
-    fun Square(size: Number) = E.Rect(width = size, height = size)
+    fun Square(size: Number) = Rect(width = size, height = size)
 }

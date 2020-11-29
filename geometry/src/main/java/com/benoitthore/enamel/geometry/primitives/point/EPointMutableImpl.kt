@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.primitives.point
 
 import com.benoitthore.enamel.geometry.allocateDebugMessage
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.line.ELine
 
 internal class EPointImpl internal constructor(x: Number, y: Number) :

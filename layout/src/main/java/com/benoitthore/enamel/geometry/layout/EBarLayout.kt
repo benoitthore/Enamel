@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.layout
 
 import com.benoitthore.enamel.geometry.alignement.*
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 
@@ -30,7 +30,7 @@ class EBarLayout(child: ELayout, var side: ERectEdge) : ELayoutAlongAxis {
     }
 
     override fun arrange(frame: ERect) {
-        val usingFrame = E.Rect(child.size(frame.size)).selfAlignOutside(
+        val usingFrame = Rect(child.size(frame.size)).selfAlignOutside(
             frame = frame,
             alignment = side.alignement
         )

@@ -5,7 +5,7 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.selfAlignOutside
 import com.benoitthore.enamel.geometry.allocate
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.functions.setSize
@@ -18,26 +18,26 @@ fun <T: EShape> List<T>.toRectGroup(): ERectGroup<T> =
 
 fun List<ESize>.rectGroup(
     alignment: EAlignment,
-    anchor: EPoint = E.Point.Zero(),
-    position: EPoint = E.Point.Zero(),
+    anchor: EPoint = Point.Zero(),
+    position: EPoint = Point.Zero(),
     spacing: Number = 0
 ): ERectGroup<ERect> {
 
-    var prev = allocate { E.Rect() }
+    var prev = allocate { Rect() }
     val rects = mapIndexed { i, size ->
         prev = allocate {
 
 //            prev.alignedOutside(
 //                alignment = alignment,
 //                size = size,
-//                spacing = if (prev.size == E.Size.zero()) 0 else spacing
+//                spacing = if (prev.size == Size.zero()) 0 else spacing
 //            )
 
             TODO("Check if this works")
-            E.Rect(size).selfAlignOutside(
+            Rect(size).selfAlignOutside(
                 frame = prev,
                 alignment = alignment,
-                spacing = if (prev.size == E.Size.Zero()) 0 else spacing
+                spacing = if (prev.size == Size.Zero()) 0 else spacing
             ).setSize(size)
 
         }
@@ -55,8 +55,8 @@ fun List<ESize>.rectGroup(
 fun List<ESize>.rectGroupJustified(
     alignment: EAlignment,
     toFit: Number,
-    anchor: EPoint = E.Point.Zero(),
-    position: EPoint = E.Point.Zero()
+    anchor: EPoint = Point.Zero(),
+    position: EPoint = Point.Zero()
 ): ERectGroup<ERect> {
     val pack = rectGroup(alignment)
     val packedSpace = if (alignment.isHorizontal) pack.width else pack.height
@@ -73,8 +73,8 @@ fun List<ESize>.rectGroupJustified(
 fun List<Number>.rectGroupWeights(
     alignment: EAlignment,
     toFit: ESize,
-    anchor: EPoint = E.Point.Zero(),
-    position: EPoint = E.Point.Zero(),
+    anchor: EPoint = Point.Zero(),
+    position: EPoint = Point.Zero(),
     spacing: Number = 0
 ): ERectGroup<ERect> {
 
@@ -92,9 +92,9 @@ fun List<Number>.rectGroupWeights(
     val totalWeight = sumByDouble { it.d }.f
 
     val sizes: List<ESize> = if (alignment.isHorizontal) {
-        map { E.Size((actualWidth) * it.toFloat() / totalWeight, toFit.height) }
+        map { Size((actualWidth) * it.toFloat() / totalWeight, toFit.height) }
     } else {
-        map { E.Size(toFit.width, (actualHeight) * it.toFloat() / totalWeight) }
+        map { Size(toFit.width, (actualHeight) * it.toFloat() / totalWeight) }
     }
 
     return sizes.rectGroup(

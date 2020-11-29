@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.processing
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.oval.EOval
@@ -35,15 +35,15 @@ inline fun <T : PApplet> T.pushPop(block: T.() -> Unit) {
     popStyle()
 }
 
-fun PApplet.mousePosition(target: EPoint = E.Point()) = target.set(mouseX, mouseY)
-fun PApplet.getViewSize(target: ESize = E.Size()) = target.apply {
+fun PApplet.mousePosition(target: EPoint = Point()) = target.set(mouseX, mouseY)
+fun PApplet.getViewSize(target: ESize = Size()) = target.apply {
     width = pixelWidth.f
     height = pixelHeight.f
 }
 
-fun PApplet.getViewCenter(point: EPoint=E.Point()) = point.set(width / 2f, height / 2f)
+fun PApplet.getViewCenter(point: EPoint=Point()) = point.set(width / 2f, height / 2f)
 
-fun PApplet.getViewBounds(target: ERect = E.Rect()) =
+fun PApplet.getViewBounds(target: ERect = Rect()) =
     target.apply { _setBounds(0, 0, this@getViewBounds.width, this@getViewBounds.height) }
 
 fun ERect.setBounds(applet: PApplet) = apply { applet.getViewBounds(target = this) }

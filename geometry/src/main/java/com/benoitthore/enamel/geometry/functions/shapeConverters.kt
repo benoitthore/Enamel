@@ -5,7 +5,7 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.alignement.EAlignment
 import com.benoitthore.enamel.geometry.alignement.NamedPoint
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.line.line
@@ -37,7 +37,7 @@ fun <T : EShape> T.toLine(
 ): ELine = pointAtAnchor(fromX, fromY) line pointAtAnchor(toX, toY)
 
 
-fun ECircle.pointAtAngle(angle: EAngle, target: EPoint = E.Point()): EPoint =
+fun ECircle.pointAtAngle(angle: EAngle, target: EPoint = Point()): EPoint =
     target.set(angle, radius).selfOffset(center)
 
 fun ECircle.toListOfPoint(
@@ -81,7 +81,7 @@ fun ECircle.toListOfPoint(
     startAt: EAngle? = null
 ) =
     toListOfPoint(
-        MutableList(distanceList.size) { E.Point() }, startAt, distanceList
+        MutableList(distanceList.size) { Point() }, startAt, distanceList
     )
 
 fun ECircle.toListOfPoint(
@@ -89,10 +89,10 @@ fun ECircle.toListOfPoint(
     startAt: EAngle? = null
 ) =
     toListOfPoint(
-        MutableList(numberOfPoint) { E.Point() }, startAt
+        MutableList(numberOfPoint) { Point() }, startAt
     )
 
-fun EPoint.toCircle(radius: Number = 0f, target: ECircle = E.Circle()): ECircle {
+fun EPoint.toCircle(radius: Number = 0f, target: ECircle = Circle()): ECircle {
     target.center.set(this)
     target.radius = radius.f
     return target
@@ -100,7 +100,7 @@ fun EPoint.toCircle(radius: Number = 0f, target: ECircle = E.Circle()): ECircle 
 
 fun List<EPoint>.toCircles(
     radius: Number,
-    target: List<ECircle> = MutableList(size) { E.Circle() }
+    target: List<ECircle> = MutableList(size) { Circle() }
 ): List<ECircle> {
     forEachIndexed { i, p ->
         p.toCircle(radius, target[i])
@@ -108,22 +108,22 @@ fun List<EPoint>.toCircles(
     return target
 }
 
-fun ESize.toRect(target: ERect = E.Rect()) = target.setOriginSize(0, 0, width, height)
+fun ESize.toRect(target: ERect = Rect()) = target.setOriginSize(0, 0, width, height)
 
-fun EShape.innerCircle(target: ECircle = E.Circle()): ECircle {
+fun EShape.innerCircle(target: ECircle = Circle()): ECircle {
     getCenter(target.center) // set circles center to rect center
     target.radius = (if (width > height) height else width) / 2f // TODO Repalce that with minmax
     return target
 }
 
-fun EShape.outerCircle(target: ECircle = E.Circle()): ECircle {
+fun EShape.outerCircle(target: ECircle = Circle()): ECircle {
     getCenter(target.center) // set circles center to rect center
     target.radius = hypot(width.d, height.d).f / 2f
     return target
 }
 
 
-fun EShape.innerOval(target: EOval = E.Oval()): EOval {
+fun EShape.innerOval(target: EOval = Oval()): EOval {
     target._setBounds(
         left = left,
         top = top,
@@ -133,15 +133,15 @@ fun EShape.innerOval(target: EOval = E.Oval()): EOval {
     return target
 }
 
-fun EShape.outerOval(target: EOval = E.Oval()): EOval {
+fun EShape.outerOval(target: EOval = Oval()): EOval {
     TODO()
     return target
 }
 
-fun ECircle.outerRect(target: ERect = E.Rect()): ERect =
+fun ECircle.outerRect(target: ERect = Rect()): ERect =
     target.apply { this@outerRect.getBounds(target) }
 
-fun ECircle.innerRect(target: ERect = E.Rect()): ERect {
+fun ECircle.innerRect(target: ERect = Rect()): ERect {
     val width = Math.sqrt((2 * radius * radius).toDouble()).f
     target.width = width
     target.height = width

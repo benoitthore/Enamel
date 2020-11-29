@@ -7,7 +7,7 @@ import android.graphics.Color.*
 import android.util.AttributeSet
 import android.view.View
 import com.benoitthore.enamel.geometry.alignement.*
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.line.set
 import com.benoitthore.enamel.geometry.functions.diagonalTLBR
 import com.benoitthore.enamel.geometry.functions.pointAtAnchor
@@ -27,14 +27,14 @@ class MyProgressBar @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
     private val height = 64.dp
 
-    private val progressCircle = E.Circle(radius = 32.dp)
+    private val progressCircle = Circle(radius = 32.dp)
         .toVisualEntity { circle ->
             fillShader = circle.toShader(RED, YELLOW)
             strokeColor = BLACK
             strokeWidth = 1.dp
         }.toAndroid()
 
-    private val line  : ELineVisualEntityAndroid = E.Line().toVisualEntity { strokeColor = RED }.toAndroid()
+    private val line  : ELineVisualEntityAndroid = Line().toVisualEntity { strokeColor = RED }.toAndroid()
 
     init {
         singleTouch {
@@ -70,7 +70,7 @@ class MyProgressBar @JvmOverloads constructor(
 
 fun main(canvas: Canvas) {
 
-    val circleVE = E.Circle(radius = 10.dp).toVisualEntity { circle ->
+    val circleVE = Circle(radius = 10.dp).toVisualEntity { circle ->
         strokeColor = RED
         strokeWidth = 2.dp
         fillShader = circle

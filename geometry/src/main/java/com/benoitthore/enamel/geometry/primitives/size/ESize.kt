@@ -2,7 +2,7 @@ package com.benoitthore.enamel.geometry.primitives.size
 
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import kotlin.math.abs
 import kotlin.math.hypot
@@ -19,7 +19,7 @@ interface ESize : Tuple2 {
     fun copy(
         width: Number = this.width,
         height: Number = this.height,
-        target: ESize = E.Size()
+        target: ESize = Size()
     ) = target.set(width, height)
 
     val min get() = min(width, height)
@@ -28,39 +28,39 @@ interface ESize : Tuple2 {
     val area get() = width * height
     val hasArea get() = area > 0
 
-    fun abs(target: ESize = E.Size()) = target.set(abs(width), abs(height))
+    fun abs(target: ESize = Size()) = target.set(abs(width), abs(height))
 
-    fun inset(x: Number, y: Number, target: ESize = E.Size()) =
+    fun inset(x: Number, y: Number, target: ESize = Size()) =
         target.set(width - x.f, height - y.f)
 
-    fun inset(other: Tuple2, target: ESize = E.Size()) =
+    fun inset(other: Tuple2, target: ESize = Size()) =
         inset(other.v1, other.v2, target)
 
-    fun inset(n: Number, target: ESize = E.Size()) = inset(n, n, target)
+    fun inset(n: Number, target: ESize = Size()) = inset(n, n, target)
 
-    fun expand(x: Number, y: Number, target: ESize = E.Size()) =
+    fun expand(x: Number, y: Number, target: ESize = Size()) =
         inset(-x.f, -y.f, target)
 
-    fun expand(other: Tuple2, target: ESize = E.Size()) =
+    fun expand(other: Tuple2, target: ESize = Size()) =
         expand(other.v1, other.v2, target)
 
-    fun expand(n: Number, target: ESize = E.Size()) = expand(n, n, target)
+    fun expand(n: Number, target: ESize = Size()) = expand(n, n, target)
 
-    fun scale(x: Number, y: Number, target: ESize = E.Size()) =
+    fun scale(x: Number, y: Number, target: ESize = Size()) =
         target.set(width * x.f, height * y.f)
 
-    fun scale(other: Tuple2, target: ESize = E.Size()) =
+    fun scale(other: Tuple2, target: ESize = Size()) =
         scale(other.v1, other.v2, target)
 
-    fun scale(n: Number, target: ESize = E.Size()) = scale(n, n, target)
+    fun scale(n: Number, target: ESize = Size()) = scale(n, n, target)
 
-    fun dividedBy(x: Number, y: Number, target: ESize = E.Size()) =
+    fun dividedBy(x: Number, y: Number, target: ESize = Size()) =
         target.set(width / x.f, height / y.f)
 
-    fun dividedBy(other: Tuple2, target: ESize = E.Size()) =
+    fun dividedBy(other: Tuple2, target: ESize = Size()) =
         dividedBy(other.v1, other.v2, target)
 
-    fun dividedBy(n: Number, target: ESize = E.Size()) = dividedBy(n, n, target)
+    fun dividedBy(n: Number, target: ESize = Size()) = dividedBy(n, n, target)
 
 
     //////////

@@ -2,7 +2,7 @@ package com.benoitthore.enamel.processing.demo
 
 import com.benoitthore.enamel.core.math.random
 import com.benoitthore.enamel.core.randomColor
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.rect.contains
 import com.benoitthore.enamel.geometry.functions.map
 import com.benoitthore.enamel.geometry.functions.toCircle
@@ -34,9 +34,9 @@ class TmpApplet : KotlinPApplet() {
     val gameController: IGameController = GameController()
 
 
-    private val fromFrame = E.Rect(0, 0, 1, 1)
-    private val toFrame = E.Rect()
-    private val buffer = E.Circle().toVisualEntity {}.toProcessing()
+    private val fromFrame = Rect(0, 0, 1, 1)
+    private val toFrame = Rect()
+    private val buffer = Circle().toVisualEntity {}.toProcessing()
     override fun draw() {
         background(0)
 
@@ -80,7 +80,7 @@ class GameController : IGameController {
     private val circles: MutableList<ECircleVisualEntity> = mutableListOf()
     private val grownCircles: MutableList<ECircleVisualEntity> = mutableListOf()
     private val growingCircles: MutableList<ECircleVisualEntity> = mutableListOf()
-    private val frame = E.Rect(0, 0, 1, 1)
+    private val frame = Rect(0, 0, 1, 1)
 
     private val increment = 0.001f
     private val minRadius = 0.05f
@@ -90,7 +90,7 @@ class GameController : IGameController {
     }
 
     private fun addCircle(p: EPoint? = null) {
-        val p = p ?: E.Point.Random()
+        val p = p ?: Point.Random()
 
         val circle = p.toCircle(random(minRadius))
             .toVisualEntity { fillColor = randomColor() }

@@ -2,7 +2,7 @@ package com.benoitthore.enamel.geometry.figures.circle
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.allocateDebugMessage
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import kotlin.math.min
 
@@ -75,7 +75,7 @@ internal class ECircleImpl internal constructor(
         return this
     }
 
-    override val center: EPoint = E.Point(centerX, centerY)
+    override val center: EPoint = Point(centerX, centerY)
 
     /**
      * In case the bounds don't define a square, the circle gets align on the center of the

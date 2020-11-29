@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.figures.line
 
 import com.benoitthore.enamel.geometry.allocateDebugMessage
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import kotlin.math.max
 import kotlin.math.min
@@ -17,8 +17,8 @@ internal class ELineImpl internal constructor(
         allocateDebugMessage()
     }
 
-    override val start: EPoint = E.Point(x1, y1)
-    override val end: EPoint = E.Point(x2, y2)
+    override val start: EPoint = Point(x1, y1)
+    override val end: EPoint = Point(x2, y2)
 
     /* TODO Handle vertical/horizontal
         Reproduce issue by doing -> someLine.left = mousePosition().x

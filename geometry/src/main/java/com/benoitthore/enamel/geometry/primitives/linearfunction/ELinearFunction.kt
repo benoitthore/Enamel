@@ -2,7 +2,7 @@ package com.benoitthore.enamel.geometry.primitives.linearfunction
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.allocateDebugMessage
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.line.set
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
@@ -43,13 +43,13 @@ interface ELinearFunction {
         return x point y
     }
 
-    fun projectedPoint(from: EPoint,target : EPoint = E.Point()): EPoint {
+    fun projectedPoint(from: EPoint,target : EPoint = Point()): EPoint {
         val x = from.x
         val y = this[x]
         return target.set(x,y)
     }
 
-    fun toLine(length: Number, target: ELine = E.Line()): ELine {
+    fun toLine(length: Number, target: ELine = Line()): ELine {
         val x1 = 0f
         val x2 = length
         // TODO Make length work properly using pyth theorem

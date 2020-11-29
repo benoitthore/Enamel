@@ -2,19 +2,19 @@ package com.benoitthore.enamel.geometry.primitives.size
 
 import com.benoitthore.enamel.geometry.alignement.ELayoutAxis
 import com.benoitthore.enamel.geometry.alignement.isVertical
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.primitives.times
 import kotlin.math.max
 import kotlin.math.min
 
-infix fun Number.size(height: Number) = E.Size(this, height)
+infix fun Number.size(height: Number) = Size(this, height)
 
 fun ESize.along(axis: ELayoutAxis): Float = when (axis) {
     ELayoutAxis.vertical -> height
     ELayoutAxis.horizontal -> width
 }
 
-fun ESize.with(side: ELayoutAxis, newValue: Number) = E.Size(
+fun ESize.with(side: ELayoutAxis, newValue: Number) = Size(
     width = if (side == ELayoutAxis.horizontal) newValue else width,
     height = if (side == ELayoutAxis.vertical) newValue else height
 )
@@ -40,7 +40,7 @@ fun ESize.scaleToFit(size: ESize): Float {
     return min(b.width / a.width, b.height / a.height) // TODO what if Infinite
 }
 
-fun List<ESize>.union(target: ESize = E.Size()): ESize {
+fun List<ESize>.union(target: ESize = Size()): ESize {
     var width = Float.MIN_VALUE
     var height = Float.MIN_VALUE
 
@@ -58,7 +58,7 @@ fun List<ESize>.union(target: ESize = E.Size()): ESize {
 
 fun List<ESize>.unionAlongAxis(
     axis: ELayoutAxis,
-    target: ESize = E.Size()
+    target: ESize = Size()
 ): ESize {
 
     var sum = 0f

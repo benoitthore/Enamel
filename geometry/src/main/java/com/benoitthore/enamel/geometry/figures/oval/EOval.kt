@@ -1,6 +1,6 @@
 package com.benoitthore.enamel.geometry.figures.oval
 
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.size.ESize
@@ -11,7 +11,7 @@ interface EOval : EShape {
     val center: EPoint
 
 
-    override fun _copy(): EOval = E.Oval(this)
+    override fun _copy(): EOval = Oval(this)
     fun set(other : EOval) : EOval
 
 

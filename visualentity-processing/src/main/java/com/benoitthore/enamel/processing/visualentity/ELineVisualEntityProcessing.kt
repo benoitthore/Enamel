@@ -1,6 +1,6 @@
 package com.benoitthore.enamel.processing.visualentity
 
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.primitives.transfrom.ETransform
 import com.benoitthore.enamel.processing.VisualEntityDrawer
@@ -38,7 +38,7 @@ internal class ELineVisualEntityProcessingImpl(
     ELine by line,
     EStyleable by drawer {
 
-    override val transform: ETransform = E.Transform()
+    override val transform: ETransform = Transform()
     override fun _copy(): ELineVisualEntityProcessing =
         line._copy().toVisualEntity(style).toProcessing()
 }

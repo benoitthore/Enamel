@@ -2,7 +2,7 @@ package com.benoitthore.enamel.geometry.functions
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.alignement.NamedPoint
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.rect.ERect
@@ -11,18 +11,18 @@ import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
-fun EShape.toRect(target: ERect = E.Rect()): ERect = target.setBounds(this)
+fun EShape.toRect(target: ERect = Rect()): ERect = target.setBounds(this)
 
 
 // Points
 fun EShape.pointAtAnchor(
     x: Number,
     y: Number,
-    target: EPoint = E.Point()
+    target: EPoint = Point()
 ): EPoint =
     target.set(x = pointAtAnchorX(x), y = pointAtAnchorY(y))
 
-fun EShape.pointAtAnchor(anchor: EPoint, target: EPoint = E.Point()) =
+fun EShape.pointAtAnchor(anchor: EPoint, target: EPoint = Point()) =
     pointAtAnchor(anchor.x, anchor.y, target)
 
 internal fun EShape.pointAtAnchorX(x: Number) = this.originX.f + width * x.f
@@ -33,36 +33,36 @@ internal fun EShape.anchorAtPointY(y: Number) = if (height == 0f) .5f else y.f /
 fun EShape.anchorAtPoint(
     x: Number,
     y: Number,
-    target: EPoint = E.Point()
+    target: EPoint = Point()
 ): EPoint {
     val x = anchorAtPointX(x)
     val y = anchorAtPointY(y)
     return target.set(x, y)
 }
 
-fun EShape.getCenter(target: EPoint = E.Point()): EPoint =
+fun EShape.getCenter(target: EPoint = Point()): EPoint =
     pointAtAnchor(NamedPoint.center, target)
 
-fun EShape.getTopLeft(target: EPoint = E.Point()): EPoint =
+fun EShape.getTopLeft(target: EPoint = Point()): EPoint =
     pointAtAnchor(NamedPoint.topLeft, target)
 
-fun EShape.getTopRight(target: EPoint = E.Point()): EPoint =
+fun EShape.getTopRight(target: EPoint = Point()): EPoint =
     pointAtAnchor(NamedPoint.topRight, target)
 
-fun EShape.getBottomRight(target: EPoint = E.Point()): EPoint =
+fun EShape.getBottomRight(target: EPoint = Point()): EPoint =
     pointAtAnchor(NamedPoint.bottomRight, target)
 
-fun EShape.getBottomLeft(target: EPoint = E.Point()): EPoint =
+fun EShape.getBottomLeft(target: EPoint = Point()): EPoint =
     pointAtAnchor(NamedPoint.bottomLeft, target)
 
 
 // TODO Move
 fun ERect.toPointList(
     target: List<EPoint> = listOf(
-        E.Point(),
-        E.Point(),
-        E.Point(),
-        E.Point()
+        Point(),
+        Point(),
+        Point(),
+        Point()
     )
 ): List<EPoint> {
     require(target.size > 4) {
@@ -78,7 +78,7 @@ fun ERect.toPointList(
 /***
  * @return the diagonal going from top right to bottom left
  */
-fun EShape.diagonalTRBL(target: ELine = E.Line()): ELine {
+fun EShape.diagonalTRBL(target: ELine = Line()): ELine {
     getTopRight(target.start)
     getBottomLeft(target.end)
     return target
@@ -87,7 +87,7 @@ fun EShape.diagonalTRBL(target: ELine = E.Line()): ELine {
 /***
  * @return the diagonal going from top left to bottom right
  */
-fun EShape.diagonalTLBR(target: ELine = E.Line()): ELine {
+fun EShape.diagonalTLBR(target: ELine = Line()): ELine {
     getTopLeft(target.start)
     getBottomRight(target.end)
     return target
@@ -128,9 +128,9 @@ fun <T : EShape> T.map(
     )
 }
 
-fun List<EShape>.union(target: ERect = E.Rect()): ERect {
+fun List<EShape>.union(target: ERect = Rect()): ERect {
     if (isEmpty()) {
-        return E.Rect()
+        return Rect()
     }
 
     var left = Float.MAX_VALUE
@@ -154,7 +154,7 @@ fun List<EShape>.union(target: ERect = E.Rect()): ERect {
             bottom = it.bottom
         }
     }
-    return E.RectSides(
+    return RectSides(
         top = top,
         left = left,
         right = right,

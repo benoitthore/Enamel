@@ -1,6 +1,6 @@
 //package com.benoitthore.enamel.processing
 //
-//import com.benoitthore.enamel.geometry.builders.E
+//import com.benoitthore.enamel.geometry.builders.*
 //import com.benoitthore.enamel.geometry.interfaces.innerCircle
 //import com.benoitthore.enamel.geometry.interfaces.bounds.center
 //import com.benoitthore.enamel.geometry.lerp
@@ -17,7 +17,7 @@
 //
 //class ESketch : PApplet() {
 //    private val rect: ERectVisualEntity by lazy {
-//        E.Rect(size = width / 5 size height / 5).toVisualEntity(
+//        Rect(size = width / 5 size height / 5).toVisualEntity(
 //            style {
 //                fillColor = 0x0096AE
 //                borderWidth = 5f

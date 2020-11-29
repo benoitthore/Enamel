@@ -1,6 +1,6 @@
 package com.benoitthore.visualentity.style
 
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.RectCorners
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.functions.setOriginSize
@@ -38,7 +38,7 @@ fun ELine.toShader(
         shaderMode = shaderMode,
         colors = colors,
         stops = stops,
-        frame = E.RectCorners(start, end)
+        frame = RectCorners(start, end)
     )
 
 fun ECircle.toShader(

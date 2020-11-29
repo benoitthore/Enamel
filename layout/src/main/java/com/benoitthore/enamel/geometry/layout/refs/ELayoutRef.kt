@@ -1,6 +1,6 @@
 package com.benoitthore.enamel.geometry.layout.refs
 
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.functions.setBounds
 import com.benoitthore.enamel.geometry.primitives.size.ESize
@@ -19,7 +19,7 @@ class ELayoutRef<V : Any>(
 
     var isInMeasureMode = false
 
-    private var _frame: ERect = E.Rect()
+    private var _frame: ERect = Rect()
     val frame: ERect get() = _frame
 
     override fun size(toFit: ESize): ESize {

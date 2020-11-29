@@ -7,7 +7,7 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.line.toListOfLines
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.svg.addTo
@@ -54,7 +54,7 @@ class PathInterpolationDemoView @JvmOverloads constructor(
 
     private val points = mutableListOf<EPoint>()
 
-    private val rect = E.RectCenter(0, 0, 100, 100)
+    private val rect = RectCenter(0, 0, 100, 100)
     override fun onDraw(canvas: Canvas) {
 
         val data =

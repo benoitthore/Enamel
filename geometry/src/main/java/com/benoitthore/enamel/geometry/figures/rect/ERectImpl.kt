@@ -2,7 +2,7 @@ package com.benoitthore.enamel.geometry.figures.rect
 
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.allocateDebugMessage
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.size.ESize
@@ -18,8 +18,8 @@ internal class ERectImpl internal constructor(
         allocateDebugMessage()
     }
 
-    override val origin: EPoint = E.Point(x, y)
-    override val size: ESize = E.Size(width, height)
+    override val origin: EPoint = Point(x, y)
+    override val size: ESize = Size(width, height)
 
     override var top: Float
         get() = origin.y

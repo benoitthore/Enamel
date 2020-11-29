@@ -5,7 +5,7 @@ package com.benoitthore.enamel.geometry.figures.line
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.math.i
 import com.benoitthore.enamel.geometry.Allocates
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
@@ -22,7 +22,7 @@ interface ELine : EShape, ELinearFunction {
     val start: EPoint
     val end: EPoint
 
-    override fun _copy(): ELine = E.Line(this)
+    override fun _copy(): ELine = Line(this)
     fun set(other : ELine) : ELine
 
 
@@ -63,17 +63,17 @@ interface ELine : EShape, ELinearFunction {
 
     @Allocates
     fun pointFrom(distance: Number, from: Float, target: EPoint): EPoint {
-        val opposite = pointAt(from.opposite(), target = E.Point())
-        return target.set(opposite.offsetFrom(pointAt(from, target = E.Point()), distance))
+        val opposite = pointAt(from.opposite(), target = Point())
+        return target.set(opposite.offsetFrom(pointAt(from, target = Point()), distance))
     }
 
     @Allocates
     fun pointTowards(distance: Number, towards: Float, target: EPoint) =
         target.set(
-            pointAt(towards.opposite(), target = E.Point()).offsetTowards(
+            pointAt(towards.opposite(), target = Point()).offsetTowards(
                 pointAt(
                     towards,
-                    target = E.Point()
+                    target = Point()
                 ), distance
             )
         )
@@ -92,7 +92,7 @@ interface ELine : EShape, ELinearFunction {
 
     fun rotate(
         offsetAngle: EAngle,
-        around: EPoint = getCenter(E.Point()),
+        around: EPoint = getCenter(Point()),
         target: ELine
     ): ELine {
         start.rotateAround(offsetAngle, around, target = target.start)
@@ -129,10 +129,10 @@ interface ELine : EShape, ELinearFunction {
         towards: Float,
         target: EPoint
     ): EPoint {
-        val x = pointTowards(distanceTowardsEndPoint, towards, target = E.Point())
+        val x = pointTowards(distanceTowardsEndPoint, towards, target = Point())
         return target.set(
             x.offsetAngle(
-                angle = angle(E.Angle()) - 90.degrees(),
+                angle = angle(Angle()) - 90.degrees(),
                 distance = distanceFroLine
             )
         )
@@ -238,7 +238,7 @@ fun <T : ELine> T.set(
 
 fun <T : ELine> T.selfRotate(
     offsetAngle: EAngle,
-    around: EPoint = getCenter(E.Point()),
+    around: EPoint = getCenter(Point()),
     target: ELine
 ) = apply { rotate(offsetAngle, around, this) }
 

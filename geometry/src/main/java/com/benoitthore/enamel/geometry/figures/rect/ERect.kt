@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.figures.rect
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.functions.EShape
@@ -12,7 +12,7 @@ interface ERect : EShape {
     val origin: EPoint
     val size: ESize
 
-    override fun _copy(): ERect = E.Rect(this)
+    override fun _copy(): ERect = Rect(this)
     fun set(other : ERect) : ERect
 
 

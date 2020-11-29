@@ -3,7 +3,7 @@ package com.benoitthore.enamel.layout.android
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.functions.selfPadding
 import com.benoitthore.enamel.geometry.functions.setOriginSize
@@ -13,10 +13,10 @@ open class EFrameView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     val frame: ERect get() = _frame
-    private var _frame: ERect = E.Rect()
+    private var _frame: ERect = Rect()
 
     val paddedFrame: ERect get() = _paddedFrame
-    private var _paddedFrame: ERect = E.Rect()
+    private var _paddedFrame: ERect = Rect()
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         _frame.setBounds(this)
@@ -24,7 +24,7 @@ open class EFrameView @JvmOverloads constructor(
     }
 }
 
-fun View.getViewBounds(target: ERect = E.Rect()) = target.setBounds(this)
+fun View.getViewBounds(target: ERect = Rect()) = target.setBounds(this)
 
 // Use these functions if you don't want to extend EFrameView
 fun ERect.setBounds(view: View): ERect = apply { setOriginSize(0, 0, view.width, view.height) }

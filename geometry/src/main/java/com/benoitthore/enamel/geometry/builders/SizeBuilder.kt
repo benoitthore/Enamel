@@ -16,16 +16,16 @@ fun SizeSquare(n: Number) = Size(n, n)
 val Size get() = _Size
 
 object _Size {
-    fun Zero(target: ESize = E.Size()) = target.set(0, 0)
-    fun GreatestSize(target: ESize = E.Size()) =
+    fun Zero(target: ESize = Size()) = target.set(0, 0)
+    fun GreatestSize(target: ESize = Size()) =
         target.set(Float.MAX_VALUE, Float.MAX_VALUE)
 
-    fun Square(size: Number) = E.Size(size, size)
+    fun Square(size: Number) = Size(size, size)
 
     fun Random(
         minSize: Number,
         maxSize: Number,
-        target: ESize = E.Size()
+        target: ESize = Size()
     ): ESize =
         Random(minSize, maxSize, minSize, maxSize, target)
 
@@ -34,7 +34,7 @@ object _Size {
         maxWidth: Number = 1,
         minHeight: Number = 0,
         maxHeight: Number = 1,
-        target: ESize = E.Size()
+        target: ESize = Size()
     ): ESize = target.set(
         com.benoitthore.enamel.core.math.random(minWidth, maxWidth),
         com.benoitthore.enamel.core.math.random(minHeight, maxHeight)

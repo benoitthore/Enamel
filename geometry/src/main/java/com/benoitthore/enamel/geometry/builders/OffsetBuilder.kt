@@ -26,5 +26,5 @@ fun Offset(copy: EOffset): EOffset = Offset(
 val Offset get() = _Offset
 
 object _Offset {
-    fun zero(target: EOffset = E.Offset()) = target.apply { set(0, 0, 0, 0) }
+    fun zero(target: EOffset = Offset()) = target.apply { set(0, 0, 0, 0) }
 }

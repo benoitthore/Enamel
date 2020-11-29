@@ -3,7 +3,7 @@ package com.benoitthore.enamel.geometry.primitives.point
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.Allocates
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.Tuple2
@@ -23,9 +23,9 @@ interface EPoint : Tuple2 {
     override val v2: Number
         get() = y
 
-    fun copy(): EPoint = E.Point(this)
+    fun copy(): EPoint = Point(this)
 
-    fun copy(x: Number = this.x, y: Number = this.y, target: EPoint = E.Point()) =
+    fun copy(x: Number = this.x, y: Number = this.y, target: EPoint = Point()) =
         target.set(x, y)
 
     var magnitude: Float
@@ -35,14 +35,14 @@ interface EPoint : Tuple2 {
         }
 
 
-    fun heading(target: EAngle = E.Angle()) =
+    fun heading(target: EAngle = Angle()) =
         target.set(atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
 
-    fun angleTo(x: Number, y: Number, target: EAngle = E.Angle()): EAngle =
+    fun angleTo(x: Number, y: Number, target: EAngle = Angle()): EAngle =
         _angleTo(x, y).radians(target)
 
 
-    fun angleTo(point: EPoint, target: EAngle = E.Angle()): EAngle =
+    fun angleTo(point: EPoint, target: EAngle = Angle()): EAngle =
         angleTo(point.x, point.y, target)
 
     fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)
@@ -63,41 +63,41 @@ interface EPoint : Tuple2 {
     //////
     //////
 
-    fun inverse(target: EPoint = E.Point()) = target.set(-x, -y)
+    fun inverse(target: EPoint = Point()) = target.set(-x, -y)
 
-    fun offset(x: Number, y: Number, target: EPoint = E.Point()) =
+    fun offset(x: Number, y: Number, target: EPoint = Point()) =
         target.set(this.x + x.f, this.y + y.f)
 
-    fun offset(n: Number, target: EPoint = E.Point()) = offset(n, n, target)
-    fun offset(other: Tuple2, target: EPoint = E.Point()) =
+    fun offset(n: Number, target: EPoint = Point()) = offset(n, n, target)
+    fun offset(other: Tuple2, target: EPoint = Point()) =
         offset(other.v1, other.v2, target)
 
-    fun sub(x: Number, y: Number, target: EPoint = E.Point()) =
+    fun sub(x: Number, y: Number, target: EPoint = Point()) =
         target.set(this.x - x.f, this.y - y.f)
 
-    fun sub(n: Number, target: EPoint = E.Point()) = sub(n, n, target)
-    fun sub(other: Tuple2, target: EPoint = E.Point()) =
+    fun sub(n: Number, target: EPoint = Point()) = sub(n, n, target)
+    fun sub(other: Tuple2, target: EPoint = Point()) =
         sub(other.v1, other.v2, target)
 
-    fun mult(x: Number, y: Number, target: EPoint = E.Point()) =
+    fun mult(x: Number, y: Number, target: EPoint = Point()) =
         target.set(this.x * x.f, this.y * y.f)
 
-    fun mult(n: Number, target: EPoint = E.Point()) = mult(n, n, target)
-    fun mult(other: Tuple2, target: EPoint = E.Point()) =
+    fun mult(n: Number, target: EPoint = Point()) = mult(n, n, target)
+    fun mult(other: Tuple2, target: EPoint = Point()) =
         mult(other.v1, other.v2, target)
 
-    fun dividedBy(x: Number, y: Number, target: EPoint = E.Point()) =
+    fun dividedBy(x: Number, y: Number, target: EPoint = Point()) =
         target.set(this.x / x.f, this.y / y.f)
 
-    fun dividedBy(n: Number, target: EPoint = E.Point()) = dividedBy(n, n, target)
-    fun dividedBy(other: Tuple2, target: EPoint = E.Point()) =
+    fun dividedBy(n: Number, target: EPoint = Point()) = dividedBy(n, n, target)
+    fun dividedBy(other: Tuple2, target: EPoint = Point()) =
         dividedBy(other.v1, other.v2, target)
 
     fun offsetTowards(
         towardsX: Number,
         towardsY: Number,
         distance: Number,
-        target: EPoint = E.Point()
+        target: EPoint = Point()
     ): EPoint {
         val fromX = x
         val fromY = y
@@ -108,24 +108,24 @@ interface EPoint : Tuple2 {
     fun offsetTowards(
         towards: EPoint,
         distance: Number,
-        target: EPoint = E.Point()
+        target: EPoint = Point()
     ): EPoint = offsetTowards(towards.x, towards.y, distance, target)
 
 
-    fun offsetFrom(from: EPoint, distance: Number, target: EPoint = E.Point()) =
+    fun offsetFrom(from: EPoint, distance: Number, target: EPoint = Point()) =
         from.offsetTowards(this, distance, target)
 
     fun offsetAngle(
         angle: EAngle,
         distance: Number,
-        target: EPoint = E.Point()
+        target: EPoint = Point()
     ): EPoint = _offsetAngle(angle.radians, distance, target)
 
     @Allocates
     fun rotateAround(
         angle: EAngle,
         center: EPoint,
-        target: EPoint = E.Point()
+        target: EPoint = Point()
     ): EPoint {
         val angleTo = center.angleTo(this)
         val distance = center.distanceTo(this)
@@ -135,7 +135,7 @@ interface EPoint : Tuple2 {
         return target.set(x, y)
     }
 
-    fun normalize(target: EPoint = E.Point()): EPoint {
+    fun normalize(target: EPoint = Point()): EPoint {
         val magnitude = magnitude.f
         target.set(this)
         if (magnitude != 0f) {
@@ -144,14 +144,14 @@ interface EPoint : Tuple2 {
         return target
     }
 
-    fun normalizeIn(frame: ERect, target: EPoint = E.Point()): EPoint {
+    fun normalizeIn(frame: ERect, target: EPoint = Point()): EPoint {
         target.set(this)
         target.x /= frame.size.width
         target.y /= frame.size.height
         return target
     }
 
-    fun limitMagnitude(max: Number, target: EPoint = E.Point()): EPoint {
+    fun limitMagnitude(max: Number, target: EPoint = Point()): EPoint {
         val max = max.f
         target.set(this)
 
@@ -162,10 +162,10 @@ interface EPoint : Tuple2 {
         return target
     }
 
-    fun setMagnitude(magnitude: Number, target: EPoint = E.Point()) =
+    fun setMagnitude(magnitude: Number, target: EPoint = Point()) =
         target.set(this).selfNormalize().selfMult(magnitude)
 
-    fun abs(target: EPoint = E.Point()) = target.also {
+    fun abs(target: EPoint = Point()) = target.also {
         target.set(abs(x), abs(y))
     }
     

@@ -2,7 +2,7 @@ package com.benoitthore.enamel.geometry.primitives.angle
 
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
@@ -22,7 +22,7 @@ interface EAngle {
     var value: Float
     var type: AngleType
 
-    fun copy(): EAngle = E.Angle(value, type)
+    fun copy(): EAngle = Angle(value, type)
 
     fun set(other: EAngle) = set(
         other.value,
@@ -72,12 +72,12 @@ interface EAngle {
 
     operator fun unaryMinus(): EAngle = inverse()
 
-    fun inverse(target: EAngle = E.Angle()): EAngle {
+    fun inverse(target: EAngle = Angle()): EAngle {
         val opposite = value.degrees(target)
         return opposite.set(-value, type)
     }
 
-    fun offset(other: EAngle, target: EAngle = E.Angle()) = target.apply {
+    fun offset(other: EAngle, target: EAngle = Angle()) = target.apply {
         val increment = when (type) {
 
             AngleType.DEGREE -> other.degrees
@@ -89,25 +89,25 @@ interface EAngle {
     }
 
     operator fun plus(other: EAngle): EAngle =
-        E.Angle(
+        Angle(
             radians + other.radians,
             AngleType.RADIAN
         )
 
     operator fun minus(other: EAngle): EAngle =
-        E.Angle(
+        Angle(
             radians - other.radians,
             AngleType.RADIAN
         )
 
     operator fun times(n: Number): EAngle =
-        E.Angle(
+        Angle(
             radians * n.f,
             AngleType.RADIAN
         )
 
     operator fun div(n: Number): EAngle =
-        E.Angle(
+        Angle(
             radians / n.f,
             AngleType.RADIAN
         )

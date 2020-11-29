@@ -1,7 +1,7 @@
 package com.benoitthore.enamel.geometry.alignement
 
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.functions.*
 import com.benoitthore.enamel.geometry.functions.pointAtAnchorX
@@ -66,13 +66,13 @@ fun ERect.rectAlignedInside(
     alignment: EAlignment,
     size: ESize,
     spacing: Number = 0,
-    target: ERect = E.Rect()
+    target: ERect = Rect()
 ): ERect = target.setSize(size).selfAlignInside(this, alignment, spacing)
 
 fun ERect.rectAlignedOutside(
     alignment: EAlignment,
     size: ESize,
     spacing: Number = 0,
-    target: ERect = E.Rect()
+    target: ERect = Rect()
 ): ERect = target.setSize(size).selfAlignOutside(this, alignment, spacing)
 

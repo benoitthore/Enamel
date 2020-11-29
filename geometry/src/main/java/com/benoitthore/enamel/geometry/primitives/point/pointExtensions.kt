@@ -2,7 +2,7 @@ package com.benoitthore.enamel.geometry.primitives.point
 
 import com.benoitthore.enamel.core.math.d
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.builders.E
+import com.benoitthore.enamel.geometry.builders.*
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -15,7 +15,7 @@ internal fun EPoint._angleTo(x: Number, y: Number): Double =
 internal fun EPoint._offsetAngle(
     angleRadians: Number,
     distance: Number,
-    target: EPoint = E.Point()
+    target: EPoint = Point()
 ): EPoint {
     val fromX = x
     val fromY = y
@@ -37,7 +37,7 @@ internal fun EPoint._set(angle: Number, magnitude: Number) =
 /////////////////////////
 
 infix fun Number.point(other: Number): EPoint =
-    E.Point(this, other)
+    Point(this, other)
 
 
 val List<EPoint>.length: Float
