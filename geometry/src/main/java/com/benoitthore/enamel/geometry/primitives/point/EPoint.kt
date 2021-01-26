@@ -9,6 +9,7 @@ import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle.AngleType
+import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
 import com.benoitthore.enamel.geometry.primitives.angle.radians
 import kotlin.math.*
 
@@ -30,14 +31,14 @@ interface EPoint : Tuple2 {
         get() = hypot(x.d, y.d).toFloat()
 
 
-    fun heading(target: EAngle = Angle()) =
+    fun heading(target: EAngleMutable = MutableAngle()) =
         target.set(atan2(y.toDouble(), x.toDouble()), AngleType.RADIAN)
 
-    fun angleTo(x: Number, y: Number, target: EAngle = Angle()): EAngle =
+    fun angleTo(x: Number, y: Number, target: EAngleMutable = MutableAngle()): EAngle =
         _angleTo(x, y).radians(target)
 
 
-    fun angleTo(point: EPoint, target: EAngle = Angle()): EAngle =
+    fun angleTo(point: EPoint, target: EAngleMutable = MutableAngle()): EAngle =
         angleTo(point.x, point.y, target)
 
     fun distanceTo(o: EPoint) = this.distanceTo(o.x, o.y)

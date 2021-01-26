@@ -1,5 +1,6 @@
 package com.benoitthore.visualentity.style
 
+import com.benoitthore.enamel.geometry.alignement.copy
 import com.benoitthore.enamel.geometry.builders.RectCorners
 import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
@@ -29,7 +30,7 @@ fun ELine.toShader(
 ) =
     EShader(
         shaderType = EShader.ShaderType.Linear(
-            _copy().apply {
+            toMutable().apply {
                 if (resetOrigin) {
                     this.setOriginSize(0, 0)
                 }
@@ -49,7 +50,7 @@ fun ECircle.toShader(
 ) =
     EShader(
         shaderType = EShader.ShaderType.Radial(
-            _copy().apply {
+            toMutable().apply {
                 if (resetOrigin) {
                     this.setOriginSize(0, 0)
                 }

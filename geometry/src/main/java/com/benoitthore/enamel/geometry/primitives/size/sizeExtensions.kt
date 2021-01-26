@@ -40,7 +40,7 @@ fun ESize.scaleToFit(size: ESize): Float {
     return min(b.width / a.width, b.height / a.height) // TODO what if Infinite
 }
 
-fun List<ESize>.union(target: ESize = Size()): ESize {
+fun List<ESize>.union(target: ESizeMutable = MutableSize()): ESizeMutable {
     var width = Float.MIN_VALUE
     var height = Float.MIN_VALUE
 
@@ -58,7 +58,7 @@ fun List<ESize>.union(target: ESize = Size()): ESize {
 
 fun List<ESize>.unionAlongAxis(
     axis: ELayoutAxis,
-    target: ESize = Size()
+    target: ESizeMutable = MutableSize()
 ): ESize {
 
     var sum = 0f

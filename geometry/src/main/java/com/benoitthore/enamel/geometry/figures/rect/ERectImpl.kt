@@ -86,17 +86,6 @@ internal class ERectImpl internal constructor(
         }
 
 
-    override fun set(other: ERect): ERect = apply {
-        size.set(other.size)
-        origin.set(other.origin)
-    }
-
-    override fun _setBounds(left: Number, top: Number, right: Number, bottom: Number) {
-        origin.set(x = left, y = top)
-        size.set(width = right.f - left.f, height = bottom.f - top.f)
-    }
-
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is ERect) return false

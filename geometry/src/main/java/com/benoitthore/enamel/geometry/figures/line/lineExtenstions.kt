@@ -2,6 +2,7 @@ package com.benoitthore.enamel.geometry.figures.line
 
 import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point.length
 import com.benoitthore.enamel.geometry.primitives.point.point
 import kotlin.math.*
@@ -95,12 +96,12 @@ val List<ELine>.length: Float get() = sumByDouble { it.length.toDouble() }.toFlo
 operator fun ELine.component1() = start
 operator fun ELine.component2() = end
 
-fun List<EPoint>.pointAtFraction(fraction: Number, target: EPoint = Point()) =
+fun List<EPoint>.pointAtFraction(fraction: Number, target: EPointMutable = MutablePoint()) =
     pointAtDistance(fraction.toFloat() * length, target)
 
 fun List<EPoint>.pointAtDistance(
     distance: Number,
-    target: EPoint = Point()
+    target: EPointMutable = MutablePoint()
 ): EPoint {
     var last: EPoint? = null
     val distance = distance.toFloat()
@@ -110,7 +111,11 @@ fun List<EPoint>.pointAtDistance(
         last?.let { last ->
             val distanceToNext = last.distanceTo(p)
             if (remainingDistance - distanceToNext < 0) {
-                return last.offsetTowards(p, remainingDistance, target)
+                return last.offsetTowards(
+                    towards = p,
+                    distance = remainingDistance,
+                    target = target
+                )
             }
             remainingDistance -= distanceToNext
         }

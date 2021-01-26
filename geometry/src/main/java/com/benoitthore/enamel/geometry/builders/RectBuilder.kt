@@ -29,6 +29,21 @@ fun MutableRect(size: ESize = Size()): ERectMutable =
 
 fun MutableRect(other: ERect): ERectMutable = MutableRect(other.origin, other.size)
 
+fun MutableRectSides(
+    left: Number,
+    top: Number,
+    right: Number,
+    bottom: Number,
+    target: ERectMutable = MutableRect()
+): ERectMutable = target.apply {
+    _setBounds(
+        top = top.f,
+        left = left.f,
+        right = right.f,
+        bottom = bottom.f
+    )
+}
+
 fun Rect(x: Number = 0f, y: Number = 0f, width: Number = 0f, height: Number = 0f): ERect =
     ERectImpl(x, y, width, height)
 
@@ -97,14 +112,13 @@ fun RectSides(
     right: Number,
     bottom: Number,
     target: ERectMutable = MutableRect()
-): ERect = target.apply {
-    _setBounds(
-        top = top.f,
-        left = left.f,
-        right = right.f,
-        bottom = bottom.f
-    )
-}
+): ERect = MutableRectSides(
+    left = left,
+    top = top,
+    right = right,
+    bottom = bottom,
+    target = target
+)
 
 fun RectAnchorPos(
     anchor: EPoint,

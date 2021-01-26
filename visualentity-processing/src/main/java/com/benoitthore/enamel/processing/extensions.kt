@@ -35,7 +35,7 @@ inline fun <T : PApplet> T.pushPop(block: T.() -> Unit) {
     popStyle()
 }
 
-fun PApplet.mousePosition(target: EPoint = Point()) = target.set(mouseX, mouseY)
+fun PApplet.mousePosition(target: EPointMutable = MutablePoint()) = target.set(mouseX, mouseY)
 fun PApplet.getViewSize(target: ESize = Size()) = target.apply {
     width = pixelWidth.f
     height = pixelHeight.f

@@ -11,13 +11,11 @@ import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
-interface ERect : EShape {
+interface ERect : EShape<ERect, ERectMutable> {
     val origin: EPoint
     val size: ESize
 
     override fun _copy(): ERect = Rect(this)
-    fun set(other: ERect): ERect
-
 
     override fun addTo(context: SVGContext) {
         context.rect(this)
@@ -93,12 +91,25 @@ interface ERect : EShape {
     fun contains(p: EPoint) = contains(p.x, p.y)
 }
 
-interface ERectMutable : ERect, EShapeMutable {
+interface ERectMutable : ERect, EShapeMutable<ERect, ERectMutable> {
     override val origin: EPointMutable
     override val size: ESizeMutable
 
     override fun _copy(): ERectMutable = MutableRect(this)
 
+    override fun toMutable(): ERectMutable = _copy()
+
+    override fun toImmutable(): ERect = _copy()
+
+    override fun set(other: ERect): ERectMutable = apply {
+        origin.set(other.origin)
+        size.set(other.size)
+    }
+
+    override fun _setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+        origin.set(x = left, y = top)
+        size.set(width = right.f - left.f, height = bottom.f - top.f)
+    }
 }
 
 

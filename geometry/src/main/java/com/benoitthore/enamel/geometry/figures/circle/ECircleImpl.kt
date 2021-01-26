@@ -72,26 +72,6 @@ internal class ECircleImpl internal constructor(
 
     override val center: EPointMutable = MutablePoint(centerX, centerY)
 
-    /**
-     * In case the bounds don't define a square, the circle gets align on the center of the
-     * given rectangle and sets the radius to be the half of whichever is smaller width or height
-     */
-    override fun _setBounds(left: Number, top: Number, right: Number, bottom: Number) {
-
-        val left = left.f
-        val top = top.f
-        val right = right.f
-        val bottom = bottom.f
-
-        val width = (right - left) / 2f
-        val height = (bottom - top) / 2f
-        radius = min(width, height)
-
-
-        center.x = (right + left) / 2f
-        center.y = (bottom + top) / 2f
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
 

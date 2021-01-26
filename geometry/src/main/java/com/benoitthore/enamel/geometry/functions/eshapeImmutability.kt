@@ -7,32 +7,33 @@ import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.line.ELineMutable
 import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
-fun EShape.toRect(target: ERect = Rect()): ERect = target.setBounds(this)
+fun EShape<*, *>.toRect(target: ERectMutable = MutableRect()): ERect = target.setBounds(other = this)
 
 
 // Points
-fun EShape.pointAtAnchor(
+fun EShape<*, *>.pointAtAnchor(
     x: Number,
     y: Number,
     target: EPointMutable = MutablePoint()
 ): EPoint =
     target.set(x = pointAtAnchorX(x), y = pointAtAnchorY(y))
 
-fun EShape.pointAtAnchor(anchor: EPoint, target: EPointMutable = MutablePoint()) =
+fun EShape<*, *>.pointAtAnchor(anchor: EPoint, target: EPointMutable = MutablePoint()) =
     pointAtAnchor(anchor.x, anchor.y, target)
 
-internal fun EShape.pointAtAnchorX(x: Number) = this.originX.f + width * x.f
-internal fun EShape.pointAtAnchorY(y: Number) = this.originY.f + height * y.f
-internal fun EShape.anchorAtPointX(x: Number) = if (width == 0f) .5f else x.f / width
-internal fun EShape.anchorAtPointY(y: Number) = if (height == 0f) .5f else y.f / height
+internal fun EShape<*, *>.pointAtAnchorX(x: Number) = this.originX.f + width * x.f
+internal fun EShape<*, *>.pointAtAnchorY(y: Number) = this.originY.f + height * y.f
+internal fun EShape<*, *>.anchorAtPointX(x: Number) = if (width == 0f) .5f else x.f / width
+internal fun EShape<*, *>.anchorAtPointY(y: Number) = if (height == 0f) .5f else y.f / height
 
-fun EShape.anchorAtPoint(
+fun EShape<*, *>.anchorAtPoint(
     x: Number,
     y: Number,
     target: EPointMutable = MutablePoint()
@@ -42,19 +43,19 @@ fun EShape.anchorAtPoint(
     return target.set(x, y)
 }
 
-fun EShape.getCenter(target: EPointMutable = MutablePoint()): EPoint =
+fun EShape<*, *>.getCenter(target: EPointMutable = MutablePoint()): EPoint =
     pointAtAnchor(NamedPoint.center, target)
 
-fun EShape.getTopLeft(target: EPointMutable = MutablePoint()): EPoint =
+fun EShape<*, *>.getTopLeft(target: EPointMutable = MutablePoint()): EPoint =
     pointAtAnchor(NamedPoint.topLeft, target)
 
-fun EShape.getTopRight(target: EPointMutable = MutablePoint()): EPoint =
+fun EShape<*, *>.getTopRight(target: EPointMutable = MutablePoint()): EPoint =
     pointAtAnchor(NamedPoint.topRight, target)
 
-fun EShape.getBottomRight(target: EPointMutable = MutablePoint()): EPoint =
+fun EShape<*, *>.getBottomRight(target: EPointMutable = MutablePoint()): EPoint =
     pointAtAnchor(NamedPoint.bottomRight, target)
 
-fun EShape.getBottomLeft(target: EPointMutable = MutablePoint()): EPoint =
+fun EShape<*, *>.getBottomLeft(target: EPointMutable = MutablePoint()): EPoint =
     pointAtAnchor(NamedPoint.bottomLeft, target)
 
 
@@ -80,7 +81,7 @@ fun ERect.toPointList(
 /***
  * @return the diagonal going from top right to bottom left
  */
-fun EShape.diagonalTRBL(target: ELineMutable = MutableLine()): ELine {
+fun EShape<*, *>.diagonalTRBL(target: ELineMutable = MutableLine()): ELine {
     getTopRight(target.start)
     getBottomLeft(target.end)
     return target
@@ -89,14 +90,14 @@ fun EShape.diagonalTRBL(target: ELineMutable = MutableLine()): ELine {
 /***
  * @return the diagonal going from top left to bottom right
  */
-fun EShape.diagonalTLBR(target: ELineMutable = MutableLine()): ELine {
+fun EShape<*, *>.diagonalTLBR(target: ELineMutable = MutableLine()): ELine {
     getTopLeft(target.start)
     getBottomRight(target.end)
     return target
 }
 
 
-fun <T : EShape> T.map(
+fun <I, M> EShape<I, M>.map(
     fromX: Number,
     fromY: Number,
     fromWidth: Number,
@@ -105,8 +106,8 @@ fun <T : EShape> T.map(
     toY: Number,
     toWidth: Number,
     toHeight: Number,
-    target: T = copy()
-): T {
+    target: EShapeMutable<I, M> = toMutable()
+): EShapeMutable<I, M> where  M : EShapeMutable<I, M>, I : EShape<I, M> {
     target.setBounds(this)
 
     val anchorLeft = if (fromWidth == 0f) .5f else (target.originX - fromX.f) / fromWidth.f
@@ -130,9 +131,9 @@ fun <T : EShape> T.map(
     )
 }
 
-fun List<EShape>.union(target: ERect = Rect()): ERect {
+fun List<EShape<*,*>>.union(target: ERectMutable = MutableRect()): ERectMutable {
     if (isEmpty()) {
-        return Rect()
+        return target
     }
 
     var left = Float.MAX_VALUE
@@ -156,7 +157,7 @@ fun List<EShape>.union(target: ERect = Rect()): ERect {
             bottom = it.bottom
         }
     }
-    return RectSides(
+    return MutableRectSides(
         top = top,
         left = left,
         right = right,

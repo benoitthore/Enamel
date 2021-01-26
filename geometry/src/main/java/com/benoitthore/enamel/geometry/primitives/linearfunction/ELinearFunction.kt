@@ -4,7 +4,7 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.line.ELine
-import com.benoitthore.enamel.geometry.figures.line.set
+import com.benoitthore.enamel.geometry.figures.line.ELineMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.point.point
@@ -43,7 +43,7 @@ interface ELinearFunction {
         return target.set(x, y)
     }
 
-    fun toLine(length: Number, target: ELine = Line()): ELine {
+    fun toLine(length: Number, target: ELineMutable = MutableLine()): ELine {
         val x1 = 0f
         val x2 = length
         // TODO Make length work properly using pyth theorem
@@ -51,17 +51,17 @@ interface ELinearFunction {
     }
 }
 
-interface ELinearFunctionMutable {
+interface ELinearFunctionMutable : ELinearFunction {
 
-    var slope: Float
-    var yIntercept: Float
+    override var slope: Float
+    override var yIntercept: Float
 
-    var a
+    override var a
         get() = slope
         set(value) {
             slope = value
         }
-    var b
+    override var b
         get() = yIntercept
         set(value) {
             yIntercept = value

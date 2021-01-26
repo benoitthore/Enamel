@@ -5,39 +5,44 @@ import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 import com.benoitthore.enamel.geometry.primitives.Tuple2
 
 
-fun <T : EShape> T.offset(
-    p: Tuple2, target: T = copy()
-): T {
-    return offset(p.v1, p.v2, target)
-}
+fun <I, M> EShape<I, M>.offset(
+    p: Tuple2, target: EShapeMutable<I, M> = toMutable()
+) where M : EShapeMutable<I, M>, I : EShape<I, M> = offset(p.v1, p.v2, target)
 
-fun <T : EShape> T.offset(
+
+fun <I, M> EShape<I, M>.offset(
     x: Number,
     y: Number,
-    target: T = copy()
-): T {
+    target: EShapeMutable<I, M> = toMutable()
+): EShapeMutable<I, M> where M : EShapeMutable<I, M>, I : EShape<I, M> {
     target.setOriginSize(originX + x.f, originY + y.f, width, height)
     return target
 }
 
-fun <T : EShape> T.inset(margin: Number, target: T = copy()) = inset(margin, margin, target)
+fun <I, M> EShape<I, M>.inset(
+    margin: Number,
+    target: EShapeMutable<I, M> = toMutable()
+) where M : EShapeMutable<I, M>, I : EShape<I, M> = inset(margin, margin, target)
 
-fun <T : EShape> T.inset(p: Tuple2, target: T = copy()) = inset(p.v1, p.v2, target)
+fun <I, M> EShape<I, M>.inset(
+    p: Tuple2,
+    target: EShapeMutable<I, M> = toMutable()
+) where M : EShapeMutable<I, M>, I : EShape<I, M> = inset(p.v1, p.v2, target)
 
-fun <T : EShape> T.inset(
+fun <I, M> EShape<I, M>.inset(
     x: Number,
     y: Number,
-    target: T = copy()
-) =
+    target: EShapeMutable<I, M> = toMutable()
+) where M : EShapeMutable<I, M>, I : EShape<I, M> =
     inset(left = x, top = y, right = x, bottom = y, target = target)
 
-fun <T : EShape> T.inset(
+fun <I, M> EShape<I, M>.inset(
     left: Number = 0,
     top: Number = 0,
     right: Number = 0,
     bottom: Number = 0,
-    target: T = copy()
-): T {
+    target: EShapeMutable<I, M> = toMutable()
+): EShapeMutable<I, M> where M : EShapeMutable<I, M>, I : EShape<I, M> {
     target._setBounds(
         left = this.left + left.toFloat(),
         top = this.top + top.toFloat(),
@@ -47,23 +52,29 @@ fun <T : EShape> T.inset(
     return target
 }
 
-fun <T : EShape> T.expand(margin: Number, target: T = copy()) = expand(margin, margin, target)
+fun <I, M> EShape<I, M>.expand(
+    margin: Number,
+    target: EShapeMutable<I, M> = toMutable()
+) where M : EShapeMutable<I, M>, I : EShape<I, M> = expand(margin, margin, target)
 
-fun <T : EShape> T.expand(p: Tuple2, target: T = copy()) = expand(p.v1, p.v2, target)
+fun <I, M> EShape<I, M>.expand(
+    p: Tuple2,
+    target: EShapeMutable<I, M> = toMutable()
+) where M : EShapeMutable<I, M>, I : EShape<I, M> = expand(p.v1, p.v2, target)
 
-fun <T : EShape> T.expand(
+fun <I, M> EShape<I, M>.expand(
     x: Number = 0f,
     y: Number = 0f,
-    target: T = copy()
-) = inset(-x.f, -y.f, target)
+    target: EShapeMutable<I, M> = toMutable()
+) where M : EShapeMutable<I, M>, I : EShape<I, M> = inset(-x.f, -y.f, target)
 
-fun <T : EShape> T.expand(
+fun <I, M> EShape<I, M>.expand(
     left: Number = 0,
     top: Number = 0,
     right: Number = 0,
     bottom: Number = 0,
-    target: T = copy()
-) = inset(
+    target: EShapeMutable<I, M> = toMutable()
+) where M : EShapeMutable<I, M>, I : EShape<I, M> = inset(
     left = -left.toFloat(),
     top = -top.toFloat(),
     right = -right.toFloat(),
@@ -71,7 +82,10 @@ fun <T : EShape> T.expand(
     target = target
 )
 
-fun <T : EShape> T.expand(padding: EOffset, target: T = copy()) = expand(
+fun <I, M> EShape<I, M>.expand(
+    padding: EOffset,
+    target: EShapeMutable<I, M> = toMutable()
+) where M : EShapeMutable<I, M>, I : EShape<I, M> = expand(
     left = padding.left,
     top = padding.top,
     right = padding.right,
@@ -79,13 +93,13 @@ fun <T : EShape> T.expand(padding: EOffset, target: T = copy()) = expand(
     target = target
 )
 
-fun <T : EShape> T.padding(
+fun <I, M> EShape<I, M>.padding(
     top: Number = 0f,
     bottom: Number = 0f,
     left: Number = 0f,
     right: Number = 0f,
-    target: T = copy()
-) = inset(
+    target: EShapeMutable<I, M> = toMutable()
+) where M : EShapeMutable<I, M>, I : EShape<I, M> = inset(
     left = left,
     top = top,
     bottom = bottom,
@@ -93,10 +107,10 @@ fun <T : EShape> T.padding(
     target = target
 )
 
-fun <T : EShape> T.padding(
+fun <I, M> EShape<I, M>.padding(
     padding: EOffset,
-    target: T = copy()
-) =
+    target: EShapeMutable<I, M> = toMutable()
+) where M : EShapeMutable<I, M>, I : EShape<I, M> =
     padding(
         left = padding.left,
         top = padding.top,
@@ -106,11 +120,11 @@ fun <T : EShape> T.padding(
     )
 
 
-fun <T : EShape> T.map(
-    from: EShape,
-    to: EShape,
-    target: T = copy()
-) = map(
+fun <I, M> EShape<I, M>.map(
+    from: I,
+    to: I,
+    target: EShapeMutable<I, M> = toMutable()
+)  where M : EShapeMutable<I, M>, I : EShape<I, M> = map(
     fromX = from.originX,
     fromY = from.originY,
     fromWidth = from.width,

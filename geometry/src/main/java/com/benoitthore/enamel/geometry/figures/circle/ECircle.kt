@@ -7,8 +7,9 @@ import com.benoitthore.enamel.geometry.functions.EShapeMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.svg.SVGContext
+import kotlin.math.min
 
-interface ECircle : EShape {
+interface ECircle : EShape<ECircle, ECircleMutable> {
     val radius: Float
     val center: EPoint
 
@@ -36,13 +37,35 @@ interface ECircle : EShape {
     fun contains(other: ECircle): Boolean = TODO()
 }
 
-interface ECircleMutable : ECircle, EShapeMutable {
+interface ECircleMutable : ECircle, EShapeMutable<ECircle, ECircleMutable> {
     override var radius: Float
     override val center: EPointMutable
 
     override fun _copy(): ECircleMutable = MutableCircle(this)
+    override fun toMutable(): ECircleMutable = _copy()
+    override fun toImmutable(): ECircle = _copy()
 
-    fun set(other: ECircle) = set(other.center.x, other.center.y, other.radius)
+    /**
+     * In case the bounds don't define a square, the circle gets align on the center of the
+     * given rectangle and sets the radius to be the half of whichever is smaller width or height
+     */
+    override fun _setBounds(left: Number, top: Number, right: Number, bottom: Number) {
+
+        val left = left.f
+        val top = top.f
+        val right = right.f
+        val bottom = bottom.f
+
+        val width = (right - left) / 2f
+        val height = (bottom - top) / 2f
+        radius = min(width, height)
+
+
+        center.x = (right + left) / 2f
+        center.y = (bottom + top) / 2f
+    }
+
+    override fun set(other: ECircle) = set(other.center.x, other.center.y, other.radius)
     fun set(center: EPoint = this.center, radius: Number = this.radius) =
         set(center.x, center.y, radius)
 

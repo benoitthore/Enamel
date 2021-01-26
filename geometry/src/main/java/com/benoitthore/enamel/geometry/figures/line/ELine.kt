@@ -10,6 +10,7 @@ import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.functions.EShape
 import com.benoitthore.enamel.geometry.functions.EShapeMutable
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
+import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
 import com.benoitthore.enamel.geometry.primitives.angle.degrees
 import com.benoitthore.enamel.geometry.primitives.angle.radians
 import com.benoitthore.enamel.geometry.primitives.linearfunction.ELinearFunction
@@ -19,19 +20,17 @@ import com.benoitthore.enamel.geometry.primitives.point._angleTo
 import com.benoitthore.enamel.geometry.primitives.point._offsetAngle
 import com.benoitthore.enamel.geometry.svg.SVGContext
 
-interface ELine : EShape, ELinearFunction {
+interface ELine : EShape<ELine, ELineMutable>, ELinearFunction {
 
     val start: EPoint
     val end: EPoint
 
     override fun _copy(): ELine = Line(this)
-    fun set(other: ELine): ELine
-
 
     val length
         get() = start.distanceTo(end).f
 
-    fun angle(target: EAngle) = angleRadians.radians(target = target)
+    fun angle(target: EAngleMutable = MutableAngle()) = angleRadians.radians(target = target)
     val x1
         get() = start.x
     val x2
@@ -162,7 +161,7 @@ interface ELine : EShape, ELinearFunction {
         val x = pointTowards(distanceTowardsEndPoint, towards, target = MutablePoint())
         return target.set(
             x.offsetAngle(
-                angle = angle(Angle()) - 90.degrees(),
+                angle = angle(MutableAngle()) - 90.degrees(),
                 distance = distanceFroLine
             )
         )
@@ -245,18 +244,24 @@ interface ELine : EShape, ELinearFunction {
 
     fun parallel(distance: Number, target: ELineMutable = MutableLine()): ELine {
         TODO()
-        return target
     }
 
 
-    private fun Float.opposite() = 1f - this
+    private inline fun Float.opposite() = 1f - this
 }
 
-interface ELineMutable : ELine, EShapeMutable {
+interface ELineMutable : ELine, EShapeMutable<ELine, ELineMutable> {
     override val start: EPointMutable
     override val end: EPointMutable
 
     override fun _copy(): ELineMutable = MutableLine(this)
+    override fun toMutable(): ELineMutable = _copy()
+    override fun toImmutable(): ELine = _copy()
+    override fun set(other: ELine)  = apply {
+        start.set(other.start)
+        end.set(other.end)
+    }
+
 
     fun set(start: EPoint = this.start, end: EPoint = this.end) =
         set(start.x, start.y, end.x, end.y)

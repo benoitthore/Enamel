@@ -2,18 +2,16 @@ package com.benoitthore.enamel.geometry.figures.rect
 
 import com.benoitthore.enamel.core.math.constrain
 import com.benoitthore.enamel.core.math.f
-import com.benoitthore.enamel.geometry.alignement.ERectEdge
-import com.benoitthore.enamel.geometry.alignement.selfAlignInside
+import com.benoitthore.enamel.geometry.alignement.*
 import com.benoitthore.enamel.geometry.builders.*
-import com.benoitthore.enamel.geometry.functions.EShape
-import com.benoitthore.enamel.geometry.functions.expand
+import com.benoitthore.enamel.geometry.functions.*
 import com.benoitthore.enamel.geometry.functions.setSize
 import com.benoitthore.enamel.geometry.primitives.offset.EOffset
 
 fun ERect.dividedFraction(
     fraction: Number,
     from: ERectEdge,
-    target: Pair<ERect, ERect> = Rect() to Rect()
+    target: Pair<ERectMutable, ERectMutable> = MutableRect() to MutableRect()
 ): Pair<ERect, ERect> {
     val fraction = fraction.f
 
@@ -27,7 +25,7 @@ fun ERect.dividedFraction(
 fun ERect.divided(
     distance: Number,
     from: ERectEdge,
-    target: Pair<ERect, ERect> = Rect() to Rect()
+    target: Pair<ERectMutable, ERectMutable> = MutableRect() to MutableRect()
 ): Pair<ERect, ERect> {
     val distance = distance.f
 
@@ -73,7 +71,7 @@ fun ERect.divided(
 operator fun ERect.minus(padding: EOffset): ERect = TODO()// padding(padding).ensureRect()
 operator fun ERect.plus(padding: EOffset) = expand(padding)
 
-fun List<ERect>.union(target: ERect = Rect()): ERect {
+fun List<ERect>.union(target: ERectMutable = MutableRect()): ERectMutable {
     if (isEmpty()) {
         return target
     }
@@ -99,7 +97,7 @@ fun List<ERect>.union(target: ERect = Rect()): ERect {
             bottom = it.bottom
         }
     }
-    return RectSides(
+    return MutableRectSides(
         top = top,
         left = left,
         right = right,

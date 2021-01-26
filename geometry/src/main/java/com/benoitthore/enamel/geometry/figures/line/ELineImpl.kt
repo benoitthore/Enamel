@@ -121,11 +121,6 @@ internal class ELineImpl internal constructor(
         }
     }
 
-    override fun set(other: ELine): ELine = apply {
-        start.set(other.start)
-        end.set(other.end)
-    }
-
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is ELine) return false

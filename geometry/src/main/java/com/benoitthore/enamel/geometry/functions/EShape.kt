@@ -4,16 +4,20 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.rect.ERect
 import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
+import com.benoitthore.enamel.geometry.primitives.Tuple2
 import com.benoitthore.enamel.geometry.primitives.size.ESize
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import com.benoitthore.enamel.geometry.svg.ESVG
 
-// TODO : make it compile
-interface EShape<I, M> : ESVG where M : EShape<I, M>, I : EShape<I, M> {
+fun <T, I, M> EShape<I, M>.ensureMutable(): T
+        where  T : EShapeMutable<I, M>, I : EShape<I, M>, M : EShapeMutable<I, M> =
+    if (this is EShapeMutable) this as T else toMutable() as T
 
-    fun copy(): EShape<I, M>
+interface EShape<I, M> : ESVG where M : EShapeMutable<I, M>, I : EShape<I, M> {
+
+    fun _copy(): EShape<I, M>
     fun toMutable(): M
     fun toImmutable(): I
 
@@ -50,7 +54,7 @@ interface EShape<I, M> : ESVG where M : EShape<I, M>, I : EShape<I, M> {
 
 }
 
-interface EShapeMutable<I, M> : EShape<I, M> where M : EShape<I, M>, I : EShape<I, M> {
+interface EShapeMutable<I, M> : EShape<I, M> where  M : EShapeMutable<I, M>, I : EShape<I, M> {
 
     override var left: Float
     override var top: Float
@@ -65,6 +69,7 @@ interface EShapeMutable<I, M> : EShape<I, M> where M : EShape<I, M>, I : EShape<
     override var centerX: Float
     override var centerY: Float
 
+    fun set(other : I) : M
     /**
      * Use setBounds extensions instead
      */
