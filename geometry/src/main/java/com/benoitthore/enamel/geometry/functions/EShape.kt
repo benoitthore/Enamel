@@ -15,6 +15,12 @@ fun <T, I, M> EShape<I, M>.ensureMutable(): T
         where  T : EShapeMutable<I, M>, I : EShape<I, M>, M : EShapeMutable<I, M> =
     if (this is EShapeMutable) this as T else toMutable() as T
 
+fun <I, M> EShape<I, M>.fix() : I where M : EShapeMutable<I, M>, I : EShape<I, M>  = this as I
+fun <I, M> EShapeMutable<I, M>.fix() : M where M : EShapeMutable<I, M>, I : EShape<I, M>  = this as M
+
+fun <I, M> M.unfix() where M : EShapeMutable<I, M>, I : EShape<I, M>  = this as EShape<I, M>
+fun <I, M> I.unfix() where M : EShapeMutable<I, M>, I : EShape<I, M>  = this as EShapeMutable<I, M>
+
 interface EShape<I, M> : ESVG where M : EShapeMutable<I, M>, I : EShape<I, M> {
 
     fun _copy(): EShape<I, M>

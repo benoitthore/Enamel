@@ -4,12 +4,12 @@ import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.math.randomSign
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
-import com.benoitthore.enamel.geometry.primitives.point.EPointImpl
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutableImpl
 import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 
 
 fun Point(x: Number, y: Number): EPoint =
-    EPointImpl(x, y)
+    EPointMutableImpl(x, y)
 
 fun Point(): EPoint = Point(0, 0)
 fun Point(n: Number): EPoint = Point(n, n)
@@ -32,7 +32,7 @@ fun Point(angle: EAngle, magnitude: Number) =
  *  Mutable
  */
 fun MutablePoint(x: Number, y: Number): EPointMutable =
-    MutablePoint(x, y)
+    EPointMutableImpl(x, y)
 
 fun MutablePoint(): EPointMutable = MutablePoint(0, 0)
 fun MutablePoint(n: Number): EPoint = Point(n, n)

@@ -46,7 +46,7 @@ fun <T : EShapeMutable<*, *>> T.selfAlign(
 }
 
 
-fun <I, M> M.alignedInside(
+fun <I, M> I.alignedInside(
     frame: EShape<*, *>,
     alignment: EAlignment,
     spacing: Number = 0,
@@ -54,13 +54,13 @@ fun <I, M> M.alignedInside(
 ) where M : EShapeMutable<I, M>, I : EShape<I, M> =
     target.setBounds(this).selfAlignInside(frame, alignment, spacing)
 
-fun <I, M> M.alignedOutside(
+fun <I, M> I.alignedOutside(
     frame: EShape<*, *>,
     alignment: EAlignment,
     spacing: Number = 0,
     target: EShapeMutable<I, M> = toMutable()
 ) where M : EShapeMutable<I, M>, I : EShape<I, M> =
-    target.setBounds(this)//.selfAlignOutside(frame, alignment, spacing)
+    target.setBounds(this).selfAlignOutside(frame, alignment, spacing)
 
 
 fun <T : EShapeMutable<*, *>> T.selfAlignOutside(

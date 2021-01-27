@@ -20,7 +20,7 @@ fun PApplet.radialGradient(frame: ECircle, colors: List<Int>, resolution: Int = 
         strokeWeight(1f)
         val scale = ColorScale(colors)
         val nbCircles = frame.width.toInt() / resolution
-        val circle = frame._copy()
+        val circle = frame.toMutable()
         (nbCircles downTo 0).forEach { i ->
             val progress = 1f - (i / nbCircles.f)
             val color = scale[progress]
@@ -45,7 +45,7 @@ fun PApplet.linearGradient(
         strokeWeight(1f)
         val nbLines = frame.width.toInt() / resolution
 
-        val rect = Rect(origin = 0 point 0, size = resolution size frame.height)
+        val rect = MutableRect(origin = 0 point 0, size = resolution size frame.height)
         val scale = ColorScale(colors)
 
         for (i in 0 until nbLines) {

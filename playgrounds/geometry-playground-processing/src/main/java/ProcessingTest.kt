@@ -1,9 +1,11 @@
 import com.benoitthore.enamel.core.math.f
 import com.benoitthore.enamel.core.math.lerp
 import com.benoitthore.enamel.geometry.alignement.EAlignment
+import com.benoitthore.enamel.geometry.alignement.alignedInside
+import com.benoitthore.enamel.geometry.alignement.rectAlignedInside
 import com.benoitthore.enamel.geometry.alignement.selfAlignInside
 import com.benoitthore.enamel.geometry.builders.Rect
-import com.benoitthore.enamel.geometry.figures.rectgroup.toRectGroup
+import com.benoitthore.enamel.geometry.functions.fix
 import com.benoitthore.enamel.geometry.functions.innerOval
 import com.benoitthore.enamel.processing.*
 import processing.core.PApplet
@@ -34,17 +36,14 @@ class TestApplet : PApplet() {
         val rect2 = Rect(50, 50, 100, 100)
         val applet = this
 
-        listOf(rect, rect2).toRectGroup()
-            .selfAlignInside(getViewBounds(), EAlignment.center)
-            .apply {
-                width *= (mouseX.f / applet.width).lerp(0.5, 2)
-                height *= (mouseY.f / applet.height).lerp(0.5, 2)
-                rects.forEach {
-                    draw(it)
-                    pushPop {
-                        fill(0f,255f,0f)
-                        draw(it.innerOval())
-                    }
+        listOf(rect, rect2).map {
+            it.alignedInside(getViewBounds(), EAlignment.center)
+        }
+            .forEach {
+                draw(it.fix())
+                pushPop {
+                    fill(0f, 255f, 0f)
+                    draw(it.innerOval())
                 }
             }
     }

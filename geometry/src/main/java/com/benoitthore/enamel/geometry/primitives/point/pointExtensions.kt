@@ -36,8 +36,7 @@ internal fun EPointMutable._set(angle: Number, magnitude: Number) =
 /////////////////////////
 /////////////////////////
 
-infix fun Number.point(other: Number): EPoint =
-    Point(this, other)
+infix fun Number.point(other: Number): EPointMutable = MutablePoint(this, other)
 
 
 val List<EPoint>.length: Float

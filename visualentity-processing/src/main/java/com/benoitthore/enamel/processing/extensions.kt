@@ -6,9 +6,12 @@ import com.benoitthore.enamel.geometry.figures.circle.ECircle
 import com.benoitthore.enamel.geometry.figures.line.ELine
 import com.benoitthore.enamel.geometry.figures.oval.EOval
 import com.benoitthore.enamel.geometry.figures.rect.ERect
+import com.benoitthore.enamel.geometry.figures.rect.ERectMutable
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import com.benoitthore.enamel.geometry.primitives.size.ESize
+import com.benoitthore.enamel.geometry.primitives.size.ESizeMutable
 import processing.core.PApplet
 import processing.core.PConstants
 
@@ -36,17 +39,17 @@ inline fun <T : PApplet> T.pushPop(block: T.() -> Unit) {
 }
 
 fun PApplet.mousePosition(target: EPointMutable = MutablePoint()) = target.set(mouseX, mouseY)
-fun PApplet.getViewSize(target: ESize = Size()) = target.apply {
+fun PApplet.getViewSize(target: ESizeMutable = MutableSize()) = target.apply {
     width = pixelWidth.f
     height = pixelHeight.f
 }
 
-fun PApplet.getViewCenter(point: EPoint=Point()) = point.set(width / 2f, height / 2f)
+fun PApplet.getViewCenter(point: EPointMutable=MutablePoint()) = point.set(width / 2f, height / 2f)
 
-fun PApplet.getViewBounds(target: ERect = Rect()) =
+fun PApplet.getViewBounds(target: ERectMutable = MutableRect()) =
     target.apply { _setBounds(0, 0, this@getViewBounds.width, this@getViewBounds.height) }
 
-fun ERect.setBounds(applet: PApplet) = apply { applet.getViewBounds(target = this) }
+fun ERectMutable.setBounds(applet: PApplet) = apply { applet.getViewBounds(target = this) }
 
 fun PApplet.draw(line: ELine) {
     pushPop {

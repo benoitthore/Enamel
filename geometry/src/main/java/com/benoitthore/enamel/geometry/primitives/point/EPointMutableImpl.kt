@@ -4,7 +4,7 @@ import com.benoitthore.enamel.geometry.allocateDebugMessage
 import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.figures.line.ELine
 
-internal class EPointImpl internal constructor(x: Number, y: Number) :
+internal class EPointMutableImpl internal constructor(x: Number, y: Number) :
     EPointMutable {
     override var x: Float = x.toFloat()
     override var y: Float = y.toFloat()

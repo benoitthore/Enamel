@@ -67,7 +67,6 @@ dependencies {
 
     implementation(project(':core'))
     implementation(project(':geometry'))
-    implementation(project(':layout'))
     implementation(project(':geometry-android'))
     implementation(project(':visualentity'))
     implementation(project(':visualentity-android'))
