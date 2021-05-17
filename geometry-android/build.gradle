@@ -30,7 +30,7 @@ ext {
     siteUrl = 'https://github.com/benoitthore/Enamel'
     gitUrl = 'https://github.com/benoitthore/Enamel'
 
-    libraryVersion = '0.9.1'
+    libraryVersion = '0.9.2'
 
     developerId = 'benoitthore'
     developerName = 'Benoit Thore'

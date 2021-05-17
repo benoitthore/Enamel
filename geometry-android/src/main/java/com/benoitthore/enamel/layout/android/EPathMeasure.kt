@@ -4,7 +4,9 @@ import android.graphics.Path
 import android.graphics.PathMeasure
 import com.benoitthore.enamel.geometry.builders.*
 import com.benoitthore.enamel.geometry.primitives.angle.EAngle
+import com.benoitthore.enamel.geometry.primitives.angle.EAngleMutable
 import com.benoitthore.enamel.geometry.primitives.point.EPoint
+import com.benoitthore.enamel.geometry.primitives.point.EPointMutable
 import kotlin.math.atan2
 
 class EPathMeasure(private val path: Path) {
@@ -53,10 +55,10 @@ class EPathMeasure(private val path: Path) {
     }
 
     class Data {
-        private val _position: EPoint = Point()
+        private val _position: EPointMutable = MutablePoint()
         val position: EPoint get() = _position
 
-        private val _angle: EAngle = Angle()
+        private val _angle: EAngleMutable = MutableAngle()
         val angle: EAngle get() = _angle
 
         internal fun set(x: Float, y: Float, angleRadian: Float) = apply {
