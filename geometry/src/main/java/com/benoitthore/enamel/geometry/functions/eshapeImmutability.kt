@@ -65,7 +65,7 @@ fun ERect.toPointList(
         E.Point()
     )
 ): List<EPoint> {
-    require(target.size > 4) {
+    require(target.size >= 4) {
         "Needs 4 points in target"
     }
     target[0].set(top, left)
